@@ -1,0 +1,166 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBDL_ACTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_action.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:28 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP BDL - DEFINE BEHAVIOR, action">
+<title>
+ABAP BDL - DEFINE BEHAVIOR, action - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbdl_action.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbdl_action.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_definitions.html')" class="blue">Behavior Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_bdl.html')" class="blue">ABAP BDL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenbdl_define_behavior.html')" class="blue">ABAP BDL - DEFINE BEHAVIOR</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@ACTION@@!ABAP_BDL_DEFINE_BEHAVE!@@"></A>
+<A NAME="@@STATIC@@!ABAP_BDL_ACTION!@@"></A>
+<A NAME="@@$SELF@@!ABAP_BDL_ACTION!@@"></A>
+<A NAME="@@RESULT@@!ABAP_BDL_ACTION!@@"></A>
+<A NAME="@@EXTERNAL@@!ABAP_BDL_ACTION!@@"></A>
+<A NAME="@@INTERNAL@@!ABAP_BDL_ACTION!@@"></A>
+<A NAME="@@PARAMETER@@!ABAP_BDL_ACTION!@@"></A>
+<p><span class="h1">
+ABAP BDL - DEFINE BEHAVIOR, action
+</span></p>
+<A name="@@ITOC@@ABENBDL_ACTION_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">... <i class=bn>[</i>internal<i class=bn>]</i> <i class=bn>[</i>static<i class=bn>]</i> action ActionName <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>external LongName<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>parameter InputParameterEntity<i class=bn>|</i>$self<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>result cardinality OutputParameterEntity<i class=bn>|</i>$self<i class=bn>]</i>;</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+In behavior definitions, actions can be specified as application-specific operations. Actions can either
+reference an instance (the default case, without the keyword <span class="qtext400">static</span>) or they can be static (with the keyword <span class="qtext400">static</span>).
+</p>
+<p>
+An action can also be given the keyword <span class="qtext400">internal</span>. This makes it possible to implement the action without making it consumable from outside.
+</p>
+<p>
+Input and output parameters are optional. Actions can pass CDS entities as input parameters
+(<span class="qtext400">InputParameterEntity</span>) and as output parameters
+(<span class="qtext400">OutputParameterEntity</span>). The CDS entity can be a regular CDS view or an
+abstract CDS entity. If <span class="qtext400">InputParameterEntity</span> and <span class="qtext400">OutputParameterEntity</span>
+are also the entity for which the action is executed, only the predefined keyword <span class="qtext400">$self</span> is required. In this case, the keyword stands for the type of the entity itself.
+</p>
+<p>
+An instance action is always multi-instance-enabled. The result cardinality in instance actions specifies
+whether an input instance points to <span class="qtext400">0..1</span>, <span class="qtext400">1</span>,
+<span class="qtext400">0..n</span>, or <span class="qtext400">1..n</span> instances. The potential cardinality
+values are therefore as follows: <span class="qtext400">[0..1]</span>, <span class="qtext400">[1]</span>, <span class="qtext400">[0..*]</span> or <span class="qtext400">[1..*]</span>.
+</p>
+<p>
+An action can also be given an external name. Here is one example:
+</p>
+<dl><dd>
+<span class="qtext400">action ActionName external AVeryLongExternalActionName <br>&nbsp;&nbsp;&nbsp;&nbsp; result [0..1] OutputParameter;</span>
+</dd></dl>
+<p>
+The external name can be up to 128 characters long. It will only be exposed in the OData metadata. It is ignored within ABAP, for example the action cannot be addressed in
+<a href="javascript:call_link('abeneml.html')" class="blue">Entity Manipulation Language</a> using the external name.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The <a href="javascript:call_link('abenbdl_glosry.html')" class="grey" title="Glossary Entry">BDL</a> syntax specifies that a
+maximum of one input parameter and a maximum of one output parameter can be specified. If an action
+requires more than one input or output, a CDS structure type or an abstract entity can be used with components for each input or output.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following example, the data from the ABAP flight data reference scenario (or flight data scenario
+for short) is used. It represents a legacy business logic that can be used to create and edit flight
+bookings. The CDS view <span class="qtext400">/DMO/I_Travel</span> represents the root node of the business object for managing flight trips. The underlying business model is described in
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>.
+</p>
+<p>
+The following example shows the behavior definition for the root entity <span class="qtext400">Travel</span>.
+</p>
+<dl><dd>
+<span class="qtext400">implementation unmanaged; <br>define behavior for /DMO/I_Travel alias Travel <br>
+{ <br>&nbsp;&nbsp;create; <br>&nbsp;&nbsp;update; <br>&nbsp;&nbsp;delete; <br>&nbsp;&nbsp;action set_status_booked result [1] $self; <br>}</span>
+</dd></dl>
+<p>
+The transactional <a href="javascript:call_link('abenbehavior_glosry.html')" class="grey" title="Glossary Entry">behavior</a> of the
+<a href="javascript:call_link('abenbusiness_object_glosry.html')" class="grey" title="Glossary Entry">business object</a> travel is defined by the
+<a href="javascript:call_link('abenbdl_standard_operations.html')" class="blue">standard operations</a> <span class="qtext400">create</span>,
+<span class="qtext400">update</span>, and <span class="qtext400">delete</span> plus one action. The
+end user can use the action <span class="qtext400">set_status_booked</span> to set the status of a trip
+to booked. The action <span class="qtext400">set_status_booked</span> is bound to an instance of the
+type <span class="qtext400">travel</span>, which in this case is also returned by the action. This means
+the cardinality equals <span class="qtext400">[1]</span> and <span class="qtext400">$self</span> is set as the type of the output parameter.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_action.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:28 GMT -->
+</html>

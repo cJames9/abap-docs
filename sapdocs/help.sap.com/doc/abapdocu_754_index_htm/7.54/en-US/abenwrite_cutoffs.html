@@ -1,0 +1,264 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENWRITE_CUTOFFS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwrite_cutoffs.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="WRITE - Cutoff Behavior">
+<title>
+WRITE - Cutoff Behavior - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenwrite_cutoffs.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenwrite_cutoffs.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_statements.html')" class="blue">Statements for Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite_to.html')" class="blue">WRITE - TO</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+WRITE - Cutoff Behavior
+</span></p>
+<p>
+This section describes the cutoff behavior of the system, if the target field length for the statement
+<a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a>
+or the output length for the statement <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> is less than the length required for the
+<a href="javascript:call_link('abenwrite_formats.html')" class="blue">predefined</a> format or the format defined using <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">format_options</span></a>.
+</p>
+<p>
+The following sections explain the steps involved in truncating data. The result is truncated until it is short enough to fit the available space.
+</p>
+<p>
+If the individual <a href="javascript:call_link('abapwrite_to_options.html')" class="blue">formatting options</a> deviate from the rules shown here, these deviations are described for the relevant option.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENWRITE_CUTOFFS_1" class="blue">Numeric Data Types</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENWRITE_CUTOFFS_2" class="blue">Integers and Packed Numbers</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENWRITE_CUTOFFS_3" class="blue">Decimal Floating Point Numbers</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENWRITE_CUTOFFS_4" class="blue">Binary Floating Point Numbers</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENWRITE_CUTOFFS_5" class="blue">Character-Like and Byte-Like Data Types</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENWRITE_CUTOFFS_6" class="blue">Time Stamp</A></li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenwrite_cutoff_abexa.html')" class="blue"><span class="qtext">WRITE TO</span>, Cutoff Behavior</a>
+</p>
+<A name="@@ITOC@@ABENWRITE_CUTOFFS_1"></A>
+<p><span class="h2">
+Numeric Data Types
+</span></p>
+<A name="@@ITOC@@ABENWRITE_CUTOFFS_2"></A>
+<p><span class="h3">
+Integers and Packed Numbers
+</span></p>
+<p>
+For data objects of numerical data types (<span class="qtext">b</span>, <span class="qtext">s</span>),
+<span class="qtext">i</span>, <span class="qtext">int8</span>, and <span class="qtext">p</span>, the cutoff behavior is as follows:
+</p>
+<ol>
+<li>
+The thousand separators are omitted from left to right.
+</li>
+<li>
+If the value is postive, the sign on the right is omitted. If the value is negative, the minus sign is retained.
+</li>
+<li>
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+and <span class="qtext">p</span> are truncated on the left and an asterisk ("*") is inserted in the first place for identification purposes.
+</li>
+</ol>
+<p>
+The type <span class="qtext">int8</span> produces a syntax check warning (which can be hidden by a pragma), if it is known statically that the output length is less than the predefined length 20.
+</p>
+<A name="@@ITOC@@ABENWRITE_CUTOFFS_3"></A>
+<p><span class="h3">
+Decimal Floating Point Numbers
+</span></p>
+<p>
+For data objects of type <span class="qtext">decfloat16</span> and <span class="qtext">decfloat34</span>, the cutoff behavior is as follows:
+</p>
+<ol>
+<li>
+In <a href="javascript:call_link('abenmathematical_notation_glosry.html')" class="grey" title="Glossary Entry">mathematical notation</a>, the thousand separators are omitted from left to right.
+</li>
+<li>
+In <a href="javascript:call_link('abenmathematical_notation_glosry.html')" class="grey" title="Glossary Entry">mathematical notation</a>, the decimal points are rounded commercially. In
+<a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">scientific notation</a>, the mantissa is rounded commercially.
+</li>
+<li>
+If there is not enough space for the places before the decimal point in mathematical notation, the system automatically switches to the scientific notation.
+</li>
+<li>
+The treatable exception CX_SY_CONVERSION_OVERFLOW occurs
+</li>
+</ol>
+<ul class="circlem2">
+<li>if the length is not sufficient for the display of at least one whole number place in the mathematical notation or one position of the mantissa in the scientific notation,</li>
+</ul>
+<ul class="circlem2">
+<li>if the length is not sufficient for the mathematical notation when the output format SIGN_AS_POSTFIX is used for commerical notation,</li>
+</ul>
+<ul class="circlem2">
+<li>if the length is not sufficient for the output format SCALE_PRESERVING or SCALE_PRESERVING_SCIENTIFIC (where the <a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> is preserved),</li>
+</ul>
+<p>
+The predefined output lengths of 24 or 46 are sufficient for the mathematical notation of 16 or 34 place numbers with an algebraic sign, a decimal point and a corresponding number of thousand separators.
+</p>
+<A name="@@ITOC@@ABENWRITE_CUTOFFS_4"></A>
+<p><span class="h3">
+Binary Floating Point Numbers
+</span></p>
+<p>
+For data objects of type <span class="qtext">f</span>, the cutoff behavior is as follows:
+</p>
+<ol>
+<li>
+The number of <a href="javascript:call_link('abenplace_glosry.html')" class="grey" title="Glossary Entry">places</a> is reduced and the number is rounded accordingly.
+</li>
+<li>
+If the output length is too short for <a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">scientific notation</a>, asterisks ("*") are displayed instead of the numbers.
+</li>
+</ol>
+<A name="@@ITOC@@ABENWRITE_CUTOFFS_5"></A>
+<p><span class="h2">
+Character-Like and Byte-Like Data Types
+</span></p>
+<p>
+For data types <span class="qtext">c</span>, <span class="qtext">string</span>, <span class="qtext">n</span>,
+<span class="qtext">d</span>, <span class="qtext">t</span>, <span class="qtext">x</span> and <span class="qtext">xtring</span>, the cutoff behavior is as follows:
+</p>
+<ol>
+<li>
+In a 12-hour format set using <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">ENVIRONMENT
+TIME FORMAT</span></a> for data type <span class="qtext">t</span>, first the space is removed and then the format is changed to the 24-hour format.
+</li>
+<li>
+For data fields and time fields of type <span class="qtext">d</span> and <span class="qtext">t</span>,
+all separators are removed, unless an addition such as <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">
+DD/MM/YY</span></a> or <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">MM/DD/YY</span></a> is specified for <span class="qtext">d</span>.
+</li>
+<li>
+The right side is cut off.
+</li>
+</ol>
+<A name="@@ITOC@@ABENWRITE_CUTOFFS_6"></A>
+<p><span class="h2">
+Time Stamp
+</span></p>
+<ul class="disc">
+<li>For the <a href="javascript:call_link('abenutclong.html')" class="blue">time stamp type <span class="qtext">utclong</span></a>
+the right side is cut off in the case of the statements <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">
+WRITE TO</span></a> and <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> without any separators being removed first.</li>
+</ul>
+<ul class="disc">
+<li>For <a href="javascript:call_link('abentime_stamps_packed.html')" class="blue">time stamps in packed numbers</a> whose output
+is produced using the addition <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">TIME
+ZONE</span></a>, the right side is cut off in the case of the statement <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a> without any separators being removed first.</li>
+</ul>
+<ul class="disc">
+<li>For <a href="javascript:call_link('abentime_stamps_packed.html')" class="blue">time stamps in packed numbers</a> whose output
+is produced using the addition <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">TIME
+ZONE</span></a>, elements are cut off the following order in the case of the statement <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a>:</li>
+</ul>
+<ul class="circlem2">
+<li>All separators in date and time are removed. The separators in the date are only not removed if a date formatting mask <span class="qtext">DD/MM/YY</span> or similar is also specified.</li>
+</ul>
+<ul class="circlem2">
+<li>The space between date and time is removed.</li>
+</ul>
+<ul class="circlem2">
+<li>The right-hand side is cut off.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+This example shows the different cutoff behavior for time stamps in packed numbers in list output using
+the statement <span class="qtext">WRITE</span> when compared to all other combinations. The format of the output is shown below the source code.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(ts) = utclong_current( ). <br>DATA(tspl) = cl_abap_tstmp=>utclong2tstmp( ts ). <br>DATA text TYPE c LENGTH 24. <br>
+ <br>SET COUNTRY 'US'. <br>WRITE ts TO text&nbsp;&nbsp; TIME ZONE 'UTC'. <br>WRITE AT / text. <br>WRITE tspl TO text TIME ZONE 'UTC'. <br>
+WRITE AT / text. <br>WRITE: AT /(24) ts&nbsp;&nbsp; TIME ZONE 'UTC', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AT /(24) tspl TIME ZONE 'UTC'.
+</span>
+</p>
+<p>
+<span class="qtext400">04/08/2019 08:10:16.1539 <br>04/08/2019 08:10:16,1539 <br>04/08/2019 08:10:16.1539 <br>04082019 081016.1539740</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenwrite_cutoff_abexa.html')" class="blue">WRITE TO, Cutoff Behavior</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwrite_cutoffs.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+</html>

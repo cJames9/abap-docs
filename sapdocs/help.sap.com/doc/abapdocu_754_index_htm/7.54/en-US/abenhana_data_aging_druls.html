@@ -1,0 +1,273 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHANA_DATA_AGING_DRULS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhana_data_aging_druls.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dependency Rules for Optimization of Access to Old Data">
+<title>
+Dependency Rules for Optimization of Access to Old Data - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhana_data_aging_druls.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhana_data_aging_druls.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_hana.html')" class="blue">ABAP and SAP HANA</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenhana_data_aging.html')" class="blue">Data Aging in SAP HANA</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dependency Rules for Optimization of Access to Old Data
+</span></p>
+<p>
+<a href="javascript:call_link('abenddic_dependency_rules.html')" class="blue">Dependency rules</a> are SAP HANA database objects
+that can represent dependencies between semantic columns and technical columns in a database table. The optimizer can then use these dependencies to create extended selection conditions when the table is read.
+</p>
+<p>
+In database tables with a <a href="javascript:call_link('abendata_aging_glosry.html')" class="grey" title="Glossary Entry">temperature column</a>, and hence where
+<a href="javascript:call_link('abentemperature_column_glosry.html')" class="grey" title="Glossary Entry">data aging</a> is enabled, dependency rules can be used to optimize access to old data. In this case, a dependency rule joins the
+<a href="javascript:call_link('abentemperature_column_glosry.html')" class="grey" title="Glossary Entry">temperature column</a> of a database table with regular date columns in the table.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENHANA_DATA_AGING_DRULS_1" class="blue">Basics of Optimization</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENHANA_DATA_AGING_DRULS_2" class="blue">Filter Dependency Rules for Data Aging</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENHANA_DATA_AGING_DRULS_3" class="blue">Join Dependency Rules for Data Aging</A></li>
+</ul>
+<A name="@@ITOC@@ABENHANA_DATA_AGING_DRULS_1"></A>
+<p><span class="h2">
+Basics of Optimization
+</span></p>
+<p>
+In tables with a temperature column, only the current data is located in the main memory of the SAP HANA database and old data is moved to other partitions. By default, the
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>
+<a href="javascript:call_link('abendatabase_interface_glosry.html')" class="grey" title="Glossary Entry">database interface</a>
+accesses current data only. The relationship between the actual data and the partition limits is defined
+in data aging runs and is made transparent for application programming. This means that, when old data
+is accessed, the data in all partitions must first be loaded to the main memory of the SAP HANA database, which can have a negative effect on performance. Old data can be accessed as follows:
+</p>
+<ul class="disc">
+<li>Disabling data aging in the database interface using the profile parameter <span class="lnkgrey">abap/data_aging</span>.</li>
+</ul>
+<ul class="disc">
+<li>Bypassing data aging in ABAP SQL access to <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> and
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table functions</a> using the annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">@DataAging.noAgingRestriction:true</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Configuring a different temperature using the classes <span class="lnkgrey">CL_ABAP_SESSION_TEMPERATURE</span> and <span class="lnkgrey">CL_ABAP_STACK_TEMPERATURE</span>.</li>
+</ul>
+<ul class="disc">
+<li>Access using <a href="javascript:call_link('abenabap_managed_db_objects_nsql.html')" class="blue">Non-ABAP-Managed Native SQL</a></li>
+</ul>
+<p>
+A dependency rule can be used to add a selection condition for the temperature column to an access of
+this type. This restricts the temperatures to those that are in the same rows as the data that is actually
+requested. This means that the SAP HANA database only has to load those partitions to its main memory that contain the required data.
+</p>
+<p>
+It cannot be guaranteed, however, that the SAP HANA database optimizer actually creates the additional
+selection condition for the temperature column. This is why this condition must not modify the results
+set of the original query. This is technically possible, but produces undefined behavior in cases where the SAP HANA database optimizer responds differently depending how a query is formulated.
+</p>
+<p>
+The following sections demonstrate how dependency rules for optimizing access to old data can be defined.
+</p>
+<A name="@@ITOC@@ABENHANA_DATA_AGING_DRULS_2"></A>
+<p><span class="h2">
+Filter Dependency Rules for Data Aging
+</span></p>
+<p>
+The <a href="javascript:call_link('abentemperature_column_glosry.html')" class="grey" title="Glossary Entry">temperature column</a> has the following important properties for
+<a href="javascript:call_link('abenddicddl_define_filter_drul.html')" class="blue">filter dependencies</a>:
+</p>
+<ul class="disc">
+<li>The temperature column has the data type DATS.</li>
+</ul>
+<ul class="disc">
+<li>For current data, the temperature column has the initial value <span class="qtext400">00000000</span>.</li>
+</ul>
+<ul class="disc">
+<li>In the case of old data, the temperature column is given a date value created in the data aging run.</li>
+</ul>
+<p>
+This means that filter dependency rules can be defined as follows:
+</p>
+<ul class="disc">
+<li>For access to old data, filter dependency rules can derive additional selection conditions. These
+conditions contain comparisons for the temperature column, restricting it to the same rows as the selection conditions for the associated date values.</li>
+</ul>
+<ul class="disc">
+<li>If current data is required alongside old data, filter dependency rules must be defined in such
+a way that the selection condition restricts the temperature column to the required date values without
+excluding the current data. In this case, the additional selection condition must contain a relational
+expression <span class="qtext400">dbtab._dataaging = '00000000'</span> joined using <span class="qtext400">OR</span>.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The actual design of filter dependency rules for optimizing access to old data is determined by the layout of the database tables and the rules applied in the data aging run.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following CDS view, data aging is disabled for the database table DAAG_SFLIGHT using the annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">@DataAging.noAgingRestriction:true</span></a>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSDAAGSFL' <br>@DataAging.noAgingRestriction:true <br>
+DEFINE VIEW demo_cds_daag_sflight AS <br>&nbsp;&nbsp;SELECT FROM daag_sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fldate, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; planetype, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; seatsocc };</span>
+</dd></dl>
+<p>
+When this view is accessed using ABAP SQL, both old and current data is read:
+</p>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_daag_sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE fldate >= '20160101' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).</span>
+</dd></dl>
+<p>
+To avoid loading all partitions, a filter dependency rule can be defined as follows. Here, the assumption is made that the temperature column _DATAAGING for old data has the same value as the column FLDATE.
+</p>
+<dl><dd>
+<span class="qtext400">DEFINE FILTER DEPENDENCY RULE demo_daag_sflight_rule <br>&nbsp;&nbsp;ON daag_sflight <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF { daag_sflight.fldate >= $1 } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN { daag_sflight._dataaging >= $1 OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sflight._dataaging =&nbsp;&nbsp;'00000000' }</span>
+</dd></dl>
+<p>
+The SAP HANA database then adds the following additional selection condition to the <span class="qtext">WHERE</span> condition of the shown <span class="qtext">SELECT</span> statement implicitly:
+</p>
+<dl><dd>
+<span class="qtext">AND daag_sflight~_dataaging >= '20160101' <br>&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;daag_sflight~_dataaging =&nbsp;&nbsp;'00000000'</span>
+</dd></dl>
+<p>
+This does not modify the results set of the query.
+</p>
+<A name="@@ITOC@@ABENHANA_DATA_AGING_DRULS_3"></A>
+<p><span class="h2">
+Join Dependency Rules for Data Aging
+</span></p>
+<p>
+If multiple database tables are joined together in a relational model, data aging must be respected
+for all these tables. Rows in different database tables that have the same date are usually joined using join expressions. These joins can be in ABAP SQL, Native SQL, or in views.
+</p>
+<p>
+<a href="javascript:call_link('abenddicddl_define_join_drul.html')" class="blue">Join dependency</a> rules can be defined to
+optimize access to old data for database tables joined like this. As in filter dependency rules, the actual design of the data aging must be known as well as how the tables are dependent on each other.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following CDS view, data aging is disabled for the database tables DAAG_SFLIGHT and DAAG_SBOOK using the annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">@DataAging.noAgingRestriction:true</span></a>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSDAAGSFLBK' <br>@DataAging.noAgingRestriction:true <br>
+DEFINE VIEW demo_cds_daag_sflight_sbook AS <br>&nbsp;&nbsp;SELECT FROM daag_sflight <br>&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN daag_sbook <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON daag_sflight.carrid = daag_sbook.carrid AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daag_sflight.connid = daag_sbook.connid AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daag_sflight.fldate = daag_sbook.fldate <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { daag_sflight.carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sflight.connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sflight.fldate, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sbook.bookid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sbook.customid };</span>
+</dd></dl>
+<p>
+When this view is accessed using ABAP SQL, both old and current data is read:
+</p>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_daag_sflight_sbook <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE fldate >= '20160101' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).</span>
+</dd></dl>
+<p>
+To avoid loading all partitions, a join dependency rule can be defined as follows, in addition to the
+filter dependency rules in the previous example. Here, the assumption is made that the temperature column _DATAAGING for old data in both tables has the same value as the column FLDATE.
+</p>
+<dl><dd>
+<span class="qtext400">DEFINE JOIN DEPENDENCY RULE demo_daag_sflight_sbook_rule <br>&nbsp;&nbsp;ON daag_sflight, daag_sbook <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF { daag_sflight.mandt&nbsp;&nbsp;= daag_sbook.mandt&nbsp;&nbsp;AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sflight.carrid = daag_sbook.carrid AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sflight.connid = daag_sbook.connid AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daag_sflight.fldate = daag_sbook.fldate } <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN { daag_sflight._dataaging = daag_sbook._dataaging }</span>
+</dd></dl>
+<p>
+The SAP HANA database then adds the following additional selection condition to the <span class="qtext400">ON</span> condition of the join expression of the CDS view implicitly:
+</p>
+<dl><dd>
+<span class="qtext400">AND daag_sflight._dataaging = daag_sbook._dataaging</span>
+</dd></dl>
+<p>
+The following additional selection conditions from the filter condition are also added to the <span class="qtext">WHERE</span> condition of the shown <span class="qtext">SELECT</span> statement:
+</p>
+<dl><dd>
+<span class="qtext">AND daag_sflight~_dataaging >= '20160101' <br>AND daag_sbook~_dataaging >= '20160101' <br>
+OR&nbsp;&nbsp;daag_sflight~_dataaging = '00000000' <br>OR&nbsp;&nbsp;daag_sbook~_dataaging =&nbsp;&nbsp;'00000000'</span>
+</dd></dl>
+<p>
+This does not modify the results set of the query.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhana_data_aging_druls.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

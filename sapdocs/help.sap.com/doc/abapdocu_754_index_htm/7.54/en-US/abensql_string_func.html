@@ -1,0 +1,318 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_STRING_FUNC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_string_func.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sql_exp - sql_string_func">
+<title>
+sql_exp - sql_string_func - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_string_func.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_string_func.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">ABAP SQL - SQL Expressions sql_exp</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_builtin_func.html')" class="blue">sql_exp - sql_func</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_builtin_functions.html')" class="blue">ABAP SQL - Built-In Functions sql_func</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_functions.html')" class="blue">ABAP SQL - SQL Functions</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@SUBSTRING@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@LPAD@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@RPAD@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@REPLACE@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@CONCAT@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@CONCAT_WITH_SPACE@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@LENGTH@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@LTRIM@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@RTRIM@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@RIGHT@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@LEFT@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@INSTR@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@LOWER@@!ABAP_OSQL_FUNC!@@"></A>
+<A NAME="@@UPPER@@!ABAP_OSQL_FUNC!@@"></A>
+<p><span class="h1">
+sql_exp - sql_string_func
+</span></p>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... func( arg1<i class=bn>[</i>, arg2<i class=bn>]</i> ... ) ...</span>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Calls a string function <span class="qtext">func</span> as an
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expression</a> or operand of an expression in ABAP SQL.
+The arguments <span class="qtext">arg1</span>, <span class="qtext">arg2</span>, ... of the function
+are specified as a comma-separated list in parentheses. A blank must be placed after the opening parenthesis and before the closing parenthesis.
+</p>
+<p>
+The following table shows the string functions that can be specified as SQL expressions and the requirements made on the arguments. The meaning of the functions can be found under
+<a href="javascript:call_link('abensql_functions_string.html')" class="blue">SQL Functions for Strings</a>. The value ""x"" in the Table Buffer column indicates that the function can be executed in the
+<a href="javascript:call_link('abentable_buffer_glosry.html')" class="grey" title="Glossary Entry">table buffer</a> and that the use of
+<a href="javascript:call_link('abenbuffer_expressions.html')" class="blue">this function</a> does not bypass <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Syntax</span></td>
+<td><span class="bold">Valid Argument Types</span></td>
+<td><span class="bold">Result Type</span></td>
+<td><span class="bold">Table Buffer</span></td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">CONCAT( sql_exp1,sql_exp2 )</span></a></td>
+<td>See below</td>
+<td>SSTRING if an argument has the type SSTRING, else CHAR with the length of the result.</td>
+<td>x</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">CONCAT_WITH_SPACE( sql_exp1,sql_exp2,spaces )</span></a></td>
+<td><span class="qtext">sql_exp1</span>, <span class="qtext">sql_exp2</span>: see below <br><br> <span class="qtext">spaces</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">
+s</span>, <span class="qtext">i</span>, or <span class="qtext">int8</span> greater than 0 and less than or equal to 1331</td>
+<td>SSTRING if an argument has the type SSTRING, else CHAR with the length of the result.</td>
+<td>x</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">INSTR( sql_exp,sub )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">sub</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">c</span>, <span class="qtext">n</span>, <span class="qtext">d</span>, or <span class="qtext">t</span></td>
+<td>INT4</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">LEFT( sql_exp,len )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">len</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">
+s</span>, <span class="qtext">i</span>, or <span class="qtext">int8</span> greater than 0 and less than or equal to 1333</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of the result</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">LENGTH( sql_exp )</span></a></td>
+<td>See below</td>
+<td>INT4</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">LOWER( sql_exp )</span></a></td>
+<td>See below</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">sql_exp</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">LPAD( sql_exp,len,src )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">len</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">
+s</span>, <span class="qtext">i</span>, or <span class="qtext">int8</span> greater than 0 and less than or equal to 1333 <br><br> <span class="qtext">src</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">c</span>, <span class="qtext">
+d</span>, <span class="qtext">t</span>, <span class="qtext">n</span>, or <span class="qtext">string</span> with a maximum of 1333 characters</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">len</span>.</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">LTRIM( sql_exp,char )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">char</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">c</span> or <span class="qtext">n</span> with the length 1</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">sql_exp</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">REPLACE( sql_exp1,sql_exp2,sql_exp3 )</span></a></td>
+<td>See below</td>
+<td>SSTRING if an argument has the type SSTRING, else CHAR with the maximum possible length of the result.</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">RIGHT( sql_exp,len )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">len</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">
+s</span>, <span class="qtext">i</span>, or <span class="qtext">int8</span> greater than 0 and less than or equal to 1333</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of the result</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">RPAD( sql_exp,len,src )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">len</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">
+s</span>, <span class="qtext">i</span>, or <span class="qtext">int8</span> greater than 0 and less than or equal to 1333 <br><br> <span class="qtext">src</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">c</span>, <span class="qtext">
+d</span>, <span class="qtext">t</span>, <span class="qtext">n</span>, or <span class="qtext">string</span> with a maximum of 1333 characters</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">len</span>.</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">RTRIM( sql_exp,char )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">char</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">c</span> or <span class="qtext">n</span> with the length 1</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">sql_exp</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">SUBSTRING( sql_exp,pos,len )</span></a></td>
+<td><span class="qtext">sql_exp</span>: see below <br><br> <span class="qtext">pos</span>: Literal,
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a>, or
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expression</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">s</span>, <span class="qtext">i</span>, <span class="qtext">int8</span> <br><br> <span class="qtext">len</span>:
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">Literal</a> or
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">b</span>, <span class="qtext">s</span>, <span class="qtext">i</span>, <span class="qtext">int8</span></td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">len</span></td>
+<td>x</td>
+</tr>
+<tr>
+<td><a href="javascript:call_link('abensql_functions_string.html')" class="blue"><span class="qtext">UPPER( sql_exp )</span></a></td>
+<td>See below</td>
+<td>SSTRING if <span class="qtext">sql_exp</span> has the type SSTRING, else CHAR with the length of <span class="qtext">sql_exp</span></td>
+<td>-</td>
+</tr>
+</table><br>
+<p>
+The arguments <span class="qtext">sql_exp</span>, <span class="qtext">sql_exp1</span>, <span class="qtext">sql_exp2</span>, and <span class="qtext">sql_exp3</span> can be any
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> with the matching data types. The possible data types are the
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">dictionary types</a> CHAR, CLNT, CUKY, DATS, LANG, NUMC, TIMS, UNIT, and SSTRING. The possible data types for literals, host variables, and host expressions are the ABAP types
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">assigned</a> to the dictionary types above. The result types are also <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">dictionary types</a>.
+</p>
+<p>
+If the argument of a string function has the <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>, the result of the full string function is the null value.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The argument <span class="qtext">len</span> of the functions <span class="qtext">RIGHT</span> and <span class="qtext">SUBSTRING</span> must only be a real
+<a href="javascript:call_link('abenconstant_glosry.html')" class="grey" title="Glossary Entry">constant</a> in static clauses. In clauses of an ABAP SQL statement specified in parentheses, the argument can also be a
+<a href="javascript:call_link('abenvariable_glosry.html')" class="grey" title="Glossary Entry">variable</a> evaluated at runtime.</li>
+</ul>
+<ul class="disc">
+<li>In the case of the function <span class="qtext">REPLACE</span>, it should be noted that the maximum
+possible length of the result can be slightly greater than the permitted length of 1333. This produces
+a syntax error. In general, the maximum possible length is calculated by dividing the length of <span class="qtext400">
+sql_exp1</span> by the length of <span class="qtext400">sql_exp2</span>, multiplied by the length of <span class="qtext400">sql_exp3</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The <span class="qtext">SELECT</span> statement gets the maximum length of a URL in the database table <span class="lnkgrey">SCARR</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS MAX( length( url ) ) AS maxlen <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Concatenates multiple columns of a database table as a character-like column in the program <span class="lnkgrey">DEMO_SQL_FUNCTION_CONCAT</span>
+using <span class="qtext">CONCAT</span>. An alignment is specified using <span class="qtext">LPAD</span>
+and <span class="qtext">RPAD</span>. A concatenation of this type is not possible using the operator <a href="javascript:call_link('abensql_string.html')" class="blue"><span class="qtext">&amp;&amp;</span></a>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT CONCAT_WITH_SPACE( CONCAT( carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LPAD( carrname,21,' ' ) ), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RPAD( url,40,' ' ), 3 ) AS line <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abensql_string_func_abexa.html')" class="blue">String functions</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensql_expr_string_abexa.html')" class="blue">SQL expressions, chainings</a></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abensql_string_func_abexa.html')" class="blue">SQL Expressions, String Functions</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_string_func.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+</html>

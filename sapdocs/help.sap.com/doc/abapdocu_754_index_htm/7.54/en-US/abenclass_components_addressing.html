@@ -1,0 +1,218 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCLASS_COMPONENTS_ADDRESSING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenclass_components_addressing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:43 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Accessing Class Components">
+<title>
+Accessing Class Components - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenclass_components_addressing.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenclass_components_addressing.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenobject.html')" class="blue">Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Accessing Class Components
+</span></p>
+<p>
+When accessing class components, there is a difference between access from inside and outside the same
+class. When a component is accessed from inside, that is within a method of the same class, the name
+of the component is sufficient. When a component is accessed from outside, the object (for instance components) and the class (for static components) must be specified using an
+<a href="javascript:call_link('abenobject_component_select_glosry.html')" class="grey" title="Glossary Entry">object component selector</a> or
+<a href="javascript:call_link('abenclass_component_select_glosry.html')" class="grey" title="Glossary Entry">class component selector</a>. There are static and dynamic variants.
+</p>
+<p>
+For static access, object reference variables can only be used to access components that are known to
+the reference variable. These are the components that are available in the static type of the reference
+variable (class or interface). Class reference variables that are typed with reference to a superclass but point to subclasses know only the superclass components. Interface references know only interface components.
+</p>
+<p>
+With dynamic access, the dynamic type is used to get the component for class reference variables. This
+is the type of the object to which the reference refers, and not the type used for typing the reference.
+For interface reference variables the static type is also used for dynamic access, that is, the type that was used to type the reference.
+</p>
+<p>
+This means that reference variables that have been typed with reference to a superclass. They point
+to subclasses that can be used to dynamically access any component of the subclass for which dynamic
+access is possible. In particular, reference variables of the type <span class="qtext">REF TO OBJECT</span>
+can be used to access components dynamically. However, it is not possible to use interface reference
+variables to access class-specific components dynamically; only the associated interface components
+can be accessed. It is not possible to access class-specific components using interface reference variables,
+because, when interface reference variables are used, the <span class="qtext">intf~</span> prefix is always used implicitly.
+</p>
+<A name="@@ITOC@@ABENCLASS_COMPONENTS_ADDRESSING_1"></A>
+<p><span class="h2">
+Static Access
+</span></p>
+<p>
+The following syntax applies (<span class="qtext">oref</span> is an object reference variable): <br><br>
+</p>
+<ul class="disc">
+<li>Accessing an instance attribute <span class="qtext">attr</span>:     <span class="qtext">oref->attr</span></li>
+</ul>
+<ul class="disc">
+<li>Calling an instance method <span class="qtext">meth</span>:         <span class="qtext">oref->meth( ... )</span></li>
+</ul>
+<p>
+In addition to reference variables, the class name can be used for accessing <a href="javascript:call_link('abenstatic_component_glosry.html')" class="grey" title="Glossary Entry">static components</a> : <br>
+</p>
+<ul class="disc">
+<li>Accessing a static attribute <span class="qtext">attr</span>: <span class="qtext">class=>attr</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a static method <span class="qtext">meth</span>:     <span class="qtext"> class=>meth( ... )</span></li>
+</ul>
+<p>
+In this context, it is important to note that the properties of instance methods behave like static
+components. Therefore, in a <span class="qtext">LIKE</span> addition, the class component selector or reference variables can be used to reference visible attributes of a class, without first creating an object.
+</p>
+<p>
+In addition to specifying the name directly, the self-reference <span class="qtext">me</span> can also be used within a class to access its components: <br>
+</p>
+<ul class="disc">
+<li>Accessing attributes within the class <span class="qtext">attr</span>:    <span class="qtext">me->attr</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a method within the same class <span class="qtext">meth</span>:        <span class="qtext">me->meth( ... )</span></li>
+</ul>
+<dl><dd>
+Self-reference allows an object to pass a reference to itself to other objects. In addition, attributes within an object can be accessed in methods which are obscured by the local attributes of the method.
+</dd></dl>
+<p>
+Within a redefined method of a subclass, the <a href="javascript:call_link('abenpseudo_reference_glosry.html')" class="grey" title="Glossary Entry">
+pseudo reference</a> <span class="qtext">super</span> can be used to access the obscured method in one of the superclasses: <br>
+</p>
+<ul class="disc">
+<li>Calling an obscured method <span class="qtext">meth</span>: <span class="qtext">super->meth( ... )</span></li>
+</ul>
+<dl><dd>
+Within the instance constructor of a subclass, the pseudo reference <span class="qtext">super</span> must be used to call the instance constructor of the direct superclass: <br>
+</dd></dl>
+<ul class="disc">
+<li>Calling the constructor of the direct superclass: <br>                                     <span class="qtext">super->constructor( ... )</span></li>
+</ul>
+<p>
+As a specific method for accessing attributes, the <a href="javascript:call_link('abenclass_attributes_as_key.html')" class="blue">attributes for key access</a> to internal tables can be used if they contain reference variables.
+</p>
+<A name="@@ITOC@@ABENCLASS_COMPONENTS_ADDRESSING_2"></A>
+<p><span class="h2">
+Dynamic Access
+</span></p>
+<p>
+Dynamic access to class components is only possible for attributes (dynamic access) and for <a href="javascript:call_link('abapcall_method_dynamic.html')" class="blue">method calls</a> (dynamic invoke).
+</p>
+<A name="@@ITOC@@ABENCLASS_COMPONENTS_ADDRESSING_3"></A>
+<p><span class="h3">
+Accessing Attributes Dynamically
+</span></p>
+<p>
+Dynamic access to attributes is possible using <a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue">dynamic <span class="qtext">ASSIGN</span>s</a> to field symbols.
+</p>
+<p>
+The following variants can be used (<span class="qtext">oref</span> is an object reference variable): <br><br>
+</p>
+<ul class="disc">
+<li>Fully dynamic specification: <br> <br><span class="qtext">ASSIGN (f) TO &lt;fs>.</span></li>
+</ul>
+<ul class="disc">
+<li>Partly dynamic specification for instance attributes: <br> <br><span class="qtext">ASSIGN oref->(f) TO &lt;fs>.</span></li>
+</ul>
+<ul class="disc">
+<li>Partly dynamic specification for static attributes: <br> <br><span class="qtext">ASSIGN (f1)=>(f2) TO &lt;fs>.</span></li>
+</ul>
+<p>
+The content of the fields <span class="qtext">f, f1</span> and <span class="qtext">f2</span> is interpreted as descriptors of attributes. In a fully dynamic case, <span class="qtext">f</span> can, for example, have the content
+'<span class="qtext">oref->attr</span>'. In the case of the partly dynamic specification for instance
+attributes, <span class="qtext">f</span> only describes the attribute (which itself can in turn describe
+another attribute). <span class="qtext">f1</span> and <span class="qtext">f2</span> can be class names and static attributes.
+</p>
+<A name="@@ITOC@@ABENCLASS_COMPONENTS_ADDRESSING_4"></A>
+<p><span class="h3">
+Dynamic Method Calls
+</span></p>
+<p>
+The following syntax applies (<span class="qtext">oref</span> is an object reference variable): <br><br>
+</p>
+<ul class="disc">
+<li>Calling an instance method <span class="qtext">meth</span>: <br> <br><span class="qtext">CALL METHOD oref->(f)</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a static method <span class="qtext">meth</span>: <br> <br><span class="qtext">CALL METHOD class=>(f)</span> <br>
+<span class="qtext">CALL METHOD (c)=>meth</span> <br><span class="qtext">CALL METHOD (c)=>(f)</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a method within the same class <span class="qtext">meth</span>: <br> <br><span class="qtext">CALL METHOD (f)</span> <br><span class="qtext">CALL METHOD me->(f)</span></li>
+</ul>
+<p>
+<span class="qtext">f</span> and <span class="qtext">c</span> are fields containing the name of the method <span class="qtext">meth</span> or class <span class="qtext">class</span>.
+</p>
+<p>
+In the case of dynamic method calls, the actual parameter can be passed dynamically to <a href="javascript:call_link('abapcall_method_parameter_tables.html')" class="blue">specific internal tables</a>, similarly to calling function modules.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenclass_components_addressing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:43 GMT -->
+</html>

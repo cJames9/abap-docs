@@ -1,0 +1,133 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONVERSION_ELEMENTARY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_elementary.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Conversion Rules for Elementary Data Objects">
+<title>
+Conversion Rules for Elementary Data Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconversion_elementary.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconversion_elementary.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_rules.html')" class="blue">Assignment and Conversion Rules</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Conversion Rules for Elementary Data Objects
+</span></p>
+<p>
+The programming language ABAP includes a set of <a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">built-in</a>
+<a href="javascript:call_link('abenelementary_data_type_glosry.html')" class="grey" title="Glossary Entry">elementary data types</a>.
+It also supports automatic type conversions and length adjustments for assignments between all these data types (with the exception of
+<a href="javascript:call_link('abendate_field_glosry.html')" class="grey" title="Glossary Entry">date fields</a>,
+<a href="javascript:call_link('abentime_field_glosry.html')" class="grey" title="Glossary Entry">time fields</a>, and
+<a href="javascript:call_link('abentimestamp_field_glosry.html')" class="grey" title="Glossary Entry">time stamp fields</a>, where many conversions are not applicable).
+</p>
+<p>
+The conversion tables in the following sections define the rules for converting all possible elementary target fields for
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abennumeric_source_fields.html')" class="blue">Numeric source fields</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencharacter_source_fields.html')" class="blue">Character-like source fields</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenbyte_source_fields.html')" class="blue">Byte-like source fields</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendate_time_source_fields.html')" class="blue">Date fields, time fields, and time stamp fields as source fields</a></li>
+</ul>
+<p>
+In all conversions, it must be possible to create a value from the type-specific value range from the
+content of the source field; otherwise the system raises an exception that is defined in one of the
+subclasses of the class CX_SY_CONVERSION_ERROR. Conversion errors can usually be handled using <a href="javascript:call_link('abapcatch_try.html')" class="blue">
+<span class="qtext">CATCH</span></a>. There are some assigning statements whose conversion errors are either handled implicitly or that produce a runtime error directly.
+</p>
+<p>
+After an exception, the contents of the target field are undefined and should not be used. After an
+exception, the target field can contain either the previous value or an invalid value (the latter is the case after an overflow of a floating point number, for example).
+</p>
+<p><span class="h4">
+Programming Guideline
+</span></p>
+<P>
+<a href="javascript:call_link('abenuse_conversion_rules_guidl.html')" class="lnkpurple" title="Guideline">Avoid unexpected conversion results</a>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+ <a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">Enumerated types</a> belong to the elementary data types, but are subject to special
+<a href="javascript:call_link('abenconversion_enumerated.html')" class="blue">conversion rules</a> that ensure that only permitted values can be assigned to an
+<a href="javascript:call_link('abenenumerated_variable_glosry.html')" class="grey" title="Glossary Entry">enumerated variable</a>.
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abennumeric_source_fields.html')" class="blue">Numeric Source Fields</a><br>
+<a href="javascript:call_link('abencharacter_source_fields.html')" class="blue">Character-Like Source Fields</a><br>
+<a href="javascript:call_link('abenbyte_source_fields.html')" class="blue">Byte-Like Source Fields</a><br>
+<a href="javascript:call_link('abendate_time_source_fields.html')" class="blue">Date fields, time fields, and time stamp fields as source fields</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_elementary.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

@@ -1,0 +1,186 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINHERITANCE_CONSTRUCTORS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_constructors.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inheritance and Constructors">
+<meta name="keywords" content="ABAP, Constructors, Inheritance">
+<title>
+Inheritance and Constructors - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninheritance_constructors.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninheritance_constructors.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninheritance.html')" class="blue">Inheritance</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inheritance and Constructors
+</span></p>
+<p>
+There are special rules governing <a href="javascript:call_link('abenconstructor.html')" class="blue">constructors</a> in inheritance.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_CONSTRUCTORS_1"></A>
+<p><span class="h2">
+Instance Constructors
+</span></p>
+<p>
+Each class has an instance constructor called <span class="qtext">constructor</span>. This is an exception
+to the rule that states that component names along a path in an inheritance tree must be unique. The instance constructors of the various classes in an inheritance tree, however, are fully independent of one another.
+</p>
+<ul class="disc">
+<li>Instance constructors of superclasses cannot be redefined in subclasses.</li>
+</ul>
+<ul class="disc">
+<li>Instance constructors cannot be called explicitly using <span class="qtext">constructor( ... )</span>.</li>
+</ul>
+<p>
+This means that no naming conflicts can occur.
+</p>
+<p>
+The instance constructor is called when an object is created using the command <a href="javascript:call_link('abapcreate_object.html')" class="blue">
+<span class="qtext">CREATE OBJECT</span></a> or using the instance operator <a href="javascript:call_link('abenconstructor_expression_new.html')" class="blue">
+<span class="qtext">NEW</span></a>. Since a subclass contains all of the visible attributes of its superclasses,
+which can also be set by instance constructors, the instance constructor of a subclass has to ensure
+that the instance constructors of all of its superclasses are also called. This requires that the instance constructor of each subclass contains a <span class="qtext">
+<a href="javascript:call_link('abapcall_method_meth_super.html')" class="blue">super->constructor</a></span> call of the instance
+constructor of the direct superclass even if it is not explicitly declared. The only exception to this rule are direct subclasses of the root node <span class="qtext">OBJECT</span>.
+</p>
+<p>
+In superclasses without an explicitly defined instance constructor, the implicit instance constructor is called. This automatically ensures that the instance constructor of the immediate superclass is called.
+</p>
+<p>
+When instance constructors are called, all of their non-optional input parameters must be populated as follows:
+</p>
+<ul class="disc">
+<li>Filling parameters in the case of <span class="qtext">CREATE OBJECT</span> or <span class="qtext">NEW</span> <br>
+ <br>Starting from the class of the created objects, the first explicitly defined instance constructor
+in the associated path of the inheritance tree is respected. This is the instance constructor of the class itself or the first explicitly defined instance constructor of a superclass.</li>
+</ul>
+<ul class="disc">
+<li>Population in the case of <span class="qtext">super->constructor( ...
+)</span> <br> <br>Starting from the direct superclass, the first explicitly defined instance constructor in the associated path of the inheritance tree is respected.</li>
+</ul>
+<p>
+The interface of the first explicitly defined instance constructor is populated in the same way as with a normal method. This means that:
+</p>
+<ul class="disc">
+<li>If no input parameters exist, no parameters are passed.</li>
+</ul>
+<ul class="disc">
+<li>Optional input parameters can be filled using <span class="qtext">EXPORTING</span>.</li>
+</ul>
+<ul class="disc">
+<li>Non-optional input parameters must be filled using <span class="qtext">EXPORTING</span>.</li>
+</ul>
+<p>
+If there are no explicitly defined instance constructors in the path of the inheritance tree below the root class <span class="qtext">object</span>, no parameters are passed.
+</p>
+<p>
+In both <span class="qtext">CREATE OBJECT</span> or <span class="qtext">NEW</span> and <span class="qtext">super->constructor(
+&nbsp;... )</span>, the next available explicit instance constructor must be examined, and, if it has
+an interface, values passed to it. The same applies to exception handling for instance constructors.
+When working with inheritances, a precise knowledge of the entire inheritance tree is required. When
+a class at the bottom of the inheritance tree is instantiated, it may be necessary to pass parameters to the constructor of a class that is much nearer the root node.
+</p>
+<p>
+The instance constructor of a subclass is divided into two parts by the call <span class="qtext">super->constructor( ... )</span> (demanded by the syntax). In the statements before the call, the constructor behaves like a
+<a href="javascript:call_link('abenstatic_method_glosry.html')" class="grey" title="Glossary Entry">static method</a>, which
+means that the self reference <span class="qtext">me-></span> cannot be used and the constructor does
+not have access to the instance components of its class. <span class="qtext">me-></span> cannot be used
+until after the call and it is also possible to address instance components. The statements before the call are used to determine the actual parameters for the interface of the instance constructor of the superclass. Only
+<a href="javascript:call_link('abenstatic_attribute_glosry.html')" class="grey" title="Glossary Entry">static attributes</a> or other visible data can be used for this.
+</p>
+<p>
+When a subclass is instantiated, therefore, a nested call of the instance constructors from the subclass
+to the superclasses takes place. Here, however, the instance attributes can only be addressed in the
+lowest nesting level (which is the top superclass). When the constructors of the lower subclasses are revisited, their instance attributes can be addressed there successively too.
+</p>
+<p>
+The methods of subclasses are not visible in constructors. If an instance constructor calls an instance method of the same class using the implicit
+<a href="javascript:call_link('abenself_reference_glosry.html')" class="grey" title="Glossary Entry">self reference</a> <span class="qtext">
+me</span>, the method is called as implemented in the class of the instance constructor, and not in
+any redefined form that may occur in the subclass being instantiated. This is an exception to the rule
+that states that, when instance methods are called, the implementation is called in the class to whose instance the reference points.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_CONSTRUCTORS_2"></A>
+<p><span class="h2">
+Static Constructors
+</span></p>
+<p>
+Every class has a <a href="javascript:call_link('abenstatic_constructor_glosry.html')" class="grey" title="Glossary Entry">static
+constructor</a> called <span class="qtext">class_constructor</span>. With respect to the namespace within an inheritance tree, the same applies to static constructors as to instance constructors.
+</p>
+<p>
+When a subclass is addressed for the first time in program by creating an instance of the class or by
+a static component being addressed (except types and constants) using the class component selector,
+the static constructor is called. However, before it can be called, the static constructors of all of
+its superclasses must already have been executed. A static constructor may only be called once per program.
+Therefore, when subclass is first addressed, the system looks for the next highest superclass whose
+static constructor has not yet been called. It calls the static constructor of that class, followed by those of all classes between that class and the subclass addressed.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_constructors.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+</html>

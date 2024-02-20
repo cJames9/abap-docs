@@ -1,0 +1,210 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_DATABASE_TABLES_GTT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_database_tables_gtt.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Global Temporary Tables">
+<meta name="keywords" content="ABAP, ABAP Dictionary, Global Temporary Tables, COMMIT_GTT_ERROR">
+<title>
+Global Temporary Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_database_tables_gtt.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_database_tables_gtt.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_database_tables.html')" class="blue">Database Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Global Temporary Tables
+</span></p>
+<p>
+Global temporary tables (GTTs) are special <a href="javascript:call_link('abentransparent_table_glosry.html')" class="grey" title="Glossary Entry">transparent tables</a> used as repositories for temporary data. This data exists only within a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> and can be
+accessed only by one consumer. GTTs are used to save temporary subtotals thereby splitting complicated
+database processes into multiple steps. GTTs are designed for this purpose only and hence incur far lower administration costs than regular transparent tables.
+</p>
+<p>
+The GTT concept specifies that a GTT is always empty at the start of a database LUW and hence always
+has to be cleared at the end of each database LUW. Generally, database systems provide native support
+for this concept by defining data in a GTT database table as transaction-specific data implicitly. This data is deleted automatically at the end of a database LUW (in a
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> or <a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollback</a>).
+</p>
+<p>
+In ABAP Dictionary, the <a href="javascript:call_link('abenddic_database_tables_tab_type.html')" class="blue">table category</a>
+<span class="italic">global temporary table</span> can be specified for a database table. Tables in this category have the variant GTT in the database. The following additional rules apply in
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> access to GTTs in ABAP Dictionary to avoid platform-dependent behavior and unexpected responses when handling GTTs:
+</p>
+<ul class="disc">
+<li>If an ABAP Dictionary GTT was filled by a modifying ABAP SQL statement, it must be cleared explicitly before the end of the current
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. The following can be used here:</li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP SQL statement <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE FROM dbtab</span></a> without specifying a <span class="qtext">WHERE</span> condition.</li>
+</ul>
+<ul class="circlem2">
+<li>All explicit <a href="javascript:call_link('abendb_commit.html')" class="blue">database commits</a> and
+<a href="javascript:call_link('abendb_rollback.html')" class="blue">database rollbacks</a>, such as the ABAP SQL statements <a href="javascript:call_link('abapcommit.html')" class="blue">
+<span class="qtext">COMMIT WORK</span></a>, <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">
+COMMIT CONNECTION</span></a>, <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a>,
+<a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">ROLLBACK CONNECTION</span></a> plus all associated
+<a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> statements and calls.</li>
+</ul>
+<ul class="disc">
+<li>If an ABAP Dictionary GTT filled using ABAP SQL was not cleared explicitly using one of these methods before an
+<a href="javascript:call_link('abendb_commit.html')" class="blue">implicit database commit</a>, the runtime error COMMIT_GTT_ERROR occurs independently of its content.</li>
+</ul>
+<ul class="disc">
+<li>The obsolete addition <span class="qtext">CLIENT SPECIFIED</span> is forbidden. This includes the
+use of <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a>
+in queries and the use of <a href="javascript:call_link('abapud_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> in <span class="qtext">UPDATE SET</span> and <span class="qtext">DELETE FROM</span>. The
+<a href="javascript:call_link('abapiumd_client.html')" class="blue">non-obsolete form</a> of <span class="qtext">CLIENT SPECIFIED</span> in write statements is allowed.</li>
+</ul>
+<p>
+Alongside these rules, GTTs can be used like regular transparent tables. With respect to their definition in ABAP Dictionary, the following settings have predefined values that cannot be modified:
+</p>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenddic_database_tables_dat_type.html')" class="blue">data type</a> and <a href="javascript:call_link('abenddic_database_tables_siz_cat.html')" class="blue">size category</a> are ignored and undefined.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_database_tables_buffer.html')" class="blue">Table buffering</a> is not allowed.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_database_tables_protocol.html')" class="blue">Logging</a> is switched off.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenddic_database_tables_storage.html')" class="blue">storage type</a> is row store.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenddic_database_tables_delivery.html')" class="blue">delivery class</a> is L.</li>
+</ul>
+<ul class="disc">
+<li>No <a href="javascript:call_link('abenddic_replacement_objects.html')" class="blue">replacement objects</a> can be used.</li>
+</ul>
+<p>
+The number of <a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> of a GTT is limited to 15.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When accessed using ABAP SQL, explicit clears of ABAP Dictionary GTTs are forced before implicit database commits for the following reasons:</li>
+</ul>
+<ul class="circlem2">
+<li>For making the program easier to understand. If an implicit database commit occurs within a programming module, for example due to an
+<a href="javascript:call_link('abenrfc_glosry.html')" class="grey" title="Glossary Entry">RFC</a>, a developer may be surprised
+to find that the table is empty afterwards, since the database system deleted it implicitly at the end of the database LUW.</li>
+</ul>
+<ul class="circlem2">
+<li>It prevents errors caused by any platform dependencies. It cannot be guaranteed that every database
+platform deletes the data of a GTT in an implicit database commit. This is guaranteed, however, when the GTT is cleared explicitly.</li>
+</ul>
+<ul class="disc">
+<li>The statements <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT
+WORK</span></a> and <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a> clear the GTTs of all currently open
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a>,
+whereas <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">COMMIT CONNECTION</span></a>
+and <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">ROLLBACK CONNECTION</span></a> only delete the GTTs of the specified connection.</li>
+</ul>
+<ul class="disc">
+<li>Only the variant <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE FROM dbtab</span></a>
+without a <span class="qtext">WHERE</span> condition specified prevents the runtime error COMMIT_GTT_ERROR.
+Other variants of the <span class="qtext">DELETE</span> statement do not prevent the runtime error, even if they clear the entire table.</li>
+</ul>
+<ul class="disc">
+<li>These additional rules apply only to <a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a> using
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>. If a GTT is filled using only
+<a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> or
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> methods, no exceptions are
+raised in the case of implicit database commits. The GTT is then generally cleared by the database system.
+Conversely, using Native SQL or AMDP to clear a table filled using ABAP SQL does not prevent the runtime error COMMIT_GTT_ERROR.</li>
+</ul>
+<ul class="disc">
+<li>It is advisable to only use <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> to access ABAP Dictionary GTTs.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">INSERT</span></a> statements with a
+<a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subquery</a> after <a href="javascript:call_link('abapinsert_source.html')" class="blue">
+<span class="qtext">FROM</span></a> are particularly well suited for filling GTTs, since the operation is then performed only on the database and no data transports are required between the database and the AS ABAP.</li>
+</ul>
+<ul class="disc">
+<li>If the data of a GTT is only required when accessing a database, it is possible to make the corresponding request using
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expressions</a>.</li>
+</ul>
+<ul class="disc">
+<li>When an ABAP Dictionary GTT is accessed using ABAP SQL, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check.</li>
+</ul>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_gtt_abexa.html')" class="blue">Global Temporary Tables, Access</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenselect_union_sum_gtt_abexa.html')" class="blue">Union with Global Temporary Table</a></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenddic_gtt_abexa.html')" class="blue">Global Temporary Tables, Access</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_database_tables_gtt.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+</html>

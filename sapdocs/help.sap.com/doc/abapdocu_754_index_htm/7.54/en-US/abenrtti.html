@@ -1,0 +1,177 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRTTI -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrtti.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:39 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="RTTS - Runtime Type Services">
+<meta name="keywords" content="ABAP, RTTC, RTTI, RTTS, Runtime Type Creation, Runtime Type Information, Runtime Type Services">
+<title>
+RTTS - Runtime Type Services - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrtti.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrtti.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendescribe_field.html')" class="blue">Attributes of Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CL_ABAP_TYPEDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_DATADESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_ELEMDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_REFDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_COMPLEXDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_STRUCTDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_TABLEDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_OBJECTDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_CLASSDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_INTFDESCR@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_ABAP_ENUMDESCR@@!ABAP_CLASS!@@"></A>
+<p><span class="h1">
+RTTS - Runtime Type Services
+</span></p>
+<p>
+The <a href="javascript:call_link('abenrun_time_type_services_glosry.html')" class="grey" title="Glossary Entry">RTTS</a> are implemented using a hierarchy of
+<a href="javascript:call_link('abentype_class_glosry.html')" class="grey" title="Glossary Entry">type description classes</a> that contain the methods for
+<a href="javascript:call_link('abenrun_time_type_creation_glosry.html')" class="grey" title="Glossary Entry">Runtime Type Creation (RTTC)</a> and
+<a href="javascript:call_link('abenrun_time_type_identific_glosry.html')" class="grey" title="Glossary Entry">Runtime Type Identification (RTTI)</a>. Using these system classes it is possible to
+</p>
+<ul class="disc">
+<li>determine type information of existing <a href="javascript:call_link('abeninstance_glosry.html')" class="grey" title="Glossary Entry">instances</a> and
+<a href="javascript:call_link('abentype_names.html')" class="blue">type names</a> in the <a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">ABAP type system</a> at runtime.</li>
+</ul>
+<ul class="disc">
+<li>define new data types at runtime.</li>
+</ul>
+<A name="@@ITOC@@ABENRTTI_1"></A>
+<p><span class="h2">
+Concept
+</span></p>
+<p>
+The properties of the types are represented by the attributes of
+<a href="javascript:call_link('abentype_object_glosry.html')" class="grey" title="Glossary Entry">type description objects</a>.
+For each type there is exactly one type description object. The attributes of the type description object
+contain information about the properties of the type. For each category of type (elementary type, table,
+class, and so on), there is a type description class with special attributes for the special type properties. The class hierarchy of the type description classes corresponds to the hierarchy of the type categories in the
+<a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">ABAP type system</a>.
+</p>
+<p>
+In addition, type description classes for complex types, references, classes, and interfaces have special
+methods for specifying references to partial types. These methods can be used can navigate to all partial types using a composite type.
+</p>
+<p>
+Type description objects can only be created using the methods of type description classes. To get a
+reference to a type description object of a type, the static methods of the class <span class="lnkgrey">CL_ABAP_TYPEDESCR</span> can be used or call methods of the special type description classes.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In the statement <a href="javascript:call_link('abapcreate_data.html')" class="blue"><span class="qtext">CREATE DATA</span></a>,
+type description objects can be specified after the addition <a href="javascript:call_link('abapcreate_data_handle.html')" class="blue"><span class="qtext">HANDLE</span></a> to create data objects with dynamically created data types.
+</p>
+<A name="@@ITOC@@ABENRTTI_2"></A>
+<p><span class="h2">
+Hierarchy of Type Description Classes
+</span></p>
+<p>
+<span class="qtext400"> <span class="lnkgrey">CL_ABAP_TYPEDESCR</span> <br>&nbsp;&nbsp;| <br>&nbsp;&nbsp;|--<span class="lnkgrey">CL_ABAP_DATADESCR</span> <br>
+&nbsp;&nbsp;|&nbsp;&nbsp; | <br>&nbsp;&nbsp;|&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_ELEMDESCR</span> <br>
+&nbsp;&nbsp;|&nbsp;&nbsp; |&nbsp;&nbsp; | <br>&nbsp;&nbsp;|&nbsp;&nbsp; |&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_ENUMDESCR</span> <br>
+&nbsp;&nbsp;|&nbsp;&nbsp; | <br>&nbsp;&nbsp;|&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_REFDESCR</span> <br>
+&nbsp;&nbsp;|&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_COMPLEXDESCR</span> <br>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <br>
+&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_STRUCTDESCR</span> <br>
+&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_TABLEDESCR</span> <br>
+&nbsp;&nbsp;| <br>&nbsp;&nbsp;|--<span class="lnkgrey">CL_ABAP_OBJECTDESCR</span> <br>&nbsp;&nbsp;&nbsp;&nbsp; | <br>
+&nbsp;&nbsp;&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_CLASSDESCR</span> <br>&nbsp;&nbsp;&nbsp;&nbsp; |--<span class="lnkgrey">CL_ABAP_INTFDESCR</span></span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Reading the type attributes of an elementary type from a type object generated with the method DESCRIBE_BY_DATA.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES my_type TYPE p LENGTH 16 DECIMALS 6. <br>DATA&nbsp;&nbsp;my_data TYPE my_type. <br> <br>DATA(descr) = cl_abap_typedescr=>describe_by_data( my_data ). <br>
+ <br>cl_demo_output=>display( <br>&nbsp;&nbsp;|Typename: { descr->absolute_name }\n| &amp;&amp; <br>
+&nbsp;&nbsp;|Kind:&nbsp;&nbsp;&nbsp;&nbsp; { descr->type_kind&nbsp;&nbsp;&nbsp;&nbsp; }\n| &amp;&amp; <br>
+&nbsp;&nbsp;|Length:&nbsp;&nbsp; { descr->length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}\n| &amp;&amp; <br>&nbsp;&nbsp;|Decimals: { descr->decimals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}\n| ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Reading the attributes of the components of a structure. The reference to the type object is assigned using a down cast to a reference variable of type CL_ABAP_STRUCT_DESCR.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( CAST cl_abap_structdescr( <br>&nbsp;&nbsp;cl_abap_typedescr=>describe_by_name( 'SYST' ) )->components ).
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenrtti_data_type_abexa.html')" class="blue">Determining Data Types</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenrtti_object_type_abexa.html')" class="blue">Determining Object Types</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrtti.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:39 GMT -->
+</html>

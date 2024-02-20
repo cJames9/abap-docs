@@ -1,0 +1,125 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENC_DESTRUCTOR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenc_destructor.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="The C Destructor">
+<meta name="keywords" content="ABAP, Destructor">
+<title>
+The C Destructor - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenc_destructor.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenc_destructor.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses.html')" class="blue">Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_components.html')" class="blue">Components of Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_methods.html')" class="blue">Methods of Classes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+The C Destructor
+</span></p>
+<p>
+A destructor is a special method called automatically when an object is deleted. Destructors can be
+used to release resources used by the object that are not covered by garbage collection. Currently, ABAP Objects does not have a destructor in which a regular ABAP processing block can be programmed.
+</p>
+<A NAME="@@destructor@@METHODS - internal@@"></A>
+<A NAME="@@NOT AT END OF MODE@@METHODS destructor (internal)@@"></A>
+<p>
+For special cases, and for <span class="bold">internal use only</span>, the predefined instance method <span class="qtext">destructor</span> can be declared in the public visibility section of a class:
+</p>
+<p>
+<span class="qtext">CLASS class DEFINITION.</span> <br><span class="qtext">&nbsp;&nbsp;PUBLIC SECTION.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;METHODS destructor <i class=bn>[</i>NOT AT END OF MODE<i class=bn>]</i>.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;...</span> <br><span class="qtext">ENDCLASS</span>.
+</p>
+<p>
+Only one statement can currently be used in the implementation of the method <span class="qtext">destructor</span>:
+</p>
+<p>
+<span class="qtext">CLASS class IMPLEMENTATION.</span> <br><span class="qtext">&nbsp;&nbsp;METHOD destructor.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;SYSTEM-CALL c-destructor 'name' USING attr1 attr2 ...</span> <br><span class="qtext">&nbsp;&nbsp;ENDMETHOD.</span> <br><span class="qtext">ENDCLASS</span>.
+</p>
+<p>
+This means that the destructor makes it possible to call a C routine name when an object is deleted. The routine must exist in the ABAP kernel so that no syntax error occurs.
+</p>
+<p>
+If used, the optional addition <span class="qtext">NOT AT END OF MODE</span> dictates that the destructor is not executed if the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal mode</a> is closed
+regardless. Usually a destructor is also executed at the end of a mode and should mainly be used to release bound external resources that are not released automatically when the mode is closed.
+</p>
+<p>
+When the C routine is called, an attribute <span class="qtext">attr1</span>, <span class="qtext">attr2</span>,
+... of the class of any complex data type can be passed to the routine. If multiple parameters are passed, an appropriate data type must be defined.
+</p>
+<p>
+During the lifetime of an internal mode, the time when the method <span class="qtext">destructor</span> is executed depends on when
+<a href="javascript:call_link('abengarbage_collector_glosry.html')" class="grey" title="Glossary Entry">Garbage Collector</a>
+is started. When an internal mode is closed, the destructors not declared using the addition <span class="qtext">NOT
+AT END OF MODE</span> are executed for all objects. In cases of inheritance, the destructors of the subclasses are executed before the destructors of the superclasses.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenc_destructor.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:46 GMT -->
+</html>

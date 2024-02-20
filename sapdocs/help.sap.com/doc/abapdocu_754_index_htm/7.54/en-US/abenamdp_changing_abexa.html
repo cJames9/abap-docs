@@ -1,0 +1,196 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMDP_CHANGING_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_changing_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP, SQL Script with Tabular CHANGING Parameter">
+<title>
+AMDP, SQL Script with Tabular CHANGING Parameter - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamdp_changing_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamdp_changing_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP - ABAP Managed Database Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp_abexas.html')" class="blue">AMDP - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMDP, SQL Script with Tabular CHANGING Parameter
+</span></p>
+<p>
+This example demonstrates how an SQLScript procedure is implemented using AMDP with a tabular <span class="qtext">CHANGING</span> parameter.
+</p>
+<A name="@@ITOC@@ABENAMDP_CHANGING_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_amdp_changing.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;IF NOT cl_abap_dbfeatures=&gt;use_features(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requested_features =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE #( ( cl_abap_dbfeatures=&gt;call_amdp_method ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Current database system does not support AMDP procedures` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA lower TYPE scarr-carrid VALUE 'AA'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA upper TYPE scarr-carrid VALUE 'BA'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA call_flag TYPE abap_bool.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( CHANGING field = lower<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( CHANGING field = upper<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_line(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING text = 'Indirect call'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = call_flag<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;request( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA carriers TYPE cl_demo_amdp_changing=&gt;t_carriers.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT mandt, carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid BETWEEN @lower AND @upper<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY mandt, carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO CORRESPONDING FIELDS OF TABLE @carriers.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( )-&gt;write( carriers ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF call_flag IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_demo_amdp_changing(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;get_carriers( CHANGING carriers = carriers ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_demo_amdp_changing(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;call_get_carriers( CHANGING carriers = carriers ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amdp_error INTO DATA(amdp_error).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( amdp_error-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( carriers ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENAMDP_CHANGING_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The following <a href="javascript:call_link('abensql_script_procedure_glosry.html')" class="grey" title="Glossary Entry">SQLScript
+procedure</a> is implemented in the AMDP method GET_CARRIERS of the AMDP class <span class="lnkgrey">CL_DEMO_AMDP_CHANGING</span>:
+</p>
+<dl><dd>
+<span class="qtext">METHOD get_carriers BY DATABASE PROCEDURE FOR HDB <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE SQLSCRIPT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING scarr. <br>
+&nbsp;&nbsp;carriers&nbsp;&nbsp;= select s.* <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; from scarr as s <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inner join :carriers as c <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on s.mandt&nbsp;&nbsp;= c.mandt and <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s.carrid = c.carrid; <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+The tabular <span class="qtext">CHANGING</span> parameter <span class="qtext">carriers</span> can be
+used in this way in the procedure in reading positions and writing positions. Internally, the database
+procedure uses an identically named output parameter to which the initial value of the <span class="qtext">CHANGING</span>
+parameter is assigned (using the invisible <span class="qtext400">IN</span> parameter <span class="qtext">carrriers__in__</span>) when the procedure is first executed (see
+<a href="javascript:call_link('abenamdp_hdb_sqlscript.html')" class="blue">SQL Script for the SAP HANA Database</a>).
+</p>
+<p>
+A further method, CALL_GET_CARRIERS, demonstrates how the SQL Script procedure implemented in GET_CARRIERS is called from a different SQL Script procedure.
+</p>
+<dl><dd>
+<span class="qtext">METHOD call_get_carriers BY DATABASE PROCEDURE FOR HDB <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LANGUAGE SQLSCRIPT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USING cl_demo_amdp_changing=&gt;get_carriers. <br>
+&nbsp;&nbsp;call "CL_DEMO_AMDP_CHANGING=&gt;GET_CARRIERS"( <br>&nbsp;&nbsp;&nbsp;&nbsp;CARRIERS__IN__&nbsp;&nbsp;=&gt; :CARRIERS, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CARRIERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; :CARRIERS ); <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+In this case, the implicit <span class="qtext400">IN</span> parameter <span class="qtext">carrriers__in__</span> must be filled explicit with the modified actual parameter.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+This is a syntax example. The same function can be provided with the same efficiency in ABAP SQL. AMDP is not needed in simple cases like this.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_changing_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

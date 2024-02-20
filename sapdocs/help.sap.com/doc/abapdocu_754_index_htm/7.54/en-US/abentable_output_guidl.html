@@ -1,0 +1,183 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTABLE_OUTPUT_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_output_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Output Behavior">
+<title>
+Output Behavior - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentable_output_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentable_output_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_guidl.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Output Behavior
+</span></p>
+<A name="@@ITOC@@ABENTABLE_OUTPUT_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Internal tables can be read by accessing individual rows (using <span class="qtext">READ TABLE</span> or
+<a href="javascript:call_link('abentable_expression_glosry.html')" class="grey" title="Glossary Entry">table expressions</a>)
+or sequentially (using <span class="qtext">LOOP AT</span>). In both cases, the following output behavior can be defined by using the statements with the following additions:
+</p>
+<ul class="disc">
+<li>The addition <span class="qtext">INTO</span> copies the content of the row to an appropriate data object.</li>
+</ul>
+<ul class="disc">
+<li>The addition <span class="qtext">ASSIGNING</span> assigns the read row to a
+<a href="javascript:call_link('abendyn_access_data_obj_guidl.html')" class="lnkpurple" title="Guideline">field symbol</a>, which enables the row to be addressed directly.</li>
+</ul>
+<ul class="disc">
+<li>The <span class="qtext">REFERENCE INTO</span> addition sets a <a href="javascript:call_link('abendyn_access_data_obj_guidl.html')" class="lnkpurple" title="Guideline">data reference</a> to the read row.</li>
+</ul>
+<p>
+In the case of <a href="javascript:call_link('abentable_expressions.html')" class="blue">table expressions</a>, the output behavior is controlled by the <a href="javascript:call_link('abentable_exp_result.html')" class="blue">category of the result</a>.
+</p>
+<p>
+As well as for exports, the <span class="qtext">ASSIGNING</span> and <span class="qtext">REFERENCE INTO</span>
+additions can also be used for the <span class="qtext">APPEND</span>, <span class="qtext">COLLECT</span>,
+<span class="qtext">INSERT</span>, and <span class="qtext">MODIFY</span> statements, where they create references to the row being edited.
+</p>
+<A name="@@ITOC@@ABENTABLE_OUTPUT_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Choose appropriate output behavior</span>
+</p>
+<p>
+When reading rows of internal tables, select an appropriate output behavior. The rule of thumb is:
+</p>
+<ul class="disc">
+<li>Copy to a work area if the row type is narrow and the read row is not to be modified.</li>
+</ul>
+<ul class="disc">
+<li>Assign to a field symbol if the row type is wide or deep and the read row is to be modified.</li>
+</ul>
+<ul class="disc">
+<li>Set a data reference if the row type is wide or deep and a reference to the read row is to be passed.</li>
+</ul>
+<A name="@@ITOC@@ABENTABLE_OUTPUT_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The criteria for selecting the output behavior are the processing speed, on the one hand, and what is to be done with the read row, on the other hand:
+</p>
+<ul class="disc">
+<li>If the content of the read row is to be modified, the addition <span class="qtext">ASSIGNING</span> or (in the case of table expressions) the appropriate
+<a href="javascript:call_link('abentable_exp_result.html')" class="blue">result</a> should usually be used. This allows direct
+access to the row using the value semantics and removes the need for a <span class="qtext">MODIFY</span> operation later on.</li>
+</ul>
+<ul class="disc">
+<li>If a reference to the read row is required that can be processed using reference semantics, the addition <span class="qtext">REFERENCE INTO</span> or (in the case of table expressions) the appropriate
+<a href="javascript:call_link('abentable_exp_result.html')" class="blue">result</a> is to be used.</li>
+</ul>
+<ul class="disc">
+<li>If the content of the read row is not to be modified, any of these procedures can be used. The row
+type of the table is significant for performance. If the table row is wide or contains deep components
+(for example, strings or other tables), reads are usually faster if <span class="qtext">ASSIGNING</span> or <span class="qtext">REFERENCE INTO</span> is used instead of <span class="qtext">INTO</span>. The
+<a href="javascript:call_link('abendyn_access_data_obj_guidl.html')" class="lnkpurple" title="Guideline">way they are used</a> is the determining factor for selecting which of the two should be used.</li>
+</ul>
+<dl><dd>
+When working with tables whose rows are flat and do not occupy more than approximately 1KB, copying
+with <span class="qtext">INTO</span> is faster (at least for the <span class="qtext">READ</span> statement)
+than configuring the administration that is required for dynamic access. For the statement <span class="qtext">LOOP</span>,
+these costs are incurred only once, so that using <span class="qtext">ASSIGNING</span> or <span class="qtext">REFERENCE
+INTO</span> is always recommended above a certain number of rows. In contrast, <span class="qtext">INTO</span> should always be used if the target area is to be modified without this affecting the internal table.
+</dd></dl>
+<p>
+Besides the processing speed, it is also important that the source code can be understood. If the recommendations
+mentioned are kept, reading a table with the addition <span class="qtext">ASSIGNING</span> (but also
+<span class="qtext">REFERENCE INTO</span>) indicates to the reader that the table content is potentially
+changed. Reading a table with the <span class="qtext">INTO</span> addition, on the other hand, indicates that the table will not be modified.
+</p>
+<p>
+For table expressions, the information here applies to the selection of the appropriate <a href="javascript:call_link('abentable_exp_result.html')" class="blue">result</a>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the assignment of rows of an internal table to a work area with the
+aim of modifying the read rows. For this modification, however, an additional statement, <span class="qtext">MODIFY</span>, is required, and two unnecessary copy processes take place for each loop pass.
+</p>
+<dl><dd>
+<span class="qtext">LOOP AT itab INTO wa. <br>&nbsp;&nbsp; ... <br>&nbsp;&nbsp; wa = ... <br>&nbsp;&nbsp; MODIFY itab FROM wa. <br>ENDLOOP.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code corrects the above example; here, a field symbol is used for direct access to modify the read rows. No unnecessary copy costs are incurred.
+</p>
+<dl><dd>
+<span class="qtext">LOOP AT itab ASSIGNING &lt;fs>. <br>&nbsp;&nbsp; ... <br>&nbsp;&nbsp; &lt;fs> = ... <br>ENDLOOP.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_output_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

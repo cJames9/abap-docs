@@ -1,0 +1,473 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPASSIGN_MEM_AREA_DYNAMIC_DOBJ -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapassign_mem_area_dynamic_dobj.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:42 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ASSIGN - dynamic_dobj">
+<title>
+ASSIGN - dynamic_dobj - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapassign_mem_area_dynamic_dobj.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapassign_mem_area_dynamic_dobj.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenreference_assignments.html')" class="blue">Assigning References</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenset_field_symbols.html')" class="blue">Setting Field Symbols</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign.html')" class="blue">ASSIGN</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign_mem_area.html')" class="blue">ASSIGN - mem_area</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ASSIGN - dynamic_dobj <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapassign_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>{</i> (name) <i class=bn>}</i></span> <br><span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> dref->* <i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> dobj INCREMENT inc <i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> COMPONENT comp OF STRUCTURE struc <i class=bn>}</i> ...</span> <br><br>
+</P>
+<p><span class="h2">
+Alternatives:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ALTERNATIVE_1@1@" class="blue"> 1. <span class="qtext">... (name)</span> </A> <br><br>
+<A HREF="#!ABAP_ALTERNATIVE_2@2@" class="blue"> 2. <span class="qtext">... dref->*</span> </A> <br><br><A HREF="#!ABAP_ALTERNATIVE_3@3@" class="blue">
+ 3. <span class="qtext">... dobj INCREMENT inc</span> </A> <br><br><A HREF="#!ABAP_ALTERNATIVE_4@4@" class="blue"> 4. <span class="qtext">... COMPONENT comp OF STRUCTURE struc</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+These alternatives to specifying the memory area <a href="javascript:call_link('abapassign_mem_area.html')" class="blue"><span class="qtext">
+mem_area</span></a> of the statement <a href="javascript:call_link('abapassign.html')" class="blue"><span class="qtext">ASSIGN</span></a> dynamically are used to dynamically access data objects.
+</P>
+<P>
+In an inline declaration of the field symbol using <a href="javascript:call_link('abenfield-symbol_inline.html')" class="blue"><span class="qtext">
+FIELD-SYMBOL(&lt;fs>)</span></a>, its typing is performed with the generic type <span class="qtext">data</span>.
+</P>
+<P>
+In these variants, the statement <span class="qtext">ASSIGN</span> sets the return code <span class="qtext">sy-subrc</span>.
+If the assignment is successful, <span class="qtext">sy-subrc</span> is set to 0; if not, it is set to 4. If the assignment is not successful, the field symbol keeps its previous state. It is therefore not enough just to evaluate the
+<a href="javascript:call_link('abenpredicate_expression_glosry.html')" class="grey" title="Glossary Entry">predicate expression</a>
+<a href="javascript:call_link('abenlogexp_assigned.html')" class="blue"><span class="qtext">&lt;fs> IS ASSIGNED</span></a> in a dynamic <span class="qtext">ASSIGN</span>; <span class="qtext">sy-subrc</span> needs to be checked as well. <br><br>
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_1@1@"></A> <span class="bold">Alternative 1</span>
+</span></p>
+<P>
+<span class="qtext">... (name)</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+In this dynamic variant of <span class="qtext">mem_area</span>, the memory area is not specified directly,
+but as content of a character-like data object <span class="qtext">(name)</span> in parentheses. The following can be specified for <span class="qtext">name</span>:
+</P>
+<ul class="disc">
+<li>Literal or constants</li>
+</ul>
+<dl><dd>
+If the data object <span class="qtext">name</span> is specified as a character literal or as a constant, it can be evaluated statically and the specified data object is identified as the used object.
+</dd></dl>
+<ul class="disc">
+<li>Variable</li>
+</ul>
+<dl><dd>
+If the data object <span class="qtext">name</span> is specified as a variable, it is specified only dynamically and the content is not evaluated statically.
+</dd></dl>
+<P>
+When the statement is executed, <span class="qtext">name</span> is not evaluated until runtime (in both
+cases). The name in <span class="qtext">name</span> is structured in the same way as if specified directly:
+When executing the statement, the content of <span class="qtext">name</span> must be the name of a data
+object which may contain offsets and lengths, structure component selectors, and component selectors
+for assigning structured data objects and attributes in classes or objects. The content of <span class="qtext">name</span> does not have to be in uppercase letters.
+</P>
+<P>
+<span class="qtext">name</span> can contain a chain of names consisting of component selectors. For an individual name or if the first name is followed by an object component selector
+(<span class="qtext">-></span>), the specified data object is searched for according to the following hierarchy:
+</P>
+<ol>
+<li>
+If the statement is located in a <a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedure</a>, the local data objects of the procedure are scanned. <br>
+<br></li>
+<li>
+If the statement is located in a <a href="javascript:call_link('abenmethod_glosry.html')" class="grey" title="Glossary Entry">method</a>, the attributes visible in the method within the class are scanned. In instance methods, the
+<a href="javascript:call_link('abenstatic_type_glosry.html')" class="grey" title="Glossary Entry">static type</a> of <span class="qtext">me</span> (special case of <span class="qtext">cref->(attr_name)</span> in <span class="qtext">
+<a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue">dynamic_access</a></span>) is scanned. <br>
+<br></li>
+<li>
+The global data of the current program is scanned. <br>
+<br></li>
+<li>
+The interface work areas of the <a href="javascript:call_link('abenmain_program_glosry.html')" class="grey" title="Glossary Entry">main program</a> of the current program group declared using <span class="qtext">TABLES</span> are scanned. <br>
+<br></li>
+<li>
+If the statement is located in an <a href="javascript:call_link('abeninstance_method_glosry.html')" class="grey" title="Glossary Entry">instance method</a>, the
+<a href="javascript:call_link('abendynamic_type_glosry.html')" class="grey" title="Glossary Entry">dynamic type</a> of <span class="qtext">me</span> (special case of <span class="qtext">cref->(attr_name)</span> in <span class="qtext">
+<a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue">dynamic_access</a></span>) is scanned.
+<br></li>
+</ol>
+<P>
+If the data object is found and the name is followed by an object component selector
+(<span class="qtext">-></span>), the search for the following names is continued from left to right,
+as described under <a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue"><span class="qtext">dynamic_access</span></a>.
+</P>
+<P>
+If the first name is followed by a class component selector
+(<span class="qtext">=></span>), the specified class is searched for, as described under <a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue">
+<span class="qtext">dynamic_access</span></a>, and the search is then continued accordingly from left to right. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Dynamically specifying a structure component using a structure component selector produces worse performance than using the addition <span class="qtext">COMPONENT OF STRUCTURE</span> (see this
+<a href="javascript:call_link('abenassign_component_abexa.html')" class="blue">executable example</a>).
+<br><br></li>
+<li>
+If an attribute of a class in a different program is specified in <span class="qtext">name</span> using an
+<a href="javascript:call_link('abenabsolute_typename_glosry.html')" class="grey" title="Glossary Entry">absolute type name</a> and followed by the class component selector (<span class="qtext">=></span>), it is loaded into a new
+<a href="javascript:call_link('abenadditional_prog_group_glosry.html')" class="grey" title="Glossary Entry">additional program group</a> or into the current
+<a href="javascript:call_link('abenprogram_group_glosry.html')" class="grey" title="Glossary Entry">program group</a> (if not already loaded), depending on the program type. Any existing
+<a href="javascript:call_link('abenprogram_constructor_glosry.html')" class="grey" title="Glossary Entry">program constructors</a>
+are not executed, however, unlike in a genuine <a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue"><span class="qtext">dynamic_access</span></a>. <br>
+<br></li>
+<li>
+For internal use only, the name in <span class="qtext">name</span> can also have the form <span class="qtext400">"(PROG)DOBJ"</span>,
+where <span class="qtext400">"PROG"</span> is the name of an ABAP program and <span class="qtext400">"DOBJ"</span>
+the name of a global data object of this program (these names are not case-sensitive). If the program <span class="qtext400">"PROG"</span> is loaded into the same
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> as
+the current program when the statement <span class="qtext">ASSIGN</span> is executed, the data object
+<span class="qtext400">"DOBJ"</span> is found in this program and the field symbol points to this data object if the assignment was successful. <br>
+<br></li>
+<li>
+In an obsolete variant, the addition <a href="javascript:call_link('abapassign_table_field.html')" class="blue"><span class="qtext">TABLE
+FIELD</span></a> can be specified before <span class="qtext">name</span>. This restricts the search to table work areas. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Dynamic output of the content of any system field. The validity of the input is checked before it is
+dynamically assigned with <span class="qtext">(name)</span> to field symbol <span class="qtext">syfield</span> via an application of classes of
+<a href="javascript:call_link('abenrun_time_type_identific_glosry.html')" class="grey" title="Glossary Entry">RTTI</a> on structure <span class="lnkgrey">SYST</span>
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(name) = `sy-uzeit`. <br>cl_demo_input=>request( EXPORTING text = `System field` <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING field = name ). <br>
+name = to_upper( name ). <br> <br>DATA(components) = CAST cl_abap_structdescr( <br>&nbsp;&nbsp;cl_abap_typedescr=>describe_by_name( 'SYST' ) )->components. <br>
+IF NOT line_exists( components[ name = replace( val = name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub&nbsp;&nbsp;= `SY-` <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with = `` ) ] ). <br>
+&nbsp;&nbsp;cl_demo_output=>display( `Unknown system field` ). <br>&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>
+ASSIGN (name) TO FIELD-SYMBOL(&lt;syfield>). <br> <br>IF sy-subrc = 0. <br>&nbsp;&nbsp;cl_demo_output=>display( |{ name }: { &lt;syfield> }| ). <br>ENDIF. <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_2@2@"></A> <span class="bold">Alternative 2</span>
+</span></p>
+<P>
+<span class="qtext">... dref->*</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+When specifying a dereferenced data reference <span class="qtext">dref</span> for <span class="qtext">mem_area</span>
+using the dereferencing operator <span class="qtext">->*</span>, the memory area of the data object
+is assigned to the field symbol to which <span class="qtext">dref</span> points. If the reference variable
+<span class="qtext">dref</span> does not reference a data object, the assignment is not performed and <span class="qtext">sy-subrc</span> is set to 4.
+</P>
+<P>
+Unlike all other operand positions for which the data reference <span class="qtext">dref</span> must
+be fully typed for dereferencing, <span class="qtext">dref</span> can be typed generically in the statement
+<span class="qtext">ASSIGN</span> using <span class="qtext">TYPE REF TO data</span>. Dereferencing of
+a data reference that does not point to a data object also raises an non-handleable exception in all cases except in the statement <span class="qtext">ASSIGN</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Creates a local copy of a global data object <span class="qtext">g_dat</span> in a procedure using a data reference <span class="qtext">dref</span> and a local field symbol <span class="qtext">&lt;l_dat></span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA g_dat TYPE string VALUE '...'. <br> <br>CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS meth. <br>ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD meth. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA dref TYPE REF TO data. <br>&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;l_dat> TYPE any. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE DATA dref LIKE g_dat. <br>&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN dref->* TO &lt;l_dat>. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;l_dat> = g_dat. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display_data( &lt;l_dat> ). <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br><br>
+</span>
+</p>
+<A NAME="@@INCREMENT@@ASSIGN@@"></A>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_3@3@"></A> <span class="bold">Alternative 3</span>
+</span></p>
+<P>
+<span class="qtext">... dobj INCREMENT inc</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This expression for <span class="qtext">mem_area</span> assigns a memory area to the field symbol that
+has the same length as the memory area of <span class="qtext">dobj</span> and is incremented <span class="qtext">inc</span>
+times this length in reference to the memory area of <span class="qtext">dobj</span>. <span class="qtext">inc</span>
+expects a numeric data object. A data object or a field symbol must be specified directly for <span class="qtext">
+dobj</span>. Offset or length specifications or the dereferencing of a data reference are not possible.
+The field symbol cannot be declared via an inline declaration <a href="javascript:call_link('abenfield-symbol_inline.html')" class="blue"><span class="qtext">FIELD-SYMBOL(&lt;fs>)</span></a>. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<P>
+The dynamic <span class="qtext">ASSIGN</span> variant with <span class="qtext">INCREMENT</span> is designed
+for sequential access to similar memory areas that are located at regular intervals after each other,
+such as consecutive structure components of the same data type. In all other cases, <span class="qtext">ASSIGN ... INCREMENT</span> should be used carefully. Note the following in particular: <br>
+</P>
+<ul class="disc">
+<li>
+Usually the addition <a href="javascript:call_link('abapassign_range.html')" class="blue"><span class="qtext">RANGE</span></a> must be used to defined the area, within which it is possible to work with <span class="qtext">INCREMENT</span>. <br>
+<br></li>
+<li>
+The assigned memory area is handled using the data type <span class="qtext">dobj</span> if the addition
+<span class="qtext">CASTING</span> is not specified in <a href="javascript:call_link('abapassign_casting.html')" class="blue"><span class="qtext">
+casting_spec</span></a>. This means that an implicit casting of the assigned memory areas to the data type of <span class="qtext">dobj</span> is performed. <br>
+<br></li>
+<li>
+The <a href="javascript:call_link('abentyping_check_general.html')" class="blue">typing check</a> also refers to <span class="qtext">dobj</span>, but is performed only when the statement is executed. <br>
+<br></li>
+<li>
+Runtime errors always occur if the following general rule is violated: If
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data objects that are in the assigned memory area do not match the typing as far as type and position are concerned. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+After the <span class="qtext">ASSIGN</span> statement, the field symbol points to the fourth component
+<span class="qtext">col4</span>. See the example for the addition <a href="javascript:call_link('abapassign_range.html')" class="blue"><span class="qtext">RANGE</span></a>. <br>
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF struct, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE string VALUE `COL1`, <br>&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE string VALUE `COL2`, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;col3 TYPE string VALUE `COL3`, <br>&nbsp;&nbsp;&nbsp;&nbsp;col4 TYPE string VALUE `COL4`, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;col5 TYPE string VALUE `COL5`, <br>&nbsp;&nbsp;END OF struct. <br> <br>FIELD-SYMBOLS &lt;fs> TYPE string. <br>
+ASSIGN struct-col1 INCREMENT 3 TO &lt;fs> RANGE struct. <br> <br>cl_demo_output=>display( &lt;fs> ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenassign_increment_abexa.html')" class="blue">Field Symbols, <span class="qtext">ASSIGN INCREMENT</span></a> <br><br>
+</P>
+<A NAME="@@COMPONENT OF STRUCTURE@@ASSIGN@@"></A>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_4@4@"></A> <span class="bold">Alternative 4</span>
+</span></p>
+<P>
+<span class="qtext">... COMPONENT comp OF STRUCTURE struc</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This expression for <span class="qtext">mem_area</span> assigns a memory area of a component <span class="qtext">comp</span> of a structure <span class="qtext">struc</span> to the field symbol.
+</P>
+<P>
+<span class="qtext">struc</span> is a <a href="javascript:call_link('abenresult_position_glosry.html')" class="grey" title="Glossary Entry">result position</a>. The structure can be specified as a data object or as a
+<a href="javascript:call_link('abenwritable_expression_glosry.html')" class="grey" title="Glossary Entry">writable expression</a>.
+If <span class="qtext">struc</span> is specified as an expression, its result must be structured. If <span class="qtext">struc</span> is specified as a data object, the result does not need to be structured.
+</P>
+<P>
+<span class="qtext">comp</span> is a <a href="javascript:call_link('abencharlike_expr_position_glosry.html')" class="grey" title="Glossary Entry">character-like</a> or
+<a href="javascript:call_link('abennumerical_expr_position_glosry.html')" class="grey" title="Glossary Entry">numeric expression position</a>. The evaluation depends on the data type of <span class="qtext">comp</span>:
+</P>
+<ul class="disc">
+<li>
+If the field <span class="qtext">comp</span> has a text-like type (<span class="qtext">c</span> or <span class="qtext">string</span>) or the type of a
+<a href="javascript:call_link('abenflat_structure_glosry.html')" class="grey" title="Glossary Entry">flat</a> structure, which
+exclusively contains character-like components, the field content is interpreted as the name of the
+component. The name must be in uppercase letters. It may contain offsets and lengths, structure component
+selectors, and component selectors for assigning structured data objects and attributes in classes or objects. <br>
+<br></li>
+<li>
+If the field <span class="qtext">comp</span> has a non-text-like elementary type, the content is converted
+to the type <span class="qtext">i</span> and interpreted as the position of the component in the structure.
+If the value of <span class="qtext">comp</span> is 0, the memory area of the entire structure is assigned to the field symbol. <br>
+<br></li>
+<li>
+If <span class="qtext">comp</span> has a different type, a syntax error or runtime error occurs.
+<br></li>
+</ul>
+<P>
+If an operand <span class="qtext">struc</span> specified as a data object is not a structure or the
+specified component is not found, the assignment is not made and <span class="qtext">sy-subrc</span> is set to 4. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Identifying a component by its name is far more performance-intensive than using its position, since
+far more internal processes are involved. Using <span class="qtext">COMPONENTS OF</span>, however, always
+produces better performance than specifying the name after the structure component selector within a fully dynamically specified component in a parenthesized data object <span class="qtext">name</span> (see this
+<a href="javascript:call_link('abenassign_component_abexa.html')" class="blue">executable example</a>).
+<br><br></li>
+<li>
+If the structure <span class="qtext">struc</span> is specified as a
+<a href="javascript:call_link('abentable_expression_glosry.html')" class="grey" title="Glossary Entry">table expression</a> and the corresponding row is not found, the exception CX_SY_ITAB_LINE_NOT_FOUND is raised.
+<br><br></li>
+<li>
+Writable expressions can be specified for <span class="qtext">struc</span> but no other expressions,
+since these can have a non-temporary result. Assigning a component of a temporary structure to a field symbol would not make sense.
+<br><br></li>
+<li>
+If <span class="qtext">struc</span> is specified, it is advisable to specify only structures as a data
+object and to check this in advance. Just evaluating <span class="qtext">sy-subrc</span> is not enough to determine why an assignment was not successful. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Assignment of all components of a structure to a field symbol in a loop. In every loop pass, the component is assigned whose position is determined by the loop index.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT SINGLE * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'UA' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO&nbsp;&nbsp;@DATA(wa). <br> <br>DO. <br>&nbsp;&nbsp;ASSIGN COMPONENT sy-index OF STRUCTURE wa TO FIELD-SYMBOL(&lt;fs>). <br>
+&nbsp;&nbsp;IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;EXIT. <br>&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;cl_demo_output=>write( &lt;fs> ). <br>ENDDO. <br>cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The following two methods show the dynamic assignment of the components of a structure (passed to the parameter <span class="qtext">para</span> of the methods) to a field symbol <span class="qtext">&lt;comp></span>.
+</P>
+<ul class="disc">
+<li>
+The first implementation does not use <a href="javascript:call_link('abenrun_time_type_identific_glosry.html')" class="grey" title="Glossary Entry">
+RTTI</a>. The statement <a href="javascript:call_link('abapdescribe_field.html')" class="blue"><span class="qtext">DESCRIBE FIELD</span></a>
+is used to check whether the passed data object is a structure. The components are then assigned one after the other to the field symbol in a <span class="qtext">DO</span> loop.
+<br><br></li>
+<li>
+The second implementation uses <a href="javascript:call_link('abenrun_time_type_identific_glosry.html')" class="grey" title="Glossary Entry">RTTI</a>. A
+<a href="javascript:call_link('abendown_cast_glosry.html')" class="grey" title="Glossary Entry">down cast</a> of the type description
+object to the class <span class="lnkgrey">CL_ABAP_STRUCTDESCR</span> for the passed data object ensures
+that the object is a structure. A loop across the component table COMPONENTS assigns the components to the field symbol via their names.
+<br></li>
+</ul>
+<p class="qtextml1">
+<span class="qtext">
+CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: meth1 IMPORTING para TYPE data, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth2 IMPORTING para TYPE data. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD meth1. <br>&nbsp;&nbsp;&nbsp;&nbsp;DESCRIBE FIELD para TYPE DATA(dtype). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF dtype &lt;> 'u' AND dtype &lt;> 'v'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;DO. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN COMPONENT sy-index <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OF STRUCTURE para TO FIELD-SYMBOL(&lt;comp>). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;> 0. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDDO. <br>&nbsp;&nbsp;ENDMETHOD. <br>
+&nbsp;&nbsp;METHOD meth2. <br>&nbsp;&nbsp;&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(struct_descr) = CAST cl_abap_structdescr( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_typedescr=>describe_by_data( para ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_move_cast_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT struct_descr->components <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGNING FIELD-SYMBOL(&lt;comp_descr>). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN COMPONENT &lt;comp_descr>-name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OF STRUCTURE para TO FIELD-SYMBOL(&lt;comp>). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br><br>
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Assigns a component of a row of an internal table to a field symbol.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF struc, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE i, <br>
+&nbsp;&nbsp;END OF struc. <br> <br>DATA itab TYPE STANDARD TABLE OF struc WITH EMPTY KEY. <br> <br>itab = VALUE #( ( col1 = 1&nbsp;&nbsp;col2 = 2 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 3 col2 = 4 ) ). <br>
+ <br>ASSIGN COMPONENT 2 OF STRUCTURE itab[ 2 ] TO FIELD-SYMBOL(&lt;fs>). <br> <br>cl_demo_output=>display( &lt;fs> ). <br><br>
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenassign_increment_abexa.html')" class="blue">Field Symbols, ASSIGN INCREMENT</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenassign_component_abexa.html')" class="blue">Field Symbols, Dynamic Structure Components</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapassign_mem_area_dynamic_dobj.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:42 GMT -->
+</html>

@@ -1,0 +1,152 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMETHOD_CALL_FROM_ST_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmethod_call_from_st_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Simple Transformation, Method Call">
+<title>
+Simple Transformation, Method Call - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmethod_call_from_st_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmethod_call_from_st_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_abexas.html')" class="blue">ST - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Simple Transformation, Method Call
+</span></p>
+<p>
+This example demonstrates the call of a static method from a simple transformation.
+</p>
+<A name="@@ITOC@@ABENMETHOD_CALL_FROM_ST_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+METHOD main.<br>
+&nbsp;&nbsp;DATA:&nbsp;&nbsp;scarr_tab&nbsp;&nbsp;TYPE SORTED TABLE OF scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH UNIQUE KEY carrid.<br>
+<br>
+&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @scarr_tab.<br>
+&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_st_with_method_call<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE scarr_tab = scarr_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli_tab = spfli_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML data(xml).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_xml( xml ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_st_call_method_error INTO data(exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_text( exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;ENDTRY.<br>
+ENDMETHOD.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENMETHOD_CALL_FROM_ST_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The method MAIN of the global class <span class="lnkgrey">CL_DEMO_CALL_FROM_ST</span> calls an ST program
+<span class="lnkgrey">DEMO_ST_WITH_METHOD_CALL</span> and passes the static attributes SCARR_TAB and
+SPFLI_TAB of this class to the data roots of the transformation with the same name. The table SCARR_TAB is filled and SPFLI_TAB is passed empty. The ST program is as follows:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;?sap.transform simple?&gt; <br>&lt;tt:transform xmlns:tt="http://www.sap.com/transformation-templates"&gt; <br>
+&nbsp;&nbsp;&lt;tt:root name="SCARR_TAB"/&gt; <br>&nbsp;&nbsp;&lt;tt:root name="SPFLI_TAB"/&gt; <br>&nbsp;&nbsp;&lt;tt:variable name="carrid"/&gt; <br>
+&nbsp;&nbsp;&lt;tt:template&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;FlightList&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:loop ref=".SCARR_TAB"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Flights&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="Carrier" value-ref="CARRNAME"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:assign ref="carrid" to-var="carrid"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:call-method class="CL_DEMO_CALL_FROM_ST" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s-name="GET_FLIGHTS"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-parameter name="CARRID" var="carrid"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:call-method&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:loop ref=".SPFLI_TAB"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Connection&gt; <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="ID" value-ref="CONNID"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;From&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="CITYFROM"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/From&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;To&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="CITYTO"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/To&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Connection&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:loop&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Flights&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:loop&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/FlightList&gt; <br>&nbsp;&nbsp;&lt;/tt:template&gt; <br>&lt;/tt:transform&gt;</span>
+</dd></dl>
+<p>
+In a serialization in a <a href="javascript:call_link('abenst_tt_loop.html')" class="blue"><span class="qtext400">tt:loop</span>
+loop</a>, it uses the data root <span class="qtext400">SCARR_TAB</span> to call the static method GET_FLIGHTS
+of the global class CL_DEMO_CALL_FROM_ST. This passes the component <span class="qtext">carrid</span>
+of the internal table <span class="qtext">scarr_tab</span> to the input parameter of the method. In
+the method, <span class="qtext">spfli_tab</span> is filled in a different way in each loop, in accordance with the parameters passed.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmethod_call_from_st_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

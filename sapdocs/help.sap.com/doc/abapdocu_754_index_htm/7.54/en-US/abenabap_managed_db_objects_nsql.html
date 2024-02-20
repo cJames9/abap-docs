@@ -1,0 +1,300 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_MANAGED_DB_OBJECTS_NSQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_managed_db_objects_nsql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Native SQL Access to ABAP-Managed Database Objects">
+<title>
+Native SQL Access to ABAP-Managed Database Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_managed_db_objects_nsql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_managed_db_objects_nsql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_managed_db_objects.html')" class="blue">ABAP-Managed Database Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_managed_db_objects_access.html')" class="blue">Access to ABAP-Managed Database Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Native SQL Access to ABAP-Managed Database Objects
+</span></p>
+<p>
+Two methods of Native SQL access to <a href="javascript:call_link('abenabap_managed_db_object_glosry.html')" class="grey" title="Glossary Entry">ABAP-managed database objects</a> can be distinguished.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_MANAGED_DB_OBJECTS_NSQL_1" class="blue">Access Using ABAP-Managed Native SQL</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_MANAGED_DB_OBJECTS_NSQL_2" class="blue">Access Using Non-ABAP-Managed Native SQL</A></li>
+</ul>
+<A name="@@ITOC@@ABENABAP_MANAGED_DB_OBJECTS_NSQL_1"></A>
+<p><span class="h2">
+Access Using ABAP-Managed Native SQL
+</span></p>
+<p>
+ABAP-managed Native SQL is the variant of <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> used by ABAP programs to access the database through the
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a> in AS ABAP. It encompasses the following:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenadbc.html')" class="blue">ADBC - ABAP Database Connectivity</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abennativesql.html')" class="blue"><span class="qtext">EXEC SQL</span> - Embedded Native SQL</a></li>
+</ul>
+<p>
+The Native SQL interface passes vendor-specific SQL statements to the database system without making
+any modifications. Alongside this, SAP-specific Native SQL is available, which is processed in platform-dependent parts of the interface (Client Libraries).
+</p>
+<p>
+Native SQL can be used to access ABAP-managed database objects as follows:
+</p>
+<ul class="disc">
+<li>Reads and writes on the following ABAP-managed database objects using database-specific SQL:</li>
+</ul>
+<ul class="circlem2">
+<li>Instances of the <a href="javascript:call_link('abenddic_database_tables.html')" class="blue">database tables</a> and classic <a href="javascript:call_link('abenddic_database_views.html')" class="blue">database views</a> defined in ABAP Dictionary.</li>
+</ul>
+<ul class="circlem2">
+<li>Instances of the <a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database views</a> of CDS views defined in ABAP CDS.</li>
+</ul>
+<ul class="disc">
+<li>Calls of the following ABAP-managed database procedures or database functions:</li>
+</ul>
+<ul class="circlem2">
+<li>It is possible to call <a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> and
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP functions</a> that do not implement any
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table functions</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>The AMDP table function of a <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> can be called.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenhana_session_variables.html')" class="blue">ABAP-specific session variables</a> can
+be accessed on the SAP HANA database using the built-in HANA function <span class="qtext400">SESSION_CONTEXT</span>.</li>
+</ul>
+<p>
+The most important features of Native SQL are as follows:
+</p>
+<ul class="disc">
+<li>Native SQL is platform-dependent.</li>
+</ul>
+<ul class="disc">
+<li>Data types defined in ABAP Dictionary (and any enhancements of these types) are not currently known in Native SQL.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL does not respect the order of fields defined in ABAP Dictionary, which can differ from the order in the database.</li>
+</ul>
+<ul class="circlem2">
+<li>The platform-dependent parts (Client Libraries) of the
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a> support
+<a href="javascript:call_link('abennative_sql_type_mapping.html')" class="blue">mappings</a> between ABAP types and appropriate database types for bound parameters in ADBC and
+<a href="javascript:call_link('abapexec_host.html')" class="blue">host variables</a> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">
+EXEC SQL</span></a>. If types are not appropriate, on the other hand, platform-dependent conversions are made, which can easily produce unexpected results and errors.</li>
+</ul>
+<ul class="circlem2">
+<li>Any <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null values</a> passed
+to ABAP data objects using the Native SQL interface are transformed to their type-dependent initial values. In the case of writes, null values can be created.</li>
+</ul>
+<ul class="disc">
+<li>When procedures are called, Native SQL provides the following special methods alongside the platform-specific SQL statements:</li>
+</ul>
+<ul class="circlem2">
+<li>The method <a href="javascript:call_link('abenadbc_procedure.html')" class="blue">EXECUTE_PROCEDURE</a> of the class CL_SQL_STATEMENT</li>
+</ul>
+<ul class="circlem2">
+<li>The statement <a href="javascript:call_link('abapexec_procedure.html')" class="blue"><span class="qtext">EXECUTE PROCEDURE</span></a> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a></li>
+</ul>
+<ul class="disc">
+<li>Bindings of internal ABAP tables to Native SQL are only possible using the methods SET_PARAM_TABLE of the classes
+<a href="javascript:call_link('abenadbc_ddl_dml.html')" class="blue">CL_SQL_STATEMENT</a> and
+<a href="javascript:call_link('abenadbc_query.html')" class="blue">CL_SQL_RESULT_SET</a> in ADBC. Internal tables cannot be used as
+<a href="javascript:call_link('abapexec_host.html')" class="blue">host variables</a> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a> and cannot be used as parameters of the method
+<a href="javascript:call_link('abenadbc_procedure.html')" class="blue">EXECUTE_PROCEDURE</a> in ADBC.</li>
+</ul>
+<ul class="disc">
+<li>When <a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> and
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP functions</a> are called,
+it cannot be guaranteed that that the database objects exist or that their content is up-to-date. This
+is only the case in calls from ABAP and when accessing objects using ABAP SQL. Before an object is accessed
+using Native SQL, methods of the documented class <span class="lnkgrey">CL_AMDP_RUNTIME_SERVICES</span> can be used to created the database objects. This applies both to direct calls and to indirect cases, such as when
+<a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database views</a> are accessed in whose DDL source code
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table functions</a> are used as a data source.</li>
+</ul>
+<ul class="disc">
+<li>Native SQL does not support the following ABAP Dictionary and ABAP CDS functions:</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL does not support <a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client
+handling</a>. The client ID must always be specified explicitly. To enable this, a parameter must be
+bound in ADBC or a host variable used after <span class="qtext">EXEC SQL</span>. The ABAP-specific session
+variables <span class="qtext400">CLIENT</span> and <span class="qtext400">CDS_CLIENT</span> can be accessed
+on the SAP HANA database. It must be noted here that, when using Native SQL, the value of the session variable <span class="qtext400">CDS_CLIENT</span> cannot be set to a different value using ABAP methods.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL does not support <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL does not support <a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS access control</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL cannot handle the <a href="javascript:call_link('abenddic_structures_enh_cat.html')" class="blue">enhancement category of structures</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL does not support the <a href="javascript:call_link('abenddic_database_tables_protocol.html')" class="blue">logging of database tables</a>.</li>
+</ul>
+<ul class="disc">
+<li>Native SQL accesses the database objects of <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a> directly and ignores any other properties of CDS entities:</li>
+</ul>
+<ul class="circlem2">
+<li>When the <a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database
+view</a> of a CDS view is accessed, the database-specific instance created of this view must be known. This applies in particular to CDS views with input parameters.</li>
+</ul>
+<ul class="circlem2">
+<li>When an instance of a <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> is accessed, its AMDP table function must be called.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL cannot handle <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> and
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS roles</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Care must be taken that all <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">session variables</a>
+used in a CDS view have the correct value. This applies in particular to the session variable <span class="qtext400">
+client</span>, which is mapped to the HANA session variable <span class="qtext400">CDS_CLIENT</span> and not to <span class="qtext400">CLIENT</span>.</li>
+</ul>
+<ul class="disc">
+<li>The ABAP-managed database objects accessed in Native SQL are not recorded in a where-used list.
+Where-used lists can only be created indirectly, by declaring suitable parameters and host variables
+in references to the dictionary types of the database objects. Another option is a full text search in the ABAP source code in AS ABAP.</li>
+</ul>
+<ul class="disc">
+<li>DDL statements are allowed in Native SQL.</li>
+</ul>
+<ul class="disc">
+<li>Native SQL supports ABAP-managed <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connections</a> and
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a>.</li>
+</ul>
+<ul class="disc">
+<li>Native SQL respects the <a href="javascript:call_link('abendependency_rule_glosry.html')" class="grey" title="Glossary Entry">dependency rules</a> defined for a database.</li>
+</ul>
+<ul class="disc">
+<li>Native SQL respects <a href="javascript:call_link('abendata_aging_glosry.html')" class="grey" title="Glossary Entry">data aging</a> by default.</li>
+</ul>
+<ul class="disc">
+<li>When ADBC is used, Native SQL is either fully dynamic or, if <span class="qtext">EXEC SQL</span> is used, fully static.</li>
+</ul>
+<A name="@@ITOC@@ABENABAP_MANAGED_DB_OBJECTS_NSQL_2"></A>
+<p><span class="h2">
+Access Using Non-ABAP-Managed Native SQL
+</span></p>
+<p>
+Non-ABAP-managed Native SQL consists of SQL statements that are passed to the database using interfaces other than the
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a> of AS ABAP or that are executed in the database without being checked in AS ABAP. Examples are
+<a href="javascript:call_link('abendb_object_glosry.html')" class="grey" title="Glossary Entry">database objects</a> in the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> created by
+<a href="javascript:call_link('abensap_web_ide_for_sap_han_glosry.html')" class="grey" title="Glossary Entry">SAP Web IDE for SAP HANA</a> that access
+<a href="javascript:call_link('abenabap_managed_db_object_glosry.html')" class="grey" title="Glossary Entry">ABAP-managed database
+objects</a>, views that access database tables in ABAP Dictionary, or database procedures that call AMDP procedures or functions.
+</p>
+<p>
+In general, the same applies to access using non-ABAP-managed Native SQL as to accessing ABAP-managed Native SQL. There are, however, the following additional restrictions:
+</p>
+<ul class="disc">
+<li>The precise instance of an <a href="javascript:call_link('abenabap_managed_db_object_glosry.html')" class="grey" title="Glossary Entry">
+ABAP-managed database object</a> that is created and its name are undefined and can change between releases. Only the AS ABAP
+<a href="javascript:call_link('abendatabase_interface_glosry.html')" class="grey" title="Glossary Entry">database interface</a> can react to changes of this type and make them transparent to the consumer.</li>
+</ul>
+<ul class="disc">
+<li>The implementation of a database object managed by ABAP and the way it functions can be dependent
+on ABAP-specific context information that is provided only in cases where the database is a standard AS ABAP database and addressed using its database interface. More specifically, the content of the
+<a href="javascript:call_link('abenhana_session_variables_abexa.html')" class="blue">ABAP-specific session variables</a> in the SAP HANA database can be set correctly only when an object is accessed from ABAP. On other database platforms, in fact, only
+<a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">CDS session variables</a> are set when CDS entities are accessed using ABAP SQL.</li>
+</ul>
+<ul class="disc">
+<li>Only in cases where access is made from AS ABAP can it be guaranteed that an ABAP-managed database
+object actually exists and its content is up-to-date. The time when the instance is created or updated
+is not fixed and the existence or consistency of the instance is not guaranteed for access from sources other than AS ABAP. This applies in particular to
+<a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> and
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP functions</a> whose existence and consistency is only guaranteed by the AMDP framework of AS ABAP.</li>
+</ul>
+<ul class="disc">
+<li>A where-used list for ABAP-managed database objects does not have any way of detecting when an object is used by non-ABAP-managed Native SQL.</li>
+</ul>
+<ul class="disc">
+<li>Non-ABAP-managed Native SQL does not support any ABAP-managed
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connections</a> and
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a>.</li>
+</ul>
+<ul class="disc">
+<li>Non-ABAP-managed Native SQL does not respect <a href="javascript:call_link('abendata_aging_glosry.html')" class="grey" title="Glossary Entry">data aging</a>. If there is no suitable
+<a href="javascript:call_link('abendependency_rule_glosry.html')" class="grey" title="Glossary Entry">dependency rule</a>, all partitions in the main memory of the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> must be read.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A <a href="javascript:call_link('abendependency_rule_glosry.html')" class="grey" title="Glossary Entry">dependency rule</a> defined
+for a database table is also respected by non-ABAP-managed Native SQL, since this rule is evaluated by the optimizer of the SAP HANA database.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_managed_db_objects_nsql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+</html>

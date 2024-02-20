@@ -1,0 +1,163 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSTRINGS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstrings_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Strings">
+<title>
+Strings - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenstrings_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenstrings_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Strings
+</span></p>
+<A name="@@ITOC@@ABENSTRINGS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Strings are <a href="javascript:call_link('abenuse_dyn_data_object_guidl.html')" class="lnkpurple" title="Guideline">dynamic
+data objects</a> of variable length. There are text strings of the <span class="qtext">string</span>
+data type and byte strings of the <span class="qtext">xstring</span> data type, in which character strings or byte strings can be saved.
+</p>
+<p>
+In contrast to text and byte fields of a fixed length
+(<span class="qtext">c</span>, <span class="qtext">x</span> data types), the length of strings automatically
+adapts to the content. Other data types, such as <span class="qtext">n</span>, <span class="qtext">d</span>,
+and <span class="qtext">t</span>, are also handled as text fields in many operand positions. Strings are deep data objects that are internally managed by references. For this, the following additional memory is required:
+</p>
+<ul class="disc">
+<li>Strings whose length is less than approximately 30 characters or 60 bytes require between approximately 10 and 40 bytes of additional memory, depending on the string length.</li>
+</ul>
+<ul class="disc">
+<li>For longer strings, the additional memory requirement is approximately 50 bytes, irrespective of the string length.</li>
+</ul>
+<p>
+In the case of assignments between strings, sharing takes effect. This means that only the internal reference is copied first. Sharing is canceled if the source or target object is accessed for modification.
+</p>
+<A name="@@ITOC@@ABENSTRINGS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use strings in character string and byte string processing</span>
+</p>
+<p>
+Use strings rather than fixed length fields for the internal saving and processing of character strings and byte strings.
+</p>
+<A name="@@ITOC@@ABENSTRINGS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Strings are more flexible than fields of a fixed length and usually help to save memory space, because
+no unnecessary space is occupied by blanks or zeroes, and because sharing is implemented for assignments.
+Furthermore, trailing blanks are always significant in text strings. Text fields simply ignore trailing blanks in many operand positions (but not in all), which may be quite confusing at times.
+</p>
+<A name="@@ITOC@@ABENSTRINGS_GUIDL_4"></A>
+<p><span class="h2">
+Exception
+</span></p>
+<p>
+In the following cases, fields of a fixed length should be used instead of strings:
+</p>
+<ul class="disc">
+<li>The length of the field is critical, for example, for templates or for interfaces to screen fields.</li>
+</ul>
+<ul class="disc">
+<li>Despite <a href="javascript:call_link('abenadmin_costs_dyn_mem_obj_guidl.html')" class="lnkpurple" title="Guideline">sharing</a>,
+the additional administration work outweighs the benefits  which can often be the case for very short
+strings. If it is obvious that a certain length is never exceeded, short fields of a fixed length can also be used.</li>
+</ul>
+<ul class="disc">
+<li>Structures that only contain character-like components should be handled like a single text field. This is not possible for structures that contain text strings.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows an internal table for saving an HTML page whose row type is a text field with a fixed length of 255. Most of the memory space of the internal table, however, is probably wasted on blanks.
+</p>
+<dl><dd>
+<span class="qtext">TYPES html_line TYPE c LENGTH 255. <br>DATA html_table TYPE TABLE OF html_line. <br>
+APPEND '&lt;HTML>' TO html_table. <br>... <br>APPEND '&lt;BODY>' TO html_table. <br>... <br>APPEND '&lt;/BODY>' TO html_table. <br>APPEND '&lt;/HTML>' TO html_table.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows the above example but uses text strings. The memory space gained should
+outweigh the additional administration effort considerably. As an alternative to using an internal table,
+the HTML page can also be concatenated in a single text string; however, this makes it more difficult to read, for example, in the ABAP Debugger.
+</p>
+<dl><dd>
+<span class="qtext">DATA html_table TYPE TABLE OF string. <br>APPEND `&lt;HTML>` TO html_table. <br>... <br>
+APPEND `&lt;BODY>` TO html_table. <br>... <br>APPEND `&lt;/BODY>` TO html_table. <br>APPEND `&lt;/HTML>` TO html_table.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstrings_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

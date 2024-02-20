@@ -1,0 +1,430 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_CLIENT_HANDLING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_client_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:42 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - Client Handling in CDS Views">
+<title>
+ABAP CDS - Client Handling in CDS Views - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_client_handling.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_client_handling.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_entities.html')" class="blue">ABAP CDS - Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_views.html')" class="blue">ABAP CDS - Views</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP CDS - Client Handling in CDS Views
+</span></p>
+<p>
+For a CDS view in ABAP CDS, the <a href="javascript:call_link('abencds_annotation_glosry.html')" class="grey" title="Glossary Entry">
+CDS annotation</a> <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span class="qtext400">@ClientHandling</span></a> can be used to specify client handling.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_CLIENT_HANDLING_1" class="blue">Determining Client Dependency</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_CLIENT_HANDLING_2" class="blue">Determining Client Handling</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_CLIENT_HANDLING_3" class="blue">Properties of Client-Specific CDS Views</A></li>
+</ul>
+<A name="@@ITOC@@ABENCDS_CLIENT_HANDLING_1"></A>
+<p><span class="h2">
+Determining Client Dependency
+</span></p>
+<p>
+The annotation <span class="qtext400">@ClientHandling.type</span> determines the client dependency of the view. The following values can be specified for the annotation:
+</p>
+<p><span class="h4">
+#INHERITED
+</span></p>
+<p>
+Default value. The client dependency of the view is determined by the <a href="javascript:call_link('abencds_f1_data_source.html')" class="blue">data sources</a> used.
+</p>
+<ul class="disc">
+<li>If one of the data sources used in the view is <a href="javascript:call_link('abenclient_dependence_glosry.html')" class="grey" title="Glossary Entry">client-specific</a>, the view is client-specific.</li>
+</ul>
+<ul class="disc">
+<li>If none of the data sources used in the view is <a href="javascript:call_link('abenclient_dependence_glosry.html')" class="grey" title="Glossary Entry">client-specific</a>, the view is a cross-client view.</li>
+</ul>
+<p><span class="h4">
+#CLIENT_DEPENDENT
+</span></p>
+<p>
+The view is client-specific. A prerequisite for this is that at least on of the <a href="javascript:call_link('abencds_f1_data_source.html')" class="blue">data sources</a> used in the view is client-specific. If not, a syntax error occurs.
+</p>
+<p><span class="h4">
+#CLIENT_INDEPENDENT
+</span></p>
+<p>
+The view is a cross-client view. A prerequisite for this is that none of the <a href="javascript:call_link('abencds_f1_data_source.html')" class="blue">data sources</a> used in the view is client-specific. If not, a syntax error occurs.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>CDS views for application data should usually be client-specific.</li>
+</ul>
+<ul class="disc">
+<li>The annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span class="qtext400">@ClientHandling.type</span></a>
+replaces the annotation <a href="javascript:call_link('abencds_view_client_handling_obs.html')" class="blue"><span class="qtext400">@ClientDependent</span></a> and should be used instead of this annotation.</li>
+</ul>
+<ul class="disc">
+<li>Unlike the annotation <span class="qtext400">@ClientDependent</span>, the annotation <span class="qtext400">@ClientHandling.type</span>
+cannot be used to make a CDS view into a cross-client view if it contains client-specific data sources.</li>
+</ul>
+<ul class="disc">
+<li>If the annotation <span class="qtext400">@ClientHandling.type</span> is not specified, client dependency
+is derived implicitly from the client dependency of the data sources uses, as when specified with the value <span class="qtext400">#INHERITED</span>.</li>
+</ul>
+<A name="@@ITOC@@ABENCDS_CLIENT_HANDLING_2"></A>
+<p><span class="h2">
+Determining Client Handling
+</span></p>
+<p>
+The annotation <span class="qtext400">@ClientHandling.algorithm</span> determines how implicit client handling is performed. The following values can be specified for the annotation:
+</p>
+<p><span class="h4">
+#AUTOMATED
+</span></p>
+<p>
+Default value for the values <span class="qtext400">#INHERITED</span> and <span class="qtext400">#CLIENT_DEPENDENT</span>
+of the annotation <span class="qtext400">@ClientHandling.type</span>. Cannot be used together with its value <span class="qtext400">#CLIENT_INDEPENDENT</span>.
+</p>
+<p>
+The value <span class="qtext400">#AUTOMATED</span> expands the joins of the CDS view implicitly as shown
+in the following table. In the case of outer joins, cross-client sides are made into client-specific
+sides artificially using cross joins, which avoids NULL values. This applies to joins specified directly using <span class="qtext400">JOIN</span> and to instances of joins created when using
+<a href="javascript:call_link('abencds_path_expression_glosry.html')" class="grey" title="Glossary Entry">SQL path expressions</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Left Side</span></td>
+<td><span class="bold">Right Side</span></td>
+<td><span class="qtext">INNER JOIN</span></td>
+<td><span class="qtext">LEFT OUTER JOIN</span></td>
+<td><span class="qtext">RIGHT OUTER JOIN</span></td>
+<td><span class="qtext">CROSS JOIN</span></td>
+</tr>
+<tr>
+<td>Client-specific</td>
+<td>Client-specific</td>
+<td>Compares the client columns in the <span class="qtext400">ON</span> condition</td>
+<td>Compares the client columns in the <span class="qtext400">ON</span> condition</td>
+<td>Compares the client columns in the <span class="qtext400">ON</span> condition</td>
+<td>Transforms the cross join to an inner join using an <span class="qtext400">ON</span> condition for the client columns</td>
+</tr>
+<tr>
+<td>Cross-client</td>
+<td>Client-specific</td>
+<td><span class="qtext400">-</span></td>
+<td>The left side is replaced by a cross join of the cross-client data source with the database table
+<span class="lnkgrey">T000</span> and a comparison of the client columns in the <span class="qtext400">ON</span> condition.</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+</tr>
+<tr>
+<td>Client-specific</td>
+<td>Cross-client</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td>The right side is replaced by a cross join of the cross-client data source with the database table
+<span class="lnkgrey">T000</span> and the client columns are compared in the <span class="qtext400">ON</span> condition.</td>
+<td><span class="qtext400">-</span></td>
+</tr>
+<tr>
+<td>Cross-client</td>
+<td>Cross-client</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+</tr>
+</table><br>
+<p><span class="h4">
+#SESSION_VARIABLE
+</span></p>
+<p>
+Cannot be used together with the value <span class="qtext400">#CLIENT_INDEPENDENT</span> of the annotation <span class="qtext400">@ClientHandling.type</span>.
+</p>
+<p>
+The value <span class="qtext400">#SESSION_VARIABLE</span> expands the joins of the CDS view implicitly
+as shown in the following table. This applies to joins specified explicitly and directly using <span class="qtext400">JOIN</span> and to instances of joins created when using
+<a href="javascript:call_link('abencds_path_expression_glosry.html')" class="grey" title="Glossary Entry">SQL path expressions</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Left Side</span></td>
+<td><span class="bold">Right Side</span></td>
+<td><span class="qtext">INNER JOIN</span></td>
+<td><span class="qtext">LEFT OUTER JOIN</span></td>
+<td><span class="qtext">RIGHT OUTER JOIN</span></td>
+<td><span class="qtext">CROSS JOIN</span></td>
+</tr>
+<tr>
+<td>Client-specific</td>
+<td>Client-specific</td>
+<td>Compares the client columns in the <span class="qtext400">ON</span> condition</td>
+<td>Compares the client columns in the <span class="qtext400">ON</span> condition</td>
+<td>Compares the client columns in the <span class="qtext400">ON</span> condition</td>
+<td>Transforms the cross join to an inner join using an <span class="qtext400">ON</span> condition for the client columns</td>
+</tr>
+<tr>
+<td>Cross-client</td>
+<td>Client-specific</td>
+<td><span class="qtext400">-</span></td>
+<td>Compares the client column with the value of the
+<a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a> <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">
+<span class="qtext400">$session.client</span></a> in the <span class="qtext400">ON</span> condition</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+</tr>
+<tr>
+<td>Client-specific</td>
+<td>Cross-client</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td>Compares the client column with the value of the
+<a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a> <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">
+<span class="qtext400">$session.client</span></a> in the <span class="qtext400">ON</span> condition</td>
+<td><span class="qtext400">-</span></td>
+</tr>
+<tr>
+<td>Cross-client</td>
+<td>Cross-client</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+</tr>
+</table><br>
+<p>
+In addition, when client-specific data tables are accessed, <span class="qtext400">WHERE</span> clauses with comparisons of the client columns with the
+<a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a> <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">
+<span class="qtext400">$session.client</span></a> are added to the view implicitly. If only client-specific CDS entities are accessed, however, no clauses are added.
+</p>
+<p>
+If the session variable <span class="qtext400">$session.client</span> is evaluated in the view, it is not possible to access the data of different clients in a single read. This applies in the following cases:
+</p>
+<ul class="disc">
+<li>When a client-specific database table is a data source of the view or is a CDS view used as a data source and hence an implicit <span class="qtext400">WHERE</span> clause exists for the session variable.</li>
+</ul>
+<ul class="disc">
+<li>When client-specific and cross-client sides are joined in an outer join and there is an implicit <span class="qtext400">ON</span> condition for the session variable.</li>
+</ul>
+<p>
+The addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING</span></a> of the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> for switching
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a> is permitted and
+the client specified here is used implicitly. The obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> is then not allowed.
+</p>
+<p><span class="h4">
+#NONE
+</span></p>
+<p>
+Default value for the value <span class="qtext400">#CLIENT_INDEPENDENT</span> of the annotation <span class="qtext400">
+@ClientHandling.type</span>. Cannot be used together with its values <span class="qtext400">INHERITED</span> and <span class="qtext400">#CLIENT_DEPENDENT</span>. No implicit client handling takes place.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The values <span class="qtext400">#AUTOMATED</span> and <span class="qtext400">#SESSION_VARIABLE</span>
+produce the same result when a client-specific CDS view is used. They modify the way client handling
+is implemented internally, but do not modify the definition of the view or, with the exception of the
+obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a>,
+its use. The value <span class="qtext400">#SESSION_VARIABLE</span> can improve performance by concentrating on a single client.</li>
+</ul>
+<ul class="disc">
+<li>If a view with the value <span class="qtext400">#INHERITED</span> of the annotation <span class="qtext400">@ClientHandling.type</span>
+is a cross-client view, no implicit client handling takes place and the values <span class="qtext400">#AUTOMATED</span> and <span class="qtext400">#SESSION_VARIABLE</span> are ignored.</li>
+</ul>
+<ul class="disc">
+<li>If no annotation <span class="qtext400">@ClientHandling.type</span> is specified, the annotation
+<span class="qtext400">@ClientHandling.algorithm</span> can be specified with the values <span class="qtext400">#AUTOMATED</span>
+or <span class="qtext400">#SESSION_VARIABLE</span> for the default value <span class="qtext400">#INHERITED</span>.</li>
+</ul>
+<ul class="disc">
+<li>If an annotation <span class="qtext400">@ClientHandling.type</span> is specified but an annotation
+<span class="qtext400">@ClientHandling.algorithm</span> is not specified, the value <span class="qtext400">#AUTOMATED</span>
+is set in <span class="qtext400">#INHERITED</span> and <span class="qtext400">#CLIENT_DEPENDENT</span>
+implicitly and the value <span class="qtext400">#NONE</span> is set in <span class="qtext400">#CLIENT_INDEPENDENT</span>, also implicitly.</li>
+</ul>
+<ul class="disc">
+<li>If none of the annotations is specified, the default values <span class="qtext400">#INHERITED</span>
+for <span class="qtext400">@ClientHandling.type</span> and <span class="qtext400">#AUTOMATED</span> for <span class="qtext400">@ClientHandling.algorithm</span> apply.</li>
+</ul>
+<ul class="disc">
+<li>The value <span class="qtext400">#NONE</span> can only be specified for views declared explicitly
+as cross-client views. If specified for views declared explicitly as client-specific views using <span class="qtext400">
+#CLIENT_DEPENDENT</span>, self-programmed client handling would be required and this is not currently supported.</li>
+</ul>
+<ul class="disc">
+<li>If the value <span class="qtext400">#SESSION_VARIABLE</span> is specified, the obsolete addition
+<a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a>
+of the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> is forbidden
+in cases where the session variable <span class="qtext400">$session.client</span> is actually in use in the view in question. More specifically, specifying a client-specific view in a
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS association</a> does
+not necessarily mean that the session variable is used. The session variable is used only if the CDS
+association in the view is created with an implicit <span class="qtext400">ON</span> condition for the session variable.</li>
+</ul>
+<A name="@@ITOC@@ABENCDS_CLIENT_HANDLING_3"></A>
+<p><span class="h2">
+Properties of Client-Specific CDS Views
+</span></p>
+<p>
+In ABAP SQL reads, the client dependency of a CDS view has the following consequences for the CDS entity and the associated CDS database view:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a></li>
+</ul>
+<ul class="circlem2">
+<li>The view fields of the CDS entity of a client-specific CDS view do not cover a client column. A
+client column of a client-specific CDS view specified explicitly in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue">
+<span class="qtext400">SELECT</span> list</a> is also not a component of the structured data type represented
+by the CDS entity and is removed implicitly from the results set of a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement.</li>
+</ul>
+<ul class="circlem2">
+<li>If <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> is used to access
+a client-specific CDS entity, the data of the current client or the client specified in the addition
+<a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING</span></a> is read implicitly.
+If the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT
+SPECIFIED</span></a> is specified, the column is added to the results set and is filled with the associated
+client ID for each row. Before this column can be used in the <span class="qtext">SELECT</span> statement,
+a name must be assigned to it after the addition <span class="qtext">CLIENT SPECIFIED</span>. If the
+name is not defined, no addressing is possible in a clause and no inline declarations can be made using
+<a href="javascript:call_link('abapselect_into_target.html')" class="blue"><span class="qtext">@DATA(...)</span></a> after <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO</span></a>. The defined name is also used in the case of <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO CORRESPONDING</span></a>. If no name is defined, the client column is not transported.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database view</a></li>
+</ul>
+<ul class="circlem2">
+<li>The view fields of a CDS database view of a client-specific CDS view always cover a client column.
+This applies regardless of whether the client column is specified in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span> list</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>If an <a href="javascript:call_link('abenopen_sql_cds_obsolete.html')" class="blue">obsolete</a> access is made on the CDS
+database view using <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>, the view is handled in accordance with regular
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>,
+which itself can be defined using the addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>The name of the client column of a CDS database view with activated client handling is defined in
+accordance with the following hierarchy: If the client column is specified in the <span class="qtext400">SELECT</span>
+list, its name or its alternative name is used. If the client column is not specified in the <span class="qtext400">SELECT</span>
+list, <span class="qtext400">MANDT</span> is used. If <span class="qtext400">MANDT</span> is already
+used as an (alternative) element name in the <span class="qtext400">SELECT</span> list, <span class="qtext400">CLIENT</span>
+is used. If neither <span class="qtext400">MANDT</span> or <span class="qtext400">CLIENT</span> is possible, a syntax error occurs.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Only the CDS database view can be accessed using Native SQL or in an
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP method</a>. When client-specific
+views are accessed, the client ID must be specified as usual and only data in the current client should be accessed.</li>
+</ul>
+<ul class="disc">
+<li>The following must be noted when the CDS database view of a client-specific CDS view whose client handling is defined using the annotation <span
+ class="qtext400">@ClientHandling.algorithm:#SESSION_VARIABLE</span> is accessed using Native SQL or AMDP:</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a>
+<a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue"><span class="qtext400">$session.client</span></a> is usually used implicitly in the view. This is guaranteed only on
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA databases</a> used as
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard AS ABAP databases</a>
+under the name <a href="javascript:call_link('abenhana_session_variables.html')" class="blue"><span class="qtext400">CDS_CLIENT</span></a>.
+On other platforms, the existence and content of the session variable are not guaranteed outside of an ABAP SQL access, and this can produced unexpected behavior or programs may crash.</li>
+</ul>
+<ul class="circlem2">
+<li>No separate <span class="qtext400">WHERE</span> condition can be used that selects a client other than the session variable and the database-specific variant of the
+<a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a> <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">
+<span class="qtext400">$session.client</span></a> must have the required value in Native SQL or AMDP reads. Outside an ABAP SQL access, it contains the current client by default.</li>
+</ul>
+<dl><dd>
+The last point is particularly important for <a href="javascript:call_link('abenamdp_client_handling.html')" class="blue">client handling</a> in general
+<a href="javascript:call_link('abenamdp_procedure_method_glosry.html')" class="grey" title="Glossary Entry">AMDP procedure implementations</a>
+on the SAP HANA database, which are called like regular methods in ABAP. When a CDS database view like
+this is accessed, the value of the corresponding HANA session variable <a href="javascript:call_link('abenhana_session_variables.html')" class="blue">
+<span class="qtext400">CDS_CLIENT</span></a> must be set explicitly using the addition <a href="javascript:call_link('abapmethods_amdp_options.html')" class="blue">
+<span class="qtext">AMDP OPTIONS CDS SESSION CLIENT</span></a> in the declaration of the AMDP method. If not, a syntax error occurs. In an
+<a href="javascript:call_link('abenamdp_function_method_glosry.html')" class="grey" title="Glossary Entry">AMDP function implementation</a> that is used as a <span class="qtext400">
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS</a> table function</span> in ABAP SQL, however, the HANA session variable CDS_CLIENT is filled with the content defined there.
+</dd></dl>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abencds_client_handling_abexa.html')" class="blue">CDS Views, Client Handling</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abencds_view_client_handling_obs.html')" class="blue">ABAP CDS - Obsolete Client Handling in Views</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencds_client_handling_abexa.html')" class="blue">CDS Views, Client Handling</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencds_client_handling_obs_abexa.html')" class="blue">CDS Views, Obsolete Client Handling</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_client_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:42 GMT -->
+</html>

@@ -1,0 +1,178 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSEL_SCREEN_PARAM_VALUE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_param_value_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Selection Screens, Value Properties of Parameters">
+<title>
+Selection Screens, Value Properties of Parameters - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensel_screen_param_value_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensel_screen_param_value_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen.html')" class="blue">Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen_create.html')" class="blue">Create Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapparameters.html')" class="blue">PARAMETERS</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapparameters_value.html')" class="blue">PARAMETERS - value_options</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Selection Screens, Value Properties of Parameters
+</span></p>
+<p>
+The example shows how to use the <span class="qtext">value_options</span> additions of the statement <span class="qtext">PARAMETERS</span>.
+</p>
+<A name="@@ITOC@@ABENSEL_SCREEN_PARAM_VALUE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_sel_screen_parameters_1.<br>
+<br>
+SELECTION-SCREEN BEGIN OF SCREEN 100.<br>
+<br>
+SELECTION-SCREEN BEGIN OF BLOCK part1 WITH FRAME TITLE text-001.<br>
+PARAMETERS: value TYPE i DEFAULT 100,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;TYPE sy-uname DEFAULT sy-uname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date&nbsp;&nbsp;TYPE sy-datum DEFAULT '19980627'.<br>
+SELECTION-SCREEN END OF BLOCK part1.<br>
+<br>
+SELECTION-SCREEN BEGIN OF BLOCK part2 WITH FRAME TITLE text-002.<br>
+PARAMETERS: field1 TYPE c LENGTH 10 DEFAULT 'input1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field2 TYPE c LENGTH 10 DEFAULT 'input2' LOWER CASE.<br>
+SELECTION-SCREEN END OF BLOCK part2.<br>
+<br>
+SELECTION-SCREEN BEGIN OF BLOCK part3 WITH FRAME TITLE text-004.<br>
+PARAMETERS p_carrid TYPE s_carr_id MATCHCODE OBJECT demo_f4_de.<br>
+SELECTION-SCREEN END OF BLOCK part3.<br>
+<br>
+SELECTION-SCREEN BEGIN OF BLOCK part4 WITH FRAME TITLE text-003.<br>
+PARAMETERS p_prog TYPE sy-repid MEMORY ID rid.<br>
+SELECTION-SCREEN END OF BLOCK part4.<br>
+<br>
+SELECTION-SCREEN BEGIN OF BLOCK part5 WITH FRAME TITLE text-005.<br>
+PARAMETERS p_carr TYPE spfli-carrid VALUE CHECK.<br>
+SELECTION-SCREEN END OF BLOCK part5.<br>
+<br>
+SELECTION-SCREEN END OF SCREEN 100.<br>
+<br>
+AT SELECTION-SCREEN OUTPUT.<br>
+&nbsp;&nbsp;SET PARAMETER ID 'RID' FIELD 'TEST_PROGRAM'.<br>
+<br>
+CLASS start DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS start IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL SELECTION-SCREEN 100 STARTING AT 10 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE: / 'FIELD1 is transported UPPERCASE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ', field1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 'FIELD2 is transported without changes: ', field2.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;start=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSEL_SCREEN_PARAM_VALUE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example program consists of five parts, each illustrating one of <a href="javascript:call_link('abapparameters_value.html')" class="blue">
+<span class="qtext">value_options</span></a> additions of the statement <span class="qtext">PARAMETERS</span>. Each example corresponds to a block on selection screen 100.
+</p>
+<ul class="disc">
+<li>Part 1: The input fields of the parameters on the selection screen are filled with default values.
+The user can accept or change this value. The default value of the field <span class="qtext">name</span>
+is the user name. The default value for <span class="qtext">date</span> appears in the format defined in the user master record.</li>
+</ul>
+<ul class="disc">
+<li>Part 2: Once parameters have been entered in the fields <span class="qtext">field1</span> and <span class="qtext">field2</span>, they are displayed in uppercase
+(<span class="qtext">field1</span>) and without any changes (<span class="qtext">field2</span>) on a list.</li>
+</ul>
+<ul class="disc">
+<li>Part 3: The search help DEMO_F4_DE is defined in the dictionary. The search help reads the columns
+CARRID and CARRNAME of the database table SCARR. Only SCARRNAME is specified but CARRID is flagged as an export parameter. Selecting a line places the ID of the airline CARRID in the input field.</li>
+</ul>
+<ul class="disc">
+<li>Part 4: The parameter <span class="qtext">p_prog</span> is associated with the SPA/GPA parameter
+<span class="qtext">rid</span>, which is used in the current AS ABAP version to store the name of the
+program processed last. The SPA/GPA parameter <span class="qtext">rid</span>, for example, is also associated
+with the input fields for the program name on the dynpros of the transactions SE38 and SA38. For demonstration
+purposes, this parameter is explicitly set to the value <span class="qtext400">"TEST_PROGRAM"</span> in this example.</li>
+</ul>
+<ul class="disc">
+<li>Part 5: The parameter <span class="qtext">p_carr</span> is declared with reference to the field
+CARRID of the database table SPFLI. For this field, the check table SCARR is specified in ABAP Dictionary.
+The user can only enter those values for the ID of the airline which are also contained in SCARR. The possible entries help of the input field for <span class="qtext">p_carr</span> displays the allowed values.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_param_value_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

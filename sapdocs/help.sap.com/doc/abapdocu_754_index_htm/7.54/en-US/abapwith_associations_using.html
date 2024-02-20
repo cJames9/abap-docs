@@ -1,0 +1,304 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPWITH_ASSOCIATIONS_USING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwith_associations_using.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:58 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="WITH - ASSOCIATIONS, path">
+<title>
+WITH - ASSOCIATIONS, path - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapwith_associations_using.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapwith_associations_using.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwith.html')" class="blue">WITH</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwith_associations.html')" class="blue">WITH - ASSOCIATIONS</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+WITH - ASSOCIATIONS, path
+</span></p>
+<A name="@@ITOC@@ABAPWITH_ASSOCIATIONS_USING_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">sql_path</a> <i class=bn>[</i>AS alias<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>REDIRECTED TO +cte VIA target<i class=bn>]</i> ...</span> <br><br>
+</p>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... REDIRECTED TO +cte VIA target</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifies an existing <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS association</a> or
+<a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">CTE association</a> using an
+<a href="javascript:call_link('abencds_path_expression_glosry.html')" class="grey" title="Glossary Entry">SQL path expression</a>
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue"><span class="qtext">sql_path</span></a> in the addition
+<a href="javascript:call_link('abapwith_associations.html')" class="blue"><span class="qtext">WITH ASSOCIATIONS</span></a> when
+a common table expression is defined in a <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a>
+statement. The path expression publishes the association at its end. The published table expression
+is the source data source of the published association and any join expressions that are created when the association is used in a path expression use the publisher table expression as their left side.
+</P>
+<P>
+The root element of each path expression can be the following associations:
+</P>
+<ul class="disc">
+<li>
+CDS associations
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abencds_f1_select_list_association.html')" class="blue">published</a> in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span></a> list of
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> in cases where these views are used as a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> in the <a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery</a> of the common table expression.</li>
+</ul>
+<ul class="circlem2">
+<li>published using <span class="qtext">WITH ASSOCIATIONS</span> of preceding table expressions of the
+current <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement in cases where these table expressions are used as a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> in the <a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery</a> of the common table expression.</li>
+</ul>
+<ul class="disc">
+<li>
+CTE associations defined and published using <span class="qtext">WITH ASSOCIATIONS</span> of preceding
+table expressions of the current <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement in cases where these table expressions are used as a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> in the <a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery</a> of the common table expression.
+<br></li>
+</ul>
+<P>
+If <a href="javascript:call_link('abenopen_sql_path.html')" class="blue"><span class="qtext">~</span></a> is used to prefix the
+path expression with the name of the data source that publishes its first association, this name must
+be the name used in the table expression. Therefore, if <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">
+AS</span></a> is used to define an alias name, this name must be used instead of the original name in the path expression.
+</P>
+<P>
+<a href="javascript:call_link('abenopen_sql_parameters.html')" class="blue">Parameter passing</a> is not allowed in the final association of the specified path expressions and the
+<a href="javascript:call_link('abenopen_sql_path_filter.html')" class="blue">type of the join</a> must not be defined. Any fields
+of the source data source of a path expression that occur in the <span class="qtext400">ON</span> condition
+of the association must be elements of the <span class="qtext">SELECT</span> list of the common table
+expression. In path expressions that contain only one association, the elements can be specified as
+single elements or by using <span class="qtext">*</span> or <span class="qtext">dbtab~*</span>. If a path expression contains more than one association, one element must be specified as a path expression closed by the field, with the same
+<a href="javascript:call_link('abenopen_sql_path_filter.html')" class="blue">attributes</a> as the path expression used for publishing.
+</P>
+<P>
+<span class="qtext">AS</span> can be used to specify an alias name <span class="qtext">alias</span>
+for the published association, under which it can be addressed in the subsequent queries of the current <span class="qtext">WITH</span> statement. The alias name can contain letters, digits, the minus sign
+(<span class="qtext">-</span>), and the underscore (<span class="qtext">_</span>) in any order.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The following <span class="qtext">WITH</span> statement is a syntax example only and does not have a function. Its main role is to show different ways of specifying path expressions and operands.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+WITH <br>&nbsp;&nbsp;+cte1 AS ( SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM demo_cds_publish_assoc AS subsrc <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE subsrc~\_spfli-carrid = '...' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH ASSOCIATIONS ( subsrc~\_spfli AS assoc1 ), <br>
+&nbsp;&nbsp;+cte2 AS ( SELECT * FROM +cte1 ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH ASSOCIATIONS ( +cte1~\assoc1[ carrid = '...' ] <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AS assoc2 ) <br>&nbsp;&nbsp;SELECT carrid AS id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM +cte1\assoc1 AS mainsrc <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE mainsrc~carrid = '...' <br>
+&nbsp;&nbsp;UNION <br>&nbsp;&nbsp;SELECT carrid AS id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM +cte2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE +cte2~\assoc2-carrid = '...' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenwith_associations_abexa.html')" class="blue">Publishing Associations</a> <br><br>
+</p>
+<A NAME="@@REDIRECTED TO VIA@@WITH ASSOCIATIONS@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... REDIRECTED TO +cte VIA target</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">REDIRECTED TO</span> replaces the target data source of the association
+published using <span class="qtext">WITH ASSOCIATIONS</span> with the common table expression specified as <span class="qtext">+cte</span>.
+</P>
+<ul class="disc">
+<li>
+The following can be specified for <span class="qtext">+cte</span>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>A common table expression defined in front of the current common table expression in the current <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement.</li>
+</ul>
+<ul class="circlem2">
+<li>The current common table expression</li>
+</ul>
+<dl>
+
+<dd>
+<span class="qtext">+cte</span> must specify the target data source as a data source of the published association in the <span class="qtext">FROM</span> clause of the subquery.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+<span class="qtext">VIA</span> must be followed by the target data source of the published association under the name it uses in the <span class="qtext">FROM</span> clause of <span class="qtext">+cte</span>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The target data source must be specified after <span class="qtext">VIA</span> even if it is used
+only once. If <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">AS</span></a> is used to define an alias name, this name must be specified.</li>
+</ul>
+<ul class="circlem2">
+<li>If the target data source is used more than once as a data source of join expressions, one of these
+occurrences must be specified after <span class="qtext">VIA</span>. The occurrence can be specified using the alias name or, if necessary, using its original name.</li>
+</ul>
+<dl>
+
+<dd>
+All columns that occur in the <span class="qtext">ON</span> condition of the published association must
+be specified as columns of the data source specified after <span class="qtext">VIA</span> in the <span class="qtext">
+SELECT</span> list of the subquery of <span class="qtext">+cte</span>. If the target data source occurs
+more than once in the <span class="qtext">FROM</span> clause of <span class="qtext">+cte</span>, the
+addition <span class="qtext">VIA</span> defines that these columns of the results set (which represent
+the right side of the join expression created when the published association is used in a subsequent path expression) are used in the <span class="qtext">ON</span> condition of the expression.
+</dd>
+</dl>
+<P>
+If an <a href="javascript:call_link('abenopen_sql_path_filter.html')" class="blue">attribute</a> is specified for the target
+data source when the published association is used in a subsequent path expression, this attribute is
+applied to the target <span class="qtext">+cte</span> of the redirect. Any attributes specified after
+<span class="qtext">WITH ASSOCIATIONS</span> when the association is published, however, are applied to the original target data source of the published association.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The common table expression <span class="qtext">+cte2</span> of the following <span class="qtext">WITH</span>
+statement uses the path expression <span class="qtext">demo_cds_publish_assoc~\_spfli</span> to publish
+the CDS association <span class="qtext">_spfli</span> that is itself published in the CDS view <span class="qtext">
+demo_cds_publish_assoc</span>. The common table expression <span class="qtext">+cte2</span> hence replaces
+this view as the source data source of the CDS association. This is meaningless in this example, however,
+since the subquery of the common table expression reads all data from the data source. The common table
+expression <span class="qtext">+cte1</span> uses <span class="qtext">REDIRECTED TO +cte1~demo_cds_assoc_spfli</span>
+to replace the target data source <span class="qtext">demo_cds_assoc_spfli</span> of the published path
+expression. <span class="qtext">demo_cds_assoc_spfli</span> is the only data source of the common table
+expression <span class="qtext">+cte1</span>. In the main query of the <span class="qtext">WITH</span>
+statement, the path expression <span class="qtext">+cte2\_spfli</span> is used to access the target
+data source <span class="qtext">+cte1</span> of the published CDS association, which is subject to the <span class="qtext">WHERE</span> condition.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA carrid TYPE spfli-carrid. <br>cl_demo_input=>request( CHANGING field = carrid ). <br> <br>WITH <br>
+&nbsp;&nbsp;+cte1 AS ( SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM demo_cds_assoc_spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @carrid ), <br>
+&nbsp;&nbsp;+cte2 AS ( SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM demo_cds_publish_assoc ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH ASSOCIATIONS ( demo_cds_publish_assoc~\_spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDIRECTED TO +cte1 VIA demo_cds_assoc_spfli ) <br>
+&nbsp;&nbsp;SELECT spfli~* <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM +cte2\_spfli AS spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY spfli~carrid, spfli~connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<P>
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL Source Code</a> of DEMO_CDS_PUBLISH_ASSOC:
+</P>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_PUBASC' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_publish_assoc <br> as select from <br> scarr <br> association to demo_cds_assoc_spfli as _spfli on <br>
+ scarr.carrid = _spfli.carrid <br> { <br> _spfli, <br> scarr.carrid as scarr_carrid, <br> _spfli._sflight, <br> _spfli.carrid, <br> _spfli.connid <br> }&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<P>
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL Source Code</a> of DEMO_CDS_ASSOC_SPFLI:
+</P>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ASC_SPF' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_assoc_spfli <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;association&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to sflight&nbsp;&nbsp;as _sflight&nbsp;&nbsp;on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.carrid = _sflight.carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and spfli.connid = _sflight.connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;association [1..1] to sairport as _sairport on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.airpfrom = _sairport.id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_sflight, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_sairport, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airpfrom <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abenwith_assocs_redirect_abexa.html')" class="blue">Publishing Associations with a Redirect</a>
+<br><br></li>
+<li>
+<a href="javascript:call_link('abenwith_assocs_redir_self_abexa.html')" class="blue">Publishing Associations with a Recursive Redirect</a>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwith_associations_using.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:58 GMT -->
+</html>

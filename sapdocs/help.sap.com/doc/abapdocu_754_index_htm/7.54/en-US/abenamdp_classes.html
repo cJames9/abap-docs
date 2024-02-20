@@ -1,0 +1,118 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMDP_CLASSES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_classes.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP - Classes">
+<meta name="keywords" content="ABAP, AMDP Classes">
+<title>
+AMDP - Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamdp_classes.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamdp_classes.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP - ABAP Managed Database Procedures</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@IF_AMDP_MARKER_HDB@@!ABAP_INTERFACE!@@"></A>
+<p><span class="h1">
+AMDP - Classes
+</span></p>
+<p>
+An AMDP class is a global class in the <a href="javascript:call_link('abenclass_library_glosry.html')" class="grey" title="Glossary Entry">class library</a> that contains one or more of the following
+<a href="javascript:call_link('abentag_interface_glosry.html')" class="grey" title="Glossary Entry">tag interfaces</a>:
+</p>
+<ul class="disc">
+<li><span class="lnkgrey">IF_AMDP_MARKER_HDB</span> for the SAP HANA database</li>
+</ul>
+<p>
+The names of the interfaces all start with IF_AMDP_MARKER and a suffix indicates the database system for which the ABAP Managed Database Procedures can be implemented in AMDP methods of the class.
+</p>
+<p>
+An AMDP class can contain both regular methods and <a href="javascript:call_link('abenamdp_methods.html')" class="blue">AMDP methods</a>. It can contain one or more AMDP methods for each database system specified by a tag interface.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Simple example for an AMDP class. The class <span class="lnkgrey">CL_DEMO_AMDP_SCARR</span> binds the interface IF_AMDP_MARKER_HDB and contains an AMDP method SELECT_SCARR that gets data from the database table SCARR:
+</p>
+<dl><dd>
+<span class="qtext">METHOD select_scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BY DATABASE PROCEDURE FOR HDB <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE SQLSCRIPT <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPTIONS READ-ONLY <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USING scarr. <br>&nbsp;&nbsp;scarr_tab = <br>&nbsp;&nbsp;SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM "SCARR" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE mandt = clnt <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid; <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+The following program section calls the method and produces the result.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA result TYPE cl_demo_amdp_scarr=>scarr_tab. <br> <br>NEW cl_demo_amdp_scarr( )->select_scarr( <br>&nbsp;&nbsp;EXPORTING clnt = sy-mandt <br>
+&nbsp;&nbsp;IMPORTING scarr_tab = result ). <br> <br>cl_demo_output=>display( result ). <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_classes.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+</html>

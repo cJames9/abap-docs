@@ -1,0 +1,308 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENASXML_ANONYMOUS_DATA_OBJECT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenasxml_anonymous_data_object.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="asXML - Anonymous Data Objects">
+<title>
+asXML - Anonymous Data Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenasxml_anonymous_data_object.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenasxml_anonymous_data_object.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">asXML - Canonical XML Representation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml_named.html')" class="blue">asXML - Mapping of ABAP Data Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml_references.html')" class="blue">asXML - Mapping of Reference Variables and Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+asXML - Anonymous Data Objects
+</span></p>
+<p>
+An anonymous data object, that is a data object created using <span class="qtext">CREATE DATA</span>
+or the instance operator <span class="qtext">NEW</span>, is represented as a subelement of <span class="qtext400">heap</span> in the form:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;asx:heap xmlns:nspace ...> <br>&nbsp;&nbsp;&lt;type id = "key" attr="...">...&lt;/type> <br>&lt;/asx:heap></span>
+</dd></dl>
+<p>
+The value of a subelement like this is displayed in the asXML representation for named data objects
+or for reference variables. If the anonymous data object itself is a non-initial reference variable,
+according to the rules above, it references another element of <span class="qtext400">heap</span>. Element
+name <span class="qtext400">type</span> is the data type of the data object (or the dynamic type of
+the reference variables) that is specified as the XML schema type name from namespace <span class="qtext400">nspace</span>
+(see table below), whereby attributes <span class="qtext400">attr</span> specify technical properties
+of the type if necessary. The mandatory attribute <span class="qtext400">id</span> contains the unique
+key <span class="qtext400">key</span> of the element by which it is referenced by the display of the corresponding reference variables in <span class="qtext400">values</span> or <span class="qtext400">heap</span>.
+</p>
+<p>
+The XML schema type name is constructed according to the following hierarchy:
+</p>
+<ol>
+<li>
+If the data type of the data object is defined in ABAP Dictionary, the XML schema type name is the name of the data type from ABAP Dictionary in the corresponding namespace (see table below).
+</li>
+<li>
+If the data type is an elementary ABAP type, the XML schema type name is specified in the table below.
+</li>
+<li>
+If the data type is defined as a component of a global or local class or of an interface, the XML schema
+type name is composed of the name of the class or the interface and the name of the data type. These
+two parts of the name are separated by a period (.). The corresponding namespace (see table below) indicates whether the data type is defined as a component of a global class, a local class, or an interface.
+</li>
+<li>
+If the data type is a generic reference type that is defined with <span class="qtext">REF TO data</span>
+or <span class="qtext">REF TO object</span>, the XML schema type name is <span class="qtext400">refData</span> or <span class="qtext400">refObject</span>. Both have the namespace <span
+ class="qtext400">http://www.sap.com/abapxml/types/built-in</span>.
+</li>
+<li>
+Otherwise, the XML schema type name is the name of a data type defined using <span class="qtext">TYPES</span>. Here, the associated namespace (see table below) indicates where the data type is defined.
+</li>
+</ol>
+<p>
+The precondition for the construction of an XML schema type name is that the data type of the data object has a statically usable name. If the data type only exists as a property of a data object and therefore only has one
+<a href="javascript:call_link('abentype_names.html')" class="blue">technical name</a>, an exception is raised (in serializations)
+that can be bypassed for XSLT programs by entering transformation option <a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">
+<span class="qtext">technical_types</span></a> for <span class="qtext">CALL TRANSFORMATION</span>.
+</p>
+<p>
+The following table shows the namespaces for the XML schema type names, where <span class="qtext400">types</span>
+in the first column stands for <span class="qtext400">http://www.sap.com/abapxml/types</span>. The namespaces
+indicate where a data type is defined. In the uppercase identifiers <span class="qtext400">PRG</span>,
+<span class="qtext400">CPOOL</span>, <span class="qtext400">FPOOL</span>, <span class="qtext400">TPOOL</span>,
+<span class="qtext400">METH</span>, <span class="qtext400">FUNC</span>, <span class="qtext400">FORM</span>,
+and <span class="qtext400">CLASS</span>, characters not in ranges "a" to "z", "A" to "Z", "0" to "9",
+"_", or "-" are displayed as "!hex(c)", where hex(c) is the two-character hexadecimal representation of the ASCII codes for character "c".
+</p>
+<table border>
+<tr>
+<td><span class="bold">Namespace</span></td>
+<td><span class="bold">Where Defined</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/dictionary</span></td>
+<td>ABAP Dictionary</td>
+</tr>
+<tr>
+<td><span class="qtext400">types/program/PRG</span></td>
+<td>ABAP program <span class="qtext400">prg</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/class-pool/CPOOL</span></td>
+<td>Class Pool <span class="qtext400">cpool</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/type-pool/TPOOL</span></td>
+<td><a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">Type group</a> <span class="qtext400">tpool</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/function-pool/FPOOL</span></td>
+<td>Function group <span class="qtext400">fpool</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/function/FUNC</span></td>
+<td>Function module <span class="qtext400">func</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/program.form/prg/FRM</span></td>
+<td>Subroutine <span class="qtext400">frm</span> in program <span class="qtext400">prg</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/function-pool.form/FPOOL/FRM</span></td>
+<td>Subroutine <span class="qtext400">frm</span> in function group <span class="qtext400">fpool</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/method/CLASS/METH</span></td>
+<td>Method <span class="qtext400">meth</span> of a global class <span class="qtext400">class</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/program.method/PRG/CLASS/METH</span></td>
+<td>Method <span class="qtext400">meth</span> of a local class <span class="qtext400">class</span> in program <span class="qtext400">prg</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/class-pool.method/CPOOL/CLASS/METH</span></td>
+<td>Method <span class="qtext400">meth</span> of a local class <span class="qtext400">class</span> in class pool <span class="qtext400">cpool</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">types/function-pool.method/FPOOL/CLASS/METH</span></td>
+<td>Method <span class="qtext400">meth</span> of a local class <span class="qtext400">class</span> in function group <span class="qtext400">fpool</span></td>
+</tr>
+</table><br>
+<p>
+The following table shows the XML schema type names for elementary ABAP types. These names differ in part from the canonical
+<a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">XML schema data types</a>, since the data type of
+<a href="javascript:call_link('abenanonymous_data_object_glosry.html')" class="grey" title="Glossary Entry">anonymous data objects</a>
+must be specified completely. The namespaces <span class="qtext400">nspace</span> for the elementary ABAP types of anonymous data objects are either <span
+ class="qtext400">xsd="http://www.w3.org/2001/XMLSchema"</span> for general schema types or <span class="qtext400">abap="http://www.sap.com/abapxml/types/built-in"</span>
+for special ABAP schema types for which technical attributes must sometimes be specified.
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">XML Schema Type Name</span></td>
+<td><span class="bold">Attributes</span></td>
+</tr>
+<tr>
+<td><span class="qtext">b</span></td>
+<td><span class="qtext400">xsd:unsignedByte</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">c</span></td>
+<td><span class="qtext400">abap:string</span></td>
+<td><span class="qtext400">maxLength</span></td>
+</tr>
+<tr>
+<td><span class="qtext">d</span></td>
+<td><span class="qtext400">abap:date</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat16</span></td>
+<td><span class="qtext400">abap:precisionDecimal</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat34</span></td>
+<td><span class="qtext400">abap:precisionDecimal</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">f</span></td>
+<td><span class="qtext400">xsd:double</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">i</span></td>
+<td><span class="qtext400">xsd:int</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">int8</span></td>
+<td><span class="qtext400">xsd:long</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">n</span></td>
+<td><span class="qtext400">abap:digits</span></td>
+<td><span class="qtext400">maxLength</span></td>
+</tr>
+<tr>
+<td><span class="qtext">p</span></td>
+<td><span class="qtext400">abap:decimal</span></td>
+<td><span class="qtext400">totalDigits</span>, <span class="qtext400">fractionDigits</span></td>
+</tr>
+<tr>
+<td><span class="qtext">s</span></td>
+<td><span class="qtext400">xsd:short</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">string</span></td>
+<td><span class="qtext400">xsd:string</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">t</span></td>
+<td><span class="qtext400">abap:time</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">utclong</span></td>
+<td><span class="qtext400">abap:dateTimeDec</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">x</span></td>
+<td><span class="qtext400">abap:base64Binary</span></td>
+<td><span class="qtext400">maxLength</span></td>
+</tr>
+<tr>
+<td><span class="qtext">xstring</span></td>
+<td><span class="qtext400">xsd:base64Binary</span></td>
+<td>-</td>
+</tr>
+</table><br>
+<p>
+The attribute <span class="qtext400">maxLength</span> specifies the length for ABAP types of generic
+length. The XML schema type <span class="qtext400">abap:digits</span> restricts the value range of an element to digits only. For XML schema type <span class="qtext400">abap:decimal</span>, the length and the
+<a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">number of decimal places</a>
+are specified using attributes <span class="qtext400">totalDigits</span> and <span class="qtext400">fractionDigits</span>.
+The length <span class="qtext400">totalDigits</span> specifies the number of places between 1 and 31. In ABAP programs, the length for data objects of type <span class="qtext">p</span> is specified in bytes and the number of
+<a href="javascript:call_link('abenplace_glosry.html')" class="grey" title="Glossary Entry">places</a> is calculated from  2&#x00D7;len-1.
+In serializations, therefore, the value of <span class="qtext400">totalDigits</span> is always odd. In deserializations, an even value of <span class="qtext400">totalDigits</span> is increased by one implicitly.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+For information about the differences between serializing to <span class="qtext400">heap</span> and embedded elements, see
+<a href="javascript:call_link('abenserialize_ref_heap_embed_abexa.html')" class="blue">Serializations to Heap or Embedded</a>.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenserialize_ref_heap_embed_abexa.html')" class="blue">Serialization to Heap or Embedded</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenasxml_anonymous_data_object.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+</html>

@@ -1,0 +1,254 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINTERFAC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninterfac.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Interfaces">
+<meta name="keywords" content="ABAP, Interfaces">
+<title>
+Interfaces - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninterfac.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninterfac.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Interfaces
+</span></p>
+<p>
+The components of a class have <a href="javascript:call_link('abenclass_visibility.html')" class="blue">visibility sections</a>,
+which define the external point of contact between the class and its consumer. For example, the public
+components of a class define its public scope, since all of its attributes and method parameters can
+be addressed by all consumers. The protected components are an interface between the class and those classes that inherit from it (the subclasses).
+</p>
+<p>
+Interfaces are independent structures that enable the class-specific public points of contact to be
+enhanced by implementing them in classes. Different classes that implement the same interface can all be addressed in the same way. Alongside
+<a href="javascript:call_link('abeninheritance.html')" class="blue">inheritance</a>, interfaces are one of the pillars of
+<a href="javascript:call_link('abenpolymorphism_glosry.html')" class="grey" title="Glossary Entry">polymorphism</a>, since they allow a single method within an interface to behave differently in different classes.
+<a href="javascript:call_link('abeninterface_ref_variable_glosry.html')" class="grey" title="Glossary Entry">Interface reference variables</a> allow consumers to address different classes in the same manner. Interfaces can also be
+<a href="javascript:call_link('abeninterface_composition.html')" class="blue">nested</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENINTERFAC_1" class="blue">Defining Interfaces</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENINTERFAC_2" class="blue">Interface Components</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENINTERFAC_3" class="blue">Implementing Interfaces</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENINTERFAC_4" class="blue">Interface Reference Variables</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENINTERFAC_5" class="blue">Accessing Objects Using Interface References</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENINTERFAC_6" class="blue">Accessing the Static Components of Interfaces</A></li>
+</ul>
+<A name="@@ITOC@@ABENINTERFAC_1"></A>
+<p><span class="h2">
+Defining Interfaces
+</span></p>
+<p>
+Like classes, interfaces can be <a href="javascript:call_link('abenclass_interface_definition.html')" class="blue">defined</a> either
+<a href="javascript:call_link('abenglobal_interface_glosry.html')" class="grey" title="Glossary Entry">globally</a> in the
+<a href="javascript:call_link('abenrepository_glosry.html')" class="grey" title="Glossary Entry">repository</a> or <a href="javascript:call_link('abenlocal_interface_glosry.html')" class="grey" title="Glossary Entry">locally</a> in an ABAP program.
+</p>
+<A name="@@ITOC@@ABENINTERFAC_2"></A>
+<p><span class="h2">
+Interface Components
+</span></p>
+<p>
+Exactly the same <a href="javascript:call_link('abenclass_components.html')" class="blue">components</a> can be defined in an interface as in a class.
+</p>
+<A name="@@ITOC@@ABENINTERFAC_3"></A>
+<p><span class="h2">
+Implementing Interfaces
+</span></p>
+<p>
+Unlike classes, interfaces do not have instances. Instead, interfaces are implemented by classes. The
+statement <a href="javascript:call_link('abapinterfaces.html')" class="blue"><span class="qtext">INTERFACES</span></a> in the
+declaration part of a class is used to implement interfaces in a class. This statement may only appear
+in the public section of the class, namely after <span class="qtext">PUBLIC SECTION</span>. Some interface components can be modified to meet the requirements of the class. For example, methods can be identified as abstract or final, or
+<a href="javascript:call_link('abenstart_value_glosry.html')" class="grey" title="Glossary Entry">initial values</a> can be assigned to attributes.
+</p>
+<p>
+When an interface is implemented in a class, the components of the interface are added to the other
+components in the public section. A component <span class="qtext">comp</span> of an interface <span class="qtext">
+intf</span> can be addressed as though it were a member of the class under the name <span class="qtext">intf~comp</span>.
+For use outside and inside the classes, <a href="javascript:call_link('abapaliases.html')" class="blue"><span class="qtext">ALIASES</span></a> can be used to define alias names for these components.
+</p>
+<p>
+The class must implement the methods of all interfaces implemented in it. The implementation part of
+the class must contain a method implementation for each non-abstract and non-optional interface method <span class="qtext">meth</span>: <br><br>
+</p>
+<dl><dd>
+<a href="javascript:call_link('abapmethod.html')" class="blue"><span class="qtext">METHOD intf~meth.</span></a> <br>
+<span class="qtext">&nbsp;&nbsp;...</span> <br><a href="javascript:call_link('abapendmethod.html')" class="blue"><span class="qtext">ENDMETHOD.</span></a>
+</dd></dl>
+<p>
+Interface methods defined as optional using the addition <a href="javascript:call_link('abapmethods_default.html')" class="blue"><span class="qtext">
+DEFAULT</span></a> do not need to be implemented explicitly and demonstrate default behavior when called.
+</p>
+<p>
+Interfaces can be implemented by different classes. Each of these classes is enhanced using the same set of components. However, the methods of the interface can be implemented differently in each class.
+</p>
+<p>
+Interfaces enable different classes to be used in a uniform way using
+<a href="javascript:call_link('abeninterface_ref_variable_glosry.html')" class="grey" title="Glossary Entry">interface reference
+variables</a> (known as polymorphism). Interfaces that are implemented in different classes add the
+same components to the public interfaces of these classes. If a class does not have any class-specific public components, the interfaces define the entire public face of the class.
+</p>
+<A name="@@ITOC@@ABENINTERFAC_4"></A>
+<p><span class="h2">
+Interface Reference Variables
+</span></p>
+<p>
+Object references are used in object reference variables to address
+<a href="javascript:call_link('abenobject.html')" class="blue">objects</a>. Instead of creating reference variables with reference to a
+<a href="javascript:call_link('abenclasses.html')" class="blue">class</a>, they can also be created with reference to an interface.
+This kind of reference variable can contain references to objects of classes that implement the corresponding
+interface. A reference variable <span class="qtext">obj</span> with reference to an interface <span class="qtext">
+intf</span> is declared using the statement <a href="javascript:call_link('abapdata_references.html')" class="blue"><span class="qtext">DATA
+obj TYPE REF TO intf</span></a>. This reference variable allows programs access to precisely those components
+defined in the interface, namely the components of an object that were added to the class-specific components by implementing the interface.
+</p>
+<A name="@@ITOC@@ABENINTERFAC_5"></A>
+<p><span class="h2">
+Accessing Objects Using Interface References
+</span></p>
+<p>
+To create an object of the class <span class="qtext">class</span>, a reference variable <span class="qtext">cref</span>
+must first be declared with reference to the class. If the class <span class="qtext">class</span> implements
+an interface <span class="qtext">intf</span>, the class reference variable <span class="qtext">cref</span> can be assigned to the interface reference variable <span class="qtext">iref</span> as follows: <br>
+</p>
+<dl><dd>
+<span class="qtext">iref = cref</span>.
+</dd></dl>
+<p>
+The reference in <span class="qtext">iref</span> now points to the same object as the reference in <span class="qtext">cref</span>.
+</p>
+<p>
+It is also possible to create an object directly to which the interface reference variable points initially.
+In this case, the <span class="qtext">TYPE</span> addition of the statement <span class="qtext">CREATE OBJECT</span> must be used to specify a class that implements the interface. <br>
+</p>
+<dl><dd>
+<span class="qtext">CREATE OBJECT iref TYPE class</span>.
+</dd></dl>
+<p>
+If the interface <span class="qtext">intf</span> contains an instance attribute <span class="qtext">attr</span>
+and an instance method <span class="qtext">meth</span>, the interface components can be addressed as follows:
+</p>
+<p>
+Using the class reference variable (not recommended) <br>
+</p>
+<ul class="disc">
+<li>Accessing an attribute <span class="qtext">attr</span>: <span class="qtext">cref->intf~attr</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a method <span class="qtext">meth</span>:     <span class="qtext">cref->intf~meth</span></li>
+</ul>
+<p>
+Using the interface reference variable (recommended): <br>
+</p>
+<ul class="disc">
+<li>Accessing an attribute <span class="qtext">attr</span>: <span class="qtext">iref->attr</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a method <span class="qtext">meth</span>:     <span class="qtext">iref->meth( )</span></li>
+</ul>
+<A name="@@ITOC@@ABENINTERFAC_6"></A>
+<p><span class="h2">
+Accessing the Static Components of Interfaces
+</span></p>
+<p>
+As far as the <a href="javascript:call_link('abenstatic_component_glosry.html')" class="grey" title="Glossary Entry">static components</a> of interfaces are concerned, the interface name can only be used to access constants. <br>
+</p>
+<ul class="disc">
+<li>Accessing a constant <span class="qtext">const</span>: <span class="qtext">intf=>const</span></li>
+</ul>
+<p>
+For all other static components of an interface, only object references or the class <span class="qtext">class</span> that implements the interface can be used. <br>
+</p>
+<ul class="disc">
+<li>Accessing a static attribute <span class="qtext">attr</span>:<span class="qtext">class=>intf~attr</span></li>
+</ul>
+<ul class="disc">
+<li>Calling a static method <span class="qtext">meth</span>:     <span class="qtext">class=>intf~meth( )</span> <br><br></li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abeninterface_abexa.html')" class="blue">Interfaces</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abeninterface_composition.html')" class="blue">Nesting Interfaces</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninterfac.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

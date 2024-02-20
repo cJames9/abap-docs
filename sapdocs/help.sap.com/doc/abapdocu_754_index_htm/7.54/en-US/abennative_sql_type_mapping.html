@@ -1,0 +1,269 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNATIVE_SQL_TYPE_MAPPING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennative_sql_type_mapping.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Native SQL - Mapping of ABAP Types">
+<title>
+Native SQL - Mapping of ABAP Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennative_sql_type_mapping.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennative_sql_type_mapping.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennative_sql.html')" class="blue">Native SQL</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Native SQL - Mapping of ABAP Types
+</span></p>
+<p>
+In Native SQL, data can be transferred from the database to ABAP data objects in reads, and the other way round in the case of writes.
+</p>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenadbc.html')" class="blue">ADBC</a>, ABAP data objects are bound using data references.</li>
+</ul>
+<ul class="disc">
+<li>ABAP data objects are specified as <a href="javascript:call_link('abapexec_host.html')" class="blue">host variables</a> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a>.</li>
+</ul>
+<p>
+In assignments between ABAP data objects and fields in database tables, the ABAP data objects are bound to the database fields using the
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a>.
+ABAP data objects should usually only be bound to suitable database fields. The following tables show which elementary ABAP types match which HANA types, using the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> as an example. There are similar assignments for other database systems.
+</p>
+<p>
+<span class="bold">Numeric Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext">b</span></td>
+<td>SMALLINT</td>
+</tr>
+<tr>
+<td><span class="qtext">s</span></td>
+<td>SMALLINT</td>
+</tr>
+<tr>
+<td><span class="qtext">i</span></td>
+<td>INTEGER</td>
+</tr>
+<tr>
+<td><span class="qtext">int8</span></td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td><span class="qtext">p</span>, length <span class="qtext">leng</span> with <span class="qtext">dec</span> decimal places</td>
+<td>DECIMAL, length <span class="qtext">2len-1</span> with <span class="qtext">dec</span> decimal places</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat16</span></td>
+<td>SMALLDECIMAL, length 16; <br> VARBINARY, length 8</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat34</span></td>
+<td>DECIMAL, length 34; <br> VARBINARY, length 16</td>
+</tr>
+<tr>
+<td><span class="qtext">f</span></td>
+<td>DOUBLE</td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Character-Like Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext">c</span>, length <span class="qtext">len</span></td>
+<td>NVARCHAR, length <span class="qtext">len</span></td>
+</tr>
+<tr>
+<td><span class="qtext">string</span></td>
+<td>NCLOB</td>
+</tr>
+<tr>
+<td><span class="qtext">n</span>, length <span class="qtext">len</span></td>
+<td>NVARCHAR, length <span class="qtext">len</span></td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Byte-Like Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext">x</span>, length <span class="qtext">len</span></td>
+<td>VARBINARY, length <span class="qtext">len</span></td>
+</tr>
+<tr>
+<td><span class="qtext">xstring</span></td>
+<td>BLOB</td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Date Types, Time Types, and Time Stamp Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext">d</span></td>
+<td>DATE; <br> NVARCHAR, length 8</td>
+</tr>
+<tr>
+<td><span class="qtext">t</span></td>
+<td>TIME; <br> NVARCHAR, length 6</td>
+</tr>
+<tr>
+<td><span class="qtext">utclong</span></td>
+<td>TIMESTAMP</td>
+</tr>
+</table><br>
+<p>
+If the data types match, content can be passed unchanged without being checked. In all other cases,
+conversions are necessary. These conversions and the necessary checks are executed by the Native SQL
+interface. The conversions take place in the platform-dependent part (Client Library) of the Native SQL interface, and the following problems can occur:
+</p>
+<ul class="disc">
+<li>Unexpected conversion results</li>
+</ul>
+<ul class="circlem2">
+<li>Cut off or pad values for character-like and byte-like types</li>
+</ul>
+<ul class="circlem2">
+<li>Conversion rules different to those in ABAP</li>
+</ul>
+<ul class="disc">
+<li>SQL errors that raise exceptions</li>
+</ul>
+<p>
+For this reason, conversions in the Native SQL interface should be avoided if possible. This is particularly
+relevant for the ABAP types <span class="qtext">n</span>, <span class="qtext">d</span>, and <span class="qtext">t</span> and decimal floating point numbers.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Unlike Native SQL, <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> respects the column types of database tables and views defined in the ABAP Dictionary. These are based on the
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in data types of the ABAP Dictionary</a>, which can all be mapped to a
+<a href="javascript:call_link('abenpredefined_abap_type_glosry.html')" class="grey" title="Glossary Entry">built-in ABAP type</a>.
+Therefore, the ABAP SQL interface can also execute platform-independent conversions between incompatible data types if they correspond to the conversion rules in ABAP. For example, see the
+<a href="javascript:call_link('abenselect_into_conversion.html')" class="blue">assignment rules</a> for reads.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The example shows that if the data of a column with type NUMC is assigned in Native SQL to a host variable with the ABAP type <span class="qtext">n</span> that is too short, it is truncated on the right, but the
+<a href="javascript:call_link('abenselect_into_conversion.html')" class="blue">rule</a> that is applied in ABAP SQL passes the data right-justified and truncated on the left.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM @( VALUE #( id = 'X' numc1 = '123' ) ). <br>
+ <br>DATA host TYPE n LENGTH 5. <br> <br>SELECT SINGLE numc1 FROM demo_expressions INTO (@host). <br> <br>
+cl_demo_output=>write( |ABAP SQL:&nbsp;&nbsp; { host }| ). <br> <br>EXEC SQL. <br>&nbsp;&nbsp;SELECT numc1 FROM demo_expressions INTO :host <br>ENDEXEC. <br> <br>cl_demo_output=>display( |Native SQL: { host }| ).
+</span>
+</p>
+<p>
+The result in an SAP HANA database is:
+</p>
+<dl><dd>
+<span class="qtext400">ABAP SQL:&nbsp;&nbsp; 00123 <br> <br>Native SQL 00000</span>
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The example shows that if a host variable with ABAP type <span class="qtext">n</span> that is too long is assigned to a column with type NUMC in Native SQL, an exception occurs. The
+<a href="javascript:call_link('abenconversion_type_n.html')" class="blue">conversion rule</a> that is applied in ABAP SQL, however, passes the data right-justified and truncated on the left.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM @( VALUE #( id = 'X' ) ). <br> <br>DATA host TYPE n LENGTH 15 VALUE '111112222233333'. <br>
+ <br>UPDATE demo_expressions SET numc1 = @host WHERE id = 'X'. <br> <br>SELECT SINGLE numc1 FROM demo_expressions INTO @DATA(result). <br>
+cl_demo_output=>write( |ABAP SQL: \n{ result }| ). <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;EXEC SQL. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UPDATE demo_expressions SET numc1 = :host WHERE id = 'X' <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDEXEC. <br>
+&nbsp;&nbsp;CATCH cx_sy_native_sql_error INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( |Native SQL: \n{ exc->get_text( ) }| ). <br>ENDTRY. <br> <br>cl_demo_output=>display( ).
+</span>
+</p>
+<p>
+The result in an SAP HANA database is:
+</p>
+<dl><dd>
+<span class="qtext400">ABAP SQL: <br>2222233333 <br> <br>Native SQL <br>An SQL error has occurred: inserted value too large for column</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennative_sql_type_mapping.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

@@ -1,0 +1,340 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPINTERFACES_CLASS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapinterfaces_class.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="INTERFACES - implementation">
+<title>
+INTERFACES - implementation - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapinterfaces_class.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapinterfaces_class.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_ifac_components.html')" class="blue">Components in Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninterfaces.html')" class="blue">Implementing and including interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapinterfaces.html')" class="blue">INTERFACES</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+INTERFACES - implementation <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapinterfaces_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">INTERFACES intf</span> <br><span class="qtext">&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapinterfaces_partially.html')" class="blue">PARTIALLY IMPLEMENTED</a><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>{</i> <i class=bn>{</i><i class=bn>[</i>ABSTRACT METHODS meth1 meth2 ... <i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>FINAL METHODS meth1 meth2 ... <i class=bn>]</i><i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>[</i>ALL METHODS <i class=bn>{</i>ABSTRACT<i class=bn>|</i>FINAL<i class=bn>}</i><i class=bn>]</i> <i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>[</i>DATA VALUES attr1 = val1 attr2 = val2 ...<i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... ABSTRACT METHODS meth1 meth2 ...</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... FINAL METHODS meth1 meth2 ...</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">... ALL METHODS <i class=bn>{</i>ABSTRACT<i class=bn>|</i>FINAL<i class=bn>}</i></span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_4@4@" class="blue"> 4. <span class="qtext">... DATA VALUES attr1 = val1 attr2 = val2 ...</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+In the <a href="javascript:call_link('abenpublic_glosry.html')" class="grey" title="Glossary Entry">public</a>
+<a href="javascript:call_link('abenvisibility_section_glosry.html')" class="grey" title="Glossary Entry">visibility section</a>,
+the statement <span class="qtext">INTERFACES</span> implements the interface <span class="qtext">intf</span> in the class. Additions can also be defined to determine the properties of interface components in the class.
+</P>
+<P>
+Any local or global interfaces can be specified for <span class="qtext">intf</span> here that are not
+already bound in a superclass of the current class. The components of the interfaces become public components
+of the class after the implementation. An interface component called <span class="qtext">comp</span>
+has the name <span class="qtext">intf~comp</span> in the class, where <span class="qtext">intf</span>
+is the name of the interface and the character <span class="qtext">~</span> is the interface component
+selector. A class must implement all methods of the interface in its implementation part, with the following exceptions:
+</P>
+<ul class="disc">
+<li>
+Interface methods declared as optional using the addition <a href="javascript:call_link('abapmethods_default.html')" class="blue"><span class="qtext">DEFAULT</span></a>.
+<br><br></li>
+<li>
+Interface methods specified in the class after the addition <span class="qtext">ABSTRACT METHODS</span> (making them abstract).
+<br><br></li>
+<li>
+Partial implementations are permitted in test classes using the addition <a href="javascript:call_link('abapinterfaces_partially.html')" class="blue"><span class="qtext">PARTIALLY IMPLEMENTED</span></a>.
+<br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<P>
+
+</P>
+<ul class="disc">
+<li>
+A class can implement any number of different interfaces. All of the interfaces implemented by a class
+are of equal status. If one of the interfaces <span class="qtext">intf</span> implemented in a class
+is a composite (meaning it contains component interfaces), these are implemented in the class like individual
+interfaces, regardless of their nesting hierarchy, and their components are called using the name of
+their component interface instead of using the name <span class="qtext">intf</span>. Multiple use of
+the interface component selection in a name (such as <span class="qtext">intf1~intf2~comp</span>) is generally not supported. <br>
+<br></li>
+<li>
+Each interface appears only once in a class and every interface component <span class="qtext">comp</span>
+is always clearly accessible using the <span class="qtext">intf~comp</span>. When the components of
+an interface, if they are components of more than one interface, appear to be used more than once in a class, even they appear only once. <br>
+<br></li>
+<li>
+If the implementation of a non-optional method of a global interface implemented using <span class="qtext">INTERFACES</span>
+is missing in a class, a syntax warning occurs instead of a syntax error. This prevents classes from
+becoming unusable when later enhancements are made to global interfaces. Calls of a missing implementation,
+however, always raise an exception of the class CX_SY_DYN_CALL_ILLEGAL_METHOD and produce the runtime
+error CALL_METHOD_NOT_IMPLEMENTED if the exception is not handled. A real syntax error is produced when local interfaces are used and the implementation is missing. <br>
+<br></li>
+<li>
+If a class implements a method <span class="qtext">intf~...</span> of a global interface <span class="qtext">intf</span>
+implemented using <span class="qtext">INTERFACES</span> in its implementation part and the method is
+not declared in the interface, a warning is displayed in the syntax check. This type of method implementation
+is dead coding that cannot be executed and is to be removed. Classes become unusable with a syntax error
+if methods were later deleted from an implemented global interface, and which were implemented without class and had no values. An actual syntax error results when local interfaces are used. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Implementation of an interface <span class="qtext">intf</span> in a class <span class="qtext">cls</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE intf. <br>&nbsp;&nbsp;CLASS-DATA selfref TYPE REF TO intf. <br>&nbsp;&nbsp;CLASS-METHODS factory RETURNING VALUE(ref) TYPE REF TO intf. <br>
+&nbsp;&nbsp;... <br>ENDINTERFACE. <br> <br>CLASS cls DEFINITION CREATE PRIVATE. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf. <br>&nbsp;&nbsp;&nbsp;&nbsp;ALIASES: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selfref FOR intf~selfref, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory FOR intf~factory. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDCLASS. <br>
+ <br>CLASS cls IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD factory. <br>&nbsp;&nbsp;&nbsp;&nbsp;IF selfref IS INITIAL. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selfref = NEW cls( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref = selfref. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;DATA(iref) = cls=>factory( ). <br><br>
+</span>
+</p>
+<A NAME="@@ABSTRACT METHODS@@INTERFACES@@"></A>
+<A NAME="@@FINAL METHODS@@INTERFACES@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... ABSTRACT METHODS meth1 meth2 ...</span>   <br><!-- /A -->
+</P>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... FINAL METHODS meth1 meth2 ...</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Using the additions <span class="qtext">ABSTRACT METHODS</span> and <span class="qtext">FINAL METHODS</span>,
+the individual instance methods <span class="qtext">meth</span> of the interface are made either abstract
+or final in the class to be implemented. The same rules apply as to the additions <a href="javascript:call_link('abapmethods_abstract_final.html')" class="blue">
+<span class="qtext">ABSTRACT</span></a> and <a href="javascript:call_link('abapmethods_abstract_final.html')" class="blue"><span class="qtext">
+FINAL</span></a> of the statement <a href="javascript:call_link('abapmethods.html')" class="blue"><span class="qtext"> METHODS</span></a>.
+In particular, the whole class must be abstract if an interface method is made abstract and no interface
+methods can be executed at the same time after <span class="qtext">ABSTRACT METHODS</span> and <span class="qtext">FINAL METHODS</span>.
+</P>
+<P>
+The following can be specified as methods <span class="qtext">meth1</span>,  <span class="qtext">meth2</span>, ...
+</P>
+<ul class="disc">
+<li>
+Instance methods that are declared in the interface <span class="qtext">intf</span> itself.
+<br><br></li>
+<li>
+Alias names declared in the interface <span class="qtext">intf</span> for instance methods declared in interfaces that are bound in <span class="qtext">intf</span>.
+<br><br></li>
+<li>
+Instance methods that are declared in interfaces bound in <span class="qtext">intf</span> using the name of its own interface and the interface component selector
+(<span class="qtext">~</span>). In this case the component interface cannot itself be bound with the statement <span class="qtext">INTERFACES</span>.
+<br></li>
+</ul>
+<P>
+If an interface is bound using multiple <span class="qtext">INTERFACES</span> statements, the information
+in the additions <span class="qtext">FINAL</span> and <span class="qtext">ABSTRACT</span> must not produce contradictory definitions for the same method. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Definition of abstract methods when binding two interfaces <span class="qtext">intf1</span> and <span class="qtext">intf2</span> in an abstract class <span class="qtext">cls</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE intf1. <br>&nbsp;&nbsp;METHODS meth1. <br>ENDINTERFACE. <br> <br>INTERFACE intf2. <br>&nbsp;&nbsp;INTERFACES intf1. <br>
+&nbsp;&nbsp;METHODS meth2. <br>ENDINTERFACE. <br> <br>CLASS cls DEFINITION ABSTRACT. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf1 ABSTRACT METHODS meth1. <br>&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf2 ABSTRACT METHODS meth2. <br>ENDCLASS.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Short form of the preceding example. Since <span class="qtext">intf2</span> binds the interface <span class="qtext">
+intf1</span>, its methods can be specified as <span class="qtext">intf1~meth1</span>. This means that a separate statement <span class="qtext">INTERFACES intf1</span> is no longer possible in this class.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE intf1. <br>&nbsp;&nbsp;METHODS meth1. <br>ENDINTERFACE. <br> <br>INTERFACE intf2. <br>&nbsp;&nbsp;INTERFACES intf1. <br>
+&nbsp;&nbsp;METHODS meth2. <br>ENDINTERFACE. <br> <br>CLASS cls DEFINITION ABSTRACT. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf2 ABSTRACT METHODS intf1~meth1 meth2. <br>ENDCLASS. <br><br>
+</span>
+</p>
+<A NAME="@@ALL METHODS ABSTRACT@@INTERFACES@@"></A>
+<A NAME="@@ALL METHODS FINAL@@INTERFACES@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... ALL METHODS <i class=bn>{</i>ABSTRACT<i class=bn>|</i>FINAL<i class=bn>}</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Instead of making individual interface methods in the class abstract or final it is possible, using the addition <span class="qtext">ALL METHODS <i
+class=bn>{</i>ABSTRACT<i class=bn>|</i>FINAL<i class=bn>}</i></span>, to make all interface methods either
+<a href="javascript:call_link('abapmethods_abstract_final.html')" class="blue">abstract</a> or <a href="javascript:call_link('abapmethods_abstract_final.html')" class="blue">final</a>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Integration of an interface <span class="qtext">intf</span> in an abstract class <span class="qtext">cls1</span>,
+in which all methods are made abstract and must be implemented in a subclass <span class="qtext">cls2</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE intf. <br>&nbsp;&nbsp;METHODS: <br>&nbsp;&nbsp;&nbsp;&nbsp;meth1, <br>&nbsp;&nbsp;&nbsp;&nbsp;meth2. <br>
+&nbsp;&nbsp;... <br>ENDINTERFACE. <br> <br>CLASS cls1 DEFINITION ABSTRACT. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf ALL METHODS ABSTRACT. <br>&nbsp;&nbsp;&nbsp;&nbsp;ALIASES: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth1 FOR intf~meth1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth2 FOR intf~meth2. <br>ENDCLASS. <br> <br>CLASS cls2 DEFINITION INHERITING FROM cls1. <br>
+&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth1 REDEFINITION, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth2 REDEFINITION. <br>ENDCLASS. <br> <br>CLASS cls2 IMPLEMENTATION. <br>
+&nbsp;&nbsp;METHOD meth1. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD meth2. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br><br>
+</span>
+</p>
+<A NAME="@@DATA VALUES@@INTERFACES@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_4@4@"></A> <span class="bold">Addition 4</span>
+</span></p>
+<P>
+<span class="qtext">... DATA VALUES attr1 = val1 attr2 = val2 ...</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+ Using the addition <span class="qtext">DATA VALUES</span>, initial values can be assigned to individual
+attributes <span class="qtext">attr</span>. For attributes, this addition functions in the same way
+as the addition <span class="qtext">VALUE</span> of the statement <a href="javascript:call_link('abapdata.html')" class="blue"><span class="qtext">DATA</span></a> for attributes in its own class.
+</P>
+<P>
+The following can be specified as attributes <span class="qtext">attr1</span>,  <span class="qtext">attr2</span>, ...
+</P>
+<ul class="disc">
+<li>
+Attributes that are declared in the interface <span class="qtext">intf</span> itself.
+<br><br></li>
+<li>
+Alias names declared in the interface <span class="qtext">intf</span> for attributes declared in interfaces that are bound in <span class="qtext">intf</span>.
+<br><br></li>
+<li>
+Attributes that are declared in interfaces bound in <span class="qtext">intf</span> using the name of its own interface and the interface component selector
+(<span class="qtext">~</span>). In this case the component interface cannot itself be bound with the statement <span class="qtext">INTERFACES</span>.
+<br></li>
+</ul>
+<P>
+Constants declared in the interface or in a component interface with the statement <a href="javascript:call_link('abapconstants.html')" class="blue">
+<span class="qtext">CONSTANTS</span></a> cannot be specified after the addition <span class="qtext">DATA VALUES</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Integration of an interface <span class="qtext">intf</span> in a class <span class="qtext">cls</span>, where the interface attributes are provided with start values.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE intf. <br>&nbsp;&nbsp;CLASS-DATA: <br>&nbsp;&nbsp;&nbsp;&nbsp;attr1 TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;attr2 TYPE string. <br>
+&nbsp;&nbsp;... <br>ENDINTERFACE. <br> <br>CLASS cls DEFINITION ABSTRACT. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA VALUES attr1 = 'Hello' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr2 = 'World'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ALIASES: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr1 FOR intf~attr1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr2 FOR intf~attr2. <br>
+ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;cl_demo_output=>display( |{ cls=>attr1 } { cls=>attr2 }| ). <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapinterfaces_class.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:32 GMT -->
+</html>

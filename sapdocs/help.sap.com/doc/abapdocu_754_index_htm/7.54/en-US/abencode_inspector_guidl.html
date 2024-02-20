@@ -1,0 +1,207 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCODE_INSPECTOR_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencode_inspector_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Code Inspector">
+<meta name="keywords" content="ABAP, Code Inspector">
+<title>
+Code Inspector - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencode_inspector_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencode_inspector_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_specific_rules_guidl.html')" class="blue">ABAP-Specific Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencheck_correctness_guidl.html')" class="blue">Checks for Correctness</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Code Inspector
+</span></p>
+<A name="@@ITOC@@ABENCODE_INSPECTOR_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The Code Inspector tool performs a static check of repository objects regarding performance, security,
+syntax, and adherence to naming conventions. Transaction <span class="lnkgrey">SCI</span> can be called
+to use the full range of functions of Code Inspector to perform complex static checks and regular mass tests for large numbers of development objects.
+</p>
+<p>
+Code Inspector can also be called from ABAP Workbench to perform a standard set of checks for the current
+object, for example by choosing <span class="italic">Program &rarr; Check &rarr; Code Inspector</span> in ABAP Editor. The standard check variant used here contains most of the checks from the
+<a href="javascript:call_link('abenextended_program_check_guidl.html')" class="lnkpurple" title="Guideline">extended program
+check</a>, as well as a few additional security and performance checks. Code Inspector can also be integrated into the release of transports.
+</p>
+<p>
+As in the extended program check, the results of Code Inspector are divided into three categories (errors, warnings, and simple messages), which you can hide using special pseudo comments.
+</p>
+<A name="@@ITOC@@ABENCODE_INSPECTOR_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use the standard check variant of Code Inspector</span>
+</p>
+<p>
+Perform the standard check variant of Code Inspector before releasing a program, and correct all error messages.
+</p>
+<A name="@@ITOC@@ABENCODE_INSPECTOR_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+If the <a href="javascript:call_link('abenextended_program_check_guidl.html')" class="lnkpurple" title="Guideline">extended program
+check</a> is used, the standard check variant of Code Inspector only reports messages and checks that
+are not covered by the extended program check. These are mainly messages relating to potential performance
+or security risks in programs. Examples are messages about unfavorable <span class="qtext">WHERE</span>
+conditions in a <span class="qtext">SELECT</span>, a pass by value instead of a pass by reference for parameters, or non-secure program calls.
+</p>
+<p>
+Compared with the messages of the extended program check, it is not always so easy to correct these
+problems at their source, perhaps because there is no other option for a selection, or because the transparency or robustness of a construct is seen as more important than a small potential loss of performance.
+</p>
+<p>
+In such cases, the messages can be suppressed using the appropriate pseudo comments. A pseudo comment
+is a clear indication to the reader of a program that the program author has performed the relevant
+checks and has explicitly suppressed the message for a good reason. If necessary, pseudo comments can be substantiated by additional normal
+<a href="javascript:call_link('abencomments_guidl.html')" class="lnkpurple" title="Guideline">comments</a>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+A standard Code Inspector run for the example class below issues warnings because an internal table
+is returned by pass by value and an inner join for database tables with activated table buffering is used in the <span class="qtext">SELECT</span> statement.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS class DEFINITION FINAL. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF docu_wa, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; object&nbsp;&nbsp; TYPE dokil-object, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dokldate TYPE dokhl-dokldate, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dokltime TYPE dokhl-dokltime, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF docu_wa, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; docu_tab TYPE SORTED TABLE OF docu_wa <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH NON-UNIQUE KEY object. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS get_docu <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING VALUE(langu)&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-langu <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING VALUE(documents) TYPE docu_tab. <br>
+ENDCLASS. <br> <br>CLASS class IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD get_docu. <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT d~object, h~dokldate, h~dokltime <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM dokil AS d <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN dokhl AS h <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON h~id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = d~id&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~object&nbsp;&nbsp;&nbsp;&nbsp; = d~object AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= d~typ&nbsp;&nbsp;&nbsp;&nbsp;AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~langu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= d~langu&nbsp;&nbsp;AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~dokversion = d~version <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE d~id&nbsp;&nbsp;&nbsp;&nbsp; = 'SD'&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d~object LIKE 'AB%' AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d~typ&nbsp;&nbsp;&nbsp;&nbsp;= 'E'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d~langu&nbsp;&nbsp;= @langu <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO CORRESPONDING FIELDS OF TABLE @documents. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.
+</span>
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The source code below shows the corrected version of the above class, for which Code Inspector no longer issues any messages.
+</p>
+<p>
+The pass by value of the internal table is replaced by a pass by reference. When passing the elementary
+parameter <span class="qtext">langu</span>, the pass by value is left unchanged to ensure robustness.
+In the standard check used, it would not have triggered a warning in any case. If Code Inspector displays
+a warning in a case such as this, it can be hidden by using the pseudo comment <span class="qtext">"#EC CI_VALPAR</span>.
+</p>
+<p>
+The inner join of the <span class="qtext">SELECT</span> statement bypasses table buffering, which would
+cause performance problems if the method was called frequently. However let us assume (for purpose of
+this example) that the method is part of a larger application, where shared objects ensure that the
+selected data is buffered. In this case, the inner join should be used instead of other constructs with
+poor performance, such as a nested <span class="qtext">SELECT</span> loop. As a result, the warning
+from Code Inspector is hidden using the pseudo comment <span class="qtext">#EC CI_BUFFJOIN</span>. The reasons for this are described in a regular comment.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS class DEFINITION FINAL. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF docu_wa, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; object&nbsp;&nbsp; TYPE dokil-object, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dokldate TYPE dokhl-dokldate, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dokltime TYPE dokhl-dokltime, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF docu_wa, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; docu_tab TYPE SORTED TABLE OF docu_wa <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH NON-UNIQUE KEY object. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS get_docu <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;IMPORTING VALUE(langu)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-langu "#EC CI_VALPAR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING REFERENCE(documents) TYPE docu_tab. <br>
+ENDCLASS. <br> <br>CLASS class IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD get_docu. <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT d~object, h~dokldate, h~dokltime&nbsp;&nbsp;"#EC CI_BUFFJOIN <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM dokil AS d <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN dokhl AS h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Buffering is done <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON h~id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = d~id&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;"by application <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~object&nbsp;&nbsp;&nbsp;&nbsp; = d~object AND&nbsp;&nbsp;"with Shared Objects <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= d~typ&nbsp;&nbsp;&nbsp;&nbsp;AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~langu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= d~langu&nbsp;&nbsp;AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h~dokversion = d~version <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE d~id&nbsp;&nbsp;&nbsp;&nbsp; = 'SD'&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d~object LIKE 'AB%' AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d~typ&nbsp;&nbsp;&nbsp;&nbsp;= 'E'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d~langu&nbsp;&nbsp;= @langu <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO CORRESPONDING FIELDS OF TABLE @documents. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencode_inspector_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+</html>

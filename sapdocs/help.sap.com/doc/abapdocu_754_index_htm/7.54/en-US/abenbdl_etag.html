@@ -1,0 +1,143 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBDL_ETAG -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_etag.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP BDL - DEFINE BEHAVIOR, etag">
+<title>
+ABAP BDL - DEFINE BEHAVIOR, etag - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbdl_etag.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbdl_etag.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_definitions.html')" class="blue">Behavior Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_bdl.html')" class="blue">ABAP BDL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenbdl_define_behavior.html')" class="blue">ABAP BDL - DEFINE BEHAVIOR</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@ETAG@@!ABAP_BDL_DEFINE_BEHAVE!@@"></A>
+<p><span class="h1">
+ABAP BDL - DEFINE BEHAVIOR, etag
+</span></p>
+<A name="@@ITOC@@ABENBDL_ETAG_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">... etag field|AncestorEntity~Field ( LocalField = MasterField )</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The <span class="qtext400">etag</span> field <span class="qtext400">field</span> of an entity is used
+for locks in the OData protocol. It references either the entity itself or the parent entity <span class="qtext400">AncestorEntity</span>
+for which a foreign key relationship <span class="qtext400">LocalField = MasterField</span> must be specified.
+</p>
+<p>
+A field flagged as an entity tag (ETag) field <span class="qtext400">field</span> is typically used
+to describe, uniquely, the state of a requested resource (for example a specific entity instance). Any
+changes made to the requested resource update the <span class="qtext400">etag</span> field. Often fields containing time stamps, check sums, or version numbers are used for this.
+</p>
+<p>
+In the <a href="javascript:call_link('abenbehavior_implement_glosry.html')" class="grey" title="Glossary Entry">
+behavior implementation</a>, the method <a href="javascript:call_link('abenhandler_method_read.html')" class="blue"><span class="qtext400">read</span></a> of the
+<a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">handler class</a> is called, which then requests the current ETag for the resource as shown in the following example. The process flow is as follows:
+</p>
+<ul class="disc">
+<li>If an entity has an ETag field in its <a href="javascript:call_link('abenbehavior_definition_glosry.html')" class="grey" title="Glossary Entry">
+behavior definition</a>, a write operation (such as <span class="qtext400">update</span>) passes an if match header with the value of the ETag in the query and hence informs the framework of the expected state.</li>
+</ul>
+<ul class="disc">
+<li>The method <span class="qtext400">read</span> then checks whether the requested resource exists in a buffered state or, if not, whether it needs to be read from the database.</li>
+</ul>
+<ul class="disc">
+<li>The value of the ETag is then passed to the framework using the output parameters of the <span class="qtext400">read</span> method.</li>
+</ul>
+<ul class="disc">
+<li>The framework checks both values and calls the write operation only if they match.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+An ETag can be used for optimistic locks in shared OData protocol access, where it prevents simultaneous updates on a resource from overwriting each other.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following example, the data from the ABAP flight data reference scenario (or flight data scenario
+for short) is used. It represents a legacy business logic that can be used to create and edit flight
+bookings. The CDS view <span class="qtext400">/DMO/I_Travel</span> represents the root node of the business object for managing flight trips. The underlying business model is described in
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>.
+</p>
+<p>
+The following example shows the behavior definition for the root entity <span class="qtext400">Travel</span>.
+</p>
+<dl><dd>
+<span class="qtext400">implementation unmanaged; <br>define behavior for /DMO/I_Travel alias Travel <br>
+etag LastChangedAt <br>{ <br>&nbsp;&nbsp;create; <br>&nbsp;&nbsp;update; <br>&nbsp;&nbsp;delete; <br>&nbsp;&nbsp;action set_status_booked result [1] $self; <br>}</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_etag.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+</html>

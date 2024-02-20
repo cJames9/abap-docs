@@ -1,0 +1,189 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPPERFORM_SUBR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapperform_subr.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="PERFORM - ON COMMIT, ROLLBACK">
+<meta name="keywords" content="ABAP, PERFORM ON">
+<title>
+PERFORM - ON COMMIT, ROLLBACK - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapperform_subr.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapperform_subr.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentransaction.html')" class="blue">Data Consistency</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensap_luw.html')" class="blue">SAP LUW</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@PERFORM ON@@!ABAP_STATEMENT!@@"></A>
+<A NAME="@@ON COMMIT@@PERFORM@@"></A>
+<A NAME="@@ON ROLLBACK@@PERFORM@@"></A>
+<p><span class="h1">
+PERFORM - ON COMMIT, ROLLBACK <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapperform_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">PERFORM subr ON <i class=bn>{</i> <i class=bn>{</i>COMMIT <i class=bn>[</i>LEVEL idx<i class=bn>]</i><i class=bn>}</i> <i class=bn>|</i> ROLLBACK <i class=bn>}</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... LEVEL idx</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement registers the subroutine directly specified using <span class="qtext">subr</span> in
+the same program. The subroutine is not executed immediately, but a flag is set for execution when one
+of the statements <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a> or <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a> is reached.
+</P>
+<P>
+The registered subroutines are executed if the statement <span class="qtext">COMMIT WORK</span> or <span class="qtext">
+ROLLBACK WORK</span> is executed in their work process and before update function modules registered
+using <a href="javascript:call_link('abapcall_function_update.html')" class="blue"><span class="qtext">CALL FUNCTION ... IN UPDATE
+TASK</span></a>. Subroutines that are registered during execution of an update function module for <span class="qtext">COMMIT</span> are executed at the end of the
+<a href="javascript:call_link('abenupdate_glosry.html')" class="grey" title="Glossary Entry">update</a>. In non-local updates, this takes places in the update work process and in local updates in the current work process. <br><br>
+</P>
+<p><span class="h4">
+Programming Guideline
+</span></p>
+<P>
+<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">Do not implement in function modules and subroutines</a>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Creating subroutines is obsolete. If new subroutines are required for <span class="qtext">PERFORM subr
+ON COMMIT</span> or <span class="qtext">PERFORM subr ON ROLLBACK</span>, they should only be used as wrapping for a method call and must not contain any other functional code. <br>
+<br></li>
+<li>
+Registered subroutines cannot have any parameter interface. Therefore, data can only be passed through
+external interfaces - for example, the ABAP memory. Subroutines that are executed in <span class="qtext">COMMIT
+WORK</span> or <span class="qtext">ROLLBACK WORK</span> are thus more suitable for management tasks, such as cleanup work at the end of a
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a>, than for database changes. <br>
+<br></li>
+<li>
+During processing of a registered subroutine after <span class="qtext">COMMIT WORK</span> or <span class="qtext">ROLLBACK
+WORK</span>, the statements <span class="qtext">PERFORM ... ON COMMIT</span>, <span class="qtext">PERFORM
+... ON ROLLBACK</span>, <span class="qtext">COMMIT WORK</span>, or <span class="qtext">ROLLBACK WORK</span>
+must not be executed. Type "A" messages caught using the predefined exception <a href="javascript:call_link('abapcall_function_parameter.html')" class="blue">
+<span class="qtext">error_message</span></a> in function module calls execute the statement <span class="qtext">ROLLBACK WORK</span> implicitly and are therefore also forbidden. <br>
+<br></li>
+<li>
+If, during the processing of a registered subroutine after <span class="qtext">COMMIT WORK</span>, update
+function modules are registered using <a href="javascript:call_link('abapcall_function_update.html')" class="blue"><span class="qtext">CALL FUNCTION ... IN UPDATE TASK</span></a>, this registration still applies to the current
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a>. <br><br>
+<br></li>
+</ul>
+<A NAME="@@LEVEL@@PERFORM ON@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... LEVEL idx</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+In the case of subroutines registered for <span class="qtext">COMMIT</span>, the order of execution
+can be controlled using the addition <span class="qtext">LEVEL</span>, where <span class="qtext">idx</span>
+expects a data object of the type <span class="qtext">i</span>. The execution then takes place, sorted
+according to ascending value of <span class="qtext">idx</span>. <span class="qtext">idx</span> has the
+value 0, if a value is not explicitly specified. If the value is the same as <span class="qtext">idx</span>
+or if no value is specified, the order of execution is the same as the order of registration. A subroutine
+registered multiple times for <span class="qtext">COMMIT</span> or <span class="qtext">ROLLBACK</span> is executed once in each case. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Registers a subroutine <span class="qtext">insert</span> of the same program for execution in the statement <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a>. The data is passed using the
+<a href="javascript:call_link('abenabap_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP memory</a>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(values) = VALUE demo_update_tab( <br>&nbsp;&nbsp;( id = 'X' col1 = 100 col2 = 200 col3 = 300 col4 = 400 ) <br>
+&nbsp;&nbsp;( id = 'Y' col1 = 110 col2 = 210 col3 = 310 col4 = 410 ) <br>&nbsp;&nbsp;( id = 'Z' col1 = 120 col2 = 220 col3 = 320 col4 = 420 ) ). <br>
+ <br>EXPORT values = values TO MEMORY ID 'INS'. <br>PERFORM insert ON COMMIT . <br> <br>... <br> <br>FORM insert. <br>
+&nbsp;&nbsp;DATA values TYPE demo_update_tab. <br>&nbsp;&nbsp;IMPORT values = values FROM MEMORY ID 'INS'. <br>&nbsp;&nbsp;IF sy-subrc = 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDIF. <br>ENDFORM.
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensap_luw_on_commit_abexa.html')" class="blue">SAP LUW, <span class="qtext">ON COMMIT</span></a> <br><br>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapperform_subr.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+</html>

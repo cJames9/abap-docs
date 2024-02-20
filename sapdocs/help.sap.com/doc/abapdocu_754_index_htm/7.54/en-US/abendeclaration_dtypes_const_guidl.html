@@ -1,0 +1,215 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDECLARATION_DTYPES_CONST_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendeclaration_dtypes_const_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Declaration of Data Types and Constants">
+<title>
+Declaration of Data Types and Constants - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendeclaration_dtypes_const_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendeclaration_dtypes_const_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Declaration of Data Types and Constants
+</span></p>
+<A name="@@ITOC@@ABENDECLARATION_DTYPES_CONST_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Data types and constants can be declared in the following contexts:
+</p>
+<ul class="disc">
+<li><span class="bold">Cross-program</span></li>
+</ul>
+<ul class="circlem2">
+<li>in the ABAP Dictionary</li>
+</ul>
+<ul class="circlem2">
+<li>in global classes and interfaces</li>
+</ul>
+<ul class="circlem2">
+<li>in type groups</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Local program</span></li>
+</ul>
+<ul class="circlem2">
+<li>in the global declaration part of a program</li>
+</ul>
+<ul class="circlem2">
+<li>in global classes and interfaces</li>
+</ul>
+<ul class="circlem2">
+<li>in procedures (<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">Methods</a>)</li>
+</ul>
+<p>
+Technically speaking, type groups, global classes and interfaces are also ABAP programs, in which data
+types and constants are created using the <span class="qtext">TYPES</span> and <span class="qtext">CONSTANTS</span>
+statements. In contrast to other ABAP programs, the declarations can also be statically visible in other
+programs, depending on the visibility section. Absolute type names enable you to dynamically access the types of all programs.
+</p>
+<A name="@@ITOC@@ABENDECLARATION_DTYPES_CONST_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Declare data types and constants in the appropriate context</span>
+</p>
+<p>
+Declare data types and constants in the context that guarantees the best possible encapsulation.
+</p>
+<A name="@@ITOC@@ABENDECLARATION_DTYPES_CONST_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Data types and constants should be declared in the context in which they are <a href="javascript:call_link('abenencapsulation_guidl.html')" class="lnkpurple" title="Guideline">visible</a> for all potential consumers but not anywhere else:
+</p>
+<ul class="disc">
+<li><span class="bold">Local program data types and constants</span></li>
+</ul>
+<ul class="circlem2">
+<li>Data types that are only required by local data objects (usually helper variables) or constants that are only required in a procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>) should be declared as local data types or constants.</li>
+</ul>
+<ul class="circlem2">
+<li>Data types and constants that are only required within local classes should be declared in the corresponding visibility section of the classes or integrated using an interface.</li>
+</ul>
+<ul class="circlem2">
+<li>If data types are required in multiple local classes and interfaces of a program, they should be
+created in the appropriate visibility section of a local class or an interface. Local classes or interfaces
+can be used that contain nothing else apart from these types or constants. In the global declaration part of programs, declarations of data types or constants are not required for semantic reasons.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Cross-program data types and constants</span></li>
+</ul>
+<ul class="circlem2">
+<li>Data types and constants that a consumer requires to use a class/interface should be declared in
+the public (or package-public) visibility section of the global class/interface. Examples include data types used to type interface parameters of methods, and constants expected as actual parameters by methods, such as IDs of
+<a href="javascript:call_link('abenexception_texts_guidl.html')" class="lnkpurple" title="Guideline">exception texts</a> in exception classes.</li>
+</ul>
+<ul class="circlem2">
+<li>Data types required by different programs, classes, or interfaces are declared as real types of
+the ABAP Dictionary (not in type groups). These are usually semantically independent types, for which
+the ABAP Dictionary provides additional services, such as descriptive texts and documentation options. In this context, you must consider the
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">separation of concerns</a>. <br>
+For example, a structure of the ABAP Dictionary should never be used to type (Web) Dynpro fields and
+to simultaneously define a database table. Ideally, data types should be declared in encapsulated packages,
+which manage the cross-package use of their repository objects and which only expose types actually required outside the package in their package interfaces. <br>
+You should generally avoid declaring or even exposing purely technical types without semantic meaning,
+in application development packages of the ABAP Dictionary. The declaration of these types (such as INT2 or CHAR10) should be restricted to fundamental basis packages.</li>
+</ul>
+<ul class="circlem2">
+<li>You should not create any new type groups. Data types should be declared in global classes or interfaces,
+or as real types of the ABAP Dictionary. You should only create constants in global classes or interfaces. However, the use of existing type groups is still
+<a href="javascript:call_link('abendataobjects_true_value_guidl.html')" class="lnkpurple" title="Guideline">allowed</a>. It is
+no longer necessary to load type groups explicitly using the <span class="qtext">TYPE-POOLS</span> statement. However, you only need to declare new types or constants in a context, if no
+<a href="javascript:call_link('abenusing_types_guidl.html')" class="lnkpurple" title="Guideline">semantically appropriate</a>
+types or constants exist that are more global. For example, if an appropriate ABAP Dictionary data type
+exists, it is not necessary to create a local data type in the class, to type an interface parameter
+of a global class method. In this case, the data type in the ABAP Dictionary might have to be published
+in the same package interface as the class. This would also be the case, however, if an interface parameter is typed with a data type of the class that refers to an ABAP Dictionary data type.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The misuse of include programs for the declaration of data types and data objects that can be reused across various programs is
+<a href="javascript:call_link('abenmultiple_use_include_guidl.html')" class="lnkpurple" title="Guideline">not allowed</a>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the declaration of constants in a type group that are required across different programs. The name of the type group must precede the names of the constants as a prefix. You should not create any new
+<a href="javascript:call_link('abenprogram_type_guidl.html')" class="lnkpurple" title="Guideline">type groups</a>. For constants
+that are required in various different programs, the above rule recommends a declaration in global classes or interfaces.
+</p>
+<dl><dd>
+<span class="qtext">TYPE-POOL zicon. <br>&nbsp;&nbsp;TYPES zicon_icon TYPE ... <br>&nbsp;&nbsp;CONSTANTS: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;zicon_cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE zicon_icon VALUE icon_cancel, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;zicon_check&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE zicon_icon VALUE icon_check, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;zicon_check_words TYPE zicon_icon VALUE icon_intensify, <br>&nbsp;&nbsp;&nbsp;&nbsp;zicon_document&nbsp;&nbsp;&nbsp;&nbsp;TYPE zicon_icon VALUE icon_hlp, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;zicon_download&nbsp;&nbsp;&nbsp;&nbsp;TYPE zicon_icon VALUE icon_export, <br>&nbsp;&nbsp;&nbsp;&nbsp;...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code illustrates the declaration of the constants in the above example in a global
+class. The visibility of the constants is restricted to the current package. In other programs, the constants are addressed using <span class="qtext">cl_..._icons=></span>.
+</p>
+<dl><dd>
+<span class="qtext">CLASS cl_..._icons DEFINITION PUBLIC FINAL. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES&nbsp;&nbsp;icon TYPE ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE icon VALUE icon_cancel. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS check&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE icon VALUE icon_check. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS check_words TYPE icon VALUE icon_intensify. <br>&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS document&nbsp;&nbsp;&nbsp;&nbsp;TYPE icon VALUE icon_hlp. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS download&nbsp;&nbsp;&nbsp;&nbsp;TYPE icon VALUE icon_export. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendeclaration_dtypes_const_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

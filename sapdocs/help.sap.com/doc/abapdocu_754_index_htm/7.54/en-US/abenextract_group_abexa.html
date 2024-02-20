@@ -1,0 +1,174 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXTRACT_GROUP_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenextract_group_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Extracts, Control Level Processing">
+<title>
+Extracts, Control Level Processing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenextract_group_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenextract_group_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_internal_obsolete.html')" class="blue">Obsolete Processing of Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_extracts_extended.html')" class="blue">Obsolete Extracts</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenextract_abexas.html')" class="blue">Examples of Extracts</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Extracts, Control Level Processing
+</span></p>
+<p>
+This example demonstrates control level processing of extracts.
+</p>
+<A name="@@ITOC@@ABENEXTRACT_GROUP_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_extract_at_new.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+DATA: t1 TYPE c LENGTH 4,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t2 TYPE i.<br>
+<br>
+FIELD-GROUPS header.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT t2 t1 INTO header.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='AABB'. t2 = 1. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='BBCC'. t2 = 2. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='AAAA'. t2 = 2. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='AABB'. t2 = 1. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='BBBB'. t2 = 2. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='BBCC'. t2 = 2. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='AAAA'. t2 = 1. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='BBBB'. t2 = 1. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='AAAA'. t2 = 3. EXTRACT header.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t1 ='AABB'. t2 = 1. EXTRACT header.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT BY t1 t2.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT FIRST.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Start of LOOP' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;line( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDAT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT NEW t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'New T1' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDAT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT NEW t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'New T2' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDAT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |{ t1 } { t2 }| ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT END OF t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'End of T2' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDAT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT END OF t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'End of T1' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDAT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT LAST.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;line( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDAT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENEXTRACT_GROUP_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+An example extract is created that contains only the fields from the field group <span class="qtext">header</span>
+and is sorted by these fields. The content of the data set and the resulting group level change are produced in the <span class="qtext">LOOP</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenextract_group_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+</html>

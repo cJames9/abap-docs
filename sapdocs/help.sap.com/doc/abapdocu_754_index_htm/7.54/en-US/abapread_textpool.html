@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPREAD_TEXTPOOL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapread_textpool.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="READ TEXTPOOL">
+<meta name="keywords" content="ABAP, READ TEXTPOOL">
+<title>
+READ TEXTPOOL - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapread_textpool.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapread_textpool.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogram_editing.html')" class="blue">program editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_dynamic.html')" class="blue">Dynamic Program Editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentextpool.html')" class="blue">text element</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@READ TEXTPOOL@@!ABAP_STATEMENT!@@"></A>
+<A NAME="@@INTO@@READ TEXTPOOL@@"></A>
+<A NAME="@@LANGUAGE@@READ TEXTPOOL@@"></A>
+<p><span class="h1">
+READ TEXTPOOL <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapread_textpool_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">READ TEXTPOOL prog INTO itab LANGUAGE lang.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement reads the text elements of the <a href="javascript:call_link('abentext_pool_glosry.html')" class="grey" title="Glossary Entry">
+text pool</a> of the language specified in <span class="qtext">lang</span> and the program specified in <span class="qtext">prog</span> from the
+<a href="javascript:call_link('abenrepository_glosry.html')" class="grey" title="Glossary Entry">repository</a> and places them
+into the internal table <span class="qtext">itab</span>. The previous content of <span class="qtext">itab</span>
+is deleted. If the text elements cannot be read, the content of <span class="qtext">itab</span> remains unchanged. The active text elements of the program are read by default.
+</P>
+<P>
+<span class="qtext">prog</span> expects a <a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">
+flat</a> character-like data object, which contains the name of the program of the text elements to
+be read; the name is not case-sensitive. The internal table <span class="qtext">itab</span> can be in
+any table category and its row type must correspond to the <span class="lnkgrey">TEXTPOOL</span> structure in ABAP Dictionary.
+</P>
+<P>
+<span class="qtext">lang</span> expects a character-like flat data object. This must contain a language
+key with a maximum length of one character, and this value must be contained in the column SPRAS of
+the database table <span class="lnkgrey">T002</span>. If <span class="qtext">lang</span> contains a space, the behavior is undefined.
+</P>
+<P>
+After a successful read, <span class="qtext">itab</span> contains, in the ENTRY column, the texts of the text symbols, the selection texts, the
+<a href="javascript:call_link('abenlist_header_glosry.html')" class="grey" title="Glossary Entry">list headers</a>, and the title from the
+<a href="javascript:call_link('abenprogram_attribute_glosry.html')" class="grey" title="Glossary Entry">program attributes</a>.
+Every text element that exists for the specified language occupies one row of the internal table and
+is identified uniquely by the columns ID and KEY. The column LENGTH contains the length of the text element. The table below shows the possible values of the columns ID and KEY and their meaning: <br><br>
+</P>
+<table border>
+<tr>
+<td><span class="bold">ID</span></td>
+<td><span class="bold">KEY</span></td>
+<td><span class="bold">ENTRY</span></td>
+</tr>
+<tr>
+<td>H</td>
+<td>001 through 004</td>
+<td>List Header Column Headers</td>
+</tr>
+<tr>
+<td>I</td>
+<td>ID of a text symbol</td>
+<td>Text of the text symbol</td>
+</tr>
+<tr>
+<td>R</td>
+<td>-</td>
+<td>Program title</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Name of a parameter or <a href="javascript:call_link('abenselection_criterion_glosry.html')" class="grey" title="Glossary Entry">selection criterion</a></td>
+<td>Selection text</td>
+</tr>
+<tr>
+<td>T</td>
+<td>-</td>
+<td>List Header Title bar</td>
+</tr>
+</table><br>
+<P>
+<span class="bold">System Fields</span>
+</P>
+<table border>
+<tr>
+<td><span class="qtext"><span class="bold">sy-subrc</span></span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td>0</td>
+<td>At least one text element was read.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The program specified in <span class="qtext">prog</span> or the language specified in <span class="qtext">lang</span> does not exist or there is no text pool in the specified language.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The table of <a href="javascript:call_link('abenprogram_type_oview.html')" class="blue">program types</a> indicates which program
+types support text pools. <span class="qtext">sy-subrc</span> is always set to 4, for programs without text pools. <br>
+<br></li>
+<li>
+When handling <a href="javascript:call_link('abenglobal_class_glosry.html')" class="grey" title="Glossary Entry">global classes</a> and
+<a href="javascript:call_link('abenfunction_group_glosry.html')" class="grey" title="Glossary Entry">function groups</a>, note
+that the name of the wrapper program must be specified in the repository and not the name of the class
+or function group. The way these names are created is documented in the statements <a href="javascript:call_link('abapclass-pool.html')" class="blue">
+<span class="qtext">CLASS-POOL</span></a> and <a href="javascript:call_link('abapfunction-pool.html')" class="blue"><span class="qtext">FUNCTION-POOL</span></a>. <br>
+<br></li>
+<li>
+For selection texts that are not taken from ABAP Dictionary, the actual text in ENTRY is preceded by eight blanks. <br>
+<br></li>
+<li>
+Selection texts taken from ABAP Dictionary are not stored in the text pool and cannot be read with <span class="qtext">
+READ TEXTPOOL</span>. They contain a "D" in the first position of ENTRY. To read the selection texts stored in ABAP Dictionary, use the function module RS_TEXTPOOL_READ. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+See <a href="javascript:call_link('abapinsert_textpool.html')" class="blue"><span class="qtext">INSERT TEXTPOOL</span></a> <br><br>
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapread_textpool_internal.html')" class="blue">READ TEXTPOOL - Internal Addition</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapread_textpool.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:54 GMT -->
+</html>

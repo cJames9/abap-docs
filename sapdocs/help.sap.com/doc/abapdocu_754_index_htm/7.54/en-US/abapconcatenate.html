@@ -1,0 +1,286 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCONCATENATE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapconcatenate.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CONCATENATE">
+<meta name="keywords" content="ABAP, CONCATENATE">
+<title>
+CONCATENATE - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapconcatenate.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapconcatenate.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_statements.html')" class="blue">Statements for Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CONCATENATE@@!ABAP_STATEMENT!@@"></A>
+<A NAME="@@LINES OF@@CONCATENATE@@"></A>
+<A NAME="@@INTO@@CONCATENATE@@"></A>
+<p><span class="h1">
+CONCATENATE <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapconcatenate_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">CONCATENATE <i class=bn>{</i>dobj1 dobj2 ...<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>LINES OF itab<i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO result</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>IN <i
+class=bn>{</i>CHARACTER<i class=bn>|</i>BYTE<i class=bn>}</i> MODE<i class=bn>]</i></span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>SEPARATED BY sep<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>RESPECTING BLANKS<i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... IN <i class=bn>{</i>CHARACTER<i class=bn>|</i>BYTE<i class=bn>}</i> MODE</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... SEPARATED BY sep</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">... RESPECTING BLANKS</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Concatenates either the content of the data objects <span class="qtext">dobj1, dobj2, ...</span> of
+the rows of the internal table <span class="qtext">itab</span> in accordance with their order and assigns them to the target field <span class="qtext">result</span>. <span class="qtext">itab</span> is a
+<a href="javascript:call_link('abenfunctional_position_glosry.html')" class="grey" title="Glossary Entry">functional operand position</a>. The following can be specified for the target field <span class="qtext">result</span>:
+</P>
+<ul class="disc">
+<li>
+An existing character-like or byte-like variable to which the result of the chaining can be converted.
+<br><br></li>
+<li>
+An inline declaration with <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>.
+If <span class="qtext">IN CHARACTER MODE</span> is used, the declared variable is of the type <span class="qtext">
+string</span>; if <span class="qtext">IN BYTE MODE</span> is used, it is of the type <span class="qtext">xstring</span>.
+<br></li>
+</ul>
+<P>
+If the target field <span class="qtext">result</span> has a fixed length and this is greater than the
+length required, the field is filled on the right with blanks or hexadecimal 0. If the target field
+is too short, the concatenation is truncated on the right. If the target field is a string, its length is adjusted accordingly.
+</P>
+<P>
+When character strings are processed, trailing blanks are usually ignored for data objects <span class="qtext">dobj1,
+dobj2 ...</span> or rows in the internal table <span class="qtext">itab</span> of fixed length. <br><br>
+</P>
+<P>
+<span class="bold">System Fields</span>
+</P>
+<table border>
+<tr>
+<td><span class="qtext">sy-subrc</span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td>0</td>
+<td>The content of all data objects <span class="qtext">dobj1, dobj2 ...</span> or <span class="qtext">itab</span> rows was passed to the target field <span class="qtext">result</span>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The content of the data objects <span class="qtext">dobj1, dobj2 ...</span> or <span class="qtext">itab</span> rows could not be passed completely, since <span class="qtext">result</span> is too short.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Instead of <span class="qtext">CONCATENATE</span>, it is usually also possible to use
+<a href="javascript:call_link('abapcompute_string.html')" class="blue">string expressions</a> for elementary fields. These expressions enable concatenations using either
+<a href="javascript:call_link('abenconcatenation_operator_glosry.html')" class="grey" title="Glossary Entry">concatenation operators</a> <span class="qtext">&amp;&amp;</span> or
+<a href="javascript:call_link('abenstring_templates_expressions.html')" class="blue">embedded expressions</a> in
+<a href="javascript:call_link('abenstring_templates.html')" class="blue">string templates</a>. The built-in function <a href="javascript:call_link('abenconcatenation_functions.html')" class="blue">
+<span class="qtext">concat_lines_of</span></a> can be used to concatenate rows in an internal table.
+<br><br></li>
+<li>
+The ABAP runtime environment executes an internal optimization to reduce reallocations if new fragments are attached to an existing
+<a href="javascript:call_link('abenstring_glosry.html')" class="grey" title="Glossary Entry">string</a> within a loop. If the
+string or parts of the string themselves are appended, no optimization takes place. In loops this causes a squared increase in runtime. This can be prevented by using helper variables. See also the
+<a href="javascript:call_link('abenstring_expr_perfo.html')" class="blue">Performance Note</a> for string expressions. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The example shows that a chaining with <span class="qtext">CONCATENATE</span> has the same result as a chaining with the
+<a href="javascript:call_link('abenconcatenation_operator_glosry.html')" class="grey" title="Glossary Entry">chaining operator</a> <a href="javascript:call_link('abenstring_operators.html')" class="blue"><span class="qtext">&amp;&amp;</span></a> or via
+<a href="javascript:call_link('abenstring_templates_expressions.html')" class="blue">embedded expressions</a>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CONCATENATE 'a' 'b' 'c' INTO DATA(str). <br>ASSERT str = 'a' &amp;&amp; 'b' &amp;&amp; 'c'. <br>ASSERT str = |{ 'a' }{ 'b' }{ 'c' }|. <br><br>
+</span>
+</p>
+<A NAME="@@IN BYTE MODE@@CONCATENATE@@"></A>
+<A NAME="@@IN CHARACTER MODE@@CONCATENATE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... IN <i class=bn>{</i>CHARACTER<i class=bn>|</i>BYTE<i class=bn>}</i> MODE</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The optional addition <span class="qtext">IN <i class=bn>{</i>CHARACTER<i class=bn>|</i>BYTE<i class=bn>}</i> MODE</span> determines whether
+<a href="javascript:call_link('abenstring_processing_statements.html')" class="blue">character string or byte string processing</a>
+is performed. If the addition is not specified, character string processing is performed. Depending
+on the processing type, the data objects <span class="qtext">dobj1, dobj2 ...</span>, the rows of the internal table <span class="qtext">itab</span>, and the separator <span class="qtext">sep</span> must be
+<a href="javascript:call_link('abencharlike_data_object_glosry.html')" class="grey" title="Glossary Entry">character-like</a> or
+<a href="javascript:call_link('abenbyte_like_data_object_glosry.html')" class="grey" title="Glossary Entry">byte-like</a>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Chaining of individual bytes from an internal table in a byte string.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES hex TYPE x LENGTH 1. <br>DATA itab TYPE TABLE OF hex WITH EMPTY KEY. <br> <br>itab = VALUE #( <br>
+&nbsp;&nbsp;( CONV hex( '48' ) ) <br>&nbsp;&nbsp;( CONV hex( '65' ) ) <br>&nbsp;&nbsp;( CONV hex( '6C' ) ) <br>
+&nbsp;&nbsp;( CONV hex( '6C' ) ) <br>&nbsp;&nbsp;( CONV hex( '6F' ) ) ). <br> <br>CONCATENATE LINES OF itab INTO DATA(xstr) IN BYTE MODE. <br>
+ <br>cl_demo_output=>display( <br>&nbsp;&nbsp;cl_abap_conv_codepage=>create_in( )->convert( xstr ) ). <br><br>
+</span>
+</p>
+<A NAME="@@SEPARATED BY@@CONCATENATE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... SEPARATED BY sep</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">SEPARATED BY</span> is used to insert the content of data object <span class="qtext">
+sep</span> between the content of the consecutive data objects <span class="qtext">dobj1, dobj2 ...</span>.
+When strings are processed, trailing blanks are respected in separators <span class="qtext">sep</span> of fixed length. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+After the first <span class="qtext">CONCATENATE</span> statement, the <span class="qtext">result</span>
+contains <span class="qtext400">"Wehaveallthetimeintheworld"</span>, while after the second it contains <span class="qtext400">"We have all the time in the world"</span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: t1 TYPE c LENGTH 10 VALUE 'We', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t2 TYPE c LENGTH 10 VALUE 'have', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t3 TYPE c LENGTH 10 VALUE 'all', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t4 TYPE c LENGTH 10 VALUE 'the', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t5 TYPE c LENGTH 10 VALUE 'time', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t6 TYPE c LENGTH 10 VALUE 'in', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t7 TYPE c LENGTH 10 VALUE 'the', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t8 TYPE c LENGTH 10 VALUE 'world'. <br>
+ <br>CONCATENATE t1 t2 t3 t4 t5 t6 t7 t8 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(result). <br>
+... <br>CONCATENATE t1 t2 t3 t4 t5 t6 t7 t8 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO result SEPARATED BY space. <br><br>
+</span>
+</p>
+<A NAME="@@RESPECTING BLANKS@@CONCATENATE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... RESPECTING BLANKS</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">RESPECTING BLANKS</span> is only allowed when strings are processed
+and respects the trailing blanks for data objects <span class="qtext">dobj1, dobj2 ...</span> or rows
+in the internal table <span class="qtext">itab</span>. If this addition is not used, the blanks are respected for data type <span class="qtext">string</span> only. <br><br>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+If the addition <span class="qtext">RESPECTING BLANKS</span> is specified, the statement <span class="qtext">CONCATENATE</span>
+can be used to assign any character strings <span class="qtext">text</span> to target fields <span class="qtext">str</span>
+of type <span class="qtext">string</span> while respecting trailing blanks: <span class="qtext">CLEAR str.</span> <span class="qtext">CONCATENATE str text INTO str RESPECTING BLANKS.</span> <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+After the first <span class="qtext">CONCATENATE</span> statement, <span class="qtext">result</span>
+contains "When_the_music_is_over", and after the second it contains <span class="qtext400">"When______the_______music_____is________ over______"</span>. The underscores here represent blanks.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+TYPES text&nbsp;&nbsp; TYPE c LENGTH 10. <br>DATA&nbsp;&nbsp;itab&nbsp;&nbsp; TYPE TABLE OF text. <br> <br>
+APPEND 'When'&nbsp;&nbsp;TO itab. <br>APPEND 'the'&nbsp;&nbsp; TO itab. <br>APPEND 'music' TO itab. <br>
+APPEND 'is'&nbsp;&nbsp;&nbsp;&nbsp;TO itab. <br>APPEND 'over'&nbsp;&nbsp;TO itab. <br> <br>CONCATENATE LINES OF itab INTO DATA(result) SEPARATED BY space. <br>
+... <br>CONCATENATE LINES OF itab INTO result RESPECTING BLANKS.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapconcatenate.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+</html>

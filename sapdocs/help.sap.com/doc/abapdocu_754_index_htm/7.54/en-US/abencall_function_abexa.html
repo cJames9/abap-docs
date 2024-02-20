@@ -1,0 +1,174 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCALL_FUNCTION_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencall_function_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Calling Function Modules">
+<title>
+Calling Function Modules - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencall_function_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencall_function_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_execution.html')" class="blue">Calling and leaving program units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_processing_blocks.html')" class="blue">Calling Processing Blocks</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_procedures.html')" class="blue">Calling Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcall_function.html')" class="blue">CALL FUNCTION</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcall_function_general.html')" class="blue">CALL FUNCTION func</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Calling Function Modules
+</span></p>
+<p>
+This example demonstrates how function modules are called.
+</p>
+<A name="@@ITOC@@ABENCALL_FUNCTION_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_call_function.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: itab TYPE spfli_tab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jtab TYPE spfli_tab.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA carrier TYPE s_carr_id VALUE 'LH'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( CHANGING field = carrier ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'READ_SPFLI_INTO_TABLE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= carrier<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= itab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not_found = 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(msg).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( msg ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'READ_SPFLI_INTO_TABLE_NEW'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp; = carrier<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab = jtab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_no_flight_found INTO DATA(exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT itab = jtab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( itab ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCALL_FUNCTION_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The function modules <span class="lnkgrey">READ_SPFLI_INTO_TABLE</span> and <span class="lnkgrey">READ_SPFLI_INTO_TABLE_NEW</span>
+read all data from the database table <span class="lnkgrey">SPFLI</span> where the key field CARRID
+matches the import parameter <span class="qtext">id</span> and passes this data to the internal tables
+<span class="qtext">itab</span> or <span class="qtext">jtab</span>. If no suitable data can be found, exceptions are raised.
+</p>
+<ul class="disc">
+<li>In READ_SPFLI_INTO_TABLE, the non-class-based exception NOT_FOUND is triggered by <a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">MESSAGE ... RAISING</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>In READ_SPFLI_INTO_TABLE_NEW, the class-based exception is triggered <span class="lnkgrey">CX_NO_FLIGHT_FOUND</span>
+by<a href="javascript:call_link('abapraise_exception.html')" class="blue"><span class="qtext">RAISE EXCEPTION ... MESSAGE</span></a>. CX_NO_FLIGHT_FOUND implements the interface <span class="lnkgrey">IF_T100_DYN_MSG</span>.</li>
+</ul>
+<p>
+Otherwise, the table is passed to the caller as an export parameter.
+</p>
+<p>
+The actual parameters <span class="qtext">carrier</span> and <span class="qtext">itab</span> or <span class="qtext">
+itab</span> have the same data types as the corresponding interface parameters of the function module. The exceptions are handled. The relevant exception text is accessed in different ways.
+</p>
+<ul class="disc">
+<li>With the non-class-based exception, the text is implicitly available via system fields.</li>
+</ul>
+<ul class="disc">
+<li>With the class-based exception, the text is specified by attributes of the exception object.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencall_function_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

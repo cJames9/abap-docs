@@ -1,0 +1,193 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENALIGNMENT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenalignment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:13 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Alignment of Data Objects">
+<meta name="keywords" content="ABAP, Alignment in Memory">
+<title>
+Alignment of Data Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenalignment.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenalignment.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">Types and Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_objects.html')" class="blue">Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Alignment of Data Objects
+</span></p>
+<p>
+Data objects with certain data types cannot be saved to random addresses in the main memory:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abennumeric_data_object_glosry.html')" class="grey" title="Glossary Entry">Numeric data objects</a></li>
+</ul>
+<dl><dd>
+The memory address of ABAP fields with the following numeric types must be divisible as follows:
+</dd></dl>
+<ul class="circlem2">
+<li><span class="qtext">s</span> by 2</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">i</span> by 4</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">int8</span>, <span class="qtext">decfloat16</span>, <span class="qtext">f</span> by 8</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">decfloat34</span> by 16</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencharlike_data_object_glosry.html')" class="grey" title="Glossary Entry">Character-like data objects</a></li>
+</ul>
+<dl><dd>
+In the case of the character representation <a href="javascript:call_link('abenucs2_glosry.html')" class="grey" title="Glossary Entry">
+UCS-2</a> used by the ABAP programming language, the memory address of character-like data objects must be divisible by 2.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abentimestamp_field_glosry.html')" class="grey" title="Glossary Entry">Time stamp fields</a></li>
+</ul>
+<dl><dd>
+The memory address of time stamp fields of the type <span class="qtext">utclong</span> must be divisible by eight.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">Deep data objects</a></li>
+</ul>
+<dl><dd>
+The memory address of deep data objects like strings or reference variables must be divisible by 4.
+</dd></dl>
+<p>
+An elementary data object is aligned when it has an address that corresponds to its data type.
+</p>
+<ul class="disc">
+<li>A structure is aligned when the following applies:</li>
+</ul>
+<ul class="circlem2">
+<li>Its start address satisfies the strictest alignment requirements of its components and</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abenoffset_glosry.html')" class="grey" title="Glossary Entry">offsets</a> of all components satisfy the same type-specific divisibility requirements.</li>
+</ul>
+<p>
+The correct alignment of data objects is not normally an issue, because they are created correctly automatically in the declaration. This can produce
+<a href="javascript:call_link('abenalignment_gap_glosry.html')" class="grey" title="Glossary Entry">alignment gaps</a> in structures with components of different data types.
+</p>
+<p>
+However, the alignment must be checked in the following cases:
+</p>
+<ul class="disc">
+<li>In assignments and comparisons of structures where the
+<a href="javascript:call_link('abenunicode_fragment_view_glosry.html')" class="grey" title="Glossary Entry">structure fragment view</a> that splits a structure into fragments in accordance with its alignment gaps must be respected.</li>
+</ul>
+<ul class="disc">
+<li>When a data object is handled using explicit or implicit <a href="javascript:call_link('abencast_casting_glosry.html')" class="grey" title="Glossary Entry">casting</a> with another data type.</li>
+</ul>
+<ul class="disc">
+<li>When a work area that has a different type from the database table is used in an <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> statement.</li>
+</ul>
+<p>
+If a statement expects a particular alignment of a data object, an exception is raised if there is insufficient alignment.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Components that are included in structures using <a href="javascript:call_link('abapinclude_type.html')" class="blue"><span class="qtext">INCLUDE TYPE<i class=bn>|</i>STRUCTURE</span></a> behave like genuine
+<a href="javascript:call_link('abensubstructure_glosry.html')" class="grey" title="Glossary Entry">substructures</a> with respect to alignment.</li>
+</ul>
+<ul class="disc">
+<li>The binary content of alignment gaps is not defined and cannot be evaluated.</li>
+</ul>
+<ul class="disc">
+<li>Alignment gaps can also occur at the end of structures, since the overall length of the structure is determined by the component with the largest alignment requirement.</li>
+</ul>
+<ul class="disc">
+<li>Alignment gaps are part of the length of a structure.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following alignment gaps (A) appear in the following structure:
+</p>
+<dl><dd>
+<span class="qtext400">[ a | A | b | A | cccccccccccc | AA | dddd ]</span>
+</dd></dl>
+<p>
+The first alignment gap is constructed as a result of the alignment of the substructure <span class="qtext">struc2</span>,
+the second gap is due to the alignment of the component <span class="qtext">c</span> of type <span class="qtext">c</span>,
+and the third is due to the component <span class="qtext">d</span> of type <span class="qtext">i</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF struc1, <br>&nbsp;&nbsp;&nbsp;&nbsp;a TYPE x LENGTH 1, <br>&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF struc2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b TYPE x LENGTH 1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c TYPE c LENGTH 6, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;END OF struc2, <br>&nbsp;&nbsp;&nbsp;&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;TYPE i, <br>&nbsp;&nbsp;END OF struc1. <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenalignment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:13 GMT -->
+</html>

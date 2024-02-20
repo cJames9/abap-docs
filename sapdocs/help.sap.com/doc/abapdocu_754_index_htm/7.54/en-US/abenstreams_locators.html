@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSTREAMS_LOCATORS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstreams_locators.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:27 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL - Streaming and Locators">
+<meta name="keywords" content="ABAP, Streaming and Locators, ABAP SQL">
+<title>
+ABAP SQL - Streaming and Locators - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenstreams_locators.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenstreams_locators.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP SQL - Streaming and Locators
+</span></p>
+<p>
+In ABAP SQL, <a href="javascript:call_link('abendata_stream_glosry.html')" class="grey" title="Glossary Entry">data streams</a> and
+<a href="javascript:call_link('abenlocator_glosry.html')" class="grey" title="Glossary Entry">locators</a> can be used to access
+<a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOBs</a> in data sources. The associated objects are grouped together under the term
+<a href="javascript:call_link('abenlob_handle_glosry.html')" class="grey" title="Glossary Entry">LOB handles</a>. While a locator is always an LOB handle, in principal there can also be data streams for other resources (see
+<a href="javascript:call_link('abenstreaming.html')" class="blue">Streaming</a>).
+</p>
+<p>
+For regular access to LOBs, ABAP data objects of the types <span class="qtext">string</span> and <span class="qtext">
+xstring</span> are used, to which the entire LOB is passed in the case of reads and from which the entire LOB is taken in the case of writes. Data streams and locators, however, work as follows:
+</p>
+<ul class="disc">
+<li>For reads, <a href="javascript:call_link('abenreader_stream_glosry.html')" class="grey" title="Glossary Entry">reader streams</a> can be associated with LOBs using the assignment of corresponding reference variables. The same applies to writes and
+<a href="javascript:call_link('abenwriter_stream_glosry.html')" class="grey" title="Glossary Entry">writer streams</a>. LOB data
+can be edited in portions using the methods of the streams. This has the benefit that LOBs do not have to be completely realized in the ABAP program.</li>
+</ul>
+<ul class="disc">
+<li>In the case of reads and writes, locators can be associated with LOBs by assigning corresponding
+reference variables. Using the methods of the locators, the substrings of LOBs or the properties of
+LOBs can be accessed without requiring a complete realization in the ABAP program. Furthermore, locators
+enable the copying of LOBs within the database without having to transport the data between the database and the AS ABAP.</li>
+</ul>
+<p>
+The use of data streams and locators for LOBs in database tables can improve performance with respect to the program runtime, by omitting unnecessary data transports. There are, however, also some disadvantages:
+</p>
+<ul class="disc">
+<li>The use of locators leads to higher resource consumption in the database system. Locators are not yet supported by all databases. In this case, they have to be emulated from the database interface on AS ABAP.</li>
+</ul>
+<ul class="disc">
+<li>The use of data streams does not lead to increased resource consumption in the database system,
+but data streams are somewhat more limited in their use. In particular, data streams cannot be used if internal tables are being processed in the ABAP SQL statements.</li>
+</ul>
+<p>
+The following sections introduce the classes for data streams and locators as well as the interfaces they include for general LOB handles.
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenopen_sql_streaming.html')" class="blue">Streaming</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenlocators.html')" class="blue">Locators</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenlob_interfaces.html')" class="blue">LOB Interfaces</a></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A maximum of 1000 LOB handles can be open in a <a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenopen_sql_streaming.html')" class="blue">ABAP SQL - Streaming</a><br>
+<a href="javascript:call_link('abenlocators.html')" class="blue">ABAP SQL - Locators</a><br>
+<a href="javascript:call_link('abenlob_interfaces.html')" class="blue">LOB Interfaces</a><br>
+<a href="javascript:call_link('abenlobs_abexas.html')" class="blue">ABAP SQL - Examples of LOB Handles</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstreams_locators.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:27 GMT -->
+</html>

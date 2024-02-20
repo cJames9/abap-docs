@@ -1,0 +1,136 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYN_CALL_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendyn_call_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynamic Calls">
+<title>
+Dynamic Calls - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendyn_call_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendyn_call_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_programming_scrty.html')" class="blue">Security Risks Caused by Input from Outside</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynamic Calls
+</span></p>
+<p>
+In dynamic calls, the name of the called unit is specified as the content of a character-like data object.
+If some or all of this content originates outside of the calling program, there is a risk that units
+are called unintentionally. The only way of tackling this security risk is to perform a comparison with
+a whitelist. The class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> provides the methods CHECK_WHITELIST_STR and CHECK_WHITELIST_TAB.
+</p>
+<p>
+Potential dynamic calls and hence a potential security risk when handling input can occur in the following cases:
+</p>
+<ul class="disc">
+<li>When an executable program is specified dynamically after <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>When a transaction is specified dynamically after <a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">
+CALL TRANSACTION</span></a> and <a href="javascript:call_link('abapleave_to_transaction.html')" class="blue"><span class="qtext">LEAVE TO TRANSACTION</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>When classes and methods are specified dynamically in a dynamic method call using <a href="javascript:call_link('abapcall_method_dynamic.html')" class="blue"><span class="qtext">CALL METHOD</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>When a class is specified dynamically in <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">CREATE OBJECT</span></a> (a dynamic call of the instance constructor).</li>
+</ul>
+<ul class="disc">
+<li>When the function module is specified dynamically in a function module call using <a href="javascript:call_link('abapcall_function.html')" class="blue"><span class="qtext">CALL FUNCTION</span></a> (particularly if
+<a href="javascript:call_link('abenrfc_glosry.html')" class="grey" title="Glossary Entry">RFC</a> is used).</li>
+</ul>
+<ul class="disc">
+<li>When subroutines and programs are specified dynamically in dynamic subroutine calls using <a href="javascript:call_link('abapperform.html')" class="blue"><span class="qtext">PERFORM</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>When the system function is specified dynamically in the internal statement <a href="javascript:call_link('abapcall-.html')" class="blue"><span class="qtext">CALL</span></a>.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+As well as checking intentional calls, it is also necessary to perform a sufficient <a href="javascript:call_link('abenauthority_scrty.html')" class="blue">authorization check</a> on the current user in program calls.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, a transaction name, when entered, is checked against a whitelist that contains only transactions from the ABAP example library.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA whitelist TYPE HASHED TABLE OF string <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY table_line. <br>
+SELECT obj_name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM tadir <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE pgmid&nbsp;&nbsp;&nbsp;&nbsp;= 'R3TR' AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; object&nbsp;&nbsp; = 'TRAN' AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; devclass = 'SABAPDEMOS' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @whitelist. <br>
+ <br>DATA transaction TYPE sy-tcode. <br>cl_demo_input=>request( CHANGING field = transaction ). <br> <br>
+TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;transaction = cl_abap_dyn_prg=>check_whitelist_tab( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val = transaction <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;whitelist = whitelist ). <br>&nbsp;&nbsp;CATCH cx_abap_not_in_whitelist INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM. <br>
+ENDTRY. <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSACTION transaction WITH AUTHORITY-CHECK. <br>&nbsp;&nbsp;CATCH cx_sy_authorization_error ##NO_HANDLER. <br>ENDTRY.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendyn_call_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

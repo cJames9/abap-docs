@@ -1,0 +1,144 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_CALL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_call.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:call, Calling Transformations">
+<meta name="keywords" content="ABAP, Simple Transformations, call">
+<title>
+ST - tt:call, Calling Transformations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_call.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_call.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_reuse.html')" class="blue">ST - Reusing ST Programs</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@call@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:call, Calling Transformations
+</span></p>
+<A name="@@ITOC@@ABENST_TT_CALL_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:call transformation="trafo"> <br>&nbsp;&nbsp;<i class=bn>[</i>&lt;tt:with-root name="root1" <i class=bn>[</i>ref="node1"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; &lt;tt:with-root name="root2" <i class=bn>[</i>ref="node2"<i class=bn>]</i> /> <br>&nbsp;&nbsp; ...<i class=bn>]</i> <br>
+&nbsp;&nbsp;<i class=bn>[</i>&lt;tt:with-parameter name="para1" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ref="node1"<i class=bn>|</i>val="val1"<i class=bn>|</i>var="var1"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; &lt;tt:with-parameter name="para2" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ref="node2"<i class=bn>|</i>val="val2"<i class=bn>|</i>var="var2"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; ...<i class=bn>]</i> <br>&lt;/tt:call></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+In an ST program, the statement <span class="qtext400">tt:call</span> can be used to call a different
+ST program <span class="qtext400">trafo</span>, as follows: The ST program <span class="qtext400">trafo</span> must exist in the repository. <span class="qtext400">trafo</span> is not case-sensitive.
+</p>
+<p>
+The ST command <span class="qtext400">tt:with-root</span> bind the <a href="javascript:call_link('abenst_tt_root.html')" class="blue"><span class="qtext400">
+data roots</span></a> <span class="qtext400">root1</span>, <span class="qtext400">root2</span>, ...
+of the main template of the called transformation to the nodes <span class="qtext400">node1</span>,
+<span class="qtext400">node2</span>, ... of the current transformation, that is, pass to these data
+roots the ABAP data objects that are currently bound to the specified nodes. If <span class="qtext400">ref</span> is not specified, the current node of the calling transaction is used.
+</p>
+<p>
+If formal parameters are declared with <a href="javascript:call_link('abenst_tt_parameter.html')" class="blue"><span class="qtext400">tt:parameter</span></a>
+in the called ST program, these can be linked to the actual parameters with the ST command <span class="qtext400">tt:with-parameter</span>.
+<span class="qtext400">ref</span> can be used to specify data roots as actual parameters, <span class="qtext400">var</span>
+can be used to specify variables as actual parameters, and <a href="javascript:call_link('abenst_abap_representation.html')" class="blue">
+<span class="qtext400">val</span></a> can be used to specify values as actual parameters. Depending
+on the kind of formal parameter, the values of the specified actual parameters are either passed in the call or used when the called ST program ends.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the ST program below, another ST program is called in a <a href="javascript:call_link('abenst_tt_loop.html')" class="blue"><span class="qtext400">tt:loop</span> loop</a>.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tab1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:loop ref="ROOT"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;key> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="key" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/key> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:call transformation="..."> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="ROOT" ref="values"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:call> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:loop> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tab1> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+If the called ST program is implemented as shown below, the transformation has the same function as the <a href="javascript:call_link('abenst_tt_loop.html')" class="blue">example</a> of transforming internal tables.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tab2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:loop ref="ROOT"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;value> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/value> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:loop> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tab2> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_call.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+</html>

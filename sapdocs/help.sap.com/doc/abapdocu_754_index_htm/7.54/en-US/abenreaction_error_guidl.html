@@ -1,0 +1,171 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREACTION_ERROR_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenreaction_error_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Reaction to Error Situations">
+<title>
+Reaction to Error Situations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenreaction_error_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenreaction_error_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="blue">Error Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Reaction to Error Situations
+</span></p>
+<A name="@@ITOC@@ABENREACTION_ERROR_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+ABAP provides the following concepts that a program can use to properly react to different error situations:
+</p>
+<ul class="disc">
+<li><span class="bold">Exceptions</span></li>
+</ul>
+<dl><dd>
+Exceptions are events in the execution of an ABAP program that interrupt the program when it is not
+possible for the program to continue in a meaningful way. Exceptions are raised either by the ABAP runtime environment or with ABAP statements
+(<span class="qtext">RAISE EXCEPTION</span>) in the program. Exception handling enables a response to
+be made to these events. An exception that is not handled results in a runtime error; that is, the program terminates and displays a short dump that describes the exception.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Assertions</span></li>
+</ul>
+<dl><dd>
+Assertions formulate conditions in a program that must be met to ensure a proper continuation of the program. An assertion is defined by the statement <span class="qtext">ASSERT</span>.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Messages</span></li>
+</ul>
+<dl><dd>
+Messages are texts that can contain up to four placeholders for value replacements and that can be displayed or otherwise sent using the statement <span class="qtext">MESSAGE</span>.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Program Terminations</span></li>
+</ul>
+<dl><dd>
+The language elements <a href="javascript:call_link('abapraise_shortdump.html')" class="blue"><span class="qtext">RAISE SHORTDUMP</span></a>
+and <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW SHORTDUMP</span></a>
+make it possible to resolve runtime errors associated with an exception object. The attributes of the exception object can be displayed in the short dump of the runtime error.
+</dd></dl>
+<p>
+These four concepts either involve the handling of the error situations by the program or the user (exceptions
+or error messages) or produce a controlled program termination (assertions, <span class="qtext">RAISE SHORTDUMP</span>, <span class="qtext">THROW SHORTDUMP</span>, and exit messages).
+</p>
+<A name="@@ITOC@@ABENREACTION_ERROR_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Select an appropriate reaction to error situations</span>
+</p>
+<p>
+Select the appropriate concept of error handling (exception, assertion, message, or program termination)
+for the respective error situation so that the error can either be handled adequately in the further course of the program or is terminated in a controlled manner.
+</p>
+<A name="@@ITOC@@ABENREACTION_ERROR_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+For each error situation, you should decide on one of the three concepts for error handling:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenclass_exception_guidl.html')" class="lnkpurple" title="Guideline">Exceptions</a> are to
+be used in all unexpected situations that the user does not have under control. These include, for example, invalid parameter values during the procedure call or unavailable external resources, such as files.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenassertions_guidl.html')" class="lnkpurple" title="Guideline">Assertions</a> are to be used to detect inconsistent program states that necessitate an immediate program termination.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenmessages_guidl.html')" class="lnkpurple" title="Guideline">Messages</a> are to be used
+only as dialog messages for error dialogs within the scope of classic dynpro processing (if still available).
+If you want to implement a program termination in situations where it is not a good idea for the program to continue, use assertions from now on instead of termination or exit messages.</li>
+</ul>
+<ul class="disc">
+<li>Targeted program terminations should only be used as a last resource when a program cannot otherwise
+execute correctly. They can be raised by failed assertions <span class="qtext">RAISE SHORTDUMP</span>,
+<span class="qtext">THROW SHORTDUMP</span>, or exit messages. Exit messages, if used, offer the fewest
+options for passing error information to the short dump. Assertions make it possible to write log entries
+and can be controlled from outside the program. <span class="qtext">RAISE SHORTDUMP</span> and <span class="qtext">
+THROW SHORTDUMP</span> pass exception objects and their attributes, which is of particular use for analyzing previous exceptions.</li>
+</ul>
+<p>
+The statement <span class="qtext">MESSAGE</span> is not only used to display dialog messages in a classic
+dynpro, but can also be deployed to terminate a program in a controlled manner or raise classic exceptions
+in the <a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">MESSAGE ... RAISING</span></a>
+variant if the appropriate message type is selected. This invites you to combine the different concepts,
+which may lead to problems. This can be traced back to the old programming model that was driven exclusively by classic dynpros, in which an error situation directly required the output of a message to the user.
+</p>
+<p>
+For contemporary programming that takes the <a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">
+separation of concerns</a> (SoC) into account, the question of whether a message is to be sent to the
+user in the event of an error can usually only be answered in a higher software layer. The layer in
+which such an error situation occurs must therefore react with an exception initially, which in turn represents a new situation for a higher layer, to which it can react with a dialog message or any other error message.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenreaction_error_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

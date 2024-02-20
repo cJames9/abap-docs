@@ -1,0 +1,127 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCHAR_DATE_TIME_FIELDS_NUMLIKE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenchar_date_time_fields_numlike.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Numeric Access to Date Fields and Time Fields">
+<title>
+Numeric Access to Date Fields and Time Fields - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenchar_date_time_fields_numlike.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenchar_date_time_fields_numlike.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendate_time_processing.html')" class="blue">Date and Time Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencharacter_date_time.html')" class="blue">Date Fields and Time Fields</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenchar_date_time_fields_access.html')" class="blue">Access to Date Fields and Time Fields</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Numeric Access to Date Fields and Time Fields
+</span></p>
+<p>
+Numeric access to date fields and time fields exploits the fact that the
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">conversion</a> of the types <span class="qtext">d</span>
+and <span class="qtext">t</span> to numeric values produces an integer number of days or seconds. This applies particularly when using date fields and time fields in
+<a href="javascript:call_link('abencompute_expressions.html')" class="blue">numeric calculations</a>, where these fields are
+converted to the corresponding calculation type. This enables differences to be calculated or values
+to be added or subtracted from date fields or time fields.  None of the other arithmetic operations are generally advisable here. To avoid unexpected results from these calculations, the
+<a href="javascript:call_link('abenchar_date_time_fields_validity.html')" class="blue">validity</a> of the content of the date or time fields must be verified.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following calculations provide the current day of the year, plus the hour, minutes, and seconds of the current time. The date and time are provided by a time stamp.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE d, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE t, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hour&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minute&nbsp;&nbsp;&nbsp;&nbsp;TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;second&nbsp;&nbsp;&nbsp;&nbsp;TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first_day TYPE d. <br> <br>CONVERT UTCLONG utclong_current( ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATE date <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME time <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME ZONE sy-zonlo. <br>
+ <br>first_day = date(4) &amp;&amp; '0101'. <br>day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = date - first_day + 1. <br>
+second&nbsp;&nbsp;&nbsp;&nbsp;= time. <br>hour&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= second DIV 3600. <br>
+second&nbsp;&nbsp;&nbsp;&nbsp;= second - hour * 3600. <br>minute&nbsp;&nbsp;&nbsp;&nbsp;= second DIV 60. <br>second&nbsp;&nbsp;&nbsp;&nbsp;= second - minute * 60.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following calculation produces the day of the week for a date field <span class="qtext">date</span> containing any valid date. 1 means Monday, 2 means Tuesday, and so on.
+</p>
+<dl><dd>
+<span class="qtext">day = ( 5 + date&nbsp;&nbsp;MOD 7 ) MOD 7 + 1.</span>
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following calculations provides the last day of the previous month.
+</p>
+<dl><dd>
+<span class="qtext">DATA date TYPE d. <br> <br>date = sy-datlo. <br>date+6(2) = '01'. <br>date&nbsp;&nbsp;&nbsp;&nbsp; = date - 1.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenchar_date_time_fields_numlike.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+</html>

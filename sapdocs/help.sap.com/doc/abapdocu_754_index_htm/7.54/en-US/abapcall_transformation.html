@@ -1,0 +1,956 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCALL_TRANSFORMATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcall_transformation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CALL TRANSFORMATION">
+<meta name="keywords" content="ABAP, CALL TRANSFORMATION">
+<title>
+CALL TRANSFORMATION - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapcall_transformation.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapcall_transformation.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CALL TRANSFORMATION@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+CALL TRANSFORMATION <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapcall_transformation_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">CALL TRANSFORMATION ID</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> trans<i class=bn>|</i>(name)</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>PARAMETERS <i class=bn>{</i>p1 = e1 p2 = e2 ...<i class=bn>}</i><i class=bn>|</i>(ptab)<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">OPTIONS options</a><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE <i class=bn>{</i>XML src_xml<i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> <i class=bn>{</i><i class=bn>{</i>bn1 = e1 bn2 = e2 ...<i class=bn>}</i><i class=bn>|</i>(stab)<i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT <i class=bn>{</i>XML rslt_xml<i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> <i class=bn>{</i> <i class=bn>{</i>bn1 = f1 bn2 = f2 ...<i class=bn>}</i><i class=bn>|</i>(rtab) <i class=bn>}</i>.</span> <br><br>
+</P>
+<p><span class="h2">
+Alternatives:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ALTERNATIVE_1@1@" class="blue"> <br>1. <span class="qtext">... ID ...</span> </A> <br>
+<br><A HREF="#!ABAP_ALTERNATIVE_2@2@" class="blue"> <br>2. <span class="qtext">... trans<i class=bn>|</i>(name) ...</span> </A> <br><br> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1A@1@" class="blue"> <br>1a. <span class="qtext">... SOURCE <i class=bn>{</i>XML src_xml<i
+class=bn>}</i><i class=bn>|</i><i class=bn>{</i><i class=bn>{</i>bn1 = e1 bn2 = e2 ...<i class=bn>}</i><i class=bn>|</i>(stab)<i class=bn>}</i></span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_1B@2@" class="blue"> <br>1b. <span class="qtext">... RESULT <i class=bn>{</i>XML rslt_xml<i
+class=bn>}</i><i class=bn>|</i><i class=bn>{</i><i class=bn>{</i>bn1 = f1 bn2 = f2 ...<i class=bn>}</i><i class=bn>|</i>(rtab)<i class=bn>}</i></span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@3@" class="blue"> <br>2. <span class="qtext">... PARAMETERS <i class=bn>{</i><i
+class=bn>{</i>p1 = e1 p2 = e2 ...<i class=bn>}</i><i class=bn>|</i>(ptab)<i class=bn>}</i></span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement calls the specified <a href="javascript:call_link('abenxsl_transformation_1_glosry.html')" class="grey" title="Glossary Entry">XSL transformation</a> (XSLT) or a
+<a href="javascript:call_link('abensimple_transformation_glosry.html')" class="grey" title="Glossary Entry">simple transformation</a>
+(ST). The source of the transformation is specified behind <span class="qtext">SOURCE</span> and the
+result is stored behind <span class="qtext">RESULT</span>. <span class="qtext">PARAMETERS</span> can
+be used to pass parameters to the transformation. The addition <a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">
+<span class="qtext">OPTIONS</span></a> can be used to specify transformation options <span class="qtext">options</span>. The possible transformation types are:
+</P>
+<ul class="disc">
+<li>
+from XML to XML (for XSLT only)
+<br><br></li>
+<li>
+from XML to ABAP (for XSLT and simple transformations only)
+<br><br></li>
+<li>
+from ABAP to XML (for XSLT and simple transformations only)
+<br><br></li>
+<li>
+from ABAP to ABAP (for XSLT only)
+<br></li>
+</ul>
+<P>
+<a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON-XML</a>, which maps
+<a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a> data to XML, can be used to execute all categories of transformations for JSON that are also possible for XML. More information is available in
+<a href="javascript:call_link('abenabap_json_trafos.html')" class="blue">Transformations for JSON</a>.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The characters <span class="qtext400">&lt;</span>, <span class="qtext400">></span>, <span class="qtext400">&amp;</span>,
+<span class="qtext400">"</span>, and <span class="qtext400">'</span>, which have a separate meaning
+in XML syntax, are handled automatically for XML data. When XML data is written, the required XML notation
+&lt;, <span class="qtext400">&amp;lt;</span>, <span class="qtext400">&amp;gt;</span>, <span class="qtext400">&amp;amp;</span>,
+<span class="qtext400">&amp;quot;</span>, or <span class="qtext400">&amp;apos;</span> is created in
+values of elements or attributes. When XML data is read, the XML notation is transformed to the appropriate
+characters. It is not usually necessary to apply the escape character function <a href="javascript:call_link('abenescape_functions.html')" class="blue">
+<span class="qtext">escape</span></a> or a similar method to character-like XML results of the statement
+<span class="qtext">CALL TRANSFORMATION</span> and would actually produce incorrect results. An exception to this rule is creating HTML data with XSLT in cases where it contains JavaScript parts.
+<br><br></li>
+<li>
+When JSON data is written, <a href="javascript:call_link('abenjson_oview.html')" class="blue">special characters</a> in character-like
+values are prefixed automatically with the escape character <span class="qtext400">\</span>. Conversely, the escape character is removed from character-like values when JSON data is read.
+<br><br></li>
+<li>
+When a transformation is performed, methods from the <a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">class libraries for XML</a> are used internally.
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>In the case of XSLT, a <a href="javascript:call_link('abendom_glosry.html')" class="grey" title="Glossary Entry">DOM</a> is always needed as a source. This DOM is constructed and processed using the
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>. In the case of the
+<a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> ID, the
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a> is used only if appropriate objects are specified as source or target.</li>
+</ul>
+<ul class="circlem2">
+<li>ST is processed serially, using the <a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>.</li>
+</ul>
+<dl>
+
+<dd>
+The library used also determines the character set that is supported. The iXML Library supports
+<a href="javascript:call_link('abenucs2_glosry.html')" class="grey" title="Glossary Entry">UCS-2</a> and the sXML Library supports <a href="javascript:call_link('abenutf_glosry.html')" class="grey" title="Glossary Entry">UTF</a>.
+</dd>
+</dl>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The transaction <span class="lnkgrey">STDEMO</span> demonstrates various transformations from ABAP data to
+<a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> and <a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a>. <br><br>
+</P>
+<A NAME="@@ID@@CALL TRANSFORMATION@@"></A>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_1@1@"></A> <span class="bold">Alternative 1</span>
+</span></p>
+<P>
+<span class="qtext">... ID ...</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifies the <a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a>
+ID directly. This transformation exists as an XSL transformation in the repository, but is executed
+by the runtime environment in an optimized ID engine, depending on the transformation source or target. For more information, see:
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abenabap_xslt_id.html')" class="blue">Identity transformation</a>
+<br><br></li>
+<li>
+<a href="javascript:call_link('abenabap_json_trafo_id.html')" class="blue">Identity Transformation for JSON</a>
+<br></li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenxslt_abexa.html')" class="blue">Executable Example of an Identity Transformation</a> <br><br>
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_2@2@"></A> <span class="bold">Alternative 2</span>
+</span></p>
+<P>
+<span class="qtext">... trans<i class=bn>|</i>(name) ...</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifies any transformation. The transformation addition can be specified either statically or dynamically:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">trans</span>
+<br></li>
+</ul>
+<dl>
+
+<dd>
+If static, the transformation is specified directly as <span class="qtext">trans</span>.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+<span class="qtext">(name)</span>
+<br></li>
+</ul>
+<dl>
+
+<dd>
+If dynamic, the transformation is specified as the uppercase content of a parenthesized character-like data object <span class="qtext">name</span>.
+</dd>
+</dl>
+<P>
+The specified transformation must exist as an <a href="javascript:call_link('abenxsl_transformation_2_glosry.html')" class="grey" title="Glossary Entry">XSLT program</a> or as a
+<a href="javascript:call_link('abensimple_transformation_glosry.html')" class="grey" title="Glossary Entry">simple transformation</a> in the
+<a href="javascript:call_link('abenrepository_glosry.html')" class="grey" title="Glossary Entry">repository</a>. If a dynamically specified transformation is not found, an exception of the class CX_INVALID_TRANSFORMATION is raised. <br><br>
+</P>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenst_program_abexa.html')" class="blue">Executable Example of a Simple Transformation</a> <br><br>
+</P>
+<A NAME="@@SOURCE@@CALL TRANSFORMATION@@"></A>
+<A NAME="@@XML@@CALL TRANSFORMATION SOURCE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1A@1@"></A> <span class="bold">Addition 1a</span>
+</span></p>
+<P>
+<span class="qtext">... SOURCE <i class=bn>{</i>XML src_xml<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i><i
+class=bn>{</i>bn1 = e1 bn2 = e2 ... <i class=bn>}</i><i class=bn>|</i>(stab)<i class=bn>}</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifying the source. <br><br>
+</P>
+<P>
+<span class="bold">Transformation of XML Data</span> <br><br>
+</P>
+<P>
+When <span class="qtext">XML src_xml</span> is specified, the
+<a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in <span class="qtext">src_xml</span> is transformed. <span class="qtext">src_xml</span> can exist in the following forms:
+</P>
+<ul class="disc">
+<li>
+As a data object with the type <span class="qtext">string</span> or as a
+<a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard table</a> with a
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> character-like row type, which can contain the following data:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>Character-like <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in XML 1.0 format.</li>
+</ul>
+<ul class="circlem2">
+<li>Character-like <a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a> data. When any transformation <span class="qtext">trans<i
+class=bn>|</i>(name)</span> is used, the JSON data is converted to the associated
+<a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON XML format</a> and passed to this transformation. The predefined
+<a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> <a href="javascript:call_link('abenabap_json_trafo_id.html')" class="blue">ID</a> handles the JSON data directly.</li>
+</ul>
+<ul class="disc">
+<li>
+As a data object with the type <span class="qtext">xstring</span> or as a
+<a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard table</a> with a
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> byte-like row type, which can contain the following data:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>Byte-like representation of the characters in <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in XML 1.0 format, in accordance with a code page such as UTF-8.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in <a href="javascript:call_link('abenbinary_xml_glosry.html')" class="grey" title="Glossary Entry">Binary XML</a> format.</li>
+</ul>
+<ul class="circlem2">
+<li>Byte-like representation of the characters in
+<a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a> data, in accordance with a code page such as UTF-8. When any transformation <span class="qtext">trans<i
+class=bn>|</i>(name)</span> is used, the JSON data is converted to the associated
+<a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON XML format</a> and passed to this transformation. The predefined
+<a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> <a href="javascript:call_link('abenabap_json_trafo_id.html')" class="blue">ID</a> handles the JSON data directly.</li>
+</ul>
+<ul class="disc">
+<li>
+As an interface reference variable for objects in the <a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a> (XSLT only):
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>Interface reference variable with the type IF_IXML_ISTREAM, pointing to an <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue">input stream</a> that reads XML data.</li>
+</ul>
+<ul class="circlem2">
+<li>Interface reference variable with the type IF_IXML_NODE, pointing to a node or a full XML document in <a href="javascript:call_link('abenabap_ixml_lib_dom_access.html')" class="blue">DOM representation</a>.</li>
+</ul>
+<ul class="disc">
+<li>
+As a reference variable of the type IF_SXML_READER or CL_SXML_READER for
+<a href="javascript:call_link('abenxml_reader_glosry.html')" class="grey" title="Glossary Entry">XML Reader</a> in the
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>. The transformation moves the reader by
+one node and processes the entire matching subtree. If the transformation is successful, the reader is located at the end of the processed data. Any valid reader can be specified:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>XML readers for <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in XML 1.0 format.</li>
+</ul>
+<ul class="circlem2">
+<li>XML readers for <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in <a href="javascript:call_link('abenbinary_xml_glosry.html')" class="grey" title="Glossary Entry">Binary XML</a> format.</li>
+</ul>
+<ul class="circlem2">
+<li>XOP readers for <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in <a href="javascript:call_link('abenxop_glosry.html')" class="grey" title="Glossary Entry">XOP</a> format.</li>
+</ul>
+<ul class="circlem2">
+<li>JSON readers for <a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON data</a>. When any transformation <span class="qtext">trans<i
+class=bn>|</i>(name)</span> is used, the JSON  reader returns the JSON data in
+<a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON-XML</a> format. When a predefined
+<a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a>
+<a href="javascript:call_link('abenabap_json_trafo_id.html')" class="blue">ID</a> is used, the JSON data is handled directly. <br><br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The interface IF_SXML_READER and the class CL_SXML_READER are part of the API of the
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>, whose objects can be accessed using <span class="qtext">CALL TRANSFORMATION</span>. <br>
+<br></li>
+<li>
+Transformations of XML data in <a href="javascript:call_link('abenxop_glosry.html')" class="grey" title="Glossary Entry">XOP
+format</a> are only possible with an XOP reader in the sXML Library. All other formats can be also specified in appropriate strings or internal tables. <br>
+<br></li>
+<li>
+The interfaces IF_IXML_ISTREAM and IF_IXML_NODE are part of the API of the
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>, whose objects can be accessed using <span class="qtext">CALL TRANSFORMATION</span>. <br>
+<br></li>
+<li>
+For compatibility reasons, <span class="qtext">src_xml</span> can also be a class reference variable of the type CL_FX_READER. The class CL_FX_READER, however, is scheduled for replacement by CL_SXML_READER. <br>
+<br></li>
+<li>
+When XML data is specified in strings or internal tables, it is best to use byte strings or byte-like row types and the UTF-8 code page for the representation. <br>
+<br></li>
+<li>
+The methods CONVERT of the interfaces <span class="lnkgrey">IF_ABAP_CONV_IN</span> and <span class="lnkgrey">IF_ABAP_CONV_OUT</span>
+of objects created using the class <span class="lnkgrey">CL_ABAP_CONV_CODEPAGE</span> can be used to transform character-like XML data or JSON data to a byte-like representation in accordance with a code page. <br><br>
+<br></li>
+</ul>
+<P>
+<span class="bold">Transformation of ABAP Data</span> <br><br>
+</P>
+<P>
+<span class="qtext">bn1 = e1 ...</span> or <span class="qtext">(stab)</span> is used to specify the ABAP data <span class="qtext">e1 e2 ...</span> to transform.
+</P>
+<ul class="disc">
+<li>
+When the <a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> ID is called, the ABAP data are either serialized to the
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">canonical XML format</a>
+<a href="javascript:call_link('abenasxml_glosry.html')" class="grey" title="Glossary Entry">asXML</a> or to the
+<a href="javascript:call_link('abenabap_asjson.html')" class="blue">canonical JSON format</a> <a href="javascript:call_link('abenasjson_glosry.html')" class="grey" title="Glossary Entry">asJSON</a>, depending on the target.
+<br><br></li>
+<li>
+When an XSLT program is called, the ABAP data is serialized to the
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">canonical XML representation</a>, which is then used
+as the source of the XSL transformation. <span class="qtext">bn1 bn2 ...</span> is used to specify the names of the XML elements that represent the ABAP data objects in the canonical XML representation.
+<br><br></li>
+<li>
+When a simple transformation is called, the transformation has read-only access to the ABAP data using the names <span class="qtext">bn1 bn2 ...</span>.
+<br></li>
+</ul>
+<P>
+Instead of using a static parameter list, the data objects can be passed dynamically as value pairs in the columns of an internal table <span class="qtext">stab</span> that has the type ABAP_TRANS_SRCBIND_TAB from the
+<a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type group</a> <span class="lnkgrey">ABAP</span>.
+</P>
+<P>
+Serializations convert the elementary components of the ABAP data objects to
+<a href="javascript:call_link('abenasxml_glosry.html')" class="grey" title="Glossary Entry">asXML</a> or
+<a href="javascript:call_link('abenasjson_glosry.html')" class="grey" title="Glossary Entry">asJSON</a>, in accordance with the
+<a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">mappings for built-in ABAP types</a> or for
+<a href="javascript:call_link('abenabap_xslt_asxml_schema.html')" class="blue">further XML schema data types</a>. This can raise the exceptions described there, some of which can be bypassed by using
+<a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">transformation options</a>.
+</P>
+<P>
+The case of the names in the XML data or JSON data depends on how they are specified in the ABAP runtime environment. If specified statically
+(<span class="qtext">b1</span>, <span class="qtext">b2</span>, ...), uppercase is used; if specified dynamically in <span class="qtext">stab</span>, the case used there is used.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+When a simple transformation is called, the serialization always creates an internal
+<a href="javascript:call_link('abenxml_writer_glosry.html')" class="grey" title="Glossary Entry">XML writer</a> object, which can be addressed using the interface IF_SXML_WRITER from
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML</a> Library. The object is accessed using attributes
+of the ST statement <a href="javascript:call_link('abenst_tt_call-method_static.html')" class="blue"><span class="qtext400">tt:call-method</span></a>. <br><br>
+</P>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li>
+For an overview of all possible XML sources, see <a href="javascript:call_link('abencall_trafo_sources_abexa.html')" class="blue">XML Sources of Transformations</a>.
+<br><br></li>
+<li>
+For deserializations of ABAP data from an XML reader in the sXML Library, see <a href="javascript:call_link('abensxml_trafo_from_reader_abexa.html')" class="blue">sXML-Library, Transformation from XML Reader</a>. <br><br>
+<br></li>
+</ul>
+<A NAME="@@RESULT@@CALL TRANSFORMATION@@"></A>
+<A NAME="@@XML@@CALL TRANSFORMATION RESULT@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1B@2@"></A> <span class="bold">Addition 1b</span>
+</span></p>
+<P>
+<span class="qtext">... RESULT <i class=bn>{</i>XML rslt_xml<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i><i
+class=bn>{</i>bn1 = f1 bn2 = f2 ...<i class=bn>}</i><i class=bn>|</i>(rtab)<i class=bn>}</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifying the target.
+</P>
+<P>
+<span class="bold">Transformation to XML Data</span>
+</P>
+<P>
+When <span class="qtext">XML rslt_xml</span> is specified, a transformation to
+<a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data takes place and this data
+is passed to <span class="qtext">rslt_xml</span>. <span class="qtext">rslt_xml</span> can exist in the following forms:
+</P>
+<ul class="disc">
+<li>
+As a variable with the type <span class="qtext">string</span> or as a standard table with a flat character-like
+row type. The XML data returned by the transformation is stored in XML 1.0 format as a character string in the string or in the table. Here, a byte order mark (BOM) is used as a prefix.
+<br><br></li>
+<li>
+As a variable with the type <span class="qtext">xstring</span> or as a standard table with a flat byte-like
+row type. The XML data returned by the transformation is saved in XML 1.0 format and as a byte string
+in the string or table. The byte string represents the characters of the XML data in accordance with the code page UTF-8. A byte order mark (BOM) is not used as a prefix.
+<br><br></li>
+<li>
+As an inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>, where a variable with the type <span class="qtext">xstring</span> is created.
+<br><br></li>
+<li>
+As an interface reference variable for objects in the <a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a> (XSLT only):
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>Interface reference variable with the type IF_IXML_OSTREAM, pointing to an <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue">output stream</a> that writes XML data.</li>
+</ul>
+<ul class="circlem2">
+<li>Interface reference variable with the type IF_IXML_DOCUMENT that points to an
+<a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue">XML document</a> in <a href="javascript:call_link('abendom_glosry.html')" class="grey" title="Glossary Entry">DOM</a> representation.</li>
+</ul>
+<ul class="disc">
+<li>
+As a reference variable with the type IF_SXML_WRITER or CL_SXML_WRITER for
+<a href="javascript:call_link('abenxml_writer_glosry.html')" class="grey" title="Glossary Entry">XML</a> writers in the
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML</a> Library. The result of the transformation is added to the current element of the writer as a subtree. Any valid writer can be specified:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>XML writers for <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in XML 1.0 format.</li>
+</ul>
+<ul class="circlem2">
+<li>XML writers for <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in <a href="javascript:call_link('abenbinary_xml_glosry.html')" class="grey" title="Glossary Entry">Binary XML</a> format.</li>
+</ul>
+<ul class="circlem2">
+<li>XOP writers for <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> data in <a href="javascript:call_link('abenxop_glosry.html')" class="grey" title="Glossary Entry">XOP</a> format.</li>
+</ul>
+<ul class="circlem2">
+<li>JSON writers for <a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a> data. A transformation <span class="qtext">trans<i class=bn>|</i>(name)</span> must create XML data in
+<a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON-XML</a> format. The predefined
+<a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a>
+<a href="javascript:call_link('abenabap_json_trafo_id.html')" class="blue">ID</a> creates the corresponding data directly. <br><br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The interface IF_SXML_WRITER and the class CL_SXML_WRITER are part of the API of the
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>, whose objects can be accessed using <span class="qtext">CALL TRANSFORMATION</span>. <br>
+<br></li>
+<li>
+Transformations to formats other than XML 1.0 are only possible with the appropriate writers in the <a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>. <br>
+<br></li>
+<li>
+The interfaces IF_IXML_OSTREAM and IF_IXML_DOCUMENT are part of the API of the
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>, whose objects can be accessed using <span class="qtext">CALL TRANSFORMATION</span>. <br>
+<br></li>
+<li>
+For compatibility reasons, <span class="qtext">rslt_xml</span> can also be a class reference variable of the type CL_FX_WRITER. However, the class CL_FX_WRITER is replaced by CL_SXML_WRITER. <br>
+<br></li>
+<li>
+When XML data is saved in strings or internal tables, it is best to use byte strings or byte-like row types and the UTF-8 code page for the representation. <br>
+<br></li>
+<li>
+XML data that is written to <a href="javascript:call_link('abenunicode_system_glosry.html')" class="grey" title="Glossary Entry">Unicode
+systems</a> as character-like data cannot be processed as character-like data in a non-Unicode system, due to the byte order mark (BOM) that is predefined by the XML standard. <br>
+<br></li>
+<li>
+The methods CONVERT of the interfaces <span class="lnkgrey">IF_ABAP_CONV_OUT</span> and <span class="lnkgrey">IF_ABAP_CONV_IN</span>
+of objects created using the class <span class="lnkgrey">CL_ABAP_CONV_CODEPAGE</span> can be used to transform character-like XML data or JSON data to a byte-like representation in accordance with a code page.
+<br></li>
+</ul>
+<p><span class="h4">
+Security Note
+</span></p>
+<p>
+If HTML data containing JavaScript is created using the output method <span class="qtext400">"html"</span>
+of an XSL transformation, the syntax characters <span class="qtext400">&lt;</span>, <span class="qtext400">></span>,
+<span class="qtext400">&amp;</span>, <span class="qtext400">"</span>, and <span class="qtext400">'</span> in the JavaScript parts are not transformed to their
+<a href="javascript:call_link('abenxml_oview.html')" class="blue">XML notation</a>. To prevent cross site scripting (XSS) in
+HTML data that contains dynamic JavaScript parts, appropriate measures must be taken. These measures are best applied in the XSL transformation that creates the data. <br><br>
+</p>
+<P>
+<span class="bold">Transformation to ABAP Data</span>
+</P>
+<P>
+<span class="qtext">bn1 = f1 ...</span> or <span class="qtext">(rtab)</span> are used to specify the ABAP target fields <span class="qtext">f1 f2 ...</span> into which the XML data is transformed.
+</P>
+<ul class="disc">
+<li>
+When the <a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> ID is called, the source must either be a
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">canonical XML representation</a> or a
+<a href="javascript:call_link('abenabap_asjson.html')" class="blue">canonical JSON representation</a> for ABAP data. The canonical
+display format is deserialized in the ABAP data objects. <span class="qtext">bn1 bn2 ...</span> is used
+to specify the names of the XML elements that represent the ABAP data objects in the canonical XML representation,
+and <span class="qtext">f1 f2 ...</span> is used to specify ABAP data objects (appropriate to the data type) into which they are deserialized.
+<br><br></li>
+<li>
+When an XSLT program is called, the result must represent the XSL transformation into a
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">canonical XML representation</a>, which is deserialized into the ABAP data objects (like with the identity transformation).
+<br><br></li>
+<li>
+When a simple transformation is called, the transformation performs writes on the ABAP data using the names <span class="qtext">bn1 bn2 ...</span>.
+<br></li>
+</ul>
+<P>
+Instead of using a static parameter list, the data objects can be passed dynamically as value pairs to the columns of the internal table <span class="qtext">rtab</span> that has the type ABAP_TRANS_RESBIND_TAB from the
+<a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type group</a> ABAP.
+</P>
+<P>
+Deserialization converts the elementary XML or JSON values to elementary ABAP data types in accordance with the
+<a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">mappings for built-in ABAP types</a> or for
+<a href="javascript:call_link('abenabap_xslt_asxml_schema.html')" class="blue">further XML schema data types</a>. This can raise the exceptions described there, some of which can be bypassed by using
+<a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">transformation options</a>.
+</P>
+<P>
+The case used in the XML or JSON data must match exactly the case specified in the ABAP runtime environment. If specified statically
+(<span class="qtext">b1</span>, <span class="qtext">b2</span>, ...), uppercase is used; if specified dynamically in <span class="qtext">rtab</span>, the case used there is used.
+</P>
+<P>
+When deserializing from a canonical representation, if no corresponding asXML element or asJON object
+component exists for an ABAP object, the data object retains its previous value. If an empty XML element
+or an empty JSON array is assigned to an elementary or tabular ABAP data object, the ABAP data object
+is set to its type-dependent initial value. If an empty XML element or empty JSON object is assigned
+to a structure, this has the same effect as non-existent elements on the structure components. The structure
+components retain their previous values. The transformation option <a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">
+<span class="qtext">clear</span></a> with the value <span class="qtext400">"all"</span> can be used to initialize all data objects that have nonexistent or empty elements assigned to them.
+</P>
+<P>
+In the case of the deserialization of internal tables with non-unique <a href="javascript:call_link('abenitab_key.html')" class="blue">table keys</a>, the order of the duplicate rows in relation to these keys is not retained.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+When a simple transformation is called, deserialization always creates an internal
+<a href="javascript:call_link('abenxml_reader_glosry.html')" class="grey" title="Glossary Entry">XML reader</a> object, which can be addressed using the interface IF_SXML_READER from the
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>. The object is accessed using attributes
+of the ST statement <a href="javascript:call_link('abenst_tt_call-method_static.html')" class="blue"><span class="qtext400">tt:call-method</span></a>. <br><br>
+</P>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li>
+For an overview of all possible XML sources, see <a href="javascript:call_link('abencall_trafo_results_abexa.html')" class="blue">XML Sources of Transformations</a>.
+<br><br></li>
+<li>
+For transformations of XML data to DOM representation in the iXML Library, see <a href="javascript:call_link('abenixml_dom_abexa.html')" class="blue">iXML Library, DOM Representation</a>.
+<br><br></li>
+<li>
+For transformations of ABAP data to an XML writer in the sXML Library, see <a href="javascript:call_link('abensxml_trafo_into_writer_abexa.html')" class="blue">sXML Library, Transformation to XML Writer.</a>.
+<br><br></li>
+<li>
+For deserializations of missing or empty asXML elements or asJSON object components, see:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenabap_deserl_no_elem_abexa.html')" class="blue">Deserializing Missing Elements</a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenabap_deserl_no_elem_abexa.html')" class="blue">Deserializing Empty Elements</a></li>
+</ul>
+<ul class="disc">
+<li>
+For transformations of syntax characters to XML targets, see <a href="javascript:call_link('abencall_trafo_escaping_abexa.html')" class="blue">Transformation of Syntax Characters</a>. <br><br>
+<br></li>
+</ul>
+<A NAME="@@PARAMETERS@@CALL TRANSFORMATION@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@3@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... PARAMETERS <i class=bn>{</i><i class=bn>{</i>p1 = e1 p2 = e2 ...<i class=bn>}</i><i class=bn>|</i>(ptab)<i class=bn>}</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition can be used to bind ABAP data objects <span class="qtext">e1 e2 ...</span> to the parameters <span class="qtext">p1 p2 ...</span> of an
+<a href="javascript:call_link('abenxsl_transformation_1_glosry.html')" class="grey" title="Glossary Entry">XSL transformation</a> or a
+<a href="javascript:call_link('abensimple_transformation_glosry.html')" class="grey" title="Glossary Entry">simple transformation</a>. All elementary data objects and object references are permitted.
+</P>
+<P>
+Instead of using a static parameter list, the parameters can be specified dynamically as value pairs in the columns of the internal table <span class="qtext">ptab</span> that has one of the following types from the
+<a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type group</a> ABAP:
+</P>
+<ul class="disc">
+<li>
+ABAP_TRANS_PARMBIND_TAB for specifying strings,
+<br><br></li>
+<li>
+ABAP_TRANS_OBJBIND_TAB for specifying object references (for XSLT only),
+<br><br></li>
+<li>
+ABAP_TRANS_PARM_OBJ_BIND_TAB for specifying data references (for XSLT only).
+<br></li>
+</ul>
+<P>
+<span class="bold">Parameter Passing to XSL Transformations</span>
+</P>
+<P>
+The specified parameters must be defined as input parameters in an XSL transformation as follows:
+</P>
+<P>
+&lt;<span class="qtext">xsl:param name="..." sap:type="..." /</span>>
+</P>
+<P>
+Specify the parameter name for the attribute <span class="qtext">name</span> in uppercase letters. Before
+a binding can take place, the case used in the XML document must match exactly the case specified in the ABAP runtime environment. If specified statically
+(<span class="qtext">b1</span>, <span class="qtext">b2</span>, ...), uppercase is used; if specified dynamically in <span class="qtext">rtab</span>, the case used there is used.
+</P>
+<P>
+For the optional attribute <span class="qtext">type</span>, one of the type names <span class="qtext">string</span>,
+<span class="qtext">number</span>, <span class="qtext">boolean</span>, <span class="qtext">nodeset</span>,
+<span class="qtext">xstring</span>, or <span class="qtext">object(...)</span> can be defined, with a
+global ABAP class specified in parentheses behind <span class="qtext">object</span>. The namespace before
+<span class="qtext">type</span> must be defined as <span class="qtext">xmlns:sap="http://www.sap.com/sapxsl"</span>, with the prefix <span class="qtext">sap</span> proposed as a convention.
+</P>
+<P>
+If no type is specified in the transformation, the data types of elementary parameters are mapped to XSL types in accordance with the following table.
+</P>
+<table border>
+<tr>
+<td><span class="bold">ABAP Data Type</span></td>
+<td><span class="bold">XSL Parameter Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext">c</span>, <span class="qtext">d</span>, <span class="qtext">n</span>, <span class="qtext">string</span></td>
+<td><span class="qtext">string</span></td>
+</tr>
+<tr>
+<td><span class="qtext">i</span> (<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">f</span>, <span class="qtext">p</span></td>
+<td><span class="qtext">number</span></td>
+</tr>
+<tr>
+<td><span class="qtext">x</span>, <span class="qtext">xstring</span></td>
+<td><span class="qtext">string</span>, where the content is represented in <a href="javascript:call_link('abenbase64_glosry.html')" class="grey" title="Glossary Entry">Base 64</a>.</td>
+</tr>
+</table><br>
+<P>
+If the XSL types shown in the table above are specified explicitly in the XSL transformation, appropriate elementary ABAP parameters must be specified that can be converted to the XSL type:
+</P>
+<ul class="disc">
+<li>
+The XSL type <span class="qtext">boolean</span> expects ABAP parameters of the type <span class="qtext">c</span> with the length one. A blank is interpreted as "false" and any other character as "true".
+<br><br></li>
+<li>
+The XSL type <span class="qtext">xstring</span> expects ABAP parameters of the type <span class="qtext">x</span> or <span class="qtext">xstring</span> and the content is represented as hexadecimal.
+<br><br></li>
+<li>
+The XSL types <span class="qtext">nodeset</span> and <span class="qtext">object</span> expect an object
+reference variable that points to an instance of a class. The type <span class="qtext">nodeset</span> expects appropriate object properties.
+<br></li>
+</ul>
+<P>
+If a parameter does not match the XSL type, a non-handleable exception is raised. If a parameter defined
+in the XSL transformation is not passed, it is set to a default value in the transformation. Any specified parameters that are not defined in the XSL transformation are ignored.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The XSL types <span class="qtext">string</span>, <span class="qtext">number</span>, <span class="qtext">boolean</span>,
+and <span class="qtext">nodeset</span> are standard XSL types. <span class="qtext">xstring</span> and
+<span class="qtext">object</span> represent special SAP enhancements. The type <span class="qtext">xstring</span>
+enables byte strings to be represented in hexadecimal instead of base 64. The type <span class="qtext">object</span> enables ABAP methods to be called from the XSLT program.
+<br><br></li>
+<li>
+The special addition <a href="javascript:call_link('abapcall_transformation_objects.html')" class="blue"><span class="qtext">OBJECTS</span></a>
+can be used to pass object references, but this addition is replaced by <span class="qtext">PARAMETERS</span>.
+<br></li>
+</ul>
+<P>
+<span class="bold">Parameter Passing to ST Programs</span>
+</P>
+<P>
+In an ST program, the parameters must be defined as follows as parameters of the main template outside a template:
+</P>
+<P>
+<span class="qtext">&lt;tt:parameter name="..." <i class=bn>[</i>kind="..."<i class=bn>]</i> <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i><i class=bn>[</i>s-val="..."<i class=bn>]</i><i class=bn>[</i>d-val="..."<i class=bn>]</i><i class=bn>]</i><i class=bn>|</i><i class=bn>[</i>val="..."<i class=bn>]</i> /></span>
+</P>
+<P>
+When an ST program is called, output parameters and input/output parameters are supported as well as
+input parameters. The type of the parameter is defined using <span class="qtext">kind</span> in the
+ST program, where <span class="qtext">"in"</span>, <span class="qtext">"out"</span>, and <span class="qtext">"inout"</span>
+can be specified. "inout" is the default. The <span class="qtext">val</span> attributes can be used to define replacement values. <br><br>
+</P>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_TRANSFORMATION_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Common superclass of all exception classes for <span class="qtext">CALL
+TRANSFORMATION</span>. The direct subclasses are <span class="lnkgrey">CX_ST_ERROR</span> for simple
+transformations and <span class="lnkgrey">CX_XSLT_EXCEPTION</span> for XSL transformations. When the
+statement <span class="qtext">CALL TRANSFORMATION</span> is executed, exceptions of the class CX_TRANSFORMATION_ERROR
+and almost all of its subclasses can be handled. The resumability of an exception of the subclass CX_ST_DESERIALIZATION_ERROR
+can be defined using the transformation option <a href="javascript:call_link('abapcall_transformation_options.html')" class="blue"><span class="qtext">exceptions = 'resumable'</span></a>.
+<br></li>
+</ul>
+<dl>
+
+<dd>
+In addition to this, the following exceptions may be raised when a transformation is executed:
+</dd>
+</dl>
+<ul class="circlem2">
+<li>Exceptions like those raised in <a href="javascript:call_link('abenabap_xslt_asxml_named.html')" class="blue">mappings from
+ABAP data types to asXML</a> cannot be handled directly. These exceptions raise exceptions of the class CX_TRANSFORMATION_ERROR (or its subclasses) and can be handled using these.</li>
+</ul>
+<ul class="circlem2">
+<li>Exceptions raised in ABAP methods called in transformations (such as transformations of objects using the methods
+<a href="javascript:call_link('abenasxml_class_instances.html')" class="blue">SERIALIZE_HELPER</a> and
+<a href="javascript:call_link('abenasxml_class_instances.html')" class="blue">DESERIALIZE_HELPER</a> or when
+<a href="javascript:call_link('abenst_abap_objects.html')" class="blue">accessing ABAP Objects from ST</a>) raise exceptions
+of the class CX_TRANSFORMATION_ERROR (or its subclasses), if they are declared in the interface of the method <a href="javascript:call_link('abapmethods_general.html')" class="blue"><span class="qtext">RAISING</span></a>. The
+<a href="javascript:call_link('abenresumable_exception_glosry.html')" class="grey" title="Glossary Entry">resumability</a> of the original exception is applied here. Non-declared exceptions, on the other hand, raise the exception
+<a href="javascript:call_link('abenexceptions_procedures.html')" class="blue">CX_SY_NO_HANDLER</a>, which cannot be handled using CX_TRANSFORMATION_ERROR (or its subclasses).</li>
+</ul>
+<dl><dd>
+The attribute PREVIOUS of the corresponding exception object always contains a reference to the original exception. If an exception of this type is not handled, the
+<a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dump</a> displays the original exception.
+</dd></dl>
+<P>
+<span class="bold">Subclasses of CX_ST_ERROR</span>
+</P>
+<P>
+<span class="lnkgrey">CX_ST_CALL_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error when calling the transformation
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_CALL_METHOD_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Exception in an ABAP method called from the transformation
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_CONDITION</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in a transformation condition
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_CONSTRAINT_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Data object to be serialized or deserialized is too long.
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_DESERIALIZATION_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in the deserialization
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_FORMAT_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Format error in a node
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_INVALID_XML</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> A serialization would produce invalid XML.
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_MATCH</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Deserialization match failed
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_REF_ACCESS</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in data node access
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_RUNTIME_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in execution of the transformation
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_SERIALIZATION_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in the serialization
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_ST_VALIDATION_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Failed validation with the attribute <span class="qtext">xsd-type</span> in the ST statements
+<a href="javascript:call_link('abenst_tt_value_elementary.html')" class="blue">tt:value</a>, <a href="javascript:call_link('abenst_tt_write.html')" class="blue"><span class="qtext400">
+tt:write</span></a>, or <a href="javascript:call_link('abenst_tt_read.html')" class="blue"><span class="qtext400">tt:read</span></a>. This exception cannot be caught directly.
+<br></li>
+</ul>
+<P>
+<span class="bold">Subclasses of CX_XSLT_EXCEPTION</span>
+</P>
+<P>
+<span class="lnkgrey">CX_XSLT_ABAP_CALL_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error when calling an ABAP method from XSLT <br>Runtime error <span class="qtext">XSLT_METH_ERROR</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_XSLT_DESERIALIZATION_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in the deserialization <br><span class="italic">Runtime error:</span> <span class="qtext">XML_NOT_SUPPORTED</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_XSLT_FORMAT_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Document is not in asXML format <br>Runtime error: <span class="qtext">XML_FORMAT_ERROR</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_XSLT_RUNTIME_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in XSLT processor <br><span class="italic">Runtime error:</span> <span class="qtext">UNCAUGHT_EXCEPTION</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_XSLT_SERIALIZATION_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error in the serialization <br><span class="italic">Runtime error:</span> <span class="qtext">XML_NOT_SUPPORTED</span> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapcall_transformation_options.html')" class="blue">CALL TRANSFORMATION - OPTIONS</a><br>
+<a href="javascript:call_link('abencall_transformation_abexas.html')" class="blue">CALL TRANSFORMATION - Examples</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcall_transformation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+</html>

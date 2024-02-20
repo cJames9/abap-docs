@@ -1,0 +1,217 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCATCH_EXCEPTION_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencatch_exception_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exceptions, CATCH">
+<title>
+Exceptions, CATCH - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencatch_exception_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencatch_exception_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions.html')" class="blue">Class-Based Exceptions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexception_abexas.html')" class="blue">Examples of Exceptions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exceptions, CATCH
+</span></p>
+<p>
+This example demonstrates how class-based exceptions are caught.
+</p>
+<A name="@@ITOC@@ABENCATCH_EXCEPTION_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_catch_exception.<br>
+<br>
+DATA(in) = cl_demo_input=&gt;new( ).<br>
+DATA: resumable&nbsp;&nbsp;&nbsp;&nbsp; TYPE abap_bool VALUE abap_false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_unwind TYPE abap_bool VALUE abap_false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE abap_bool VALUE abap_false.<br>
+in-&gt;add_field( EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text = 'RAISE RESUMABLE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = resumable<br>
+ )-&gt;add_field( EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text = 'CATCH BEFORE UNWIND'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = before_unwind<br>
+ )-&gt;add_field( EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text = 'RESUME'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = resume<br>
+ )-&gt;request( ).<br>
+<br>
+CLASS lcx_exception DEFINITION INHERITING FROM cx_static_check.<br>
+ENDCLASS.<br>
+<br>
+CLASS exc_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA out TYPE REF TO if_demo_output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth1 RAISING lcx_exception,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth2 RAISING RESUMABLE(lcx_exception).<br>
+ENDCLASS.<br>
+<br>
+FIELD-SYMBOLS &lt;fs&gt; TYPE any.<br>
+<br>
+CLASS exc_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA exc TYPE REF TO lcx_exception.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF before_unwind = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Trying method call' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF resumable = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_demo=&gt;meth1( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF resumable = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_demo=&gt;meth2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH lcx_exception.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;fs&gt; IS ASSIGNED.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Context of method available' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Context of method not available' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Continue after main TRY block' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF before_unwind = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Trying method call' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF resumable = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_demo=&gt;meth1( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF resumable = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_demo=&gt;meth2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH BEFORE UNWIND lcx_exception INTO exc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;fs&gt; IS ASSIGNED.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Context of method available' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Context of method not available' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF resume = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF exc-&gt;is_resumable = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESUME.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Resumption not possible' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Continue after main TRY block' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD meth1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA loc TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN loc TO &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Raising non-resumable exception' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE lcx_exception.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Never executed' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEANUP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Cleanup in method' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Continue after TRY block in method' ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD meth2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA loc TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN loc TO &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Raising resumable exception' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE RESUMABLE EXCEPTION TYPE lcx_exception.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Resuming method' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEANUP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Cleanup in method' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Continue after TRY block in method' ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;exc_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCATCH_EXCEPTION_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The method <span class="qtext">meth1</span> raises a non-resumable exception and the method <span class="qtext">meth2</span>
+raises a resumable exception that is handled in the <span class="qtext">TRY</span> control structures of the method <span class="qtext">main</span> using <span class="qtext">CATCH</span>.
+</p>
+<ul class="disc">
+<li>If handled without <span class="qtext">BEFORE UNWIND</span>, the <span class="qtext">CLEANUP</span>
+block is executed in both cases before handling and the context of the called method does not exist during handling.</li>
+</ul>
+<ul class="disc">
+<li>If handled with <span class="qtext">BEFORE UNWIND</span>, the context of the called method exists in both cases during handling and the <span class="qtext">CLEANUP</span> block is executed after handling.</li>
+</ul>
+<ul class="disc">
+<li>When a resumable exception is raised, the statement <span class="qtext">RESUME</span> can be executed
+during handling. This statement makes sure that processing in the called method is continued without its <span class="qtext">CLEANUP</span> block being executed.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencatch_exception_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+</html>

@@ -1,0 +1,114 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_PERSISTENCE_REFS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_refs.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Persistent Object References">
+<title>
+Persistent Object References - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_persistence_refs.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_persistence_refs.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_persist.html')" class="blue">Persistence Service</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Persistent Object References
+</span></p>
+<p>
+At runtime, the persistence service works with the instances of persistent classes, which are generally
+addressed and kept alive using references (as in ABAP Objects). If a reference to a persistent object
+is to be persisted beyond the runtime of an ABAP program (for example, to work with the same object later in another ABAP program), it must be saved persistently.
+</p>
+<p>
+To save this information in a database, two table fields of the type OS_GUID are needed. The first field
+contains the class GUID generated when the persistent class is created, while the second contains the
+instance GUID that provides the unique global identifier for the object and its values. Both of these
+together form an object ID (or OID). References to objects of persistent classes that are defined by mappings and business keys cannot be saved in this way since they do not have an instance GUID.
+</p>
+<p>
+Both fields of an OID of this type can be mapped to a single attribute of a persistent class. This attribute
+provides a reference to the relevant persistent object. The persistence service then handles this reference
+(which is not a reference variable in the original ABAP Objects sense). It also loads the persistent object (to which the reference points) from the database.
+</p>
+<p>
+Creating these two fields for the class GUID and the instance GUID does not make sense unless the tables
+are used as the basis for a persistent class. The most common use for this technique is to save references
+to other persistent objects in a persistent object accessed by a semantic key (business key), where
+these other objects are managed by instance GUIDs, and cannot be accessed otherwise (that is, where objects are closely interlinked).
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When a persistent object is loaded that contains a reference to another persistent object as an attribute,
+an instance is created in the memory for the latter, but its persistent attributes are only loaded when required and not straight away.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_refs.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

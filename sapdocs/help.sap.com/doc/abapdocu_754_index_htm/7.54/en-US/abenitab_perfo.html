@@ -1,0 +1,286 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENITAB_PERFO -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenitab_perfo.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables: Performance Notes">
+<meta name="keywords" content="ABAP, Internal Tables, Performance">
+<title>
+Internal Tables: Performance Notes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenitab_perfo.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenitab_perfo.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables: Performance Notes
+</span></p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_1" class="blue">Table Sharing</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_2" class="blue">Initial Allocated Memory Area</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_3" class="blue">Index Administration</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_4" class="blue">Block Processing of Table Rows</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_5" class="blue">Selective Data Transport</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_6" class="blue">Using Secondary Keys</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_7" class="blue">Deleting Table Rows</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_8" class="blue">Free Key Specified for Sorted Tables and Hashed Tables</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_PERFO_9" class="blue">Sorting</A></li>
+</ul>
+<A name="@@ITOC@@ABENITAB_PERFO_1"></A>
+<p><span class="h2">
+Table Sharing
+</span></p>
+<p>
+When assignments are made between internal tables of the same type whose row type does not contain any table types (for performance reasons), only the internal administration functions are passed to the
+<a href="javascript:call_link('abentable_body_glosry.html')" class="grey" title="Glossary Entry">table body</a>.
+<a href="javascript:call_link('abentable_sharing_glosry.html')" class="grey" title="Glossary Entry">Table sharing</a> is revoked
+only when change access to one of the tables involved is initiated. At this point, the actual copy process takes place.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_2"></A>
+<p><span class="h2">
+Initial Allocated Memory Area
+</span></p>
+<p>
+Internal tables are <a href="javascript:call_link('abendynamic_data_object_glosry.html')" class="grey" title="Glossary Entry">dynamic
+data objects</a> whose area in the memory is increased block by block. The size of the first block in
+the memory can be controlled in the declaration of an internal table using the additions <a href="javascript:call_link('abaptypes_itab.html')" class="blue">
+<span class="qtext">INITIAL SIZE</span></a> and the obsolete <a href="javascript:call_link('abapdata_occurs.html')" class="blue"><span class="qtext">
+OCCURS</span></a>. If the first block is no longer enough, further blocks are created using an internal
+duplication strategy until a maximum size is reached. All additional blocks are then created with a constant size of between 8 and 16 KB.
+</p>
+<p>
+In general, the system can be left to determine the size of the first block (by not specifying <span class="qtext">
+INITIAL SIZE</span>, or by entering the value 0). In this case, when the first rows are entered in an internal table, a suitable block size is chosen.
+</p>
+<p>
+Entering a concrete value greater than 0 after <span class="qtext">INITIAL SIZE</span> is only practical
+if it is known in advance how many entries are to be made in the table, and the first block is therefore
+to be created with the most suitable dimensions. This can be particularly important for internal tables that are components of other internal tables, and which only contain a few rows (no more than around 5).
+</p>
+<p>
+To avoid excessive memory demands, the system ignores values that produce memory demands greater than the constant block size.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_3"></A>
+<p><span class="h2">
+Index Administration
+</span></p>
+<p>
+In an <a href="javascript:call_link('abenindex_table_glosry.html')" class="grey" title="Glossary Entry">index table</a>, the
+logical order of the table entries is not generally consistent with the physical order of the entries
+in the main memory. In this case, the logical order is no longer administrated by a physical index, but by a logical index instead. The same is basically true for the
+<a href="javascript:call_link('abensecondary_table_index_glosry.html')" class="grey" title="Glossary Entry">secondary table indexes</a> used to manage
+<a href="javascript:call_link('abensecondary_table_key_glosry.html')" class="grey" title="Glossary Entry">secondary</a> <a href="javascript:call_link('abensorted_key_glosry.html')" class="grey" title="Glossary Entry">sorted keys</a>.
+</p>
+<p>
+Use of the logical index produces additional memory requirements, and index maintenance places a high
+demand on resources (time and memory) when inserting or deleting table rows. The resource requirements
+rise in proportion to the number of remaining rows after the insertion or deletion position. For very large internal tables, this can result in considerable demands on performance at runtime.
+</p>
+<p>
+The logical index is not created until the moment at which it is required, in other words, when a row
+is inserted before another row, if the order of the table rows is changed, or a row other than the last
+row is deleted. A logical index is not required if an internal table is filled using only<a href="javascript:call_link('abapappend.html')" class="blue">
+<span class="qtext">APPEND</span></a>, and if only its last row(s) is/are deleted using <a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE</span></a>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In contrast to filling a table with <a href="javascript:call_link('abapinsert_itab.html')" class="blue"><span class="qtext">INSERT</span></a>,
+appending rows with <a href="javascript:call_link('abapappend.html')" class="blue"><span class="qtext">APPEND</span></a> does
+not require any resources for index maintenance. It is therefore preferable to use <span class="qtext">APPEND</span> instead of <span class="qtext">INSERT</span> to create a
+<a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard table</a>. This is possible if the order of the entries is not important, or if entries can be appended in the correct order.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_4"></A>
+<p><span class="h2">
+Block Processing of Table Rows
+</span></p>
+<p>
+If whole row areas of a table can be processed at once, this should not be done in rows, but using block
+operations instead. Block operations are possible using the <span class="qtext">FROM</span> and <span class="qtext">
+TO</span> additions of the statements <a href="javascript:call_link('abapinsert_itab.html')" class="blue"><span class="qtext">INSERT</span></a>,
+<a href="javascript:call_link('abapappend.html')" class="blue"><span class="qtext">APPEND</span></a> and <a href="javascript:call_link('abapdelete_itab.html')" class="blue">
+<span class="qtext">DELETE</span></a>. Block operations are also more efficient than single record operations when reading from or modifying database tables with
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> statements with the additions <span class="qtext">FROM<i class=bn>|</i>APPENDING<i class=bn>|</i>TO TABLE</span>.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_5"></A>
+<p><span class="h2">
+Selective Data Transport
+</span></p>
+<p>
+If, when reading table rows using <a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ
+TABLE</span></a> or <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP AT</span></a>,
+a work area is used or table rows can be changed using <a href="javascript:call_link('abapmodify_itab.html')" class="blue"><span class="qtext">
+MODIFY</span></a> instead of by direct access, the <span class="qtext">TRANSPORTING</span> addition
+can be used to prevent unnecessary assignments of table components to the work area. This can lead to a noticeable acceleration in performance, particularly if table-like components are excluded from processing.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_6"></A>
+<p><span class="h2">
+Using Secondary Keys
+</span></p>
+<p>
+The <a href="javascript:call_link('abenitab_key_secondary_usage.html')" class="blue">use of secondary table keys</a> should be
+planned and executed with care. The time gained when accessing individual rows should not be lost again
+by the increased storage and time requirements for managing the secondary keys. Secondary keys are generally recommended for internal tables that are filled once and rarely changed during program execution.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_SECONDARY_KEYS</span> demonstrates how a secondary table key is specified and the resulting performance gain.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_7"></A>
+<p><span class="h2">
+Deleting Table Rows
+</span></p>
+<p>
+When rows are deleted from an internal table, overhead is produced for all table keys and table indexes.
+The primary key and all unique secondary keys are updated directly, but non-unique secondary keys are updated only if the row being deleted is included in the updated part of an associated index
+(<a href="javascript:call_link('abenlazy_update_glosry.html')" class="grey" title="Glossary Entry">lazy update</a>).
+</p>
+<p>
+Also note that, for standard tables, the mean runtime of the statement <a href="javascript:call_link('abapdelete_itab.html')" class="blue">
+<span class="qtext">DELETE</span></a> always has a linear dependency on the number of table rows, even
+when secondary keys are specified using <a href="javascript:call_link('abapdelete_itab_key.html')" class="blue"><span class="qtext">WITH
+TABLE KEY</span></a> or <a href="javascript:call_link('abapdelete_itab_key.html')" class="blue"><span class="qtext">USING KEY</span></a>.
+This is because a linear search is required to update the primary index, even though the row being deleted can itself be found quickly.
+</p>
+<p>
+Deleting rows in internal tables using <a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE</span></a>
+does not usually free any memory in the internal table. Statements such as <a href="javascript:call_link('abapclear.html')" class="blue"><span class="qtext">
+CLEAR</span></a> or <a href="javascript:call_link('abapfree_dataobject.html')" class="blue"><span class="qtext">FREE</span></a> must be used to free memory in internal tables.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_8"></A>
+<p><span class="h2">
+Free Key Specified for Sorted Tables and Hashed Tables
+</span></p>
+<p>
+When using the <a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ</span></a> statement
+with a specified free key of the form <a href="javascript:call_link('abapread_table_free.html')" class="blue"><span class="qtext">WITH KEY ...</span></a>, the search is optimized in all cases where this is possible:
+</p>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abensorted_table_glosry.html')" class="grey" title="Glossary Entry">sorted tables</a>, if any initial section of the
+<a href="javascript:call_link('abentable_key_glosry.html')" class="grey" title="Glossary Entry">table key</a> or the complete table key is covered by the specified key.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenhashed_table_glosry.html')" class="grey" title="Glossary Entry">hashed tables</a>, if the complete table key is covered.</li>
+</ul>
+<p>
+ If part of a free key meets these conditions, this partial key is first used to search for an entry.
+In sorted tables, this is performed using a binary search with a logarithmic consumption of resources,
+and in hashed tables by using a hash algorithm (that is, with constant resource consumption). If an
+entry is found, the system checks whether the rest of the key conditions are also met. This means that over-specific keys in particular are optimized.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+See also <a href="javascript:call_link('abenitab_where_optimization.html')" class="blue">Optimization of the <span class="qtext">WHERE</span> Condition</a>.
+</p>
+<A name="@@ITOC@@ABENITAB_PERFO_9"></A>
+<p><span class="h2">
+Sorting
+</span></p>
+<p>
+For textual sorting of an internal table in accordance with the current
+<a href="javascript:call_link('abentext_environment_glosry.html')" class="grey" title="Glossary Entry">text environment</a>,
+it is more beneficial for performance to use the statement <a href="javascript:call_link('abapconvert_text.html')" class="blue"><span class="qtext">
+CONVERT TEXT INTO SORTABLE CODE</span></a> instead of <a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT AS TEXT</span></a> in the following cases:
+</p>
+<ul class="disc">
+<li>If an internal table is sorted by locale and then subjected to a binary search using the statement <span class="qtext">READ TABLE</span> or using a
+<a href="javascript:call_link('abentable_expressions.html')" class="blue">table expression</a>.</li>
+</ul>
+<ul class="disc">
+<li>An internal table must be sorted more than once.</li>
+</ul>
+<ul class="disc">
+<li>Indexes for database tables should be structured in accordance with a locale.</li>
+</ul>
+<br>
+<br>
+<br>
+<span class="trans"
+>
+<br>This translation does not reflect the current version of the documentation.<br>
+</span><br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenitab_where_optimization.html')" class="blue">Optimization of the WHERE Condition</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenitab_perfo.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

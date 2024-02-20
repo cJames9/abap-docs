@@ -1,0 +1,209 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTABLE_CONTROL1_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_control1_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Table Control with Scrolling">
+<title>
+Table Control with Scrolling - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentable_control1_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentable_control1_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_dynpro_statements.html')" class="blue">Statements in the Dynpro Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynp_table_controls.html')" class="blue">Table Controls</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_control_abexas.html')" class="blue">Table Control - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Table Control with Scrolling
+</span></p>
+<p>
+This example demonstrates program-driven scrolling in table controls.
+</p>
+<A name="@@ITOC@@ABENTABLE_CONTROL1_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_dynpro_tabcont_loop.<br>
+<br>
+CONTROLS flights TYPE TABLEVIEW USING SCREEN 100.<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_ok TYPE sy-ucomm.<br>
+<br>
+DATA: itab TYPE TABLE OF demo_conn,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill TYPE i.<br>
+TABLES demo_conn.<br>
+<br>
+DATA: lines TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit TYPE i.<br>
+<br>
+SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO CORRESPONDING FIELDS OF TABLE @itab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ##too_many_itab_fields.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'SCREEN_100'.<br>
+&nbsp;&nbsp;DESCRIBE TABLE itab LINES fill.<br>
+&nbsp;&nbsp;flights-lines = fill.<br>
+ENDMODULE.<br>
+<br>
+MODULE fill_table_control OUTPUT.<br>
+&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_conn = itab[ flights-current_line ].<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_itab_line_not_found.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;ENDTRY.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE read_table_control INPUT.<br>
+&nbsp;&nbsp;lines = sy-loopc.<br>
+&nbsp;&nbsp;MODIFY itab FROM demo_conn INDEX flights-current_line.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100 INPUT.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;CASE save_ok.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'NEXT_LINE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line += 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit = fill - lines + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flights-top_line &gt; limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PREV_LINE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = flights-top_line - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flights-top_line &lt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'NEXT_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line += lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit = fill - lines + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flights-top_line &gt; limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PREV_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = flights-top_line - lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flights-top_line &lt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'LAST_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line =&nbsp;&nbsp;fill - lines + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'FIRST_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights-top_line = 0.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENTABLE_CONTROL1_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The table control <span class="qtext">flights</span> is defined and can be resized. The fields of the
+table control are copied from the DEMO_CONN structure in the dictionary. The first two columns are lead
+columns. The corresponding fields are output fields. A title bar, columns headers, and a selection column
+are created. The selection column is assigned to the component MARK, of the type CHAR, length 1, from the structure DEMO_CONN. One column and one or more rows can be selected.
+</p>
+<p>
+The flow logic of dynpro 100 is given one loop executed at PBO time and another loop executed at PAI
+time using the table control <span class="qtext">flights</span>. During the PBO loop, a module is called
+to fill the table control from table <span class="qtext">itab</span> of the ABAP program. During the PAI loop, a module is called to modify table <span class="qtext">itab</span>.
+</p>
+<p>
+Before the PBO loop, in the module <span class="qtext">status_0100</span> the current number of lines
+of the internal table <span class="qtext">itab</span> is placed in component <span class="qtext">lines</span>
+of control structure <span class="qtext">flights</span>. This helps the system to correctly install the scroll bar of the table control.
+</p>
+<p>
+During the PBO loop, in the module <span class="qtext">fill_table_control</span> the work area <span class="qtext">
+demo_conn</span> is filled with values from the internal table, where the row index corresponds to the current row of the table control.
+</p>
+<p>
+During the PAI loop, in the module <span class="qtext">read_table_control</span> the current number
+of the loop <span class="qtext">sy-loopc</span> in the table control is placed an auxiliary variable.
+The number is dependent on the size of the screen. The rows of the internal table whose row index matches
+the current row of the table control are overwritten by the content of the work area <span class="qtext">demo_conn</span>.
+User input is passed from the input fields of the control to the internal table. A flag is set in the column MARK of the internal table indicating whether the table control row is selected or not.
+</p>
+<p>
+After the PAI loop, user input is processed in the module <span class="qtext">user_command_0100</span>.
+The GUI status SCREEN_100 enables the corresponding function codes. Both row-by-row and page-by-page
+scrolling is possible and it is also possible to jump to the first or last page. Scrolling is enabled
+by setting the component <span class="qtext">top_line</span> of the control structure <span class="qtext">flights</span>.
+As an increment, page-by-page scrolling uses the helper variable filled in the PAI loop using <span class="qtext">sy-loopc</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_control1_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+</html>

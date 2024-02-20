@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_MESSAGES_STORING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_messages_storing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Storing Messages">
+<meta name="keywords" content="ABAP, Create Messages, Messages, Placeholder &amp;">
+<title>
+Storing Messages - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_messages_storing.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_messages_storing.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_texts.html')" class="blue">Text Repositories</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_messages.html')" class="blue">Messages</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Storing Messages
+</span></p>
+<p>
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">Messages</a> are created in the message editor (transaction <span class="lnkgrey">SE91</span>).
+</p>
+<p>
+The message short texts are saved as language-specific texts to the database table <span class="lnkgrey">T100</span>,
+which offers an interface to the translation tools. The following table shows the structure of the database table T100.
+</p>
+<table border>
+<tr>
+<td>Component</td>
+<td>Meaning</td>
+</tr>
+<tr>
+<td>SPRSL</td>
+<td>Single-character language key.</td>
+</tr>
+<tr>
+<td>ARBGB</td>
+<td>20-character (maximum) message class. The message class assigns messages to a specific area, such as an application area or a package.</td>
+</tr>
+<tr>
+<td>MSGNR</td>
+<td>Three-digit (maximum) message number. The range between 900 and 999 is reserved for customers.</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>Short text with a maximum of 73 characters. An explanatory long text must be created when the short text is created if the message itself is not sufficiently explanatory.</td>
+</tr>
+</table><br>
+<p>
+The long texts associated with a message are managed as SAPscript documents in the document class <span class="qtext400">NA</span>.
+</p>
+<p>
+Placeholders can be used in both short and long texts, which are replaced by the content of data objects
+using the statement <a href="javascript:call_link('abapmessage.html')" class="blue"><span class="qtext">MESSAGE</span></a> and
+the addition <a href="javascript:call_link('abapmessage.html')" class="blue"><span class="qtext">WITH</span></a>. The placeholders
+in a short text can have the form "&amp;i" or "&amp;" and the placeholders in a long text can have the
+form "&amp;Vi&amp;", where i is a digit between 1 and 4. If the actual character "&amp;" it to be displayed, "&amp;&amp;" must be entered in the short text and "&amp;" in the long text.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>For reasons of downward compatibility, the character "$" is handled in the same way as "&amp;" in
+short texts. The same is true for "$i". "$" should not be used as a placeholder. However, "$$" must be specified if "$" is to be displayed.</li>
+</ul>
+<ul class="disc">
+<li> It is recommended that only one of the two forms "&amp;i" or "&amp;" is used as a placeholder in
+a short text. If a short text is to be translated into other languages, only the numbered placeholder "&amp;i" can be used, since the structure of the sentence may change.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The program <span class="lnkgrey">DEMO_MESSAGE_TEXTS</span> uses the class <span class="lnkgrey">CL_DEMO_MESSAGE_TEXTS</span> to read the short text and long text of a message.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_messages_storing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+</html>

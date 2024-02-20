@@ -1,0 +1,154 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSEL_SCREEN_F4_HELP_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_f4_help_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Selection Screens, Input Help">
+<title>
+Selection Screens, Input Help - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensel_screen_f4_help_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensel_screen_f4_help_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen.html')" class="blue">Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen_events.html')" class="blue">Selection Screen Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapat_selection-screen.html')" class="blue">AT SELECTION-SCREEN</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapat_selection-screen_events.html')" class="blue">AT SELECTION-SCREEN - selscreen_event</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Selection Screens, Input Help
+</span></p>
+<p>
+The example demonstrates a self-defined F4 help on selection screens.
+</p>
+<A name="@@ITOC@@ABENSEL_SCREEN_F4_HELP_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_selection_screen_f4.<br>
+<br>
+PARAMETERS: p_carr_1 TYPE spfli-carrid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_carr_2 TYPE spfli-carrid.<br>
+<br>
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_carr_2.<br>
+&nbsp;&nbsp;CALL SCREEN 100 STARTING AT 10 5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDING&nbsp;&nbsp; AT 50 10.<br>
+<br>
+MODULE value_list OUTPUT.<br>
+&nbsp;&nbsp;SUPPRESS DIALOG.<br>
+&nbsp;&nbsp;LEAVE TO LIST-PROCESSING AND RETURN TO SCREEN 0.<br>
+&nbsp;&nbsp;SET PF-STATUS space.<br>
+&nbsp;&nbsp;NEW-PAGE NO-TITLE.<br>
+&nbsp;&nbsp;WRITE 'Star Alliance' COLOR COL_HEADING.<br>
+&nbsp;&nbsp;ULINE.<br>
+&nbsp;&nbsp;p_carr_2 = 'AC '.<br>
+&nbsp;&nbsp;WRITE: / p_carr_2 COLOR COL_KEY, 'Air Canada'.<br>
+&nbsp;&nbsp;HIDE p_carr_2.<br>
+&nbsp;&nbsp;p_carr_2 = 'LH '.<br>
+&nbsp;&nbsp;WRITE: / p_carr_2 COLOR COL_KEY, 'Lufthansa'.<br>
+&nbsp;&nbsp;HIDE p_carr_2.<br>
+&nbsp;&nbsp;p_carr_2 = 'SAS'.<br>
+&nbsp;&nbsp;WRITE: / p_carr_2 COLOR COL_KEY, 'SAS'.<br>
+&nbsp;&nbsp;HIDE p_carr_2.<br>
+&nbsp;&nbsp;p_carr_2 = 'THA'.<br>
+&nbsp;&nbsp;WRITE: / p_carr_2 COLOR COL_KEY, 'Thai International'.<br>
+&nbsp;&nbsp;HIDE p_carr_2.<br>
+&nbsp;&nbsp;p_carr_2 = 'UA '.<br>
+&nbsp;&nbsp;WRITE: / p_carr_2 COLOR COL_KEY, 'United Airlines'.<br>
+&nbsp;&nbsp;HIDE p_carr_2.<br>
+&nbsp;&nbsp;CLEAR p_carr_2.<br>
+ENDMODULE.<br>
+<br>
+AT LINE-SELECTION.<br>
+&nbsp;&nbsp;CHECK NOT p_carr_2 IS INITIAL.<br>
+&nbsp;&nbsp;LEAVE TO SCREEN 0.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSEL_SCREEN_F4_HELP_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This program declares a selection screen with two parameters both referring to the column CARRID of
+the database table <span class="lnkgrey">SPFLI</span>. While the dictionary input help is used for <span class="qtext">
+p_carr_1</span>, no special input help is programmed for <span class="qtext">p_carr_2</span>. Dynpro
+100 is used here. In the flow logic, the dialog module <span class="qtext">value_list</span> is started
+at the time of PBO. The screen layout of dynpro 100 is not required and the system does not call any dialog modules at PAI time.
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE value_list. <br>PROCESS AFTER INPUT.</span>
+</dd></dl>
+<p>
+The dialog module <span class="qtext">value_list</span> suppresses the display of the screen layout
+of dynpro 100 and switches to a list display. The list contains values for the parameter <span class="qtext">p_carr_2</span>.
+These values are also placed in the <span class="qtext">HIDE</span> area. When a line is selected from
+the value list, the event <span class="qtext">AT LINE-SELECTION</span> is raised, and the selected value
+is passed from the area <span class="qtext">HIDE</span> to the field <span class="qtext">p_carr_2</span>.
+If a valid line is selected, the system switches directly from the event block <span class="qtext">AT LINE-SELECTION</span> back to the selection screen, and fills the corresponding input field.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_f4_help_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

@@ -1,0 +1,244 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCHAINED_STATEMENTS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenchained_statements_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Chained Statements">
+<title>
+Chained Statements - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenchained_statements_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenchained_statements_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenalternative_spelling_guidl.html')" class="blue">Alternative Spellings</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Chained Statements
+</span></p>
+<A name="@@ITOC@@ABENCHAINED_STATEMENTS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Successive ABAP statements that have the same starting part can be expressed in a chained statement.
+A chained statement consists of the identical starting part that is specified once and that is concluded
+by a colon (:). Behind this colon, the remaining parts are separated by commas (,). Only the last part
+is concluded with a period (.). During the syntax check and the compilation, a chained statement is
+handled like the respective sequence of individual ABAP statements, where the shared starting part is put in front of each remaining part. The identical starting parts are not restricted to the keyword.
+</p>
+<A name="@@ITOC@@ABENCHAINED_STATEMENTS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only use chained statements where appropriate</span>
+</p>
+<p>
+Use chained statements mainly for declarations. They should always be used for related declarations of type <span class="qtext">TYPES BEGIN OF ... TYPES END OF ...</span>.
+</p>
+<A name="@@ITOC@@ABENCHAINED_STATEMENTS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The main motivation for using chained statements is to increase the readability of programs. Using chained
+statements correctly in declarations achieves this goal. In other statements, chained statements can actually decrease the readability or, in the worst case, result in incorrect program behavior. When using chained statements, only
+<a href="javascript:call_link('abenstatement_guidl.html')" class="lnkpurple" title="Guideline">one statement at most should be specified per program line</a>. Never span
+<a href="javascript:call_link('abenexpression_glosry.html')" class="grey" title="Glossary Entry">expressions</a> or functional calls across multiple parts of chained statements.
+</p>
+<p>
+<span class="bold">Declarations</span>
+</p>
+<p>
+In complex declarations, chained statements can be used to improve readability. (However, if local declarations are too complex, this suggests an
+<a href="javascript:call_link('abenproc_volume_guidl.html')" class="lnkpurple" title="Guideline">insufficient separation of tasks</a>, and should not occur.) In particular, multiple chained statements can be used to group related declarations:
+</p>
+<dl><dd>
+<span class="qtext">DATA: <br>&nbsp;&nbsp; airplane&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cl_airplane, <br>
+&nbsp;&nbsp; airplane_attributes TYPE cl_airplane=>airplane_attributes. <br>DATA: <br>&nbsp;&nbsp; airport
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cl_airport, <br>&nbsp;&nbsp; airport_attributes TYPE cl_airport=>airport_attributes. <br>...</span>
+</dd></dl>
+<p>
+The grouping of declarative statements that semantically represent a composite statement is even more
+important. For example, the declaration of structured types and data objects in ABAP is done using individual statements, whose close relationship should be expressed by a chained statement:
+</p>
+<dl><dd>
+<span class="qtext">TYPES: <br>&nbsp;&nbsp; BEGIN OF file, <br>&nbsp;&nbsp;&nbsp;&nbsp; name TYPE string, <br>
+&nbsp;&nbsp;&nbsp;&nbsp; owner TYPE sy-uname, <br>&nbsp;&nbsp;&nbsp;&nbsp; creation_date TYPE timestamp, <br>&nbsp;&nbsp; END OF file.</span>
+</dd></dl>
+<p>
+For structures that copy components of another structure using the statements <span class="qtext">INCLUDE
+TYPE</span> or <span class="qtext">INCLUDE STRUCTURE</span>, this procedure cannot be used consistently because the beginning of the statement is different and therefore the chained statement must be interrupted. In any case, we
+<a href="javascript:call_link('abenincluding_structures_guidl.html')" class="lnkpurple" title="Guideline">no longer recommend</a> using the statement <span class="qtext">INCLUDE</span>.
+</p>
+<p>
+<span class="bold">Operational Statements</span>
+</p>
+<p>
+For operational statements, however, chained statements are not recommended because they do not usually result in better readability. Example:
+</p>
+<dl><dd>
+<span class="qtext">CALL METHOD meth EXPORTING para = : '1', '2', '3'.</span>
+</dd></dl>
+<p>
+Here, the exploitation of the fact that the same starting parts in front of the colon are not limited to the keyword was a little overdone. The following chained statement would be easier to read:
+</p>
+<dl><dd>
+<span class="qtext">CALL METHOD: <br>meth EXPORTING para = '1', <br>meth EXPORTING para = '2', <br>meth EXPORTING para = '3'.</span>
+</dd></dl>
+<p>
+However, in this case the best <a href="javascript:call_link('abenmethod_call_guidl.html')" class="lnkpurple" title="Guideline">notation</a> can manage without a chained statement anyway:
+</p>
+<dl><dd>
+<span class="qtext">meth( '1' ). <br>meth( '2' ). <br>meth( '3' ).</span>
+</dd></dl>
+<p>
+<span class="bold">Unexpected Behavior</span>
+</p>
+<p>
+If chained statements are not understood correctly, this can easily produce statements with correct
+syntax but unexpected behavior. Prominent examples are introductory statements within control structures. Here, the use of chained statements does not usually lead to the intended result.
+</p>
+<p>
+Let us look at the following <span class="qtext">TRY</span> control structure, in which the <span class="qtext">CATCH</span> statements are implemented using a chained statement:
+</p>
+<dl><dd>
+<span class="qtext">TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;CATCH: cx_1, cx_2, cx_3. <br>&nbsp;&nbsp;&nbsp;&nbsp; "exception handling <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDTRY.</span>
+</dd></dl>
+<p>
+A reader and probably even a developer would assume that this is a <span class="qtext">CATCH</span> block that handles three exceptions. In fact, the complete syntax is as follows:
+</p>
+<dl><dd>
+<span class="qtext">TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;CATCH cx_1. <br>&nbsp;&nbsp;CATCH cx_2. <br>
+&nbsp;&nbsp;CATCH cx_3. <br>&nbsp;&nbsp;&nbsp;&nbsp;"exception handling <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>ENDTRY.</span>
+</dd></dl>
+<p>
+The <span class="qtext">cx_1</span> and <span class="qtext">cx_2</span> exceptions are indeed caught,
+but the corresponding <span class="qtext">CATCH</span> blocks are empty. Only the third exception <span class="qtext">
+cx_3</span> has a <span class="qtext">CATCH</span> block that is not empty. The syntax that the developer presumably intended is as follows:
+</p>
+<dl><dd>
+<span class="qtext">TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;CATCH cx_1 cx_2 cx_3. <br>&nbsp;&nbsp;&nbsp;&nbsp;"exception handling <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDTRY.</span>
+</dd></dl>
+<p>
+For the <span class="qtext">WHEN</span> blocks within a <span class="qtext">CASE</span> control structure, the following applies:
+</p>
+<dl><dd>
+<span class="qtext">WHEN: a, b, c.</span>
+</dd></dl>
+<p>
+is not equivalent to the more probable
+</p>
+<dl><dd>
+<span class="qtext">WHEN a OR b OR c.</span>
+</dd></dl>
+<p>
+The <a href="javascript:call_link('abenextended_program_check_guidl.html')" class="lnkpurple" title="Guideline">extended program
+check</a> warns of empty statement blocks after <span class="qtext">CATCH</span> and <span class="qtext">WHEN</span>.
+In this way, the extended program check can be used to uncover where chained statements have been misused within <span class="qtext">TRY</span> and <span class="qtext">CASE</span> control structures.
+</p>
+<p>
+Another example in which the use of chained statements can cause problems are ABAP SQL statements. Here are two examples:
+</p>
+<ul class="disc">
+<li>The following chained statement consists of two <span class="qtext">SELECT</span> statements that
+both supply a work area with values, and of which only the second one has a <span class="qtext">WHERE</span> condition.</li>
+</ul>
+<dl><dd>
+<span class="qtext">SELECT SINGLE carrid, connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE @carrid = '...' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO: @carrid_wa, @connid_wa.</span>
+</dd></dl>
+<p>
+The following <span class="qtext">INTO</span> clause was undoubtedly meant here:
+</p>
+<dl><dd>
+<span class="qtext">INTO (@carrid_wa, @connid_wa).</span>
+</dd></dl>
+<ul class="disc">
+<li>In the following example, the seemingly single statement does not update the discount and the telephone
+number of the customer with the customer ID 00017777. Instead, these are in fact two statements, of
+which the first changes the discount for all customers and the second changes the telephone number of the customer with the customer ID 00017777.</li>
+</ul>
+<dl><dd>
+<span class="qtext">UPDATE scustom SET: discount = '003', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;telephone = '0621/444444' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = '00017777'.</span>
+</dd></dl>
+<p>
+Even if the previous examples of the chained statements would show the semantic that is expected by
+the developer, such use is not recommended in any case because each reader would probably expect a different program behavior, and the readability and maintainability of the source code would be impaired considerably.
+</p>
+<p>
+<span class="bold">Expressions and Function Calls</span>
+</p>
+<p>
+Unfortunately, ABAP statements can be spanned across the colon in chained statements, even within expressions
+or function calls. The following example with correct syntax shows what can happen here, even in the simplest of cases. This example cannot be understood and nor does it produce the expected result.
+</p>
+<dl><dd>
+<span class="qtext">DATA: itab TYPE TABLE OF i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num&nbsp;&nbsp;TYPE i. <br>
+ <br>itab = VALUE #(: ( 1 ) ), ( 2 ) ), ( 3 ) ), ( 4 ) ). <br>num&nbsp;&nbsp;= itab[: 1 ], 2 ], 3 ], 4 ]. <br>
+ <br>cl_demo_output=>new( <br>&nbsp;&nbsp;)->write_data(: `Text1` ), `Text2` ), num <br>&nbsp;&nbsp;)->display( ).</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenchained_statements_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

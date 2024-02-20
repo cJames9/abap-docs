@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREAD_TABLE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenread_table_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables, Output Area">
+<title>
+Internal Tables, Output Area - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenread_table_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenread_table_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapread_table.html')" class="blue">READ TABLE itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapread_table_outdesc.html')" class="blue">READ TABLE - result</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables, Output Area
+</span></p>
+<p>
+This example demonstrates where the row content of internal tables is read to and how.
+</p>
+<A name="@@ITOC@@ABENREAD_TABLE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_read_table_result.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: BEGIN OF line,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF line.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA itab LIKE SORTED TABLE OF line WITH UNIQUE KEY col1.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA subrc TYPE sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA tabix TYPE sy-tabix.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;fs&gt; LIKE LINE OF itab.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab = VALUE #( FOR j = 1 UNTIL j &gt; 4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = j col2 = j ** 2 ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( itab )-&gt;line( ).<br>
+<br>
+<span class="blue">* INTO line COMPARING</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;line-col1 = 2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;line-col2 = 3.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE itab FROM line INTO line COMPARING col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |sy-subrc: { subrc }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( line )-&gt;line( ).<br>
+<br>
+<span class="blue">* INTO line TRANSPORTING</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR line.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE itab WITH TABLE KEY col1 = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO line TRANSPORTING col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tabix = sy-tabix.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |sy-subrc: { subrc }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |sy-tabix: { tabix }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data( line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;line( ).<br>
+<br>
+<span class="blue">* TRANSPORTING NO FIELDS</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE itab WITH KEY col2 = 16&nbsp;&nbsp;TRANSPORTING NO FIELDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tabix = sy-tabix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |sy-subrc: { subrc }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |sy-tabix: { tabix }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;line( ).<br>
+<br>
+<span class="blue">* ASSIGNING</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE itab WITH TABLE KEY col1 = 2 ASSIGNING &lt;fs&gt;.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;fs&gt;-col2 = 100.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( itab ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENREAD_TABLE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Four alternatives for output behavior when reading internal tables are shown. First a sorted table is filled with a list of square numbers.
+</p>
+<p>
+In the first alternative, the work area <span class="qtext">line</span> that is compatible with the
+row type is filled with the numbers 2 and 3. In the <span class="qtext">READ</span> statement, the row
+of the table is found in which the key field <span class="qtext">col1</span> has the same content as
+the work area and is copied to the work area. <span class="qtext">sy-subrc</span> is two, since different numbers are found when the field <span class="qtext">col2</span> is compared.
+</p>
+<p>
+In the second alternative, the <span class="qtext">READ</span> statement reads the row of the table
+in which the key field <span class="qtext">col1</span> has the value 3. Only the content of <span class="qtext">col2</span>
+is copied to the work area <span class="qtext">line</span>. <span class="qtext">sy-subrc</span> is zero and <span class="qtext">sy-tabix</span> is three, since <span class="qtext">itab</span> is an index table.
+</p>
+<p>
+In the third alternative, the <span class="qtext">READ</span> statement is used to find the rows of
+the table in which <span class="qtext">col2</span> is 16. The primary table key is not used. No fields
+are copied to the work area and no rows are assigned a field symbol. Only system fields are set. <span class="qtext">sy-subrc</span> is zero, since a row was found and <span class="qtext">sy-tabix</span> is four.
+</p>
+<p>
+In the <span class="qtext">READ</span> statement of the final alternative, the rows of the table are
+read which the key field <span class="qtext">col1</span> has the value 2 and are assigned to the field
+symbol <span class="qtext">&lt;fs></span>. The component <span class="qtext">col2</span> of <span class="qtext">&lt;fs></span> is assigned the value 100. This also changes the corresponding table field.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenread_table_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

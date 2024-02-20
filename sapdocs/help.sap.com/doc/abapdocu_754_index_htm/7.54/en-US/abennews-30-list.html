@@ -1,0 +1,370 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-30-LIST -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-30-list.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:02 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="List Processing in Release 3.0">
+<title>
+List Processing in Release 3.0 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-30-list.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-30-list.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-30.html')" class="blue">Changes in Release 3.0</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+List Processing in Release 3.0 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue">  1. <span class="qtext">WRITE</span> and <span class="qtext">ULINE</span> with Variable Position and Length Specifications </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue">  2. Variable Format Specifications with <span class="qtext">FORMAT</span>, <span class="qtext">WRITE</span>, and <span class="qtext">MODIFY LINE</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue">  3. Saving lists </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue">  4. Exit list and return to the selection screen </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue">  5. <span class="qtext">SET CURSOR</span> and <span class="qtext">
+GET CURSOR</span> with the addition <span class="qtext">LINE...</span> (without <span class="qtext">FIELD</span>) </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue">  6. Handling of <span class="qtext">EXIT</span> in list events </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue">  7. <span class="qtext">SET PF-STATUS SPACE</span> activates standard list status </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue">  8. Fixed list columns in list display </A> <br><br>    (leading column)
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue">  9. New behavior of <span class="qtext">SKIP</span> at end of page </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_10@10@" class="blue"> 10. New additions with <span class="qtext">WRITE <i class=bn>[</i>TO<i class=bn>]</i></span> for alignment </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_11@11@" class="blue"> 11. Field help (<span class="qtext">F1</span>) and input help (<span class="qtext">F4</span>) now also in </A> <br><br>    "<span class="qtext">LIKE</span>" fields
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_12@12@" class="blue"> 12. <span class="qtext">GET CURSOR</span> on field symbols and literals </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_13@13@" class="blue"> 13. System tables %_LIST ... protected against access </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_14@14@" class="blue"> 14. Symbols in lists </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_15@15@" class="blue"> 15. Hotspots in lists </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_16@16@" class="blue"> 16. Output of QUAN fields (<span class="qtext">WRITE</span> addition <span class="qtext">UNIT</span>) </A> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="qtext">WRITE</span> and <span class="qtext">ULINE</span> with variable position and length specifications <br>
+<br><!-- /A --> <br>In <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> and <a href="javascript:call_link('abapuline.html')" class="blue"><span class="qtext">ULINE</span></a>, the addition
+"<span class="qtext">AT</span>" is not available which allows dynamic position and/or length specifications.
+</P>
+<p><span class="h4">Example</span></p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: POS TYPE I&nbsp;&nbsp;&nbsp;&nbsp;VALUE 5, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEN TYPE I&nbsp;&nbsp;&nbsp;&nbsp;VALUE 10, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F(20)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE 'Test output'. <br> <br>WRITE AT /POS(LEN) F. <br>ULINE AT /POS(LEN). <br>
+</span>
+</p>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+Variable Format Specifications with <span class="qtext">FORMAT</span>, <span class="qtext">WRITE</span>, and <span class="qtext">MODIFY LINE</span> <br>
+<br><!-- /A --> <br>In <a href="javascript:call_link('abapformat.html')" class="blue"><span class="qtext">FORMAT</span></a>,
+<a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a>, and <a href="javascript:call_link('abapmodify_line.html')" class="blue">
+<span class="qtext">MODIFY LINE</span></a>, it is not possible to use variables to give parameters to all format specifications
+(<span class="qtext">INPUT</span>, <span class="qtext">INTENSIFIED</span>, <span class="qtext">INVERSE</span>, <span class="qtext">COLOR</span>). In any of these additions, a "=" is followed by the variable.
+</P>
+<p><span class="h4">Example</span></p>
+<dl><dd>
+<span class="qtext">DATA: COL TYPE I, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT TYPE I, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F(20)&nbsp;&nbsp;&nbsp;&nbsp;VALUE 'Test output'. <br>
+ <br>IF &lt;condition>. <br>&nbsp;&nbsp;INT = 1. <br>&nbsp;&nbsp;COL = 5. <br>ENDIF. <br> <br>WRITE F COLOR = COL INTENSIFIED = INT INPUT ON. <br>FORMAT COLOR = COL INTENSIFIED = INT.</span> <br>
+</dd></dl>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Saving Lists <br><br><!-- /A --> <br>ABAP lists can now be saved as objects known as list objects. <br>To
+save the basic list or the details list of the current application, the function module <span class="qtext">'SAVE_LIST'</span>
+is used. This function module passes the required list as a list object to an internal table of the structure <span class="qtext">ABAPLIST</span>. Alternatively, the basic list of a report can be passed to the
+<a href="javascript:call_link('abenmemory.html')" class="blue">SAP memory</a> instead of the display by <a href="javascript:call_link('abapsubmit.html')" class="blue">
+<span class="qtext">SUBMIT ... EXPORTING LIST TO MEMORY</span></a>, and then, after returning from the
+report, be retrieved as a list object by the function module <span class="qtext">'LIST_FROM_MEMORY'</span>.
+The list object can be saved like any other internal table (in a database or file system, for example). <br>
+For further processing, use the function modules '<span class="qtext">WRITE_LIST</span>' (output a list object as a list),
+'<span class="qtext">DISPLAY_LIST</span>' (output a list object in a dialog box), and any existing or planned converters ('<span class="qtext">LIST_TO_ASCI</span>',
+'<span class="qtext">LIST_TO_RTF</span>', and so on). <br>In SAPoffice, any displayed list can be saved
+in the private folders (SAPoffice) of the currently logged on user by choosing <span class="italic">System &rarr; List</span><span class="italic">Save (SAPoffice)</span>. More functions are planned. <br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Exit List and Return to the <a href="javascript:call_link('abenselection_screen_glosry.html')" class="grey" title="Glossary Entry">Selection Screen</a> <br>
+<br><!-- /A --> <br>When the list display of a report is exited, the selection screen of the report
+is displayed again. The entries made on the selection screen are preserved. Prerequisite: The selection screen has not been suppressed by the request
+(<a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT...VIA SELECTION-SCREEN</span></a>). The list can be exited by <br>
+- <span class="qtext500">F3</span>  / going back to the basic list of the report <br>- <span class="qtext500">F15</span> / exiting any list of the report <br>
+- the programmed function <a href="javascript:call_link('abapleave_screen.html')" class="blue"><span class="qtext">LEAVE SCREEN</span></a> in the application program.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+For reasons of compatibility, the function <a href="javascript:call_link('abapleave-.html')" class="blue"><span class="qtext">LEAVE</span></a>
+does not offer this function. Instead, Release 3.0 includes a special variant <a href="javascript:call_link('abapleave_list-processing.html')" class="blue"><span class="qtext">LEAVE LIST-PROCESSING</span></a>. <br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="qtext">SET CURSOR</span> and <span class="qtext">GET CURSOR</span> with Addition <span class="qtext">LINE...</span> (without <span class="qtext">FIELD</span>) <br>
+<br><!-- /A --> <br>The functions <a href="javascript:call_link('abapset_cursor_list.html')" class="blue"><span class="qtext">SET
+CURSOR LINE</span></a> and <a href="javascript:call_link('abapget_cursor_list.html')" class="blue"><span class="qtext">GET CURSOR
+LINE</span></a> enable the cursor to be positioned or the cursor position to be determined in lists
+at <span class="bold">line level</span>.  This is useful in cases where the whole list line (and not
+the field within the line) is relevant. Previously, the syntax rules required the addition <span class="qtext">FIELD</span> to be used.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+In general, the function <span class="qtext">GET CURSOR LINE l OFFSET
+o</span> should be used when the absolute cursor position (column) within a list line is evaluated during
+an interactive list event. The system field <span class="qtext">SY-CUCOL</span> does not refer to the list line, but to the displayed list section. After horizontal scrolling, the relative cursor position
+(<span class="qtext">SY-CUCOL</span>) and the absolute cursor position are different. Furthermore, the
+system field <span class="qtext">SY-CUCOL</span> contains the value <span class="bold">2</span> if (for
+reasons of compatibility) the cursor is on the first visible list column, which makes the calculation of the absolute position difficult. <br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The following example shows how the previous usage of <span class="qtext">SY-CUCOL</span> can be replaced by the function <span class="qtext">GET CURSOR</span>:
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: CURSORPOSITION TYPE I, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURSOROFFSET&nbsp;&nbsp; TYPE I, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURSORLINE&nbsp;&nbsp;&nbsp;&nbsp; TYPE I. <br> <br>AT LINE-SELECTION. <br>
+&nbsp;&nbsp;CURSORPOSITION = SY-CUCOL - 2 + SY-STACO.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "old <br>
+ <br>AT LINE-SELECTION. <br>&nbsp;&nbsp;GET CURSOR LINE CURSORLINE OFFSET CURSOROFFSET.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "new <br>
+&nbsp;&nbsp;CURSORPOSITION = CURSOROFFSET + 1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"new <br>
+</span>
+</p>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+Handling of <span class="qtext">EXIT</span> in List Events <br><br><!-- /A --> <br>The function <a href="javascript:call_link('abapexit_processing_blocks.html')" class="blue">
+<span class="qtext">EXIT</span></a> now has the same effect in all <span class="bold">list events</span>
+(<a href="javascript:call_link('abapat_line-selection.html')" class="blue"><span class="qtext">AT LINE-SELECTION</span></a>,
+<a href="javascript:call_link('abapat_user-command.html')" class="blue"><span class="qtext">AT USER-COMMAND</span></a>, <a href="javascript:call_link('abapat_pfnn.html')" class="blue">
+<span class="qtext">AT PF...</span></a>, <a href="javascript:call_link('abaptop-of-page.html')" class="blue"><span class="qtext">TOP-OF-PAGE
+...</span></a>, and <a href="javascript:call_link('abapend-of-page.html')" class="blue"><span class="qtext">END-OF-PAGE</span></a>)
+as in <a href="javascript:call_link('abapmodule.html')" class="blue"><span class="qtext">MODULE</span></a>, <a href="javascript:call_link('abapform.html')" class="blue">
+<span class="qtext">FORM</span></a>, and <a href="javascript:call_link('abapfunction.html')" class="blue"><span class="qtext">FUNCTION</span></a>.
+The event therefore ends immediately and the processing continues at the call location (for example,
+after <span class="qtext">EXIT</span> from <span class="qtext">TOP-OF-PAGE</span>, the triggering statement
+<span class="qtext">WRITE</span> is executed; after <span class="qtext">EXIT</span> from <span class="qtext">AT
+LINE-SELECTION</span>, the list is displayed immediately). Previously, the list was displayed here in both cases (the triggering <span class="qtext">WRITE</span> was ignored) and, if there was also indented list processing
+(<a href="javascript:call_link('abapleave_to_list-processing.html')" class="blue"><span class="qtext">LEAVE TO LIST-PROCESSING</span></a>
+from <a href="javascript:call_link('abapcall_screen.html')" class="blue"><span class="qtext">CALL SCREEN</span></a>), the entire list processing was terminated.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+This change has the following consequence: In report processing
+(<a href="javascript:call_link('abenlogical_data_base_glosry.html')" class="grey" title="Glossary Entry">with a logical database</a>),
+<span class="qtext">EXIT</span> from <span class="qtext">TOP-OF-PAGE</span> and <span class="qtext">END-OF-PAGE</span>
+previously terminated processing of the logical database and branched directly to the list display.
+Now, only the event <span class="qtext">TOP-OF-PAGE</span> or <span class="qtext">END-OF-PAGE</span> is terminated. Any remaining logical database events
+(<a href="javascript:call_link('abapstart-of-selection.html')" class="blue"><span class="qtext">START-OF-SELECTION</span></a>,
+<a href="javascript:call_link('abapget-.html')" class="blue"><span class="qtext">GET</span></a>, and so on) are not affected by this change. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+<span class="qtext">SET PF-STATUS SPACE</span> Activates Standard List Status <br><br><!-- /A --> <br>If a standard list status
+(<span class="qtext">STLI</span>, <span class="qtext">PICK</span>, or <span class="qtext">INLI</span>)
+is required in list processing, but a dialog with a separate user interface is needed first, this is
+made possible by using <a href="javascript:call_link('abapset_pf-status_list.html')" class="blue"><span class="qtext">SET PF-STATUS SPACE</span></a> (when creating the list). <br>
+Previously, this was only possible by copying the standard list status to a separate <span class="qtext">PF</span> status. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Fixed List Columns when Displaying a List (Leading Column) <br><br><!-- /A --> <br><a href="javascript:call_link('abapset_scroll-boundary.html')" class="blue">
+<span class="qtext">SET SCROLL-BOUNDARY</span></a> enables the area of a list page affected by horizontal
+scrolling to be restricted. <a href="javascript:call_link('abapnew-line.html')" class="blue"><span class="qtext">NEW-LINE NO-SCROLLING</span></a> can be used to flag individual list lines as "unmovable". <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+New Behavior of <span class="qtext">SKIP</span> at End of Page <br><br><!-- /A --> <br>Previously, if
+<a href="javascript:call_link('abapskip.html')" class="blue"><span class="qtext">SKIP</span></a> occurred at the end of a page
+and there was a fixed number of lines per page (as defined by <a href="javascript:call_link('abapnew-page.html')" class="blue"><span class="qtext">
+NEW-PAGE LINE-COUNT</span></a>), a new page was started and the blank line was displayed as the first
+line of that new page (after <a href="javascript:call_link('abaptop-of-page.html')" class="blue"><span class="qtext">TOP-OF-PAGE</span></a>). <br>
+This produced unwanted line shifts on a new page, although the only purpose of <span class="qtext">SKIP</span>
+was to separate different areas of the list. Therefore, <span class="qtext">SKIP</span> is no longer
+executed on the next page unless explicitly requested by <a href="javascript:call_link('abapnew-page.html')" class="blue"><span class="qtext">NEW-PAGE</span></a>. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_10@10@"></A> <span class="bold">Modification 10</span>
+</span></p>
+<P>
+New Additions with <span class="qtext">WRITE <i class=bn>[</i>TO<i class=bn>]</i></span> for <a href="javascript:call_link('abenalignment_glosry.html')" class="grey" title="Glossary Entry">Alignment</a> <br>
+<br><!-- /A --> <br><a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> now has
+the additions <span class="qtext">LEFT-JUSTIFIED</span>, <span class="qtext">CENTERED</span>, and <span class="qtext">
+RIGHT-JUSTIFIED</span> for left-justified, centered, or right-justified output. They can be used in
+output to lists and for string processing with <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE
+... TO</span></a>. In the first case, the alignment refers to the output field in the list. In the latter case, it refers to the target field specified after <span class="qtext">TO</span>. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_11@11@"></A> <span class="bold">Modification 11</span>
+</span></p>
+<P>
+Field Help <span class="qtext">(F1)</span> and Input Help <span class="qtext">(F4)</span>) Now Also in <span class="qtext">"LIKE"</span> Fields <br>
+<br><!-- /A --> <br>Previously, field help (<span class="qtext500">F1</span>) and input help
+(<span class="qtext500">F4</span>) were only available for fields which had a direct reference to a
+data element (usually table fields). Now, this is supported for work fields that refer to a table field
+with <a href="javascript:call_link('abapdata_simple.html')" class="blue"><span class="qtext">DATA ... LIKE</span></a> as well. This of course also applies to field symbols and parameters of subroutines. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_12@12@"></A> <span class="bold">Modification 12</span>
+</span></p>
+<P>
+<span class="qtext">GET CURSOR</span> on field symbols and literals <br><br><!-- /A --> <br>The function
+<a href="javascript:call_link('abapget_cursor_list.html')" class="blue"><span class="qtext">GET CURSOR FIELD</span></a> now always
+returns the name of a "global symbol", in other words, a field that is still valid when the list is displayed. Names of field symbols and local variables are invalid in this context. <br>
+For field symbols and reference parameters of subroutines, the function returns the name of the global
+symbol that may have been assigned when the list was displayed. In literals, the return code is no longer
+set to 4, but the field name becomes <span class="qtext">SPACE</span> and the return code 0. The contents of the literal are returned as <span class="qtext">... VALUE</span>. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_13@13@"></A> <span class="bold">Modification 13</span>
+</span></p>
+<P>
+System Tables <span class="qtext">%_LIST ...</span> Protected Against Access <br><br><!-- /A --> <br>Previously it was possible to directly address the system tables of list processing
+(<span class="qtext">%_LIST</span>,   ) in all ABAP programs and in debugging. This is no longer possible.
+The most common reason for wanting to do this (determining the number of lines in a list with <span class="qtext">
+DESCRIBE TABLE %_LIST LINES lin</span>) can now be achieved by using <a href="javascript:call_link('abapdescribe_list.html')" class="blue"><span class="qtext">DESCRIBE LIST NUMBER OF LINES lin INDEX SY-LSIND</span></a>. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_14@14@"></A> <span class="bold">Modification 14</span>
+</span></p>
+<P>
+Symbols in Lists <br><br><!-- /A --> <br><span class="qtext">WRITE</span> with the addition <a href="javascript:call_link('abapwrite_list_elements.html')" class="blue">
+<span class="qtext"> '...AS SYMBOL'</span></a> is now used to display certain characters in a list as symbols.
+</P>
+<p><span class="h4">Example</span></p>
+<p class="qtextml1">
+<span class="qtext">
+INCLUDE &lt;SYMBOL>. <br>WRITE: / SYM_PHONE AS SYMBOL.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" Output: telephone symbol <br><br>
+</span>
+</p>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_15@15@"></A> <span class="bold">Modification 15</span>
+</span></p>
+<P>
+Hotspots in Lists <br><br><!-- /A --> <br>By using the addition <a href="javascript:call_link('abapformat.html')" class="blue"><span class="qtext">
+'...HOTSPOT'</span></a> with the statements <span class="qtext">FORMAT</span> and <span class="qtext">WRITE</span>, it is now possible to define particular areas in a list as hotspots. <br>
+Clicking once with the mouse in one of these areas triggers the same response as placing the cursor
+on the clicked position in the list and then pressing the function key <span class="qtext500">F2</span> (in other words a double-click is achieved with a single click). <br>
+</P>
+<p><span class="h4">Example</span></p>
+<p class="qtextml1">
+<span class="qtext">
+DATA F. <br>FORMAT HOTSPOT. <br>* or <br>WRITE: / F HOTSPOT. <br><br>
+</span>
+</p>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_16@16@"></A> <span class="bold">Modification 16</span>
+</span></p>
+<P>
+Output of QUAN Fields (<span class="qtext">WRITE</span> Addition <span class="qtext">UNIT</span>) <br><br>
+<!-- /A --> <br><a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> now has the
+addition <span class="qtext">UNIT</span> which enables quantity fields to be formatted by unit. Quantity fields are packed fields and usually have the type QUAN in ABAP Dictionary. Apart from their defined number of
+<a href="javascript:call_link('abendecimal_place_glosry.html')" class="grey" title="Glossary Entry">decimal places</a>, they can be formatted by the unit specified in <span class="qtext">UNIT</span>, for example, for item specifications without
+<a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a>.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-30-list.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:02 GMT -->
+</html>

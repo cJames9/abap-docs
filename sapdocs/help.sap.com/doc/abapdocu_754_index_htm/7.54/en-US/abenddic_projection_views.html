@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_PROJECTION_VIEWS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_projection_views.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Projection Views">
+<meta name="keywords" content="ABAP, ABAP Dictionary, Projection Views">
+<title>
+Projection Views - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_projection_views.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_projection_views.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_views.html')" class="blue">Views</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_views.html')" class="blue">Classic Views</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Projection Views
+</span></p>
+<p>
+A projection view is a special view for hiding fields from a single basis table. An SQL view is not created on the database. No selection conditions can be specified for a projection view.
+</p>
+<p>
+The structure type defined using the view fields of the projection view can be referenced in ABAP programs
+using <span class="qtext">TYPE</span>. A projection view can be accessed using ABAP SQL but not using
+CDS views, Native SQL, or AMDP. The database interface transforms an ABAP SQL statement that accesses a projection view to a platform-specific SQL statement that provides the correct result.
+</p>
+<p>
+The <span class="qtext400">Access</span> setting in the maintenance status of a projection view can have the following values:
+</p>
+<ul class="disc">
+<li><span class="bold">Read only</span></li>
+</ul>
+<dl><dd>
+The projection view can only be used to read data with ABAP SQL.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Read, change, delete, and insert</span></li>
+</ul>
+<dl><dd>
+The projection view can only be used to <a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">change</a> data with ABAP SQL.
+</dd></dl>
+<p>
+When rows are inserted using projection views, all table fields not in the view are given the type-specific
+initial values of the field. This is done regardless of whether the field is defined as <a href="javascript:call_link('abenddic_database_tables_init.html')" class="blue"><span class="qtext400">NOT NULL</span></a> on the database.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>As in a <a href="javascript:call_link('abenddic_database_tables_client.html')" class="blue">database table</a>, the client dependency of a projection view is determined by an initial column with the built-in dictionary type CLNT.</li>
+</ul>
+<ul class="disc">
+<li>Like a database table, the maintenance status of a projection view has a
+<a href="javascript:call_link('abenddic_database_tables_maint.html')" class="blue">Display and Maintain</a> setting alongside
+the <span class="qtext400">Access</span> setting. The setting must match the <span class="qtext400">Access</span> setting.</li>
+</ul>
+<ul class="disc">
+<li>The basis table of a projection view can be a
+<a href="javascript:call_link('abentransparent_table_glosry.html')" class="grey" title="Glossary Entry">transparent table</a> and a
+<a href="javascript:call_link('abenglobal_temporary_table_glosry.html')" class="grey" title="Glossary Entry">global temporary table</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The projection view <span class="lnkgrey">DEMO_SPFLI</span> contains fields of the tables <span class="lnkgrey">SPFLI</span>. The view can be <span class="lnkgrey">accessed</span> as follows using ABAP SQL:
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_projection_views.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+</html>

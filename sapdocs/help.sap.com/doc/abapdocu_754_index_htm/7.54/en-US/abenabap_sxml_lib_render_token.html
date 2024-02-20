@@ -1,0 +1,169 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_SXML_LIB_RENDER_TOKEN -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_sxml_lib_render_token.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sXML Library - Token-Based Rendering">
+<title>
+sXML Library - Token-Based Rendering - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_sxml_lib_render_token.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_sxml_lib_render_token.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sxml_lib_render.html')" class="blue">sXML Library - Rendering</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+sXML Library - Token-Based Rendering
+</span></p>
+<p>
+In token-based rendering, each node is written to the XML data by a method. Each node type has its own
+method. If a node can have specific values, the method in question has appropriate input parameters.
+The methods must be called in such a way that valid XML is created. XML attributes can be added to an element directly after it has been opened.
+</p>
+<A name="@@ITOC@@ABENABAP_SXML_LIB_RENDER_TOKEN_1"></A>
+<p><span class="h2">
+Procedure (Principles)
+</span></p>
+<p>
+An XML writer is created using the factory method CREATE of the class in question. The format and character format can also be defined, for example:
+</p>
+<dl><dd>
+<span class="qtext">DATA(writer) = cl_sxml_string_writer=>create( type = <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;encoding = ... ).</span>
+</dd></dl>
+<p>
+Here, the static type of the reference variables is the type of the class itself, since more class-specific
+methods exist than in readers. The interface <span class="lnkgrey">IF_SXML_WRITER</span> can still be used to access a writer by using up casts:
+</p>
+<dl><dd>
+<span class="qtext">DATA(writer) = CAST if_sxml_writer( cl_sxml_string_writer=>create( ... ) ).</span>
+</dd></dl>
+<p>
+Once the writer is created, nodes can be written. The order of the nodes is important, for example:
+</p>
+<dl><dd>
+<span class="qtext">writer->open_element( ... ). <br>writer->write_attribute( ... ). <br>writer->write_value( ... ). <br>writer->close_element( ).</span>
+</dd></dl>
+<p>
+Once a complete valid record of XML data has been written, the data can be read (if the correct writers are being used), for example:
+</p>
+<dl><dd>
+<span class="qtext">DATA(xml) = CAST cl_sxml_string_writer( writer )->get_output(&nbsp;&nbsp;).</span>
+</dd></dl>
+<p>
+Since the method is a class-specific method, a down cast is required if an interface reference variable is being used.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensxml_rendering_abexa.html')" class="blue">Token-Based Rendering</a>
+</p>
+<A name="@@ITOC@@ABENABAP_SXML_LIB_RENDER_TOKEN_2"></A>
+<p><span class="h2">
+Methods for Token-Based Rendering
+</span></p>
+<p>
+The following methods are declared in the interface <span class="lnkgrey">IF_SXML_WRITER</span> for token-based rendering:
+</p>
+<ul class="disc">
+<li>OPEN_ELEMENT - Writes an opened element. The name, a namespace prefix, and a namespace URI can be passed.</li>
+</ul>
+<ul class="disc">
+<li>WRITE_NAMESPACE_DECLARATION - Writes a namespace declaration to an opened element.</li>
+</ul>
+<ul class="disc">
+<li>WRITE_ATTRIBUTE - Writes an XML attribute to an opened element. A name, namespace prefix, a namespace URI, and a character-like value can be passed.</li>
+</ul>
+<ul class="disc">
+<li>WRITE_ATTRIBUTE_RAW - Writes an XML attribute with raw data to an opened element. A name, namespace prefix, a namespace URI, and a byte-like value can be passed.</li>
+</ul>
+<ul class="disc">
+<li>WRITE_VALUE - Writes a character-like value behind an opened element.</li>
+</ul>
+<ul class="disc">
+<li>WRITE_VALUE_RAW - Writes a byte-like value behind an opened element.</li>
+</ul>
+<ul class="disc">
+<li>CLOSE_ELEMENT - Writes a closed element.</li>
+</ul>
+<p>
+If text-like data is written, this data is converted automatically from the current system code page to the representation of the XML, which is determined by the chosen
+<a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">format</a>. If byte-like raw data is written, this data is also converted in accordance with the chosen
+<a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">format</a>, for example to the format
+<a href="javascript:call_link('abenbase64_glosry.html')" class="grey" title="Glossary Entry">Base64</a> for XML 1.0 or to the binary part of the  XOP package for
+<a href="javascript:call_link('abenxop_glosry.html')" class="grey" title="Glossary Entry">XOP</a>.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensxml_renderering_ns_abexa.html')" class="blue">Namespace Declarations in Token-Based Rendering</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_sxml_lib_render_token.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

@@ -1,0 +1,227 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSELECT_INTO_CONVERSION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_into_conversion.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - Assignment Rules">
+<title>
+SELECT - Assignment Rules - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenselect_into_conversion.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenselect_into_conversion.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">SELECT clauses</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapinto_clause.html')" class="blue">SELECT - INTO, APPENDING</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SELECT - Assignment Rules
+</span></p>
+<p>
+The following assignment rules apply to assignments of the result fields of the results set of a standalone
+<a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>, <a href="javascript:call_link('abapwith.html')" class="blue">
+<span class="qtext">WITH</span></a>, or <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>
+statement to the target fields defined in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSELECT_INTO_CONVERSION_1" class="blue">Prerequisites</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSELECT_INTO_CONVERSION_2" class="blue">Rules</A></li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_INTO_CONVERSION_1"></A>
+<p><span class="h2">
+Prerequisites
+</span></p>
+<p>
+The following table shows the prerequisites for assigning individual columns of the results set to individual
+data objects - that is, for all forms of the <span class="qtext">SELECT</span> statement, except when
+all columns in a work area <span class="qtext">wa</span> are read with <span class="qtext">*</span>
+and <span class="qtext">CORRESPONDING FIELDS</span> is not specified at the same time. The table shows which data types of the result set can be assigned to which ABAP data types.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Data Type of Column in Result Set</span></td>
+<td><span class="bold">ABAP Data Type</span></td>
+</tr>
+<tr>
+<td>CHAR, CLNT, CUKY, LANG, SSTRING, STRING, UNIT</td>
+<td><span class="qtext">c</span>, <span class="qtext">string</span></td>
+</tr>
+<tr>
+<td>ACCP, NUMC</td>
+<td><span class="qtext">c</span>, <span class="qtext">n</span></td>
+</tr>
+<tr>
+<td>LCHR</td>
+<td><span class="qtext">c</span></td>
+</tr>
+<tr>
+<td>RAW, RAWSTRING, GEOM_EWKB</td>
+<td><span class="qtext">x</span>, <span class="qtext">xstring</span></td>
+</tr>
+<tr>
+<td>LRAW</td>
+<td><span class="qtext">x</span></td>
+</tr>
+<tr>
+<td>DF16_DEC</td>
+<td><span class="qtext">decfloat16</span>, <span class="qtext">decfloat34</span></td>
+</tr>
+<tr>
+<td>DECFLOAT16, DF16_RAW, DF16_SCL (obsolete)</td>
+<td><span class="qtext">decfloat16</span></td>
+</tr>
+<tr>
+<td>DECFLOAT34, DF34_DEC, DF34_RAW, DF34_SCL (obsolete)</td>
+<td><span class="qtext">decfloat34</span></td>
+</tr>
+<tr>
+<td>CURR, DEC, INT1, INT2, INT4, INT8, PREC, QUAN</td>
+<td>(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>, <span class="qtext">p</span>, <span class="qtext">f</span></td>
+</tr>
+<tr>
+<td>FLTP</td>
+<td><span class="qtext">f</span></td>
+</tr>
+<tr>
+<td>DATN, DATS</td>
+<td><span class="qtext">d</span></td>
+</tr>
+<tr>
+<td>TIMN, TIMS</td>
+<td><span class="qtext">t</span></td>
+</tr>
+<tr>
+<td>UTCLONG</td>
+<td><span class="qtext">utclong</span></td>
+</tr>
+</table><br>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Fields of the types STRING and RAWSTRING (<a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOBs</a>) from the results set can be assigned to reference variables for
+<a href="javascript:call_link('abenselect_into_lob_handles.html')" class="blue">LOB handles</a> as well as to strings. The static type of these reference variables must be one of the system classes or one of the system interfaces that support
+<a href="javascript:call_link('abenstreams_locators.html')" class="blue">streaming and locators</a> for ABAP SQL.</li>
+</ul>
+<ul class="disc">
+<li>Fields cannot be assigned to <a href="javascript:call_link('abenenumerated_variable_glosry.html')" class="grey" title="Glossary Entry">enumerated variables</a>, even if their
+<a href="javascript:call_link('abenbase_type_glosry.html')" class="grey" title="Glossary Entry">base type</a> is an allowed ABAP type.</li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_INTO_CONVERSION_2"></A>
+<p><span class="h2">
+Rules
+</span></p>
+<p>
+The following rules apply to the assignment procedure:
+</p>
+<ul class="disc">
+<li>If the target field is of data type <span class="qtext">c</span> or <span class="qtext">x</span>,
+the content of the result field is inserted left-justified into the target field. If the target field
+is too short, the result is truncated to the right. If the target field is too long, spaces or hexadecimal 0 are filled to the right.</li>
+</ul>
+<ul class="disc">
+<li>If the target field is of data type <span class="qtext">string</span> or <span class="qtext">xstring</span>,
+the content of the result field is inserted left-justified into the target field. In result fields of the type STRING, the trailing blanks are added. The target field has the same length as the result field.</li>
+</ul>
+<ul class="disc">
+<li>If the target field is of data type <span class="qtext">n</span>, the content of the result field
+is inserted right-justified into the target field. If necessary, it is padded with zeros on the left. If the target field is too short, the result is truncated to the left.</li>
+</ul>
+<ul class="disc">
+<li>If the target field has a <a href="javascript:call_link('abennumeric_data_type_glosry.html')" class="grey" title="Glossary Entry">numeric data type</a>, the value of the result field is converted to this data type and the
+<a href="javascript:call_link('abenvalue_range_glosry.html')" class="grey" title="Glossary Entry">value range</a> of the target field must be large enough. Here, any surplus decimal places in result fields of the type CURR, DEC, or QUAN (numbers in the
+<a href="javascript:call_link('abenbcd_glosry.html')" class="grey" title="Glossary Entry">BCD</a> format) are cut off.</li>
+</ul>
+<ul class="disc">
+<li>If the result field contains a <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>, a type-dependent initial value is assigned to the target field.</li>
+</ul>
+<p>
+For assignments of LOBs to reference variables, see <a href="javascript:call_link('abenselect_into_lob_handles.html')" class="blue">LOB Handles</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The variable <span class="qtext">result1</span> is given the value 1. Any surplus decimal places are
+cut off. The built-in SQL function <a href="javascript:call_link('abensql_arith_func.html')" class="blue"><span class="qtext">ROUND</span></a> can be used to perform roundings like in
+<a href="javascript:call_link('abenconversion_rules.html')" class="blue">conversions</a> in ABAP. <span class="qtext">result2</span> is given the value 2.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM @( VALUE #( id&nbsp;&nbsp; = 'X' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec2 = '1.9999999999' ) ). <br>
+ <br>DATA result1 TYPE i. <br>SELECT SINGLE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS dec2 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = 'X' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@result1). <br> <br>DATA result2 TYPE i. <br>SELECT SINGLE <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS ROUND( dec2,0 ) AS dec2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = 'X' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@result2).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_into_conversion.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+</html>

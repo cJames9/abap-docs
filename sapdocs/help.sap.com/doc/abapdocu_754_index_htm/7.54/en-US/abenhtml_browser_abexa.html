@@ -1,0 +1,269 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHTML_BROWSER_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhtml_browser_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, HTML Browser">
+<title>
+Dynpros, HTML Browser - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhtml_browser_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhtml_browser_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_screen.html')" class="blue">Screen and Screen Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenscreen_elements_abexas.html')" class="blue">Screen Elements - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, HTML Browser
+</span></p>
+<p>
+This example demonstrates the encapsulation of the browser controls in a class.
+</p>
+<A name="@@ITOC@@ABENHTML_BROWSER_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_html_browser.<br>
+<br>
+PARAMETERS: modal&nbsp;&nbsp;AS CHECKBOX DEFAULT 'X',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no_box AS CHECKBOX.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES: pict_line(1022) TYPE x,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pict_tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE STANDARD TABLE OF pict_line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS get_pict_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mime_url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE csequence<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(pict_tab) TYPE pict_tab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS handle_sapevent<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR EVENT sapevent<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OF cl_abap_browser<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING action.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA error_list TYPE cl_abap_browser=&gt;html_table.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(title) = CONV cl_abap_browser=&gt;title( 'HTML Browser Demo' ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET HANDLER handle_sapevent.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(pict_tab) = get_pict_tab(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mime_url = '/SAP/PUBLIC/BC/ABAP/mime_demo/ABAP_Docu_Logo.gif' ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(ext_data) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE cl_abap_browser=&gt;load_tab( ( name = 'PICT.GIF'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type = 'image'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dref = REF #( pict_tab ) ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(html_str) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;htm1 lang=&quot;EN&quot;&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;head&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;meta name=&quot;Demo&quot; content=&quot;Test&quot;&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;style type=&quot;text/css&quot;&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'span.h1 {font-size: 150%; color:#000080; ' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'font-weight:bold;}' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;/style&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;/head&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;body&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;p&gt;&lt;span class=&quot;h1&quot;&gt;HTML&lt;/span&gt;&lt;/p&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;A HREF=&quot;http://help.sap.com/&quot;&gt;Weblink&lt;/A&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;br&gt;&lt;br&gt;&lt;A href=sapevent:&quot;ActionCode&quot;&gt;SAPevent&lt;/A&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;br&gt;&lt;br&gt;External Picture:' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;br&gt;&lt;br&gt;&lt;img src=&quot;PICT.GIF&quot; alt=&quot;An example figure&quot; &gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;/body&gt;' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;/html&gt;'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=&gt;show_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html_string = html_str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = modal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= COND #( WHEN no_box = abap_false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN abap_true )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = title<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttons&nbsp;&nbsp;&nbsp;&nbsp; = cl_abap_browser=&gt;navigate_html<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= cl_abap_browser=&gt;landscape<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= cl_abap_browser=&gt;medium<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data_table&nbsp;&nbsp;= ext_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; html_errors = error_list ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF modal IS INITIAL AND no_box IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'First call of browser' TYPE 'I'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF error_list IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT error_list ASSIGNING FIELD-SYMBOL(&lt;error&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;error&gt; = escape( val&nbsp;&nbsp;&nbsp;&nbsp;= &lt;error&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=&gt;e_html_text ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;error&gt; = &lt;error&gt; &amp;&amp; '&lt;br&gt;'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT '&lt;html&gt;&lt;body&gt;' INTO error_list INDEX 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND '&lt;/body&gt;&lt;/html&gt;' TO error_list.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=&gt;show_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = error_list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = modal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= COND #( WHEN no_box = abap_false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN abap_true )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'HTML Validation Errors'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check_html = abap_false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printing&nbsp;&nbsp; = abap_true ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF modal IS INITIAL AND no_box IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Second call of browser' TYPE 'I'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;REPLACE '&lt;htm1'&nbsp;&nbsp;IN html_str WITH&nbsp;&nbsp;'&lt;html'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=&gt;show_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html_string = html_str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = modal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= COND #( WHEN no_box = abap_false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN abap_true )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= title<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttons&nbsp;&nbsp;&nbsp;&nbsp;= cl_abap_browser=&gt;navigate_html<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format&nbsp;&nbsp;&nbsp;&nbsp; = cl_abap_browser=&gt;landscape<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = cl_abap_browser=&gt;medium<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data_table = ext_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check_html = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; html_errors = error_list ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF modal IS INITIAL AND no_box IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Third call of browser' TYPE 'I'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF error_list IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'No errors in HTML' TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD handle_sapevent.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE `Handling: ` &amp;&amp; action TYPE 'I'.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get_pict_tab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_mime_repository_api=&gt;get_api( )-&gt;get(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING i_url = mime_url<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING e_content = DATA(pict_wa)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS OTHERS = 4 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc = 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pict_tab =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE #( LET l1 = xstrlen( pict_wa ) l2 = l1 - 1022 IN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FOR j = 0 THEN j + 1022&nbsp;&nbsp;UNTIL j &gt;= l1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( COND #( WHEN j &lt;= l2 THEN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict_wa+j(1022)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE pict_wa+j ) ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENHTML_BROWSER_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The class <span class="lnkgrey">CL_ABAP_BROWSER</span> encapsulates the use of the class CL_GUI_HTML_VIEWER.
+The static method SHOW_HTML can be used to display a HTML file in a modal or modeless dialog box or
+in the same window as the current dynpro. External data, in this case a picture loaded from the MIME Repository, can be passed and displayed. The SAPEVENT events are still passed on and can be handled by the user.
+</p>
+<ul class="disc">
+<li>The HTML file passed first has errors, since the <span class="qtext400">&lt;html></span> tag is written incorrectly. In SAP systems, this case always produces an appropriate message.</li>
+</ul>
+<ul class="disc">
+<li>The error list is also represented using SHOW_HTML, where the error check for this simple purpose is disabled by passing a blank to the appropriate parameter.</li>
+</ul>
+<ul class="disc">
+<li>The error in question is corrected in the HTML file and passed again, with the error check enabled this time.</li>
+</ul>
+<p>
+When the program starts, the file can be display in a modal window, a modeless window, or without a
+dialog box. If a modeless dialog box is chosen, container dynpros and information messages must be used to keep the dialog box alive. If no messages were sent, the modeless dialog box would not be visible.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhtml_browser_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+</html>

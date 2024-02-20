@@ -1,0 +1,233 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNAMES_REPOS_OBJ_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennames_repos_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Names of Repository Objects">
+<title>
+Names of Repository Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennames_repos_obj_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennames_repos_obj_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennaming_guidl.html')" class="blue">Naming</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Names of Repository Objects
+</span></p>
+<A name="@@ITOC@@ABENNAMES_REPOS_OBJ_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Repository objects are development objects edited using the tools in ABAP Workbench. Each repository
+object is assigned to a package. Packages encapsulate the repository objects contained and use package interfaces to make objects available that should be usable outside the package. This complies with the
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">SoC principle</a>.
+</p>
+<p>
+From a semantic point of view, packages represent a context for declarations, which is one level above
+the contexts of an ABAP program. Unlike the contexts of an ABAP program (programs, classes, procedures), a package does not generate a separate namespace.
+</p>
+<p>
+The namespace for repository objects is defined as follows:
+</p>
+<ul class="disc">
+<li>Prefix namespace <br>Development organizations (SAP departments, SAP partners, and SAP customers) can request a
+<a href="javascript:call_link('abenprefix_name_space_glosry.html')" class="grey" title="Glossary Entry">prefix namespace</a>
+for their own development systems. A prefix namespace has a name with at least 5 and a maximum of 10
+digits, and the first digit and last digit must be slashes (/.../). After the namespace has been assigned,
+repository objects only can be created in systems, where the namespace is enabled by prefixing the namespace
+name /.../. If a package is created in this type of prefix namespace, it can only contain repository
+objects belonging to the same namespace. However, multiple packages can be created within a single prefix namespace. The available length for the actual name is reduced by the length of the
+<a href="javascript:call_link('abenname_space_prefix_glosry.html')" class="grey" title="Glossary Entry">namespace prefix</a>, including the slashes.</li>
+</ul>
+<ul class="disc">
+<li>Customer namespace <br>If no prefix namespace is available, the names of repository objects created
+in customer systems or non-SAP development systems must have Y or Z as the first character. This means
+they are located in the customer namespace. Repository objects whose names start with Z can also be located within packages whose names start with Y and the other way round.</li>
+</ul>
+<ul class="disc">
+<li>SAP namespace <br>If no prefix namespace is available, there are no real restrictions for the names
+of repository objects that are created in SAP's own development systems. The SAP namespace comprises
+the entire AS ABAP. Regardless of the namespace where a repository object resides, the name of the repository
+object is unique in the current AS ABAP. Therefore, when the object is addressed, nothing else needs
+to be specified. The namespaces (particularly the prefix namespace) were implemented to avoid namespace
+conflicts during transports between systems and upgrades. For SAP's own development systems, there is a cross-system table that ensures the uniqueness of names within the SAP namespace.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The global types, namely the global <a href="javascript:call_link('abenobject_type_glosry.html')" class="grey" title="Glossary Entry">object types</a> of the
+<a href="javascript:call_link('abenclass_library_glosry.html')" class="grey" title="Glossary Entry">class library</a> and the global
+<a href="javascript:call_link('abendata_type_glosry.html')" class="grey" title="Glossary Entry">data types</a> of
+<a href="javascript:call_link('abenabap_dictionary_glosry.html')" class="grey" title="Glossary Entry">ABAP Dictionary</a> are in separate dedicated namespaces. They are always unique when used after <span class="qtext">REF TO</span>.
+</p>
+<A name="@@ITOC@@ABENNAMES_REPOS_OBJ_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Clarify the type and affiliation of repository objects in names</span>
+</p>
+<p>
+Use common naming conventions for repository objects. The predefined name prefixes, CL_, IF_, and CX_,
+apply to objects of the class library. If possible, create all repository objects in the prefix namespaces only. In addition, use a naming convention to clearly indicate which package or component the objects belong to.
+</p>
+<A name="@@ITOC@@ABENNAMES_REPOS_OBJ_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Classes and interfaces are the most important entities for
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">programming with ABAP
+Objects</a>. Either a class type or an interface type can be used to type a object reference. It is
+useful to uniquely flag these two types in the class library by means of a prefix. Global exception
+classes should also be uniquely identified by a prefix. The following naming conventions apply. These conventions are sometimes enforced by Class Builder but are sometimes only evaluated:
+</p>
+<ul class="disc">
+<li>CL_ for global classes</li>
+</ul>
+<ul class="disc">
+<li>IF_ for global interfaces</li>
+</ul>
+<ul class="disc">
+<li>CX_ for global exception classes</li>
+</ul>
+<ul class="disc">
+<li>CL_BADI_, IF_BADI_, CX_BADI_ for classes, interfaces, and exception classes of Business Add-Ins (BAdI)</li>
+</ul>
+<p>
+These naming conventions distinguish <a href="javascript:call_link('abenobject_type_glosry.html')" class="grey" title="Glossary Entry">object types</a> from the global
+<a href="javascript:call_link('abendata_type_glosry.html')" class="grey" title="Glossary Entry">data types</a> of
+<a href="javascript:call_link('abenabap_dictionary_glosry.html')" class="grey" title="Glossary Entry">ABAP Dictionary</a>, with which they share a namespace.
+</p>
+<p>
+In addition, the names of all repository objects should clearly identify the package or component they
+belong to. Technically speaking, a package does not generate its own namespace and therefore naming
+requires strict discipline. Using prefix namespaces is very helpful in itself. However, they are not intended for the package level but for bigger development projects, which usually comprise numerous packages.
+</p>
+<p>
+Therefore, the names of the repository objects contained in a package should be labeled with a shared
+name component, which indicates the affiliation to a package or at least to an application component.
+The length of names is restricted to 30 characters or less, and the namespace prefix is included. Therefore, an abbreviation should be used for this name component and not the complete package name.
+</p>
+<p>
+A global name should never be given for a package-specific or component-specific repository object.
+This would render the name useless for further general use. For example, general names of the SAP namespace
+(such as CHAR60 for a data element or CL_ABAP_MATH for a class) should only be declared in absolutely fundamental basis packages delivered by SAP and exposed by these packages in a generally available interface.
+</p>
+<p>
+If developers find a repository object with a global name, they naturally assume that they can freely
+use the object in the way indicated by the name. Since the application of package boundaries is not
+checked thoroughly, repository objects with overly global names (particularly in the SAP namespace and
+also in the customer namespace) are now used throughout all AS ABAP packages. This can cause considerable difficulties when implementing real package encapsulation.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The above rule supplements the global rule regarding
+<a href="javascript:call_link('abentelling_names_guidl.html')" class="lnkpurple" title="Guideline">descriptive names</a>. With
+regard to technical information in repository object names, the same information stated in section on descriptive names also applies here (also refer to the discussion on prefixes and suffixes in
+<a href="javascript:call_link('abenprog_intern_names_guidl.html')" class="lnkpurple" title="Guideline">program-internal names</a>).
+</p>
+<p>
+All development organizations are free to create own naming conventions on the basis of the above rule regarding
+<a href="javascript:call_link('abentelling_names_guidl.html')" class="lnkpurple" title="Guideline">descriptive names</a>. However,
+note that the use of a namespace prefix only leaves limited space for the remaining name components.
+For example, the names of database tables are restricted to 16 characters. Therefore, the namespace prefix should not be too long. It should simply describe a product line using an abbreviation
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Not all repository objects can be created in prefix namespaces. Some examples are authorization objects
+and type groups. In these cases, an additional package should be created that includes all of these
+objects. The object names and package names should, if possible, contain a relevant, normal prefix instead of the real namespace prefix /.../.
+</p>
+<p>
+A similar guideline applies if further development is performed in areas that are traditionally located
+in the SAP namespace or the customer namespace. Instead of using a real namespace prefix, this can be simulated by using uniform prefixes when new packages and development objects are created.
+</p>
+<p>
+If ABAP Workbench itself allocates <a href="javascript:call_link('abensource_code_orga_guidl.html')" class="lnkpurple" title="Guideline">names</a>,
+for instance, for include programs, which are assigned to specific master programs (such as function
+groups or class pools), this name allocation always has priority over all other rules. This ensures that the workbench and the compiler run correctly.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Refer to the repository objects of the example application in the package <span class="lnkgrey">SABAP_DEMOS_CAR_RENTAL</span>.
+</p>
+<p>
+The subpackages of the SABAP_DEMOS_CAR_RENTAL package start with the same name as the superpackage (as
+<a href="javascript:call_link('abentelling_names_guidl.html')" class="lnkpurple" title="Guideline">recommended</a> in these guidelines).
+A suffix indicates their specialization. The same applies to the package interfaces. Instead of a real
+namespace prefix, the repository objects of the packages have the DEMO_ prefix. This indicates that
+the objects are part of a demo package. The affiliation with the car rental application is indicated by the abbreviation CR (car rental).
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennames_repos_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

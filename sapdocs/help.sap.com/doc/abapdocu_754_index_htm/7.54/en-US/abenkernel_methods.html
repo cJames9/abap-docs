@@ -1,0 +1,693 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENKERNEL_METHODS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenkernel_methods.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Kernel Methods">
+<meta name="keywords" content="ABAP, Kernel Methods">
+<title>
+Kernel Methods - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenkernel_methods.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenkernel_methods.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses.html')" class="blue">Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_components.html')" class="blue">Components of Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_methods.html')" class="blue">Methods of Classes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Kernel Methods
+</span></p>
+<p>
+For <span class="bold">internal use</span>, kernel methods can be implemented in the <a href="javascript:call_link('abenkernel_glosry.html')" class="grey" title="Glossary Entry">ABAP kernel</a> instead of in the ABAP language.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_1"></A>
+<p><span class="h2">
+Introduction
+</span></p>
+<p>
+Kernel methods allow you to directly call ABAP kernel functions implemented in C or C++. Kernel methods replace the previous concepts of
+<a href="javascript:call_link('abapcall-.html')" class="blue">C calls</a> and system calls. New C calls and system calls should be avoided.
+</p>
+<p>
+Kernel methods offer the same checks and security features as normal ABAP methods. Except for the
+<a href="javascript:call_link('abenconstructor.html')" class="blue">constructors</a> and the
+<a href="javascript:call_link('abenc_destructor.html')" class="blue">C destructor</a>, all ABAP methods can be implemented as
+kernel methods. An ABAP method can still be redefined as a kernel method and a kernel method can still be redefined as an ABAP method within a path of the inheritance hierarchy.
+</p>
+<p>
+For C developers who want to implement a kernel method, an API is available that allows simple, high-performance, and secure access to arguments.
+<a href="javascript:call_link('abenexceptions.html')" class="blue">Class-based exceptions</a> also continue to be supported.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_2"></A>
+<p><span class="h2">
+Defining Kernel Methods
+</span></p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_3"></A>
+<p><span class="h3">
+Declaration in ABAP
+</span></p>
+<p>
+A kernel method is declared in the same way as a regular ABAP method, either in
+<a href="javascript:call_link('abenclass_builder_glosry.html')" class="grey" title="Glossary Entry">Class Builder</a> or in the
+declaration part of a local class. Whether a method is implemented as a kernel method is not important for the declaration. In ABAP, this means that a kernel method can be used just like a normal ABAP method.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_4"></A>
+<p><span class="h3">
+Implementation in ABAP
+</span></p>
+<p>
+A method is specified as a kernel method in the implementation part of the class using the optional
+addition <a href="javascript:call_link('abapmethod_kernel_module_internal.html')" class="blue"><span class="qtext">BY KERNEL
+MODULE kmod1 kmod2 ...</span></a> of the statement <a href="javascript:call_link('abapmethod.html')" class="blue"><span class="qtext">METHOD</span></a>.
+<span class="qtext">kmod1</span>, <span class="qtext">kmod2</span>, ... are the names of kernel modules
+that implement the method. The ABAP implementation of a kernel method must be empty, which means that
+there cannot be any ABAP statements between <span class="qtext">METHOD</span> and <span class="qtext">ENDMETHOD</span>:
+</p>
+<dl><dd>
+<span class="qtext">METHOD meth BY KERNEL MODULE kmod1 kmod2 ...</span> <br><span class="qtext">ENDMETHOD.</span>
+</dd></dl>
+<p>
+<a href="javascript:call_link('abenconstructor.html')" class="blue">Constructors</a> and the
+<a href="javascript:call_link('abenc_destructor.html')" class="blue">C destructor</a> cannot be implemented as kernel methods. There is a separate mechanism for the C Destructor.
+</p>
+<p>
+After <span class="qtext">KERNEL MODULE</span>, you can specify a list of kernel modules <span class="qtext">kmod1</span>,
+<span class="qtext">kmod2</span>, ... Currently, you can only specify C functions of the kernel for
+<span class="qtext">kmod1</span>, <span class="qtext">kmod2</span>, ... The list after <span class="qtext">KERNEL
+MODULE</span> is evaluated by the compiler from left to right. The first kernel module in the list that is registered in the kernel (see below) is used in the generation.
+</p>
+<p>
+If no valid kernel module is found in the list, a syntax error occurs. There are still two standard
+C functions that can appear at the end of the list: <span class="qtext400">FAIL</span> and <span class="qtext400">IGNORE</span>.
+If one of these functions is specified at the end of the list, then a syntax error is avoided if the
+previous list does not contain a valid module. <span class="qtext400">IGNORE</span> is used to ignore
+the call of a kernel method of this type (behavior as in an empty ABAP implementation) and, in the case of <span class="qtext400">FAIL</span>, a handleable exception of the class CX_SY_DYN_CALL_ILLEGAL_METHOD is raised.
+</p>
+<p><span class="h4">
+Examples
+</span></p>
+<dl><dd>
+<span class="qtext">METHOD meth BY KERNEL MODULE xx_impl_630 xx_impl_620 xx_impl_610.</span>
+</dd></dl>
+<p>
+First, the kernel is searched for xx_impl_630. The kernel is then searched for xx_impl_620, and finally for xx_impl_610. If none of these functions are found, a syntax error is raised.
+</p>
+<dl><dd>
+<span class="qtext">METHOD meth BY KERNEL MODULE xx_impl_630 xx_impl_620 FAIL.</span>
+</dd></dl>
+<p>
+First, the kernel is searched for xx_impl_630. Then the kernel is searched for xx_impl_620. If neither
+of these functions are found, a syntax error is not raised; a handleable exception of the class CX_SY_DYN_CALL_ILLEGAL_METHOD is raised instead, when the method is called.
+</p>
+<dl><dd>
+<span class="qtext">METHOD meth BY KERNEL MODULE xx_impl_620 xx_impl_610 IGNORE.</span>
+</dd></dl>
+<p>
+First, the kernel is searched for xx_impl_620. Then the kernel is searched for xx_impl_620. If none
+of the functions are found, a syntax error is not raised; the empty ABAP implementation is called instead, when the method is called.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_5"></A>
+<p><span class="h3">
+Implementation in the Kernel
+</span></p>
+<p>
+Currently, only C functions can be used as kernel modules of kernel methods. The C functions can have any position in the kernel. No special includes from the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime environment</a>
+are required for implementing the C function. The C functions must have a specific interface. The interface itself is wrapped by a
+<a href="javascript:call_link('abenmacro_glosry.html')" class="grey" title="Glossary Entry">macro</a> called <span class="qtext400">ARGUMENTS</span>.
+All required definitions and prototypes are in the include <span class="qtext400">//src/include/abkmeth.h</span>. This is the only include needed for defining C functions for kernel methods.
+</p>
+<p>
+Since C functions can be defined in C and C++ , you must use <span class="qtext400">externC</span> in C++:
+</p>
+<dl><dd>
+<span class="qtext400">#include "abkmeth.h" <br>... <br>externC void name_of_cmodule( ARGUMENTS ) <br>{ <br>... <br>}</span>
+</dd></dl>
+<p>
+A C function that implements a kernel method must be registered for the kernel method. If, after <span class="qtext">
+METHOD meth BY KERNEL MODULE</span>, the name of a C function is specified that was not registered for
+the kernel method, a syntax error occurs (as mentioned above). You can register several C functions
+for a kernel method. The sequence of the kernel modules <span class="qtext">kmod1</span>, <span class="qtext">kmod2</span>,
+... specified in the list after <span class="qtext">METHOD meth BY KERNEL MODULE</span> defines which of the registered C functions is used. This allows downward-compatible further development of kernel methods.
+</p>
+<p>
+To make changes to the registration active, you must recompile the destination <span class="qtext400">lib</span> of the project <span class="qtext400">krn/runt</span> and relink the kernel.
+</p>
+<p><span class="h4">
+Registration
+</span></p>
+<p>
+C functions are registered in the signature file <span class="qtext400">//src/krn/runt/abkmeth.sig</span> using the following syntax for kernel methods (all ABAP IDs must be specified in uppercase letters):
+</p>
+<dl><dd>
+<span class="qtext400">KERNEL_METHOD("CLASS","METH", cfunc,argcnt)</span>
+</dd></dl>
+<p>
+This definition registers the C function <span class="qtext">cfunc</span> for the kernel method <span class="qtext">
+meth</span> of a global class <span class="qtext">class</span>. The C function expects a number of <span class="qtext400">argcnt</span> arguments.
+</p>
+<p>
+Kernel methods of local classes in class pools or other ABAP programs are registered using the following macros:
+</p>
+<dl><dd>
+<span class="qtext400">KERNEL_METHOD_CLASS_LOCAL("GCLASS","CLASS","METH",cmodule,argcnt)</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">KERNEL_METHOD_PROGRAM_LOCAL("PROG","CLASS","METH",cmodule,argcnt)</span>
+</dd></dl>
+<p>
+The technique is the same as with <span class="qtext400">KERNEL_METHOD</span>, except that the global
+class <span class="qtext">gclass</span> must be specified for local classes in class pools and the program <span class="qtext">prog</span> for program-local classes.
+</p>
+<p><span class="h4">
+Registering Arguments
+</span></p>
+<p>
+All ABAP data objects (such as parameters, attributes, or global data) that are to be accessed in C functions for kernel methods, are treated as arguments of the C function.
+</p>
+<p>
+The argument list of a C function for a kernel method is not limited to the interface parameters of
+the ABAP method and does not have to contain these completely. Before you access arguments within C functions for kernel methods, these arguments must be registered.
+</p>
+<p>
+The <span class="qtext400">argcnt</span> arguments must be registered immediately after the C function
+is registered using <span class="qtext400">KERNEL_METHOD</span>. A single argument is defined (registered) using one of the following macros:
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_basetype(index,"name",type_kind,"type",read_write)</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">ARGUMENT_<i class=bn>[</i>C<i class=bn>|</i>N<i class=bn>|</i>X<i class=bn>]</i>(index,"name",type_kind,"type",read_write,length)</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">ARGUMENT_P(index,"name",type_kind,"type",read_write,length,decimals)</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">ARGUMENT_STRUCT(index,"name",type_kind,"type",read_write,ctype)</span>
+</dd></dl>
+<p>
+These <a href="javascript:call_link('abenmacro_glosry.html')" class="grey" title="Glossary Entry">macros</a> define an argument with the name <span class="qtext400">name</span> and an index <span class="qtext400">index</span>.
+</p>
+<p>
+You must use <span class="qtext400">basetype</span> to assign the type of the ABAP data object according
+to the following table. If the <span class="qtext400">basetype</span> is <span class="qtext400">C</span>,
+<span class="qtext400">N</span>, <span class="qtext400">X</span>, <span class="qtext400">P</span>, or <span class="qtext400">STRUCT</span>, you must specify more parameters than for other types.
+</p>
+<table border>
+<tr>
+<td><span class="bold"><span class="qtext400">basetype</span></span></td>
+<td><span class="bold">ABAP Data Type</span></td>
+<td><span class="bold">Type in C</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">C</span></td>
+<td><span class="qtext">c</span> with specified length</td>
+<td><span class="qtext400">SAP_CHAR (*) <i class=bn>[</i>Length<i class=bn>]</i></span></td>
+</tr>
+<tr>
+<td><span class="qtext400">C_GENERIC</span></td>
+<td><span class="qtext">c</span> without specified length</td>
+<td><span class="qtext400">SAP_CHAR*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">X</span></td>
+<td><span class="qtext">x</span> with specified length</td>
+<td><span class="qtext400">SAP_RAW (*) <i class=bn>[</i>Length<i class=bn>]</i></span></td>
+</tr>
+<tr>
+<td><span class="qtext400">X_GENERIC</span></td>
+<td><span class="qtext">x</span> without specified length</td>
+<td><span class="qtext400">SAP_RAW*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">N</span></td>
+<td><span class="qtext">n</span> with specified length</td>
+<td><span class="qtext400">SAP_CHAR (*) <i class=bn>[</i>Length<i class=bn>]</i></span></td>
+</tr>
+<tr>
+<td><span class="qtext400">N_GENERIC</span></td>
+<td><span class="qtext">n</span> without specified length</td>
+<td><span class="qtext400">SAP_CHAR*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">P</span></td>
+<td><span class="qtext">p</span> with specified length and decimals</td>
+<td><span class="qtext400">SAP_BCD (*) <i class=bn>[</i>Length<i class=bn>]</i></span></td>
+</tr>
+<tr>
+<td><span class="qtext400">P_GENERIC</span></td>
+<td><span class="qtext">p</span> without specified length and decimals</td>
+<td><span class="qtext400">SAP_BCD*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">D</span></td>
+<td><span class="qtext">d</span></td>
+<td><span class="qtext400">SAP_DATE*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">T</span></td>
+<td><span class="qtext">t</span></td>
+<td><span class="qtext400">SAP_TIME*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">UTCLONG</span></td>
+<td><span class="qtext">utclong</span></td>
+<td><span class="qtext400">SAP_LLONG*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">I</span></td>
+<td><span class="qtext">i</span></td>
+<td><span class="qtext400">SAP_INT*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">INT1</span></td>
+<td><span class="qtext">b</span></td>
+<td><span class="qtext400">SAP_INT1*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">INT2</span></td>
+<td><span class="qtext">s</span></td>
+<td><span class="qtext400">SAP_SHORT*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">INT8</span></td>
+<td><span class="qtext">int8</span></td>
+<td><span class="qtext400">SAP_LLONG*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">F</span></td>
+<td><span class="qtext">f</span></td>
+<td><span class="qtext400">SAP_DOUBLE*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DECFLOAT16</span></td>
+<td><span class="qtext">decfloat16</span></td>
+<td><span class="qtext400">DecFloat16</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DECFLOAT34</span></td>
+<td><span class="qtext">decfloat34</span></td>
+<td><span class="qtext400">DecFloat34</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">STRING</span></td>
+<td><span class="qtext">string</span></td>
+<td><span class="qtext400">StrRef*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">XSTRING</span></td>
+<td><span class="qtext">xstring</span></td>
+<td><span class="qtext400">StrRef*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">TABLE</span></td>
+<td>All table types</td>
+<td><span class="qtext400">TABH_REF*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">OBJ_REF</span></td>
+<td>All object references</td>
+<td><span class="qtext400">ObjRef*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DATA_REF</span></td>
+<td>All data references</td>
+<td><span class="qtext400">FldRef*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">STRUCT</span></td>
+<td>All structure types</td>
+<td>Registered type <span class="qtext400">ctype*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">ANY</span></td>
+<td><span class="qtext">any</span></td>
+<td><span class="qtext400">void*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DATA</span></td>
+<td><span class="qtext">data</span></td>
+<td><span class="qtext400">void*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">SIMPLE</span></td>
+<td><span class="qtext">simple</span></td>
+<td><span class="qtext400">void*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">CSEQUENCE</span></td>
+<td><span class="qtext">csequence</span></td>
+<td><span class="qtext400">void*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">XSEQUENCE</span></td>
+<td><span class="qtext">xsequence</span></td>
+<td><span class="qtext400">void*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">NUMERIC</span></td>
+<td><span class="qtext">numeric</span></td>
+<td><span class="qtext400">void*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">CLIKE</span></td>
+<td><span class="qtext">clike</span></td>
+<td><span class="qtext400">SAP_CHAR*</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">C_POINTER</span></td>
+<td><span class="qtext">%_c_pointer</span></td>
+<td><span class="qtext400">void**</span></td>
+</tr>
+</table><br>
+<p>
+The macro parameters have the following meanings:
+</p>
+<ul class="disc">
+<li><span class="qtext400">name</span> is the ID for any ABAP data object in uppercase letters that
+could also be used in an ABAP implementation of the kernel method. In particular, the ID can contain
+references specified using component selectors, for example <span class="qtext">me->attr</span> or <span class="qtext">struc-comp</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">index</span> is a sequential number from 1 to <span class="qtext400">argcnt</span>. The arguments are accessed using this index.</li>
+</ul>
+<ul class="disc">
+<li>For <span class="qtext400">type_kind</span> you can specify either <span class="qtext400">TYPE</span> or <span class="qtext400">TYPE_REF_TO</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">type</span> is the ID for any ABAP data type in uppercase letters that could
+also be used in an ABAP implementation of the kernel method. <span class="qtext400">type_kind</span> and <span class="qtext400">type</span> are used to check the interface of the kernel method in ABAP.</li>
+</ul>
+<ul class="disc">
+<li>For <span class="qtext400">read_write</span> you can specify either <span class="qtext400">READ</span>
+or <span class="qtext400">WRITE</span>. This defines whether you have read or write access to the argument and is evaluated in the access macros.</li>
+</ul>
+<ul class="disc">
+<li>In the case of <span class="qtext400">ARGUMENT_<i class=bn>[</i>C<i class=bn>|</i>N<i class=bn>|</i>X<i
+class=bn>|</i>P<i class=bn>]</i></span>, <span class="qtext400">length</span> must be used to specify
+the length of all ABAP data types with a generic length. (This is specified in characters in the case
+of <span class="qtext">c</span> and <span class="qtext">n</span> and in bytes in the case of <span class="qtext">x</span> and <span class="qtext">p</span>.)</li>
+</ul>
+<ul class="disc">
+<li>When using <span class="qtext400">ARGUMENT_P</span>, <span class="qtext400">decimals</span> must be used to specify the number of
+<a href="javascript:call_link('abendecimal_place_glosry.html')" class="grey" title="Glossary Entry">decimal places</a>.</li>
+</ul>
+<ul class="disc">
+<li>For <span class="qtext400">ARGUMENT_STRUCT</span> you use <span class="qtext400">ctype</span> to
+specify a suitable C type. This type should be generated from an ABAP type definition using <span class="qtext400">saphfile</span>.</li>
+</ul>
+<p><span class="h4">
+Accessing Arguments
+</span></p>
+<p>
+After registering the arguments, you can use the following macros to access them within the C function. With the exception of direct access to the data control block, the access macros do not require any includes from the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime environment</a>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_basetype_READ(index,"name");</span>
+</dd></dl>
+<p>
+This <a href="javascript:call_link('abenmacro_glosry.html')" class="grey" title="Glossary Entry">macro</a> returns the read address
+of an argument with the type <span class="qtext400">const ctype</span>, where <span class="qtext400">ctype</span>
+is defined by <span class="qtext400">basetype</span> according to the above table. The index and name
+of the argument must be passed. You must specify additional parameters for the generic types (see below).
+You only need the index to access the argument. However, to make the C function more legible and ensure
+that additional consistency checks can be executed, you must also specify the name. If the kernel is
+compiled in debugging mode, the system executes a consistency check between index and name; the specified
+C type and ABAP type of the argument are also checked. In the case of an error, an appropriate ABAP
+runtime error is triggered (KMETH_INVALID_ARGUMENT_ID, KMETH_INVALID_ARGUMENT_NAME, or KMETH_INVALID_CTYPE_LENG). No checks are made in the optimized kernel.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_basetype_WRITE(index,"name");</span>
+</dd></dl>
+<p>
+This macro has the same semantics as <span class="qtext400">ARGUMENT_basetype_READ</span>. However,
+the system returns the write address. The system also checks whether the argument was defined as a write
+argument. If you try to write access a read-only argument (for example, a constant), this triggers the ABAP runtime error KMETH_ARGUMENT_READ_ONLY.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_<i class=bn>[</i>C<i class=bn>|</i>N<i class=bn>]</i>_READ(index,"name",lengthU);</span> <br>
+<span class="qtext400">ARGUMENT_<i class=bn>[</i>C<i class=bn>|</i>N<i class=bn>]</i>_WRITE(index,"name",lengthU);</span> <br>
+<span class="qtext400">ARGUMENT_X_READ(index,"name",lengthR);</span> <br><span class="qtext400">ARGUMENT_X_WRITE(index,"name",lengthR);</span>
+</dd></dl>
+<p>
+If these macros are used, the expected length in bytes <span class="qtext400">lengthR</span> or in characters
+<span class="qtext400">lengthU</span> must be specified for the generic types <span class="qtext">c</span>, <span class="qtext">x</span>, and <span class="qtext">n</span>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_P_READ(index,"name",lengthR,decimals);</span> <br><span class="qtext400">ARGUMENT_P_WRITE(index,"name",lengthR,decimals);</span>
+</dd></dl>
+<p>
+If these macros are used, the expected length in bytes
+(<span class="qtext400">lengthR</span>) and the number of decimal places (<span class="qtext400">decimals</span>) must be specified for the generic type <span class="qtext">p</span>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_<i class=bn>[</i>C_GENERIC<i class=bn>|</i>N_GENERIC<i class=bn>|</i>CLIKE<i class=bn>]</i>_READ(index,"name",size_tU);</span> <br>
+<span class="qtext400">ARGUMENT_<i class=bn>[</i>C_GENERIC<i class=bn>|</i>N_GENERIC<i class=bn>|</i>CLIKE<i class=bn>]</i>_WRITE(index,"name",size_tU);</span> <br>
+<span class="qtext400">ARGUMENT_X_GENRIC_READ(index,"name",size_tR);</span> <br><span class="qtext400">ARGUMENT_X_GENERIC_WRITE(index,"name",size_tR);</span>
+</dd></dl>
+<p>
+If these macros are used, a variable of the type <span class="qtext400">size_tU</span> or <span class="qtext400">size_tR</span>
+containing the length in bytes or characters must be specified for the types <span class="qtext400">C_GENERIC</span>,
+<span class="qtext400">X_GENERIC</span>, <span class="qtext400">N_GENERIC</span>, and <span class="qtext400">CLIKE</span>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_P_GENERIC_READ(index,"name",size_tR,decimals);</span> <br><span class="qtext400">ARGUMENT_P_GENERIC_WRITE(index,"name",size_tR,decimals);</span>
+</dd></dl>
+<p>
+If these macros are used, a variable <span class="qtext400">decimals</span> (for the
+<a href="javascript:call_link('abendecimal_place_glosry.html')" class="grey" title="Glossary Entry">decimal places</a>) as well
+as the length <span class="qtext400">size_tR</span> must be specified for the type <span class="qtext400">P_GENERIC</span>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_STRUCT_READ(index,"name",ctype);</span> <br><span class="qtext400">ARGUMENT_STRUCT_READ(index,"name",ctype);</span>
+</dd></dl>
+<p>
+With these macros, you must specify a suitable C type <span class="qtext400">ctype</span> for all structured types <span class="qtext400">STRUCT</span>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_C_POINTER(index,"name");</span>
+</dd></dl>
+<p>
+This <a href="javascript:call_link('abenmacro_glosry.html')" class="grey" title="Glossary Entry">macro</a> is used specifically
+for the type <span class="qtext400">%_c_pointer</span>. This type is a special internal ABAP type that
+has exactly the byte length of a C pointer (4, 8, or 16 bytes, depending on platform). The type is always
+mapped to the built-in ABAP type <span class="qtext">x</span>. The macros for the type <span class="qtext400">X</span>
+or <span class="qtext400">X_GENERIC</span> are not used due to the variable length and platform-dependency.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_IS_SUPPLIED(index,"name");</span>
+</dd></dl>
+<p>
+This macro has the same semantics as the <a href="javascript:call_link('abenpredicate_expression_glosry.html')" class="grey" title="Glossary Entry">
+predicate expression</a> <span class="qtext">IS SUPPLIED</span> in ABAP. The same consistency checks are executed as for <span class="qtext400">ARGUMENT_READ</span>.
+</p>
+<dl><dd>
+<span class="qtext400">ARGUMENT_DATA(index,"name",ctype);</span>
+</dd></dl>
+<p>
+This macro returns the data control block with the C type <span class="qtext400">const DATA
+*</span>. The same consistency checks are executed as for <span class="qtext400">ARGUMENT_READ</span>. The macro is only active if the include <span class="qtext400">//src/include/abdata.h</span> of the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime environment</a> was included.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_6"></A>
+<p><span class="h3">
+Raising Exceptions
+</span></p>
+<p>
+C functions that implement kernel methods can raise <a href="javascript:call_link('abenexceptions.html')" class="blue">class-based exceptions</a>.
+</p>
+<p><span class="h4">
+Registering Exceptions
+</span></p>
+<p>
+The relevant <span class="bold">global</span> exception classes must be registered with an extension of <span class="qtext400">//src/include/abexcpc.h</span>. Local exception classes cannot be registered.
+</p>
+<p>
+The exception class is declared in <span class="qtext400">//src/include/abexcpc.h</span> and any text IDs are defined:
+</p>
+<dl><dd>
+<span class="qtext400">//src/include/abexcpc.h <br>... <br>CX_ABSTR (CX_..., "CX_...") <br>CX_TXTID (CX_..._bar, CX_..., "BAR")&nbsp;&nbsp;/* special text for class */ <br>...</span>
+</dd></dl>
+<p>
+Classes can also be declared with their standard text only:
+</p>
+<dl><dd>
+<span class="qtext400">//src/include/abexcpc.h <br>... <br>CX_CLASS (CX_..., "CX_...")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* class with standard text */ <br>...</span>
+</dd></dl>
+<p>
+The exact documentation is in the file <span class="qtext400">//src/include/abexcpc.h</span>.
+</p>
+<p>
+You must extend the file <span class="qtext400">//src/include/abexcpa.h</span> so that any attributes
+of an exception class in a C function can be populated; you must specify the name, internal type (according to <span class="qtext400">//src/include/abtypes.h)</span> and the byte length:
+</p>
+<dl><dd>
+<span class="qtext400">//src/include/abexcpa.h <br>... <br>CX_ATTR (CX_..._attr1, CX_..., "ATTR1", TYPCSTRING, sizeofR(StrRef)) <br>CX_ATTR (CX_..._attr2, CX_..., "ATTR2", TYPC, LEN_UC2RAW(30)) <br>...</span>
+</dd></dl>
+<p>
+Finally, you must register exceptions as well as arguments in the file <span class="qtext400">//src/krn/runt/abkmeth.sig</span>.
+This is not forced but, during the syntax check, only registered exceptions are checked for their existence:
+</p>
+<dl><dd>
+<span class="qtext400">//src/krn/runt/abkmeth.sig <br>... <br>EXCEPTION(CX_...) <br>...</span>
+</dd></dl>
+<p><span class="h4">
+Raising Exceptions
+</span></p>
+<p>
+A C function can raise an exception by calling the following macros consecutively:
+</p>
+<dl><dd>
+<span class="qtext400">EXCEPTION_CREATE(CX_..._bar);</span> <br><span class="qtext400">EXCEPTION_SET_CSTRING(CX_..._attr1, value, valueLength);</span> <br>
+<span class="qtext400">EXCEPTION_SET_C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(CX_..._attr2, value, valueLength);</span> <br><span class="qtext400">EXCEPTION_RAISE();</span>
+</dd></dl>
+<p>
+Within the macros <span class="qtext400">EXCEPTION_CREATE</span> or <span class="qtext400">EXCEPTION_RAISE</span>,
+a long jump to Extri always takes place, which means that the C function that implements the kernel method is exited in a long jump and the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime environment</a>
+takes control. Therefore, the C function should release its temporary memory before raising an exception.
+If the exception is caught in ABAP using <a href="javascript:call_link('abapcatch_try.html')" class="blue"><span class="qtext">CATCH</span></a>
+without the addition <span class="qtext">INTO</span>, the long jump takes place in <span class="qtext400">EXCEPTION_CREATE</span>.
+If the exception is caught using the addition <span class="qtext">INTO</span> (the exception object is used) or not caught at all, the long jump takes place in <span class="qtext400">EXCEPTION_RAISE</span>.
+</p>
+<p>
+The exceptions are processed in the runtime environment, as if they were raised in ABAP and the same dynamic checks are executed.
+</p>
+<p>
+Currently, the following <a href="javascript:call_link('abenmacro_glosry.html')" class="grey" title="Glossary Entry">macros</a>
+(which can be expanded if necessary) are available for setting exception attributes. Strings, integer and C fields are supported. See the above sequence for use.
+</p>
+<dl><dd>
+<span class="qtext400">EXCEPTION_SET_CSTRING_UC</span> <br><span class="qtext400">EXCEPTION_SET_C</span>
+</dd></dl>
+<p>
+Value with length specified
+</p>
+<dl><dd>
+<span class="qtext400">EXCEPTION_SET_C_UC</span> <br><span class="qtext400">EXCEPTION_SET_INT</span>
+</dd></dl>
+<p>
+Value with null termination
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_7"></A>
+<p><span class="h2">
+Auxiliary Program for Kernel Methods
+</span></p>
+<p>
+The ABAP program <span class="lnkgrey">RSKMETH</span> is used as a browser for the registration of kernel
+modules. You can use it to ascertain which C functions are registered for which kernel methods and which
+arguments/exceptions are registered for these functions. This is helpful when analyzing syntax errors, since kernel methods process information that only exists in the kernel modules.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_8"></A>
+<p><span class="h2">
+Example
+</span></p>
+<p>
+The following example is a simplified calculation class for floating decimal place numbers. The class
+has an instance attribute in which the last result of each calculation is stored. A method executes a division and is implemented as a kernel method. If the divisor is zero, the method triggers a class-based exception.
+</p>
+<A name="@@ITOC@@ABENKERNEL_METHODS_9"></A>
+<p><span class="h3">
+Declaration Section of the Class in ABAP
+</span></p>
+<dl><dd>
+<span class="qtext400">CLASS cl_my_calculation DEFINITION ... <br>... <br>&nbsp;&nbsp;DATA last_result TYPE decfloat16. <br>
+... <br>&nbsp;&nbsp;METHODS div <br>&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING p_dividend TYPE decfloat16 p_divisor TYPE decfloat16 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(p_result) TYPE decfloat16. <br>... <br>ENDCLASS.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENKERNEL_METHODS_10"></A>
+<p><span class="h3">
+Signature file <span class="qtext400">//src/krn/runt/abkmeth.sig</span> in the kernel
+</span></p>
+<dl><dd>
+<span class="qtext400">... <br>KERNEL_METHOD(CL_MY_CALCULATION, DIV, xx_myDiv,4) <br>&nbsp;&nbsp;ARGUMENT_F(1, "P_DIVIDEND",&nbsp;&nbsp;&nbsp;&nbsp; TYPE, "F", READ) <br>
+&nbsp;&nbsp;ARGUMENT_F(2, "P_DIVISOR",&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE, "F", READ) <br>&nbsp;&nbsp;ARGUMENT_F(3, "P_RESULT",&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE, "F", WRITE) <br>
+&nbsp;&nbsp;ARGUMENT_F(4, "ME->LAST_RESULT",TYPE, "F", WRITE) <br>&nbsp;&nbsp;EXCEPTION("CX_MY_DIV_BY_ZERO") <br>...</span>
+</dd></dl>
+<A name="@@ITOC@@ABENKERNEL_METHODS_11"></A>
+<p><span class="h3">
+C++ source code <span class="qtext400">//src/krn/.../mycalc.cpp</span> in the kernel
+</span></p>
+<dl><dd>
+<span class="qtext400">#include "abkmeth.h" <br>... <br>externC void xx_myDiv( ARGUMENTS ){ <br> <br>&nbsp;&nbsp;const SAP_DOUBLE *const dividend = ARGUMENT_F_READ(1,"P_DIVIDEND"); <br>
+&nbsp;&nbsp;const SAP_DOUBLE *const divisor&nbsp;&nbsp;= ARGUMENT_F_READ(2,"P_DIVISOR"); <br>&nbsp;&nbsp;SAP_DOUBLE *result
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ARGUMENT_F_WRITE(3,"P_RESULT"); <br>
+&nbsp;&nbsp;SAP_DOUBLE *last_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ARGUMENT_F_WRITE(4,"ME->LAST_RESULT"); <br>
+ <br>&nbsp;&nbsp;if( 0 == *divisor ) <br>&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTION_CREATE(CX_MY_DIV_BY_ZERO); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTION_RAISE(); <br>&nbsp;&nbsp;} <br> <br>&nbsp;&nbsp;*result = *dividend / *divisor; <br>&nbsp;&nbsp;*last_result = *result; <br> <br>}</span>
+</dd></dl>
+<A name="@@ITOC@@ABENKERNEL_METHODS_12"></A>
+<p><span class="h3">
+Implementation Section of the Class in ABAP
+</span></p>
+<dl><dd>
+<span class="qtext">CLASS cl_my_calculation IMPLEMENTATION. <br>... <br>METHOD div BY KERNEL MODULE xx_myDiv. <br>ENDMETHOD. <br>... <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenkernel_methods.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

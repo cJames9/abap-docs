@@ -1,0 +1,231 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-71-ITAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables in Release 7.0, EhP2">
+<title>
+Internal Tables in Release 7.0, EhP2 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-71-itab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-71-itab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-70_ehps.html')" class="blue">Changes in Release 7.0 and its EhPs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-71.html')" class="blue">Changes in Release 7.0, EhP2</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables in Release 7.0, EhP2 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Dynamic <span class="qtext">WHERE</span> condition </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2. Definition of secondary table keys </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. Use of secondary table keys </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> 4. Updating of secondary table keys </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> 5. Streaming for internal tables </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">Dynamic <span class="qtext">WHERE</span> Condition</span> <br><br><!-- /A -->
+</P>
+<P>
+From Release 7.0, EhP2, the statements <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP
+AT itab</span></a>, <a href="javascript:call_link('abapmodify_itab.html')" class="blue"><span class="qtext">MODIFY itab</span></a>,
+and <a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE itab</span></a> make it possible
+to specify the <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">WHERE</span></a> condition in a <span class="qtext">cond_syntax</span> data object dynamically. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">Definition of Secondary Table Keys</span> <br><br><!-- /A -->
+</P>
+<P>
+Previously, each internal table had just one <a href="javascript:call_link('abentable_key_glosry.html')" class="grey" title="Glossary Entry">
+table key</a>. Any search key could be entered when accessing internal tables, but this was not very
+efficient. Also, standard tables were always searched linearly during key access. To be able to efficiently
+access an internal table with different keys, and to also allow efficient key access to standard tables, secondary table keys were introduced.
+</P>
+<P>
+From Release 7.0, EhP2, <a href="javascript:call_link('abensecondary_table_key_glosry.html')" class="grey" title="Glossary Entry">secondary
+table keys</a> can be defined for internal tables with <a href="javascript:call_link('abaptypes_keydef.html')" class="blue"><span class="qtext">
+TYPES</span></a> and <a href="javascript:call_link('abapdata_keydef.html')" class="blue"><span class="qtext">DATA</span></a>
+as well as in ABAP Dictionary. An internal table can have up to 15 secondary table keys with different
+names. At the same time, what was previously the table key became the primary table key, and a predefined name for it, <span class="qtext">primary_key</span>, was introduced. This can be replaced with an alias name in the
+<a href="javascript:call_link('abaptypes_primary_key.html')" class="blue">enhanced definition</a> of the primary table key in Release 7.0, EhP2.
+</P>
+<P>
+Secondary table keys can be <a href="javascript:call_link('abenhash_key_glosry.html')" class="grey" title="Glossary Entry">hash keys</a> or
+<a href="javascript:call_link('abensorted_key_glosry.html')" class="grey" title="Glossary Entry">sorted keys</a>. A
+<a href="javascript:call_link('abensecondary_table_index_glosry.html')" class="grey" title="Glossary Entry">secondary table index</a>
+is created for each sorted secondary key of an internal table. The previous table index, which exists only for index tables, becomes the
+<a href="javascript:call_link('abenprimary_table_index_glosry.html')" class="grey" title="Glossary Entry">primary table index</a>.
+</P>
+<P>
+Secondary table keys are part of the <a href="javascript:call_link('abentechnical_type_attr_glosry.html')" class="grey" title="Glossary Entry">
+technical type attributes</a> of an internal table. Secondary keys can be specified generically for standalone table types. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">Using Secondary Keys</span> <br><br><!-- /A -->
+</P>
+<P>
+The following additions have been introduced for statements that access rows of internal tables:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">WITH <i class=bn>[</i>TABLE<i class=bn>]</i> KEY keyname COMPONENTS ...</span>
+<br><br></li>
+<li>
+<span class="qtext">USING KEY keyname</span>
+<br></li>
+</ul>
+<P>
+<span class="qtext">keyname</span> can be used to specify the name of the key to be used statically or dynamically.
+</P>
+<P>
+At the same time, statements that previously only accessed the primary key have been enhanced so that
+access to secondary keys is also possible. The table index used can now also be specified explicitly
+using a table key when indexes are specified. The system field <span class="qtext">sy-tabix</span> is now filled with reference to the table index used. It is set to 0 for access using a hash key.
+</P>
+<P>
+The enhanced statements are:
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ TABLE itab</span></a> <br>The rows to be read can be specified using a secondary key. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP AT itab</span></a> <br>The processing sequence and conditions can be controlled using a secondary table key. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abapinsert_itab.html')" class="blue"><span class="qtext">INSERT itab</span></a> <br>Only a secondary
+key for the source table can be specified here, from which multiple rows are copied. The position they are inserted at is determined solely using the primary key and the primary index. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abapappend.html')" class="blue"><span class="qtext">APPEND</span></a> <br>Only a secondary key for the source table can be specified here, onto which multiple rows are appended. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abapmodify_itab.html')" class="blue"><span class="qtext">MODIFY itab</span></a> <br>The rows to be modified can be specified using a secondary key. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE itab</span></a> <br>The rows to be deleted can be specified using a secondary key.
+<br></li>
+</ul>
+<P>
+In statements where these additions have not been introduced, such as <a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">
+SORT</span></a>, <a href="javascript:call_link('abapcollect.html')" class="blue"><span class="qtext">COLLECT</span></a>, or <a href="javascript:call_link('abapprovide.html')" class="blue">
+<span class="qtext">PROVIDE</span></a>, secondary keys are not explicitly supported. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+<span class="bold">Updating Secondary Keys</span> <br><br><!-- /A -->
+</P>
+<P>
+In all statements that change the content or structure of an internal table, the internal administration of the secondary table key (hash administration or secondary table index) is updated automatically as follows:
+</P>
+<ul class="disc">
+<li>
+In inserting operations, such as <span class="qtext">INSERT</span> or <span class="qtext">APPEND</span>,
+and in change operations using <span class="qtext">MODIFY</span>, the secondary table key administration of unique keys is updated immediately
+(<a href="javascript:call_link('abendirect_update_glosry.html')" class="grey" title="Glossary Entry">direct update</a>), while for non-unique table keys it is updated upon the next explicit use of the secondary table key
+(<a href="javascript:call_link('abenlazy_update_glosry.html')" class="grey" title="Glossary Entry">lazy update</a>). If an update infringes the uniqueness of a secondary key, an exception is raised immediately. <br>
+<br></li>
+<li>
+For block operations, such as statements between internal tables, or when internal tables are filled using <span class="qtext">SELECT</span>, the behavior is the same as with inserting operations. <br>
+<br></li>
+<li>
+When individual rows are modified using field symbols or data references that point to table rows, the secondary key administration of unique keys is updated upon the next access to the internal table
+(<a href="javascript:call_link('abendelayed_update_glosry.html')" class="grey" title="Glossary Entry">delayed update</a>), and the secondary key administration of non-unique keys is updated upon the next explicit use of the secondary table key
+(<a href="javascript:call_link('abenlazy_update_glosry.html')" class="grey" title="Glossary Entry">lazy update</a>). A uniqueness
+check is also run when the update is made. An internal table might therefore be in an inconsistent state
+with respect to the secondary key after individual rows are modified. An exception is not raised until the table is next used.
+<br></li>
+</ul>
+<P>
+Class <span class="lnkgrey">CL_ABAP_ITAB_UTILITIES</span> contains methods that can be used to update single secondary keys or all secondary keys for an internal table in exceptional situations. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="bold">Streaming for Internal Tables</span> <br><br><!-- /A -->
+</P>
+<P>
+The new <a href="javascript:call_link('abenstreaming_glosry.html')" class="grey" title="Glossary Entry">streaming</a> concept supports <a href="javascript:call_link('abenitab_streams.html')" class="blue">internal tables</a>.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+</html>

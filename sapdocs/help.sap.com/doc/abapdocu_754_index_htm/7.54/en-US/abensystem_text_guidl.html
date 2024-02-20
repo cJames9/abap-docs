@@ -1,0 +1,161 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSYSTEM_TEXT_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensystem_text_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Storing System Texts">
+<title>
+Storing System Texts - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensystem_text_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensystem_text_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninternationalization_guidl.html')" class="blue">Internationalization</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Storing System Texts
+</span></p>
+<A name="@@ITOC@@ABENSYSTEM_TEXT_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+In ABAP programs, texts are used as parts of processed data but also as a means to communicate with
+the user. The latter are called system texts, which are delivered with an ABAP application. The ABAP Workbench manages system texts in such a way that they can be translated from the
+<a href="javascript:call_link('abenoriginal_langu_guidl.html')" class="lnkpurple" title="Guideline">original language</a> into
+other languages independently of the actual development object. The following are examples of translatable system texts:
+</p>
+<ul class="disc">
+<li>Texts and documentation of data elements in the ABAP Dictionary</li>
+</ul>
+<ul class="disc">
+<li>Short texts and documentation of the components of local classes</li>
+</ul>
+<ul class="disc">
+<li>UI texts of dynpros, in Web Dynpro applications and in menu entries</li>
+</ul>
+<ul class="disc">
+<li>Message texts</li>
+</ul>
+<ul class="disc">
+<li>Text pools of ABAP programs that include the text elements of the program, for example, text symbols</li>
+</ul>
+<ul class="disc">
+<li>Texts of the Online Text Repository (OTR)</li>
+</ul>
+<p>
+In addition to translatable system texts, an ABAP program can also contain untranslatable texts. These are usually the
+<a href="javascript:call_link('abenliterals_guidl.html')" class="lnkpurple" title="Guideline">character literals</a> and the
+<a href="javascript:call_link('abencomments_guidl.html')" class="lnkpurple" title="Guideline">comments</a> that are stored as a part of the source code.
+</p>
+<A name="@@ITOC@@ABENSYSTEM_TEXT_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Send only translatable system texts to the user</span>
+</p>
+<p>
+Specify all texts that a program uses to communicate with the user as translatable system texts. When translatable system texts are created, there must be enough space for translations.
+</p>
+<A name="@@ITOC@@ABENSYSTEM_TEXT_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+This rule is not only critical when programs are used in an international environment; it applies when working in
+<a href="javascript:call_link('abenoriginal_langu_guidl.html')" class="lnkpurple" title="Guideline">multilingual development
+groups</a> too. The prohibition of the use of character literals in the ABAP source code for all texts
+that are relevant for user dialogs is derived from this rule. Character literals cannot be translated. Their content is independent of the respective logon language. Instead of character literals,
+<a href="javascript:call_link('abentext_symbol_glosry.html')" class="grey" title="Glossary Entry">text symbols</a> should be used or character literals associated with text symbols. This is also checked in the
+<a href="javascript:call_link('abenextended_program_check_guidl.html')" class="lnkpurple" title="Guideline">extended program check</a>.
+</p>
+<p>
+When system texts are created, there must be enough space. It is not usually possible to change the
+text length during translation, so the translator relies on there being sufficient space for a reasonable
+translation defined at the development stage. This aspect is very important for longer texts, particularly
+if the original language is English, because facts can normally be expressed in fewer words in English
+than in other languages. The opposite can be true for short texts, for example, "Feld" (German) and <span class="qtext400">"field"</span> (English), or for compound words that are written as two or more words in English.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+For purely technical texts (such as HTML tags or regular expressions) that are not to be translated,
+character literals or literal content of character string templates can be used. These should be marked as not relevant for translation for the extended program check using pragmas.
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows how to handle translation-relevant and non-translation-relevant text
+elements in source code: Technical texts that are not relevant for translation are specified as character
+literals. Other texts are associated with a text symbol. If the additions of the statement <span class="qtext">CONCATENATE</span>
+are ignored (for example, <span class="qtext">SEPARATED BY</span>), it is preferable to use the chaining operator <span class="qtext">&amp;&amp;</span>, as shown here, since this makes the source code clearer.
+</p>
+<dl><dd>
+<span class="qtext">html_line = '&lt;title>' &amp;&amp; 'Some Title'(ttl) &amp;&amp; '&lt;/title>'. <br>APPEND html_line TO html_body. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensystem_text_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

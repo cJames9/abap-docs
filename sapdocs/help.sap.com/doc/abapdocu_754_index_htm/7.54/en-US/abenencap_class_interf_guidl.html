@@ -1,0 +1,230 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENENCAP_CLASS_INTERF_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenencap_class_interf_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Encapsulating Classic User Interfaces">
+<title>
+Encapsulating Classic User Interfaces - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenencap_class_interf_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenencap_class_interf_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenuser_interfaces_guidl.html')" class="blue">User Interfaces</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Encapsulating Classic User Interfaces
+</span></p>
+<A name="@@ITOC@@ABENENCAP_CLASS_INTERF_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The <a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">separation of concerns</a>
+is one of the basic rules of these ABAP programming guidelines. This separation, which refers to a strict
+division of ABAP code into parts for presentation services, application services, and persistence services,
+is also technically possible for classic dynpro-based UI technologies. The MVC approach is not directly supported, but SoC can also be achieved through the consistent use of the available encapsulation technologies.
+</p>
+<p>
+However, SoC was rarely implemented in classic dialog programming. Here, presentation logic, application logic, and persistence logic were often combined in a monolithic module pool.
+</p>
+<A name="@@ITOC@@ABENENCAP_CLASS_INTERF_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Encapsulate classic dynpros and selection screens</span>
+</p>
+<p>
+Only create classic dynpros and selection screens in programs in a logical layer specifically provided for this purpose. You can use function groups as the program type.
+</p>
+<A name="@@ITOC@@ABENENCAP_CLASS_INTERF_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+When using classic UI technologies, you need to separate the display logic from the application logic for the following reasons:
+</p>
+<ul class="disc">
+<li>Reuse individual components</li>
+</ul>
+<ul class="disc">
+<li>Automated program logic tests, irrespective of the UI</li>
+</ul>
+<ul class="disc">
+<li>Change the UI technology</li>
+</ul>
+<p>
+In addition, the communication between classic dynpros/selection screens and ABAP programs is implemented
+using global variables. This poses conceptual problems and cannot be combined with a modern, object-oriented approach for application programs.
+</p>
+<p>
+Since class pools do not support classic dynpros and selection screens, you can only use function groups
+for encapsulation. In this role, a function group must be considered a global class. Here, the data
+of the global declaration part assumes the role of the private attributes, and the function modules
+assume the role of the public methods. The relevant procedure is demonstrated in DEMO_CR_CAR_RENTAL_SCREENS of package <span class="lnkgrey">SABAP_DEMOS_CAR_RENTAL_DYNPRO</span>. It applies to selection screens.
+</p>
+<p>
+Besides UI elements, these function groups can only contain display logic in the form of local classes.
+The application logic communicates with the display logic using the function modules of this function
+group. You can still call the first dynpro of a dynpro sequence using a transaction code. This method is used in cases where the user starts the application.
+</p>
+<p>
+The guidelines described in this book are also valid in function groups. It is especially important that the
+<a href="javascript:call_link('abendial_mod_event_block_guidl.html')" class="lnkpurple" title="Guideline">dialog modules</a> (PBO and PAI), which are called by the dynpro, or the
+<a href="javascript:call_link('abendial_mod_event_block_guidl.html')" class="lnkpurple" title="Guideline">event blocks</a> for
+selection screen processing do not contain any program logic. Instead they should directly delegate the processing to the relevant methods of the local classes. The same applies to the
+<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">function modules</a> that act as the external interface. In addition, you must
+<a href="javascript:call_link('abenselect_table_type_guidl.html')" class="lnkpurple" title="Guideline">restrict</a> the scope of the function group global data to the minimum scope required for communicating with dynpros.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Following the above rule means you cannot use standard selection screens. Therefore, it is necessary
+to make an exception to this rule for executable programs that are executed during background processing.
+This is because the required parameter interface must be a standard selection screen defined directly
+in the program. An encapsulation in a function group is not possible here. However, in this case, the
+events of selection screen processing should only call one appropriate method of a local class within the executable program.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+A classic dialog program - usually a single module pool - processes all the facets of an application.
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows a part of a function group DEMO_CR_CAR_RENTAL_SCREENS with expanded
+include programs. This function group encapsulates the dynpro and selection screen for transaction <span class="lnkgrey">
+DEMO_CR_CAR_RENTAL</span>, following the above rule. The connection to the application layer is established
+exclusively using the <span class="qtext">if_demo_cr_car_rentl_service</span> interface, which is also used in the Web Dynpro application of this transaction.
+</p>
+<dl><dd>
+<span class="qtext">FUNCTION-POOL demo_cr_car_rental_screens.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">* Top Include</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">SELECTION-SCREEN BEGIN OF SCREEN 200 TITLE text-ccr. <br>PARAMETERS g_name TYPE demo_cr_customer_name. <br>SELECTION-SCREEN END OF SCREEN 200.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">TABLES demo_cr_scustomer_cntrl.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CONTROLS: customers TYPE TABLEVIEW USING SCREEN 0100, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reservations TYPE TABLEVIEW USING SCREEN 0100.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA g_ok_code TYPE sy-ucomm.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: g_customers TYPE TABLE OF demo_cr_scustomer_cntrl, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g_customer LIKE LINE OF g_customers.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: g_reservations TYPE TABLE OF demo_cr_sreservation_cntrl, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g_reservation LIKE LINE OF g_reservations.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">* Local Class Declarations</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS screen_handler DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA car_rental_service <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE REF TO if_demo_cr_car_rentl_service. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: class_constructor, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status_0100, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user_command_0100, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cancel. <br>
+&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: customer_search_by_id, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS customer_table DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: change_tc_attr, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mark. <br>ENDCLASS. <br>... <br>* Function Module</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FUNCTION demo_cr_call_car_rental_screen. <br>&nbsp;&nbsp;CALL SCREEN 100. <br>ENDFUNCTION. <br>* PBO Modules</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE status_0100 OUTPUT. <br>&nbsp;&nbsp;screen_handler=>status_0100( ). <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE customers_change_tc_attr OUTPUT. <br>&nbsp;&nbsp;customer_table=>change_tc_attr( ). <br>ENDMODULE. <br>... <br>* PAI Modules</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE cancel INPUT. <br>&nbsp;&nbsp;screen_handler=>cancel( ). <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE user_command_0100 INPUT. <br>&nbsp;&nbsp;screen_handler=>user_command_0100( ). <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE customers_mark INPUT. <br>&nbsp;&nbsp;customer_table=>mark( ). <br>ENDMODULE. <br>... <br>* Local Class Implementations <br>...</span>
+</dd></dl>
+<p>
+Dynpro <span class="qtext">100</span> is called in a function module but can also be linked to a transaction
+code. In the classic PBO and PAI modules, methods of local classes are called. However the implementation
+of these methods is not shown here. There is a class for general screen handling and a class for each table control. The application layer is accessed using the specified interface for implementations of the class.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenencap_class_interf_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

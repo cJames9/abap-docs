@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINTERN_EXTERN_PROC_CALL_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenintern_extern_proc_call_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal and External Procedure Calls">
+<title>
+Internal and External Procedure Calls - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenintern_extern_proc_call_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenintern_extern_proc_call_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal and External Procedure Calls
+</span></p>
+<A name="@@ITOC@@ABENINTERN_EXTERN_PROC_CALL_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+When a procedure is called, a distinction is made between <span class="italic">internal</span> and <span class="italic">
+external</span> procedure calls. An internal call calls a procedure of the same program, whereas an
+external call calls a procedure of a different program. The major difference between internal and external
+procedure calls is that the program might have to be loaded first for an external call. With internal calls, the program is already loaded. Possible external calls, where a program might have to be loaded, include:
+</p>
+<ul class="disc">
+<li>Methods of global classes in class pools</li>
+</ul>
+<ul class="disc">
+<li>Function modules in function groups</li>
+</ul>
+<ul class="disc">
+<li>Subroutines in all programs that can contain subroutines (<span class="qtext">PERFORM...IN PROGRAM</span>)</li>
+</ul>
+<ul class="disc">
+<li>Methods of local classes, where the name of the class is specified dynamically using an absolute type name (<span class="qtext400">\PROGRAM= ... \CLASS=...\</span>)</li>
+</ul>
+<p>
+The programs loaded within an <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">
+internal session</a> are grouped into <span class="italic">program groups</span>. There is always one
+<span class="italic">main program group</span> and a number of optional <span class="italic">additional
+program groups</span>. Each program group contains a main program and possibly several additional programs
+(loaded due to external use). The loaded programs are not always the result of a call. The reason could
+also have to do with other references to components of external programs, such as a reference to a visible
+data type of a global class. The loaded programs are not always the result of a call. The reason could
+also have to do with other references to components of external programs, such as a reference to a visible data type of a global class.
+</p>
+<p>
+If shared resources of the program group are accessed in an externally called procedure, the information
+about which program group the program was loaded into is very important. Whether a program creates a
+separate program group when loaded or whether it is loaded into an existing program group, largely depends on the program type:
+</p>
+<ul class="disc">
+<li>Class pools and function groups (and external calls of global class methods or function modules) always create a new program group when loaded.</li>
+</ul>
+<ul class="disc">
+<li>If subroutines or methods of local classes of other program types (not class pools and function groups) are called externally, the programs are loaded into the program group of the calling program.</li>
+</ul>
+<A name="@@ITOC@@ABENINTERN_EXTERN_PROC_CALL_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only call suitable procedures externally</span>
+</p>
+<p>
+Only call procedures externally that are intended for external calls. The methods of global classes
+and function modules are intended for external calls. Subroutines and the methods of local classes are not designed for external calls.
+</p>
+<A name="@@ITOC@@ABENINTERN_EXTERN_PROC_CALL_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The only procedures designed for external calls are the visible methods of global classes and function
+modules. The master programs of these procedures are always main programs of their program groups and the procedure always works with the resources of this program group.
+</p>
+<p>
+However, external calls of subroutines and dynamic calls of methods in local classes of other programs
+are problematic. Usually, subroutines and local classes are intended for internal use within their program.
+External calls are not anticipated during the development phase. (On the other hand, no problems occur
+when an already loaded program deliberately passes a reference to an object of a local class to another
+program). Therefore, these subroutines and local classes should always be handled as private components of the program, even though they are technically public.
+</p>
+<p>
+In addition, an assignment to a particular program group is not statically defined. Because the call
+order can depend on user actions or data contents, the program of the called procedure can belong to
+the main program group in one instance and can belong to an additional program group in another instance. This does not define which program group the shared resources belong to. The shared resources are:
+</p>
+<ul class="disc">
+<li><span class="bold">Classic dynpros (including selection screens and classic lists) and GUI statuses</span></li>
+</ul>
+<dl><dd>
+The classic dynpros and GUI statuses are always shared within a program group (the classic dynpros and
+GUI statuses of the main program in this program group). For example, the <span class="qtext">CALL SCREEN</span>
+statement in an externally called procedure always calls a dynpro of the main program of the program
+group and not a dynpro of the master program of the procedure. The response to user actions in the dynpro (called as described above) is also handled in the main program of the program group.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Interface work areas</span></li>
+</ul>
+<dl><dd>
+Interface work areas are defined as table work areas using the <span class="qtext">TABLES</span> and
+<span class="qtext">NODES</span> statements or using the obsolete statement <span class="qtext">DATA
+... COMMON PART</span>. They are only created once for each program group and are shared by the main program and the loaded additional programs.
+</dd></dl>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Except for the warning regarding dynamic calls of methods of local classes from other programs, this
+rule is basically intended to raise the awareness of problems when using existing programs. In new programs, the creation of new subroutines and the use of
+<a href="javascript:call_link('abentable_work_area_guidl.html')" class="lnkpurple" title="Guideline">shared resources</a> are
+largely obsolete anyway. The problems mentioned above can only occur if classic dynpros or selection screens (and therefore GUI statuses and table work areas) are used.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following source code demonstrates how to assign interface work areas to program groups, in the
+case of external subroutine calls. The table work area <span class="qtext">dbtab</span> declared in
+<span class="qtext">sapssubr</span> is shared either with <span class="qtext">sapmprog</span> or with
+<span class="qtext">saplfugr</span>. If <span class="qtext">share</span> has the value <span class="qtext400">'FUGR'</span>,
+<span class="qtext">saplfugr</span> and <span class="qtext">sapssubr</span> share the table work area.
+Otherwise it is shared by <span class="qtext">sapmprog</span> and <span class="qtext">sapssubr</span>. It is not possible to rely on a specific assignment.
+</p>
+<dl><dd>
+<span class="qtext">*********************************** <br>PROGRAM sapmprog. <br>TABLES dbtab. <br>... <br>
+IF share = 'FUGR'. <br>&nbsp;&nbsp;CALL FUNCTION 'FUNC'. <br>ENDIF. <br>... <br>PERFORM sub IN PROGRAM sapssubr. <br>***********************************</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">*********************************** <br>FUNCTION-POOL saplfugr. <br>TABLES dbtab. <br>
+... <br>FUNCTION func. <br>&nbsp;&nbsp;PERFORM sub IN PROGRAM sapssubr. <br>ENDFUNCTION. <br>***********************************</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">*********************************** <br>PROGRAM sapssubr. <br>TABLES dbtab. <br>... <br>FORM sub. <br>&nbsp;&nbsp;... <br>ENDFORM. <br>***********************************</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenintern_extern_proc_call_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

@@ -1,0 +1,207 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_SUBSCREEN_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_subscreen_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Subscreens">
+<title>
+Dynpros, Subscreens - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_subscreen_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_subscreen_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_dynpro_statements.html')" class="blue">Statements in the Dynpro Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynp_subscreens.html')" class="blue">Subscreens, Tabstrips, and Splitter Controls</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentab_strip_control_abexas.html')" class="blue">Subscreens, Tabstrips, and Splitter Controls - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Subscreens
+</span></p>
+<p>
+This example demonstrates how to include subscreens.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_SUBSCREEN_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_dynpro_subscreens.<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_ok TYPE sy-ucomm.<br>
+<br>
+DATA: number1(4) TYPE n VALUE '0110',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number2(4) TYPE n VALUE '0130',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field(10) TYPE c, field1(10) TYPE c, field2(10) TYPE c.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE status_100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'SCREEN_100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE fill_0110 OUTPUT.<br>
+&nbsp;&nbsp;field = 'Eingabe 1'(001).<br>
+ENDMODULE.<br>
+<br>
+MODULE fill_0120 OUTPUT.<br>
+&nbsp;&nbsp;field = field1.<br>
+ENDMODULE.<br>
+<br>
+MODULE fill_0130 OUTPUT.<br>
+&nbsp;&nbsp;field = 'Eingabe 2'(002).<br>
+ENDMODULE.<br>
+<br>
+MODULE fill_0140 OUTPUT.<br>
+&nbsp;&nbsp;field = field2.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE save_ok INPUT.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0110 INPUT.<br>
+&nbsp;&nbsp;IF save_ok = 'OK1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number1 = '0120'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;field1 = field.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR field.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0130 INPUT.<br>
+&nbsp;&nbsp;IF save_ok = 'OK2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number2 = '0140'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;field2 = field.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR field.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_100 INPUT.<br>
+&nbsp;&nbsp;CASE save_ok.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SUB1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number1 = '0110'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SUB2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number1 = '0120'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR field1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SUB3'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number2 = '0130'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SUB4'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number2 = '0140'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR field2.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_SUBSCREEN_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. Four pushbuttons with function codes <span class="qtext400">"SUB1"</span>
+to <span class="qtext400">"SUB4"</span> and two identically sized subscreen areas <span class="qtext">area1</span>
+and <span class="qtext">area2</span> have been created. In the same ABAP program, four subscreen dynpros
+110 to 140 are defined. The input/output field of all four subscreen dynpro has the name <span class="qtext">field</span>.
+The function codes of the pushbuttons on the subscreen dynpros 110 and 130 are  OK1 and  OK2. The screen flow logic for dynpro 100 is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE status_100. <br>&nbsp;&nbsp;CALL SUBSCREEN: area1 INCLUDING sy-repid number1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area2 INCLUDING sy-repid number2. <br>
+PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE save_ok. <br>
+&nbsp;&nbsp;CALL SUBSCREEN: area1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area2. <br>&nbsp;&nbsp;MODULE user_command_100.</span>
+</dd></dl>
+<p>
+The screen flow logic of subscreen dynpros 110 and 130 is:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE fill_0110<i class=bn>|</i>0130. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE user_command_0110<i class=bn>|</i>0130.</span>
+</dd></dl>
+<p>
+The screen flow logic of subscreen dynpros 120 and 140 is:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE fill_0120<i class=bn>|</i>0150. <br>PROCESS AFTER INPUT.</span>
+</dd></dl>
+<p>
+When the program is executed, a screen appears on which subscreens 110 and 130 are displayed. The pushbuttons
+on the main dynpro allow the user to choose between two subscreen dynpros for each screen area. The pushbuttons on the subscreen dynpros 110 and 130 allow data to be passed to the subscreen dynpros 120 and 140.
+</p>
+<p>
+Since all subscreen dynpros use the same field name <span class="qtext">field</span>, the ABAP field
+with the same name is transported more than once at each PBO and PAI of the main dynpro. For this reason,
+the values have to be stored in the auxiliary fields <span class="qtext">field1</span> and <span class="qtext">field2</span> in the ABAP program.
+</p>
+<p>
+The function code of the pushbuttons of the subscreen dynpros is different and regular handling in an
+ABAP field is enough. If the function codes had the same names, it would be necessary to use multiple helper fields here as well.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_subscreen_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+</html>

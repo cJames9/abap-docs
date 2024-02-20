@@ -1,0 +1,169 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_FIELD_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_field_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, FIELD Statement">
+<title>
+Dynpros, FIELD Statement - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_field_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_field_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_dynpro_statements.html')" class="blue">Statements in the Dynpro Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('dynpfield.html')" class="blue">FIELD</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynp_field_data_transport.html')" class="blue">FIELD - Data Transport in Event PAI</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, FIELD Statement
+</span></p>
+<p>
+This example demonstrates how to transport data using the statement <span class="qtext">FIELD</span>.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_FIELD_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM demo_dynpro_field.<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_ok LIKE ok_code,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;box1(1) TYPE c, box2(1) TYPE c, box3(1) TYPE c, box4(1) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod1_result1(1) TYPE c, mod1_result2(1) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod1_result3(1) TYPE c, mod1_result4(1) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod2_result1(1) TYPE c, mod2_result2(1) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod2_result3(1) TYPE c, mod2_result4(1) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod3_result1(1) TYPE c, mod3_result2(1) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod3_result3(1) TYPE c, mod3_result4(1) TYPE c.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE init_screen_100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_100'.<br>
+&nbsp;&nbsp;CLEAR:&nbsp;&nbsp;box1, box2, box3, box4.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100 INPUT.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;IF save_ok = 'CANCEL'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE module_1 INPUT.<br>
+&nbsp;&nbsp;mod1_result1 = box1.<br>
+&nbsp;&nbsp;mod1_result2 = box2.<br>
+&nbsp;&nbsp;mod1_result3 = box3.<br>
+&nbsp;&nbsp;mod1_result4 = box4.<br>
+ENDMODULE.<br>
+<br>
+MODULE module_2 INPUT.<br>
+&nbsp;&nbsp;mod2_result1 = box1.<br>
+&nbsp;&nbsp;mod2_result2 = box2.<br>
+&nbsp;&nbsp;mod2_result3 = box3.<br>
+&nbsp;&nbsp;mod2_result4 = box4.<br>
+ENDMODULE.<br>
+<br>
+MODULE module_3 INPUT.<br>
+&nbsp;&nbsp;mod3_result1 = box1.<br>
+&nbsp;&nbsp;mod3_result2 = box2.<br>
+&nbsp;&nbsp;mod3_result3 = box3.<br>
+&nbsp;&nbsp;mod3_result4 = box4.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_FIELD_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. The checkboxes which are ready for input are assigned
+the dynpro fields <span class="qtext">box1</span>, <span class="qtext">box2</span>, <span class="qtext">box3</span>, and <span class="qtext">box4</span>. The screen flow logic is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE init_screen_100. <br>PROCESS AFTER INPUT. <br>
+&nbsp;&nbsp;MODULE user_command_0100. <br>&nbsp;&nbsp;MODULE module_1. <br>&nbsp;&nbsp;FIELD box2. <br>&nbsp;&nbsp;MODULE module_2. <br>&nbsp;&nbsp;FIELD: box1, box3. <br>&nbsp;&nbsp;MODULE module_3.</span>
+</dd></dl>
+<p>
+In GUI status STATUS_100, the Cancel icon (<span class="qtext500">F12</span>) is activated using the
+function code CANCEL. If the user selects the checkboxes ready for input and triggers the PAI event
+by pressing <span class="qtext500">Enter</span>, the output fields indicate which dynpro field is available in which dialog module.
+</p>
+<ul class="disc">
+<li>The screen field <span class="qtext">box4</span> is transported in the PAI event, since it does not occur in any <span class="qtext">FIELD</span> statements.</li>
+</ul>
+<ul class="disc">
+<li>Dynpro field <span class="qtext">box2</span> is not transported until before the dialog module <span class="qtext">
+module_2</span> is called and is therefore not available in <span class="qtext">user_command_0100</span> or <span class="qtext">module_1</span>.</li>
+</ul>
+<ul class="disc">
+<li>Dynpro fields <span class="qtext">box1</span> and <span class="qtext">box3</span> are transported before dialog module <span class="qtext">module_3</span>, and are therefore only available in that module.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_field_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+</html>

@@ -1,0 +1,156 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTABLE_EXP_DEFAULT_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_exp_default_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Table Expressions, Default Value">
+<title>
+Table Expressions, Default Value - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentable_exp_default_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentable_exp_default_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_expr_func.html')" class="blue">Expressions and Functions for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_expressions.html')" class="blue">table_exp - Table Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_exp_optional_default.html')" class="blue">table_exp - default</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Table Expressions, Default Value
+</span></p>
+<p>
+This example demonstrates default values for table expressions.
+</p>
+<A name="@@ITOC@@ABENTABLE_EXP_DEFAULT_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_tab_exp_default.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF line,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF line,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab TYPE SORTED TABLE OF line WITH UNIQUE KEY id.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(def) = VALUE line( id = 0 value = `not found` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(itab) = VALUE itab( ( id = 3 value = `CCC` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( id = 4 value = `DDD` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( id = 5 value = `EEE` ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(result1) = VALUE #( itab[ id = 1 ] DEFAULT def ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write( result1 ).<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(result2) = VALUE #( itab[ id = 1 ]-value DEFAULT def-value ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write_data( result2 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(result3) = VALUE #( itab[ id = 1 ] DEFAULT VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itab[ id = 2 ] DEFAULT VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itab[ id = 3 ] OPTIONAL ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write_data( result3 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENTABLE_EXP_DEFAULT_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The result <span class="qtext">result1</span> of the first table expression has the row type of the
+internal table <span class="qtext">itab</span>. The specified row is not found, which means that the structure <span class="qtext">def</span> specified after <span class="qtext">DEFAULT</span> is returned instead.
+</p>
+<p>
+The result <span class="qtext">result2</span> of the second table expression is produced from a chaining
+with the structure component selector and is a component with the type <span class="qtext">string</span>.
+Here, only the corresponding component of the structure <span class="qtext">def</span> is specified as the default value.
+</p>
+<p>
+The result <span class="qtext">result3</span> of the third table expression again has the row type of
+the internal table <span class="qtext">itab</span>. Further table expressions with default values are
+specified as the default value. In the case shown here, the table expression in the second default value
+finds a row and returns it. If no searches are successful, an initial row is returned due to the closing <span class="qtext">OPTIONAL</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_exp_default_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+</html>

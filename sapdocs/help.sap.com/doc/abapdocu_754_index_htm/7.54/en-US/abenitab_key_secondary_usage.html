@@ -1,0 +1,125 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENITAB_KEY_SECONDARY_USAGE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenitab_key_secondary_usage.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Using Secondary Keys">
+<title>
+Using Secondary Keys - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenitab_key_secondary_usage.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenitab_key_secondary_usage.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_oview.html')" class="blue">Internal Tables - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_key.html')" class="blue">Table Keys</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_key_secondary.html')" class="blue">Secondary Table Key</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Using Secondary Keys
+</span></p>
+<p>
+Notes on Using Secondary Table Keys
+</p>
+<ul class="disc">
+<li>The standard scenario for sensibly using secondary table keys relates to a very large internal table that is created in the memory and whose content is changed very infrequently.
+<a href="javascript:call_link('abenitab_key_memory.html')" class="blue">Costs</a> for administrating the secondary keys are then only incurred when setting up the internal table.</li>
+</ul>
+<ul class="disc">
+<li>As a matter of principle, secondary hash keys should not have too many components, since otherwise
+the system has to deal with a high system load for the additional hash management. Sorted keys are preferable for secondary keys with a large number of components.</li>
+</ul>
+<ul class="disc">
+<li>For an index table with secondary keys, the primary index of the table is updated immediately when
+rows are inserted or deleted using a secondary key. Note deleting a row from a standard table using a secondary key cannot be optimized because the index entry to be deleted must be searched linearly.</li>
+</ul>
+<ul class="disc">
+<li>Secondary keys might be useful for small internal tables in some circumstances because they ensure
+unique table entries in relation to particular components. Primary keys do not allow this, especially in the case of standard tables.</li>
+</ul>
+<ul class="disc">
+<li>In the case of read-only reads (where ensuring unique table entries is not relevant), non-unique
+secondary keys are usually sufficient. Performing reads here is almost as quick as for unique keys, while the update following a table modification is quicker and is performed using a lazy update.</li>
+</ul>
+<ul class="disc">
+<li>Secondary table keys should <span class="bold">not</span> be used in the following situations:</li>
+</ul>
+<ul class="circlem2">
+<li>For small internal tables (less than 50 rows), the performance benefits in the case of reads are far outweighed by the increased memory and administration costs.</li>
+</ul>
+<ul class="circlem2">
+<li>In tables where a large number of changes are made, the load incurred by updating the secondary
+keys outweighs the performance benefits in the case of reads. In delayed updates and lazy updates in particular, the update load can actually be incurred by the read for which the optimization was actually required.</li>
+</ul>
+<ul class="circlem2">
+<li>Unless the uniqueness of table entries is of absolute importance, it is better to avoid using secondary hash keys.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_SECONDARY_KEYS</span> demonstrates how a secondary table key is specified and the resulting performance gain.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenitab_key_secondary_usage.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+</html>

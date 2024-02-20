@@ -1,0 +1,245 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSHARED_OBJECTS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshared_objects_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Shared Objects">
+<title>
+Shared Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenshared_objects_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenshared_objects_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_shared_objects.html')" class="blue">Shared Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Shared Objects
+</span></p>
+<p>
+This example demonstrates the use of shared objects.
+</p>
+<A name="@@ITOC@@ABENSHARED_OBJECTS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_shared_objects.<br>
+<br>
+CLASS demo_flight_list_handler DEFINITION FINAL CREATE PRIVATE.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA flight_list_handler<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO demo_flight_list_handler.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS get_flight_list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(flights) TYPE REF TO spfli_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cx_no_flights.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA area_handle TYPE REF TO cl_demo_flights.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS create_flight_list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_shm_attach_error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_no_flights.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo_flight_list_handler IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT flight_list_handler.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get_flight_list.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA flight_list TYPE REF TO cl_demo_flight_list.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF area_handle IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area_handle = cl_demo_flights=&gt;attach_for_read( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_shm_attach_error.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;create_flight_list( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area_handle = cl_demo_flights=&gt;attach_for_read( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_shm_attach_error.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT flight_list.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flight_list-&gt;set_flight_list( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF area_handle IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights = REF #( area_handle-&gt;root-&gt;flight_list ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF flight_list IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights = REF #( flight_list-&gt;flight_list ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_no_flights.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD create_flight_list.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: flight_list&nbsp;&nbsp;TYPE REF TO cl_demo_flight_list,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_ref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cx_no_flights.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(area_handle) = cl_demo_flights=&gt;attach_for_write( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT flight_list AREA HANDLE area_handle.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;area_handle-&gt;set_root( flight_list ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flight_list-&gt;set_flight_list( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_no_flights INTO exc_ref.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area_handle-&gt;detach_rollback( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION exc_ref.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;area_handle-&gt;detach_commit( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS shm_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+CLASS shm_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: flight_list_handler TYPE REF TO demo_flight_list_handler,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flight_list TYPE REF TO spfli_tab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;flight_list_handler =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_flight_list_handler=&gt;flight_list_handler.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flight_list = flight_list_handler-&gt;get_flight_list( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_no_flights.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_demo_output=&gt;display_text( 'No flight list available' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_data( flight_list-&gt;* ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;shm_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSHARED_OBJECTS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<A name="@@ITOC@@ABENSHARED_OBJECTS_ABEXA_3"></A>
+<p><span class="h3">
+Area Root Class
+</span></p>
+<p>
+The global class <span class="lnkgrey">CL_DEMO_FLIGHT_LIST</span> is used as an area root class. It
+contains the internal table FLIGHT_LIST (of type SPFLI_TAB from ABAP Dictionary) as a public attribute,
+which is filled by the method SET_FLIGHT_LIST. This table represents the unchangeable data that is accessed from different programs.
+</p>
+<A name="@@ITOC@@ABENSHARED_OBJECTS_ABEXA_4"></A>
+<p><span class="h3">
+Area
+</span></p>
+<p>
+<span class="lnkgrey">CL_DEMO_FLIGHTS</span> is used as an area, whose properties are edited in transaction <span class="lnkgrey">SHMA</span>. The default values were applied apart from two exceptions:
+</p>
+<ul class="disc">
+<li>Versioning is deactivated because the data in the area instance should not be changed during the program runtime.</li>
+</ul>
+<ul class="disc">
+<li>The lifetime after the last access is restricted to five minutes. This prevents memory space from being occupied in the shared memory without a program requiring the memory.</li>
+</ul>
+<A name="@@ITOC@@ABENSHARED_OBJECTS_ABEXA_5"></A>
+<p><span class="h3">
+Brokers and Loaders
+</span></p>
+<p>
+The class <span class="qtext">demo_flight_list_handler</span> encapsulates the access to the area before
+the client (in the real world, this would be a global class). The static constructor creates one instance
+of this class (singleton).  The method <span class="qtext">get_flight_list</span> is used as a broker. It attempts to set a shared lock for an area instance. Within an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>,
+only one shared lock is possible for an area instance. Therefore the system first queries whether an
+area handle area already exists. The alternative would have been to handle the exception CX_SHM_READ_LOCK_ACTIVE.
+However, this would have been less effective in this example. If the operation is not successful, the
+method <span class="qtext">create_flight_list</span> is called, which acts as a loader. This attempts
+to set a exclusive lock and to build an area instance with a root object. Any exceptions that occur
+are propagated to the calling method. A DETACH_ ROLLBACK is executed before any possible CX_NO_FLIGHTS
+exceptions from SET_FLIGHT_LIST are forwarded to the calling program. If the change lock is not removed explicitly, the program is terminated at the end of the current internal session or possibly even beforehand.
+</p>
+<p>
+If the area was built, <span class="qtext">get_flight_list</span> attempts to set a shared lock again.
+If the area instance could not be built, <span class="qtext">get_flight_list</span> creates an object
+of class ZCL_FLIGHT_LIST (as an emergency measure) in the current internal session and fills the internal
+table <span class="qtext">flight_list</span>. Finally, a data reference to the flight list is assigned to the return value of the method (either in the root object of the shared object or in the local object).
+</p>
+<p>
+The exclusive lock in <span class="qtext">create_flight_list</span> is closed explicitly, whereas a
+shared lock in <span class="qtext">get_flight_list</span> is persisted until the end of the internal
+session. The latter point (shared lock) is only possible for areas without versioning, if no more data-changing accesses are expected once an area has been built.
+</p>
+<A name="@@ITOC@@ABENSHARED_OBJECTS_ABEXA_6"></A>
+<p><span class="h3">
+Clients
+</span></p>
+<p>
+The class <span class="qtext">shm_demo</span> demonstrates a client. The method <span class="qtext">main</span>
+creates an object of the class <span class="qtext">demo_flight_list_handler</span> and attempts to read
+a reference to the flight list. If the access is successful, the flight list is displayed in the <span class="qtext">
+display</span> method. It is not important for the client whether the data is actually contained in
+the shared memory or (if an error occurs) in a local object of class CL_DEMO_FLIGHT_LIST. If no data can be read from the database, a message is displayed.
+</p>
+<p>
+After the program call, the area instance version can be examined using transaction <span class="lnkgrey">SHMM</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshared_objects_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

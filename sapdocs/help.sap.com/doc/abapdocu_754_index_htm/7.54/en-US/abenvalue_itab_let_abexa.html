@@ -1,0 +1,140 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENVALUE_ITAB_LET_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenvalue_itab_let_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="VALUE - Operator with LET for Internal Tables">
+<title>
+VALUE - Operator with LET for Internal Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenvalue_itab_let_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenvalue_itab_let_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue">VALUE - Value Operator</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_constructor_params_itab.html')" class="blue">VALUE - Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+VALUE - Operator with LET for Internal Tables
+</span></p>
+<p>
+This example demonstrates the value operator <a href="javascript:call_link('abenvalue_constructor_params_itab.html')" class="blue"><span class="qtext">
+VALUE</span></a> for internal tables with a <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span> expression</a>.
+</p>
+<A name="@@ITOC@@ABENVALUE_ITAB_LET_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_value_constr_itab_let.<br>
+<br>
+CLASS date DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS get RETURNING VALUE(d) TYPE d.<br>
+ENDCLASS.<br>
+<br>
+CLASS date IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD get.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;d = sy-datlo.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES t_date_tab TYPE TABLE OF string&nbsp;&nbsp;WITH EMPTY KEY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE t_date_tab(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LET d = date=&gt;get( ) IN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( |{ CONV d( d - 1 ) DATE = ENVIRONMENT }| )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( |{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DATE = ENVIRONMENT }| )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( |{ CONV d( d + 1 ) DATE = ENVIRONMENT }| ) ) ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENVALUE_ITAB_LET_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Constructs an internal table with an elementary row type with type <span class="qtext">string</span>
+and fills it with three rows. The result is a table that is given the previous day, today, and the next
+day (all formatted for the current language environment). Today's date is produced using a method. To
+make sure that the method is called only once, the return value is assigned to a local helper field in a <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span> expression</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenvalue_itab_let_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+</html>

@@ -1,0 +1,132 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENUNKNOWN_CONTAINER_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenunknown_container_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Anonymous Containers">
+<title>
+Anonymous Containers - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenunknown_container_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenunknown_container_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenassignment_access_guidl.html')" class="blue">Assignments, Calculations, and Other Types of Data Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Anonymous Containers
+</span></p>
+<A name="@@ITOC@@ABENUNKNOWN_CONTAINER_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Anonymous containers are character-like or byte-like data objects of type <span class="qtext">c</span>
+or <span class="qtext">string</span> type (or <span class="qtext">x</span>/<span class="qtext">xstring</span> type). Data objects of other types (especially structures) are assigned using
+<a href="javascript:call_link('abencasting_guidl.html')" class="lnkpurple" title="Guideline">casting</a> to these objects, to store them persistently in these containers.
+</p>
+<A name="@@ITOC@@ABENUNKNOWN_CONTAINER_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Do not use character or byte fields as containers</span>
+</p>
+<p>
+Do not store structured data in unstructured character-like or byte-like variables.
+</p>
+<A name="@@ITOC@@ABENUNKNOWN_CONTAINER_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The direct storage of structured data in unstructured character-like or byte-like data objects is problematic, particularly with data exchanges using remote function calls (RFC), input/output through the file system of the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> or output
+to a printer. Unexpected results can occur due to platform-specific byte orders (endianness), alignment requirements and different character sets (code pages).
+</p>
+<p>
+If, for example, a container is saved and imported from an AS Instance whose
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> has a different
+byte order, problems occur if the container is used for content for which the byte order is critical.
+In other words, the numeric fields of types <span class="qtext">i</span>, <span class="qtext">decfloat16</span>,
+<span class="qtext">decfloat34</span> and <span class="qtext">f</span>. The order of the character-like data objects of bytes is also dependent on the platform in the character representation
+<a href="javascript:call_link('abenucs2_glosry.html')" class="grey" title="Glossary Entry">UCS-2</a> of the programming language ABAP.
+</p>
+<p>
+Even without these technical problems, it can difficult to correctly import data that has been stored
+as described above. You usually have to perform another casting operation for the data type of the data
+stored in the container. However, as the relevant type information is not saved with the data, it might not be possible to perform type-friendly casting.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If data needs to be saved in an unstructured container, the statement <span class="qtext">EXPORT ...
+TO DATA BUFFER</span> can be used. This type of data storage is robust compared to different platform
+properties. However, you cannot use <span class="qtext">EXPORT</span> and <span class="qtext">IMPORT</span>
+to directly edit reference variables or instances referenced by them. As a workaround, you can serialize
+these variables and instances for storage by using the statement <span class="qtext">CALL TRANSFORMATION</span>.
+A class must include the IF_SERIALIZABLE_OBJECT tag interface, so that its objects can be serialized using <span class="qtext">CALL TRANSFORMATION</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenunknown_container_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

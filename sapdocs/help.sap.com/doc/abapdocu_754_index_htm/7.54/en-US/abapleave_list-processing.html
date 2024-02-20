@@ -1,0 +1,130 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPLEAVE_LIST-PROCESSING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapleave_list-processing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="LEAVE LIST-PROCESSING">
+<meta name="keywords" content="ABAP, LEAVE LIST-PROCESSING">
+<title>
+LEAVE LIST-PROCESSING - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapleave_list-processing.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapleave_list-processing.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlists_displayed.html')" class="blue">Displaying Lists</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@LEAVE LIST-PROCESSING@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+LEAVE LIST-PROCESSING <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapleave_list-processing_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">LEAVE LIST-PROCESSING.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement immediately exits the list processor. The runtime environment continues processing with the
+<a href="javascript:call_link('abenpbo_glosry.html')" class="grey" title="Glossary Entry">PBO</a> event of the dynpro from which
+the list processor was called using <a href="javascript:call_link('abapleave_to_list-processing.html')" class="blue"><span class="qtext">LEAVE
+TO LIST-PROCESSING</span></a> or the dynpro that was set using the addition <a href="javascript:call_link('abapleave_to_list-processing.html')" class="blue"><span class="qtext">AND RETURN TO SCREEN</span></a> of this statement.
+</P>
+<P>
+If the statement is not executed when the list is displayed by the list processor, it is ignored, except in the event blocks for
+<a href="javascript:call_link('abenreporting_event_glosry.html')" class="grey" title="Glossary Entry">reporting events</a>. Here, the processor branches to the end of the program and continues in accordance with the
+<a href="javascript:call_link('abenreporting_process.html')" class="blue">process flow</a> for executable programs.
+</P>
+<P>
+When the list processor is exited, the list buffer of the
+<a href="javascript:call_link('abendynpro_sequence_glosry.html')" class="grey" title="Glossary Entry">dynpro sequence</a> is initialized. New output statements describe a new basic list. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+This example shows the recommended procedure for displaying lists during dynpro sequences. A separate dynpro 500 is defined for calling the list processor. The
+<a href="javascript:call_link('abenscreen_glosry.html')" class="grey" title="Glossary Entry">screen</a> of this dynpro does not contain any screen elements and calls a single PBO module <span class="qtext">call_list</span> but no
+<a href="javascript:call_link('abenpai_glosry.html')" class="grey" title="Glossary Entry">PAI</a> modules. The full basic list,
+including the GUI status, is defined in the PBO module. When the dynpro is exited using <span class="qtext">LEAVE
+SCREEN</span>, its processing is stopped and the list processor is started. The list events are handled in the same program. When the list processor is exited, the dynpro sequence of dynpro 500 is ended, because the
+<a href="javascript:call_link('abennext_dynpro_glosry.html')" class="grey" title="Glossary Entry">next dynpro</a> 0 is specified when the list processor is called.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+PROGRAM demo NO STANDARD PAGE HEADING. <br> <br>... <br> <br>MODULE call_list OUTPUT. <br>&nbsp;&nbsp;SET PF-STATUS space. <br>
+&nbsp;&nbsp;WRITE 'Basic List'. <br>&nbsp;&nbsp;LEAVE TO LIST-PROCESSING AND RETURN TO SCREEN 0. <br>&nbsp;&nbsp;LEAVE SCREEN. <br>
+ENDMODULE. <br> <br>TOP-OF-PAGE. <br>&nbsp;&nbsp;WRITE 'Header' COLOR COL_HEADING. <br>&nbsp;&nbsp;ULINE. <br>
+ <br>TOP-OF-PAGE DURING LINE-SELECTION. <br>&nbsp;&nbsp;WRITE sy-lsind COLOR COL_HEADING. <br>&nbsp;&nbsp;ULINE. <br>
+ <br>AT LINE-SELECTION. <br>&nbsp;&nbsp;WRITE 'Secondary List'. <br>&nbsp;&nbsp;IF sy-lsind = 20. <br>&nbsp;&nbsp;&nbsp;&nbsp;LEAVE LIST-PROCESSING. <br>&nbsp;&nbsp;ENDIF. <br><br> <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapleave_list-processing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+</html>

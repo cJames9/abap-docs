@@ -1,0 +1,325 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOOP_GROUP_BY_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenloop_group_by_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal tables, Introduction to LOOP AT GROUP BY">
+<title>
+Internal tables, Introduction to LOOP AT GROUP BY - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenloop_group_by_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenloop_group_by_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue">LOOP AT itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue">LOOP AT itab - GROUP BY</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenloop_group_by_abexas.html')" class="blue">Examples of Grouping with LOOP</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal tables, Introduction to LOOP AT GROUP BY
+</span></p>
+<p>
+The example is a step-by-step introduction to grouping with <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">LOOP AT GROUP BY</span></a>.
+</p>
+<A name="@@ITOC@@ABENLOOP_GROUP_BY_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_loop_at_itab_group_by.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE spfli,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;member&nbsp;&nbsp;TYPE spfli,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;members TYPE STANDARD TABLE OF spfli WITH EMPTY KEY.<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(spfli_tab).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `Representative Binding` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Grouping by one column` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( wa-carrid ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Members of one column groups` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR members.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT GROUP wa INTO member.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;members = VALUE #( BASE members ( member ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( members ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Grouping by two columns` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |{ wa-carrid } { wa-airpfrom }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Members of two column groups` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR members.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT GROUP wa INTO member.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;members = VALUE #( BASE members ( member ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( members ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( )-&gt;next_section( `Group Key Binding` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Grouping by one column` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(key).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( key ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Members of one column groups` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO key.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR members.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT GROUP key INTO member.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;members = VALUE #( BASE members ( member ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( members ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Grouping by two columns` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(keys).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( keys ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Members of two column groups` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO keys.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR members.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT GROUP keys INTO member.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;members = VALUE #( BASE members ( member ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( members ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `Two column groups without members` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT spfli_tab INTO wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; index = GROUP INDEX size = GROUP SIZE )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITHOUT MEMBERS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(keysplus).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( keysplus ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLOOP_GROUP_BY_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+An internal table <span class="qtext">spfli_tab</span> is filled with data from the database table SPFLI.
+The program shows step by step how it can be grouped using <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">LOOP AT GROUP BY</span></a>:
+</p>
+<ul class="disc">
+<li><span class="bold">Grouping by One Column</span></li>
+</ul>
+<dl><dd>
+The simplest form of grouping is by one column, without explicitly specifying the output behavior of the group loop:
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... wa-carrid ... <br>ENDLOOP.</span>
+</dd></dl>
+<dl><dd>
+Within the loop, there is access to the work area <span class="qtext">wa</span>, in particular to the
+component <span class="qtext">wa-carrid</span> that is used for grouping. The work area <span class="qtext">wa</span>
+contains the first row of each group and represents the group in the loop. This is called a representative binding.
+</dd></dl>
+<dl><dd>
+To access the members of a group, a member group can be inserted into the group loop:
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid. <br>
+&nbsp;&nbsp;... <br>&nbsp;&nbsp;LOOP AT GROUP wa INTO DATA(member). <br>&nbsp;&nbsp;&nbsp;&nbsp;... member-... ... <br>&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;... <br>ENDLOOP.</span>
+</dd></dl>
+<dl><dd>
+The member loop is executed using the group represented by <span class="qtext">wa</span> and its members are assigned to <span class="qtext">member</span>, and are available in the member loop.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Grouping by More Than One Column</span></li>
+</ul>
+<dl><dd>
+To group by more than just one criterion, a structured group key is defined, as follows, where the grouping criteria in the simplest case are columns of the internal table:
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom ). <br>&nbsp;&nbsp;... wa-carrid ... wa-airpfrom ... <br>ENDLOOP.</span>
+</dd></dl>
+<dl><dd>
+This is also a representative binding, in which the work area <span class="qtext">wa</span> is reused in the group loop to access the group key.
+</dd></dl>
+<dl><dd>
+To access the members of the groups, the exact same member loop can be inserted as when grouping by one column.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Group Key Binding when Grouping by One Column</span></li>
+</ul>
+<dl><dd>
+By explicitly specifying an <a href="javascript:call_link('abaploop_at_itab_group_by_binding.html')" class="blue">output area</a>
+for the group key, a group key binding can be defined explicitly instead of the representative binding, in which the output area of the group loop is reused:
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(key). <br>&nbsp;&nbsp;... key ... <br>ENDLOOP.</span>
+</dd></dl>
+<dl><dd>
+The difference from the example with the representative binding is the <span class="qtext">INTO</span>
+addition after <span class="qtext">GROUP BY</span>. Instead of reusing <span class="qtext">wa</span>,
+an elementary data object <span class="qtext">key</span> is used here to represent the group. This can
+be generated inline. The additions <a href="javascript:call_link('abaploop_at_itab_group_by_key.html')" class="blue"><span class="qtext">GROUP
+SIZE</span></a>, <a href="javascript:call_link('abaploop_at_itab_group_by_key.html')" class="blue"><span class="qtext">GROUP
+INDEX</span></a>, and <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">WITHOUT
+MEMBERS</span></a> can only be used in the group key binding, which gives it more functions than the
+representative binding. If these functions are not required, the representative binding can be used. The group key binding can also be used to make the use of the group key in the loop more explicit.
+</dd></dl>
+<dl><dd>
+Inserting a member loop works in the same way as in the representative binding, the difference being that a group by now addressed by <span class="qtext">key</span> instead of <span class="qtext">wa</span>.
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY wa-carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO key. <br>
+&nbsp;&nbsp;... <br>&nbsp;&nbsp;LOOP AT GROUP key INTO member. <br>&nbsp;&nbsp;&nbsp;&nbsp;... members ... <br>&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;... <br>ENDLOOP.</span>
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Group Key Binding when Grouping by More Than One Column</span></li>
+</ul>
+<dl><dd>
+Finally, the group key binding for structured group keys:
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(key). <br>&nbsp;&nbsp;... key-key1 ... key-key2 ... <br>ENDLOOP.</span>
+</dd></dl>
+<dl><dd>
+Here, <span class="qtext">key</span> is a structure with the components <span class="qtext">key1</span>
+and <span class="qtext">key2</span>. A member loop can be inserted in exactly the same way as when grouping by one column.
+</dd></dl>
+<dl><dd>
+If you are not interested in the group members, you can use the addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">NO MEMBERS</span></a> to save time and memory.
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOOP AT spfli_tab INTO wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY ( key1 = wa-carrid key2 = wa-airpfrom <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; index = GROUP INDEX size = GROUP SIZE ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITHOUT MEMBERS <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATA(key). <br>&nbsp;&nbsp;... key-key1 ... key-key2 ... key-index ... key-size ... <br>ENDLOOP.</span>
+</dd></dl>
+<dl><dd>
+It is not possible to use a member loop here. Instead, the group key was enriched with optional components
+for further information using <a href="javascript:call_link('abaploop_at_itab_group_by_key.html')" class="blue"><span class="qtext">GROUP
+INDEX</span></a> <a href="javascript:call_link('abaploop_at_itab_group_by_key.html')" class="blue"><span class="qtext">GROUP SIZE</span></a>.
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenloop_group_by_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

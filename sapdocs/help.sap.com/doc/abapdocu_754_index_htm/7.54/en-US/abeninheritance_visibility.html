@@ -1,0 +1,145 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINHERITANCE_VISIBILITY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_visibility.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:29 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inheritance and Visibility">
+<meta name="keywords" content="ABAP, Visibility, Inheritance">
+<title>
+Inheritance and Visibility - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninheritance_visibility.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninheritance_visibility.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninheritance.html')" class="blue">Inheritance</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inheritance and Visibility
+</span></p>
+<p>
+It is not possible to change the <a href="javascript:call_link('abenclass_visibility.html')" class="blue">visibility section</a> to which a component is assigned using inheritance. The visibility of components affects inheritance as follows:
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_VISIBILITY_1"></A>
+<p><span class="h2">
+Public components
+</span></p>
+<p>
+The public visibility area of a subclass consists of all its own public components plus the public components of all its superclasses. From outside the class, public components are visible without restrictions.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_VISIBILITY_2"></A>
+<p><span class="h2">
+Protected components
+</span></p>
+<p>
+The protected visibility area of a subclass consists of all its own protected components plus the protected
+components of all its superclasses. The protected section is visible only in the class itself and in all its subclasses.  Viewed from outside, protected is the same as private.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_VISIBILITY_3"></A>
+<p><span class="h2">
+Private components
+</span></p>
+<p>
+The private visibility area of a subclass includes only the private components of this class. They are
+visible only in this class. The private components of superclasses cannot be used in subclasses. Only
+methods inherited from superclasses use (provided they have not been redefined) the private attributes of the superclass (even if the subclass has private attributes with the same name).
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_VISIBILITY_4"></A>
+<p><span class="h2">
+Example of protected components
+</span></p>
+<p>
+Within a subnode in the inheritance tree, you can always access the protected components of superclasses.
+The classes involved, such as the static types of reference variables, must however be part of the inheritance tree.
+</p>
+<p>
+In the following example, the reference variables <span class="qtext">lrefx</span> and <span class="qtext">lref2</span>
+can see the protected components of <span class="qtext">cx</span> in the context of the subclass <span class="qtext">
+c2</span>. The static type of <span class="qtext">lref1</span> is <span class="qtext">c1</span> and
+is in another subnode of the inheritance tree. It cannot see any protected components of <span class="qtext">cx</span>,
+in the context of <span class="qtext">c2</span>. In a stricter model (C++ or Java), access in this example
+would only be possible using <span class="qtext">lref2</span>. Access using <span class="qtext">lrefx</span>
+would not be permitted, since it would involve classes (not subclasses) seeing protected components
+from outside. At present, ABAP expands the view of <span class="qtext">lrefx</span>, but only in a specific
+context. The intention, however, is to introduce a stricter view here too and forbid access using <span class="qtext">
+lrefx</span>. This option should not be used for this reason , since it causes a warning to be displayed in the extended program check .
+</p>
+<dl><dd>
+<span class="qtext">CLASS cx DEFINITION.</span> <br><span class="qtext">&nbsp;&nbsp;PROTECTED SECTION.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;METHODS mx.</span> <br><span class="qtext">ENDCLASS.</span> <br>
+ <br><span class="qtext">CLASS cx IMPLEMENTATION.</span> <br><span class="qtext">&nbsp;&nbsp;METHOD mx.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;...</span> <br><span class="qtext">&nbsp;&nbsp;ENDMETHOD.</span> <br>
+<span class="qtext">ENDCLASS.</span> <br> <br><span class="qtext">CLASS c1 DEFINITION INHERITING FROM cx.</span> <br>
+<span class="qtext">&nbsp;&nbsp;...</span> <br><span class="qtext">ENDCLASS.</span> <br> <br><span class="qtext">CLASS c2 DEFINITION INHERITING FROM cx.</span> <br>
+<span class="qtext">&nbsp;&nbsp;PUBLIC SECTION.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;METHODS m2.</span> <br>
+<span class="qtext">ENDCLASS.</span> <br> <br><span class="qtext">CLASS c2 IMPLEMENTATION.</span> <br><span class="qtext">&nbsp;&nbsp;METHOD m2.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;DATA: lrefx TYPE REF TO cx,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lref2 TYPE REF TO c2,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lref1 TYPE REF TO c1.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;lrefx->mx( ). &lt;--- Warning!!</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;lref2->mx( ).</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;lref1->mx( ). &lt;--- Error!!</span> <br><span class="qtext">&nbsp;&nbsp;ENDMETHOD.</span> <br><span class="qtext">ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_visibility.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:29 GMT -->
+</html>

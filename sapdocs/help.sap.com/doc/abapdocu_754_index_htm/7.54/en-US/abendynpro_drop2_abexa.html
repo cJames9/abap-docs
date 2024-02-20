@@ -1,0 +1,204 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_DROP2_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_drop2_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, List Box with Value List from PBO Module">
+<title>
+Dynpros, List Box with Value List from PBO Module - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_drop2_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_drop2_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_help.html')" class="blue">Field Help, Input Help, and Dropdown List Boxes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninput_help_abexas.html')" class="blue">Field Helps, Input Helps, and Dropdown List Boxes - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, List Box with Value List from PBO Module
+</span></p>
+<p>
+This example demonstrates a non-recommended way to enable a dropdown list box.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_DROP2_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_dynpro_dropdown_listbox.<br>
+<br>
+DATA: name&nbsp;&nbsp;TYPE vrm_id,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;&nbsp;TYPE vrm_values,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value LIKE LINE OF list.<br>
+<br>
+DATA: wa_spfli TYPE spfli,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_ok TYPE sy-ucomm.<br>
+<br>
+TABLES demof4help.<br>
+<br>
+name = 'DEMOF4HELP-CONNID'.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE init_listbox OUTPUT.<br>
+<br>
+&nbsp;&nbsp;CLEAR: demof4help-connid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list.<br>
+<br>
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;connid, cityfrom, cityto, deptime<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @demof4help-carrier2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO CORRESPONDING FIELDS OF @wa_spfli.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value-key&nbsp;&nbsp;= wa_spfli-connid.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE wa_spfli-deptime TO value-text USING EDIT MASK '__:__:__'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value-text =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|{ value-text } { wa_spfli-cityfrom } { wa_spfli-cityto }|.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND value TO list.<br>
+<br>
+&nbsp;&nbsp;ENDSELECT.<br>
+<br>
+&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'No connections for that airline' TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE TO SCREEN 100.<br>
+&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;CALL FUNCTION 'VRM_SET_VALUES'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp; = name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values = list.<br>
+<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_100.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;IF save_ok = 'CARRIER' AND NOT demof4help-carrier2 IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE TO SCREEN 200.<br>
+&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 100.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_200.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;IF save_ok = 'SELECTED'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-001 demof4help-carrier2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demof4help-connid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR demof4help.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_DROP2_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 200. The input field is assigned the component CARRIER2
+of the structure DEMOF4HELP from ABAP Dictionary. Its <span class="italic">dropdown</span> attribute
+is L, the output length is 15, the <span class="italic">value list</span> attribute is empty, and it
+is assigned the function code CARRIER. The function code of the pushbutton is CANCEL with the function type <span class="qtext400">E</span>. The screen flow logic is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE user_command_100.</span>
+</dd></dl>
+<p>
+The static next dynpro number of dynpro 200 is 100. The input field is assigned the component CONNID
+of the structure <span class="lnkgrey">DEMOF4HELP</span> from ABAP Dictionary. Its <span class="italic">dropdown</span>
+attribute is L, the output length is 30, the <span class="italic">value list</span> attribute is A,
+and it is assigned the SELECTED function code. The function code of the pushbutton is CANCEL with the function type <span class="qtext400">E</span>. The screen flow logic is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE init_listbox. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE user_command_200.</span>
+</dd></dl>
+<p>
+The user is not allowed to enter values in the screen fields. When selecting the input field on dynpro
+100, the user sees a value list in the list box derived from the input help of the DEMOF4HELP-CARRIER2
+field. In this case, this is the search help H_SCARR assigned to the <span class="lnkgrey">SCARR</span>
+check table in ABAP Dictionary. The value list contains the names of the airlines. When the user selects
+an entry, the dynpro field is filled with the ID of the airline, and the event PAI is triggered. The module <span class="qtext">user_command_100</span> checks the OK field and calls dynpro 200.
+</p>
+<p>
+At the PBO event of dynpro 200, the system fills an internal table called <span class="qtext">list</span>
+with values from database table <span class="lnkgrey">SPFLI</span>. The <span class="qtext">key</span>
+component is filled with the flight numbers, and other relevant information is placed in the <span class="qtext">text</span>
+field. The <span class="qtext">list</span> table is passed to the VRM_SET_VALUES function module. When
+the user chooses the input field on dynpro 200, the <span class="qtext">text</span> column of the internal
+table is displayed in the list box. When the user selects an entry, the dynpro field is filled with
+the associated entry from the <span class="qtext">key</span> column, and the event PAI is triggered. The module <span class="qtext">user_command_200</span> checks and processes the OK field.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_drop2_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+</html>

@@ -1,0 +1,466 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_DAEMON -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_daemon.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:39 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADF - ABAP Daemon Framework">
+<meta name="keywords" content="ABAP, ABAP Daemons">
+<title>
+ADF - ABAP Daemon Framework - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_daemon.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_daemon.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ADF - ABAP Daemon Framework
+</span></p>
+<p>
+ABAP Daemon Framework (ADF for short) is an application programming interface (or API) used to create and handle
+<a href="javascript:call_link('abenabap_daemon_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemons</a>. An ABAP Daemon is an instance of an
+<a href="javascript:call_link('abenabap_daemon_class_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon class</a> that is persisted in a special
+<a href="javascript:call_link('abenabap_daemon_session_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon session</a>. Every AS Instance in an AS ABAP has access to any of the daemons in this AS ABAP. ABAP programs themselves use
+<a href="javascript:call_link('abenabap_daemon_manager_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Manager</a> to access ABAP Daemons.
+</p>
+<p>
+The only limit on the lifetime of an ABAP Daemon not stopped explicitly using ADF methods is the lifetime of the AS Instance where it is running. An ABAP Daemon is created again automatically every time a
+<a href="javascript:call_link('abenruntime_error_glosry.html')" class="grey" title="Glossary Entry">runtime error</a> or a
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">message</a> of type <span class="qtext400">E</span>,
+<span class="qtext400">A</span>, or <span class="qtext400">X</span> causes it to terminate a program.
+When the AS Instance of a daemon is shut down, the daemon can be moved to another AS Instance by creating
+a new daemon containing the same context information as the preceding daemon. This enables the new daemon to do the same job.
+</p>
+<p>
+The <a href="javascript:call_link('abenabap_daemon_processing_glosry.html')" class="grey" title="Glossary Entry">processing of
+an ABAP Daemon</a> takes place in the background and is event-driven. Both the consumer of a daemon and the ABAP runtime environment can raise
+<a href="javascript:call_link('abenabap_daemon_event_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon events</a>
+and the daemon can respond to these events using predefined interface methods. A daemon must always be ready to respond to inbound events and this is ensured by running ABAP Daemon processing in a
+<a href="javascript:call_link('abenadf_non_blocking_model.html')" class="blue">non-blocking mode</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DAEMON_1" class="blue">ABAP Daemon Classes</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DAEMON_2" class="blue">Creating and Using ABAP Daemons</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DAEMON_3" class="blue">Managing ABAP Daemons</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DAEMON_4" class="blue">ABAP Daemon Examples</A></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>ABAP Daemons can be used as event handlers with long lifetimes, for example to respond to changes in shared internal or external AS ABAP resources.</li>
+</ul>
+<ul class="disc">
+<li>More details about ABAP Daemon Framework can be found under <span class="lnkgrey">ABAP Daemons</span>.</li>
+</ul>
+<A NAME="@@CL_ABAP_DAEMON_EXT_BASE@@!ABAP_CLASS!@@"></A>
+<A name="@@ITOC@@ABENABAP_DAEMON_1"></A>
+<p><span class="h2">
+ABAP Daemon Classes
+</span></p>
+<p>
+An <a href="javascript:call_link('abenabap_daemon_class_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon class</a>
+is a global class that inherits from the abstract system class <span class="lnkgrey">CL_ABAP_DAEMON_EXT_BASE</span>
+and it must also be possible to create public instances of this daemon class. From the superclass, an ABAP Daemon class inherits the methods of the interface <span class="lnkgrey">IF_ABAP_DAEMON_EXTENSION</span> that it uses to respond to
+<a href="javascript:call_link('abenabap_daemon_event_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon events</a> if they are implemented in the ABAP Daemon class.
+</p>
+<ul class="disc">
+<li>ON_ACCEPT</li>
+</ul>
+<dl><dd>
+This method is executed before the daemon is actually started. The return value of the method has the
+type ABAP_DAEMON_SETUP_MODE from ABAP Dictionary and must be set to a value dictated by the components
+of the constant structure CO_SETUP_MODE of the interface <span class="lnkgrey">IF_ABAP_DAEMON_EXTENSION</span>.
+The daemon start is accepted or rejected using these values. The method can be implemented to decide
+whether the start is accepted or not. For example, user-dependent authorizations can be evaluated and
+the start of the daemon can be limited to specific programs. To do this, the object passed in the input
+parameter I_CONTEXT_BASE of the static type <span class="lnkgrey">IF_ABAP_DAEMON_CONTEXT_BASE</span>
+can be evaluated. Its methods, GET_START_PARAMETER and GET_START_CALLER_INFO, return the required information. They behave in the same way as the identically named methods of a context object.
+</dd></dl>
+<ul class="disc">
+<li>ON_START</li>
+</ul>
+<dl><dd>
+This method is executed when a daemon is started using the method START in
+<a href="javascript:call_link('abenabap_daemon_manager_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Managers</a>
+and directly after an instance of the daemon is executed. The daemon can be initialized in its implementation in the following ways:
+</dd></dl>
+<ul class="circlem2">
+<li>How context information is saved in <a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Memory</a> or to other suitable memory areas, such as
+<a href="javascript:call_link('abenshared_memory_glosry.html')" class="grey" title="Glossary Entry">shared memory</a> or database tables.</li>
+</ul>
+<ul class="circlem2">
+<li>How <a href="javascript:call_link('abenabap_messaging_channel_glosry.html')" class="grey" title="Glossary Entry">ABAP Messaging Channels</a> are bound for communication with consumers.</li>
+</ul>
+<ul class="circlem2">
+<li>Whether an <a href="javascript:call_link('abenabap_timer_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer</a> is created to limit the lifetime of the daemon if required.</li>
+</ul>
+<ul class="disc">
+<li>ON_MESSAGE</li>
+</ul>
+<dl><dd>
+This method is executed when the daemon receives a
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message sent using the method SEND of an
+<a href="javascript:call_link('abenabap_daemon_handle_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon handle</a>. To do this, the method ATTACH in
+<a href="javascript:call_link('abenabap_daemon_manager_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Manager</a>
+returns a reference to a daemon handle.  The messages in the input parameter I_MESSAGE can be evaluated in the implementation of the method ON_MESSAGE.
+</dd></dl>
+<ul class="disc">
+<li>ON_ERROR</li>
+</ul>
+<dl><dd>
+This method is executed after the daemon is restarted automatically due to a
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">message</a> of the type <span class="qtext400">E</span>, <span class="qtext400">A</span>, or <span class="qtext400">X</span> or because of a
+<a href="javascript:call_link('abenruntime_error_glosry.html')" class="grey" title="Glossary Entry">runtime error</a>. A runtime error closes the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of the daemon, deletes the associated
+<a href="javascript:call_link('abenabap_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP memory</a>, and produces a
+<a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dump</a>. The automatic
+restart opens a new internal session. The context of the daemon can be restored in the implementation of the method by accessing context information preserved in the
+<a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a>
+or in another repository, The input parameter I_CODE contains information about the source of the runtime
+error. Runtime errors should be avoided in the method ON_ERROR itself If a runtime error does occur here, the execution of the next method is delayed by 30 seconds.
+</dd></dl>
+<ul class="disc">
+<li>ON_RESTART</li>
+</ul>
+<dl><dd>
+This method is executed when the daemon is restarted using its context object or after the event ON_BEFORE_RESTART_BY_SYSTEM
+(see below). The context of the daemon can be restored in the implementation of the method by accessing context information preserved in the
+<a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a> or in another repository,
+</dd></dl>
+<ul class="disc">
+<li>ON_SERVER_SHUTDOWN</li>
+</ul>
+<dl><dd>
+This method is executed when the current AS Instance is shut down. This method can be implemented so
+that the daemon is moved to another free AS Instance (if available) by starting a new daemon here with the same context information. The daemon is stopped automatically after this method is executed.
+</dd></dl>
+<ul class="disc">
+<li>ON_SYSTEM_SHUTDOWN</li>
+</ul>
+<dl><dd>
+This method is executed when the current AS ABAP is shut down. This method can be implemented to include
+cleanup activities, such as deleting temporary daemon data in persistent repositories. The daemon is stopped automatically after this method is executed.
+</dd></dl>
+<ul class="disc">
+<li>ON_BEFORE_RESTART_BY_SYSTEM</li>
+</ul>
+<dl><dd>
+This method is executed when an inconsistent state is detected in the daemon. This can occur when programs
+used by a daemon are modified and need to be reloaded. If necessary, this method can be implemented
+to perform appropriate tasks, such as updating the saved context information. After this method is executed, a restart is performed automatically and the method ON_RESTART runs.
+</dd></dl>
+<ul class="disc">
+<li>ON_STOP</li>
+</ul>
+<dl><dd>
+This method is executed when the daemon is stopped using the method STOP in
+<a href="javascript:call_link('abenabap_daemon_manager_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Manager</a>
+or using its context object (see below). This method can be implemented to include cleanup activities, such as deleting temporary daemon data in the relevant memory areas. In the input parameter I_MESSAGE, the method is sent the
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message, which can be passed when the daemon is stopped (this is optional).
+</dd></dl>
+<p>
+Except for ON_ACCEPT, each of these methods has an input parameter I_CONTEXT with the static type <span class="lnkgrey">
+IF_ABAP_DAEMON_CONTEXT</span> that points to a context object. The context object has interface methods that handle context information about the current daemon or that stop or restart it:
+</p>
+<ul class="disc">
+<li>GET_START_PARAMETER</li>
+</ul>
+<dl><dd>
+This method returns the <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message that was passed to
+<a href="javascript:call_link('abenabap_daemon_manager_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Manager</a> when the daemon was started.
+</dd></dl>
+<ul class="disc">
+<li>GET_START_CALLER_INFO</li>
+</ul>
+<dl><dd>
+This method returns information about the context of the consumer of the daemon, such as the client, user name, or ABAP program in a structure of the type <span class="lnkgrey">ABAP_DAEMON_START_CALLER_INFO</span>.
+</dd></dl>
+<ul class="disc">
+<li>GET_INSTANCE_ID</li>
+</ul>
+<dl><dd>
+This method returns the unique internal ID of the current daemon.
+</dd></dl>
+<ul class="disc">
+<li>SET_APPLICATION_PARAMETER</li>
+</ul>
+<dl><dd>
+This method writes data to the <a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a> in
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> format. Here, this data is
+assigned to the current daemon. Here, they are preserved for the full lifetime of the daemon (including any restarts). If SET_APPLICATION_PARAMETER is repeated, all existing data is overwritten.
+</dd></dl>
+<ul class="disc">
+<li>GET_APPLICATION_PARAMETER</li>
+</ul>
+<dl><dd>
+This method reads the latest data written using SET_APPLICATION_PARAMETER from the <a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a>.
+</dd></dl>
+<ul class="disc">
+<li>RESTART</li>
+</ul>
+<dl><dd>
+This method restarts the current daemon with the same internal ID. This deletes the internal session of the daemon with all associated memories, such as the
+<a href="javascript:call_link('abenabap_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP memory</a>, and opens a new internal session. The restart raises the event ON_RESTART.
+</dd></dl>
+<ul class="disc">
+<li>STOP</li>
+</ul>
+<dl><dd>
+This method stops the current daemon and raises the event ON_STOP at the same time.
+</dd></dl>
+<p>
+An ABAP Daemon class can contain further helper methods and can call any number of other procedures in its methods. The implementation of an ABAP Daemon class and the procedures it calls must be executable in
+<a href="javascript:call_link('abenadf_non_blocking_model.html')" class="blue">non-blocking mode</a> to prevent the runtime error <span class="qtext">DAEMON_ILLEGAL_STATEMENT</span> in
+<a href="javascript:call_link('abenabap_daemon_processing_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon processing</a> and a subsequent restart of the daemon.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>To write context information, it is advisable to create a central helper method that is called by the methods ON_START, ON_ERROR, and ON_RESTART. The
+<a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a>
+associated with the daemon is particularly well suited for this task, although other repositories can also be used, such as the shared memory or database tables.</li>
+</ul>
+<ul class="disc">
+<li>The interface <span class="lnkgrey">IF_ABAP_TIMER_HANDLER</span> can be implemented to turn an ABAP Daemon class into an
+<a href="javascript:call_link('abenabap_timer_handler_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer handler</a> too and hence make it able to respond to
+<a href="javascript:call_link('abenabap_timer_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer</a> events. This makes it possible, for example, to wait for certain events or to stop the daemon after a defined period of time.</li>
+</ul>
+<A name="@@ITOC@@ABENABAP_DAEMON_2"></A>
+<p><span class="h2">
+Creating and Using ABAP Daemons
+</span></p>
+<p>
+ABAP Daemons are created and consumed using the static methods of the class <span class="lnkgrey">CL_ABAP_DAEMON_CLIENT_MANAGER</span> in ABAP Daemon Manager. The following rules apply here:
+</p>
+<ul class="disc">
+<li>An ABAP Daemon can be created and used from any ABAP program.</li>
+</ul>
+<ul class="disc">
+<li>An ABAP Daemon can only be used in the same AS ABAP as the program it was created by and the
+<a href="javascript:call_link('abenabap_daemon_session_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon session</a> always has the same
+<a href="javascript:call_link('abenclient_identifier_glosry.html')" class="grey" title="Glossary Entry">client ID</a> as the current
+<a href="javascript:call_link('abenuser_session_glosry.html')" class="grey" title="Glossary Entry">user session</a>. No predefined restrictions exist for the user who is using the program in question.</li>
+</ul>
+<ul class="disc">
+<li>Only the program that created an ABAP Daemon using ABAP Daemon Manager can use this daemon in ABAP
+Daemon Manager. If any other programs attempt this, an exception is raised. It is also not possible
+for a daemon to access itself using ABAP Daemon Manager. If multiple programs need to access the same
+daemon, it is best to wrap these ABAP Daemon Manager reads in a class whose class pool is the only program that can access this daemon.</li>
+</ul>
+<p>
+ABAP Daemon Manager (or the class <span class="lnkgrey">CL_ABAP_DAEMON_CLIENT_MANAGER</span>) has the following methods:
+</p>
+<ul class="disc">
+<li>START</li>
+</ul>
+<dl><dd>
+This method starts an ABAP Daemon of an ABAP Daemon class passed to the input parameter I_CLASS_NAME
+under a name passed to the input parameter I_NAME. This daemon is started only when permitted by the interface method ON_ACCEPT of the ABAP Daemon class. When the daemon is started, a new
+<a href="javascript:call_link('abenabap_daemon_session_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon session</a> is opened whose
+<a href="javascript:call_link('abenclient_identifier_glosry.html')" class="grey" title="Glossary Entry">client ID</a> is adopted by the current user session and whose
+<a href="javascript:call_link('abenuser_name_glosry.html')" class="grey" title="Glossary Entry">user name</a> and
+<a href="javascript:call_link('abenlogon_language_glosry.html')" class="grey" title="Glossary Entry">logon language</a> are determined using an
+<a href="javascript:call_link('abendestination_glosry.html')" class="grey" title="Glossary Entry">RFC destination</a> that can
+be passed to the input parameter I_DESTINATION (this is optional). The default value is the predefined
+RFC destination <span class="qtext400">NONE</span>. An explicitly specified RFC destination must meet the following prerequisites:
+</dd></dl>
+<ul class="circlem2">
+<li>It must be an internal connection to the same AS ABAP.</li>
+</ul>
+<ul class="circlem2">
+<li>It must be an ABAP connection (with or without load distribution).</li>
+</ul>
+<ul class="circlem2">
+<li>A client ID used in the RFC destination must be the same ID as used in the current user session.</li>
+</ul>
+<ul class="circlem2">
+<li>An AS Instance specified as <span class="qtext400">hostname_sysid_instnr</span> must belong to the current AS ABAP.</li>
+</ul>
+<dl><dd>
+The input parameter I_PRIORITY can be used to specify a priority for the response of the daemon to
+<a href="javascript:call_link('abenabap_daemon_event_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon events</a>. The input parameter I_PARAMETER can be used to pass a
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the daemon as a start parameter and the daemon can access this message using its context object.
+</dd></dl>
+<dl><dd>
+The output parameter E_SETUP_MODE gets the return value of the interface method ON_ACCEPT of the ABAP
+Daemon class. The output parameter E_INSTANCE_ID gets the internal ID of the started daemon, which is used by ABAP Daemon Manager to access this daemon.
+</dd></dl>
+<ul class="disc">
+<li>ATTACH</li>
+</ul>
+<dl><dd>
+In its return value with the static type <span class="lnkgrey">IF_ABAP_DAEMON_HANDLE</span>, this method returns a reference to an
+<a href="javascript:call_link('abenabap_daemon_handle_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon handle</a>
+for the daemon whose internal ID was passed to the input parameter I_INSTANCE_ID. The method SEND of the daemon handle can be used by the consumer to send
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> messages to the daemon and the daemon can handle these messages in its interface method ON_MESSAGE.
+</dd></dl>
+<ul class="disc">
+<li>STOP</li>
+</ul>
+<dl><dd>
+This method stops the daemon whose internal ID was passed to the input parameter I_INSTANCE_ID. The
+<a href="javascript:call_link('abenabap_daemon_event_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon event</a> ON_STOP is raised first. In the associated method, the daemon can evaluate the
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> passed to the input parameter I_PARAMETER.
+</dd></dl>
+<ul class="disc">
+<li>GET_DAEMON_INFO</li>
+</ul>
+<dl><dd>
+Returns an internal table containing information about all ABAP Daemons in the current AS ABAP for the ABAP Daemon class that is passed to the input parameter I_CLASS_NAME.
+</dd></dl>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>It is advisable to create dedicated <a href="javascript:call_link('abendestination_glosry.html')" class="grey" title="Glossary Entry">RFC destinations</a> for ABAP Daemons with a suitable user:</li>
+</ul>
+<ul class="circlem2">
+<li>ABAP Daemons run in the background, which means that dialog users should not be used.</li>
+</ul>
+<ul class="circlem2">
+<li>The user in question should have precisely those authorizations required for daemon processing.</li>
+</ul>
+<ul class="disc">
+<li>One consumer can create multiple ABAP Daemons of an ABAP Daemon class, which can then be distinguished
+by using different names. It can also be useful, however, to permit just one daemon from an ABAP Daemon class as a singleton in a single AS ABAP. The checks needed here must be provided by the consumer.</li>
+</ul>
+<ul class="disc">
+<li>In most cases, a consumer does not need to know the internal ID of an ABAP Daemon. If the method
+calls of the ABAP Daemon handler are wrapped in a class, as recommended, this class can encapsulate them in a private attribute.</li>
+</ul>
+<ul class="disc">
+<li>A consumer can communicate with an ABAP Daemon only by using <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> messages.</li>
+</ul>
+<ul class="disc">
+<li>On its own, the method GET_DAEMON_INFO in ABAP Daemon Manager is not enough to create an ABAP Daemon
+as a system-wide singleton. Parallel reads can be used to start multiple daemons in the same ABAP Daemon class before they are returned by GET_DAEMON_INFO.</li>
+</ul>
+<ul class="disc">
+<li>Internally, ABAP Daemons are handled using the
+<a href="javascript:call_link('abenrfc_interface_glosry.html')" class="grey" title="Glossary Entry">RFC interface</a>. Accordingly, a consumer of daemons must also have the associated
+<a href="javascript:call_link('abenrfc_authority.html')" class="blue">RFC authorizations</a>.</li>
+</ul>
+<ul class="disc">
+<li>The class pool of an ABAP Daemon (or the instance of an ABAP Daemon class) is always the only
+<a href="javascript:call_link('abenmain_session_glosry.html')" class="grey" title="Glossary Entry">ABAP session</a> program in its
+<a href="javascript:call_link('abenabap_daemon_session_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon session</a>, since no program calls are possible in the associated
+<a href="javascript:call_link('abenadf_non_blocking_model.html')" class="blue">non-blocking mode</a>.</li>
+</ul>
+<ul class="disc">
+<li>When an ABAP Daemon is stopped or restarted due to an error, its entire context is removed. The associated
+<a href="javascript:call_link('abenabap_daemon_session_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon session</a> is also ended and, if the daemon is restarted, a new session is started, This affects any context information in the
+<a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a>, any
+<a href="javascript:call_link('abenabap_timer_glosry.html')" class="grey" title="Glossary Entry">ABAP Timers</a> that were started, and all non-persistent data in the associated
+<a href="javascript:call_link('abenmain_session_glosry.html')" class="grey" title="Glossary Entry">ABAP session</a>. More specifically, any
+<a href="javascript:call_link('abensap_lock_glosry.html')" class="grey" title="Glossary Entry">SAP locks</a> that were set are released.</li>
+</ul>
+<ul class="circlem2">
+<li>It is the task of the consumer to delete any daemon-specific data in the shared memory or other persistent repositories.</li>
+</ul>
+<ul class="circlem2">
+<li>In cases where a daemon is moved to a different AS Instance, the consumer must also ensure that the settings in question are transferred at the same time.</li>
+</ul>
+<A name="@@ITOC@@ABENABAP_DAEMON_3"></A>
+<p><span class="h2">
+Managing ABAP Daemons
+</span></p>
+<p>
+The transaction <span class="lnkgrey">SMDAEMON</span> displays the ABAP Daemons on the current AS Instance and they can also be restarted or stopped here.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+User-specific <a href="javascript:call_link('abenbreakpoint_glosry.html')" class="grey" title="Glossary Entry">breakpoints</a>
+can be set when an ABAP Daemon is being processed (namely when the methods of the ABAP Daemon class and the procedures called here are executed) to debug the daemon.
+</p>
+<A name="@@ITOC@@ABENABAP_DAEMON_4"></A>
+<p><span class="h2">
+ABAP Daemon Examples
+</span></p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenabap_mini_daemon_abexa.html')" class="blue">ADF, Mini ABAP Daemon</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenabap_daemon_abexa.html')" class="blue">ADF, Creating and Using an ABAP Daemon</a></li>
+</ul>
+<p>
+See also the class <span class="lnkgrey">CL_AD_EXT_SIMPLE_DAEMON</span>, which can be used by the program
+<span class="lnkgrey">RS_ABAP_DAEMON_TEST</span>. Unlike in the preceding simple examples, this example is more reliable in producing a system-wide singleton ABAP Daemon.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenadf_non_blocking_model.html')" class="blue">ADF - Non-Blocking Mode</a><br>
+<a href="javascript:call_link('abenabap_daemon_abexas.html')" class="blue">Examples for ABAP Daemons</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_daemon.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:39 GMT -->
+</html>

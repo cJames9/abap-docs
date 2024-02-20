@@ -1,0 +1,357 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_OBJECTS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_objects_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP Objects, Overview">
+<title>
+ABAP Objects, Overview - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_objects_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_objects_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_abexas.html')" class="blue">Examples for ABAP Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP Objects, Overview
+</span></p>
+<p>
+This example demonstrates objects, object references, inheritance, interfaces, and events.
+</p>
+<A name="@@ITOC@@ABENABAP_OBJECTS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_abap_objects.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS main DEFINITION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Main class definition&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS main DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA out TYPE REF TO if_demo_output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objects,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inheritance,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;interfaces,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;events.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTERFACE status</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Interface definition&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+INTERFACE status.<br>
+&nbsp;&nbsp;METHODS write.<br>
+ENDINTERFACE.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS vessel DEFINITION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Superclass definition&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS vessel DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drive<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING speed_up TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(id) TYPE i.<br>
+&nbsp;&nbsp;PROTECTED SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: speed&nbsp;&nbsp;&nbsp;&nbsp; TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_speed TYPE i VALUE 100.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA object_count TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS vessel IMPLEMENTATION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Superclass implementation&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS vessel IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;object_count += 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id = object_count.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD drive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;speed += speed_up.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF speed &gt; max_speed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;speed = max_speed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get_id.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id = me-&gt;id.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS ship DEFINITION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Subclass definition&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS ship DEFINITION INHERITING FROM vessel.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES status.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA name TYPE string READ-ONLY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING name TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drive<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDEFINITION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EVENTS emergency_call.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS ship IMPLEMENTATION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Subclass implementation&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS ship IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;super-&gt;constructor( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max_speed = 30.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;name = name.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD status~write.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA id TYPE c LENGTH 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id = me-&gt;get_id( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main=&gt;out-&gt;write( |{ name } is vessel { id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } and has speed { speed }| ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD drive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;speed += speed_up.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF speed &gt; max_speed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_speed = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;speed = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EVENT emergency_call.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS coast_guard DEFINITION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Event handler definition&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS coast_guard DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES status.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS receive<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR EVENT emergency_call OF ship<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING sender.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ALIASES write FOR status~write.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA caller TYPE string.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLASS coast_guard IMPLEMENTATION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Event handler implementation&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS coast_guard IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD status~write.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF caller IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main=&gt;out-&gt;write( `Coast guard received no call` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main=&gt;out-&gt;write( |Coast guard received a call from { caller }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD receive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caller = sender-&gt;name.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;write( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System event START-OF-SELECTION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Triggered by the ABAP runtime environment automatically&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;main=&gt;start( ).<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS main IMPLEMENTATION</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+<span class="blue">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main class implementation&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+CLASS main IMPLEMENTATION.<br>
+<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD start.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: button1 TYPE abap_bool VALUE abap_true,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button2 TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button3 TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button4 TYPE abap_bool.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( EXPORTING text = `Objects and Object References`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field = button1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( EXPORTING text = `Inheritance`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field = button2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( EXPORTING text = `Interfaces`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field = button3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( EXPORTING text = `Events`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field = button4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;request( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF strlen( button1 &amp;&amp; button2 &amp;&amp; button3 &amp;&amp; button4 ) &gt; 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF button1 = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objects( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF button2 = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inheritance( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF button3 = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;interfaces( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF button4 = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;events( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD objects.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(vessel1) = NEW vessel( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(vessel2) = NEW vessel( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vessel1-&gt;drive( 50 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vessel2-&gt;drive( 80 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |Vessel ID is { vessel1-&gt;get_id( ) }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |Vessel ID is { vessel2-&gt;get_id( ) }| ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD inheritance.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(ship) = NEW ship( 'Titanic' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ship-&gt;drive( 20 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(vessel) = CAST vessel( ship ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vessel-&gt;drive( 10 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ship-&gt;status~write( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD interfaces.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA status_tab TYPE TABLE OF REF TO status WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;status_tab = VALUE #( ( NEW ship( name = 'Titanic' ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( NEW coast_guard( ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT status_tab ASSIGNING FIELD-SYMBOL(&lt;status&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;status&gt;-&gt;write( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD events.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(ship)&nbsp;&nbsp;&nbsp;&nbsp;= NEW ship( 'Titanic' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(station) = NEW coast_guard( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET HANDLER station-&gt;receive FOR ship.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO 5 TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ship-&gt;drive( 10 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">*---------------------------------------------------------------------*</span><br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENABAP_OBJECTS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The program contains a class <span class="qtext">main</span> with a method <span class="qtext">start</span>
+which is called at program start and demonstrates the use of ABAP objects using the example of classes of water vehicles.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_objects_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

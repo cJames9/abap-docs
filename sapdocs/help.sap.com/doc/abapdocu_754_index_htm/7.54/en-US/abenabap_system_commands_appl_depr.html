@@ -1,0 +1,166 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_SYSTEM_COMMANDS_APPL_DEPR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_system_commands_appl_depr.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Unwanted Calls of Operating System Statements">
+<title>
+Unwanted Calls of Operating System Statements - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_system_commands_appl_depr.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_system_commands_appl_depr.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_system_commands.html')" class="blue">ABAP and Operating System Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_system_commands_appl.html')" class="blue">Operating System Statements of the Host Computer</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Unwanted Calls of Operating System Statements
+</span></p>
+<p>
+Alongside calls of function modules in the <a href="javascript:call_link('abenabap_system_commands_appl_sxpg.html')" class="blue">SXPG framework</a>, operating system statements for the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the current AS Instance can be executed in ABAP programs as follows:
+</p>
+<ul class="disc">
+<li>The addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a>
+of the statement <a href="javascript:call_link('abapopen_dataset.html')" class="blue"><span class="qtext">OPEN DATASET</span></a> used for executing operating system statements using pipes.</li>
+</ul>
+<ul class="disc">
+<li>The internal statement <a href="javascript:call_link('abapcall-.html')" class="blue"><span class="qtext">CALL</span></a> used to call a special system function (SYSTEM), which can be used to execute operating system statements.</li>
+</ul>
+<p>
+Neither of these options should be used for common execution of operating system statements in ABAP programs.
+</p>
+<ul class="disc">
+<li>The addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a>
+of <a href="javascript:call_link('abapopen_dataset.html')" class="blue"><span class="qtext">OPEN DATASET</span></a> should only be used (if at all) for operating system statements required for data handling.</li>
+</ul>
+<ul class="disc">
+<li>Calls of the system function SYSTEM with the internal statement <a href="javascript:call_link('abapcall-.html')" class="blue"><span class="qtext">CALL</span></a> should never be made and can be deactivated using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a> <span class="lnkgrey">rdisp/call_system</span>. If called, it then raises a non-handleable exception.</li>
+</ul>
+<p>
+Both statements cause the following problems:
+</p>
+<ul class="disc">
+<li>There are no central authorization checks.</li>
+</ul>
+<ul class="disc">
+<li>The platform dependency of the operating system statements must be handled in the ABAP program itself.</li>
+</ul>
+<ul class="disc">
+<li>Errors and exceptions cannot be handled specifically.</li>
+</ul>
+<ul class="disc">
+<li>If input from external sources is used, it must be checked thoroughly and filtered to prevent <a href="javascript:call_link('abensys_comm_injections_scrty.html')" class="blue">system command injections</a> on any platform.</li>
+</ul>
+<p>
+If possible, the <a href="javascript:call_link('abenabap_system_commands_appl_sxpg.html')" class="blue">SXPG framework</a> should be used instead of these two options.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Before the statements <span class="qtext">CALL 'SYSTEM'</span> is deactivated using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a>
+<span class="lnkgrey">rdisp/call_system</span>, it must be ensured that it is no longer used in any programs. Any programs that still use <span class="qtext">CALL 'SYSTEM'</span> must first be switched to use of the
+<a href="javascript:call_link('abenabap_system_commands_appl_sxpg.html')" class="blue">SXPG frameworks</a> before the unwanted
+statement can be deactivated. The options in the SXPG frameworks generally cover all requirements when calling operating system statements.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calls the operating system statement <span class="qtext400">ping</span> for the central database server of the system on the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+current AS Instance using the addition <span class="qtext">FILTER</span> of the statement <span class="qtext">OPEN
+DATASET</span>. The output of the operating system statement is written to the opened file and can be read from there.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA dbserver TYPE c LENGTH 255. <br>CALL 'C_SAPGPARAM' ID 'NAME'&nbsp;&nbsp;FIELD 'SAPDBHOST' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'VALUE' FIELD&nbsp;&nbsp;dbserver. <br>
+ <br>DATA(command) = |ping -c1 { dbserver }|. <br>DATA(fname) = 'result.dat'. <br>OPEN DATASET fname FOR OUTPUT IN BINARY MODE FILTER command. <br>
+CLOSE DATASET fname. <br> <br>OPEN DATASET fname FOR INPUT IN BINARY MODE. <br>DATA result TYPE xstring. <br>
+READ DATASET fname INTO result. <br>CLOSE DATASET fname. <br>cl_demo_output=>display( <br>&nbsp;&nbsp;cl_abap_conv_codepage=>create_in( )->convert( result ) ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calls the operating system statement <span class="qtext400">ping</span> for the central database server of the system on the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+current AS Instance using the addition SYSTEM. The result of the call is passed to the internal table <span class="qtext">result</span>. This example can only be executed if the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a> <span class="lnkgrey">rdisp/call_system</span> permits the call.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES char255 TYPE c LENGTH 255. <br> <br>DATA dbserver TYPE char255. <br>CALL 'C_SAPGPARAM' ID 'NAME'&nbsp;&nbsp;FIELD 'SAPDBHOST' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'VALUE' FIELD&nbsp;&nbsp;dbserver. <br>
+ <br>DATA command TYPE char255. <br>command = |ping -c1 { dbserver }|. <br> <br>DATA result&nbsp;&nbsp;TYPE TABLE OF char255 WITH EMPTY KEY. <br>
+CALL 'SYSTEM' ID 'COMMAND' FIELD command <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'TAB'&nbsp;&nbsp;&nbsp;&nbsp; FIELD result. <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_system_commands_appl_depr.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+</html>

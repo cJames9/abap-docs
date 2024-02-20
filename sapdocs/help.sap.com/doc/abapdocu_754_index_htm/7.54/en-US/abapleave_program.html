@@ -1,0 +1,153 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPLEAVE_PROGRAM -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapleave_program.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="LEAVE PROGRAM">
+<meta name="keywords" content="ABAP, LEAVE PROGRAM">
+<title>
+LEAVE PROGRAM - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapleave_program.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapleave_program.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_execution.html')" class="blue">Calling and leaving program units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenleave_program_units.html')" class="blue">Exiting Program Units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_leave_program.html')" class="blue">Exiting Programs</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@LEAVE PROGRAM@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+LEAVE PROGRAM <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapleave_program_shortref.html')" class="blue">Quick Reference</a> <br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">LEAVE PROGRAM.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement ends the current <a href="javascript:call_link('abenmain_program_glosry.html')" class="grey" title="Glossary Entry">main program</a> immediately and deletes its
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, including all loaded programs, instances, and their data.
+</P>
+<P>
+The statement <span class="qtext">LEAVE PROGRAM</span> can appear anywhere within any processing block. It ends the program regardless of the program or object in which it is executed or in which
+<a href="javascript:call_link('abenprogram_group_glosry.html')" class="grey" title="Glossary Entry">program group</a> of the internal session.
+</P>
+<P>
+The way the runtime environment responds to <span class="qtext">LEAVE PROGRAM</span> depends on how the main program was called in the internal session:
+</P>
+<ul class="disc">
+<li>
+If the main program was called using <a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">CALL
+TRANSACTION</span></a>, <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT AND RETURN</span></a>,
+or <a href="javascript:call_link('abapcall_dialog.html')" class="blue"><span class="qtext">CALL DIALOG</span></a>, the runtime
+environment returns to the calling program after the call point. If the main program was called using <span class="qtext">CALL DIALOG</span>, the output parameters of the
+<a href="javascript:call_link('abendialog_module_object_glosry.html')" class="grey" title="Glossary Entry">dialog module</a> are passed to the calling program.
+<br><br></li>
+<li>
+If the main program was called using <a href="javascript:call_link('abapleave_to_transaction.html')" class="blue"><span class="qtext">LEAVE TO TRANSACTION</span></a> or using a transaction code from within a
+<a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">dynpro</a>, the runtime environment returns to the point at which the first program in the current
+<a href="javascript:call_link('abencall_sequence_glosry.html')" class="grey" title="Glossary Entry">call sequence</a> was called.
+<br><br></li>
+<li>
+If the main program was called using <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a>
+without the addition <span class="qtext">AND RETURN</span>, the runtime environment returns to the point at which the calling program was started. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+If procedures are still registered when a program is exited in the current
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a>, the SAP LUW is ended without calling or rolling back the procedures. Any registered
+<a href="javascript:call_link('abenupdate_function_module_glosry.html')" class="grey" title="Glossary Entry">update function
+modules</a> are preserved in the database, but can no longer be executed. In this case, the statement
+<a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a> or <a href="javascript:call_link('abaprollback.html')" class="blue">
+<span class="qtext">ROLLBACK WORK</span></a> should be executed explicitly before leaving the program.
+<br><br></li>
+<li>
+The statement <a href="javascript:call_link('abapleave-.html')" class="blue"><span class="qtext">LEAVE</span></a> without additions is obsolete.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Leaving a program after a failed authorization check.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CALL FUNCTION 'AUTHORITY_CHECK_TCODE' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;tcode&nbsp;&nbsp;= sy-tcode <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;ok&nbsp;&nbsp;&nbsp;&nbsp; = 1 <br>&nbsp;&nbsp;&nbsp;&nbsp;not_ok = 2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 3. <br> <br>IF sy-subrc > 1. <br>&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDIF.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapleave_program.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+</html>

@@ -1,0 +1,257 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-620-EXCEPTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-620-exceptions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="New Handleable Exceptions in Release 6.20">
+<title>
+New Handleable Exceptions in Release 6.20 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-620-exceptions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-620-exceptions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-620.html')" class="blue">Changes in Release 6.20</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+New Handleable Exceptions in Release 6.20 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Handleable exceptions in method calls </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2. Handleable exceptions in function module calls </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. Handleable exceptions in down casts </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> 4. Handleable exceptions in ABAP SQL </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> 5. Handleable exceptions in <span class="qtext">CALL TRANSFORMATION</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> 6. Handleable exceptions in <span class="qtext">GENERATE REPORT<i class=bn>|</i>SUBROUTINE POOL</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> 7. Handleable exceptions in <span class="qtext">SCAN</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> 8. Handleable exceptions in <span class="qtext">EXPORT TO SHARED MEMORY</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> 9. Handleable exceptions in <span class="qtext">PROVIDE</span> </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+Handleable Exceptions in Method Calls <br><br><!-- /A -->
+</P>
+<P>
+The following exceptions can now be handled in <a href="javascript:call_link('abenmethod_calls.html')" class="blue">method calls</a>, having been assigned to existing exception classes:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">CALL_METHOD_NOT_IMPLEMENTED</span>
+<br><br></li>
+<li>
+<span class="qtext">CALL_METHOD_NOT_ACCESSIBLE</span>
+<br><br></li>
+<li>
+<span class="qtext">CALL_METHOD_CONFLICT_TAB_TYPE</span>
+<br><br></li>
+<li>
+<span class="qtext">CALL_METHOD_CONFLICT_GEN_TYPE</span>
+<br><br></li>
+<li>
+<span class="qtext">CALL_METHOD_CONFLICT_TYPE</span> <br><br> <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+Handleable Exceptions in Function Module Calls <br><br><!-- /A -->
+</P>
+<P>
+In <a href="javascript:call_link('abapcall_function.html')" class="blue"><span class="qtext">CALL FUNCTION</span></a>, the following
+exceptions can now be handled, having been assigned to existing exception classes. The new exception
+class <span class="lnkgrey">CX_SY_DYN_CALL_ILLEGAL_FUNC</span> was introduced only for the first two exceptions in the following list:
+</P>
+<ul class="disc">
+<li>
+CALL_FUNCTION_NOT_ACTIVE
+<br><br></li>
+<li>
+CALL_FUNCTION_NOT_FOUND
+<br><br></li>
+<li>
+CALL_FUNCTION_PARM_MISSING
+<br><br></li>
+<li>
+CALL_FUNCTION_PARAM_NOT_FOUND
+<br><br></li>
+<li>
+CALL_FUNCTION_CONFLICT_GEN_TYP
+<br><br></li>
+<li>
+CALL_FUNCTION_CONFLICT_LENG
+<br><br></li>
+<li>
+CALL_FUNCTION_CONFLICT_TYPE
+<br><br></li>
+<li>
+CALL_CALL_FUNCTION_NO_VB
+<br><br></li>
+<li>
+CALL_FUNCTION_WRONG_ALIGNMENT <br><br> <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Handleable Exceptions in Down Casts <br><br><!-- /A -->
+</P>
+<P>
+In <a href="javascript:call_link('abendown_cast_glosry.html')" class="grey" title="Glossary Entry">down casts</a>, the following exceptions can now be handled, having been assigned to an existing exception class:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">MOVE_CAST_ERROR_DYN</span>
+<br><br></li>
+<li>
+<span class="qtext">MOVE_CAST_REF_ONLY</span> <br><br> <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Handleable exceptions in ABAP SQL <br><br><!-- /A -->
+</P>
+<P>
+In ABAP SQL, the following exceptions can now be handled, having been assigned to an existing exception class.
+</P>
+<ul class="disc">
+<li>
+ESCAPE_WITH_POOLTABLE
+<br><br></li>
+<li>
+SAPSQL_CONNECTION_ILL_TABTYPE <br><br> <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Handleable Exceptions in <span class="qtext">CALL TRANSFORMATION</span> <br><br><!-- /A -->
+</P>
+<P>
+The exception classes <span class="lnkgrey">CX_SY_CONVERSION_NO_RAW</span> and <span class="lnkgrey">CX_SY_CONVERSION_NO_DATE_TIME</span>
+have been introduced for the statement <a href="javascript:call_link('abapcall_transformation.html')" class="blue"><span class="qtext">CALL TRANSFORMATION</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+Handleable Exceptions in <span class="qtext">GENERATE REPORT <i class=bn>|</i> SUBROUTINE POOL</span> <br><br><!-- /A -->
+</P>
+<P>
+The exception class <span class="lnkgrey">CX_SY_GEN_SOURCE_TOO_WIDE</span> has been introduced for the statement <a href="javascript:call_link('abapgenerate_report.html')" class="blue"><span class="qtext">GENERATE REPORT<i
+class=bn>|</i>SUBROUTINE POOL</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Handleable Exceptions in <span class="qtext">SCAN</span> <br><br><!-- /A -->
+</P>
+<P>
+The exception class <span class="lnkgrey">CX_SY_SCAN_SOURCE_TOO_WIDE</span> has been introduced for the statement <a href="javascript:call_link('abapscan.html')" class="blue"><span class="qtext">SCAN</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Handleable Exceptions in <span class="qtext">EXPORT TO SHARED MEMORY</span> <br><br><!-- /A -->
+</P>
+<P>
+The exception <span class="lnkgrey">CX_SY_EXPORT_NO_SHARED_MEMORY</span> has been introduced for <a href="javascript:call_link('abapexport_data_cluster.html')" class="blue">
+<span class="qtext">EXPORT TO SHARED MEMORY</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+Handleable Exceptions in <span class="qtext">PROVIDE</span> <br><br><!-- /A -->
+</P>
+<P>
+The exception classes <span class="lnkgrey">CX_SY_PROVIDE_INTERVAL_OVERLAP</span> and <span class="lnkgrey">CX_SY_PROVIDE_TABLE_NOT_SORTED</span>
+have been introduced for the new variant of the statement <a href="javascript:call_link('abapprovide.html')" class="blue"><span class="qtext">
+PROVIDE</span></a>. These exceptions are not raised by the short form of <span class="qtext">PROVIDE</span>.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-620-exceptions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

@@ -1,0 +1,238 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSTEPLOOP_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensteploop_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:39 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Step Loop">
+<title>
+Step Loop - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensteploop_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensteploop_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abengui_obsolete.html')" class="blue">Obsolete User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynpro_obsolet.html')" class="blue">Obsolete statements of the screen flow logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensteploop.html')" class="blue">Obsolete Processing of Step Loops</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Step Loop
+</span></p>
+<p>
+This example demonstrates the obsolete direct use of step loops.
+</p>
+<A name="@@ITOC@@ABENSTEPLOOP_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_dynpro_step_loop.<br>
+<br>
+TYPES: BEGIN OF t_itab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col1 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col2 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF t_itab.<br>
+<br>
+DATA: itab TYPE STANDARD TABLE OF t_itab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa&nbsp;&nbsp; LIKE LINE OF itab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill TYPE i.<br>
+<br>
+DATA: idx&nbsp;&nbsp; TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line&nbsp;&nbsp;TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lines TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp; TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n1&nbsp;&nbsp;&nbsp;&nbsp;TYPE i VALUE 5,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n2&nbsp;&nbsp;&nbsp;&nbsp;TYPE i VALUE 25.<br>
+<br>
+DATA:&nbsp;&nbsp;ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; save_ok TYPE sy-ucomm.<br>
+<br>
+START-OF-SELECTION.<br>
+<br>
+&nbsp;&nbsp;itab = VALUE #( FOR j = 1 UNTIL j &gt; 40<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = j col2 = j ** 2 ) ).<br>
+<br>
+&nbsp;&nbsp;fill = lines( itab ).<br>
+<br>
+&nbsp;&nbsp;CALL SCREEN 100.<br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_100' EXCLUDING 'PREVIOUS'.<br>
+ENDMODULE.<br>
+<br>
+MODULE status_0200 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_200' EXCLUDING 'NEXT'.<br>
+ENDMODULE.<br>
+<br>
+MODULE transp_itab_out OUTPUT.<br>
+&nbsp;&nbsp;idx = sy-stepl + line.<br>
+&nbsp;&nbsp;wa = itab[ idx ].<br>
+ENDMODULE.<br>
+<br>
+MODULE transp_itab_in INPUT.<br>
+&nbsp;&nbsp;lines = sy-loopc.<br>
+&nbsp;&nbsp;idx = sy-stepl + line.<br>
+&nbsp;&nbsp;MODIFY itab FROM wa INDEX idx.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100 INPUT.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;CASE save_ok.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'NEXT_LINE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = line + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit = fill - lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF line &gt; limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PREV_LINE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = line - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF line &lt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'NEXT_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = line + lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit = fill - lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF line &gt; limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = limit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PREV_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = line - lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF line &lt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'LAST_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line =&nbsp;&nbsp;fill - lines.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'FIRST_PAGE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'NEXT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = line + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE TO SCREEN 200.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE get_first_line INPUT.<br>
+&nbsp;&nbsp;line = c - 1.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0200 INPUT.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CASE save_ok.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PREVIOUS'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE TO SCREEN 100.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSTEPLOOP_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+In the layout of dynpro 100, a variable step loop is defined with 10 repeating groups. The fields of
+the repeating groups are the components <span class="qtext">col1</span> and <span class="qtext">col2</span> of the structure <span class="qtext">wa</span> of the ABAP program.
+</p>
+<p>
+In the status STATUS_100, the function codes FIRST_PAGE, PREV_PAGE, PREV_LINE, NEXT_LINE, NEXT_PAGE, LAST_PAGE, and NEXT are set on pushbuttons of the application toolbar for dynpro 100.
+</p>
+<p>
+The layout of dynpro 200 is the same as that of dynpro 100, except that the step loop is fixed here, not variable.
+</p>
+<p>
+In the status STATUS_200, the function code PREVIOUS is set on a pushbutton of the application toolbar for dynpro 200.
+</p>
+<p>
+When the program is executed, a step loop is displayed on dynpro 100, whose row number has been adjusted
+to fit the height of the screen but has no vertical scroll bars. On dynpro 200, a step loop is displayed which has a fixed size of 10 rows; this loop has a vertical scroll bar.
+</p>
+<p>
+At the time of PBO, both step loops are filled from the internal table <span class="qtext">itab</span>.
+For screen 100 the loop is only through the step loop and for screen 200 it is parallel through the
+step loop and the internal table. The step loop on dynpro 200 is restricted to the rows 5 to 25 of the
+internal table. To fill the work area <span class="qtext">wa</span> on dynpro 100, a PBO module is called. This is not necessary for dynpro 200.
+</p>
+<p>
+At the time of PAI, a module is called in both screens within the loops. In this module, the system transfers possible user entries in the step loop rows to the corresponding rows of the internal table.
+</p>
+<p>
+For dynpro 100, the scroll function for the step loop is programmed in the PAI module <span class="qtext">user_command_100</span>.
+To do this, the number of rows of the step loop on the screen is buffered in the helper variable <span class="qtext">
+step</span>, because <span class="qtext">sy-loopc</span> is only filled within the loop. A scrolling
+function does not need to be programmed for dynpro 200, because it is automatically provided by the system in the form of the scroll bar.
+</p>
+<p>
+The synchronization between the internal table and the step loop on dynpro 200 is handled by the variable
+<span class="qtext">c</span>, which is used in the addition <span class="qtext">CURSOR</span> of the
+statement <span class="qtext">LOOP</span>. It is set before dynpro 200 is called, in correspondence
+with the display of the table on dynpro 100. This means that the step loops on both dynpros start with
+the same table row. At the time of PAI of screen 200, <span class="qtext">c</span> is read to redefine first table row after any scrolling with the scroll bar.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensteploop_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:39 GMT -->
+</html>

@@ -1,0 +1,315 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPSELECT_UP_TO_OFFSET -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapselect_up_to_offset.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:57 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - UP TO, OFFSET">
+<title>
+SELECT - UP TO, OFFSET - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapselect_up_to_offset.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapselect_up_to_offset.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">SELECT clauses</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@UP TO ROWS@@SELECT@@"></A>
+<A NAME="@@OFFSET@@SELECT@@"></A>
+<p><span class="h1">
+SELECT - UP TO, OFFSET <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapselect_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>[</i>UP TO n ROWS<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>OFFSET o<i class=bn>]</i> ...</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1.<span class="qtext">... UP TO n ROWS</span> </A> <br><br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2.<span class="qtext">... OFFSET o</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+These optional additions of a <a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a>
+of a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement or <a href="javascript:call_link('abapwith.html')" class="blue">
+<span class="qtext">WITH</span></a> statement restrict the results set using an offset and the maximum number of rows read. The syntax varies as follows for
+<a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">main queries</a> and <a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subqueries</a>:
+</P>
+<ul class="disc">
+<li>
+<span class="bold">Main query</span>
+<br></li>
+</ul>
+<dl>
+
+<dd>
+If the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span> clause</a> is specified
+as last clause of the <span class="qtext">SELECT</span> statement, the additions must follow after the
+<span class="qtext">INTO</span> clause. Otherwise, they can also be specified after the <a href="javascript:call_link('abapselect_list.html')" class="blue">
+<span class="qtext">SELECT</span> clause</a> or after the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">
+FROM</span> clause</a>. The order of the two additions is fixed. The addition <span class="qtext">OFFSET</span>
+can be used only if there is an <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> clause.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+<span class="bold">Subquery</span>
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The addition <span class="qtext">UP TO</span> can only be specified after an <a href="javascript:call_link('abaporderby_clause.html')" class="blue">
+<span class="qtext">ORDER BY</span></a> clause and the addition <span class="qtext">OFFSET</span> can only be specified after <span class="qtext">UP TO</span>.
+</dd>
+</dl>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+These additions are applied to the results set defined by the preceding clauses. <br><br>
+</P>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... UP TO n ROWS</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">UP TO</span> limits the number of rows in the result set of a <span class="qtext">SELECT</span> statement to <span class="qtext">n</span>. For <span class="qtext">n</span>, a
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a>, a
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expression</a>, or a
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literal</a> of type <span class="qtext">i</span>
+is expected, which can represent all non-negative numbers from the value range of <span class="qtext">i</span>
+except its maximum value +2,147,483,647. Only the types <span class="qtext">b</span>, <span class="qtext">s</span>,
+<span class="qtext">i</span>, or <span class="qtext">int8</span> can be specified for <span class="qtext">n</span>. Furthermore, a literal or constant specified for <span class="qtext">n</span> cannot have the value 0. This is checked in
+<a href="javascript:call_link('abenopensql_strict_mode_751.html')" class="blue">strict mode from Release 7.51</a>. The content of <span class="qtext">n</span> must match the data type <span class="qtext">i</span> in accordance with the rules for a
+<a href="javascript:call_link('abenlossless_assignment_glosry.html')" class="grey" title="Glossary Entry">lossless assignment</a>.
+</P>
+<ul class="disc">
+<li>
+If <span class="qtext">n</span> contains the value 0, a maximum of 2,147,483,647 rows are passed to the results set.
+<br><br></li>
+<li>
+A positive number in <span class="qtext">n</span> indicates the maximum number of rows in the results set.
+<br><br></li>
+<li>
+If <span class="qtext">n</span> contains a negative number or +2,147,483,647, a syntax error is produced or a non-handleable exception is raised.
+<br></li>
+</ul>
+<P>
+The addition <span class="qtext">UP TO</span> cannot be used with addition <a href="javascript:call_link('abapselect_single.html')" class="blue">
+<span class="qtext">SINGLE</span></a> and cannot be used with <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION</span></a>.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The addition <span class="qtext">UP TO n ROWS</span> should be used in preference to a <span class="qtext">SELECT</span> loop that is canceled after importing <span class="qtext">n</span> rows. In the latter case, the last
+<a href="javascript:call_link('abenopen_sql_oview.html')" class="blue">package</a> passed from the database to the AS ABAP usually contains superfluous rows.
+<br><br></li>
+<li>
+Without the addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>,
+the addition <span class="qtext">UP TO 1 ROWS</span> provides the same result as the addition <a href="javascript:call_link('abapselect_single.html')" class="blue">
+<span class="qtext">SINGLE</span></a> and there are no major differences in performance.
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>If <span class="qtext">SINGLE</span> is used, data can be read into a non-table-like work area without
+opening a loop closed using <a href="javascript:call_link('abapendselect.html')" class="blue"><span class="qtext">ENDSELECT</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>If <span class="qtext">UP TO 1 ROWS</span> is used, the addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue">
+<span class="qtext">ORDER BY</span></a> can be specified to determine the first row in a multirow set of hits.</li>
+</ul>
+<dl>
+
+<dd>
+It is advisable to use the addition <span class="qtext">UP TO 1 ROWS</span> to read at most one row
+from a set of selected rows. The addition <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">SINGLE</span></a>, on the other hand. should generally be used to read a row specified in full.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+The addition <span class="qtext">UP TO 1 ROWS</span> is often used to confirm whether a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> contains any rows that meet a certain
+condition at all. To avoid unnecessary transports of data, a <span class="qtext">SELECT</span> list can also be used that contains nothing but a single constant (see the
+<a href="javascript:call_link('abensql_expr_literal_abexa.html')" class="blue">executable example</a>).
+<br><br></li>
+<li>
+If the addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>
+is also specified, the rows of the hit list are sorted on the database server and only the number of
+sorted rows specified in <span class="qtext">n</span> are passed to the results set. If the addition
+<span class="qtext">ORDER BY</span> is not specified, <span class="qtext">n</span> arbitrary rows that
+meet the <a href="javascript:call_link('abapwhere.html')" class="blue"><span class="qtext">WHERE</span></a> condition are passed
+to the results set. If the <span class="qtext">ORDER BY</span> clause does not sort the results set in a unique way, it is not possible to define which rows are in the results set.
+<br><br></li>
+<li>
+If the addition <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR ALL ENTRIES</span></a>
+is also specified, all selected rows are initially read into a system table and the addition <span class="qtext">UP
+TO n ROWS</span> only takes effect during the passing from the system table to the actual target area. This can produce unexpected memory bottlenecks.
+<br><br></li>
+<li>
+Host variables without the escape character <span class="qtext">@</span> are
+<a href="javascript:call_link('abenopen_sql_hostvar_obsolete.html')" class="blue">obsolete</a>. The escape character <span class="qtext">@</span> must be specified in the
+<a href="javascript:call_link('abenopensql_strict_modes.html')" class="blue">strict modes</a> of the syntax check from Release 7.40, SP05.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Reads the three business customers with the highest discount rates:
+</P>
+<p class="qtextml1">
+<span class="qtext">
+SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scustom <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE custtype = 'B' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY discount DESCENDING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO 3 ROWS. <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... OFFSET o</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">OFFSET</span> is used to return only the rows after the row with the
+count <span class="qtext">o</span> from the results set. If <span class="qtext">OFFSET</span> is specified,
+the results set must be sorted using <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>. <span class="qtext">o</span> expects a
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a>, a
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expression</a>, or a
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literal</a> of the type <span class="qtext">b</span>,
+<span class="qtext">s</span>, <span class="qtext">i</span>, or <span class="qtext">int8</span>, which
+can represent all non-negative numbers in the value range of <span class="qtext">i</span> except its maximum value +2,147,483,647. A literal or constant specified for <span class="qtext">n</span> cannot have the value 0.
+</P>
+<ul class="disc">
+<li>
+If <span class="qtext">o</span> contains the value 0, all rows from the first row are respected.
+<br><br></li>
+<li>
+If <span class="qtext">o</span> contains a positive number, only the rows after the row indicated by <span class="qtext">o</span> are respected.
+<br><br></li>
+<li>
+If <span class="qtext">o</span> contains a negative number or +2,147,483,647, a syntax error is produced or a non-handleable exception is raised.
+<br></li>
+</ul>
+<P>
+The addition <span class="qtext">OFFSET</span> cannot be used together with the additions <a href="javascript:call_link('abapselect_single.html')" class="blue">
+<span class="qtext">SINGLE</span></a> and <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR
+ALL ENTRIES</span></a>, and not when <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION</span></a> is used , and not when
+<a href="javascript:call_link('abenprojection_view_glosry.html')" class="grey" title="Glossary Entry">projection views</a> are accessed . <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+It only makes sense to specify the addition <span class="qtext">OFFSET</span> if the order of the rows
+in the results set is undefined. Therefore, <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> should be specified as well, followed by appropriate columns.
+<br><br></li>
+<li>
+When the addition <span class="qtext">OFFSET</span> is used, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_751.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Reads the data of all flights of a connection (except for the ten flights with the fewest seats taken).
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT fldate <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' AND connid = '400' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY seatsocc ASCENDING, fldate <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OFFSET 10.
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenselect_up_to_offset_abexa.html')" class="blue">Restricting the Results Set</a> <br><br>
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenselect_up_to_offset_abexa.html')" class="blue">SELECT, Restriction of the Rows in the Results Set</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapselect_up_to_offset.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:57 GMT -->
+</html>

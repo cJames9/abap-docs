@@ -1,0 +1,198 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPSUM -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapsum.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:59 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SUM">
+<meta name="keywords" content="ABAP, SUM">
+<title>
+SUM - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapsum.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapsum.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue">LOOP AT itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab.html')" class="blue">LOOP AT itab - Basic Form</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapat_itab.html')" class="blue">AT - Group Level Processing</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@SUM@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+SUM <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapsum_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">SUM.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The statement <span class="qtext">SUM</span> can only be specified within a loop starting with <a href="javascript:call_link('abaploop_at_itab.html')" class="blue">
+<span class="qtext">LOOP</span></a>, and is only respected within a <a href="javascript:call_link('abapat_itab.html')" class="blue"><span class="qtext">
+AT</span>-<span class="qtext">ENDAT</span></a> control structure. Prerequisites for using the statement
+<span class="qtext">SUM</span> include using the addition <span class="qtext">INTO</span> in the <span class="qtext">LOOP</span> statement, and that the specified work area <span class="qtext">wa</span> is
+<a href="javascript:call_link('abencompatible_glosry.html')" class="grey" title="Glossary Entry">compatible</a> with the row
+type of the internal table. In addition, <span class="qtext">SUM</span> cannot be used when the row type of the internal table <span class="qtext">itab</span> contains components that are tables.
+</P>
+<ul class="disc">
+<li>
+In a group level <span class="qtext">AT NEW compi</span> and <span class="qtext">AT END OF compi</span>, <span class="qtext">SUM</span> calculates the sums of the
+<a href="javascript:call_link('abennumeric_data_type_glosry.html')" class="grey" title="Glossary Entry">numeric</a> components
+to the right of the current group key for all rows of the current group level and assigns these to the
+corresponding components of the work area <span class="qtext">wa</span>. In an elementary row type,
+there are no components to the right of the current group key and the work area <span class="qtext">wa</span> remains unchanged.
+<br><br></li>
+<li>
+In the group levels <span class="qtext">FIRST</span>, <span class="qtext">LAST</span>, and outside an
+<span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure, for a structured row
+type the sum of all numeric components of all rows of the internal table is calculated and assigned
+to the corresponding components of the work area <span class="qtext">wa</span>. For an elementary numeric
+row type, <span class="qtext">SUM</span> sums the row values and assigns the sum to <span class="qtext">wa</span>.
+For non-numeric elementary row types, <span class="qtext">SUM</span> has no effect and the work area <span class="qtext">wa</span> keeps its current value.
+<br></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+When the <span class="qtext">AT</span> control structure is exited, the content of the current table row is reassigned to the work area <span class="qtext">wa</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calculates a sum with <span class="qtext">SUM</span> at <span class="qtext">AT END OF</span>. The rows of the respective current group level are evaluated.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF wa, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE i, <br>
+&nbsp;&nbsp;END OF wa, <br>&nbsp;&nbsp;itab LIKE TABLE OF wa WITH EMPTY KEY. <br> <br>itab = VALUE #( FOR i = 1 UNTIL i > 5 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR j = 1 UNTIL j > i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = i col2 = j ) ). <br>
+ <br>LOOP AT itab INTO wa. <br>&nbsp;&nbsp;AT END OF col1. <br>&nbsp;&nbsp;&nbsp;&nbsp;SUM. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( wa ). <br>
+&nbsp;&nbsp;ENDAT. <br>ENDLOOP. <br>cl_demo_output=>display( wa ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calculates a sum with <span class="qtext">SUM</span> at <span class="qtext">AT LAST</span>. All rows of the internal table are evaluated.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF wa, <br>&nbsp;&nbsp;&nbsp;&nbsp;col TYPE i, <br>&nbsp;&nbsp;END OF wa, <br>
+&nbsp;&nbsp;itab LIKE TABLE OF wa WITH EMPTY KEY. <br> <br>itab = VALUE #( FOR i = 1 UNTIL i > 10 ( col = i ) ). <br>
+ <br>LOOP AT itab INTO wa. <br>&nbsp;&nbsp;AT LAST. <br>&nbsp;&nbsp;&nbsp;&nbsp;SUM. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( wa ). <br>&nbsp;&nbsp;ENDAT. <br>ENDLOOP. <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenint_table_sum_abexa.html')" class="blue">Group Level Processing with Totals</a> <br><br>
+</P>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_ARITHMETIC_OVERFLOW</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Overflow when calculating totals <br><span class="italic">Runtime error:</span> <span class="qtext">ADDF_INT_OVERFLOW</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> Value too large when calculating totals in internal table, field too small <br><span class="italic">Runtime error:</span> <span class="qtext">SUM_OVERFLOW</span> <br><br>
+<br></li>
+</ul>
+<P>
+<span class="bold">Non-Handleable Exceptions</span> <br><br>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The statement <span class="qtext">SUM</span> was used outside a <span class="qtext">LOOP</span> processing of an internal table. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">SUM_NO_INTERNAL_TABLE</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The statement <span class="qtext">SUM</span> was used within a <span class="qtext">LOOP</span> processing belonging to another ABAP program. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">SUM_ON_FOREIGN_INTERNAL_TABLE</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The statement <span class="qtext">SUM</span> was used within a loop starting with <span class="qtext">LOOP ... ASSIGNING</span>. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">SUM_NO_ASSIGNING</span> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapsum.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:59 GMT -->
+</html>

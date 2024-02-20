@@ -1,0 +1,245 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOSQL_EXPR_LOGEXP -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenosql_expr_logexp.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sql_cond - rel_exp for Expressions">
+<title>
+sql_cond - rel_exp for Expressions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenosql_expr_logexp.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenosql_expr_logexp.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenasql_cond.html')" class="blue">ABAP SQL - SQL Conditions sql_cond</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@NOT@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@AND@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@OR@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@BETWEEN@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@NOT LIKE@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@LIKE@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@NOT BETWEEN@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@IS NULL@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@IS NOT NULL@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@=@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@&lt;&gt;@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@<@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@>@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@<=@@!ABAP_OSQL_EXP_COND!@@"></A>
+<A NAME="@@>=@@!ABAP_OSQL_EXP_COND!@@"></A>
+<p><span class="h1">
+sql_cond - rel_exp for Expressions
+</span></p>
+<A name="@@ITOC@@ABENOSQL_EXPR_LOGEXP_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+ <span class="qtext">... <i class=bn>{</i> <i class=bn>{</i>operand1 <i class=bn>{</i>=<i class=bn>|</i>EQ<i
+class=bn>|</i>&lt;><i class=bn>|</i>NE<i class=bn>|</i>><i class=bn>|</i>GT<i class=bn>|</i>&lt;<i class=bn>|</i>LT<i
+class=bn>|</i>>=<i class=bn>|</i>GE<i class=bn>|</i>&lt;=<i class=bn>|</i>LE<i class=bn>}</i> operand2 <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i>operand&nbsp;&nbsp;<i class=bn>[</i>NOT<i class=bn>]</i> BETWEEN operand1 AND operand2<i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i>operand1 <i class=bn>[</i>NOT<i class=bn>]</i> LIKE operand2 <i class=bn>[</i>ESCAPE esc<i class=bn>]</i><i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i>operand&nbsp;&nbsp;IS <i class=bn>[</i>NOT<i class=bn>]</i> NULL<i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i>operand&nbsp;&nbsp;IS <i class=bn>[</i>NOT<i class=bn>]</i> INITIAL<i class=bn>}</i> <i class=bn>}</i> ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Relational expression in a condition of an expression in an ABAP SQL statement. Logical expressions
+<span class="qtext">sql_cond</span> can be formed from the relational expressions shown here for the following conditions:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abapwith_associations_defining.html')" class="blue"><span class="qtext">ON</span> condition</a> in the definition of a
+<a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">CTE association</a>.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenopen_sql_path_filter.html')" class="blue">Filter condition</a> of a <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expression</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensql_searched_case.html')" class="blue"><span class="qtext">WHEN</span> condition</a> of a complex <a href="javascript:call_link('abensql_case.html')" class="blue">case distinction</a></li>
+</ul>
+<ul class="disc">
+<li>Start condition of the table function <a href="javascript:call_link('abenselect_hierarchy_generator.html')" class="blue"><span class="qtext">HIERARCHY</span></a>.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenselect_hierarchy_agg_navis.html')" class="blue"><span class="qtext">WHERE</span></a>,
+<a href="javascript:call_link('abenselect_hierarchy_desc_agg.html')" class="blue"><span class="qtext">ON</span></a>,
+and <a href="javascript:call_link('abenselect_hierarchy_ancs_agg.html')" class="blue"><span class="qtext">START WHERE</span></a> condition in a
+<a href="javascript:call_link('abenhierarchy_agg_navi_glosry.html')" class="grey" title="Glossary Entry">hierarchy aggregate navigator</a>.</li>
+</ul>
+<p>
+The relational expressions that can be used in expressions are a subset of the
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">relational expressions for statements</a>, but also allow <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> as operands on the right side.
+</p>
+<ul class="disc">
+<li><span class="qtext">operand1 =<i class=bn>|</i>&lt;><i class=bn>|</i>><i class=bn>|</i>&lt;<i class=bn>|</i>>=<i class=bn>|</i>&lt;= operand2</span></li>
+</ul>
+<dl><dd>
+Compares the operand <span class="qtext">operand1</span> on the left side with the operand <span class="qtext">operand2</span> on the right side.  The same applies to relational operators as in a
+<a href="javascript:call_link('abenwhere_logexp_compare.html')" class="blue">condition for statements</a>. The operands of size comparisons can have the following data types here:
+</dd></dl>
+<ul class="circlem2">
+<li>Numeric data types: All except the <a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">replacement types for decimal floating point numbers</a></li>
+</ul>
+<ul class="circlem2">
+<li>Character-like data types: CHAR, CLNT, LANG, CUKY, UNIT, and NUMC</li>
+</ul>
+<ul class="circlem2">
+<li>Date types, time types, and time stamp types: DATN, DATS, TIMN, TIMS, and UTCLONG</li>
+</ul>
+<dl><dd>
+The operand <span class="qtext">operand2</span> on the right-hand side can be any
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expression</a> except
+<a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a> and
+<a href="javascript:call_link('abapselect_over.html')" class="blue">window expressions</a>. If an operand of the comparison has the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>, the result of this comparison is unknown.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">operand <i class=bn>[</i>NOT<i class=bn>]</i> BETWEEN operand1 AND operand2</span></li>
+</ul>
+<dl><dd>
+Checks the assignment to an interval. The relational expression functions in the same way as the corresponding
+<a href="javascript:call_link('abenwhere_logexp_interval.html')" class="blue">condition for statements</a>. The addition <span class="qtext">
+NOT</span> is not possible. The operands can have the same data types as for size comparisons. For <span class="qtext">operand1</span> and <span class="qtext">operand2</span>, any
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> except
+<a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a> and
+<a href="javascript:call_link('abapselect_over.html')" class="blue">window expressions</a> can be specified. If one of the operands has the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>, the result of the check is unknown.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">operand1 <i class=bn>[</i>NOT<i class=bn>]</i> LIKE operand2 <i class=bn>[</i>ESCAPE esc<i class=bn>]</i></span></li>
+</ul>
+<dl><dd>
+Pattern comparison. The relational expression functions in the same way as the corresponding
+<a href="javascript:call_link('abenwhere_logexp_like.html')" class="blue">condition for statements</a>. The addition <span class="qtext">NOT</span> is not possible. The same applies to the operands as in the
+<a href="javascript:call_link('abenwhere_logexp_like.html')" class="blue">condition for statements</a>. The operands must be character-like and only
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literals</a> and <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a> can be specified on the right-hand side.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">operand IS <i class=bn>[</i>NOT<i class=bn>]</i> NULL</span></li>
+</ul>
+<dl><dd>
+Checks for the <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>. The relational expression functions in the same way as the corresponding
+<a href="javascript:call_link('abenwhere_logexp_null.html')" class="blue">condition for statements</a>.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">operand IS <i class=bn>[</i>NOT<i class=bn>]</i> INITIAL</span></li>
+</ul>
+<dl><dd>
+Checks for the initial value of the assigned elementary ABAP type. The relational expression functions in the same way as the corresponding
+<a href="javascript:call_link('abenwhere_logexp_initial.html')" class="blue">condition for statements</a>.
+</dd></dl>
+<p>
+The operands on the left-hand side can be any SQL expressions except
+<a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a> and
+<a href="javascript:call_link('abapselect_over.html')" class="blue">window expressions</a>. Any occurring columns and expressions
+(with the exception of <span class="qtext">LIKE</span>) can have any dictionary type except ACCP, DF16_SCL
+(obsolete), DF34_SCL (obsolete), LCHR, LRAW, PREC, RAWSTRING, STRING, and GEOM_EWKB. Individually specified literals, host variables, and host expressions are handled as
+<a href="javascript:call_link('abensql_elem.html')" class="blue">elementary SQL expressions</a> and can be of any ABAP type, except <span class="qtext">string</span> and <span class="qtext">xstring</span>.
+</p>
+<p>
+It must be possible to <a href="javascript:call_link('abenwhere_logexp_compare_types.html')" class="blue">compare</a> the data
+types of the operands of a relational expression. If this is not the case, a statically specified type raises a syntax error and a dynamically specified type raises an exception of the class CX_SY_DYNAMIC_OSQL_SEMANTICS. Unlike in
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">conditions for statements</a>, operands of the types <span class="qtext">DATS</span> and <span class="qtext">TIMS</span> are handled like regular flat character-like operands.
+</p>
+<p>
+If an expression is used for a selection, the <a href="javascript:call_link('abenclient_column_glosry.html')" class="grey" title="Glossary Entry">
+client column</a> of a client-specific data source of a query or the target of a write statement in an SQL condition of this expression cannot be used as an operand. This is due to
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Because an expression is passed to the database essentially unchanged, the possible relational expressions and their operands represent only a subset of the
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">relational expressions for statements</a>. In some constructs,
+however, a <span class="qtext">WHERE</span>, <span class="qtext">HAVING</span>, or <span class="qtext">ON</span>
+condition of a statement is processed by the ABAP runtime environment before the pass, to ensure platform-independent behavior.</li>
+</ul>
+<ul class="disc">
+<li>When specifying <a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literals</a>,
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a>, and
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expressions</a>,
+note that these are used as elementary SQL expressions in expressions and that their ABAP type is mapped to a dictionary type according to the corresponding
+<a href="javascript:call_link('abensql_elem.html')" class="blue">tables</a>. This type must fulfill the
+<a href="javascript:call_link('abenwhere_logexp_compare_types.html')" class="blue">comparability</a> rules. This differs from
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">relational expressions for statements</a>, for which the ABAP type is generally converted to the appropriate dictionary type.</li>
+</ul>
+<ul class="disc">
+<li>The addition <span class="qtext">NOT</span> cannot currently be specified in front of <span class="qtext">BETWEEN</span>
+and <span class="qtext">LIKE</span>. Instead, the operator <a href="javascript:call_link('abenwhere_logexp_andornot.html')" class="blue"><span class="qtext">NOT</span></a> can be used in front of the full expression.</li>
+</ul>
+<ul class="disc">
+<li>A client column can be used as an operand only if
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a> is disabled using the addition <span class="qtext">CLIENT SPECIFIED</span> for the
+<a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue">query</a> or the
+<a href="javascript:call_link('abapud_client_obsolete.html')" class="blue">write</a>. This is not possible for <a href="javascript:call_link('abenopen_sql_path_filter.html')" class="blue">filter conditions</a>. s</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenosql_expr_logexp.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:30 GMT -->
+</html>

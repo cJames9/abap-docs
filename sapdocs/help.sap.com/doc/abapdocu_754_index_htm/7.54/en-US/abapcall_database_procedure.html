@@ -1,0 +1,550 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCALL_DATABASE_PROCEDURE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcall_database_procedure.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CALL DATABASE PROCEDURE">
+<meta name="keywords" content="ABAP, CALL DATABASE PROCEDURE">
+<title>
+CALL DATABASE PROCEDURE - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapcall_database_procedure.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapcall_database_procedure.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_hana.html')" class="blue">ABAP and SAP HANA</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensap_hana_access.html')" class="blue">Access to Objects in SAP HANA XS</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensap_hana_access_xsc.html')" class="blue">Access to SAP HANA XSC Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_script.html')" class="blue">Database Procedure Proxies for SQLScript Procedures in the SAP HANA Repository</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CALL DATABASE PROCEDURE@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+CALL DATABASE PROCEDURE <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapcall_db_procedure_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">CALL DATABASE PROCEDURE <br>&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>{</i>&nbsp;&nbsp;proxy
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>CONNECTION con<i class=bn>|</i>(con_syntax)<i class=bn>]</i>
+&nbsp;<a href="javascript:call_link('abapcall_db_proc_parameters.html')" class="blue">parameter_list</a> <i class=bn>}</i> <br>
+&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> (proxy_name) <i class=bn>[</i>CONNECTION con<i class=bn>|</i>(con_syntax)<i class=bn>]</i> <i class=bn>{</i>
+<a href="javascript:call_link('abapcall_db_proc_parameters.html')" class="blue">parameter_list</a> <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i><a href="javascript:call_link('abapcall_db_proc_parameter_tables.html')" class="blue">parameter_table<i class=bn>}</i></a> <i class=bn>}</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... CONNECTION con<i class=bn>|</i>(con_syntax)</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement calls a <a href="javascript:call_link('abendatabase_procedure_glosry.html')" class="grey" title="Glossary Entry">database procedure</a> written in
+<a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQLScript</a>
+(<a href="javascript:call_link('abensql_script_procedure_glosry.html')" class="grey" title="Glossary Entry">SQLScript procedure</a>) on an
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>.
+</P>
+<ul class="disc">
+<li>
+If the addition <span class="qtext">CONNECTION</span> is not specified, the statement can only be executed in a system on the SAP HANA database.
+<br><br></li>
+<li>
+If the addition <span class="qtext">CONNECTION</span> is specified, the statement can be executed in every system with a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> to an SAP HANA database.
+<br></li>
+</ul>
+<P>
+The SQLScript procedure is specified using a <a href="javascript:call_link('abendatabase_procedure_proxy.html')" class="blue">database procedure proxy</a> defined for it. The proxy can be specified as follows:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">proxy</span>
+<br></li>
+</ul>
+<dl>
+
+<dd>
+Specified directly and statically as <span class="qtext">proxy</span>.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+<span class="qtext">(proxy_name)</span>
+<br></li>
+</ul>
+<dl>
+
+<dd>
+Specified as the uppercase content of a parenthesized character-like data object <span class="qtext">proxy_name</span>. The following can be specified for <span class="qtext">proxy_name</span>:
+</dd>
+</dl>
+<ul class="circlem2">
+<li>Literal or constants <br> <br>If the data object <span class="qtext">proxy_name</span> is specified
+as a character literal or as a constant, it can be evaluated statically and the specified proxy is identified as the used object.</li>
+</ul>
+<ul class="circlem2">
+<li>Variable <br> <br>If the data object <span class="qtext">proxy_name</span> is specified as a variable, it is specified only dynamically and the content is not evaluated statically.</li>
+</ul>
+<dl>
+
+<dd>
+When the statement is executed, <span class="qtext">proxy_name</span> is not evaluated until runtime (in both cases).
+</dd>
+</dl>
+<P>
+The actual parameters for the input and output parameters of the procedure are either specified statically
+using <a href="javascript:call_link('abapcall_db_proc_parameters.html')" class="blue"><span class="qtext">parameter_list</span></a>
+or dynamically using <a href="javascript:call_link('abapcall_db_proc_parameters.html')" class="blue"><span class="qtext">parameter_table</span></a>.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The names of the database procedure proxy and database procedure interface can be chosen at will. Usually, the database procedure interface has the name of the database procedure proxy with the prefix IF_, and any additional
+<a href="javascript:call_link('abenname_space_prefix_glosry.html')" class="grey" title="Glossary Entry">namespace prefix</a>.
+<br><br></li>
+<li>
+The constant CALL_DATABASE_PROCEDURE of the class <a href="javascript:call_link('abencl_abap_dbfeatures.html')" class="blue">CL_ABAP_DBFEATURES</a> can be used to query the current database procedure proxies.
+<br><br></li>
+<li>
+<a href="javascript:call_link('abenamdp.html')" class="blue">ABAP Managed Database Procedures</a> (AMDP) are a recommended alternative to the statement <span class="qtext">CALL DATABASE PROCEDURE</span> if the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard AS ABAP database</a>
+is an SAP HANA database. From AMDP, any database procedures of the standard database can be called. This makes the use of database procedure proxies superfluous as long as a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> is not used to access another SAP HANA database.
+<br><br></li>
+<li>
+No database procedure proxies can be used for SQLScript procedures in
+<a href="javascript:call_link('abenxsa_glosry.html')" class="grey" title="Glossary Entry">SAP HANA XSA</a>. Alternative methods such as
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP</a> or <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a> must be used instead. <br><br>
+<br></li>
+</ul>
+<A NAME="@@CONNECTION@@CALL DATABASE PROCEDURE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... CONNECTION con<i class=bn>|</i>(con_syntax)</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The SQLScript procedure is not executed on the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> but on the specified
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a>
+instead. The database connection can be specified statically with <span class="qtext">con</span> or
+dynamically as the content of <span class="qtext">con_syntax</span>, where the field <span class="qtext">con_syntax</span>
+must belong to the type <span class="qtext">c</span> or <span class="qtext">string</span>. The database
+connection must be specified with a name from the column CON_NAME in the table <span class="lnkgrey">DBCON</span> or that begins with the prefix <span class="qtext400">R/3*</span> and hence represents a
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a> to the standard database.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The specified database procedure proxy for the database procedure of the secondary connection must exist in the current system.
+<br><br></li>
+<li>
+Entries in the database table DBCON can only be created and modified using the <a href="javascript:call_link('abendba_cockpit_glosry.html')" class="grey" title="Glossary Entry">DBA Cockpit</a> tool.
+<br><br></li>
+<li>
+The use of <span class="qtext">CALL DATABASE PROCEDURE</span> with the addition <span class="qtext">CONNECTION</span>
+is recommended in all scenarios in which existing database procedures are used in an SAP HANA database that is not the current standard AS ABAP database (side-by-side scenario). <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+<span class="bold">SQLScript Procedure</span>
+</P>
+<P>
+Take the following SQLScript procedure:
+</P>
+<dl><dd>
+<span class="qtext400">/********* Begin Procedure Script ************/ <br>BEGIN <br>&nbsp;&nbsp;out_items = select items.pos, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items.first_name, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items.last_name, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items.posting_date as date, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items.currency, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items.amount <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from zngd_items as items <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inner join :in_sel as sel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on ( items.first_name = sel.first_name and <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items.last_name&nbsp;&nbsp;= sel.last_name ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; where posting_date = :in_date; <br>END; <br>/********* End Procedure Script ************/</span>
+</dd></dl>
+<P>
+The input parameters are:
+</P>
+<table border>
+<tr>
+<td><span class="bold">Parameter</span></td>
+<td><span class="bold">Database Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">in_sel</span></td>
+<td><span class="qtext400">Table data type</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">in_date</span></td>
+<td><span class="qtext400">Scalar</span></td>
+</tr>
+</table><br>
+<P>
+The components of <span class="qtext400">in_sel</span> are:
+</P>
+<table border>
+<tr>
+<td><span class="bold">Component</span></td>
+<td><span class="bold">Database Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">FIRST_NAME</span></td>
+<td><span class="qtext400">NVARCHAR, length 20</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">LAST_NAME</span></td>
+<td><span class="qtext400">NVARCHAR, length 20</span></td>
+</tr>
+</table><br>
+<P>
+The output parameters are:
+</P>
+<table border>
+<tr>
+<td><span class="bold">Parameter</span></td>
+<td><span class="bold">Database Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">out_items</span></td>
+<td><span class="qtext400">Table data type</span></td>
+</tr>
+</table><br>
+<P>
+The components of <span class="qtext400">out_items</span> are:
+</P>
+<table border>
+<tr>
+<td><span class="bold">Component</span></td>
+<td><span class="bold">Database Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">POS</span></td>
+<td><span class="qtext400">INTEGER</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">FIRST_NAME</span></td>
+<td><span class="qtext400">NVARCHAR, length 20</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">LAST_NAME</span></td>
+<td><span class="qtext400">NVARCHAR, length 20</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DATE</span></td>
+<td><span class="qtext400">INTEGER</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">CURRENCY</span></td>
+<td><span class="qtext400">NVARCHAR, length 4</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">AMOUNT</span></td>
+<td><span class="qtext400">DECIMALS, length 11, scale 2</span></td>
+</tr>
+</table><br>
+<P>
+<span class="bold">Database Procedure Proxy</span>
+</P>
+<P>
+The following mapping is defined in the associated database procedure proxy ..._PROXY:
+</P>
+<table border>
+<tr>
+<td><span class="bold">Procedure Parameter</span></td>
+<td><span class="bold">ABAP Name</span></td>
+<td><span class="bold">ABAP Data Type</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">IN_SEL</span></td>
+<td><span class="qtext400">IN_SEL</span></td>
+<td>Internal table</td>
+</tr>
+<tr>
+<td><span class="qtext400">IN_SEL</span>, <span class="qtext400">FIRST_NAME</span></td>
+<td><span class="qtext400">IN_SEL</span>, <span class="qtext400">FIRST_NAME</span></td>
+<td><span class="qtext">c</span>, length 20</td>
+</tr>
+<tr>
+<td><span class="qtext400">IN_SEL</span>, <span class="qtext400">LAST_NAME</span></td>
+<td><span class="qtext400">IN_SEL</span>, <span class="qtext400">LAST_NAME</span></td>
+<td><span class="qtext">c</span>, length 20</td>
+</tr>
+<tr>
+<td><span class="qtext400">IN_DATE</span></td>
+<td><span class="qtext400">IN_DATE</span></td>
+<td><span class="qtext">d</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">POS</span></td>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">POS</span></td>
+<td><span class="qtext">i</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">FIRST_NAME</span></td>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">FIRST_NAME</span></td>
+<td><span class="qtext">c</span>, length 20</td>
+</tr>
+<tr>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">LAST_NAME</span></td>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">LAST_NAME</span></td>
+<td><span class="qtext">c</span>, length 20</td>
+</tr>
+<tr>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">DATA</span></td>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">POSTING_DATE</span></td>
+<td><span class="qtext">d</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">CURRENCY</span></td>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">CURRENCY</span></td>
+<td><span class="qtext">c</span>, length 4</td>
+</tr>
+<tr>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">AMOUNT</span></td>
+<td><span class="qtext400">OUT_ITEMS</span>, <span class="qtext400">AMOUNT</span></td>
+<td><span class="qtext">p</span>, length 6, 2 decimal places</td>
+</tr>
+</table><br>
+<P>
+Note the name and type changes in the date fields.
+</P>
+<P>
+<span class="bold">Database Procedure Interface</span>
+</P>
+<P>
+The database procedure interface IF_..._PROXY is generated with the following type declarations:
+</P>
+<dl><dd>
+<span class="qtext">INTERFACE if_..._proxy PUBLIC. <br>&nbsp;&nbsp;TYPES: BEGIN OF in_sel, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first_name&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 20, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 20, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF in_sel. <br>&nbsp;&nbsp;TYPES: in_date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE d. <br>
+&nbsp;&nbsp;TYPES: BEGIN OF out_items, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos&nbsp;&nbsp;TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first_name&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 20, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 20, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; posting_date&nbsp;&nbsp; TYPE d, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; currency&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 4, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE p LENGTH 6 DECIMALS 2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF out_items. <br>ENDINTERFACE.</span>
+</dd></dl>
+<P>
+<span class="bold">Database Procedure Call</span>
+</P>
+<P>
+The following ABAP program section calls the SQLScript procedure using the name of the database procedure proxy; actual parameters typed using the database procedure interface are used.
+</P>
+<dl><dd>
+<span class="qtext">DATA: <br>&nbsp;&nbsp;in_date&nbsp;&nbsp; TYPE if_..._proxy=>in_date, <br>&nbsp;&nbsp;in_sel&nbsp;&nbsp;&nbsp;&nbsp;TYPE STANDARD TABLE <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OF if_..._proxy=>in_sel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH EMPTY KEY, <br>
+&nbsp;&nbsp;out_items TYPE STANDARD TABLE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OF if_..._proxy=>out_items <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH EMPTY KEY. <br>
+ <br>in_date = '20120329'. <br>in_sel = VALUE #( ( first_name = 'Dolores'&nbsp;&nbsp;&nbsp;&nbsp;last_name = 'Oh' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( first_name = 'Benjacomin' last_name = 'Bozart' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( first_name = 'Johanna'&nbsp;&nbsp;&nbsp;&nbsp;last_name = 'Gnade'&nbsp;&nbsp; ) ). <br>
+ <br>IF cl_abap_dbfeatures=>use_features( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requested_features = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE #( ( cl_abap_dbfeatures=>call_database_procedure ) ) ). <br>
+&nbsp;&nbsp;CALL DATABASE PROCEDURE ..._proxy <br>&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING in_date&nbsp;&nbsp; = in_date <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in_sel&nbsp;&nbsp;&nbsp;&nbsp;= in_sel <br>&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING out_items = out_items. <br>ENDIF.</span> <br><br>
+</dd></dl>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+The example <a href="javascript:call_link('abencall_db_procedure_abexa.html')" class="blue">Database Procedure Call</a> uses a database procedure proxy created in the program to call a SQLScript procedure created using
+<a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>. <br><br>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+Except for CX_SY_DB_PROCEDURE_SQL_ERROR, all the following exception classes are subclasses of the abstract superclass <span class="lnkgrey">CX_SY_DB_PROCEDURE_CALL</span>.
+</P>
+<P>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_SQL_ERROR</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Error on the database when executing an SQLScript function. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_SQL_ERROR</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_CONNECTION</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The specified secondary connection was not found in the database table DBCON. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_CONNECTION</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_NOT_FOUND</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The specified database procedure proxy does not exist. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_PROXY_NOT_FOUND</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_NOT_SUPP</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The database does not support SQLScript. <br><span class="italic">Runtime error:</span> <span class="qtext">CALL_DATABASE_NOT_SUPPORTED</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_OVERFLOW</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The value range of a parameter was exceeded. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_OVERFLOW</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_PARAMETER</span>
+</P>
+<P>
+<span class="italic">Cause:</span> One of the following exceptions was raised (abstract superclass).
+</P>
+<ul class="disc">
+<li>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_DYN_IN_OUT</span>
+<br></li>
+</ul>
+<dl><dd>
+<span class="italic">Cause:</span> Input and output parameters were switched in the dynamic call. <br><span class="italic">
+Runtime error:</span> <span class="qtext">DBPROC_DYNAMIC_IN_OUT1</span>, <span class="qtext">DBPROC_DYNAMIC_IN_OUT2</span>
+</dd></dl>
+<ul class="disc">
+<li>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_DYN_MISSING</span>
+<br></li>
+</ul>
+<dl><dd>
+<span class="italic">Cause:</span> Actual parameter missing for a formal parameter in a dynamic call. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_DYNAMIC_MISSING</span>
+</dd></dl>
+<ul class="disc">
+<li>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_DYN_NOT_FND</span>
+<br></li>
+</ul>
+<dl><dd>
+<span class="italic">Cause:</span> Formal parameter specified incorrectly in a dynamic call. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_DYNAMIC_NOT_FOUND</span>
+</dd></dl>
+<ul class="disc">
+<li>
+<span class="lnkgrey">CX_SY_DB_PROCEDURE_TYPE_ERROR</span>
+<br></li>
+</ul>
+<dl><dd>
+<span class="italic">Cause:</span> Invalid type of an actual parameter in static or dynamic call. <br><span class="italic">
+Runtime error:</span> <span class="qtext">DBPROC_ILLEGAL_TYPE</span>, <span class="qtext">DBPROC_DYNAMIC_NO_SCALAR</span>, <span class="qtext">DBPROC_DYNAMIC_NO_TABLE</span>
+</dd></dl>
+<P>
+<span class="bold">Non-Handleable Exceptions</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The column KIND of the parameter table <span class="qtext">ptab</span> contains an invalid value. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">DBPROC_DYNAMIC_UNKNOWN_KIND</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The column KIND of the parameter table <span class="qtext">ptab</span>
+contains the value <span class="qtext400">"C"</span> for input/output parameters. This is not yet supported. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_DYNAMIC_NO_INOUT</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The actual parameter associated with an output parameter cannot be modified. <br><span class="italic">Runtime error:</span> <span class="qtext">DBPROC_OUT_NOT_WRITABLE</span>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapcall_db_proc_parameters.html')" class="blue">CALL DATABASE PROCEDURE - parameter_list</a><br>
+<a href="javascript:call_link('abapcall_db_proc_parameter_tables.html')" class="blue">CALL DATABASE PROCEDURE - parameter_table</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencall_db_procedure_abexa.html')" class="blue">SAP HANA, Database Procedure Proxy</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcall_database_procedure.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+</html>

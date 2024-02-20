@@ -1,0 +1,350 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREGEX_SEARCH -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_search.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:24 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Search Patterns">
+<meta name="keywords" content="ABAP, Search String">
+<title>
+Search Patterns - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenregex_search.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenregex_search.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregular_expressions.html')" class="blue">Regular Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregex_syntax.html')" class="blue">Syntax of Regular Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Search Patterns
+</span></p>
+<p>
+One of the principle uses of regular expressions is the search for (and subsequent
+<a href="javascript:call_link('abenregex_replace.html')" class="blue">replacement of</a>) substrings in character strings. In
+general, a user is interested in a specific selection of character strings that match a regular expression.
+In ABAP, searches using regular expressions are implemented using the addition <a href="javascript:call_link('abapfind_pattern.html')" class="blue">
+<span class="qtext">REGEX</span></a> of the statement <a href="javascript:call_link('abapfind.html')" class="blue"><span class="qtext">FIND</span></a> or one of the
+<a href="javascript:call_link('abensearch_function_glosry.html')" class="grey" title="Glossary Entry">search functions</a>. Here, the found substrings are determined with no overlaps in accordance with the leftmost-longest rule.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_1" class="blue">Leftmost-longest rule</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_2" class="blue">Operators for Search Patterns</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_3" class="blue">Start and End of a Line</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_4" class="blue">Start and End of a Character String</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_5" class="blue">Start and End of a Word</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_6" class="blue">Preview Conditions</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SEARCH_7" class="blue">Cut Operator</A></li>
+</ul>
+<A name="@@ITOC@@ABENREGEX_SEARCH_1"></A>
+<p><span class="h2">
+Leftmost-longest rule
+</span></p>
+<p>
+First, the substring furthest to the left in the character string, which matches the regular expression
+(<span class="italic">"leftmost"</span>), is identified. If there are multiple substrings, the longest sequence is chosen
+(<span class="italic">longest</span>). This procedure is then repeated for the remaining sequence after the occurrence.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+For the regular expression <span class="qtext400">d*od*</span>, five substrings are found in <span class="qtext400">doobedoddoo</span>:
+<span class="qtext400">"do"</span> at offset 0, <span class="qtext400">"o"</span> at offset 2, <span class="qtext400">
+"dodd"</span> at offset 5, <span class="qtext400">"o"</span> at offset 9, and <span class="qtext400">"o"</span> at offset 10.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA result_tab TYPE match_result_tab. <br>FIND ALL OCCURRENCES OF regex 'd*od*' IN 'doobedoddoo' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULTS result_tab.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SEARCH_2"></A>
+<p><span class="h2">
+Operators for Search Patterns
+</span></p>
+<p>
+The following operators support searches in character strings. These operators are made up of the special
+characters <span class="qtext400">^</span>, <span class="qtext400">$</span>, <span class="qtext400">\</span>,
+<span class="qtext400">&lt;</span>, <span class="qtext400">></span>, <span class="qtext400">(</span>,
+<span class="qtext400">)</span>, <span class="qtext400">=</span>, and <span class="qtext400">!</span>. The special characters can be made into literal characters using the prefix <span class="qtext400">\</span>.
+</p>
+<A name="@@ITOC@@ABENREGEX_SEARCH_3"></A>
+<p><span class="h3">
+Start and End of a Line
+</span></p>
+<p>
+The operator <span class="qtext400">^</span> works like an anchor character for the offset before the
+first character in a line. The operator <span class="qtext400">$</span> works like an anchor character for the offset after the last character in a line.
+</p>
+<p>
+Character-like data objects have at least a start and end of line, defined as follows:
+</p>
+<ul class="disc">
+<li>In a text field of the type <span class="qtext">c</span> and the other character-like data objects with fixed lengths, a line starts before the first character and ends after the defined length.</li>
+</ul>
+<ul class="disc">
+<li>In a string of the type <span class="qtext">string</span>, a line starts before the first character and ends after its current length.</li>
+</ul>
+<p>
+If a character-like data object contains control characters for a line break or a return, other line starts and line ends are possible:
+</p>
+<ul class="disc">
+<li>A line end is placed before each control character for a line break or a return.</li>
+</ul>
+<ul class="disc">
+<li>A line start is placed behind each control character for a line break or a return.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Within ABAP programs, control characters generally only occur when externally generated data records are imported or if the characters are specified explicitly in
+<a href="javascript:call_link('abenstring_template_glosry.html')" class="grey" title="Glossary Entry">character string templates</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The character string in <span class="qtext">text</span> contains two
+<a href="javascript:call_link('abenstring_templates_separators.html')" class="blue">control characters</a> for line breaks, inserted
+using a character string template. The first search finds three starts of lines with the offsets 0, 6, and 12. The second search finds three ends of lines with the offsets 5, 11, and 17.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA TEXT type STRING. <br>DATA result_tab TYPE match_result_tab. <br> <br>text = |Line1\nLine2\nLine3|. <br>
+ <br>FIND ALL OCCURRENCES OF REGEX '^' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text RESULTS result_tab. <br> <br>FIND ALL OCCURRENCES OF REGEX '$' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text RESULTS result_tab.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SEARCH_4"></A>
+<p><span class="h3">
+Start and End of a Character String
+</span></p>
+<p>
+The operators <span class="qtext400">\A</span> and <span class="qtext400">\z</span> are used as anchor
+characters for the offset in front of the first character in a character string and the offset behind
+the last character of a character string. This means that the operator <span class="qtext400">\A</span>
+always finds the offset 0. In a string of type <span class="qtext">string</span>, <span class="qtext400">\z</span>
+finds the offset behind the last character. In text fields of type <span class="qtext">c</span>, trailing
+blanks are respected, which means that <span class="qtext400">\z</span> always finds the offset behind the defined length.
+</p>
+<p>
+As well as <span class="qtext400">\z</span>, there is another operator <span class="qtext400">\Z</span>
+for the end of a character string. The operator <span class="qtext400">\Z</span> works like <span class="qtext400">\z</span>, except that all line breaks at the end of the character string are ignored.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If a character string does not contain any control characters, the operators <span class="qtext400">^</span>,
+<span class="qtext400">$</span> and <span class="qtext400">\A</span>, <span class="qtext400">\z</span>, <span class="qtext400">\Z</span> behave in the same way.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following search finds <span class="qtext400">"Smile"</span> at the start of the first row and at
+the end of the last row of the internal table <span class="qtext">text_tab</span>.  If the row type
+were <span class="qtext">string</span> instead of <span class="qtext">c</span>, the search would find <span class="qtext400">"Smile"</span> at the end of every row.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text(10) TYPE c. <br>DATA text_tab LIKE TABLE OF text. <br> <br>DATA result_tab TYPE match_result_tab. <br>
+ <br>APPEND '&nbsp;&nbsp;&nbsp;&nbsp; Smile' TO text_tab. <br>APPEND '&nbsp;&nbsp;&nbsp;&nbsp; Smile' TO text_tab. <br>
+APPEND '&nbsp;&nbsp;&nbsp;&nbsp; Smile' TO text_tab. <br>APPEND '&nbsp;&nbsp;&nbsp;&nbsp; Smile' TO text_tab. <br>
+APPEND '&nbsp;&nbsp;&nbsp;&nbsp; Smile' TO text_tab. <br>APPEND '&nbsp;&nbsp;&nbsp;&nbsp; Smile' TO text_tab. <br>
+ <br>FIND ALL OCCURRENCES OF regex '\A(?:Smile)|(?:Smile)\z' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN TABLE text_tab RESULTS result_tab.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following searches illustrate the difference between <span class="qtext400">\z</span> and <span class="qtext400">
+\Z</span>. The first search is not successful because there are line breaks between the text in question and the end of the character string. These are ignored in the second search.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br> <br>text = |... this is the end\n\n\n|. <br> <br>FIND&nbsp;&nbsp;REGEX 'end\z' IN text. <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;cl_demo_output=>write_text( `There's no end.` ). <br>ENDIF. <br>FIND&nbsp;&nbsp;REGEX 'end\Z' IN text. <br>
+IF sy-subrc = 0. <br>&nbsp;&nbsp;cl_demo_output=>write_text( `The end is near the end.` ). <br>ENDIF. <br>cl_demo_output=>display( ).
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SEARCH_5"></A>
+<p><span class="h3">
+Start and End of a Word
+</span></p>
+<p>
+The operator <span class="qtext400">\&lt;</span> matches the beginning and the operator <span class="qtext400">\></span>
+matches the end of a word. The operator <span class="qtext400">\b</span> matches both the beginning and end of a word. Words are defined as uninterrupted strings of alphanumeric characters.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The first search finds the five places where a word starts with <span class="qtext400">"s"</span> or
+<span class="qtext400">"S"</span>. The second search finds both instances of <span class="qtext400">"s"</span> at the end of a word.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br>DATA result_tab TYPE match_result_tab. <br> <br>text = `Sometimes snow seems so soft.`. <br>
+ <br>FIND ALL OCCURRENCES OF regex '\&lt;s' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text IGNORING CASE <br>&nbsp;&nbsp;&nbsp;&nbsp; RESULTS result_tab. <br>
+FIND ALL OCCURRENCES OF regex 's\b' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text IGNORING CASE <br>&nbsp;&nbsp;&nbsp;&nbsp; RESULTS result_tab.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SEARCH_6"></A>
+<p><span class="h3">
+Preview Conditions
+</span></p>
+<p>
+The operator <span class="qtext400">(?=</span>...<span class="qtext400">)</span> defines a regular expression
+<span class="qtext400">s</span> as a subsequent condition for a previous regular expression <span class="qtext400">r</span>.
+The regular expression <span class="qtext400">r(?=s)</span> has the same effect in a search as the regular
+expression <span class="qtext400">r</span>, if the regular expression <span class="qtext400">s</span> matches the substring that immediately follows the substring found with <span class="qtext400">r</span>.
+</p>
+<p>
+The operator <span class="qtext400">(?!</span>...<span class="qtext400">)</span> acts in the same way
+as <span class="qtext400">(?=</span>...<span class="qtext400">)</span>, with the difference that <span class="qtext400">
+r(?!s)</span> matches the substring for <span class="qtext400">r</span> if <span class="qtext400">s</span> does not match the subsequent substring.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The substring found by the preview <span class="qtext400">s</span> is not a part of the match found by <span class="qtext400">r(?=s)</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following search finds the substring <span class="qtext400">"la"</span> at offset 7.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br>DATA result_tab TYPE match_result_tab. <br> <br>text = `Shalalala!`. <br> <br>FIND ALL OCCURRENCES OF REGEX '(?:la)(?=!)' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text RESULTS result_tab.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SEARCH_7"></A>
+<p><span class="h3">
+Cut Operator
+</span></p>
+<p>
+The operator <span class="qtext400">(?></span>...<span class="qtext400">)</span> intervenes in the processing
+of the character string pattern search. The search is usually performed in accordance with the Leftmost-longest
+rule of the POSIX standard. First of all, all the first possible matches are found and then the longest
+match is selected. Backtracking, as it is known, is executed when matching chainings with alternatives.
+The search returns to branching points to establish if another alternative or another iteration of a chaining produces a longer match.
+</p>
+<p>
+The cut operator deactivates backtracking for the subexpression in question. The entire search is terminated
+after the first successful match of the subexpression and the result is returned. The Leftmost-longest rule and the rule requiring as much as possible of the entire expression to match are suspended.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When the cut operator is used, the search behavior of regular expressions which do not follow the POSIX standard is simulated in Perl.</li>
+</ul>
+<ul class="disc">
+<li>The cut operator should only be used by very experienced developers, and only for tasks which cannot be achieved in any other way.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The first search without a cut operator finds <span class="qtext400">"aabbaaaa"</span> at offset 2.
+The second search with a cut operator only finds <span class="qtext400">"aabb"</span>. This corresponds
+to the first alternative. The search for the second alternative, which would be longer in this case,
+is not executed. The third search is not successful. The partial expression <span class="qtext400">a+</span>
+captures all text characters which follow offset 2 (greedy behavior), meaning that no character is left
+for the individual pattern <span class="qtext400">a</span> outside of the cut operator. This last point breaks the usually applicable rule generally requiring the entire regular expression to match.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br>DATA moff TYPE i. <br>DATA mlen TYPE i. <br> <br>text = `xxaabbaaaaxx`. <br> <br>
+FIND REGEX 'a+b+|[ab]+' IN text MATCH OFFSET moff <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MATCH LENGTH mlen. <br>
+IF sy-subrc = 0. <br>&nbsp;&nbsp;cl_demo_output=>write_text( |{ text+moff(mlen) }| ). <br>ENDIF. <br> <br>
+FIND REGEX '(?>a+b+|[ab]+)' IN text MATCH OFFSET moff <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MATCH LENGTH mlen. <br>
+IF sy-subrc = 0. <br>&nbsp;&nbsp;cl_demo_output=>write_text( |{ text+moff(mlen) }| ). <br>ENDIF. <br> <br>
+FIND REGEX '(?>a+|a)a' IN text MATCH OFFSET moff <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MATCH LENGTH mlen. <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;cl_demo_output=>write_text( 'Nothing found' ). <br>ENDIF. <br>cl_demo_output=>display( ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_search.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:24 GMT -->
+</html>

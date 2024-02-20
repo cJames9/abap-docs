@@ -1,0 +1,190 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPATH_EXPR_IN_FROM_CLAUSE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpath_expr_in_from_clause_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Path Expressions, Use in the FROM Clause">
+<title>
+Path Expressions, Use in the FROM Clause - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenpath_expr_in_from_clause_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenpath_expr_in_from_clause_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">ABAP SQL - SQL path expressions sql_path</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Path Expressions, Use in the FROM Clause
+</span></p>
+<p>
+This example demonstrates <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expressions</a> in the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a> in ABAP SQL.
+</p>
+<A name="@@ITOC@@ABENPATH_EXPR_IN_FROM_CLAUSE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_select_from_path.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tz&nbsp;&nbsp;&nbsp;&nbsp; TYPE s_tzone&nbsp;&nbsp;&nbsp;&nbsp;VALUE 'UTC+1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currc&nbsp;&nbsp;TYPE s_currcode VALUE 'EUR',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fltime TYPE s_fltime&nbsp;&nbsp; VALUE 0.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( CHANGING field = tz<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( CHANGING field = currc<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;add_field( CHANGING field = fltime )-&gt;request( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Path expression in Open SQL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT DISTINCT carrname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_assoc_sairport_tz( tz = @( to_upper( tz ) ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\_spfli[ fltime &gt; @fltime ]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\_scarr[ currcode = @( CONV s_currcode(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to_upper( currc ) ) ) ]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_path).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Joins in Open SQL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT DISTINCT scarr~carrname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_assoc_sairport_tz( tz = @( to_upper( tz ) ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS airports<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_cds_assoc_spfli_scarr AS flights<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON&nbsp;&nbsp;flights~airpfrom = airports~id AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flights~fltime &gt; @fltime<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON&nbsp;&nbsp;scarr~carrid&nbsp;&nbsp; = flights~carrid AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scarr~currcode = @( to_upper( currc ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY scarr~carrname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_join).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result_path = result_join.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( result_path ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENPATH_EXPR_IN_FROM_CLAUSE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The first <span class="qtext">SELECT</span> statement accesses the <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> <span class="qtext400">demo_cds_assoc_sairport_tz</span>:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ASCSRTZ' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_assoc_sairport_tz <br>&nbsp;&nbsp;with parameters <br>&nbsp;&nbsp;&nbsp;&nbsp;tz : s_tzone <br>
+&nbsp;&nbsp;as select from sairport <br>&nbsp;&nbsp;association to demo_cds_assoc_spfli_scarr as _spfli on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;sairport.id = _spfli.airpfrom <br>&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;_spfli, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;id <br>&nbsp;&nbsp;} <br>&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;time_zone = :tz</span>
+</dd></dl>
+<p>
+This view publishes its <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS
+association</a> <span class="qtext400">_spfli</span> in its <span class="qtext400">SELECT</span> list.
+The CDS association <span class="qtext400">_spfli</span> uses the view <span class="qtext400">demo_cds_assoc_spfli_scarr</span> as a target data source:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ASCSPSC' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_assoc_spfli_scarr <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;association to scarr as _scarr on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.carrid = _scarr.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_scarr, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airpfrom, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fltime <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<p>
+This view publishes its <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS
+association</a> <span class="qtext400">_scarr</span> in its <span class="qtext400">SELECT</span> list,
+making it possible to specify it in path expressions after <span class="qtext400">_spfli</span>. This CDS association uses a database table as a data source and always closes a path expression.
+</p>
+<p>
+In the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a>, the first
+<span class="qtext">SELECT</span> statement uses a path expression with the CDS associations <span class="qtext400">\_spfli</span>
+and <span class="qtext400">\_scarr</span> after the name of the CDS view. The names of all carriers are read that depart from airports in a specific time zone. The time zone is a
+<a href="javascript:call_link('abencds_f1_func_parameter_list.html')" class="blue">parameter</a> of CDS view <span class="qtext400">demo_cds_assoc_sairport_tz</span>,
+and a value is passed to it. Further restrictions are made on the local currency of the airline in a
+filter condition for the CDS association <span class="qtext400">_scarr</span> and on the flight time in a filter condition for the CDS association <span class="qtext400">_spfli</span>
+</p>
+<p>
+The second <span class="qtext">SELECT</span> statement demonstrates which joins and conditions need to be created in ABAP SQL to achieve the same result. This is guaranteed by an assertion.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpath_expr_in_from_clause_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

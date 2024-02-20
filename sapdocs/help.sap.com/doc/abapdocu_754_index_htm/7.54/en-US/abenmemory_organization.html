@@ -1,0 +1,265 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMEMORY_ORGANIZATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_organization.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Sessions and Memory Areas">
+<meta name="keywords" content="ABAP, ABAP Memory, ABAP Session, Application Server, Internal Session, Shared Memory, User Memory">
+<title>
+Sessions and Memory Areas - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmemory_organization.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmemory_organization.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_oview.html')" class="blue">ABAP - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenorganization_of_modules.html')" class="blue">ABAP Programs in AS ABAP</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Sessions and Memory Areas
+</span></p>
+<p>
+This section describes the <a href="javascript:call_link('abensession_glosry.html')" class="grey" title="Glossary Entry">sessions</a>
+in AS ABAP where ABAP programs are executed and the associated memory areas that can be accessed by
+an ABAP program. For a more general and technically more detailed description, see Documentation <span class="lnkgrey">Memory Management</span> in
+<a href="http://help.sap.com/" target="blank" class="blue">SAP Help Portal</a>.
+</p>
+<p>
+The following figure shows the general organization of sessions for ABAP programs and their memory areas up to the <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> level:
+</p>
+<p>
+
+</p>
+<span class="border1"><img src="abdoc_memory1.gif" width="00508" height="00706" alt="Figure"></span>
+<p>
+
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENMEMORY_ORGANIZATION_1" class="blue">AS Instance</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENMEMORY_ORGANIZATION_2" class="blue">User Session</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENMEMORY_ORGANIZATION_3" class="blue">ABAP Session</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENMEMORY_ORGANIZATION_4" class="blue">Internal Session</A></li>
+</ul>
+<A name="@@ITOC@@ABENMEMORY_ORGANIZATION_1"></A>
+<p><span class="h2">
+AS Instance
+</span></p>
+<p>
+An <a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> can be distributed across multiple
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instances</a>s. If an AS ABAP is implemented using multiple AS Instancess, they are usually exist as separate instances on multiple
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computers</a>, which
+do not have to have the same operating system. It is also possible, however, for multiple AS Instancess of one or more AS ABAPs to exist as instances on the same host computer. AS Instancess communicate with the
+<a href="javascript:call_link('abenpresentation_layer_glosry.html')" class="grey" title="Glossary Entry">presentation layer</a>, the
+<a href="javascript:call_link('abendatabase_layer_glosry.html')" class="grey" title="Glossary Entry">database layer</a>, and with each other using the
+<a href="javascript:call_link('abenmessage_server_glosry.html')" class="grey" title="Glossary Entry">message server</a>. The most important components of an AS Instance are its
+<a href="javascript:call_link('abenwork_process_glosry.html')" class="grey" title="Glossary Entry">work processes</a>, the number and
+<a href="javascript:call_link('abentype_glosry.html')" class="grey" title="Glossary Entry">type</a> of which are determined when the AS ABAP is started. An
+<a href="javascript:call_link('abenabap_program_glosry.html')" class="grey" title="Glossary Entry">ABAP program</a> is executed by a suitable AS Instance work process.
+</p>
+<p>
+The transaction <span class="lnkgrey">SM51</span> shows an overview of the AS Instances of the current
+AS ABAP and which host computers host instances of it. In ABAP programs, the name of the current AS
+Instance can be identified using the method GET_INSTANCE_NAME of the system class <span class="lnkgrey">CL_ABAP_SYST</span>.
+This name has the form <span class="qtext400">hostname_sysid_instnr</span>. Here, <span class="qtext400">hostname</span>
+is the name of the host computer of the AS Instance, <span class="qtext400">sysid</span> is the name
+of the AS ABAP, and <span class="qtext400">instnr</span> is the instance number of the AS Instance. The network name of the host computer that hosts an instance of the current AS Instance can be found in the
+<a href="javascript:call_link('abensystem_field_glosry.html')" class="grey" title="Glossary Entry">system field</a> <span class="qtext">sy-host</span>.
+</p>
+<p>
+Every AS Instance has access to the <a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard database</a> of the AS ABAP. Every AS Instance has its own
+<a href="javascript:call_link('abenshared_memory_glosry.html')" class="grey" title="Glossary Entry">shared memory</a>- The ABAP runtime environment uses the shared memory for programs, program data, and buffers (for example, in
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>). ABAP programs can store
+<a href="javascript:call_link('abenshared_objects_glosry.html')" class="grey" title="Glossary Entry">shared objects</a> and
+<a href="javascript:call_link('abendata_cluster_glosry.html')" class="grey" title="Glossary Entry">data clusters</a> in the shared memory.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The shared memory is frequently used and may therefore become a sparse resource, which can result in bottlenecks when explicitly storing data from ABAP programs.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Gets the name of the current AS Instance.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( cl_abap_syst=>get_instance_name( ) ).
+</span>
+</p>
+<A name="@@ITOC@@ABENMEMORY_ORGANIZATION_2"></A>
+<p><span class="h2">
+User Session
+</span></p>
+<p>
+Logging on to an AS Instance opens a <a href="javascript:call_link('abenuser_session_glosry.html')" class="grey" title="Glossary Entry">user session</a>. Logons take place using
+<a href="javascript:call_link('abensap_gui_glosry.html')" class="grey" title="Glossary Entry">SAP GUI</a>, the
+<a href="javascript:call_link('abenrfc_interface_glosry.html')" class="grey" title="Glossary Entry">RFC interface</a>, or
+<a href="javascript:call_link('abenicf_glosry.html')" class="grey" title="Glossary Entry">ICF</a> (including
+<a href="javascript:call_link('abenapc_glosry.html')" class="grey" title="Glossary Entry">APC</a>). A user session is assigned a standalone memory area, the
+<a href="javascript:call_link('abenuser_memory_glosry.html')" class="grey" title="Glossary Entry">user memory</a>, which can be used as follows in ABAP programs:
+</p>
+<ul class="disc">
+<li>The user memory stores <a href="javascript:call_link('abenspa_gpa_parameter_1_glosry.html')" class="grey" title="Glossary Entry">
+SPA/GPA parameters</a> that can be accessed using the statements <a href="javascript:call_link('abapset_parameter.html')" class="blue"><span class="qtext">
+SET PARAMETER</span></a> and <a href="javascript:call_link('abapget_parameter.html')" class="blue"><span class="qtext">GET PARAMETER</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Memory</a> is a subarea of the user memory in which
+<a href="javascript:call_link('abenabap_daemon_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemons</a> can save context information in <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> format.</li>
+</ul>
+<p>
+The maximum number of user sessions is configured using the profile parameter <span class="lnkgrey">rdisp/tm_max_no</span>.
+The profile parameter <span class="lnkgrey">rdisp/rfc_max_login</span> determines which percentage of the sessions can be opened using the RFC interface.
+</p>
+<p>
+For more information, see <a href="javascript:call_link('abenuser_sessions.html')" class="blue">User Sessions</a>.
+</p>
+<A name="@@ITOC@@ABENMEMORY_ORGANIZATION_3"></A>
+<p><span class="h2">
+ABAP Session
+</span></p>
+<p>
+An <a href="javascript:call_link('abenmain_session_glosry.html')" class="grey" title="Glossary Entry">ABAP session</a> is opened for each user session. Each ABAP session is assigned its own memory area of
+<a href="javascript:call_link('abenabap_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP memory</a>, in which
+<a href="javascript:call_link('abendata_cluster_glosry.html')" class="grey" title="Glossary Entry">data clusters</a> can be stored. The programs of a
+<a href="javascript:call_link('abencall_sequence_glosry.html')" class="grey" title="Glossary Entry">call sequence</a> share access to these clusters and the data is retained for as long as the
+<a href="javascript:call_link('abentop_level_transaction_glosry.html')" class="grey" title="Glossary Entry">top level transaction</a> of the call sequence. The
+<a href="javascript:call_link('abensap_easy_access_glosry.html')" class="grey" title="Glossary Entry">SAP Easy Access</a> program does not function as a top level transaction for the ABAP memory.
+</p>
+<p>
+Further ABAP sessions for a user session can be opened as followed:
+</p>
+<ul class="disc">
+<li>Enter a transaction code after <span class="qtext400">"/o"</span> in the command field in the <a href="javascript:call_link('abensymbol_toolbar_glosry.html')" class="grey" title="Glossary Entry">toolbar</a>.</li>
+</ul>
+<ul class="disc">
+<li>Call the function module <span class="lnkgrey">TH_CREATE_MODE</span>.</li>
+</ul>
+<ul class="disc">
+<li>Call a <a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">dynpro</a> when processing an
+<a href="javascript:call_link('abenasynchronous_rfc_glosry.html')" class="grey" title="Glossary Entry">asynchronous RFC</a>. To do this, the RFC client requires an additional ABAP session for communication with SAP GUI.</li>
+</ul>
+<p>
+A maximum of 16 ABAP sessions are possible per user session. The number of sessions actually possible
+for a system is determined by the profile parameter <span class="lnkgrey">rdisp/max_alt_modes</span>, whose default is 6.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenabap_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP memory</a> can be used to pass data between the programs in a
+<a href="javascript:call_link('abencall_sequence_glosry.html')" class="grey" title="Glossary Entry">call sequence</a>.</li>
+</ul>
+<ul class="disc">
+<li>For logging and analysis, each ABAP session has an
+<a href="javascript:call_link('abenepp.html')" class="blue">Extended Passport (EPP)</a> that contains constant values. These
+values can be passed to communication partners such as further ABAP sessions or external interfaces (modifiable values are set for the connection in question).</li>
+</ul>
+<A name="@@ITOC@@ABENMEMORY_ORGANIZATION_4"></A>
+<p><span class="h2">
+Internal Session
+</span></p>
+<p>
+Each <a href="javascript:call_link('abenabap_program_call.html')" class="blue">call</a> of an ABAP program creates a new <a href="javascript:call_link('abeninternal_session.html')" class="blue">internal session</a>, in which the called program is loaded.
+</p>
+<p>
+An internal session contains a <a href="javascript:call_link('abenroll_area_glosry.html')" class="grey" title="Glossary Entry">session memory</a>, itself divided into the areas
+<a href="javascript:call_link('abenheap_glosry.html')" class="grey" title="Glossary Entry">heap</a> and
+<a href="javascript:call_link('abenstack_glosry.html')" class="grey" title="Glossary Entry">stack</a> (from the perspective of an ABAP program). This is where the modifiable
+<a href="javascript:call_link('abenobject_glosry.html')" class="grey" title="Glossary Entry">objects</a> of the program are held. The non-modifiable program data is stored in the
+<a href="javascript:call_link('abenpxa_glosry.html')" class="grey" title="Glossary Entry">PXA</a>. The session memory contains
+references to the necessary data in the PXA. Technically speaking, the session memory and the global PXA are stored in the shared memory of the AS Instance where they are the responsibility of SAP Memory Management.
+</p>
+<p>
+In one ABAP session, there can be a maximum of nine internal sessions, which always belong to a
+<a href="javascript:call_link('abencall_sequence_glosry.html')" class="grey" title="Glossary Entry">call sequence</a>. Data from the ABAP memory is always assigned to a call sequence.
+</p>
+<p>
+On 64-bit platforms, an internal session can theoretically require up to 4 TB of memory. On 32-bit platforms,
+the theoretical upper limit is 4 GB. The practical upper limit is usually below the theoretical limit, since the actual physically installed main memory is the maximum available and divided up among all users.
+</p>
+<p>
+Further information about the way ABAP programs are organized in an internal session can be found in <a href="javascript:call_link('abeninternal_session.html')" class="blue">Programs in the Internal Session</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The available session memory is defined using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameters</a>
+described under <span class="lnkgrey">Session Memory</span>. It is also possible to define a percentage of the available memory as a limit, over which a
+<a href="javascript:call_link('abenruntime_warning_glosry.html')" class="grey" title="Glossary Entry">runtime warning</a> occurs.</li>
+</ul>
+<ul class="disc">
+<li>Instances of classes, with the exception of <a href="javascript:call_link('abenshared_objects_glosry.html')" class="grey" title="Glossary Entry">
+shared objects</a>, are located in the internal session. It is therefore not possible to store references to objects in the ABAP memory.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_organization.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:11 GMT -->
+</html>

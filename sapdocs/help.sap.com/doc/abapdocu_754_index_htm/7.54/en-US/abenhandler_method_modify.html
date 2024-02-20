@@ -1,0 +1,351 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHANDLER_METHOD_MODIFY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhandler_method_modify.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:49 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FOR MODIFY">
+<title>
+FOR MODIFY - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhandler_method_modify.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhandler_method_modify.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_implementations.html')" class="blue">Behavior Implementations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">Handler Class</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@FOR MODIFY@@!ABAP_REST_BEHAVIOR!@@"></A>
+<A NAME="@@FOR CREATE@@!ABAP_REST_MODIFY!@@"></A>
+<A NAME="@@FOR UPDATE@@!ABAP_REST_MODIFY!@@"></A>
+<A NAME="@@FOR DELETE@@!ABAP_REST_MODIFY!@@"></A>
+<A NAME="@@FOR ACTION@@!ABAP_REST_MODIFY!@@"></A>
+<p><span class="h1">
+FOR MODIFY
+</span></p>
+<A name="@@ITOC@@ABENHANDLER_METHOD_MODIFY_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">METHODS method_name FOR MODIFY <br>&nbsp;&nbsp;<i class=bn>[</i>IMPORTING<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;create_import_parameter FOR CREATE entity_name <br>&nbsp;&nbsp;&nbsp;&nbsp;create_import_parameter FOR CREATE entity_name\association <br>
+&nbsp;&nbsp;&nbsp;&nbsp;update_import_parameter FOR UPDATE entity_name <br>&nbsp;&nbsp;&nbsp;&nbsp;delete_import_parameter FOR DELETE entity_name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;action_import_parameter FOR ACTION entity_name~action <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RESULT action_export_parameter] <br>
+&nbsp;&nbsp; ... <br>&nbsp;&nbsp; <i class=bn>[</i>CHANGING&nbsp;&nbsp;failed&nbsp;&nbsp; TYPE DATA <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mapped&nbsp;&nbsp; TYPE DATA <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported TYPE DATA<i class=bn>]</i>. <br></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The method <span class="qtext400">MODIFY</span> implements the handler that makes changes to the entities
+in the context of the ABAP RESTful programming model. This method is called if the application is processing a change request containing at least one of the change operations
+(<span class="qtext400">CREATE</span>, <span class="qtext400">UPDATE</span>, <span class="qtext400">DELETE</span>, or <span class="qtext400">ACTION</span>) specified in the
+<a href="javascript:call_link('abenbehavior_definition_glosry.html')" class="grey" title="Glossary Entry">behavior definition</a>.
+The command <span class="qtext400">... parameter IS [NOT] INITIAL</span> can be used to determine which operations are actually used.
+</p>
+<p>
+Like the method <a href="javascript:call_link('abenhandler_method_read.html')" class="blue"><span class="qtext400">READ</span></a>,
+the method <span class="qtext400">MODIFY</span> is mass-enabled and bundle-enabled (which means it can
+handle mass requests and can implement multiple operations). Multiple operations in a <span class="qtext400">MODIFY</span> method, however, are not permitted.
+</p>
+<p>
+No rules apply to the order in which individual operations are processed within a <span class="qtext400">MODIFY</span>
+method. The application processes all individual passed operations in an appropriate order, for example <span class="qtext400">create</span> operations before <span class="qtext400">update</span> operations.
+</p>
+<p>
+The method name <span class="qtext400">method_name</span> can be specified freely. Using this generalization, it is possible to accommodate multiple <span class="qtext400">MODIFY</span> methods in a single
+<a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">handler class</a>. For example, each action can be
+defined as a method in the same handler class. This enables the behavior implementation of a business object without introducing a corresponding number of handler classes.
+</p>
+<p>
+<span class="qtext400">entity_name</span> refers to the name of the entity or the <a href="javascript:call_link('abenbdl_alias.html')" class="blue">alias</a>, if one is defined in the behavior definition.
+</p>
+<p>
+<span class="bold">Input Parameters</span>
+</p>
+<p>
+The name of the input parameter (for example, <span class="qtext400">create_import_parameter</span>) can be specified freely.
+</p>
+<p>
+The row type of the input parameters for the corresponding operations contains the following (the associated <a href="javascript:call_link('abencomponents_derived_types.html')" class="blue">parameters</a> are flagged with "x"):
+</p>
+<table border>
+<tr>
+<td>Operation</td>
+<td>ID</td>
+<td><span class="qtext400">%CID</span></td>
+<td><span class="qtext400">%CID_REF</span></td>
+<td><span class="qtext400">%KEY</span></td>
+<td><span class="qtext400">%PID</span></td>
+<td><span class="qtext400">%CONTROL</span></td>
+<td><span class="qtext400">%DATA</span></td>
+<td><span class="qtext400">%PARAM</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">CREATE</span></td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">UPDATE</span></td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">DELETE</span></td>
+<td>x</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">ACTION</span></td>
+<td>x</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Output Parameters</span>
+</p>
+<p>
+The name of the output parameter (for example, <span class="qtext400">create_export_parameter</span>) can be specified freely.
+</p>
+<p>
+For an action with the addition <span class="qtext400">RESULT</span>, a named output parameter must
+be filled. Other operations do not necessarily have visible results. If they do, the results are written implicitly to three return structures
+(<span class="qtext400">failed</span>, <span class="qtext400">mapped</span>, and <span class="qtext400">reported</span>
+for errors, mappings, or messages). They can, however, be declared explicitly as <a href="javascript:call_link('abenchanging_type_data.html')" class="blue">
+<span class="qtext400">CHANGING</span></a> parameters in the method signature using the generic type <span class="qtext400">DATA</span>:
+</p>
+<dl><dd>
+<span class="qtext400">CHANGING failed&nbsp;&nbsp; TYPE DATA <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mapped&nbsp;&nbsp; TYPE DATA <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reported TYPE DATA <br></span>
+</dd></dl>
+<p>
+The parameters <span class="qtext400">failed</span>, <span class="qtext400">mapped</span> and <span class="qtext400">reported</span> don&#x2019;t have fixed data types and are assigned with
+<a href="javascript:call_link('abenrpm_derived_types.html')" class="blue">derived types</a> from the behavior definition instead.
+</p>
+<p><span class="h4">
+Remarks
+</span></p>
+<ul class="disc">
+<li>The old syntax <span class="qtext400">METHODS modify FOR BEHAVIOR ...</span> is also valid but is not recommended.</li>
+</ul>
+<ul class="disc">
+<li>The keyword <span class="qtext400">IMPORTING</span> in the syntax of the method <span class="qtext400">method_name</span> is not mandatory and can be specified in front of the input parameter.</li>
+</ul>
+<ul class="disc">
+<li>The parameters can also be declared explicitly as <span class="qtext400">REFERENCE (...)</span>.</li>
+</ul>
+<ul class="disc">
+<li>A declaration as <span class="qtext400">VALUE (...)</span> is not allowed. This means that the input parameters in a <span class="qtext400">MODIFY</span> method cannot be changed.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following example, the data from the ABAP flight data reference scenario (or flight data scenario
+for short) is used. It represents a legacy business logic that can be used to create and edit flight
+bookings. The root entity <span class="qtext400">Travel</span> represents the business object for managing flight trips. The underlying data model and the behavior of the root entity <span class="qtext400">Travel</span> are described in
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>.
+</p>
+<p>
+The following example shows the definitions and implementations
+</p>
+<ul class="disc">
+<li>of the standard operations <span class="qtext400">create</span>, <span class="qtext400">update</span>,
+and <span class="qtext400">delete</span> (for creating, updating, and deleting instances of the entity <span class="qtext400">Travel</span>) and</li>
+</ul>
+<ul class="disc">
+<li>the application-specific action <span class="qtext400">set_status_booked</span> (for setting the trip status to booked).</li>
+</ul>
+<p>
+In the example, each of the operations and the action are implemented in the methods <span class="qtext400">modify_create</span>,
+<span class="qtext400">modify_update</span>, <span class="qtext400">modify_delete</span>, and <span class="qtext400">
+set_status</span>. The basic structure of the implementation of the methods is similar. For example, the implementation of the method <span class="qtext400">modify_create</span> includes
+</p>
+<ul class="disc">
+<li>a loop for all new instances of the entity <span class="qtext400">Travel</span> to be created,</li>
+</ul>
+<ul class="disc">
+<li>calling the function module of the legacy business logic <span class="qtext400">/DMO/FLIGHT_TRAVEL_CREATE</span> for creating new <span class="qtext400">Travel</span> instances, and</li>
+</ul>
+<ul class="disc">
+<li>message handling for processing instance-specific messages if an error occurs (<span class="qtext400">msgty = 'E'</span> for an error, <span class="qtext400">msgty = 'A'</span> for an abortion).</li>
+</ul>
+<p>
+The second step can generate failed keys (<span class="qtext400">ls_travel_create-%cid</span>) and messages
+(<span class="qtext400">lt_messages</span>). Failed keys are saved in the table <span class="qtext400">failed</span> while all instance-specific messages are saved in the table <span class="qtext400">reported</span>. If successful
+(<span class="qtext400">lt_messages IS INITIAL</span>), the content ID
+(<span class="qtext400">%CID</span>) and the new key <span class="qtext400">travel_id</span> are written to the table <span class="qtext400">mapped</span>.
+</p>
+<p>
+For the sake of readability, the methods for handling the messages are implemented in the separate class <span class="qtext400">zcl_messages</span>. The class <span class="qtext400">zcl_messages</span> is described in
+<a href="javascript:call_link('abenrpm_handling_messages.html')" class="blue">Example - Handling of Messages</a>.
+</p>
+<dl><dd>
+<span class="qtext400">CLASS lcl_travel_handler DEFINITION <br>&nbsp;&nbsp;&nbsp;&nbsp;INHERITING FROM cl_abap_behavior_handler. <br>
+ <br>&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS modify_create FOR MODIFY <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_travel_create&nbsp;&nbsp;&nbsp;&nbsp;FOR CREATE travel. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS modify_update FOR MODIFY <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_travel_update&nbsp;&nbsp;&nbsp;&nbsp;FOR UPDATE travel. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS modify_delete FOR MODIFY <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_travel_delete&nbsp;&nbsp;&nbsp;&nbsp;FOR DELETE travel. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS set_status&nbsp;&nbsp;&nbsp;&nbsp;FOR MODIFY <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_travel_set_status_booked <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR ACTION travel~set_status_booked <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_travel_set_status_booked. <br> <br>ENDCLASS.</span> <br><br>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">CLASS lcl_travel_handler IMPLEMENTATION. <br> <br>&nbsp;&nbsp;METHOD modify_create. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA ls_travel_out TYPE /dmo/travel. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA lt_messages&nbsp;&nbsp; TYPE /dmo/if_flight_legacy=>tt_message. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT it_travel_create INTO DATA(ls_travel_create). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION '/DMO/FLIGHT_TRAVEL_CREATE' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel&nbsp;&nbsp; = CORRESPONDING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/dmo/if_flight_legacy=>ts_travel_in( ls_travel_create ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;es_travel&nbsp;&nbsp; = ls_travel_out <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_messages = lt_messages. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF lt_messages IS NOT INITIAL. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zcl_messages=>handle_messages( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ls_travel_create-%cid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_messages = lt_messages <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed&nbsp;&nbsp; = failed-travel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported = reported-travel ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTINUE. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT VALUE #( %cid&nbsp;&nbsp;&nbsp;&nbsp;= ls_travel_create-%cid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;travel_id = ls_travel_out-travel_id ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE mapped-travel. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>
+&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD modify_update. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA ls_travel_out TYPE /dmo/travel. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA lt_messages&nbsp;&nbsp; TYPE /dmo/if_flight_legacy=>tt_message. <br>&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT it_travel_update INTO DATA(ls_travel_update). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_travel_update-travel_id = COND #( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN ls_travel_update-travel_id IS INITIAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR ls_travel_update-travel_id = '' <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;THEN mapped-travel[ %cid = ls_travel_update-%cid_ref ]-travel_id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE ls_travel_update-travel_id ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(ls_travelx) = zcl_messages=>map_travel_control( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel = ls_travel_update ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION '/DMO/FLIGHT_TRAVEL_UPDATE' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel&nbsp;&nbsp; = CORRESPONDING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/dmo/if_flight_legacy=>ts_travel_in( ls_travel_update ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travelx&nbsp;&nbsp;= ls_travelx <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_messages = lt_messages. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT lt_messages INTO DATA(ls_message) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE msgty = 'E' OR msgty = 'A'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zcl_messages=>handle_messages( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ls_travel_update-%cid_ref <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = ls_travel_update-travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_messages&nbsp;&nbsp;= lt_messages <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed&nbsp;&nbsp; = failed-travel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported = reported-travel ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDMETHOD. <br>
+ <br>&nbsp;&nbsp;METHOD modify_delete. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA: lt_messages&nbsp;&nbsp; TYPE /dmo/if_flight_legacy=>tt_message, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_travel_out TYPE /dmo/travel. <br>&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT it_travel_delete INTO DATA(ls_travel_delete). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_travel_delete-travel_id = COND #( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN ls_travel_delete-travel_id IS INITIAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR ls_travel_delete-travel_id = '' <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;THEN mapped-travel[ %cid = ls_travel_delete-%cid_ref ]-travel_id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE ls_travel_delete-travel_id ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION '/DMO/FLIGHT_TRAVEL_DELETE' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = ls_travel_delete-travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_messages&nbsp;&nbsp;= lt_messages. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zcl_messages=>handle_messages( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ls_travel_delete-%cid_ref <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = ls_travel_delete-travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_messages&nbsp;&nbsp;= lt_messages <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = failed-travel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported&nbsp;&nbsp;&nbsp;&nbsp; = reported-travel ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD set_status. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA lt_messages TYPE /dmo/if_flight_legacy=>tt_message. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLEAR et_travel_set_status_booked. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT it_travel_set_status_booked <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGNING FIELD-SYMBOL(&lt;fs_travel_set_status_booked>). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(lv_travel_id) = <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;fs_travel_set_status_booked>-travel_id. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF lv_travel_id IS INITIAL OR lv_travel_id = ''. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_travel_id = mapped-travel[ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%cid = &lt;fs_travel_set_status_booked>-%cid_ref <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]-travel_id. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION '/DMO/FLIGHT_TRAVEL_SET_BOOKING' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = lv_travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_messages&nbsp;&nbsp;= lt_messages. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zcl_messages=>handle_messages( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &lt;fs_travel_set_status_booked>-%cid_ref <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = lv_travel_id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_messages&nbsp;&nbsp;= lt_messages <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = failed-travel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported&nbsp;&nbsp;&nbsp;&nbsp; = reported-travel ). <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhandler_method_modify.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:49 GMT -->
+</html>

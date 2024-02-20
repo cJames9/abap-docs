@@ -1,0 +1,130 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENASSIGNEMNT_DIFF_TYPES_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenassignemnt_diff_types_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Assignments Between Different Types">
+<title>
+Assignments Between Different Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenassignemnt_diff_types_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenassignemnt_diff_types_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenassignment_access_guidl.html')" class="blue">Assignments, Calculations, and Other Types of Data Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Assignments Between Different Types
+</span></p>
+<A name="@@ITOC@@ABENASSIGNEMNT_DIFF_TYPES_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+ABAP allows a direct assignment between data objects with different data types. There must be a suitable
+conversion rule and the content of the source field must be a meaningful value for the data type of
+the target field. If a suitable conversion rule is not found or the content of the source field is not suitable, an exception is raised.
+</p>
+<p>
+Such conversions take place not only in direct assignments, but also in many operand positions and in particular in arithmetic calculations, if the specified operand does not have the data type expected at the position.
+</p>
+<A name="@@ITOC@@ABENASSIGNEMNT_DIFF_TYPES_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Avoid conversions</span>
+</p>
+<p>
+Where possible, assignments should be performed between compatible data objects with the same data type.
+</p>
+<A name="@@ITOC@@ABENASSIGNEMNT_DIFF_TYPES_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Type conversions incur additional runtime and may not always have the result intended by the developer.
+ Therefore, conversions should only be performed between data objects with different data types if there is no other choice. In particular, conversions should be avoided where the
+<a href="javascript:call_link('abenuse_conversion_rules_guidl.html')" class="lnkpurple" title="Guideline">conversion rules</a> produce unexpected results.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows an arithmetic calculation involving two unnecessary conversions. First
+the text field literal '1' has to be converted to the calculation type i, then the result of the calculation has to be converted from type i to data type n. Such conversions produce significant increases in runtime.
+</p>
+<dl><dd>
+<span class="qtext">DATA index TYPE n LENGTH 4. <br>... <br>DO ... TIMES. <br>&nbsp;&nbsp;index = sy-index - '1'. <br>&nbsp;&nbsp;... <br>ENDDO.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows how code can be improved compared to the previous example, so that no conversions are necessary.
+</p>
+<dl><dd>
+<span class="qtext">DATA index TYPE i. <br>... <br>DO ... TIMES. <br>&nbsp;&nbsp;index = sy-index - 1. <br>&nbsp;&nbsp;... <br>ENDDO.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenassignemnt_diff_types_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

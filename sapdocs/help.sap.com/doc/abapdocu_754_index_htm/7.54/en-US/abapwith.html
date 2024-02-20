@@ -1,0 +1,378 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPWITH -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwith.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="WITH">
+<title>
+WITH - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapwith.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapwith.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@SELECT@@WITH@@"></A>
+<A NAME="@@WITH@@!ABAP_STATEMENT_OSQL!@@"></A>
+<A NAME="@@AS ( SELECT ... )@@WITH@@"></A>
+<p><span class="h1">
+WITH <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapwith_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">WITH <br>&nbsp;&nbsp;+cte1<i class=bn>[</i>( name1, name2, ... )<i class=bn>]</i> AS ( SELECT
+<a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery_clauses</a> <i class=bn>[</i><a href="javascript:call_link('abapunion.html')" class="blue">UNION ...</a><i class=bn>]</i> ), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapwith_hierarchy.html')" class="blue">hierarchy</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapwith_associations.html')" class="blue">associations</a><i class=bn>]</i><i class=bn>[</i>, <br>
+&nbsp;&nbsp;+cte2<i class=bn>[</i>( name1, name2, ... )<i class=bn>]</i> AS ( SELECT
+<a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery_clauses</a> <i class=bn>[</i><a href="javascript:call_link('abapunion.html')" class="blue">UNION ...</a><i class=bn>]</i> ), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapwith_hierarchy.html')" class="blue">hierarchy</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapwith_associations.html')" class="blue">associations</a><i class=bn>]</i>, <br>
+&nbsp;&nbsp;... <i class=bn>]</i> <br>&nbsp;&nbsp;SELECT <a href="javascript:call_link('abapwith_mainquery.html')" class="blue">mainquery_clauses</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i><a href="javascript:call_link('abapunion.html')" class="blue">UNION ...</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:call_link('abapinto_clause.html')" class="blue">INTO<i class=bn>|</i>APPENDING</a> target <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i><a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue">UP TO ...<i class=bn>]</i> <i class=bn>[</i>OFFSET ...<i class=bn>]</i></a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i><a href="javascript:call_link('abapselect_additions.html')" class="blue">abap_options</a><i class=bn>]</i>. <br>
+&nbsp;&nbsp;... <br><i class=bn>[</i>ENDWITH<i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... ( name1, name2, ... )</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> keyword <span class="qtext">WITH</span> introduces the definition of
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expressions</a> (CTE for short) to be used in a final
+<a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">main query</a>. <span class="qtext">WITH</span>
+can be used as a standalone statement (as shown here) or after the statement <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>.
+</P>
+<P>
+Each common table expression creates a tabular results set in a
+<a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subquery</a>, which can be used
+in the subsequent queries of the <span class="qtext">WITH</span> statement as data source <a href="javascript:call_link('abapselect_data_source.html')" class="blue">
+<span class="qtext">data_source</span></a>. The <span class="qtext">WITH</span> statement consists of the following parts:
+</P>
+<ul class="disc">
+<li>
+A comma-separated list with at least one definition of a common table expression
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>Each common table expression has a unique name <span class="qtext">+cte1</span>, <span class="qtext">+cte2</span>,
+... . The names <span class="qtext">cte</span> can have a maximum of 30 characters, and can contain
+letters, numbers, and underscores. They must start with either a letter or an underscore. Also, the
+name must be prefixed with the character <span class="qtext">+</span>. The initial <span class="qtext">+</span> character is part of the name, but cannot stand alone and must not be followed by a number.</li>
+</ul>
+<ul class="circlem2">
+<li>An optional name list (<span class="qtext">( name1, name2, ... )</span>) for the columns of the result set of the common table expression can be specified directly after the name (see below).</li>
+</ul>
+<ul class="circlem2">
+<li>A parenthesized subquery <span class="qtext">SELECT</span> <a href="javascript:call_link('abapwith_subquery.html')" class="blue"><span class="qtext">
+subquery_clauses</span></a> follows the <span class="qtext">AS</span>. This subquery creates the tabular
+results set of the common table expression. The language element <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">
+UNION</span></a> can be used to combine the results sets of multiple subqueries. In this case, special
+rules <a href="javascript:call_link('abapunion_clause.html')" class="blue"><span class="qtext">query_clauses</span></a> apply for specifying clauses.</li>
+</ul>
+<ul class="disc">
+<li>
+A closing main query <span class="qtext">SELECT</span> <a href="javascript:call_link('abapwith_mainquery.html')" class="blue"><span class="qtext">mainquery_clauses</span></a>, which can contain the same
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">clauses and additions</a> (apart from <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue">
+<span class="qtext">FOR ALL ENTRIES</span></a>) as a standalone <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement, and works in the same way:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The results set of the main query is assigned to ABAP data objects according to the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause.</li>
+</ul>
+<ul class="circlem2">
+<li>As described in <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>, a single-
+or multirow results set is created and, depending on the target area specified in the <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO</span></a> clause, a <span class="qtext">SELECT</span> loop is either opened or not.</li>
+</ul>
+<ul class="circlem2">
+<li>A <span class="qtext">SELECT</span> loop must close with the <a href="javascript:call_link('abapendwith.html')" class="blue"><span class="qtext">
+ENDWITH</span></a> statement. <span class="qtext">ENDWITH</span> has exactly the same meaning for <span class="qtext">
+WITH ... SELECT</span> that <a href="javascript:call_link('abapendselect.html')" class="blue"><span class="qtext">ENDSELECT</span></a>
+has for a standalone <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> loop.</li>
+</ul>
+<ul class="circlem2">
+<li>In the main query, each of the previously defined common table expressions <span class="qtext">+cte1</span>,
+<span class="qtext">+cte2</span>, and so on, can be used as the data source <a href="javascript:call_link('abapselect_data_source.html')" class="blue"><span class="qtext">data_source</span></a>.</li>
+</ul>
+<P>
+The language element <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION</span></a> can be
+used to combine the results sets of multiple main queries. In this case, additional rules <a href="javascript:call_link('abapunion_clause.html')" class="blue"><span class="qtext">query_clauses</span></a> apply for specifying clauses.
+</P>
+<P>
+A common table expression defined in the <span class="qtext">WITH</span> statement can be used after
+its definition in the subquery of another common table expression and in the main query as the data
+source <a href="javascript:call_link('abapselect_data_source.html')" class="blue"><span class="qtext">data_source</span></a>.
+It cannot be used in its own subquery or in the subqueries of preceding definitions. A common table expression is only known within the current <span class="qtext">WITH</span> statement.
+</P>
+<P>
+Each common table expression defined in a <span class="qtext">WITH</span> statement must be used at
+least once within the <span class="qtext">WITH</span> statement, either in another common table expression or in the main query.  This means that the main query must access at least one common table expression.
+</P>
+<P>
+The name <span class="qtext">+cte</span> of a common table expression is valid across the full <span class="qtext">
+WITH</span> statement. The character <span class="qtext">+</span> is omitted from the name of the substructure
+only when a substructure is created as a data source for a common table expression in an inline declaration
+with <a href="javascript:call_link('abapselect_into_target.html')" class="blue"><span class="qtext">@DATA(...)</span></a> in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause.
+</P>
+<P>
+The results set of a common table expression never has a
+<a href="javascript:call_link('abenclient_column_glosry.html')" class="grey" title="Glossary Entry">client column</a>. Even if
+the client column of a client-specific data source is added explicitly in the subquery to its <span class="qtext">
+SELECT</span> list, it does not behave as such in the results set. For this reason, a query of the <span class="qtext">
+WITH</span> statement that uses a common table expression as a data source cannot specify the addition
+<a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING</span></a> or the obsolete addition <a
+ href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> .
+</P>
+<P>
+The following additions can be used to publish hierarchies and associations for use in the current <span class="qtext">WITH</span> statement:
+</P>
+<ul class="disc">
+<li>
+The addition <a href="javascript:call_link('abapwith_hierarchy.html')" class="blue"><span class="qtext">hierarchy</span></a> can be used to publish the common table expression as a
+<a href="javascript:call_link('abencte_hierarchy_glosry.html')" class="grey" title="Glossary Entry">CTE hierarchy</a>.
+<br><br></li>
+<li>
+The addition <a href="javascript:call_link('abapwith_associations.html')" class="blue"><span class="qtext">associations</span></a> can be used to do the following:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abapwith_associations_using.html')" class="blue">Publish</a> the
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> of a common table expression when
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> are accessed.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">Define and publish</a> dedicated
+<a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">CTE associations</a>.</li>
+</ul>
+<dl>
+
+<dd>
+The associations can be used in <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expressions</a> of the subsequent queries of the current <span class="qtext">WITH</span> statement.
+</dd>
+</dl>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+A common table expression creates a temporary tabular results set, which can be accessed during execution
+of the <span class="qtext">WITH</span> statement. Common table expressions can therefore be thought of as temporary views, which only exist for the duration of the database access.
+<br><br></li>
+<li>
+Common table expressions can be used whenever subtotals are required in a <span class="qtext">SELECT</span>
+statement. ABAP SQL statements are more readable if common table expressions are used, and a common
+table expression is always useful if subtotals is required more than once. If required, common table expressions can also perform the tasks of
+<a href="javascript:call_link('abenglobal_temporary_table_glosry.html')" class="grey" title="Glossary Entry">GTTs</a>.
+<br><br></li>
+<li>
+Using common table expressions also provides the option of selecting directly from a subquery <span class="qtext">SELECT FROM subquery</span>, which is not possible in ABAP SQL.
+<br><br></li>
+<li>
+The character <span class="qtext">+</span> used as a prefix labels a table expression as a common table
+expression, just like the character <span class="qtext">@</span> for host variables. The character <span class="qtext">
++</span> prevents a common table expression from having the same name as a table from the ABAP Dictionary and hence obscuring it.
+<br><br></li>
+<li>
+For <span class="qtext">WITH</span> loops that are closed with <span class="qtext">ENDWITH</span>, the
+same notes apply as for <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> loops. In particular, <span class="qtext">WITH</span> loops should not be nested.
+<br><br></li>
+<li>
+The addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING</span></a> can be used in the queries of a <span class="qtext">WITH</span> statement, as is usual for client-specific data sources, to switch
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a> there.
+<br><br></li>
+<li>
+In the main query of the <span class="qtext">WITH</span> statement, if <span class="qtext">*</span>
+is specified in the <span class="qtext">SELECT</span> list, this means that there is no unconverted transfer to a work area specified after <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a>.
+<br><br></li>
+<li>
+The <span class="qtext">WITH</span> statement bypasses <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.
+<br><br></li>
+<li>
+If the <span class="qtext">WITH</span> statement is used, syntax buffering is executed in the <a href="javascript:call_link('abenopensql_strict_mode_751.html')" class="blue">strict mode for Release7.51</a>. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The results set of the common table expression <span class="qtext">+cities</span> is a list of all cities
+that are flown from or to by an airline. The common table expression is used in the main query as the data source of the subquery of the <span class="qtext">WHERE</span> condition.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA carrid TYPE spfli-carrid VALUE 'LH'. <br>cl_demo_input=>request( CHANGING field = carrid ). <br> <br>
+WITH <br>&nbsp;&nbsp;+cities AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT cityfrom AS city <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;UNION DISTINCT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT cityto AS city <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @carrid ) <br>&nbsp;&nbsp;SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM sgeocity <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE city IN ( SELECT city <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM +cities ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br>
+ <br>cl_demo_output=>display( result ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abenwith_cte_abexa.html')" class="blue"><span class="qtext">WITH</span>, Common Table Expressions</a>
+<br><br></li>
+<li>
+<a href="javascript:call_link('abenwith_client_handling_abexa.html')" class="blue"><span class="qtext">WITH</span>, Client Handling</a>
+<br><br></li>
+<li>
+<a href="javascript:call_link('abenwith_agg_union_abexa.html')" class="blue"><span class="qtext">WITH</span>, Aggregation for Join Set</a> <br><br>
+<br></li>
+</ul>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... ( name1, name2, ... )</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Defines the column names of a common table expression <span class="qtext">+cte</span>. The specified
+names <span class="qtext">name1</span>, <span class="qtext">name2</span>, ... are assigned to the columns defined in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> of the
+<a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery</a> of the common table expression in the order
+given. The names work like the alias names defined in the <span class="qtext">SELECT</span> list using <span class="qtext">AS</span> and overwrite these names.
+</P>
+<ul class="disc">
+<li>
+If a name list is specified, it must contain a name for each column of the common table expression.
+<br><br></li>
+<li>
+If no name list is specified, the columns of the results list have the names defined in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> of the
+<a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery</a>.
+<br></li>
+</ul>
+<P>
+The opening parenthesis must be directly after the name <span class="qtext">+cte1</span>, <span class="qtext">+cte2</span>,
+and so on. At least one blank must be placed after the opening parenthesis and before the closing parenthesis. There can be blanks in the comma-separated list of names.
+</P>
+<P>
+The names can have a maximum of 30 characters, and can contain letters, numbers, and underscores. They must start with either a letter or an underscore.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+It is possible to specify a name list if all columns with <span class="qtext">*</span> are selected in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> of the
+<a href="javascript:call_link('abapwith_subquery.html')" class="blue">subquery</a>. This can lead to syntax errors if the data source of the subquery is then extended.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The results sets of both common table expressions <span class="qtext">+connections</span> and <span class="qtext">
++sum_seats</span> are merged in the subquery of the common table expression <span class="qtext">+result</span>
+in a join expression. An explicit name list assigns names to the resulting columns. These names are
+used in the main query to sort the results. For each flight connection of the selected airline, the total number of occupied seats is output from the database table SFLIGHT.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA from_id TYPE spfli-carrid VALUE 'AA'. <br>cl_demo_input=>add_field( CHANGING field = from_id ). <br>
+DATA to_id TYPE spfli-carrid VALUE 'UA'. <br>cl_demo_input=>request( CHANGING field = to_id ). <br>from_id = to_upper( from_id ). <br>
+to_id&nbsp;&nbsp; = to_upper( to_id ). <br> <br>WITH <br>&nbsp;&nbsp;+connections AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT spfli~carrid, carrname, connid, cityfrom, cityto <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON scarr~carrid = spfli~carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE spfli~carrid BETWEEN @from_id AND @to_id ), <br>
+&nbsp;&nbsp;+sum_seats AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT carrid, connid, SUM( seatsocc ) AS sum_seats <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid BETWEEN @from_id AND @to_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY carrid, connid ), <br>&nbsp;&nbsp;+result( name, connection, departure, arrival, occupied ) AS ( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT carrname, c~connid, cityfrom, cityto, sum_seats <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM +connections AS c <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN +sum_seats AS s <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON c~carrid = s~carrid AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c~connid = s~connid ) <br>
+&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM +result <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY name, connection <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ). <br><br>
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapwith_subquery.html')" class="blue">WITH subquery_clauses</a><br>
+<a href="javascript:call_link('abapwith_mainquery.html')" class="blue">WITH - mainquery_clauses</a><br>
+<a href="javascript:call_link('abapwith_hierarchy.html')" class="blue">WITH - HIERARCHY</a><br>
+<a href="javascript:call_link('abapwith_associations.html')" class="blue">WITH - ASSOCIATIONS</a><br>
+<a href="javascript:call_link('abapendwith.html')" class="blue">ENDWITH</a><br>
+<a href="javascript:call_link('abenwith_abexas.html')" class="blue">WITH Examples</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwith.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:34 GMT -->
+</html>

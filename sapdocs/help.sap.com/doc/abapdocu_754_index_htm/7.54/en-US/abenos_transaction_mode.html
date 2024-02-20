@@ -1,0 +1,200 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_TRANSACTION_MODE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_transaction_mode.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Transaction Mode">
+<title>
+Transaction Mode - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_transaction_mode.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_transaction_mode.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_transact.html')" class="blue">transaction service</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Transaction Mode
+</span></p>
+<p>
+The transaction service in Object Services is connected to classic transaction processing or is itself
+part of the SAP LUWs, which means a program must be able to determine whether it is working with classic
+or object-oriented transactions. This requires the term "transaction mode" to be introduced, which can be specified once for each program.
+</p>
+<p>
+Each program working with persistent objects has a transaction mode that is defined either explicitly
+or implicitly when the Object Services are initialized. Each program also has a "top level transaction"
+(a transaction object whose reference can be obtained using the method IF_OS_TRANSACTION_MANAGER~GET_TOP_TRANSACTION)
+while it is working with persistent objects. The top level transaction is responsible for updating the
+persistent objects. The transaction mode of the program is also the transaction mode of the top level transaction and can be queried using the method IF_OS_TRANSACTION~GET_MODES in the parameter E_EXTERNAL_COMMIT.
+</p>
+<p>
+There are two transaction modes:
+</p>
+<ul class="disc">
+<li>Compatibility mode</li>
+</ul>
+<dl><dd>
+Compatibility mode (E_EXTERNAL_COMMIT is OSCON_TRUE) makes it possible to use persistent objects within
+classic SAP LUWs. The statement <span class="qtext">COMMIT WORK</span> must be defined explicitly in
+the program to commit changes. Implicit methods of the persistence service are called when a program is executed to commit the changes made to persistent objects.
+</dd></dl>
+<dl><dd>
+When using the persistence service in compatibility mode, the system always implicitly starts one update process, which also deletes any locks in the update task.
+</dd></dl>
+<ul class="disc">
+<li>Object-oriented transaction mode</li>
+</ul>
+<dl><dd>
+The object-oriented transaction mode (E_EXTERNAL_COMMIT is OSCON_FALSE) is used to write new fully object-oriented
+applications without having to worry about the statement <span class="qtext">COMMIT WORK</span>. In
+object-oriented transaction mode, <span class="qtext">COMMIT WORK</span> is triggered when the method
+END is called for a top level transaction. The statement <span class="qtext">COMMIT WORK</span> is not allowed within object-oriented transactions.
+</dd></dl>
+<p>
+The transaction mode can be defined and the top level transaction created as follows:
+</p>
+<ul class="disc">
+<li>If the method CL_OS_SYSTEM=>INIT_AND_SET_MODE was not executed in a program before the first access
+to the persistence service, the service starts it with the default values that set the transaction mode
+to compatibility mode and the update mode to asynchronous. A top level transaction is implicitly created
+and started at this time to handle the persistent objects of the program. All other transactions that
+are started in the program with IF_OS_TRANSACTION~START are subtransactions of the top level transaction
+that is running in compatibility mode. This makes it possible to work in classic ABAP programs with
+persistent objects without having to explicitly worry about the transaction mode. An example can be found under Creating a Persistent Object.</li>
+</ul>
+<ul class="disc">
+<li>If the method CL_OS_SYSTEM=>INIT_AND_SET_MODE is executed before the persistence service is accessed
+in a program for the first time, the transaction mode can be set explicitly to compatibility mode or
+object-oriented mode by passing the values OSCON_TRUE or OSCON_FALSE to the parameter I_EXTERNAL_COMMIT.
+Since the static constructors of the persistence service are usually executed at the beginning of a
+processing block, the event <span class="qtext">LOAD-OF-PROGRAM</span> or the constructor of an application
+class can be used, for example, to call CL_OS_SYSTEM=>INIT_AND_SET_MODE. A program that was not started
+as OO transaction can thus be executed as an object-oriented transaction. In object-oriented transaction
+mode, the first transaction that is started in the program with IF_OS_TRANSACTION~START is a top level transaction, whereas in compatibility mode, the top level transaction is always created implicitly.</li>
+</ul>
+<ul class="disc">
+<li>If the OO transaction model field is selected when an <span class="italic">object-oriented transaction</span>
+is created in ABAP Workbench, the transaction mode of the corresponding program is automatically set
+to object-oriented (CL_OS_SYSTEM=>INIT_AND_SET_MODE is executed implicitly with the relevant parameters)
+when the transaction is called. The first transaction that is started in the program with IF_OS_TRANSACTION~START is a top level transaction.</li>
+</ul>
+<A name="@@ITOC@@ABENOS_TRANSACTION_MODE_1"></A>
+<p><span class="h2">
+Update Modes
+</span></p>
+<p>
+At the end of a top level transaction (using <span class="qtext">COMMIT WORK</span> in compatibility
+mode or the method IF_OS_TRANSACTION~END in object-oriented mode), the transaction service updates the changes to persistent objects in the database. Internal update function modules are started implicitly at this time.
+</p>
+<p>
+The way that the update function modules are executed is specified by the initialization of the Object
+Services using the method CL_OS_SYSTEM=>INIT_AND_SET_MODE or after starting the top level transaction
+(one-off specification) using the method IF_OS_TRANSACTION~SET_MODE_UPDATE. Since CL_OS_SYSTEM=>INIT_AND_SET_MODE
+can only be called once for each program, IF_OS_TRANSACTION~SET_MODE_UPDATE makes it possible to change an update mode that was set implicitly.
+</p>
+<p>
+The input parameter I_UPDATE_MODE with the type OS_DMODE can be used for both methods to set the update mode. Possible values are:
+</p>
+<ul class="disc">
+<li>OSCON_DMODE_DEFAULT, OSCON_DMODE_UPDATE_TASK for asynchronous updates</li>
+</ul>
+<ul class="disc">
+<li>0OSCON_DMODE_UPDATE_TASK_SYNC for synchronous updates</li>
+</ul>
+<ul class="disc">
+<li> OSCON_DMODE_LOCAL for local updates</li>
+</ul>
+<ul class="disc">
+<li>OSCON_DMODE_DIRECT for saving directly</li>
+</ul>
+<p>
+OSCON_DMODE_LOCAL and OSCON_DMODE_UPDATE_TASK_SYNC cannot be specified in compatibility mode, since
+there they can be set by the ABAP statements <span class="qtext">COMMIT WORK AND WAIT</span> and <span class="qtext">SET UPDATE TASK LOCAL</span>.
+</p>
+<p>
+When an object-oriented transaction is created in ABAP Workbench, the initial update mode of the top level transaction is defined through selection of the relevant radio button.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following example assumes that the program is running in object-oriented transaction mode. This
+requires either the transaction to be flagged as an OO transaction in <span class="lnkgrey">transaction
+maintenance</span> (the <span class="italic">OO transaction model</span> must be marked) or the method
+INIT_AND_SET_MODES to be called before a persistent object is accessed (the parameter I_EXTERNAL_COMMIT
+must be set to OSCON_FALSE). Only then does the method END trigger an update. If the above does not
+apply, the program is in compatibility mode, where the statement <span class="qtext">COMMIT WORK</span> must be specified explicitly after a transaction ends.
+</p>
+<dl><dd>
+<span class="qtext">data TM type ref to IF_OS_TRANSACTION_MANAGER.</span> <br><span class="qtext">data T&nbsp;&nbsp;type ref to IF_OS_TRANSACTION.</span> <br>
+<span class="qtext">...</span> <br><span class="qtext">TM = CL_OS_SYSTEM=>GET_TRANSACTION_MANAGER( ).</span> <br>
+<span class="qtext">T&nbsp;&nbsp;= TM->CREATE_TRANSACTION( ).</span> <br><span class="qtext">...</span> <br>
+<span class="qtext">TRY.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;T->START( ).</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... "Change persistent Objects</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;T->END( ).</span> <br>
+<span class="qtext">&nbsp;&nbsp;CATCH CX_OS_ERROR.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;...</span> <br><span class="qtext">ENDTRY.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_transaction_mode.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

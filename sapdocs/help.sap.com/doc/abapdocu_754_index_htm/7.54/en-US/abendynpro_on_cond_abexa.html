@@ -1,0 +1,176 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_ON_COND_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_on_cond_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Conditional Module Calls">
+<title>
+Dynpros, Conditional Module Calls - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_on_cond_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_on_cond_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_dynpro_statements.html')" class="blue">Statements in the Dynpro Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('dynpmodule.html')" class="blue">MODULE</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodule_abexas.html')" class="blue">Module Call - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Conditional Module Calls
+</span></p>
+<p>
+This example demonstrates how to call modules on the basis of conditions.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_ON_COND_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM demo_dynpro_on_condition .<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input1(20) TYPE c, input2(20) TYPE c, input3(20) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fld(20) TYPE c.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE init_screen_100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE cursor INPUT.<br>
+&nbsp;&nbsp;GET CURSOR FIELD fld.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-001 fld.<br>
+ENDMODULE.<br>
+<br>
+MODULE module_1 INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-002.<br>
+ENDMODULE.<br>
+<br>
+MODULE module_2 INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-003.<br>
+ENDMODULE.<br>
+<br>
+MODULE module_* INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-004 input3.<br>
+ENDMODULE.<br>
+<br>
+MODULE c1 INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-005 '1'.<br>
+ENDMODULE.<br>
+<br>
+MODULE c2 INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-005 '2' text-006 '3'.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_ON_COND_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. The input fields are assigned the dynpro fields
+<span class="qtext">input1</span>, <span class="qtext">input2</span>, and <span class="qtext">input3</span>. The function code of the pushbutton is EXECUTE. In the GUI status STATUS_100, the symbol <span class="italic">Cancel</span>
+(<span class="qtext500">F12</span>) is activated by the function code CANCEL with the function type
+<span class="qtext400">E</span>. Also, the <span class="qtext500">F2</span> function key is assigned
+the CS function code with the function type S, and the <span class="qtext500">F8</span> function key is assigned the EXECUTE function code without any specific function type. The screen flow logic is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE init_screen_100. <br>PROCESS AFTER INPUT. <br>
+&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;CHAIN. <br>&nbsp;&nbsp;&nbsp;&nbsp;FIELD: input1, input2. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MODULE module_1 ON CHAIN-INPUT. <br>&nbsp;&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;input3 MODULE module_* ON *-INPUT. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MODULE module_2 ON CHAIN-REQUEST. <br>&nbsp;&nbsp;ENDCHAIN. <br>&nbsp;&nbsp;FIELD input1 MODULE c1 AT CURSOR-SELECTION. <br>
+&nbsp;&nbsp;CHAIN. <br>&nbsp;&nbsp;&nbsp;&nbsp;FIELD: input2, input3. <br>&nbsp;&nbsp;&nbsp;&nbsp;MODULE c2 AT CURSOR-SELECTION. <br>&nbsp;&nbsp;ENDCHAIN. <br>&nbsp;&nbsp;MODULE cursor AT CURSOR-SELECTION.</span>
+</dd></dl>
+<p>
+The program uses information messages to show which modules are called following user interaction and which data is transported.
+</p>
+<ul class="disc">
+<li>Whenever one of the input fields 1 or 2 is not initial, the system calls the module <span class="qtext">module_1</span> for any user interaction.</li>
+</ul>
+<ul class="disc">
+<li>Whenever one of the three input fields is changed, the system calls the module <span class="qtext">module_2</span> for any user interaction.</li>
+</ul>
+<ul class="disc">
+<li>If the * entry was made in input field 3, each user action calls module <span class="qtext">module_*</span>.</li>
+</ul>
+<ul class="disc">
+<li>If the <span class="qtext500">F2</span> function is chosen or if a text field of the dynpro is double-clicked, module <span class="qtext">cursor</span> is called.</li>
+</ul>
+<ul class="disc">
+<li>If the <span class="qtext500">F2</span> function is chosen or if the input field 1 is double-clicked, module <span class="qtext">c1</span> is called.</li>
+</ul>
+<ul class="disc">
+<li>If the <span class="qtext500">F2</span> function is chosen or if input field 2 or 3 is double-clicked,
+module <span class="qtext">cursor</span> is called. Module <span class="qtext">c2</span> is never called,
+since the <span class="qtext">MODULE ... AT CURSOR SELECTION</span> statement occurs twice, and only the latter instance is processed.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_on_cond_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

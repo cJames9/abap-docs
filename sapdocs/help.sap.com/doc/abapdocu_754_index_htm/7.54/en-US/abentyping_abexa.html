@@ -1,0 +1,192 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTYPING_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentyping_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Generic Typing and Full Typing">
+<title>
+Generic Typing and Full Typing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentyping_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentyping_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentyping.html')" class="blue">Typing</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Generic Typing and Full Typing
+</span></p>
+<p>
+This example demonstrates how generically and fully typed formal parameters are accessed.
+</p>
+<A name="@@ITOC@@ABENTYPING_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_typing.<br>
+<br>
+CLASS demo_typing DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS start.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF struc1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cola TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; colb TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; colb TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cola TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itab1g TYPE STANDARD TABLE OF struc1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itab2g TYPE STANDARD TABLE OF struc2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itab2c TYPE STANDARD TABLE OF struc2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH NON-UNIQUE DEFAULT KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS sort_itab IMPORTING VALUE(pg) TYPE itab2g<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(pc) TYPE itab2c.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo_typing IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD start.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: tab TYPE itab1g,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa&nbsp;&nbsp;LIKE LINE OF tab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tab = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR j = 1 UNTIL j &gt; 5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( cola = j colb = 6 - j ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sort_itab( pg = tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pc = tab ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD sort_itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT pg BY cola.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( pg ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT pg BY ('COLA').<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( pg ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT pc BY cola.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( pc ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT pc BY ('COLA').<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( pc ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo_typing=&gt;start( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENTYPING_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Three table types are declared in the class <span class="qtext">demo_typing</span>:
+</p>
+<ul class="disc">
+<li><span class="qtext">itab1g</span> has the row type <span class="qtext">struc1</span> with the components
+<span class="qtext">cola</span> and <span class="qtext">colb</span>. It is generic since the primary table key is not specified.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">itab2g</span> has the row type <span class="qtext">struc2</span> with the components
+<span class="qtext">colb</span> and <span class="qtext">cola</span>. It is generic since the primary table key is not specified.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">itab2c</span> has the row type <span class="qtext">struc2</span> with the components
+<span class="qtext">cola</span> and <span class="qtext">colb</span>. It is full since the primary table key is specified.</li>
+</ul>
+<p>
+The method <span class="qtext">sort_itab</span> has two formal parameters:
+</p>
+<ul class="disc">
+<li><span class="qtext">pg</span> is typed generically with <span class="qtext">itab2g</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">pc</span> is typed fully with <span class="qtext">itab2c</span>.</li>
+</ul>
+<p>
+In the method <span class="qtext">start</span>, an internal table <span class="qtext">tab</span> is
+declared with reference to <span class="qtext">itab1g</span>. The key is specified implicitly. This table is filled and passed to the formal parameters of <span class="qtext">sort_itab</span>.
+</p>
+<p>
+In <span class="qtext">sort_itab</span>, both formal parameters are sorted twice. In the first sort,
+the column <span class="qtext">cola</span> is specified statically as a sort criterion and in the second sort it is specified dynamically. The behavior is as follows:
+</p>
+<ul class="disc">
+<li>The first <span class="qtext">SORT</span> statement accesses the generically typed formal parameter
+<span class="qtext">pg</span> statically. In this case, the typing with <span class="qtext">itab2g</span> takes priority, where <span class="qtext">cola</span> is the second column.</li>
+</ul>
+<ul class="disc">
+<li>The second <span class="qtext">SORT</span> statement accesses the generically typed formal parameter
+<span class="qtext">pg</span> dynamically. In this case, the type of the actual parameter <span class="qtext">itab1g</span> takes priority, where <span class="qtext">cola</span> is the first column.</li>
+</ul>
+<ul class="disc">
+<li>The third and fourth <span class="qtext">SORT</span> statements access the fully typed formal parameter
+<span class="qtext">pc</span> dynamically or statically. In these cases, the typing with <span class="qtext">itab2c</span> takes priority, where <span class="qtext">cola</span> is the second column.</li>
+</ul>
+<p>
+If components of generically typed formal parameters are accessed dynamically, a runtime error may occur if the components do not exist in the actual parameter.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentyping_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+</html>

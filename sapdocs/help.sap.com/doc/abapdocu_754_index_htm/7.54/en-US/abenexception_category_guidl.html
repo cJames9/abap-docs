@@ -1,0 +1,158 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXCEPTION_CATEGORY_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_category_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exception Categories">
+<title>
+Exception Categories - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexception_category_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexception_category_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="blue">Error Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exception Categories
+</span></p>
+<A name="@@ITOC@@ABENEXCEPTION_CATEGORY_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Each class-based exception belongs to one of three different exception categories, each of which define
+whether the exceptions need to be declared in procedure interfaces. The assignment of an exception to
+an exception class is realized (technically) using inheritance. All exception classes are subclasses of the following abstract global classes, which themselves inherit from CX_ROOT:
+</p>
+<ul class="disc">
+<li>CX_STATIC_CHECK <br>Exceptions of this category must be declared explicitly in the interface of
+a procedure, if they are to be propagated from this interface. The syntax check makes a static check
+to determine whether all exceptions raised in the procedure with <span class="qtext">RAISE EXCEPTION</span>
+or declared in the interfaces of called procedures are either handled with <span class="qtext">CATCH</span> or explicitly declared in the interface.</li>
+</ul>
+<ul class="disc">
+<li>CX_DYNAMIC_CHECK <br>Exceptions of this category must also be declared explicitly in the interface
+of a procedure to enable them to be propagated. This is not subject to a static syntax check, however, and is checked dynamically at runtime instead.</li>
+</ul>
+<ul class="disc">
+<li>CX_NO_CHECK <br>Exceptions of this category cannot be declared explicitly in the interface of the
+procedure. The class CX_NO_CHECK (and consequently its subclasses) are always declared implicitly and the associated exceptions are always propagated.</li>
+</ul>
+<A name="@@ITOC@@ABENEXCEPTION_CATEGORY_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use a suitable exception category</span>
+</p>
+<p>
+When creating and raising class-based exceptions, always use an exception category suitable for the current error situation:
+</p>
+<ul class="disc">
+<li>CX_STATIC_CHECK for the static protection of the exception handler</li>
+</ul>
+<ul class="disc">
+<li>CX_DYNAMIC_CHECK for error situations that can be prevented by preconditions</li>
+</ul>
+<ul class="disc">
+<li>CX_NO_CHECK for situations that cannot be handled immediately</li>
+</ul>
+<A name="@@ITOC@@ABENEXCEPTION_CATEGORY_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The exception categories are designed for the the following error situations:
+</p>
+<ul class="disc">
+<li>As a rule, exceptions that are raised in a procedure should be handled there or declared in the
+interface for the procedure in order to declare to the caller which exceptions are to be expected. A
+syntax check to verify this is run on exceptions from the CX_STATIC_CHECK category. This category is therefore always warranted if a procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>) is
+to be forced to handle an exception or to at least forward it explicitly. However, if an exception can be prevented by prior checks, exceptions of the CX_DYNAMIC_CHECK category are preferable.</li>
+</ul>
+<ul class="disc">
+<li>If the program logic can eliminate potential error situations, the corresponding exceptions do not
+have to be handled or declared in the interface. This is the case if prior to a division, for example,
+there is an explicit precondition for the denominator not to equal zero. In this case, exceptions from
+the CX_DYNAMIC_CHECK category can and should be used. These exceptions only need to be handled and declared
+if their occurrence cannot be otherwise prevented. In well modeled applications, exceptions are generally
+prevented by incorporating appropriate conditions in program code and CX_DYNAMIC_CHECK category should then be the most frequently used exception category.</li>
+</ul>
+<ul class="disc">
+<li>For exception situations that can occur at any time and that cannot be handled directly, the CX_NO_CHECK
+category can be used. Otherwise, all exceptions that can be raised due to resource bottlenecks would
+have to be caught or declared. These exceptions would then have to be specified in practically every interface, which would result in more complex programs lacking in clarity.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The resumability of a class-based exception is not an attribute of the exception class; it is defined
+instead by the <span class="qtext">RESUMABLE</span> addition of the <span class="qtext">RAISE EXCEPTION</span>
+statement when the exception is raised. This attribute can be lost for exceptions of the categories
+CX_STATIC_CHECK and CX_DYNAMIC_CHECK during propagation, if the exceptions are not also declared there using <span class="qtext">RESUMABLE</span>. CX_NO_CHECK always preserves its resumability implicitly.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_category_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

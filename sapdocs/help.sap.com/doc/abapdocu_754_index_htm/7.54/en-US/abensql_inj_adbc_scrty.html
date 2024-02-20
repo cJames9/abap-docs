@@ -1,0 +1,127 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_INJ_ADBC_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_inj_adbc_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL Injections Using ADBC">
+<title>
+SQL Injections Using ADBC - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_inj_adbc_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_inj_adbc_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_programming_scrty.html')" class="blue">Security Risks Caused by Input from Outside</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_injections_scrty.html')" class="blue">SQL Injections</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL Injections Using ADBC
+</span></p>
+<p>
+When <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a> is used, SQL statements
+are passed as strings to objects of class ADBC and then passed on to the database system. If all of part of one of these SQL statements originates from outside of the program, there is a risk of an SQL injection.
+</p>
+<p>
+To prevent SQL Injections, make sure that SQL statements passed to ADBC contain as few parts as possible
+that originate from outside of the program. If the statements do contain parts from outside the program,
+the contents of these parts should not be chained to the SQL statement. Instead these contents should
+be addressed using the <span class="qtext">?</span> placeholder and the associated SET_PARAM methods.
+If this is not possible, the parts from outside must be checked using the <span class="lnkgrey">CL_ABAP_DYN_PRG</span> class and masked if necessary.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, the key value <span class="qtext">key</span> (entered from outside
+) is chained to the SQL statement. It must therefore be masked using the method QUOTE (which also adds quotation marks at the start and at the end), to prevent SQL injections.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA key TYPE string. <br>cl_demo_input=>request( CHANGING field = key ). <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(result) = NEW cl_sql_statement( )->execute_query( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`SELECT carrname ` &amp;&amp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`FROM scarr ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`WHERE mandt&nbsp;&nbsp;= ` &amp;&amp; `'` &amp;&amp; sy-mandt &amp;&amp; `' AND` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid = ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_dyn_prg=>quote( to_upper( key ) ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA name TYPE scarr-carrname. <br>&nbsp;&nbsp;&nbsp;&nbsp;result->set_param( REF #( name ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;result->next( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( name ). <br>
+&nbsp;&nbsp;CATCH cx_sql_exception INTO DATA(err). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( err->get_text( ) ). <br>ENDTRY.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In this example, the same functionality is used as in the previous example. Here it is not necessary to mask the value, because the input is connected to a parameter (and not chained).
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA key TYPE string. <br>cl_demo_input=>request( CHANGING field = key ). <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(sql) = NEW cl_sql_statement( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;sql->set_param( REF #( sy-mandt ) ). <br>&nbsp;&nbsp;&nbsp;&nbsp;sql->set_param( REF #( key ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(result) = sql->execute_query( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`SELECT carrname ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`FROM scarr ` &amp;&amp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`WHERE mandt&nbsp;&nbsp;= ? AND carrid = ?` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA name TYPE scarr-carrname. <br>&nbsp;&nbsp;&nbsp;&nbsp;result->set_param( REF #( name ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;result->next( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( name ). <br>
+&nbsp;&nbsp;CATCH cx_sql_exception INTO DATA(err). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( err->get_text( ) ). <br>ENDTRY.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_inj_adbc_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

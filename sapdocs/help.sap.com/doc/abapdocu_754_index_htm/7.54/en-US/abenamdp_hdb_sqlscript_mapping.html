@@ -1,0 +1,298 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMDP_HDB_SQLSCRIPT_MAPPING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_hdb_sqlscript_mapping.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP - Mapping of ABAP Types to SQLScript">
+<title>
+AMDP - Mapping of ABAP Types to SQLScript - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamdp_hdb_sqlscript_mapping.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamdp_hdb_sqlscript_mapping.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP - ABAP Managed Database Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp_methods.html')" class="blue">AMDP - Methods</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapmethod_by_db_proc.html')" class="blue">METHOD - BY DATABASE PROCEDURE, FUNCTION</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp_hdb_sqlscript.html')" class="blue">AMDP - SQL Script for the SAP HANA Database</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMDP - Mapping of ABAP Types to SQLScript
+</span></p>
+<p>
+As shown in the following tables, the elementary ABAP types are mapped to the appropriate types in SQL Script. These include:
+</p>
+<ul class="disc">
+<li>Interface parameters of a AMDP method</li>
+</ul>
+<ul class="disc">
+<li>References to ABAP types using the <a href="javascript:call_link('abenamdp_macro_glosry.html')" class="grey" title="Glossary Entry">
+AMDP macro</a> <a href="javascript:call_link('abenamdp_abap_types.html')" class="blue"><span class="qtext400">$ABAP.type</span></a></li>
+</ul>
+<p>
+The tables distinguish parameters that reference a type defined in ABAP from those that reference a
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in type in ABAP Dictionary</a>. No parameters or type references can be defined for SQL Script types that are not listed here.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENAMDP_HDB_SQLSCRIPT_MAPPING_1" class="blue">Mapping with Reference to Types Defined in ABAP</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENAMDP_HDB_SQLSCRIPT_MAPPING_2" class="blue">Mapping with Reference to Types Defined in ABAP Dictionary</A></li>
+</ul>
+<A name="@@ITOC@@ABENAMDP_HDB_SQLSCRIPT_MAPPING_1"></A>
+<p><span class="h2">
+Mapping with Reference to Types Defined in ABAP
+</span></p>
+<p>
+<span class="bold">Numeric Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+<td><span class="bold">Note</span></td>
+</tr>
+<tr>
+<td><span class="qtext">b</span></td>
+<td>SMALLINT</td>
+<td>SMALLINT is a two byte integer with sign</td>
+</tr>
+<tr>
+<td><span class="qtext">s</span></td>
+<td>SMALLINT</td>
+<td>SMALLINT is a two byte integer with sign</td>
+</tr>
+<tr>
+<td><span class="qtext">i</span></td>
+<td>INTEGER</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">int8</span></td>
+<td>BIGINT</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">p</span>, length <span class="qtext">leng</span> with <span class="qtext">dec</span> decimal places</td>
+<td>DECIMAL, length <span class="qtext">2len-1</span> with <span class="qtext">dec</span> decimal places</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat16</span></td>
+<td>VARBINARY, length 8</td>
+<td>Cannot be interpreted as a number in the database and no calculations can be performed</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat34</span></td>
+<td>VARBINARY, length 16</td>
+<td>Cannot be interpreted as a number in the database and no calculations can be performed</td>
+</tr>
+<tr>
+<td><span class="qtext">f</span></td>
+<td>DOUBLE</td>
+<td>-</td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Character-Like Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+<td><span class="bold">Note</span></td>
+</tr>
+<tr>
+<td><span class="qtext">c</span>, length <span class="qtext">len</span></td>
+<td>NVARCHAR, length <span class="qtext">len</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">string</span></td>
+<td>NCLOB</td>
+<td>Not permitted for input/output parameters</td>
+</tr>
+<tr>
+<td><span class="qtext">n</span>, length <span class="qtext">len</span></td>
+<td>NVARCHAR, length <span class="qtext">len</span></td>
+<td>A suitable casting to a numeric database type must be performed before calculations can be made in the database. Numeric results must be transformed back to the ABAP format.</td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Byte-Like Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+<td><span class="bold">Note</span></td>
+</tr>
+<tr>
+<td><span class="qtext">x</span>, length <span class="qtext">len</span></td>
+<td>VARBINARY, length <span class="qtext">len</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">xstring</span></td>
+<td>BLOB</td>
+<td>Not permitted for input/output parameters</td>
+</tr>
+</table><br>
+<p>
+<span class="bold">Date Types, Time Types, and Time Stamp Types</span>
+</p>
+<table border>
+<tr>
+<td><span class="bold">ABAP Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+<td><span class="bold">Note</span></td>
+</tr>
+<tr>
+<td><span class="qtext">d</span></td>
+<td>NVARCHAR, length <span class="qtext">8</span></td>
+<td>A casting to the DATE type of the database must be performed before date calculations can be made. SQL Script offers the built-in function <span class="qtext">to_dats</span>.</td>
+</tr>
+<tr>
+<td><span class="qtext">t</span></td>
+<td>NVARCHAR, length <span class="qtext">6</span></td>
+<td>A casting to the TIME type of the database must be performed before time calculations can be made. SQL Script offers the built-in function <span class="qtext">to_tims</span>.</td>
+</tr>
+<tr>
+<td><span class="qtext">utclong</span></td>
+<td>TIMESTAMP</td>
+<td>-</td>
+</tr>
+</table><br>
+<A name="@@ITOC@@ABENAMDP_HDB_SQLSCRIPT_MAPPING_2"></A>
+<p><span class="h2">
+Mapping with Reference to Types Defined in ABAP Dictionary
+</span></p>
+<p>
+The <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in types in ABAP Dictionary</a> are mapped like the associated ABAP types, with the following exceptions.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Dictionary Type</span></td>
+<td><span class="bold">HANA Type</span></td>
+<td><span class="bold">Note</span></td>
+</tr>
+<tr>
+<td>DECFLOAT16</td>
+<td>SMALLDECIMAL</td>
+<td>Recommended mapping</td>
+</tr>
+<tr>
+<td>DECFLOAT34</td>
+<td>DECIMAL</td>
+<td>Recommended mapping</td>
+</tr>
+<tr>
+<td>DF16_DEC, length <span class="qtext">leng</span> with <span class="qtext">dec</span> decimal places</td>
+<td>DECIMAL, length <span class="qtext">2len-1</span> with <span class="qtext">dec</span> decimal places</td>
+<td>Value range on the database is less than in ABAP</td>
+</tr>
+<tr>
+<td>DF34_DEC, length <span class="qtext">leng</span> with <span class="qtext">dec</span> decimal places</td>
+<td>DECIMAL, length <span class="qtext">2len-1</span> with <span class="qtext">dec</span> decimal places</td>
+<td>Value range on the database is less than in ABAP</td>
+</tr>
+<tr>
+<td>DF16_SCL</td>
+<td>-</td>
+<td>Obsolete, not supported</td>
+</tr>
+<tr>
+<td>DF34_SCL</td>
+<td>-</td>
+<td>Obsolete, not supported</td>
+</tr>
+<tr>
+<td>DATN</td>
+<td>DATE</td>
+<td>Recommended mapping</td>
+</tr>
+<tr>
+<td>TIMN</td>
+<td>TIME</td>
+<td>Recommended mapping</td>
+</tr>
+<tr>
+<td>GEOM_EWKB</td>
+<td>ST_GEOMETRY</td>
+<td>Recommended mapping</td>
+</tr>
+<tr>
+<td>SSTRING, length <span class="qtext">len</span></td>
+<td>NVARCHAR, length <span class="qtext">len</span></td>
+<td>-</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In the recommended mappings, the ABAP type should be defined with reference to the built-in ABAP Dictionary type to define the more suitable HANA type.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_hdb_sqlscript_mapping.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

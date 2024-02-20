@@ -1,0 +1,611 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_AGG_FUNC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_agg_func.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sql_exp - agg_func">
+<meta name="keywords" content="ABAP, Aggregate Functions">
+<title>
+sql_exp - agg_func - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_agg_func.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_agg_func.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">ABAP SQL - SQL Expressions sql_exp</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselect_aggregate.html')" class="blue">sql_exp - sql_agg</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@STRING_AGG@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@ORDER BY@@!ABAP_OSQL_AGG_EXP!@@"></A>
+<A NAME="@@MAX@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@MIN@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@AVG@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@SUM@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@PRODUCT@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@COUNT@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<A NAME="@@DISTINCT@@!ABAP_OSQL_AGG_FUNC!@@"></A>
+<p><span class="h1">
+sql_exp - agg_func <br><br>
+</span></p>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... AVG( <i class=bn>[</i>DISTINCT<i class=bn>]</i>
+<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">col</a> <i class=bn>[</i><a href="javascript:call_link('abapselect_avg_as.html')" class="blue">AS dtype</a><i class=bn>]</i> ) <br>
+&nbsp;&nbsp;<i class=bn>|</i> MAX( <i class=bn>[</i>DISTINCT<i class=bn>]</i> <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp</a> ) <br>
+&nbsp;&nbsp;<i class=bn>|</i> MIN( <i class=bn>[</i>DISTINCT<i class=bn>]</i> <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp</a> ) <br>
+&nbsp;&nbsp;<i class=bn>|</i> SUM( <i class=bn>[</i>DISTINCT<i class=bn>]</i> <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp</a> ) <br>
+&nbsp;&nbsp;<i class=bn>|</i> PRODUCT( col ) <br>&nbsp;&nbsp;<i class=bn>|</i> STRING_AGG(
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp</a><i class=bn>[</i>, sep<i class=bn>]</i> <i class=bn>[</i>ORDER BY
+<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">col1</a> <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i>, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">col2</a> <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i>, ...<i class=bn>]</i> ) <br>
+&nbsp;&nbsp;<i class=bn>|</i> COUNT( <i class=bn>[</i>DISTINCT<i class=bn>]</i> <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp</a> ) <br>
+&nbsp;&nbsp;<i class=bn>|</i> COUNT( * ) <br>&nbsp;&nbsp;<i class=bn>|</i> COUNT(*) <br>&nbsp;&nbsp;<i class=bn>|</i>
+<a href="javascript:call_link('abengrouping_function.html')" class="blue">GROUPING</a>( <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">col</a> ) ...</span> <br><br>
+</P>
+<p><span class="h2">
+Variants:
+</span></p>
+<P>
+   <A HREF="#!ABAP_VARIANT_1@1@" class="blue"> 1. <span class="qtext">... AVG( <i class=bn>[</i>DISTINCT<i class=bn>]</i> col <i class=bn>[</i>AS dtype<i class=bn>]</i> )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_2@2@" class="blue"> 2. <span class="qtext">... MAX( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_3@3@" class="blue"> 3. <span class="qtext">... MIN( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_4@4@" class="blue"> 4. <span class="qtext">... SUM( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_5@5@" class="blue"> 5. <span class="qtext">... PRODUCT( col )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_6@6@" class="blue"> 6. <span class="qtext">... STRING_AGG( sql_exp<i class=bn>[</i>, sep<i class=bn>]</i> <i class=bn>[</i>ORDER BY ...<i class=bn>]</i> )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_7@7@" class="blue"> 7. <span class="qtext">... COUNT( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> </A> <br>
+<br><A HREF="#!ABAP_VARIANT_8@8@" class="blue"> 8. <span class="qtext">... COUNT( * )</span> </A> <br><br>
+<A HREF="#!ABAP_VARIANT_9@9@" class="blue"> 9. <span class="qtext">... COUNT( * )</span> </A> <br><br><A HREF="#!ABAP_VARIANT_10@10@" class="blue"> 10. <span class="qtext">... GROUPING( col )</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+<a href="javascript:call_link('abenaggregate_function_glosry.html')" class="grey" title="Glossary Entry">Aggregate function</a>
+in ABAP SQL. An aggregate function aggregates the values of the rows in a specific set of rows to a single value. Aggregate functions can be used in the following places:
+</P>
+<ul class="disc">
+<li>
+As a standalone <a href="javascript:call_link('abenaggregate_expression_glosry.html')" class="grey" title="Glossary Entry">aggregate
+expression</a> <a href="javascript:call_link('abapselect_aggregate.html')" class="blue"><span class="qtext">agg_exp</span></a>
+in specific operand positions of a query. The evaluated row set is the full results set of the query
+or a group created using the addition <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a>. The general rules apply.
+<br><br></li>
+<li>
+As a <a href="javascript:call_link('abenwindow_function_glosry.html')" class="grey" title="Glossary Entry">window function</a> <a href="javascript:call_link('abensql_win_func.html')" class="blue"><span class="qtext">win_func</span></a> in a
+<a href="javascript:call_link('abapselect_over.html')" class="blue">window expression</a>. The evaluated row set is the current
+<a href="javascript:call_link('abenwindow_glosry.html')" class="grey" title="Glossary Entry">window</a> or a box inside the window. The general rules apply, plus the rules for window functions.
+<br><br></li>
+<li>
+As an aggregate function in a <a href="javascript:call_link('abenselect_hierarchy_agg_navis.html')" class="blue">hierarchy aggregate navigator</a>. The evaluated row set consists of the
+<a href="javascript:call_link('abenhierarchy_node_glosry.html')" class="grey" title="Glossary Entry">hierarchy nodes</a> determined by the navigator. The general rules apply, plus the rules for hierarchy aggregate navigators.
+<br></li>
+</ul>
+<P>
+The following table shows which aggregate functions can be used in which places:
+</P>
+<table border>
+<tr>
+<td><span class="bold">-</span></td>
+<td><a href="javascript:call_link('abapselect_aggregate.html')" class="blue"><span class="qtext">agg_exp</span></a></td>
+<td><a href="javascript:call_link('abapselect_over.html')" class="blue"><span class="qtext">win_exp</span></a></td>
+<td><a href="javascript:call_link('abenselect_hierarchy_desc_agg.html')" class="blue"><span class="qtext">HIERARCHY_DESCENDANTS_AGGREGATE</span></a></td>
+<td><a href="javascript:call_link('abenselect_hierarchy_ancs_agg.html')" class="blue"><span class="qtext">HIERARCHY_ANCESTORS_AGGREGATE</span></a></td>
+</tr>
+<tr>
+<td><span class="qtext">AVG</span></td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext">MAX</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">MIN</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">SUM</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">PRODUCT</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">STRING_AGG</span></td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">COUNT</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">COUNT(*)</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td><span class="qtext">GROUPING</span></td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</table><br>
+<P>
+The following shared properties apply here:
+</P>
+<ul class="disc">
+<li>
+The addition <span class="qtext">DISTINCT</span> excludes duplicate values from the calculation in any operand positions in which it is specified.
+<br><br></li>
+<li>
+If the argument of an aggregate function (except <span class="qtext">COUNT</span>) has the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>, it is ignored
+when the function is evaluated. The result is a null value only if all the rows in the column in question contain a null value.
+<br><br></li>
+<li>
+The aggregate function <span class="qtext">COUNT</span> counts rows and never produces the <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>.
+<br><br></li>
+<li>
+Arguments of type STRING, RAWSTRING, LCHR, LRAW, and GEOM_EWKB cannot be handled using aggregate functions.
+<br></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The database platform determines whether an overflow occurs if the result of an aggregate function exceeds
+its value range. On some database platforms, intermediate results outside the value range are allowed.
+The overflow behavior of SQL expressions, on the other hand, is platform-independent. If an SQL expression
+in an aggregate expression produces an overflow, an exception is raised on every platform, even if a corresponding result of the aggregate function would not raise an exception on every platform. <br><br>
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_1@1@"></A> <span class="bold">Variant 1</span>
+</span></p>
+<P>
+<span class="qtext">... AVG( <i class=bn>[</i>DISTINCT<i class=bn>]</i> col <i class=bn>[</i>AS dtype<i class=bn>]</i> )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Determines the average value of the content of a column <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue"><span class="qtext">
+col</span></a> in a row set. The optional addition <a href="javascript:call_link('abapselect_avg_as.html')" class="blue"><span class="qtext">AS dtype</span></a> can be used to define the result type explicitly.
+</P>
+<P>
+The data type of the column must be numeric. The data types DF16_RAW and DF34_RAW and the obsolete types
+DF16_SCL and DF34_SCL are not allowed. The data type INT8 is only permitted in conjunction with the addition <a href="javascript:call_link('abapselect_avg_as.html')" class="blue"><span class="qtext">AS dtype</span></a>.
+</P>
+<P>
+The implicit data type of the result for <a href="javascript:call_link('abendecfloat_glosry.html')" class="grey" title="Glossary Entry">
+decimal floating point numbers</a> is the corresponding data type (DECFLOAT16 or DECFLOAT34 (or DF16_DEC
+or DF34_DEC)) and is otherwise the type FLTP, a platform-dependent subtotal, or is determined by the addition <a href="javascript:call_link('abapselect_avg_as.html')" class="blue"><span class="qtext">AS dtype</span></a>.
+</P>
+<P>
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> cannot be specified as arguments for <span class="qtext">AVG</span>.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The result of the aggregate functions <span class="qtext">AVG</span> in the data type FLTP is platform-dependent.
+The type of platform also determines whether the result of an aggregate expression <span class="qtext">AVG</span>,
+which is used in a <span class="qtext">HAVING</span> clause as a subtotal, is of type FLTP. The addition
+<a href="javascript:call_link('abapselect_avg_as.html')" class="blue"><span class="qtext">AS dtype</span></a> can be used to force the type FLTP.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Determines the average value of all values in a column and checks the result.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA(n) = 9. <br> <br>DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM TABLE @( VALUE #( <br>
+&nbsp;&nbsp;FOR i = 0 UNTIL i > n <br>&nbsp;&nbsp;( id = CONV #( i ) num1 = i ) ) ). <br> <br>SELECT AVG( num1 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@DATA(avg)). <br> <br>ASSERT avg =&nbsp;&nbsp;n / 2 . <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_2@2@"></A> <span class="bold">Variant 2</span>
+</span></p>
+<P>
+<span class="qtext">... MAX( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_3@3@"></A> <span class="bold">Variant 3</span>
+</span></p>
+<P>
+<span class="qtext">... MIN( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Determines the maximum value or minimum value of the results of the SQL expression <a href="javascript:call_link('abapsql_expr.html')" class="blue"><span class="qtext">sql_exp</span></a> in a row set. The data type of the result is the
+<a href="javascript:call_link('abenexternal_data_type_glosry.html')" class="grey" title="Glossary Entry">external data type</a> of the result of the SQL expression.
+</P>
+<P>
+The result of the SQL expression <span class="qtext">sql_exp</span> must be a numeric type (except for the
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">replacement types for decimal floating point
+numbers</a>). If a single column <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue"><span class="qtext">col</span></a> is specified for the expression, this column can also have any data type.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Determines the minimum value and maximum value of all values in a column and checks the result.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA(n) = 9. <br> <br>DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM TABLE @( VALUE #( <br>
+&nbsp;&nbsp;FOR i = 0 UNTIL i > n <br>&nbsp;&nbsp;( id = CONV #( i ) num1 = i ) ) ). <br> <br>SELECT MIN( num1 ) AS min, MAX( num1 ) AS max <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@DATA(min),@DATA(max)). <br> <br>ASSERT min = 0. <br>ASSERT max = n. <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_4@4@"></A> <span class="bold">Variant 4</span>
+</span></p>
+<P>
+<span class="qtext">... SUM( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Determines the sum of the results of the SQL expression <a href="javascript:call_link('abapsql_expr.html')" class="blue"><span class="qtext">sql_exp</span></a> in a row set. The data type of the result is the
+<a href="javascript:call_link('abenexternal_data_type_glosry.html')" class="grey" title="Glossary Entry">external data type</a> of the result of the SQL expression.
+</P>
+<P>
+The result of the SQL expression <span class="qtext">sql_exp</span> must be a numeric type (except for the
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">replacement types for decimal floating point
+numbers</a>). If a single column <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue"><span class="qtext">col</span></a>
+is specified for the expression, this column can have any numeric data type except DF16_RAW and DF34_RAW and except the obsolete data types DF16_SCL and DF34_SCL .
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+If the aggregate function <span class="qtext">SUM</span> is used for columns of types DECFLOAT16 or DF16_DEC, it is best to use a target field with the data type <span class="qtext">decfloat34</span> to avoid overflows.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Totals all values in a column and checks the result.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA(n) = 9. <br> <br>DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM TABLE @( VALUE #( <br>
+&nbsp;&nbsp;FOR i = 0 UNTIL i > n <br>&nbsp;&nbsp;( id = CONV #( i ) num1 = i ) ) ). <br> <br>SELECT SUM( num1 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@DATA(sum)). <br> <br>ASSERT sum = ( n * ( n + 1 ) ) / 2. <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_5@5@"></A> <span class="bold">Variant 5</span>
+</span></p>
+<P>
+<span class="qtext">... PRODUCT( col )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Determines the product of the values of a column <span class="qtext">col</span> in a row set. The data type of the result is the
+<a href="javascript:call_link('abenexternal_data_type_glosry.html')" class="grey" title="Glossary Entry">external data type</a> of the column. The column must have a numeric type (except for the
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">replacement types for decimal floating point numbers</a>).
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The aggregate function <span class="qtext">PRODUCT</span> can currently be used only in the
+<a href="javascript:call_link('abenhierarchy_agg_navi_glosry.html')" class="grey" title="Glossary Entry">hierarchy aggregate
+navigator</a> <a href="javascript:call_link('abenselect_hierarchy_ancs_agg.html')" class="blue"><span class="qtext">HIERARCHY_ANCESTORS_AGGREGATE</span></a>.
+</P>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+See <a href="javascript:call_link('abenhier_ancs_agg_abexa.html')" class="blue">Hierarchy Navigator <span class="qtext">HIERARCHY_ANCESTORS_AGGREGATE</span></a> <br><br>
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_6@6@"></A> <span class="bold">Variant 6</span>
+</span></p>
+<P>
+<span class="qtext">... STRING_AGG( sql_exp<i class=bn>[</i>, sep<i class=bn>]</i> <i class=bn>[</i>ORDER BY ...<i class=bn>]</i> )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Chains the results of the SQL expression <a href="javascript:call_link('abapsql_expr.html')" class="blue"><span class="qtext">sql_exp</span></a>
+in a row set. The data type of the result is SSTRING with the length 1333. If the string in question
+is greater then 1333, a handleable exception of the class CX_SY_OPEN_SQL_DB is raised The results of
+the SQL expression <span class="qtext">sql_exp</span> must be a flat character-like data type like CHAR, SSTRING, DATS, or TIMS.
+</P>
+<P>
+An optional separator <span class="qtext">sep</span> separated by a comma can be specified after the
+SQL expression. If <span class="qtext">sep</span> is specified, its content is inserted into the string
+between successive results of the SQL expression. If <span class="qtext">sep</span> is not specified, these results are appended to each other directly. <span class="qtext">sep</span> can be a
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literal</a> or a
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host constant</a> with the
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">ABAP type</a> <span class="qtext">c</span>, <span class="qtext">
+d</span>, <span class="qtext">t</span>, <span class="qtext">n</span>, or <span class="qtext">string</span> with a maximum of 1333 characters.
+</P>
+<P>
+The optional addition <span class="qtext">ORDER BY</span> can be used to define the order in which the
+results of the SQL expression are chained. If <span class="qtext">ORDER BY</span> is not specified,
+the order is undefined. <span class="qtext">ORDER BY</span> is followed by a comma-separated list of
+columns of the data sources of the current query. These columns are used to sort the rows of the row
+set. A column can only be specified directly using the column name <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">
+<span class="qtext">col1</span></a>, <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue"><span class="qtext">col2
+...</span></a> Alias names defined using <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">AS</span></a>
+cannot be specified. The additions <span class="qtext">ASCENDING</span> and <span class="qtext">DESCENDING</span>
+determine whether the rows are sorted in ascending or descending order by the column in question. The default is <span class="qtext">ASCENDING</span>.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<ul class="disc">
+<li>
+The addition <span class="qtext">DISTINCT</span> cannot be specified for the aggregate function <span class="qtext">STRING_AGG</span>.
+<br><br></li>
+<li>
+The aggregate function <span class="qtext">STRING_AGG</span> cannot be used as a <a href="javascript:call_link('abensql_win_func.html')" class="blue">window function</a>.
+<br><br></li>
+<li>
+When used, the aggregate function <span class="qtext">STRING_AGG</span> requires the <a href="javascript:call_link('abenopensql_strict_mode_754.html')" class="blue"> strict mode from Release 7.54</a>.
+<br></li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensql_expr_string_agg_abexa.html')" class="blue">SQL Expressions, Aggregate Function <span class="qtext">string_agg</span></a> <br><br>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_7@7@"></A> <span class="bold">Variant 7</span>
+</span></p>
+<P>
+<span class="qtext">... COUNT( <i class=bn>[</i>DISTINCT<i class=bn>]</i> sql_exp )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Determines the number of distinct values of the results of the SQL expression <a href="javascript:call_link('abapsql_expr.html')" class="blue"><span class="qtext">sql_exp</span></a> in a row set.
+</P>
+<ul class="disc">
+<li>If the addition <span class="qtext">DISTINCT</span> is not specified, <span class="qtext">COUNT</span>
+determines all rows in which the result of the SQL expression <a href="javascript:call_link('abapsql_expr.html')" class="blue"><span class="qtext">sql_exp</span></a> is not the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a></li>
+</ul>
+<ul class="disc">
+<li>If the addition <span class="qtext">DISTINCT</span> is specified, <span class="qtext">COUNT</span>
+determines the number of distinct values of the results of the SQL expression <a href="javascript:call_link('abapsql_expr.html')" class="blue"><span class="qtext">sql_exp</span></a>.
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">Null values</a> are ignored here.</li>
+</ul>
+<P>
+The data type of the result is INT4. The SQL expression <span class="qtext">sql_exp</span> can be a result with any type (except for the
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">replacement types for decimal floating point
+numbers</a>). If a single column <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue"><span class="qtext">col</span></a> is specified for the expression, this column can have any data type.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+An aggregate function <span class="qtext">COUNT</span> without the addition <span class="qtext">DISTINCT</span> requires the <a href="javascript:call_link('abenopensql_strict_mode_754.html')" class="blue">strict mode from Release 7.54</a>.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Determines the number of airlines flying to New York.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+SELECT COUNT( DISTINCT carrid ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE cityto = 'NEW YORK' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(count). <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_8@8@"></A> <span class="bold">Variant 8</span>
+</span></p>
+<P>
+<span class="qtext">... COUNT( * )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_9@9@"></A> <span class="bold">Variant 9</span>
+</span></p>
+<P>
+<span class="qtext">... COUNT( * )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The two spellings have the same meaning and, regardless of a specific value, produce the number of rows in a row set: The following applies to the data type of the result:
+</P>
+<ul class="disc">
+<li>
+If used as an aggregate expression <a href="javascript:call_link('abapselect_aggregate.html')" class="blue"><span class="qtext">agg_exp</span></a>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>If <span class="qtext">COUNT( * )</span> or <span class="qtext">COUNT(*)</span> is specified as
+an aggregate expression in a <span class="qtext">SELECT</span> list with other columns or together with
+a <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a> clause, the data type of the result is INT4 and no numbers greater than 2147483647 can be determined.</li>
+</ul>
+<ul class="circlem2">
+<li>If <span class="qtext">COUNT( * )</span> or <span class="qtext">COUNT(*)</span> is specified as
+the only column and the <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a>
+clause is not specified as an aggregate expression in a <span class="qtext">SELECT</span> list, the
+internal data type of the result is <span class="qtext">INT8</span> and numbers up to +9223372036854775807
+can be determined. The system field <span class="qtext">sy-dbcnt</span> is set to the value -1 in results outside of the value range of the type <span class="qtext">i</span>.</li>
+</ul>
+<ul class="disc">
+<li>
+If used as a window function <a href="javascript:call_link('abensql_win_func.html')" class="blue"><span class="qtext">win_func</span></a> and in
+<a href="javascript:call_link('abenselect_hierarchy_agg_navis.html')" class="blue">hierarchy aggregate navigators</a>, the data type of the result is INT8.
+<br></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+A target object of the type <span class="qtext">INT8</span>, <span class="qtext">p</span>, or <span class="qtext">decfloat34</span> must be specified if a standalone function <span class="qtext">COUNT( *
+)</span> or <span class="qtext">COUNT(*)</span> expects a value greater than the value range of INT4.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Example for counting rows using <span class="qtext">COUNT</span>. The single-row result contains the values 7, 2, and 10 in its columns.
+</P>
+<ul class="disc">
+<li>
+10 is the total number of rows in the results set determined using <span class="qtext">COUNT(*)</span> and is not dependent on a single value.
+<br><br></li>
+<li>
+7 is the number of rows determined using <span class="qtext">COUNT</span> (without <span class="qtext">DISTINCT</span>) in which
+<a href="javascript:call_link('abensql_simple_case.html')" class="blue">case distinction</a> does not produce the null value.
+<br><br></li>
+<li>
+2 is the number of distinct results <span class="qtext400">"X"</span> and <span class="qtext400">"Y&#x201D;</span> determined using <span class="qtext">COUNT</span> und <span class="qtext">DISTINCT</span> of the
+<a href="javascript:call_link('abensql_simple_case.html')" class="blue">case distinction</a> while ignoring the null value.
+<br></li>
+</ul>
+<P>
+The difference 3 of the results of <span class="qtext">COUNT(*)</span> and <span class="qtext">COUNT</span> without <span class="qtext">DISTINCT</span> is the number of rows in which the
+<a href="javascript:call_link('abensql_simple_case.html')" class="blue">case distinction</a> produces the null value.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_expressions. <br>INSERT demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM TABLE @( VALUE #( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR i = 1 UNTIL i > 10 ( id = CONV #( i ) num1 = i ) ) ). <br>
+ <br>SELECT FROM demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COUNT( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CASE WHEN num1 &lt; 4 THEN 'X' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN num1 BETWEEN 4 AND 7 THEN 'Y' END ) AS cnt, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COUNT( DISTINCT <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE WHEN num1 &lt; 4 THEN 'X' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN num1 BETWEEN 4 AND 7 THEN 'Y' END ) AS cntdist, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COUNT(*) AS cntstar <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ). <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_10@10@"></A> <span class="bold">Variant 10</span>
+</span></p>
+<P>
+<span class="qtext">... GROUPING( col )</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The grouping function <a href="javascript:call_link('abengrouping_function.html')" class="blue"><span class="qtext">GROUPING</span></a>
+can be used to verify whether a column <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue"><span class="qtext">col</span></a>
+is part of the aggregation. The grouping function can be used only if the <span class="qtext">GROUP BY</span> clause contains the addition <span class="qtext">GROUPING SETS</span>. The data type of the result of the grouping function is
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">INT1</a>.
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> cannot be specified as arguments for <span class="qtext">
+GROUPING</span>. More information can be found in <a href="javascript:call_link('abengrouping_function.html')" class="blue"><span class="qtext">sql_agg - GROUPING</span></a>.
+</P>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abengrouping_function_abexa.html')" class="blue"><span class="qtext">GROUPING</span>, Aggregate Function</a> <br><br> <br><br>
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapselect_avg_as.html')" class="blue">sql_agg - AVG, AS</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_agg_func.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:36 GMT -->
+</html>

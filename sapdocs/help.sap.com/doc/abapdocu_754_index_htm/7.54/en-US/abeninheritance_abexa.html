@@ -1,0 +1,168 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINHERITANCE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP Objects, Inheritance">
+<title>
+ABAP Objects, Inheritance - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninheritance_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninheritance_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_abexas.html')" class="blue">Examples for ABAP Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP Objects, Inheritance
+</span></p>
+<p>
+This example demonstrates how a counter is specialized using inheritance.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_inheritance.<br>
+<br>
+CLASS counter DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING value(set_value) TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increment,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING value(get_value) TYPE i.<br>
+&nbsp;&nbsp;PROTECTED SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA count TYPE i.<br>
+ENDCLASS.<br>
+<br>
+CLASS counter IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD set.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count = set_value.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD increment.<br>
+&nbsp;&nbsp; count += 1.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_value = count.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS counter_ten DEFINITION INHERITING FROM counter.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS increment REDEFINITION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA count_ten TYPE c LENGTH 1.<br>
+ENDCLASS.<br>
+<br>
+CLASS counter_ten IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD increment.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA modulo TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;super-&gt;increment( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;modulo = count MOD 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF modulo = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count_ten += 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write_text( |{ count } - { count_ten }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write_text( |{ count }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+DATA: count TYPE REF TO counter,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number TYPE i VALUE 5.<br>
+<br>
+START-OF-SELECTION.<br>
+<br>
+&nbsp;&nbsp;count = NEW counter_ten( ).<br>
+<br>
+&nbsp;&nbsp;count-&gt;set( number ).<br>
+<br>
+&nbsp;&nbsp;DO 20 TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count-&gt;increment( ).<br>
+&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;cl_demo_output=&gt;display( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENINHERITANCE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The class <span class="qtext">counter_ten</span> is derived from <span class="qtext">counter</span>
+and redefines the method <span class="qtext">increment</span>. In <span class="qtext">counter</span>,
+the visibility of the attribute <span class="qtext">count</span> must be changed from <span class="qtext">PRIVATE</span>
+to <span class="qtext">PROTECTED</span>. In the redefined method, the obscured method with the pseudo reference <span class="qtext">super-></span> is called. The redefined method specializes the inherited method.
+</p>
+<p>
+An object of the subclass is created to which a reference variable of the superclass type points. When
+the method <span class="qtext">increment</span> is executed, the redefined method of the subclass is executed using the superclass reference.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

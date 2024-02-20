@@ -1,0 +1,167 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENITAB_KEY_SECONDARY_DUPLICATES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenitab_key_secondary_duplicates.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Duplicate Non-Unique Keys">
+<meta name="keywords" content="ABAP, Internal Table, Duplicates">
+<title>
+Duplicate Non-Unique Keys - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenitab_key_secondary_duplicates.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenitab_key_secondary_duplicates.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_oview.html')" class="blue">Internal Tables - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_key.html')" class="blue">Table Keys</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Duplicate Non-Unique Keys
+</span></p>
+<p>
+Non-unique table keys can produce duplicate rows with respect to these keys. This section describes
+the order of these duplicates when data is inserted into table with non-unique sorted table keys. This order is ignored with respect to non-unique primary keys in standard tables.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_1" class="blue">Single Record Operations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_2" class="blue">Block Operations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_3" class="blue">Special Features</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_4" class="blue">Example</A></li>
+</ul>
+<A name="@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_1"></A>
+<p><span class="h2">
+Single Record Operations
+</span></p>
+<p>
+When individual rows are inserted where the insert position is determined using a table key, that is, in the case of
+</p>
+<ul class="disc">
+<li>the operations <a href="javascript:call_link('abapinsert_itab_position.html')" class="blue"><span class="qtext">INSERT ... INTO TABLE ...</span></a> or</li>
+</ul>
+<ul class="disc">
+<li>in <a href="javascript:call_link('abenlazy_update_glosry.html')" class="grey" title="Glossary Entry">lazy update</a>s of sorted secondary keys</li>
+</ul>
+<p>
+the order of the duplicates with respect to the table key of the target table is determined in accordance
+with the insert order of the individual rows. The duplicate row last inserted into the table is sorted before all other duplicates.
+</p>
+<A name="@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_2"></A>
+<p><span class="h2">
+Block Operations
+</span></p>
+<p>
+For block operations such as an <a href="javascript:call_link('abapmove.html')" class="blue">assignment</a> of an internal table
+to another table or when inserting multiple rows using <a href="javascript:call_link('abapinsert_itab_linespec.html')" class="blue"><span class="qtext">
+INSERT LINES OF</span></a>, the order of duplicates with respect to a sorted key of the target table
+in the block is taken from the source table. If there are already one or more duplicates in the target
+table, the source block duplicates are inserted in their original order in front of the first duplicate in the target table.
+</p>
+<A name="@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_3"></A>
+<p><span class="h2">
+Special Features
+</span></p>
+<p>
+Some operations have the characteristics of block operations but are executed internally as sequences
+of single record operations. In this case, the original order of duplicates with respect to a sorted key in the target table is not retained. This is the case for the following operations:
+</p>
+<ul class="disc">
+<li>Filling an internal table using <a href="javascript:call_link('abapimport_data_cluster.html')" class="blue"><span class="qtext">IMPORT</span></a>
+from a table previously created with <a href="javascript:call_link('abapexport_data_cluster.html')" class="blue"><span class="qtext">EXPORT</span></a> and all operations that are based internally on such an import, such as
+<a href="javascript:call_link('abapcall_function_update.html')" class="blue">posting</a> operations.</li>
+</ul>
+<ul class="disc">
+<li>Passing and applying internal tables for <a href="javascript:call_link('abapcall_function_destination_para.html')" class="blue">Remote Function Calls</a>.</li>
+</ul>
+<ul class="disc">
+<li>The deserialization of an internal table from a table previously serialized to XML using <a href="javascript:call_link('abapcall_transformation.html')" class="blue"><span class="qtext">CALL TRANSFORMATION</span></a>.</li>
+</ul>
+<A name="@@ITOC@@ABENITAB_KEY_SECONDARY_DUPLICATES_4"></A>
+<p><span class="h2">
+Example
+</span></p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following insertion is
+</p>
+<dl><dd>
+<span class="qtext400">a a <br>b z <br>b y <br>b x <br>b b</span>
+</dd></dl>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF line, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE string, <br>
+&nbsp;&nbsp;END OF line, <br>&nbsp;&nbsp;itab TYPE SORTED TABLE OF line <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH NON-UNIQUE KEY col1. <br>
+ <br>DATA(itab) = VALUE itab( <br> ( col1 = 'b' col2 = 'b' ) <br> ( col1 = 'a' col2 = 'a' ) ). <br> <br>
+DATA(jtab) = VALUE itab( <br> ( col1 = 'b' col2 = 'x' ) <br> ( col1 = 'b' col2 = 'y' ) <br> ( col1 = 'b' col2 = 'z' ) ). <br> <br>INSERT LINES OF jtab INTO TABLE itab. <br> <br>cl_demo_output=>display( itab ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenitab_key_secondary_duplicates.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

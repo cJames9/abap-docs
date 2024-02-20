@@ -1,0 +1,197 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_IXML_LIB_DOM_ACCESS_WRITE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_dom_access_write.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="iXML Library - DOM Writes">
+<title>
+iXML Library - DOM Writes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_ixml_lib_dom_access_write.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_ixml_lib_dom_access_write.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib_dom_access.html')" class="blue">iXML Library - Access to DOM</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+iXML Library - DOM Writes
+</span></p>
+<p>
+Writes enable an XML document to be constructed from scratch in the memory or an existing document to
+be modified. The most important methods used to construct a DOM create elements and add attributes to
+elements. These methods are declared in the interface <span class="lnkgrey">IF_IXML_DOCUMENT</span>
+are summarized here. Other methods are used to remove elements from a DOM, which is described in the interface documentation (see also the executable
+<a href="javascript:call_link('abenixml_render_abexa.html')" class="blue">rendering example</a>).
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_ACCESS_WRITE_1" class="blue">Adding Nodes</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_ACCESS_WRITE_2" class="blue">Adding Elements</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_ACCESS_WRITE_3" class="blue">Adding Attributes</A></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Writes to the DOM must be avoided during <a href="javascript:call_link('abenabap_ixml_lib_parse_event.html')" class="blue">sequential parsing</a>, since this can produce unexpected behavior.</li>
+</ul>
+<ul class="disc">
+<li>iXML documents can also be specified as an XML target for XSL transformations called using <a href="javascript:call_link('abapcall_transformation.html')" class="blue"><span class="qtext">CALL TRANSFORMATION</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>If writes produce content of elements or attributes, the characters <span class="qtext400">&lt;</span>,
+<span class="qtext400">></span>, <span class="qtext400">&amp;</span>, <span class="qtext400">"</span>, and <span class="qtext400">'</span> are transformed automatically into the associated
+<a href="javascript:call_link('abenxml_oview.html')" class="blue">XML</a> notation.</li>
+</ul>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_ACCESS_WRITE_1"></A>
+<p><span class="h2">
+Adding Nodes
+</span></p>
+<p>
+Nodes are usually added to existing nodes as subnodes.  To create an element, a reference variable <span class="qtext">
+document</span> with type IF_IXML_DOCUMENT (pointing to an XML document) can be used to call the following method:
+</p>
+<dl><dd>
+<span class="qtext">element = document->create_element_ns( name = ... ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">element</span> is then <span class="lnkgrey">IF_IXML_ELEMENT</span>
+and it points to an element called <span class="qtext">name</span> that is not yet part of the tree structure. The following call can be used to insert the element in the tree structure:
+</p>
+<dl><dd>
+<span class="qtext">parent->append_child( element ).</span>
+</dd></dl>
+<p>
+Here, <span class="qtext">parent</span> is a reference variable that points to an existing node object
+of the XML document. A reference variable, <span class="qtext">document</span>, can be specified for <span class="qtext">parent</span> for the document itself as an access point to an empty document.
+</p>
+<p>
+The elements created using CREATE_ELEMENT_NS are empty. The following method can be used to create content:
+</p>
+<dl><dd>
+<span class="qtext">DATA(text) = document->create_text( ... )</span>.
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">text</span> is then <span class="lnkgrey">IF_IXML_TEXT</span>
+and it points to literal content that is not yet part of the tree structure. This can be inserted in an element using the method APPEND_CHILD.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_ACCESS_WRITE_2"></A>
+<p><span class="h2">
+Adding Elements
+</span></p>
+<p>
+The steps above used to add content to an element
+</p>
+<ul class="disc">
+<li>create element</li>
+</ul>
+<ul class="disc">
+<li>add element</li>
+</ul>
+<ul class="disc">
+<li>create content</li>
+</ul>
+<ul class="disc">
+<li>add content</li>
+</ul>
+<p>
+can also be performed using a single method call as follows:
+</p>
+<dl><dd>
+<span class="qtext">element = document->create_simple_element_ns( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp; = ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;&nbsp;= ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent = ... ).</span>
+</dd></dl>
+<p>
+This creates the element, with the content passed to <span class="qtext">value</span>, and appends it
+to the node passed to <span class="qtext">parent</span> as a subnode. For this reason, the individual steps described above are generally only used for more specific tasks.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_ACCESS_WRITE_3"></A>
+<p><span class="h2">
+Adding Attributes
+</span></p>
+<p>
+The following method can be used to add an attribute to an element of an XML pointed to by a reference variable, <span class="qtext">element</span>:
+</p>
+<dl><dd>
+<span class="qtext">element->set_attribute_ns( name = ... value = ... ).</span>
+</dd></dl>
+<p>
+This creates an attribute called <span class="qtext">name</span> with the value passed to <span class="qtext">value</span>.
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenixml_crea_elem_abexa.html')" class="blue">Creating Nodes</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenixml_crea_simple_elem_abexa.html')" class="blue">Creating Elements</a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_dom_access_write.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

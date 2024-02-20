@@ -1,0 +1,175 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_AT_EXIT_COMM_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_at_exit_comm_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Unconditional Module Call">
+<title>
+Dynpros, Unconditional Module Call - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_at_exit_comm_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_at_exit_comm_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_dynpro_statements.html')" class="blue">Statements in the Dynpro Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('dynpmodule.html')" class="blue">MODULE</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodule_abexas.html')" class="blue">Module Call - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Unconditional Module Call
+</span></p>
+<p>
+This example demonstrates how a dynpro can be exited without the automatic input checks.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_AT_EXIT_COMM_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM demo_dynpro_at_exit_command .<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_ok LIKE ok_code,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input1(20) TYPE c, input2(20) TYPE c.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE init_screen_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-001 ok_code input1 input2.<br>
+&nbsp;&nbsp;IF ok_code = 'CANCEL'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE back INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-002 ok_code input1 input2.<br>
+&nbsp;&nbsp;IF ok_code = 'BACK' OR ok_code = 'EXIT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR: ok_code, input1, input2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE TO SCREEN 100.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE execute1 INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-003 ok_code input1 input2.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+ENDMODULE.<br>
+<br>
+MODULE execute2 INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-004 ok_code input1 input2.<br>
+&nbsp;&nbsp;IF save_ok = 'EXECUTE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE s888(sabapdemos) WITH text-005.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_AT_EXIT_COMM_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. The input fields have the dynpro fields <span class="qtext">input1</span>
+and <span class="qtext">input2</span> assigned to them. The input fields are marked in their attributes
+as required fields. The function codes of the pushbuttons are EXECUTE and CANCEL, in which CANCEL has the function type <span class="qtext400">E</span>. In GUI status STATUS_100, the symbols <span class="italic">Back</span>
+(<span class="qtext500">F3</span>) and <span class="italic">Cancel</span>
+(<span class="qtext500">F12</span>) are activated using the function codes BACK and CANCEL. Both have
+the function type <span class="qtext400">E</span>. Additionally, the function key <span class="qtext500">F8</span>
+has the function code EXECUTE assigned to it. EXECUTE does not have the function type <span class="qtext400">E</span>. The screen flow logic is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE init_screen_0100. <br>PROCESS AFTER INPUT. <br>
+&nbsp;&nbsp;MODULE execute1. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE back AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE execute2.</span>
+</dd></dl>
+<p>
+Using information messages and status messages, the program demonstrates which modules are called after user actions and which data is transported.
+</p>
+<ul class="disc">
+<li>When "Execute" is selected without input in the mandatory fields, the automatic input check demands that the mandatory fields are filled.</li>
+</ul>
+<ul class="disc">
+<li>When "Execute" is selected with filled mandatory fields, all dynpro fields are transported and the modules <span class="qtext">execute1</span> and <span class="qtext">execute2</span> are called consecutively.</li>
+</ul>
+<ul class="disc">
+<li>When "Cancel" is selected with or without input in the mandatory fields, the OK field is transported and the module <span class="qtext">cancel</span> is called. The program is exited at this point.</li>
+</ul>
+<ul class="disc">
+<li>When "Back" is selected with or without input in the mandatory fields, the OK field is transported
+and the module <span class="qtext">cancel</span> is called. However, the program is not exited there,
+because the function code is BACK. Instead, the automatic field checks are performed. If the mandatory
+fields are filled, the modules <span class="qtext">execute1</span> and <span class="qtext">execute2</span> are called.</li>
+</ul>
+<p>
+The <span class="qtext">back</span> module is never called. Two module calls using <span class="qtext">AT
+EXIT-COMMAND</span> are pointless in the dynpro flow logic. In the above example, the function code
+BACK is to be handled in module <span class="qtext">cancel</span> as well. In this case, the position of the statement <span class="qtext">MODULE</span> with <span class="qtext">AT EXIT-COMMAND</span> is irrelevant.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_at_exit_comm_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+</html>

@@ -1,0 +1,124 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENADBC_TRANSACTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadbc_transaction.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADBC - Database LUWs">
+<title>
+ADBC - Database LUWs - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenadbc_transaction.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenadbc_transaction.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennative_sql.html')" class="blue">Native SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC - ABAP Database Connectivity</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">ADBC - CL_SQL_CONNECTION</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ADBC - Database LUWs
+</span></p>
+<p>
+For each open database connection that can be represented by an instance of class
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">CL_SQL_CONNECTION</a>, only one
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> is active at any one time. When a connection is opened, the first database LUW of the connection is opened implicitly.
+</p>
+<p>
+The class CL_SQL_CONNECTION contains the following instance methods:
+</p>
+<ul class="disc">
+<li>COMMIT</li>
+</ul>
+<ul class="disc">
+<li>ROLLBACK</li>
+</ul>
+<p>
+These methods end the current database LUW of a connection using a
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> or
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollback</a>.
+The current connection is set to inactive here. If the connection is still associated with an ADBC SQL
+statement and this statement is being used, it is activated again implicitly and a new database LUW opened at the same time.
+</p>
+<p>
+The database LUWs of different connections are independent of one another and must be ended individually. When the work process is switched, with the resulting
+<a href="javascript:call_link('abendb_commit.html')" class="blue">implicit database commit</a>, this is executed on all open connections. The database commit on the default connection takes place last of all.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Detailed information about database connections can be found <a href="javascript:call_link('abenopensql_multiconnect.html')" class="blue">here</a>.</li>
+</ul>
+<ul class="disc">
+<li>To execute a database commit or a database rollback on the default connection using ADBC, an instance
+of class CL_SQL_CONNECTION must be created for this connection using <span class="qtext">CREATE OBJECT</span>.</li>
+</ul>
+<ul class="disc">
+<li>Transaction control is possible only using the methods COMMIT and ROLLBACK of the class CL_SQL_CONNECTION,
+since only in this case are all actions required at the end of the transaction executed in the database
+interface. The native statements <span class="qtext400">COMMIT</span> or <span class="qtext400">ROLLBACK</span>
+should not be executed using CL_SQL_STATEMENT or CL_SQL_PREPARED_STATEMENT, to avoid critical side effects.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadbc_transaction.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

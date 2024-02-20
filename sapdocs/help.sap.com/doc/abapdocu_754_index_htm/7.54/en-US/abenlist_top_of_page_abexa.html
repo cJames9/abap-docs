@@ -1,0 +1,136 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLIST_TOP_OF_PAGE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_top_of_page_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Lists, Page Header">
+<title>
+Lists, Page Header - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlist_top_of_page_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlist_top_of_page_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_lists_interactive.html')" class="blue">Event Blocks for Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptop-of-page.html')" class="blue">TOP-OF-PAGE</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Lists, Page Header
+</span></p>
+<p>
+The example shows how to define the page header at the <span class="qtext">TOP-OF-PAGE</span> event.
+</p>
+<A name="@@ITOC@@ABENLIST_TOP_OF_PAGE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_list_top_of_page NO STANDARD PAGE HEADING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LINE-SIZE 80 LINE-COUNT 7.<br>
+<br>
+DATA: h1(10) TYPE c VALUE '&nbsp;&nbsp;&nbsp;&nbsp;Number',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h2(10) TYPE c VALUE '&nbsp;&nbsp;&nbsp;&nbsp;Square',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h3(10) TYPE c VALUE '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cube',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n1 TYPE i, n2 TYPE i, n3 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x TYPE i.<br>
+<br>
+TOP-OF-PAGE.<br>
+<br>
+&nbsp;&nbsp;x = sy-colno + 8.&nbsp;&nbsp;POSITION x. WRITE h1.<br>
+&nbsp;&nbsp;x = sy-colno + 8.&nbsp;&nbsp;POSITION x. WRITE h2.<br>
+&nbsp;&nbsp;x = sy-colno + 8.&nbsp;&nbsp;POSITION x. WRITE h3.<br>
+&nbsp;&nbsp;x = sy-colno + 16. POSITION x. WRITE sy-pagno.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+START-OF-SELECTION.<br>
+<br>
+&nbsp;&nbsp;DO 10 TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n1 = sy-index. n2 = sy-index ** 2. n3 = sy-index ** 3.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;NEW-LINE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE: n1 UNDER h1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n2 UNDER h2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n3 UNDER h3.<br>
+&nbsp;&nbsp;ENDDO.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLIST_TOP_OF_PAGE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This program creates a two-page list. In the user-defined page header, column titles are placed in relative
+position to each other using the system field <span class="qtext">sy-colno</span> and the <span class="qtext">POSITION</span>
+statement. The actual list output is positioned under the fields of the header line using the addition
+<span class="qtext">UNDER</span> of the <span class="qtext">WRITE</span> statement. The line feeds are made using <span class="qtext">NEW-LINE</span>.
+</p>
+<p>
+The different output positions of the individual fields result from the ABAP default of representing
+character strings as left-justified and numeric fields as right-justified. The alignment can be adjusted
+using the formatting options <span class="qtext">LEFT-JUSTIFIED</span>, <span class="qtext">RIGHT-JUSTIFIED</span>,
+and <span class="qtext">CENTERED</span> of the <span class="qtext">WRITE</span> statement (see <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">WRITE - format_options</span></a>).
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_top_of_page_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+</html>

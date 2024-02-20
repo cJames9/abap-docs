@@ -1,0 +1,181 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_SEARCHED_CASE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_searched_case.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sql_exp - sql_searched_case">
+<title>
+sql_exp - sql_searched_case - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_searched_case.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_searched_case.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">ABAP SQL - SQL Expressions sql_exp</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_case.html')" class="blue">sql_exp - sql_case</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CASE WHEN@@!ABAP_OSQL_EXP!@@"></A>
+<p><span class="h1">
+sql_exp - sql_searched_case
+</span></p>
+<A name="@@ITOC@@ABENSQL_SEARCHED_CASE_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... CASE WHEN <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">sql_cond1</a> THEN result1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>WHEN <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">sql_cond2</a> THEN result2<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>WHEN <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">sql_cond3</a> THEN result3<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ELSE resultn<i class=bn>]</i> <br>&nbsp;&nbsp;&nbsp;&nbsp;END ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Complex <a href="javascript:call_link('abensql_case.html')" class="blue">case distinction</a> (searched case) in ABAP SQL. This
+SQL expression evaluates logical expressions <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue"><span class="qtext">sql_cond1</span></a>,
+<a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue"><span class="qtext">sql_cond2</span></a>, ... and produces
+the operand <span class="qtext">result</span> as a result after the first <span class="qtext">THEN</span>
+for which the logical expression is true. If none of the logical expressions are true, the <span class="qtext">result</span>
+specified after <span class="qtext">ELSE</span> is selected. If <span class="qtext">ELSE</span> is not specified, the result is the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">zero value</a>. The results <span class="qtext">result1</span>, <span class="qtext">result2</span>, ... can be any
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a>.
+</p>
+<p>
+The results must be compatible with each other in such a way that a common result type can be determined:
+The data types <span class="qtext">result1</span>, <span class="qtext">result2</span>, ... must be either
+the same or the data type must be able to fully represent the value of all other data types. If this
+is not the case, a statically specified type raises a syntax error and a dynamically specified type
+raises an exception of the class CX_SY_DYNAMIC_OSQL_SEMANTICS. The result has the dictionary type of the entry with the greatest value range.
+</p>
+<p>
+If a complex <span class="qtext">CASE</span> is used in a
+<a href="javascript:call_link('abenasql_cond.html')" class="blue">condition</a> of an ABAP SQL statement, the
+<a href="javascript:call_link('abenclient_column_glosry.html')" class="grey" title="Glossary Entry">client column</a> of a client-specific
+data source of a query or of the target of a write statement cannot be used as the operand of a <span class="qtext">WHEN</span> condition due to
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The SQL standard dictates the result of a case distinction, but not the order in which the operands
+are evaluated. Potentially, the result may even be evaluated before the associated condition. This means that any expressions specified as operands must have no side effects and must not be dependent on each other.</li>
+</ul>
+<ul class="disc">
+<li>On the <a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>,
+operands are evaluated in parallel for reasons of optimization. The order in which the operands are
+evaluated is undefined. If an exception is raised when am operand is evaluated, the entire case distinction
+is canceled. Here, it does not matter which conditions apply and the order in which they are noted. From this reason, it is advisable not to use any exceptions in expressions specified as operands. More information can be found in the
+<a href="https://help.sap.com/viewer/4fe29514fd584807ac9f2a04f6754767/2.0.03/en-US" target="blank" class="blue">HANA-specific SQL</a> documentation.</li>
+</ul>
+<ul class="disc">
+<li>If the case distinction is evaluated in the table buffer, the order of processing is preserved and there is no crash when an operand is evaluated whose condition is not true.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">relational expressions</a> that can be used after <span class="qtext">CASE</span> are a subset of the
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">relational expressions for statements</a>, but also allow <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> as operands on the right side.</li>
+</ul>
+<ul class="disc">
+<li>When complex <span class="qtext">CASE</span> is used, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode from Release 7.40, SP08</a>, which handles the statement more strictly than the regular syntax check.</li>
+</ul>
+<ul class="disc">
+<li>A client column can be used as an operand only if
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a> is disabled using the obsolete addition <span class="qtext">CLIENT SPECIFIED</span> for the query or the write statement.</li>
+</ul>
+<ul class="disc">
+<li>When SQL expressions are specified on the left side or host expressions occur on the right side, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue"> strict mode from Release 7.50</a>, which handles the statement more strictly than the regular syntax check.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Evaluates the column FLTIME in a complex <span class="qtext">CASE</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityfrom, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityto, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE WHEN fltime &lt; 100 THEN 'short' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN fltime BETWEEN 100 AND 300 THEN 'medium' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE 'long' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END AS fltime <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensql_expr_searched_case_abexa.html')" class="blue">SQL Expressions, Complex <span class="qtext">CASE</span></a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abensql_expr_searched_case_abexa.html')" class="blue">SQL Expressions, Complex CASE</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_searched_case.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+</html>

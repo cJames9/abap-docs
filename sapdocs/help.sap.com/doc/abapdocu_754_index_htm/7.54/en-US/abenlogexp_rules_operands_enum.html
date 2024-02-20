@@ -1,0 +1,112 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOGEXP_RULES_OPERANDS_ENUM -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlogexp_rules_operands_enum.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="rel_exp - Comparison of Enumerated Types">
+<title>
+rel_exp - Comparison of Enumerated Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlogexp_rules_operands_enum.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlogexp_rules_operands_enum.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogical_expr_func.html')" class="blue">Expressions and Functions for Conditions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp.html')" class="blue">log_exp - Logical Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp_comp.html')" class="blue">rel_exp - Comparison Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp_rules.html')" class="blue">rel_exp - Comparison Rules</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+rel_exp - Comparison of Enumerated Types
+</span></p>
+<p>
+An operand with an <a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">enumerated type</a> can only be compared with
+<a href="javascript:call_link('abenenumerated_object_glosry.html')" class="grey" title="Glossary Entry">enumerated objects</a> of the same enumerated type. There is no implicit conversion. The values of the operands are compared according to the
+<a href="javascript:call_link('abenlogexp_rules_operands.html')" class="blue">rules</a> that apply to the elementary <a href="javascript:call_link('abenbase_type_glosry.html')" class="grey" title="Glossary Entry">base type</a> of the enumerated type.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+An operand of an enumerated type cannot be compared directly with a character-like operand of the type <span class="qtext">c</span> or <span class="qtext">string</span>, even though there is a
+<a href="javascript:call_link('abenconversion_enumerated.html')" class="blue">conversion rule</a> for this case. In this case,
+helper variables or the conversion operator <a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue"><span class="qtext">CONV</span></a> can be used to execute an explicit conversion.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the first two comparisons, <a href="javascript:call_link('abenenumerated_object_glosry.html')" class="grey" title="Glossary Entry">
+enumerated objects</a> of the enumerated type <span class="qtext">number</span> are compared with each
+other. The third comparison shows how an operand with an enumerated type can be converted so that it can be compared like a character.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF ENUM number, <br>&nbsp;&nbsp;&nbsp;&nbsp;n0, n1 , n2 , n3, n4, n5, n6, n7, n8, n9, <br>
+&nbsp;&nbsp;END OF ENUM number. <br> <br>DATA: num2 TYPE number VALUE n2, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num5 TYPE number VALUE n5. <br>
+ <br>IF num2 &lt; num5. <br>&nbsp;&nbsp;cl_demo_output=>write( |num2 &lt; num5| ). <br>ENDIF. <br> <br>IF num2 > n0. <br>
+&nbsp;&nbsp;cl_demo_output=>write( |num2 > n0| ). <br>ENDIF. <br> <br>IF CONV string( n7 ) = `N7`. <br>&nbsp;&nbsp;cl_demo_output=>write( |CONV string( n7 ) = `N7`| ). <br>ENDIF. <br> <br>cl_demo_output=>display( ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlogexp_rules_operands_enum.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+</html>

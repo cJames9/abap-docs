@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOPEN_SQL_PATH_RESTRICTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopen_sql_path_restrictions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL - Restrictions for Path Expressions">
+<title>
+ABAP SQL - Restrictions for Path Expressions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenopen_sql_path_restrictions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenopen_sql_path_restrictions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">ABAP SQL - SQL path expressions sql_path</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP SQL - Restrictions for Path Expressions
+</span></p>
+<p>
+In principle, the same restrictions apply to path expressions in ABAP SQL and the
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> or
+<a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">CTE expressions</a> used there as when using a corresponding
+<a href="javascript:call_link('abapselect_join.html')" class="blue">join expression</a>. For example, a path expression cannot
+be used together with the addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER
+BY PRIMARY KEY</span></a>. These restrictions are documented in the clauses in question. The following restrictions currently also apply:
+</p>
+<ul class="disc">
+<li>Requirements on the CDS entities or common table expressions</li>
+</ul>
+<ul class="circlem2">
+<li>The target data sources of the associations of a path expression cannot be database tables or database views with
+<a href="javascript:call_link('abenreplacement_object_glosry.html')" class="grey" title="Glossary Entry">replacement objects</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>No <a href="javascript:call_link('abencds_f1_literal.html')" class="blue">literals</a> with prefixed <span class="qtext400">#domain</span>
+or <span class="qtext400">:domain</span> can be used in the CDS associations of the path expression to check the fixed value in the value range of a domain.</li>
+</ul>
+<ul class="circlem2">
+<li>Due to <a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>, no
+associations can be used whose <span class="qtext400">ON</span> condition accesses the client columns
+of their source data source or target data source. This cannot be bypassed using the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> either.</li>
+</ul>
+<ul class="disc">
+<li>Requirements on ABAP SQL</li>
+</ul>
+<ul class="circlem2">
+<li>If a value greater than 1 is defined for the cardinality of an association of a path expression
+in the <span class="qtext">FROM</span> clause for <span class="qtext400">max</span>, an identical path
+expression must also be specified in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>If the addition <span class="qtext">CORRESPONDING</span> or an inline declaration <a href="javascript:call_link('abapselect_into_target.html')" class="blue">
+<span class="qtext">@DATA(...)</span></a> is used in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause of a <span class="qtext">SELECT</span> statement, any columns of the <a href="javascript:call_link('abapselect_list.html')" class="blue">
+<span class="qtext">SELECT</span> list</a> specified using a path expression must have an alias name
+<span class="qtext">alias</span> defined using <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">AS</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>A <a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> specified as a path expression
+in the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a> can be
+used in the <span class="qtext">SELECT</span> statement only by using an alias name <span class="qtext">tabalias</span>
+defined using <span class="qtext">AS</span> in front of the column selector <span class="qtext">~</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>The obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> cannot be used together with path expressions containing
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> whose
+target data source is client-specific. In path expressions in the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">
+FROM</span></a> clause, the source data sources of the associations cannot be client-specific either.</li>
+</ul>
+<ul class="circlem2">
+<li>The addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING CLIENT</span></a>
+and the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> cannot be combined with path expressions containing
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> or
+<a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">CTE associations</a> that are
+<a href="javascript:call_link('abapwith_associations_defining.html')" class="blue">published</a> by common table expressions.</li>
+</ul>
+<ul class="circlem2">
+<li>If the alias name <span class="qtext">tabalias</span> is specified statically using <span class="qtext">AS</span>
+when the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a> <span class="qtext">source_syntax</span> is specified dynamically, no path expressions can be used here.</li>
+</ul>
+<ul class="circlem2">
+<li>Path expressions cannot be used in the <span class="qtext">ON</span> condition of a <a href="javascript:call_link('abapselect_join.html')" class="blue">join expression</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>In <span class="qtext">SELECT</span> statements, path expressions cannot currently be used together
+with the addition <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR ALL ENTRIES</span></a>.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Fewer restrictions apply to the path expressions <a href="javascript:call_link('abencds_f1_path_expression.html')" class="blue"><span class="qtext400">path_expr</span></a> in the
+<a href="javascript:call_link('abenabap_cds_glosry.html')" class="grey" title="Glossary Entry">ABAP CDS</a> CDS DDL. If CDS association reads are required that are possible in ABAP CDS but not in ABAP SQL, they can be moved to a
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopen_sql_path_restrictions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+</html>

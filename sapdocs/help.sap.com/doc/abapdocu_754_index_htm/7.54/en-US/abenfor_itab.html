@@ -1,0 +1,186 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENFOR_ITAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfor_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FOR - Table Iterations">
+<meta name="keywords" content="ABAP, FOR Expressions, Table Iteration">
+<title>
+FOR - Table Iterations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenfor_itab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenfor_itab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_expr_func.html')" class="blue">Expressions and Functions for Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@IN@@FOR@@"></A>
+<A NAME="@@INDEX INTO@@FOR@@"></A>
+<p><span class="h1">
+FOR - Table Iterations
+</span></p>
+<p><span class="h2">
+<span class="bold">Syntax Forms</span>
+</span></p>
+<P>
+ <br><a href="javascript:call_link('abenfor_in_itab.html')" class="blue">Read rows of internal tables</a> <br> <br>1. <span class="qtext">... FOR wa<i class=bn>|</i>&lt;fs> IN itab <i class=bn>[</i>INDEX INTO idx<i class=bn>]</i> <i class=bn>[</i>
+<a href="javascript:call_link('abenfor_cond.html')" class="blue">cond</a><i class=bn>]</i> <i class=bn>[</i><a href="javascript:call_link('abaplet.html')" class="blue">let_exp</a><i class=bn>]</i>&nbsp;&nbsp;...</span> <br>
+ <br><a href="javascript:call_link('abenfor_groups_of.html')" class="blue">Group rows of internal tables</a> <br> <br>2. <span class="qtext">... FOR GROUPS <i
+class=bn>[</i>group<i class=bn>|</i>&lt;group><i class=bn>]</i> OF wa<i class=bn>|</i>&lt;fs> IN itab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>INDEX INTO idx<i class=bn>]</i> <i class=bn>[</i><a href="javascript:call_link('abenfor_cond.html')" class="blue">cond</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY <a href="javascript:call_link('abaploop_at_itab_group_by_key.html')" class="blue">group_key</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING <i class=bn>[</i>AS TEXT<i class=bn>]</i><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>WITHOUT MEMBERS<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abaplet.html')" class="blue">let_exp</a><i class=bn>]</i> ...</span> <br>
+ <br><a href="javascript:call_link('abenfor_in_group.html')" class="blue">Read group members of internal tables</a> <br> <br>3. <span class="qtext">... FOR <i
+class=bn>{</i> wa<i class=bn>|</i>&lt;fs> IN GROUP group <i class=bn>[</i>INDEX INTO idx<i class=bn>]</i> <i class=bn>[</i>
+<a href="javascript:call_link('abenfor_cond.html')" class="blue">WHERE ( log_exp )</a><i class=bn>]</i> <i class=bn>}</i> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> GROUPS OF <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa<i class=bn>|</i>&lt;fs> IN GROUP group <i class=bn>[</i>INDEX INTO idx<i class=bn>]</i> <i class=bn>[</i>
+<a href="javascript:call_link('abenfor_cond.html')" class="blue">WHERE ( log_exp )</a><i class=bn>]</i> <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY <a href="javascript:call_link('abaploop_at_itab_group_by_key.html')" class="blue">group_key</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING <i class=bn>[</i>AS TEXT<i class=bn>]</i><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>WITHOUT MEMBERS<i class=bn>]</i> <i class=bn>}</i> <i class=bn>[</i>
+<a href="javascript:call_link('abaplet.html')" class="blue">let_exp</a><i class=bn>]</i> ...</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+These syntax forms of an <a href="javascript:call_link('abeniteration_expression_glosry.html')" class="grey" title="Glossary Entry">
+iteration expression</a> using <a href="javascript:call_link('abenfor.html')" class="blue"><span class="qtext">FOR</span></a> perform
+<a href="javascript:call_link('abentable_iteration_glosry.html')" class="grey" title="Glossary Entry">table iterations</a>.
+</p>
+<ul class="disc">
+<li>When used in a constructor expression with the reduction operator <a href="javascript:call_link('abenconstructor_expression_reduce.html')" class="blue"><span class="qtext">REDUCE</span></a>, these forms are known as
+<a href="javascript:call_link('abentable_reduction_glosry.html')" class="grey" title="Glossary Entry">table reductions</a>.</li>
+</ul>
+<ul class="disc">
+<li>When used in a constructor expression with the instance operator <a href="javascript:call_link('abennew_constructor_params_itab.html')" class="blue">
+<span class="qtext">NEW</span></a> or with the value operator <a href="javascript:call_link('abenvalue_constructor_params_itab.html')" class="blue"><span class="qtext">VALUE</span></a> for internal tables, these forms are known as
+<a href="javascript:call_link('abentable_comprehension_glosry.html')" class="grey" title="Glossary Entry">table comprehensions</a>.</li>
+</ul>
+<p>
+A <span class="qtext">FOR</span> expression like this evaluates the content of an internal table and
+its result can be used to construct the result of the wrapper constructor expression. The three variants
+of a <span class="qtext">FOR</span> expression for internal tables work in the same way as the following
+variants of the statement <a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue"><span class="qtext">LOOP AT itab</span></a>:
+</p>
+<ul class="disc">
+<li>The first variant <a href="javascript:call_link('abenfor_in_itab.html')" class="blue"><span class="qtext">FOR ... IN itab</span></a>
+works in the same way as the regular row variant <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP AT itab</span></a> without the addition <span class="qtext">GROUP BY</span>.</li>
+</ul>
+<ul class="disc">
+<li>The second variant <a href="javascript:call_link('abenfor_groups_of.html')" class="blue"><span class="qtext">FOR GROUPS ...
+OF</span></a> works in the same way as the variant for grouping rows with the addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP BY</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>The third variant <a href="javascript:call_link('abenfor_in_group.html')" class="blue"><span class="qtext">FOR ... IN GROUP</span></a>
+works in the same way as the variant <a href="javascript:call_link('abaploop_at_group.html')" class="blue"><span class="qtext">LOOP AT GROUP</span></a> for
+<a href="javascript:call_link('abenmember_loop_glosry.html')" class="grey" title="Glossary Entry">member loops</a>.</li>
+</ul>
+<p>
+The variables or field symbols declared in the <span class="qtext">FOR</span> expressions are local
+in these expressions. The local data from all outer <span class="qtext">FOR</span> expressions can be
+used when their values are defined. As an option, <span class="qtext">LET</span> expressions <a href="javascript:call_link('abaplet.html')" class="blue">
+<span class="qtext">let_exp</span></a> can be used to define local helper fields at the end of each <span class="qtext">FOR</span> expression.
+</p>
+<p>
+The system field <span class="qtext">sy-tabix</span> is not set by a <span class="qtext">FOR</span> expression. The addition <span class="qtext">INDEX INTO</span> can be used instead.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Multiple sequential <span class="qtext">FOR</span> expressions with different variants (including the
+<a href="javascript:call_link('abenfor_conditional.html')" class="blue">conditional iteration</a>) can be specified in a constructor expression. These expressions then work in the same way as nested loops.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Generates an internal table <span class="qtext">jtab</span> from an internal table <span class="qtext">itab</span> using a
+<a href="javascript:call_link('abentable_comprehension_glosry.html')" class="grey" title="Glossary Entry">table comprehension</a>. Generates a text string <span class="qtext">str</span> from the internal table <span class="qtext">jtab</span> using a
+<a href="javascript:call_link('abentable_reduction_glosry.html')" class="grey" title="Glossary Entry">table reduction</a>. The result in <span class="qtext">str</span> is the character string <span class="qtext400">1, 9, 25</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES itab TYPE TABLE OF i WITH EMPTY KEY. <br> <br>DATA(itab) = VALUE itab( ( 1 ) ( 3 ) ( 5 ) ). <br> <br>
+DATA(jtab) = VALUE itab( FOR wa IN itab ( ipow( base = wa exp = 2 ) ) ). <br> <br>DATA(str) = REDUCE string( INIT s = `` <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FOR wa IN jtab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NEXT s = COND #( WHEN s = `` THEN |{ wa }| <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE |{ s }, { wa }| ) ).
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenfor_in_itab.html')" class="blue">FOR ... IN itab</a><br>
+<a href="javascript:call_link('abenfor_groups_of.html')" class="blue">FOR GROUPS ... OF</a><br>
+<a href="javascript:call_link('abenfor_in_group.html')" class="blue">FOR ... IN GROUP</a><br>
+<a href="javascript:call_link('abenfor_cond.html')" class="blue">FOR - cond</a><br>
+<a href="javascript:call_link('abentable_reductions_abexas.html')" class="blue">Examples of Table Reductions</a><br>
+<a href="javascript:call_link('abentable_comprehensions_abexas.html')" class="blue">Examples of Table Comprehensions</a><br>
+<a href="javascript:call_link('abenfor_grouping_abexas.html')" class="blue">Examples of Grouping with FOR</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfor_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:53 GMT -->
+</html>

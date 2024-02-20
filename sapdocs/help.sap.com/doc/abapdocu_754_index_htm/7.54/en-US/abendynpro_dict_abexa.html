@@ -1,0 +1,141 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_DICT_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_dict_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Fields with Reference to ABAP Dictionary">
+<title>
+Dynpros, Fields with Reference to ABAP Dictionary - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_dict_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_dict_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_fields.html')" class="blue">Dynpro Fields</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynpro_field_abexas.html')" class="blue">Screen Fields - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Fields with Reference to ABAP Dictionary
+</span></p>
+<p>
+The example shows how dynpro fields can be associated with ABAP Dictionary.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_DICT_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM demo_dynpro_dictionary .<br>
+<br>
+TABLES demo_conn.<br>
+DATA wa_spfli TYPE spfli.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE init_screen_100 OUTPUT.<br>
+&nbsp;&nbsp;CLEAR demo_conn-mark.<br>
+&nbsp;&nbsp;MOVE-CORRESPONDING wa_spfli TO demo_conn.<br>
+&nbsp;&nbsp;CLEAR wa_spfli.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100 INPUT.<br>
+&nbsp;&nbsp;IF demo_conn-mark = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;MOVE-CORRESPONDING demo_conn TO wa_spfli.<br>
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;SINGLE cityfrom, airpfrom, cityto, airpto,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fltime, deptime, arrtime<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;&nbsp;spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @wa_spfli-carrid AND connid = @wa_spfli-connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;&nbsp;CORRESPONDING FIELDS OF @wa_spfli.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_DICT_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. The statement <span class="qtext">TABLES</span>
+passes the components of the structure <span class="lnkgrey">DEMO_CONN</span> from ABAP Dictionary.
+The structure DEMO_CONN was especially created in ABAP Dictionary for dynpros of the flight data model.
+Apart from the components of the database table <span class="lnkgrey">SPFLI</span>, there is also a component MARK whose domain S_FLAG only defines the fixed values <span class="qtext400">"
+"</span> and <span class="qtext400">"X"</span>. On the dynpro, the ABAP Dictionary text for MARK is
+overwritten with "Cancel"; for all other fields the ABAP Dictionary fields are used. Some fields are
+no longer ready for input in Screen Painter. Users can enter values for the airline and flight number.
+In this process, the user is automatically assisted by the field and the input help and the valid value
+check against check tables of ABAP Dictionary. These checks are performed automatically before any dialog
+module is called in the ABAP program. It is not possible for the user to enter an airline not defined
+in the check table SCARR or to enter any flight numbers not matching the airlines defined in SPFLI, or to enter any values for MARK except <span class="qtext400">"
+"</span> and <span class="qtext400">"X"</span>. Not all these checks need to be programmed in the ABAP
+program. The module <span class="qtext">user_command_0100</span> of the ABAP program reads additional
+values for the checked key from the database table SPFLI and sends them to the dynpro in the <span class="qtext">init_screen_100</span>
+event. The work area <span class="qtext">demo_conn</span>, declared using the statement <span class="qtext">TABLES</span>
+is used as an interface, while the actual data from the database is edited in the work area <span class="qtext">wa_spfli</span>.
+If the user fills the <span class="italic">Cancel</span> field with <span class="qtext400">"X"</span>, the program exits.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_dict_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+</html>

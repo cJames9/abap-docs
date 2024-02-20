@@ -1,0 +1,144 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_XSLT_ID -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_xslt_id.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Identity Transformation">
+<meta name="keywords" content="ABAP, ID, Identity Transformation">
+<title>
+Identity Transformation - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_xslt_id.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_xslt_id.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt.html')" class="blue">XSL Transformations</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Identity Transformation
+</span></p>
+<p>
+<span class="lnkgrey">ID</span> is the identify transformation provided by SAP. Depending on the source and target, this may be handled in a special way by the runtime environment:
+</p>
+<ul class="disc">
+<li>In an identity transformation from XML to XML, the result is a normalized copy of the source document, in which the attributes of an element are in alphabetical order.</li>
+</ul>
+<ul class="disc">
+<li>If perform an identity transformation is performed from ABAP to XML, this produces a canonical XML representation
+(<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">asXML</a>) of the ABAP data (explicit serialization).</li>
+</ul>
+<ul class="disc">
+<li>An identity transformation from XML to ABAP transforms a canonical XML representation to ABAP data (explicit deserialization).</li>
+</ul>
+<ul class="disc">
+<li>In the case of an identity transformation with
+<a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a> data as an XML source or an
+<a href="javascript:call_link('abenjson_writer_glosry.html')" class="grey" title="Glossary Entry">JSON writer</a> as an XML target, a special type of
+<a href="javascript:call_link('abenabap_json_trafo_id.html')" class="blue">handling</a> is performed for <a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a>.</li>
+</ul>
+<p>
+In each transformation from XML, the identity transformation validates the outbound data. If an XML
+element has multiple attributes with the same name, all of these attributes are ignored except one,
+which is given the value of the last identically named attribute (see example program <span class="lnkgrey">DEMO_XML_ATTRIBUTES</span>).
+The identity transformation implicitly uses canonical XML formats (for all transformations apart from
+XML to XML) to display non-XML data (ABAP, JSON) in XML format. This is the reason why the identity
+transformation is used internally and can also be called explicitly, if the formats it creates are sufficient or need to be analyzed.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The identity transformation ID is not completely symmetrical. When text strings that contain only
+blanks are serialized, the result is a node with the same number of blanks. When nodes that contain only spaces (such as blanks or line breaks) are deserialized, however, an empty text is created.</li>
+</ul>
+<ul class="disc">
+<li>The identity transformation ID exists as an XSLT program in the repository but it is not always
+executed as a program. When the identify transformation ID is called, an optimized ID engine of the
+runtime environment might be called, depending on the source and target. This ID engine creates the result described above.</li>
+</ul>
+<ul class="disc">
+<li>If the predefined identity transformation ID is copied to a different XSLT program, the full scope
+of the target program cannot be used, since in this case no internal special handling takes place. A non-optimized copy of ID is executed in accordance with its source code as an
+<a href="javascript:call_link('abendom_glosry.html')" class="grey" title="Glossary Entry">XSL</a> transformation on a DOM from
+the iXML library. More specifically, JSON data is not handled in the same way as with ID and usually raises an exception.</li>
+</ul>
+<ul class="disc">
+<li>If the identity transformation ID is used, the way element names are written in XML or object names
+written in JSON cannot be modified. If XML data or JSON data is to be deserialized to ABAP data, however,
+the names of the corresponding elements or objects must be in uppercase letters. If this is not the case in the source data, either transformations must be created or the data modified in advance. The executable example
+<a href="javascript:call_link('abencall_trafo_upper_lower_abexa.html')" class="blue">Transformation of XML Element Names</a> demonstrates how to modify
+<a href="javascript:call_link('abenabap_json_names_to_upper_abexa.html')" class="blue">XML</a> data and the example JSON, Transform Names demonstrates this for JSON data.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenxslt_abexa.html')" class="blue">Identity Transformation to the asXML Format</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenxslt_abexa.html')" class="blue">Identity Transformation to asXML Format</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_xslt_id.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

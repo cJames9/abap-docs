@@ -1,0 +1,638 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_ANNOTATIONS_ANALYSIS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_annotations_analysis.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - Evaluation of Annotations">
+<title>
+ABAP CDS - Evaluation of Annotations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_annotations_analysis.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_annotations_analysis.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_annotations.html')" class="blue">ABAP CDS - Annotations</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CL_DD_DDL_ANNOTATION_SERVICE@@!ABAP_CLASS!@@"></A>
+<p><span class="h1">
+ABAP CDS - Evaluation of Annotations
+</span></p>
+<p>
+When an object defined in the <a href="javascript:call_link('abencds_source_code_glosry.html')" class="grey" title="Glossary Entry">CDS source code</a> is activated, the annotations defined in the
+<a href="javascript:call_link('abencds_annotation_syntax_glosry.html')" class="grey" title="Glossary Entry">CDS annotation syntax</a>
+there are saved in internal database tables in ABAP Dictionary. These tables can then be accessed to evaluate the data. This is done for every annotation with correct syntax regardless of name and value.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_1" class="blue">System Class CL_DD_DDL_ANNOTATION_SERVICE</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_2" class="blue">Metadata Extensions</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_3" class="blue">Direct, Inherited, and Derived Annotations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_4" class="blue">Subannotations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_5" class="blue">Annotation Arrays</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_6" class="blue">Null Values</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_7" class="blue">Annotations for Translatable Texts</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_8" class="blue">Performing the Evaluation</A></li>
+</ul>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_1"></A>
+<p><span class="h2">
+System Class CL_DD_DDL_ANNOTATION_SERVICE
+</span></p>
+<p>
+The following documented system class is provided for evaluations of the annotations of <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a>:
+</p>
+<p>
+<span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>
+</p>
+<p>
+The methods of this class return the annotations of CDS entities. By default, the annotations are returned from
+<a href="javascript:call_link('abencds_metadata_extension_glosry.html')" class="grey" title="Glossary Entry">metadata extensions</a>
+first, and then from the CDS entity itself. In the latter case, a distinction can be made between direct, derived and inherited annotations, while in the case of inherited annotations the
+<a href="javascript:call_link('abencds_metadata_extension_glosry.html')" class="grey" title="Glossary Entry">metadata extensions</a>
+(if present) are handled first. More specifically, an initial annotation value is returned in cases where an annotation has no values specified, rather than any default value defined in the annotation definition.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The method GET_ANNOTATIONS of the class <span class="lnkgrey">CL_DD_DDL_ANALYZE</span> also returns
+the annotations of CDS entities. It must be noted, however, that these only analyze the associated DDL
+source code. Annotations from metadata extensions, derived and inherited annotations, and the translations of annotations for translatable texts are ignored.</li>
+</ul>
+<ul class="disc">
+<li>When the system class CL_DD_DDL_ANNOTATION_SERVICE is used to evaluate annotations, the annotations of the CDS entities are also respected, as specified in their
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL source code</a> in
+<a href="javascript:call_link('abencds_annotation_syntax_glosry.html')" class="grey" title="Glossary Entry">CDS annotation syntax</a>. The associated
+<a href="javascript:call_link('abencds_anno_definition_glosry.html')" class="grey" title="Glossary Entry">annotation definitions</a>
+are ignored by CL_DD_DDL_ANNOTATION_SERVICE. The validity of an annotation must be checked by the responsible framework.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ADT</a> supports the specification of valid annotations (namely annotations with an
+<a href="javascript:call_link('abencds_anno_definition_glosry.html')" class="grey" title="Glossary Entry">annotation definition</a>) by using colors in the source code and code completion.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abencds_semantics_annotation_abexa.html')" class="blue">Evaluating Annotations</a>
+</p>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_2"></A>
+<p><span class="h2">
+Metadata Extensions
+</span></p>
+<p>
+<a href="javascript:call_link('abencds_meta_data_extensions.html')" class="blue">Metadata extensions</a> add further annotations to a CDS entity or override existing annotations. Currently metadata extensions can only be defined for
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> and
+<a href="javascript:call_link('abenabstract_entity_glosry.html')" class="grey" title="Glossary Entry">abstract CDS entities</a>.
+Only specific annotations can be added to metadata extensions. These annotations are ignored when the CDS entity is activated.
+</p>
+<p>
+The methods of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span> (except GET_DIRECT_ANNOS_...)
+<a href="javascript:call_link('abencds_meta_data_extension_eval.html')" class="blue">respect</a> by default the existing metadata
+extensions in the current AS ABAP when the annotations of a CDS entity are evaluated. There can be multiple
+metadata extensions for an entity. These extensions can be distinguished by assignments to various layers, such as industry, partner, and customer, and by the association with
+<a href="javascript:call_link('abencds_variant_glosry.html')" class="grey" title="Glossary Entry">CDS variants</a>. The methods of the class CL_DD_DDL_ANNOTATION_SERVICE collect all annotations belonging to the CDS entity in the following order:
+</p>
+<ul class="disc">
+<li>Annotations from metadata extensions</li>
+</ul>
+<ul class="disc">
+<li>Direct annotations from the data definition</li>
+</ul>
+<ul class="disc">
+<li>Indirect annotations (derived and inherited annotations)</li>
+</ul>
+<p>
+Here every annotation is only returned once for its scope. If annotations have the same name, the priority
+is determined first by the explicit specification of a CDS variant when the method is called, and then by the layers of the involved metadata extensions. The evaluation is performed using the following
+<a href="javascript:call_link('abencds_meta_data_extension_eval.html')" class="blue">steps</a>:
+</p>
+<ul class="disc">
+<li>First the metadata extensions of the specified variant are evaluated. Here, an annotation of a higher level overrides the annotation of a lower layer.</li>
+</ul>
+<ul class="disc">
+<li>Then the metadata extensions are evaluated, which are not linked to any variants. Once again, higher levels override lower levels.</li>
+</ul>
+<ul class="disc">
+<li>Finally, the direct and indirect annotations of the CDS entity are evaluated. In the evaluation of the annotations inherited from the other CDS entities, any metadata extensions are taken into account first.</li>
+</ul>
+<p>
+Annotations found in an earlier evaluation level always have the higher priority. An annotation from
+a later level is only returned if it has already been found in an earlier level. The results of the class CL_DD_DDL_ANNOTATION_SERVICE show where an annotation was specified.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Annotations from metadata extensions are not stored in the same system tables as annotations from
+the DDL source code of a CDS entity. They can only be made accessible by using the class CL_DD_DDL_ANNOTATION_SERVICE. Other classes ignore metadata extensions.</li>
+</ul>
+<ul class="disc">
+<li>For more information and examples related to evaluation, see
+<a href="javascript:call_link('abencds_meta_data_extensions.html')" class="blue">metadata extensions</a> and <a href="javascript:call_link('abencds_meta_data_extension_eval.html')" class="blue">evaluation of metadata extensions</a>.</li>
+</ul>
+<ul class="disc">
+<li>The program <span class="lnkgrey">ABAP_DOCU_MDE_ANNOS</span> shows all annotations that can be specified in metadata extensions.</li>
+</ul>
+<p><span class="h4">
+Caution
+</span></p>
+<p>
+<span class="bold">CDS variants are not currently released for general use. It is not possible to define standalone CDS variants and the use of CDS variants in metadata extensions produces a syntax check warning.</span>
+</p>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_3"></A>
+<p><span class="h2">
+Direct, Inherited, and Derived Annotations
+</span></p>
+<p>
+In the evaluation of annotations of a CDS entity using methods of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>,
+which cannot be overridden by metadata extensions, it is possible to distinguish between the following types of annotations:
+</p>
+<ul class="disc">
+<li>Direct annotations</li>
+</ul>
+<dl><dd>
+In the <a href="javascript:call_link('abencds_annotations_syntax.html')" class="blue">annotation syntax</a>, these annotations
+are specified directly in the DDL source code of the CDS entity currently being evaluated. The methods GET_DIRECT_ANNOS_ of the class CL_DD_DDL_ANNOTATION_SERVICE only read these annotations.
+</dd></dl>
+<ul class="disc">
+<li>Indirect annotations</li>
+</ul>
+<dl><dd>
+In addition to returning direct annotations, the methods of the class CL_DD_DDL_ANNOTATION_SERVICE (except for GET_DIRECT_ANNOS_) also return annotations that are not specified in the DDL source code:
+</dd></dl>
+<ul class="circlem2">
+<li>Inherited annotations <br> <br>If these annotations are not specified explicitly in the DDL source
+code of the CDS entity, they are taken from the dictionary objects used in the CDS entity, in accordance
+with the rules described in the class documentation of <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>.
+When other CDS entities are accessed, their annotations specified in metadata extensions, direct annotations,
+and derived annotations are inherited. Other dictionary objects, such as database tables and classic
+views, do not have any direct annotations. However, their annotations derived from assigned data elements are inherited. The view annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">Metadata.ignorePropagatedAnnotations</span></a> can be used to specify whether the class CL_DD_DDL_ANNOTATION_SERVICE takes into account or ignores inherited annotations.</li>
+</ul>
+<ul class="circlem2">
+<li>Derived annotations <br> <br>If these annotations are not explicitly specified or inherited in the
+DDL source code of the CDS entity, they are derived (if possible) from assigned data elements of ABAP
+Dictionary. The relevant annotations are the element and parameter annotations <span class="qtext400">@EndUserText.Label</span>,
+<span class="qtext400">@EndUserText.QuickInfo</span> and <span class="qtext400">@EndUserText.Heading</span>,
+which are supplied with texts according to rules (described in the class documentation <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>)
+from the field labels of assigned data elements. The annotation <span class="qtext400">@EndUserText.Heading</span>
+is only currently possible as an implicit annotation for this purpose. If specified directly in the
+DDL source code of a data definition, an annotation is not recognized as a language-dependent text. <span class="qtext400">@EndUserText.Heading</span> is also not allowed in the
+<a href="javascript:call_link('abenddlx_source_code_glosry.html')" class="grey" title="Glossary Entry">DDLX source code</a> of a <a href="javascript:call_link('abencds_meta_data_extensions.html')" class="blue">metadata extension</a>.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Inheritances apply especially to those <a href="javascript:call_link('abencds_f1_element_annotations.html')" class="blue">element annotations</a> of
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> published
+in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span> list</a> using a path expression <a
+ href="javascript:call_link('abencds_f1_path_expression.html')" class="blue"><span class="qtext400">path_expr</span></a>. A
+<a href="javascript:call_link('abencds_f1_select_list_association.html')" class="blue">publication</a> of a CDS association specified in a different CDS view inherits the element annotations of preceding publications.</li>
+</ul>
+<ul class="disc">
+<li>Annotations derived from data elements depend on the assignment of data elements to elements of
+the current CDS entity. This assignment is performed in the internal metadata of a CDS entity and is not dependent on inheritance.</li>
+</ul>
+<ul class="disc">
+<li>The annotations types described here apply especially to evaluations using the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>. Other APIs can evaluate the underlying metadata differently.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following three pieces of <a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">
+DDL source code</a> define three views; the first two views access the third view. The only difference between the first two views is the specification of annotation <span
+ class="qtext400">@Metadata.ignorePropagatedAnnotations:true</span>. Every view contains an element with a direct element annotation <span class="qtext400">@EndUserText.label</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ANIN1' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_anno_inheritance_1 <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_anno_inheritance_2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: 'XXXXXXXXXX' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key carrier, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key flight, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;departure, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination <br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ANIN1A' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+@Metadata.ignorePropagatedAnnotations: true <br>define view demo_cds_anno_inheritance_1A <br>&nbsp;&nbsp;as select from <br>
+&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_anno_inheritance_2 <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: 'XXXXXXXXXX' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key carrier, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key flight, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;departure, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination <br>
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ANIN2' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_anno_inheritance_2 <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join scarr on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scarr.carrid = spfli.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key spfli.carrid&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key scarr.carrname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as carrier, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: 'YYYYYYYYYY' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;key spfli.connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as flight, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.cityfrom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as departure, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cast( spfli.cityto as demo_destination )&nbsp;&nbsp; as destination <br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp; </span>
+</dd></dl>
+<p>
+The program <span class="lnkgrey">DEMO_CDS_DERIVED_INHERIT_ANNOS</span> uses a method of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span> to read the element annotations of the first two CDS views:
+</p>
+<ul class="disc">
+<li>Almost all element annotations in this example are from annotations derived from data elements.
+This applies especially to the annotation <span class="qtext400">@EndUserText.heading</span>, which
+cannot be specified in the source code. The texts of the element <span class="qtext400">destination</span>
+originate from data element <span class="qtext400">demo_destination</span>, which overrides the automatic assignment to S_TO_CITY in a <span class="qtext400">CAST</span> expression.</li>
+</ul>
+<ul class="circlem2">
+<li>Without the annotation <span class="qtext400">@Metadata.ignorePropagatedAnnotations:true</span>,
+the derived annotations are inherited from the used objects. The SOURCEOBJECT column contains the names of the objects.</li>
+</ul>
+<ul class="circlem2">
+<li>If annotation <span class="qtext400">@Metadata.ignorePropagatedAnnotations:true</span> is used, the derivation is performed in the current view and the column SOURCEOBJECT only displays names.</li>
+</ul>
+<ul class="disc">
+<li>The value of annotation <span class="qtext400">@EndUserText.label</span> of element <span class="qtext400">id</span> originates from the annotation specified directly in the first two views.</li>
+</ul>
+<ul class="disc">
+<li>The value of annotation <span class="qtext400">@EndUserText.label</span> of element <span class="qtext400">flight</span>
+originates in the first view from the annotation, which it inherits from the second view. In the second view, this inheritance is suppressed by the annotation <span
+ class="qtext400">@Metadata.ignorePropagatedAnnotations:true</span>.</li>
+</ul>
+<p>
+The <span class="qtext400">ABAPCATALOG.INTERNAL.ISMANDT</span> annotation that is visible in the output is an internal annotation, which indicates the client field of a client-specific CDS entity.
+</p>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_4"></A>
+<p><span class="h2">
+Subannotations
+</span></p>
+<p>
+In the <a href="javascript:call_link('abencds_annotations_syntax.html')" class="blue">annotation syntax</a>,
+<a href="javascript:call_link('abensub_annotation_glosry.html')" class="grey" title="Glossary Entry">subannotations</a> are specified either as
+<a href="javascript:call_link('abencds_annotations_syntax_subanno.html')" class="blue">comma-separated lists</a> in curly brackets or using
+<a href="javascript:call_link('abencds_annotations_syntax_name.html')" class="blue">structured names</a>. The way this metadata
+is saved internally is independent of the way it is specified and the methods of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>
+always return subannotations as an individual annotation with a structured name.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Subannotations specified as followed
+</p>
+<dl><dd>
+<span class="qtext400">@DemoAnno: {subAnno1: true, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subAnno2: { subAnno1: 1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subAnno2: { subAnno1: 1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subAnno2: 2 } } }</span>
+</dd></dl>
+<p>
+are the same as those specified as follows
+</p>
+<dl><dd>
+<span class="qtext400">@DemoAnno.subAnno1: true <br>@DemoAnno.subAnno2.subAnno1: 1 <br>@DemoAnno.subAnno2.subAnno2.subAnno1: 1 <br>@DemoAnno.subAnno2.subAnno2.subAnno2: 2</span>
+</dd></dl>
+<p>
+Evaluating either of the above using the method GET_DIRECT_ANNOS_4_ENTITY of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span> produces the following
+</p>
+<table border>
+<tr>
+<td><span class="bold">ANNONAME</span></td>
+<td><span class="bold">VALUE</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO.SUBANNO1</span></td>
+<td><span class="qtext400">true</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO.SUBANNO2.SUBANNO1</span></td>
+<td><span class="qtext400">1</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO.SUBANNO2.SUBANNO2.SUBANNO1</span></td>
+<td><span class="qtext400">1</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO.SUBANNO2.SUBANNO2.SUBANNO2</span></td>
+<td><span class="qtext400">2</span></td>
+</tr>
+</table><br>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_5"></A>
+<p><span class="h2">
+Annotation Arrays
+</span></p>
+<p>
+In the <a href="javascript:call_link('abencds_annotations_syntax.html')" class="blue">annotation syntax</a>,
+<a href="javascript:call_link('abenannotation_array_glosry.html')" class="grey" title="Glossary Entry">annotation arrays</a> are created using
+<a href="javascript:call_link('abencds_annotations_syntax_array.html')" class="blue">comma-separated lists</a> in square brackets
+after a specified annotation. When this metadata is saved internally, the elements of annotation arrays
+are saved as individual annotations. Here, they are saved under the name of the array. A consecutive
+index enclosed in <span class="qtext400">$</span> characters <span class="qtext400">$1$</span>, <span class="qtext400">
+$2$</span>, ... is appended to this array. Accordingly, the methods of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span> return an array as individual annotations.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+For annotation arrays, the <a href="javascript:call_link('abencds_annotations_syntax.html')" class="blue">annotation syntax</a> in DDL source code for
+<a href="javascript:call_link('abenannotation_array_glosry.html')" class="grey" title="Glossary Entry">CDS</a> entities is not
+as strict as the syntax of <a href="javascript:call_link('abencds_f1_define_annotation.html')" class="blue"><span class="qtext400">DEFINE ANNOTATION</span></a> for
+<a href="javascript:call_link('abencds_anno_definition_glosry.html')" class="grey" title="Glossary Entry">annotation definitions</a>.
+</p>
+<ul class="disc">
+<li>Array elements do not always have to have the same type in the annotation syntax.</li>
+</ul>
+<ul class="disc">
+<li>Arrays can be nested directly in the annotation syntax.</li>
+</ul>
+<p>
+In the internal metadata (and hence in the results of the methods of the class CL_DD_DDL_ANNOTATION_SERVICE),
+array elements with non-matching types are returned just as specified in the annotation syntax. Directly nested arrays are not saved but they are counted when the elements are indexed.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The <a href="javascript:call_link('abenannotation_array_glosry.html')" class="grey" title="Glossary Entry">annotation array</a> specified as follows is valid
+<a href="javascript:call_link('abencds_annotations_syntax.html')" class="blue">annotation syntax</a>, but it cannot have an <a href="javascript:call_link('abencds_anno_definition_glosry.html')" class="grey" title="Glossary Entry">annotation definition</a>.
+</p>
+<dl><dd>
+<span class="qtext400">@DemoAnno: [ true, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1,2,3], <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { subAnno1:1, subAnno2:2} ]</span>
+</dd></dl>
+<p>
+The elements of the error do not have matching types and the second element is a directly nested array.
+The method GET_DIRECT_ANNOS_4_ENTITY of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span> produces the following:
+</p>
+<table border>
+<tr>
+<td><span class="bold">ANNONAME</span></td>
+<td><span class="bold">VALUE</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO$1$</span></td>
+<td><span class="qtext400">true</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO$3$.SUBANNO1</span></td>
+<td><span class="qtext400">1</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">DEMOANNO$3$.SUBANNO2</span></td>
+<td><span class="qtext400">2</span></td>
+</tr>
+</table><br>
+<p>
+It should be noted that the nested array is counted but not returned.
+</p>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_6"></A>
+<p><span class="h2">
+Null Values
+</span></p>
+<p>
+For each <a href="javascript:call_link('abencds_f1_element_annotation.html')" class="blue">element annotation</a> of a CDS entity that is not part of an
+<a href="javascript:call_link('abenannotation_array_glosry.html')" class="grey" title="Glossary Entry">annotation array</a>,
+the special value <a href="javascript:call_link('abencds_annotations_syntax_value.html')" class="blue"><span class="qtext400">null</span></a>
+can be specified (without quotation marks). The value <span class="qtext400">null</span> leads to a
+syntax error at other positions. The value <span class="qtext400">null</span> means that the annotation
+is not returned by default by the methods of the class CL_DD_DDL_ANNOTATION_SERVICE. The default setting can be changed with the method input parameter NULL_VALUES.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Null values are only intended to hide unwanted, derived and inherited annotations in the evaluation of the annotations of a CDS entity.</li>
+</ul>
+<ul class="disc">
+<li>A null value is inherited like every value. A direct annotation of a CDS entity overwrites the annotations
+taken from used dictionary objects. This means any values can be overwritten with the null value; a null value itself can also be overwritten.</li>
+</ul>
+<ul class="disc">
+<li>In the <a href="javascript:call_link('abenddlx_source_code_glosry.html')" class="grey" title="Glossary Entry">DDLX source code</a> of
+<a href="javascript:call_link('abencds_metadata_extension_glosry.html')" class="grey" title="Glossary Entry">CDS metadata extensions</a>, null values can be specified in exactly the same way as in the
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL source code</a> of a CDS entity.</li>
+</ul>
+<ul class="disc">
+<li>The evaluation only filters the annotations out, if a null value has been specified for their identifiers.</li>
+</ul>
+<ul class="circlem2">
+<li>If specified, <span class="qtext400">@annotation.annotation1:null</span> only affects the identifier <span class="qtext400">@annotation.annotation1</span> but does not affect, for example, <span
+ class="qtext400">@annotation.annotation1.annotation2</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>If the null value is specified for an <a href="javascript:call_link('abenannotation_array_glosry.html')" class="grey" title="Glossary Entry">
+annotation array</a>, this value affects the entire array. <span class="qtext400">@annot:null</span>
+specified for an inherited annotation array <span class="qtext400">@annot:[ ..., ..., ...]</span> is applied to all elements of the array.</li>
+</ul>
+<ul class="disc">
+<li>The evaluation filters annotations with null values - completely regardless of whether they are predefined <a href="javascript:call_link('abensap_annotation_glosry.html')" class="grey" title="Glossary Entry">SAP annotations</a> or not.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following two <a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">CDS source
+codes</a> define two views; the second view accesses the first view. In the first view, <span class="qtext400">@EndUserText</span>
+annotations with literal values are specified for every element of the <span class="qtext400">SELECT</span>
+list. In the second view, some of these values are overwritten with the value <span class="qtext400">null</span>.
+This occurs in the first view for the special annotation <span class="qtext400">@EndUserText.heading</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_NULL1' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_anno_null_value_1 <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join scarr on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scarr.carrid = spfli.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.heading: null <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: 'ID' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.quickInfo: 'ID' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key spfli.carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: 'Carrier' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.quickInfo: 'Carrier' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key scarr.carrname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as carrier, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: 'Flight' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.quickInfo: 'Flight' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key spfli.connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as flight <br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_NULL2' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_anno_null_value_2 <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_anno_null_value_1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText: null <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.heading: null <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.label: null <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key carrier, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.heading: null <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@EndUserText.quickInfo: null <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key flight <br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+</dd></dl>
+<p>
+The program <span class="lnkgrey">DEMO_CDS_NULL_ANNOS</span> uses a method of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>
+to read the element annotations of the two CDS views. Annotations containing the value <span class="qtext400">null</span> in the second view are not reset.
+</p>
+<ul class="disc">
+<li>The annotation <span class="qtext400">@EndUserText: null</span> is ignored in front of the element
+<span class="qtext400">id</span>. This annotation does not filter out all <span class="qtext400">@EndUserText</span>
+annotations of this element. This annotation would overwrite an element annotation <span class="qtext400">@EndUserText: ...</span> of the first view, which is not specified there since it is not a valid
+<a href="javascript:call_link('abencore_annotation_glosry.html')" class="grey" title="Glossary Entry">ABAP annotation</a>.</li>
+</ul>
+<ul class="disc">
+<li>The annotations <span class="qtext400">@EndUserText.label: null</span> and <span class="qtext400">@EndUserText.quickInfo:
+null</span> in front of the elements <span class="qtext">carrier</span> or <span class="qtext400">flight</span>
+overwrite the values of the annotations, which were inherited from the first view. They are not returned by the evaluation.</li>
+</ul>
+<ul class="disc">
+<li>The derived annotation <span class="qtext400">@EndUserText.Heading</span> is assigned the value
+<span class="qtext400">null</span> for every element. This occurs for in the first view for the element
+<span class="qtext400">id</span>. For this view, the evaluation returns the annotation for the other
+two elements. In the second view, the value <span class="qtext400">null</span> is also set for this
+view and the evaluation does not return the annotation <span class="qtext400">@EndUserText.Heading</span> for any of the elements of the CDS view.</li>
+</ul>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_7"></A>
+<p><span class="h2">
+Annotations for Translatable Texts
+</span></p>
+<p>
+The annotation values of annotations for which this is defined in their
+<a href="javascript:call_link('abencds_anno_definition_glosry.html')" class="grey" title="Glossary Entry">annotation definition</a>
+(using the annotation <a href="javascript:call_link('abencds_f1_define_anno_annos.html')" class="blue"><span class="qtext400">@LanguageDependency</span></a>) are used to define translatable semantic texts for a
+<a href="javascript:call_link('abencds_object_glosry.html')" class="grey" title="Glossary Entry">CDS object</a>.
+</p>
+<p>
+ The value of an annotation like this is saved in special tables that have a language key and that are
+translatable. The value specified in the source code should consist of text in the original language
+of the CDS source code and is translated into the required languages. The methods of the class <span class="lnkgrey">
+CL_DD_DDL_ANNOTATION_SERVICE</span> read these texts as specified by an input parameter for the language. If no language is passed to the input parameter, the
+<a href="javascript:call_link('abentext_env_langu_glosry.html')" class="grey" title="Glossary Entry">text environment language</a> is used as the default. If no text is found for the language, the
+<a href="javascript:call_link('abensecondary_language_glosry.html')" class="grey" title="Glossary Entry">secondary language</a> in AS ABAP is used.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Even in <a href="javascript:call_link('abencds_metadata_extension_glosry.html')" class="grey" title="Glossary Entry">metadata
+extensions</a>, the annotations for translatable texts are handled specially and are created in special tables, which are connected to the translation.</li>
+</ul>
+<ul class="disc">
+<li>The program <span class="lnkgrey">ABAP_DOCU_TRANSLATABLE_ANNOS</span> shows all annotations for translatable texts.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following <a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">CDS source code</a>, which defines a
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a>, contains the specific ABAP annotations that are introduced using <span class="qtext400">EndUserText</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@EndUserText.label: 'Demo View mit Texten' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+@AbapCatalog.sqlViewName: 'DEMO_VIEW_TEXTS' <br>define view demo_cds_text_annotations <br> with parameters <br>
+ @EndUserText.label:'Eingabeparameter' <br> param : abap.int4 <br> as select from <br> demo_expressions <br> { <br> @EndUserText:{ label:'Ein Element', quickInfo:'Feld' } <br> id <br> }&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<p>
+The program <span class="lnkgrey">DEMO_CDS_DDL_TEXTS</span> uses methods of the class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>
+to access the associated texts (in a language-dependent way). The original language of the view is German
+and the German texts must be available in every system. If an English translation exists, this is also read and displayed.
+</p>
+<A name="@@ITOC@@ABENCDS_ANNOTATIONS_ANALYSIS_8"></A>
+<p><span class="h2">
+Performing the Evaluation
+</span></p>
+<p>
+<a href="javascript:call_link('abencore_annotation_glosry.html')" class="grey" title="Glossary Entry">ABAP annotations</a> and
+<a href="javascript:call_link('abencomponent_annotation_glosry.html')" class="grey" title="Glossary Entry">framework-specific annotations</a> are evaluated in different ways:
+</p>
+<ul class="disc">
+<li><span class="bold">ABAP annotations</span></li>
+</ul>
+<dl><dd>
+<a href="javascript:call_link('abencore_annotation_glosry.html')" class="grey" title="Glossary Entry">ABAP annotations</a> define technical and semantic attributes of a
+<a href="javascript:call_link('abencds_object_glosry.html')" class="grey" title="Glossary Entry">CDS object</a>. They are usually evaluated for every CDS object when activated by the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime environment</a>. ABAP annotations can modify the behavior of ABAP SQL statements that access a
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a>. One important example is how the client-dependency of a CDS entity is defined using the associated ABAP annotation.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Framework-specific annotations</span></li>
+</ul>
+<dl><dd>
+In most cases, the <a href="javascript:call_link('abencomponent_annotation_glosry.html')" class="grey" title="Glossary Entry">framework-specific
+annotations</a> must be evaluated by the frameworks of the corresponding software components using a
+suitable API and are not relevant for activations and the ABAP runtime environment. Here, the names
+and values of these framework-specific annotations must follow the rules of the relevant framework. For SAP components, these can be taken from the tables of the
+<a href="javascript:call_link('abencds_annotations_frmwrk.html')" class="blue">Framework-Specific Annotations</a> document.
+</dd></dl>
+<p>
+Annotations that are not evaluated by the ABAP runtime environment or by frameworks of other software components are usually ignored.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencds_semantics_annotation_abexa.html')" class="blue">ABAP CDS, Evaluation of Annotations</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_annotations_analysis.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+</html>

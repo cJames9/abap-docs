@@ -1,0 +1,221 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSEL_SCREEN_WITH_TABSTRIP_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_with_tabstrip_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Tabstrip Controls on Selection Screens">
+<title>
+Tabstrip Controls on Selection Screens - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensel_screen_with_tabstrip_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensel_screen_with_tabstrip_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen.html')" class="blue">Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen_create.html')" class="blue">Create Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselection-screen.html')" class="blue">SELECTION-SCREEN</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselection-screen_layout.html')" class="blue">SELECTION-SCREEN - screen_elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselection-screen_tabbed.html')" class="blue">SELECTION-SCREEN - TABBED BLOCK</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Tabstrip Controls on Selection Screens
+</span></p>
+<p>
+The example demonstrates how tabstrips can be included in selection screens.
+</p>
+<A name="@@ITOC@@ABENSEL_SCREEN_WITH_TABSTRIP_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_sel_screen_with_tabstrip.<br>
+<br>
+DATA flag(1) TYPE c.<br>
+<br>
+<span class="blue">* SUBSCREEN 1</span><br>
+<br>
+SELECTION-SCREEN BEGIN OF SCREEN 100 AS SUBSCREEN.<br>
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME.<br>
+PARAMETERS: p1(10) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2(10) TYPE c,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p3(10) TYPE c.<br>
+SELECTION-SCREEN END OF BLOCK b1.<br>
+SELECTION-SCREEN END OF SCREEN 100.<br>
+<br>
+<span class="blue">* SUBSCREEN 2</span><br>
+<br>
+SELECTION-SCREEN BEGIN OF SCREEN 200 AS SUBSCREEN.<br>
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME.<br>
+PARAMETERS: q1(10) TYPE c OBLIGATORY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q2(10) TYPE c OBLIGATORY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q3(10) TYPE c OBLIGATORY.<br>
+SELECTION-SCREEN END OF BLOCK b2.<br>
+SELECTION-SCREEN END OF SCREEN 200.<br>
+<br>
+<span class="blue">* STANDARD SELECTION SCREEN</span><br>
+<br>
+SELECTION-SCREEN: BEGIN OF TABBED BLOCK mytab FOR 10 LINES,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAB (20) button1 USER-COMMAND push1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAB (20) button2 USER-COMMAND push2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAB (20) button3 USER-COMMAND push3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEFAULT SCREEN 300,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF BLOCK mytab.<br>
+<br>
+INITIALIZATION.<br>
+&nbsp;&nbsp;button1 = text-010.<br>
+&nbsp;&nbsp;button2 = text-020.<br>
+&nbsp;&nbsp;button3 = text-030.<br>
+&nbsp;&nbsp;mytab-prog = sy-repid.<br>
+&nbsp;&nbsp;mytab-dynnr = 100.<br>
+&nbsp;&nbsp;mytab-activetab = 'BUTTON1'.<br>
+<br>
+AT SELECTION-SCREEN.<br>
+&nbsp;&nbsp;CASE sy-dynnr.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 1000.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE sy-ucomm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PUSH1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mytab-dynnr = 100.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mytab-activetab = 'BUTTON1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'PUSH2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mytab-dynnr = 200.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mytab-activetab = 'BUTTON2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 100.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE s888(sabapdemos) WITH text-040 sy-dynnr.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 200.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE s888(sabapdemos) WITH text-040 sy-dynnr.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+<br>
+MODULE init_0100 OUTPUT.<br>
+&nbsp;&nbsp;LOOP AT SCREEN INTO DATA(screen_wa).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF screen_wa-group1 = 'MOD'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE flag.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen_wa-input = '1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen_wa-input = '0'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY SCREEN FROM screen_wa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDLOOP.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100 INPUT.<br>
+&nbsp;&nbsp;MESSAGE s888(sabapdemos) WITH text-050 sy-dynnr.<br>
+&nbsp;&nbsp;CASE sy-ucomm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'TOGGLE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flag = ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF flag = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;WRITE: / 'P1:', p1,'Q1:', q1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 'P2:', p2,'Q2:', q2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 'P3:', p3,'Q3:', q3.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSEL_SCREEN_WITH_TABSTRIP_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This program defines two selection screens, 100 and 200, as subscreens, and places a tabstrip control
+area with three tab pages on the standard selection screen. A subscreen dynpro 300 (from the same program) is assigned statically to the third tab page.
+</p>
+<p>
+The input/output fields of dynpro 300, <span class="qtext">p1</span> to <span class="qtext">q3</span>,
+are created by applying the parameters from the ABAP program and are associated with the modification
+group <span class="qtext400">"MOD"</span>. The pushbutton has the function code TOGGLE. The screen flow logic for dynpro 300 is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE init_0100. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE user_command_0100.</span>
+</dd></dl>
+<p>
+Both dialog modules are defined in the ABAP program.
+</p>
+<p>
+The standard selection screen appears when the program is executed. At the event <span class="qtext">INITIALIZATION</span>,
+the tab title texts are determined, the subscreen selection screen 100 is assigned initially to the tabstrip area, and the first tab title is enabled.
+</p>
+<p>
+User actions on the selection screen are processed in the <span class="qtext">AT SELECTION-SCREEN</span>
+event block. In particular, it is here that the subscreens are assigned and tab titles activated when
+the user chooses one of the first two tab titles. This is not necessary for the third tab title, since
+the dynamic assignment (screen 300) is always placed in the structure <span class="qtext">mytab</span> when the user chooses it.
+</p>
+<p>
+Before the subscreen screen is displayed, the PBO module <span class="qtext">init_0100</span> is executed.
+User actions on the subscreen screen trigger the PAI module. This includes when the user chooses a tab title. After that, the <span class="qtext">AT SELECTION-SCREEN</span> event is triggered.
+</p>
+<p>
+Messages in the status line show where an action has been processed.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_with_tabstrip_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+</html>

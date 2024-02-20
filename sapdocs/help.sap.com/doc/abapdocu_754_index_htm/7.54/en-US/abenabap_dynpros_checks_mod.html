@@ -1,0 +1,187 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_DYNPROS_CHECKS_MOD -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_dynpros_checks_mod.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Input Checks in Dialog Modules">
+<title>
+Input Checks in Dialog Modules - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_dynpros_checks_mod.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_dynpros_checks_mod.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_checks.html')" class="blue">Input Checks</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Input Checks in Dialog Modules
+</span></p>
+<p>
+Input checks in PAI modules are enabled by first transporting the content of the input fields to the
+ABAP program. This is where the content can then be checked. Any errors can be corrected on the screen
+before further modules are called. This is made possible by combining the statements <a href="javascript:call_link('dynpfield.html')" class="blue">
+<span class="qtext">FIELD</span></a> and <a href="javascript:call_link('dynpchain.html')" class="blue"><span class="qtext">CHAIN</span></a> in dynpro flow logic with <a href="javascript:call_link('abendynp_field_messages.html')" class="blue">messages</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_1" class="blue">Checking Single Fields</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_2" class="blue">Checking Multiple Fields</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_3" class="blue">Defining Input-Enabled Fields and Data Transport</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_4" class="blue">Checking Fields Repeatedly</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_5" class="blue">Other Functions in the FIELD and CHAIN Statements</A></li>
+</ul>
+<A name="@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_1"></A>
+<p><span class="h2">
+Checking Single Fields
+</span></p>
+<p>
+If a <a href="javascript:call_link('abendynp_field_messages.html')" class="blue">warning or error message</a> is sent in a module
+<span class="qtext">mod</span> whose call is combined with a <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">FIELD</span></a> statement
+</p>
+<p>
+<span class="qtext">FIELD f MODULE mod.</span>
+</p>
+<p>
+the input field in question becomes the only input-enabled field on the current dynpro and the input
+can be corrected. If the field is only checked once, PAI resumes directly after the <span class="qtext">FIELD</span> statement, and the preceding modules are not called again.
+</p>
+<A name="@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_2"></A>
+<p><span class="h2">
+Checking Multiple Fields
+</span></p>
+<p>
+If a <a href="javascript:call_link('abendynp_field_messages.html')" class="blue">warning or error message</a> is sent in a module <span class="qtext">mod1</span>, <span class="qtext">mod2</span>, ... whose call takes place in a
+<a href="javascript:call_link('dynpchain.html')" class="blue">processing chain</a>
+</p>
+<p>
+<span class="qtext">CHAIN. <br>&nbsp;&nbsp;FIELD: f1, f2,... <br>&nbsp;&nbsp;MODULE mod1. <br>&nbsp;&nbsp;FIELD: g1, g2,... <br>&nbsp;&nbsp;MODULE mod2. <br> ... <br> ENDCHAIN.</span>
+</p>
+<p>
+the input fields of all dynpro fields in the processing chain become input-enabled on the current dynpro.
+This includes fields after the <a href="javascript:call_link('dynpmodule.html')" class="blue"><span class="qtext">MODULE</span></a>
+statement in <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">FIELD</span></a> statements. None
+of the other fields are input-enabled. Even when a <span class="qtext">MODULE</span> statement is combined
+with a <span class="qtext">FIELD</span> statement within a processing chain, all input fields in the
+chain become input-enabled and not just the field in question. If the fields in the processing chain
+are only checked once, PAI resumes directly after the <span class="qtext">CHAIN</span> statement, and the preceding modules are not called again.
+</p>
+<A name="@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_3"></A>
+<p><span class="h2">
+Defining Input-Enabled Fields and Data Transport
+</span></p>
+<p>
+In the case of warnings and error messages, a <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">FIELD</span></a>
+statement outside of a processing chain defines whether a single field is input-enabled. <a href="javascript:call_link('dynpfield.html')" class="blue">
+<span class="qtext">FIELD</span></a> statements between <a href="javascript:call_link('dynpchain.html')" class="blue"><span class="qtext">CHAIN
+- ENDCHAIN</span></a>, on the other hand, define whether multiple fields are input-enabled. Here, all
+fields associated using <span class="qtext">FIELD</span> are transported back to the screen without
+PBO taking place. This ensures that any changes to the field content are displayed before a message. This also applies to the sending of information messages where no fields are input-enabled.
+</p>
+<A name="@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_4"></A>
+<p><span class="h2">
+Checking Fields Repeatedly
+</span></p>
+<p>
+It may be necessary to specify a single dynpro field in multiple <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">
+FIELD</span></a> or <a href="javascript:call_link('dynpchain.html')" class="blue"><span class="qtext">CHAIN</span></a> statements.
+If an associated dialog module sends a warning or error message, PAI resumes after the user enters a
+new value. It is not possible to resume at the associated <span class="qtext">FIELD</span> or <span class="qtext">
+CHAIN</span> statement if the error field is also specified in an earlier <span class="qtext">FIELD</span> or <span class="qtext">CHAIN</span> statement.
+</p>
+<p>
+Instead, all of the <span class="qtext">FIELD</span> and <span class="qtext">CHAIN</span> statements
+containing the error field are repeated. PAI resumes at the first <span class="qtext">FIELD</span> or
+<span class="qtext">CHAIN</span> statement containing one or more of the fields in the <span class="qtext">FIELD</span>
+or <span class="qtext">CHAIN</span> statement in which error occurred and which were modified the last time the screen was displayed.
+</p>
+<A name="@@ITOC@@ABENABAP_DYNPROS_CHECKS_MOD_5"></A>
+<p><span class="h2">
+Other Functions in the FIELD and CHAIN Statements
+</span></p>
+<p>
+All functions of the statements <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">FIELD</span></a>
+and <a href="javascript:call_link('dynpchain.html')" class="blue"><span class="qtext">CHAIN</span></a> used to defined data transport
+and for conditional module calls are also available in combination with warnings and error messages.
+The content of each field is transported after the <span class="qtext">FIELD</span> statement in question.
+A warning or error message in a conditional module in a processing chain makes all fields in the chain input-enabled, although not all fields need to be transported.
+</p>
+<p>
+If warnings or error messages are sent in dialog modules that are not associated with fields using <span class="qtext">
+FIELD</span> or <span class="qtext">CHAIN</span>, none of the dynpro fields become input-enabled. This makes a termination necessary, which itself requires an appropriate unconditional module call.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abendynpro_field_chain_abexa.html')" class="blue">Input Checks in Dialog Modules</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_dynpros_checks_mod.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+</html>

@@ -1,0 +1,177 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLDB_EXAMPLE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_example.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:57 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Example of a Logical Database">
+<title>
+Example of a Logical Database - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenldb_example.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenldb_example.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb.html')" class="blue">Logical Databases (Obsolete)</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_examples.html')" class="blue">Logical Databases - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Example of a Logical Database
+</span></p>
+<p>
+This example demonstrates all significant components of the imaginary logical database TEST_LDB.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLDB_EXAMPLE_1" class="blue">Structure</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLDB_EXAMPLE_2" class="blue">Selections in the Selection Include</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLDB_EXAMPLE_3" class="blue">Database Program</A></li>
+</ul>
+<A name="@@ITOC@@ABENLDB_EXAMPLE_1"></A>
+<p><span class="h2">
+Structure
+</span></p>
+<dl><dd>
+<span class="qtext400">LFA1 <br>&nbsp;&nbsp;| <br>&nbsp;&nbsp;|----LFB1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |----LFC1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |----BKPF</span>
+</dd></dl>
+<A name="@@ITOC@@ABENLDB_EXAMPLE_2"></A>
+<p><span class="h2">
+Selections in the Selection Include
+</span></p>
+<dl><dd>
+<span class="qtext">SELECT-OPTIONS: slifnr&nbsp;&nbsp; FOR lfa1-lifnr, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbukrs&nbsp;&nbsp; FOR lfb1-bukrs, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sgjahr&nbsp;&nbsp; FOR lfc1-gjahr, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbelnr&nbsp;&nbsp; FOR bkpf-belnr.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENLDB_EXAMPLE_3"></A>
+<p><span class="h2">
+Database Program
+</span></p>
+<dl><dd>
+<span class="qtext">*-------------------------------------------------------* <br>* DATABASE PROGRAM OF LOGICAL DATABASE TEST_LDB <br>
+*-------------------------------------------------------* <br>PROGRAM sapdbtest_ldb DEFINING DATABASE test_ldb. <br>
+NODES: lfa1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lfb1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lfc1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bkpf. <br>*-------------------------------------------------------* <br>
+* Initialize selection screen (processed before PBO) <br>*-------------------------------------------------------* <br>
+FORM init. <br> .... <br>ENDFORM. <br>*-------------------------------------------------------* <br>* PBO of selection screen <br>
+*-------------------------------------------------------* <br>FORM pbo. <br> .... <br>ENDFORM. <br>*-------------------------------------------------------* <br>
+* PAI of selection screen <br>*-------------------------------------------------------* <br>FORM pai USING fname mark. <br>
+&nbsp;&nbsp;CASE fname. <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SLIFNR'. <br>&nbsp;&nbsp;&nbsp;&nbsp; .... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SBUKRS'. <br>&nbsp;&nbsp;&nbsp;&nbsp; .... <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SGJAHR'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp; .... <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SBELNR'. <br>&nbsp;&nbsp;&nbsp;&nbsp; .... <br>
+&nbsp;&nbsp;ENDCASE. <br>ENDFORM. <br>*-------------------------------------------------------* <br>* Raise event GET lfa1 <br>
+*-------------------------------------------------------* <br>FORM put_lfa1. <br>&nbsp;&nbsp;SELECT * FROM lfa1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE lifnr IN @slifnr INTO @lfa1. <br>&nbsp;&nbsp;&nbsp;&nbsp;PUT lfa1. <br>
+&nbsp;&nbsp;ENDSELECT. <br>ENDFORM. <br>*-------------------------------------------------------* <br>* Raise event GET lfb1 <br>
+*-------------------------------------------------------* <br>FORM put_lfb1. <br>&nbsp;&nbsp;SELECT * FROM lfb1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE lifnr = @lfa1-lifnr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND bukrs IN @sbulrs <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @lfb1. <br>&nbsp;&nbsp;&nbsp;&nbsp;PUT lfb1. <br>
+&nbsp;&nbsp;ENDSELECT. <br>ENDFORM. <br>*-------------------------------------------------------* <br>* Raise event GET lfc1 <br>
+*-------------------------------------------------------* <br>FORM put_lfc1. <br>&nbsp;&nbsp;SELECT * FROM lfc1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE lifnr = @lfa1-lifnr <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND bukrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;@lfb1-bukrs <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND gjahr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN @sgjahr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO lfc1. <br>&nbsp;&nbsp;&nbsp;&nbsp;PUT lfc1. <br>
+&nbsp;&nbsp;ENDSELECT. <br>ENDFORM. <br>*-------------------------------------------------------* <br>* Raise event GET bkpf <br>
+*-------------------------------------------------------* <br>FORM put_bkpf. <br>&nbsp;&nbsp;SELECT * FROM bkpf <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE bukrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;@lfb1-bukrs <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND belnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN @sbelnr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND gjahr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN @sgjahr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @bkpf. <br>&nbsp;&nbsp;&nbsp;&nbsp;PUT bkpf. <br>&nbsp;&nbsp;ENDSELECT. <br>ENDFORM.</span>
+</dd></dl>
+<p>
+The <span class="qtext">PROGRAM</span> statement has the addition <a href="javascript:call_link('abapreport_defining.html')" class="blue">
+<span class="qtext">DEFINING DATABASE test_ldb</span></a>. This defines the association of the database program with the logical database TEST_LDB.
+</p>
+<p>
+The nodes of the structure are declared using the <a href="javascript:call_link('abapnodes.html')" class="blue"><span class="qtext">NODES</span>
+statement</a>. This creates the required interface work areas as table work areas. The statement <a href="javascript:call_link('abaptables.html')" class="blue">
+<span class="qtext">TABLES</span></a> can be used, as a node, in the same way for database tables If
+the nodes do not have any database tables, they need to be declared using <span class="qtext">NODES</span>.
+The interface work areas are shared by the database program and an associated executable program or the function module LDB_PROCESS and become the interface used for passing data.
+</p>
+<p>
+The selection screen can be initialized in the subroutines <span class="qtext">init</span> and <span class="qtext">pbo</span>.
+</p>
+<p>
+The user input on the selection screen can be, for example, checked for authorizations in the subroutine
+<span class="qtext">pai</span>. Other checks, such as plausibility or value range checks, are also possible
+here. If a check is negative, an error dialog can be programmed and the field in question can be initialized again.
+</p>
+<p>
+The database tables are read in accordance with the user's selection criteria and the associated <span class="qtext">GET</span> events are triggered in the subroutines <span class="qtext">put_...</span>.
+</p>
+<p>
+This program is only designed to demonstrates the principles of the structure of a logical database.
+It does not contain any methods for optimizing response times. The chronology of the subroutine calls is determined by the structure of the logical database.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_example.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:57 GMT -->
+</html>

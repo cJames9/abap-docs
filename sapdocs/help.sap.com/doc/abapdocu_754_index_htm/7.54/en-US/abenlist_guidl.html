@@ -1,0 +1,170 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLIST_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Lists">
+<title>
+Lists - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlist_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlist_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenuser_interfaces_guidl.html')" class="blue">User Interfaces</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Lists
+</span></p>
+<A name="@@ITOC@@ABENLIST_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+A list is a medium used for the structured and formatted output of data. The following lists are available in ABAP:
+</p>
+<ul class="disc">
+<li>Classic lists, which are written to a list buffer using ABAP statements and displayed on a special list dynpro.</li>
+</ul>
+<ul class="disc">
+<li>Output of the SAP List Viewer (ALV), which is displayed in
+<a href="javascript:call_link('abengui_control_glosry.html')" class="grey" title="Glossary Entry">GUI controls</a> during the
+processing of classic dynpros. ALV lists are accessed using classes, such as <span class="lnkgrey">CL_SALV_TABLE</span>
+(non-hierarchically tabular lists), <span class="lnkgrey">CL_SALV_HIERSEQ_TABLE</span> (hierarchically sequential lists), or <span class="lnkgrey">CL_SALV_TREE</span> (hierarchically tabular lists).</li>
+</ul>
+<p>
+Classic lists are the only option to send ABAP data from ABAP programs directly to the SAP spool system
+as print lists. If SAP List Viewer is used, the lists that are displayed in the viewer are automatically converted to classic print lists during printing.
+</p>
+<A name="@@ITOC@@ABENLIST_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use SAP List Viewer</span>
+</p>
+<p>
+Do not use classic lists. If dynpro-based, classic UI technologies are still used, SAP List Viewer (ALV) or other GUI control-based technologies should be used instead of classic lists in production programs.
+</p>
+<A name="@@ITOC@@ABENLIST_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Using classic lists is no longer recommended for the following reasons:
+</p>
+<ul class="disc">
+<li>The processing of lists is based on global data and events of the ABAP runtime environment.</li>
+</ul>
+<ul class="disc">
+<li>The list buffer that is used for classic lists is bound to an executable program or a dynpro sequence and not to classes and objects.</li>
+</ul>
+<ul class="disc">
+<li>It is almost impossible to separate presentation logic and application logic when writing to lists.</li>
+</ul>
+<ul class="disc">
+<li>The UI of a classic list is not standardized and thus usually not accessible.</li>
+</ul>
+<p>
+The concept of classic lists is therefore mostly incompatible with the ABAP Objects concept, and classic lists cannot be encapsulated in function groups as easily as classic dynpros and selection screens.
+</p>
+<p>
+While the application developer must ensure <a href="javascript:call_link('abenaccessibility_guidl.html')" class="lnkpurple" title="Guideline">
+accessibility</a> in classic lists with a great deal of effort, the ALV lists automatically comply with
+the accessibility requirements because the ALV already provides the required services, such as user-specific settings.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Small helper programs that are not intended for live use in application systems can continue to use
+classic lists for system-related console output. The <span class="qtext">WRITE</span> list statement
+here assumes the same role as <span class="qtext400">System.out.println(...)</span> in Java or <span class="qtext400">printf</span> in C.
+</p>
+<p>
+In cases in which an ALV output seems to be overdimensioned, other methods are possible, such as Textedit
+Control or Browser Control (or its wrapping in dynamic documents) for the formatted output of non-tabular content. As before, accessibility must be guaranteed here.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+For simple console output, XML-based output streams can be used. An example of this is shown by the
+class <span class="lnkgrey">CL_DEMO_OUTPUT_STREAM</span>. The class <span class="lnkgrey">CL_DEMO_OUTPUT</span> demonstrates possible applications of this class. It is used in programs in the
+<a href="javascript:call_link('abenabap_examples.html')" class="blue">ABA Example Library</a>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+Executing the program <span class="lnkgrey">DEMO_CLASSICAL_REPORTING</span> produces a classic list output. However, according to the above rule, using classic lists in application programs is no longer recommended.
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+Executing the program <span class="lnkgrey">DEMO_ALV_REPORTING</span> produces ALV lists with the same
+content and the same functions as the classic lists in the previous example. ALV lists replace classic lists in those cases in which classic dynpros are still used.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

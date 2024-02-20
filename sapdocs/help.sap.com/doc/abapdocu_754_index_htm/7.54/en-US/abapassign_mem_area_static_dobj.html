@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPASSIGN_MEM_AREA_STATIC_DOBJ -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapassign_mem_area_static_dobj.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ASSIGN - static_dobj">
+<title>
+ASSIGN - static_dobj - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapassign_mem_area_static_dobj.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapassign_mem_area_static_dobj.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenreference_assignments.html')" class="blue">Assigning References</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenset_field_symbols.html')" class="blue">Setting Field Symbols</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign.html')" class="blue">ASSIGN</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign_mem_area.html')" class="blue">ASSIGN - mem_area</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ASSIGN - static_dobj <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapassign_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... dobj<i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i>&nbsp;&nbsp;...</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+In the static variant for the memory area, a data object <span class="qtext">dobj</span> with an optional offset/length <span class="qtext">+off(len)</span> can be specified in accordance with the rules in the section
+<a href="javascript:call_link('abenoperands_data_objects.html')" class="blue">Data Objects in Operand Positions</a>, with the following exception: A data reference dereferenced using the dereferencing operator ->* is
+<a href="javascript:call_link('abapassign_mem_area_dynamic_dobj.html')" class="blue">specified dynamically</a>. <span class="qtext">dobj</span> specified using a field symbol, on the other hand, is a static variant.
+</P>
+<P>
+The memory area is determined by the specified offset/length <span class="qtext">+off(len)</span> as follows:
+</P>
+<ul class="disc">
+<li>
+If no offset/length specification is made, the assigned memory area is the same as the memory area of
+the data object. The entire data object <span class="qtext">dobj</span> is assigned to the field symbol, and statements that contain the field symbol in operand positions work with the data object. <br>
+<br></li>
+<li>
+If an offset/length is specified, the memory area is determined from the memory address of the data object and the offset/length specifications. The general rules for
+<a href="javascript:call_link('abenoffset_length.html')" class="blue">substring accesses</a> apply. If these rules are met, memory
+outside the <span class="qtext">dobj</span> field limits can also be addressed. The addressable memory
+is based on the specification <a href="javascript:call_link('abapassign_range.html')" class="blue"><span class="qtext">range_spec</span></a>.
+If an offset <span class="qtext">off</span> is specified without a length <span class="qtext">len</span>,
+the length of the data object <span class="qtext">dobj</span> is used implicitly for <span class="qtext">len</span>.
+If a field symbol is specified for <span class="qtext">dobj</span>, to which a memory area is already
+assigned, the content of the offset length can be negative, as long as the area specified in <span class="qtext">range_spec</span> is not exited. The following restrictions apply when offsets/lengths are specified:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>No inline declaration of the field symbol with <a href="javascript:call_link('abenfield-symbol_inline.html')" class="blue"><span class="qtext">FIELD-SYMBOL(&lt;fs>)</span></a> can be made.</li>
+</ul>
+<ul class="circlem2">
+<li>The data type of <span class="qtext">dobj</span> cannot be <span class="qtext">string</span> or
+<span class="qtext">xstring</span>. This means that <span class="qtext">len</span> can never be less than or equal to zero.</li>
+</ul>
+<ul class="circlem2">
+<li>If the name of a data object is specified for <span class="qtext">dobj</span> and if no explicit
+<a href="javascript:call_link('abapassign_range.html')" class="blue"><span class="qtext">RANGE</span></a> addition is used, no
+offset <span class="qtext">off</span> can be specified without the length <span class="qtext">len</span>. If the name of a field symbol is specified for <span class="qtext">dobj</span>, its data type must be
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> and elementary whenever an offset <span class="qtext">off</span> is specified without length <span class="qtext">len</span>.</li>
+</ul>
+<P>
+If the assignment is not successful, no memory area is assigned to the field symbol after the <span class="qtext">ASSIGN</span> statement. The return code <span class="qtext">sy-subrc</span> is not set for static variants. Instead, the
+<a href="javascript:call_link('abenpredicate_expression_glosry.html')" class="grey" title="Glossary Entry">predicate expression</a>
+<a href="javascript:call_link('abenlogexp_assigned.html')" class="blue"><span class="qtext">&lt;fs> IS ASSIGNED</span></a> can be evaluated.
+</P>
+<P>
+In an inline declaration of the field symbol with <a href="javascript:call_link('abenfield-symbol_inline.html')" class="blue"><span class="qtext">
+FIELD-SYMBOL(&lt;fs>)</span></a>, the field symbol is typed with the data type that can be determined
+statically for <span class="qtext">mem_area</span>. If <span class="qtext">mem_area</span> is a generically typed field symbol or a generically typed formal parameter, the generic type is used. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Ensure that the system field <span class="qtext">sy-subrc</span> is not evaluated inadvertently after
+the static variant. The value of the system field in this case is always the same as it was before the
+<span class="qtext">ASSIGN</span> statement was executed and therefore does not indicate whether the statement was successful.
+<br><br></li>
+<li>
+Even the static variant is dynamic in the sense that the offset and length specifications may be dynamic.
+Dynamic offset/length specifications do not, however, result in the system field <span class="qtext">sy-subrc</span> being set.
+<br><br></li>
+<li>
+If a generically typed field symbol or a generically typed formal parameter is specified for <span class="qtext">dobj</span>,
+its current type at runtime determines the behavior, for example whether offsets/lengths can be specified. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Assigns the memory area of the individual characters of a data object <span class="qtext">text</span> to a field symbol <span class="qtext">&lt;char></span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE c LENGTH 10 VALUE '0123456789'. <br> <br>FIELD-SYMBOLS &lt;char> TYPE c. <br> <br>DATA off TYPE i. <br>
+ <br>DO 10 TIMES. <br>&nbsp;&nbsp;off = sy-index - 1. <br>&nbsp;&nbsp;ASSIGN text+off(1) TO &lt;char>. <br>&nbsp;&nbsp;cl_demo_output=>write_text( |{ &lt;char> }| ). <br>ENDDO. <br>cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+A field symbol <span class="qtext">&lt;fs1></span> points to the component <span class="qtext">col1</span>
+of the structure <span class="qtext">struct</span>. In the first assignment of <span class="qtext">&lt;fs1></span>
+to a field symbol <span class="qtext">&lt;fs2></span>, an offset without length is specified, which
+means that the length 10 of the component <span class="qtext">col1</span> is used implicitly. This assignment
+is not possible, since the assigned memory area is outside of the permitted range. In the second assignment,
+the permitted memory area is expanded to the full structure using the assignment <a href="javascript:call_link('abapassign_range.html')" class="blue"><span class="qtext">RANGE</span></a> and the assignment is successful.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF struct, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE c LENGTH 10 VALUE 'aaaaaaaaaa', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE c LENGTH 10 VALUE 'bbbbbbbbbb', <br>&nbsp;&nbsp;END OF struct. <br> <br>
+FIELD-SYMBOLS: &lt;fs1> TYPE c, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;fs2> TYPE c. <br>
+ <br>ASSIGN struct-col1 TO &lt;fs1>. <br>ASSIGN &lt;fs1>+5 TO &lt;fs2>. <br>IF &lt;fs2> IS NOT ASSIGNED. <br>
+&nbsp;&nbsp;cl_demo_output=>write( `No assignment without sufficient RANGE` ). <br>ENDIF. <br>ASSIGN &lt;fs1>+5 TO &lt;fs2> RANGE struct. <br>
+IF &lt;fs2> IS ASSIGNED. <br>&nbsp;&nbsp;cl_demo_output=>display( `Assignment with sufficient RANGE` ). <br>ENDIF. <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapassign_mem_area_static_dobj.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

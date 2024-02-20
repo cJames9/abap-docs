@@ -1,0 +1,373 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMDP_VS_OPEN_SQL_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_vs_open_sql_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP, Comparison of SQLScript with ABAP SQL">
+<title>
+AMDP, Comparison of SQLScript with ABAP SQL - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamdp_vs_open_sql_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamdp_vs_open_sql_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP - ABAP Managed Database Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp_abexas.html')" class="blue">AMDP - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMDP, Comparison of SQLScript with ABAP SQL
+</span></p>
+<p>
+This example demonstrates the performance of SQL in AMDP when compared with ABAP SQL.
+</p>
+<A name="@@ITOC@@ABENAMDP_VS_OPEN_SQL_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_amdp_vs_open_sql.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF NOT cl_abap_dbfeatures=&gt;use_features(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requested_features =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE #( ( cl_abap_dbfeatures=&gt;call_amdp_method ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Current database system does not support AMDP procedures` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA time_stamps TYPE TABLE OF timestampl.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT changed_at<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM snwd_so_inv_head UP TO 100 ROWS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE time_stamps.&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;#EC CI_NOWHERE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF time_stamps IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( 'You must create database entries' &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' with program RS_EPM_DGC_HANA first ...' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(rnd) =&nbsp;&nbsp;cl_abap_random_int=&gt;create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; seed = CONV i( sy-uzeit )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; min&nbsp;&nbsp;= 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max&nbsp;&nbsp;= lines( time_stamps ) )-&gt;get_next( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONVERT TIME STAMP time_stamps[ rnd ] TIME ZONE 'UTC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO DATE DATA(payment_date).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( CHANGING field = payment_date ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(oref) = NEW cl_demo_amdp_vs_open_sql( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t01).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oref-&gt;amdp(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING iv_payment_date&nbsp;&nbsp; = payment_date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_clnt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = sy-mandt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING et_invoice_header = DATA(invoice_header)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_invoice_item&nbsp;&nbsp; = DATA(invoice_item)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_customer_info&nbsp;&nbsp;= DATA(customer_info) ) .<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t02).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amdp_error INTO DATA(amdp_error).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( amdp_error-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t11).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oref-&gt;open_sql_nested_select(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING iv_payment_date&nbsp;&nbsp; = payment_date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING et_invoice_header = DATA(invoice_header1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_invoice_item&nbsp;&nbsp; = DATA(invoice_item1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_customer_info&nbsp;&nbsp;= DATA(customer_info1) ) .<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t12).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t21).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oref-&gt;open_sql_for_all_entries(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING iv_payment_date&nbsp;&nbsp; = payment_date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING et_invoice_header = DATA(invoice_header2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_invoice_item&nbsp;&nbsp; = DATA(invoice_item2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_customer_info&nbsp;&nbsp;= DATA(customer_info2) ) .<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t22).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t31).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oref-&gt;open_sql_subquery(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING iv_payment_date&nbsp;&nbsp; = payment_date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING et_invoice_header = DATA(invoice_header3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_invoice_item&nbsp;&nbsp; = DATA(invoice_item3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_customer_info&nbsp;&nbsp;= DATA(customer_info3) ) .<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD DATA(t32).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF lines( invoice_header ) IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( 'Nothing found' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `Lines of tables filled`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |INVOICE_HEADER: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lines( invoice_header ) }\n\n| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|INVOICE_ITEM:&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lines( invoice_item ) }\n\n|&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|CUSTOMER_INFO:&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lines( customer_info ) }| ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Runtime AMDP `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |{ CONV decfloat34(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( t02 - t01 ) / 1000000 ) } seconds| ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF invoice_header&nbsp;&nbsp;= invoice_header1 AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; invoice_item&nbsp;&nbsp;&nbsp;&nbsp;= invoice_item1&nbsp;&nbsp; AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_info&nbsp;&nbsp; = customer_info1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Runtime Open SQL with Nested SELECT`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |{ CONV decfloat34(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( t12 - t11 ) / 1000000 ) } seconds| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Different results in Open SQL with Nested SELECT' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF invoice_header&nbsp;&nbsp;= invoice_header2 AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; invoice_item&nbsp;&nbsp;&nbsp;&nbsp;= invoice_item2&nbsp;&nbsp; AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_info&nbsp;&nbsp; = customer_info2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Runtime Open SQL with FOR ALL ENTRIES`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |{ CONV decfloat34(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( t22 - t21 ) / 1000000 ) } seconds| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Different results in Open SQL with FOR ALL ENTRIES' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF invoice_header&nbsp;&nbsp;= invoice_header3 AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; invoice_item&nbsp;&nbsp;&nbsp;&nbsp;= invoice_item3&nbsp;&nbsp; AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_info&nbsp;&nbsp; = customer_info3.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Runtime Open SQL with Subquery`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |{ CONV decfloat34(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( t32 - t31 ) / 1000000 ) } seconds| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Different results in Open SQL with Subquery' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENAMDP_VS_OPEN_SQL_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The AMDP class <span class="lnkgrey">CL_DEMO_AMDP_VS_OPEN_SQL</span> has an AMDP method AMDP and the
+regular methods OPEN_SQL_NESTED_SELECT, OPEN_SQL_FOR_ALL_ENTRIES, and OPEN_SQL_SUBQUERY. All take the
+same data from database tables in the EPM model. These database tables can be filled using the program <span class="lnkgrey">RS_EPM_DGC_HANA</span>. Create the master data again here
+(<span class="qtext400">X</span>) and enter, for example, the values <span class="qtext400">100000</span>
+for <span class="qtext400">Number of Sales Orders</span> and <span class="qtext400">90000</span> for <span class="qtext400">Number Delivered</span>, plus a time interval of approximately three months.
+</p>
+<p>
+The example program selects a random date from the existing change data and uses it to make the selections. The selections pick invoices paid on this date, plus the associated business partners and product information.
+</p>
+<p>
+The method OPEN_SQL_NESTED_SELECT uses nested <span class="qtext">SELECT</span> statements and provides
+the worst result, as expected. However, the use of <span class="qtext">FOR ALL ENTRIES</span> in OPEN_SQL_FOR_ALL_ENTRIES
+or the same subqueries in OPEN_SQL_SUBQUERY as in AMDP demonstrates that AMDP does not provide any performance benefits as long as only SQL is implemented that can also be expressed in ABAP SQL.
+</p>
+<A name="@@ITOC@@ABENAMDP_VS_OPEN_SQL_ABEXA_3"></A>
+<p><span class="h3">
+SQLScript implementation of the method AMDP
+</span></p>
+<dl><dd>
+<span class="qtext">METHOD amdp BY DATABASE PROCEDURE FOR HDB <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE SQLSCRIPT OPTIONS READ-ONLY <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USING snwd_ad snwd_bpa snwd_so_inv_head snwd_so_inv_item. <br> <br>
+&nbsp;&nbsp;--&nbsp;&nbsp;Selection of invoices paid on a specified date <br>&nbsp;&nbsp;--&nbsp;&nbsp;plus business partner and product information <br>
+ <br>&nbsp;&nbsp;-- Retrieve all invoice header which were paid on the requested date <br>&nbsp;&nbsp;et_invoice_header = select <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as invoice_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;created_at as created_at, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed_at as paid_at, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buyer_guid <br>&nbsp;&nbsp;&nbsp;&nbsp;from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;snwd_so_inv_head <br>
+&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = :iv_clnt <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and payment_status = 'P' -- only paid invoices <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and left(changed_at, 8) = :iv_payment_date <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order by invoice_guid; <br> <br>&nbsp;&nbsp;-- Get the items of those invoices <br>
+&nbsp;&nbsp;et_invoice_item = select <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp; as item_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_key as invoice_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;product_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gross_amount, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency_code <br>
+&nbsp;&nbsp;&nbsp;&nbsp;from snwd_so_inv_item <br>&nbsp;&nbsp;&nbsp;&nbsp;where parent_key in <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( select invoice_guid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from :et_invoice_header ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order by item_guid, invoice_guid, product_guid; <br>
+ <br>&nbsp;&nbsp;-- Get the information about the customers <br>&nbsp;&nbsp;et_customer_info = select <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa.node_key&nbsp;&nbsp;&nbsp;&nbsp; as customer_guid, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;bpa.bp_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as customer_id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa.company_name as customer_name, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad.country, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad.postal_code, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad.city <br>&nbsp;&nbsp;&nbsp;&nbsp;from snwd_bpa as bpa <br>&nbsp;&nbsp;&nbsp;&nbsp;join snwd_ad as ad on ad.node_key = bpa.address_guid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;where bpa.node_key in ( select distinct buyer_guid <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from :et_invoice_header ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;order by customer_id; <br>ENDMETHOD.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENAMDP_VS_OPEN_SQL_ABEXA_4"></A>
+<p><span class="h3">
+ABAP implementation of the method OPEN_SQL_NESTED_SELECT
+</span></p>
+<dl><dd>
+<span class="qtext">METHOD open_sql_nested_select. <br> <br>&nbsp;&nbsp;"Selection of invoices paid on a specified date <br>
+&nbsp;&nbsp;"plus business partner and product information <br> <br>&nbsp;&nbsp;DATA ls_invoice_head&nbsp;&nbsp;TYPE ty_invoice_header. <br>
+&nbsp;&nbsp;DATA lt_invoice_item&nbsp;&nbsp;TYPE tt_invoice_item. <br>&nbsp;&nbsp;DATA lt_customer_info TYPE tt_customer_info. <br>
+ <br>&nbsp;&nbsp;DATA lv_payment_date_min TYPE timestamp. <br>&nbsp;&nbsp;DATA lv_payment_date_max TYPE timestamp. <br>
+ <br>&nbsp;&nbsp;CONVERT DATE iv_payment_date TIME '0001' <br>&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP lv_payment_date_min TIME ZONE 'UTC'. <br>
+&nbsp;&nbsp;CONVERT DATE iv_payment_date TIME '2359' <br>&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP lv_payment_date_max TIME ZONE 'UTC'. <br>
+ <br>&nbsp;&nbsp;"Retrieve all invoice header which were paid on the requested date <br>&nbsp;&nbsp;SELECT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AS invoice_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;created_at&nbsp;&nbsp;&nbsp;&nbsp; AS created_at, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;changed_at&nbsp;&nbsp;&nbsp;&nbsp; AS paid_at, <br>&nbsp;&nbsp;&nbsp;&nbsp;buyer_guid <br>
+&nbsp;&nbsp;FROM <br>&nbsp;&nbsp;&nbsp;&nbsp;snwd_so_inv_head <br>&nbsp;&nbsp;WHERE&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "#EC CI_NOFIELD <br>
+&nbsp;&nbsp;&nbsp;&nbsp;payment_status = 'P' <br>&nbsp;&nbsp;&nbsp;&nbsp;AND changed_at BETWEEN @lv_payment_date_min AND @lv_payment_date_max <br>
+&nbsp;&nbsp;ORDER BY invoice_guid <br>&nbsp;&nbsp;INTO @ls_invoice_head. <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;CLEAR lt_invoice_item. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR lt_customer_info. <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;"Get the items of invoice <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp; AS item_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_key AS invoice_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;product_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gross_amount, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency_code <br>
+&nbsp;&nbsp;&nbsp;&nbsp;FROM snwd_so_inv_item <br>&nbsp;&nbsp;&nbsp;&nbsp;WHERE parent_key = @ls_invoice_head-invoice_guid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ORDER BY item_guid, invoice_guid, product_guid <br>&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE @lt_invoice_item. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;"Get the information about the customers <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT <br>
+&nbsp;&nbsp;&nbsp;&nbsp; bpa~node_key&nbsp;&nbsp;&nbsp;&nbsp; AS customer_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp; bpa~bp_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS customer_id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp; bpa~company_name AS customer_name, <br>&nbsp;&nbsp;&nbsp;&nbsp; ad~country, <br>
+&nbsp;&nbsp;&nbsp;&nbsp; ad~postal_code, <br>&nbsp;&nbsp;&nbsp;&nbsp; ad~city <br>&nbsp;&nbsp; FROM snwd_bpa AS bpa <br>
+&nbsp;&nbsp; JOIN snwd_ad AS ad ON ad~node_key = bpa~address_guid <br>&nbsp;&nbsp; WHERE bpa~node_key = @ls_invoice_head-buyer_guid <br>
+&nbsp;&nbsp; INTO TABLE @lt_customer_info. <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;APPEND ls_invoice_head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO et_invoice_header. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND LINES OF lt_invoice_item&nbsp;&nbsp;TO et_invoice_item. <br>&nbsp;&nbsp;&nbsp;&nbsp;APPEND LINES OF lt_customer_info TO et_customer_info. <br>
+&nbsp;&nbsp;ENDSELECT. <br> <br>&nbsp;&nbsp;"Remove duplicates <br>&nbsp;&nbsp;SORT et_customer_info BY customer_guid. <br>&nbsp;&nbsp;DELETE ADJACENT DUPLICATES FROM et_customer_info. <br>ENDMETHOD.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENAMDP_VS_OPEN_SQL_ABEXA_5"></A>
+<p><span class="h3">
+ABAP implementation of the method OPEN_SQL_FOR_ALL_ENTRIES
+</span></p>
+<dl><dd>
+<span class="qtext">METHOD open_sql_for_all_entries. <br> <br>&nbsp;&nbsp;"Selection of invoices paid on a specified date <br>
+&nbsp;&nbsp;"plus business partner and product information <br> <br>&nbsp;&nbsp;DATA lv_payment_date_min TYPE timestamp. <br>
+&nbsp;&nbsp;DATA lv_payment_date_max TYPE timestamp. <br> <br>&nbsp;&nbsp;CONVERT DATE iv_payment_date TIME '0001' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP lv_payment_date_min TIME ZONE 'UTC'. <br>&nbsp;&nbsp;CONVERT DATE iv_payment_date TIME '2359' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP lv_payment_date_max TIME ZONE 'UTC'. <br> <br>&nbsp;&nbsp;"Retrieve all invoice header which were paid on the requested date <br>
+&nbsp;&nbsp;SELECT <br>&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AS invoice_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;created_at&nbsp;&nbsp;&nbsp;&nbsp; AS created_at, <br>&nbsp;&nbsp;&nbsp;&nbsp;changed_at&nbsp;&nbsp;&nbsp;&nbsp; AS paid_at, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;buyer_guid <br>&nbsp;&nbsp;FROM <br>&nbsp;&nbsp;&nbsp;&nbsp;snwd_so_inv_head <br>
+&nbsp;&nbsp;INTO TABLE @et_invoice_header <br>&nbsp;&nbsp;WHERE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "#EC CI_NOFIELD <br>
+&nbsp;&nbsp;&nbsp;&nbsp;payment_status = 'P' <br>&nbsp;&nbsp;&nbsp;&nbsp;AND changed_at BETWEEN @lv_payment_date_min AND @lv_payment_date_max <br>
+&nbsp;&nbsp;ORDER BY invoice_guid. <br> <br>&nbsp;&nbsp;"Get the items of those invoices <br>&nbsp;&nbsp;SELECT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp; AS item_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_key AS invoice_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;product_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gross_amount, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency_code <br>&nbsp;&nbsp; from snwd_so_inv_item <br>&nbsp;&nbsp; into table @et_invoice_item <br>
+&nbsp;&nbsp; for all entries in @et_invoice_header <br>&nbsp;&nbsp; where&nbsp;&nbsp;parent_key = @et_invoice_header-invoice_guid <br>
+&nbsp;&nbsp; order by primary key. <br> <br>&nbsp;&nbsp;"Get the information about the customers <br>&nbsp;&nbsp;SELECT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa~node_key&nbsp;&nbsp;&nbsp;&nbsp; AS customer_guid, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;bpa~bp_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS customer_id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa~company_name AS customer_name, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad~country, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad~postal_code, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad~city <br>&nbsp;&nbsp;&nbsp;&nbsp;FROM snwd_bpa AS bpa <br>&nbsp;&nbsp;&nbsp;&nbsp;JOIN snwd_ad AS ad ON ad~node_key = bpa~address_guid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE @et_customer_info <br>&nbsp;&nbsp;&nbsp;&nbsp;FOR ALL ENTRIES IN @et_invoice_header <br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE bpa~node_key = @et_invoice_header-buyer_guid. <br> <br>&nbsp;&nbsp;SORT et_customer_info BY customer_guid. <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENAMDP_VS_OPEN_SQL_ABEXA_6"></A>
+<p><span class="h3">
+ABAP implementation of the method OPEN_SQL_SUBQUERY
+</span></p>
+<dl><dd>
+<span class="qtext">METHOD open_sql_subquery. <br> <br>&nbsp;&nbsp;"Selection of invoices paid on a specified date <br>
+&nbsp;&nbsp;"plus business partner and product information <br> <br>&nbsp;&nbsp;DATA lv_payment_date_min TYPE timestamp. <br>
+&nbsp;&nbsp;DATA lv_payment_date_max TYPE timestamp. <br> <br>&nbsp;&nbsp;CONVERT DATE iv_payment_date TIME '0001' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP lv_payment_date_min TIME ZONE 'UTC'. <br>&nbsp;&nbsp;CONVERT DATE iv_payment_date TIME '2359' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP lv_payment_date_max TIME ZONE 'UTC'. <br> <br>&nbsp;&nbsp;"Retrieve all invoice header which were paid on the requested date <br>
+&nbsp;&nbsp;SELECT <br>&nbsp;&nbsp; node_key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AS invoice_guid, <br>&nbsp;&nbsp; created_at&nbsp;&nbsp;&nbsp;&nbsp; AS created_at, <br>
+&nbsp;&nbsp; changed_at&nbsp;&nbsp;&nbsp;&nbsp; AS paid_at, <br>&nbsp;&nbsp; buyer_guid <br> FROM <br>&nbsp;&nbsp; snwd_so_inv_head <br>
+&nbsp;&nbsp;&nbsp;&nbsp; WHERE <br>&nbsp;&nbsp; payment_status = 'P' <br>&nbsp;&nbsp; AND changed_at BETWEEN @lv_payment_date_min AND @lv_payment_date_max <br>
+ ORDER BY invoice_guid <br> INTO TABLE @et_invoice_header. <br> <br>&nbsp;&nbsp;"Get the items of those invoices <br>
+&nbsp;&nbsp;SELECT <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node_key&nbsp;&nbsp; AS item_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_key AS invoice_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;product_guid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gross_amount, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency_code <br>&nbsp;&nbsp; FROM snwd_so_inv_item <br>&nbsp;&nbsp; WHERE&nbsp;&nbsp;parent_key IN <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( SELECT node_key FROM snwd_so_inv_head <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE payment_status = 'P' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND changed_at <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BETWEEN @lv_payment_date_min AND @lv_payment_date_max ) <br>
+&nbsp;&nbsp; ORDER BY item_guid, invoice_guid, product_guid <br>&nbsp;&nbsp; INTO TABLE @et_invoice_item. <br>
+ <br>&nbsp;&nbsp;"Get the information about the customers <br>&nbsp;&nbsp;SELECT <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa~node_key&nbsp;&nbsp;&nbsp;&nbsp; AS customer_guid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa~bp_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS customer_id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpa~company_name AS customer_name, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad~country, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad~postal_code, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad~city <br>
+&nbsp;&nbsp;&nbsp;&nbsp;FROM snwd_bpa AS bpa <br>&nbsp;&nbsp;&nbsp;&nbsp;JOIN snwd_ad AS ad ON ad~node_key = bpa~address_guid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE bpa~node_key IN ( SELECT buyer_guid FROM snwd_so_inv_head <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE payment_status = 'P' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND changed_at <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BETWEEN @lv_payment_date_min AND @lv_payment_date_max ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ORDER BY customer_id <br>&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE @et_customer_info. <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_vs_open_sql_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

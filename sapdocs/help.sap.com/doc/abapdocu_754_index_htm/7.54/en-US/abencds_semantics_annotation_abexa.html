@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_SEMANTICS_ANNOTATION_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_semantics_annotation_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS, Evaluation of Annotations">
+<title>
+ABAP CDS, Evaluation of Annotations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_semantics_annotation_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_semantics_annotation_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_annotations.html')" class="blue">ABAP CDS - Annotations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_annotations_analysis.html')" class="blue">ABAP CDS - Evaluation of Annotations</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP CDS, Evaluation of Annotations
+</span></p>
+<p>
+This example demonstrates how <a href="javascript:call_link('abencds_annotations_frmwrk.html')" class="blue">semantics annotations</a> of
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL source code</a> are evaluated.
+</p>
+<A name="@@ITOC@@ABENCDS_SEMANTICS_ANNOTATION_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_cds_semantics_annotation.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA incomplete_addresses TYPE STANDARD TABLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OF demo_cds_semantics_annotation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH EMPTY KEY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_dd_ddl_annotation_service=&gt;get_drct_annos_4_entity_elmnts(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entityname =&nbsp;&nbsp;&nbsp;&nbsp; 'DEMO_CDS_SEMANTICS_ANNOTATION'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;annos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; DATA(elementannos) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES element_anno LIKE LINE OF elementannos.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA address_annos TYPE STANDARD TABLE OF element_anno-annoname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;address_annos = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'SEMANTICS.NAME.FULLNAME' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'SEMANTICS.ADDRESS.STREET' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'SEMANTICS.ADDRESS.CITY' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'SEMANTICS.ADDRESS.ZIPCODE' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'SEMANTICS.ADDRESS.COUNTRY' ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA address_components TYPE TABLE OF element_anno-elementname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;address_components = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR address_anno IN address_annos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( VALUE #( elementannos[ annoname = address_anno ]-elementname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEFAULT '---' ) ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_semantics_annotation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(address).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT address_components INTO DATA(component).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN COMPONENT component OF STRUCTURE address<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO FIELD-SYMBOL(&lt;value&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0 OR &lt;value&gt; IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incomplete_addresses = VALUE #( BASE incomplete_addresses<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( address ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDSELECT.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( incomplete_addresses ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCDS_SEMANTICS_ANNOTATION_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This program uses a simple example to show how annotations can be evaluated in a framework. All rows
+in a CDS entity are to be found that do not contain a fully specified address. Here, a fully specified address is simply a set of elements for name, street, city, postal code, and country, none of which can be empty.
+</p>
+<p>
+To do this, the program uses <span class="qtext">cl_dd_ddl_annotation_service=>get_drct_annos_4_entity_elmnts</span> to read the element annotations of a CDS entity and gets the names of the elements defined (using
+<a href="javascript:call_link('abencds_annotations_frmwrk.html')" class="blue">semantics annotations</a>) as the required components
+of an address in the internal table <span class="qtext">address_components</span>. In the next step, the CDS entity is read using <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> and a
+<a href="javascript:call_link('abapassign_mem_area_dynamic_dobj.html')" class="blue">dynamic</a> <a href="javascript:call_link('abapassign.html')" class="blue"><span class="qtext">
+ASSIGN</span></a> statement is used to check whether all required elements have a non-initial value for each read row. The output consists of any rows that do not contain a full address.
+</p>
+<p>
+The following CDS view is used as an example for a CDS entity:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_SEMANNO' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_semantics_annotation <br> as select from <br> scustom <br> { <br> id, <br> @Semantics.name.fullName <br>
+ name, <br> @Semantics.name.prefix <br> form, <br> @Semantics.address.street <br> street, <br> @Semantics.address.postBox <br>
+ postbox, <br> @Semantics.address.zipCode <br> postcode, <br> @Semantics.address.city <br> city, <br> @Semantics.address.country <br>
+ country, <br> @Semantics.address.subRegion <br> region, <br> @Semantics.contact.type <br> custtype, <br> @Semantics.language <br> langu, <br> @Semantics.eMail.address <br> email <br> }&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<p>
+This view wraps the database table <span class="lnkgrey">SCUSTOM</span>, which contains address data.
+The assignment of the semantics annotations to the columns of the database table gives the columns semantics that can be evaluated. Previously, this was only provided by those names and
+<a href="javascript:call_link('abendata_element_glosry.html')" class="grey" title="Glossary Entry">data elements</a> that are no longer relevant for the evaluation depicted here.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_semantics_annotation_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

@@ -1,0 +1,300 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMINE_SWEEPER_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmine_sweeper_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Minesweeper">
+<title>
+Minesweeper - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmine_sweeper_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmine_sweeper_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_syntax.html')" class="blue">ABAP Syntax</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_statements.html')" class="blue">ABAP Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenoperators_expressions.html')" class="blue">Operators and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexpressions_abexas.html')" class="blue">Examples of Expression-Oriented Programming</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Minesweeper
+</span></p>
+<p>
+Expression-oriented implementation of a Minesweeper game.
+</p>
+<A name="@@ITOC@@ABENMINE_SWEEPER_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM demo_minesweeper_740.<br>
+<br>
+CLASS game DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF t_cell,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bomb&nbsp;&nbsp;TYPE abap_bool,&nbsp;&nbsp;&quot; cell contains bomb y/n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bombs TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; # of neighboring bombs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state TYPE char1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; [h]idden, [v]isible, [f]lagged<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF t_cell,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_cells TYPE STANDARD TABLE OF t_cell&nbsp;&nbsp;WITH EMPTY KEY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_field TYPE STANDARD TABLE OF t_cells WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field&nbsp;&nbsp;TYPE t_field,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; dimension of field<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bombs&nbsp;&nbsp;TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; # of existing bombs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hidden TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; # of hidden cells<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags&nbsp;&nbsp;TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; # of flagged cells<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moves&nbsp;&nbsp;TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; # of moves<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;over&nbsp;&nbsp; TYPE char1,&nbsp;&nbsp;&nbsp;&nbsp;&quot; game over: [w]in, [d]ead<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header TYPE string.&nbsp;&nbsp; &quot; HTML header string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at_click FOR EVENT sapevent OF cl_abap_browser IMPORTING action,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detect IMPORTING VALUE(x) TYPE i VALUE(y) TYPE i.<br>
+ENDCLASS.<br>
+<br>
+CLASS game IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(wh) = `width:13px;height:18px`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;header = replace(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;occ = 0 sub = `@` with = `background-color:` val =<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `.bx{text-decoration:none;cursor:hand;` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; wh &amp;&amp; `} a{` &amp;&amp; wh &amp;&amp; `}` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `.hid{@#404080} .flg{@red} .bmb{@black}` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `.b0{@#e0e0e0} .b1{@lightblue} .b2{@lightgreen} .b3{@orange}` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `&lt;/style&gt;` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `&lt;script&gt;function setloc(e){window.location=e;}&lt;/script&gt;` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `&lt;/head&gt;&lt;body scroll=&quot;no&quot;&gt;&lt;table border=&quot;0&quot;&gt;` ) ##NO_TEXT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(size) = 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(level) = 3.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_field( CHANGING field = size ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request(&nbsp;&nbsp; CHANGING field = level ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot; size: 2..32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;&nbsp;&nbsp;&nbsp; = nmax( val1 = 2 val2 = nmin( val1 = size val2 = 32 ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot; level: 1..5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;level = nmax( val1 = 1 val2 = nmin( val1 = level val2 = 5 ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(threshold) = 100 - level * 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot; place hidden bombs randomly<br>
+&nbsp;&nbsp;&nbsp;&nbsp;field = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LET r = cl_abap_random_int=&gt;create( seed = CONV i( sy-uzeit )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;&nbsp;= 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max&nbsp;&nbsp;= 99 ) IN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR i = 1 UNTIL i &gt; n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( VALUE #( FOR j = 1 UNTIL j &gt; n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( state = 'h'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bomb = COND #( WHEN r-&gt;get_next( ) &gt; threshold<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN 'X' ) ) ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot; compute neighboring-bombs count for each cell, and overall count<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT field ASSIGNING FIELD-SYMBOL(&lt;cells&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(y) = sy-tabix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT &lt;cells&gt; ASSIGNING FIELD-SYMBOL(&lt;cell&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;cell&gt;-bomb = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bombs = bombs + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(x) = sy-tabix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;cell&gt;-bombs = REDUCE i(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INIT b = 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;&nbsp;i = nmax( val1 = 1 val2 = y - 1 )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHILE i &lt;= nmin( val1 = y + 1 val2 = n )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;&nbsp;j = nmax( val1 = 1 val2 = x - 1 )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHILE j &lt;= nmin( val1 = x + 1 val2 = n )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LET &lt;f&gt; = field[ i ][ j ] IN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEXT b = COND #( WHEN &lt;f&gt;-bomb = 'X' THEN b + 1 ELSE b ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hidden = n * n.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET HANDLER at_click.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD display.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=&gt;show_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= CONV cl_abap_browser=&gt;title( sy-title )<br>
+&nbsp;&nbsp;&nbsp;&nbsp; size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = COND #( WHEN n &lt; 20 THEN cl_abap_browser=&gt;small<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE cl_abap_browser=&gt;medium )<br>
+&nbsp;&nbsp;&nbsp;&nbsp; format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = cl_abap_browser=&gt;portrait<br>
+&nbsp;&nbsp;&nbsp;&nbsp; context_menu = ' '<br>
+&nbsp;&nbsp;&nbsp;&nbsp; html_string&nbsp;&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; REDUCE string(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INIT&nbsp;&nbsp;h = header<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;&nbsp; y = 1 UNTIL y &gt; n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEXT&nbsp;&nbsp;h = h &amp;&amp; |&lt;tr{ COND #( WHEN over &lt;&gt; '' THEN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` onclick=&quot;setloc('sapevent:ovr');&quot;` ) }&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; REDUCE string(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INIT k = ``<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;&nbsp;x = 1&nbsp;&nbsp;UNTIL x &gt; n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LET&nbsp;&nbsp;c = field[ y ][ x ]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot; CSS style (hid,flg,b0,...,b3) of cell<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; style = COND string(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN over &lt;&gt; '' AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c-bomb = 'X'&nbsp;&nbsp;&quot; bomb<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN `bmb`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN c-state = 'f' &quot; flagged<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN `flg`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN c-state = 'v' &quot; visible<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN |b{ nmin( val1 = c-bombs val2 = 3 ) }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN over &lt;&gt; ''&nbsp;&nbsp;&nbsp;&nbsp;&quot; empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN `b0`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE&nbsp;&nbsp;`hid` ) &quot; hidden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos = |x{ x WIDTH = 2 ALIGN = RIGHT PAD = '0' }| &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |y{ y WIDTH = 2 ALIGN = RIGHT PAD = '0' }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEXT k = |{ k }&lt;td class={ style }| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COND #( WHEN c-state = 'v'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN |&gt;&lt;a&gt;{ c-bombs }&lt;/a&gt;| &quot; bombs value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE &quot; HTML events on cell (left: try; right: flag)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | oncontextmenu=&quot;setloc('sapevent:flg{ pos }');| &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |return false;&quot;&gt;&lt;a href=&quot;sapevent:try{ pos }&quot;&gt;| &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&lt;div class=&quot;bx&quot;&gt;&lt;/div&gt;&lt;/a&gt;| )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; `&lt;/td&gt;` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; `&lt;/tr&gt;` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; `&lt;/table&gt;&lt;br&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; COND #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN over = 'd' THEN `*** Bomb&nbsp;&nbsp;-&nbsp;&nbsp;Game over ***`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHEN over = 'w' THEN |Finished in { moves } moves!| )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; `&lt;/body&gt;&lt;/html&gt;` ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD at_click.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF over &lt;&gt; ''.&nbsp;&nbsp;&quot; game is over, final click<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=&gt;close_browser( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;moves = moves + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(x) = CONV i( action+4(2) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(y) = CONV i( action+7(2) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN field[ y ][ x ] TO FIELD-SYMBOL(&lt;cell&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF action(3) = 'try'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;cell&gt;-bomb = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;over = 'd'.&nbsp;&nbsp;&quot; hit bomb -&gt; game over<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detect( x = x y = y ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.&nbsp;&nbsp;&quot; action(3) = 'flg'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;cell&gt;-state = 'h'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;cell&gt;-state = 'f'.&nbsp;&nbsp;flags = flags + 1.&nbsp;&nbsp;hidden = hidden - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;cell&gt;-state = 'h'.&nbsp;&nbsp;flags = flags - 1.&nbsp;&nbsp;hidden = hidden + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF hidden = 0 AND flags = bombs .<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;over = 'w'.&nbsp;&nbsp;&quot; all cells opened, all bombs found -&gt; win<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD detect.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CHECK x &gt;= 1 AND x &lt;= n AND y &gt;= 1 AND y &lt;= n.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN field[ y ][ x ] TO FIELD-SYMBOL(&lt;cell&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CASE &lt;cell&gt;-state.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'v'.&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'h'.&nbsp;&nbsp;hidden = hidden - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'f'.&nbsp;&nbsp;flags = flags - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;cell&gt;-state = 'v'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CHECK &lt;cell&gt;-bombs = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(u) = y - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(d) = y + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(l) = x - 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(r) = x + 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = u x = l ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = u x = x ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = u x = r ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = y x = l ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = y x = r ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = d x = l ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = d x = x ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detect( y = d x = r ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;NEW game( )-&gt;display( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENMINE_SWEEPER_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example uses the implementation of a Minesweeper game to demonstrate expression-oriented ABAP programming
+(as introduced in Release 7.40). As a comparison, the program <span class="lnkgrey">DEMO_MINESWEEPER_700</span>
+shows the same function implemented without expressions, mainly using language elements from Release 7.00 only.
+</p>
+<p>
+To play the game, use the left and right mouse buttons to enter or select fields.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmine_sweeper_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

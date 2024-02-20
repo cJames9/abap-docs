@@ -1,0 +1,317 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_APPLY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_apply.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:apply, Call Subtemplate">
+<meta name="keywords" content="ABAP, Simple Transformations, apply">
+<title>
+ST - tt:apply, Call Subtemplate - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_apply.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_apply.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_modularization.html')" class="blue">ST - Modularization with Subtemplates</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@apply@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:apply, Call Subtemplate
+</span></p>
+<A name="@@ITOC@@ABENST_TT_APPLY_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:apply name="tmpl" <i class=bn>[</i>ref="node"<i class=bn>]</i>> <br>&nbsp;&nbsp;<i
+class=bn>[</i>&lt;tt:with-root name="root1" <i class=bn>[</i>ref="node1"<i class=bn>]</i> /> <br>&nbsp;&nbsp; &lt;tt:with-root name="root2" <i class=bn>[</i>ref="node2"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; ...<i class=bn>]</i> <br>&nbsp;&nbsp;<i class=bn>[</i>&lt;tt:with-parameter name="para1" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ref="node1"<i class=bn>|</i>val="val1"<i class=bn>|</i>var="var1"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; &lt;tt:with-parameter name="para2" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ref="node2"<i class=bn>|</i>val="val2"<i class=bn>|</i>var="var2"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; ...<i class=bn>]</i> <br>&lt;/tt:apply></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+A subtemplate <span class="qtext400">tmpl</span> (defined with <a href="javascript:call_link('abenst_tt_template_sub.html')" class="blue">
+<span class="qtext400">tt:template</span></a>) can be called in any other template using the ST command
+<span class="qtext400">tt:apply</span>. The subtemplate is processed at this point when the including template is executed.
+</p>
+<ul class="disc">
+<li>If separate data roots are declared using <a href="javascript:call_link('abenst_tt_template_sub.html')" class="blue"><span class="qtext400">
+tt:root</span></a> in the called subtemplate, you can set them with the ST command <span class="qtext400">tt:with-root</span>.
+It is then not possible to specify the optional attribute <span class="qtext400">ref</span> in the command
+<span class="qtext400">tt:apply</span>. <span class="qtext400">tt:with-root</span> sets the data root
+of the name specified in <span class="qtext400">name</span> to the node specified in <span class="qtext400">ref</span>
+or binds the data root to the ABAP data object currently bound to the specified node. If <span class="qtext400">ref</span>
+is not specified, the current node of the calling template is used. Local data roots that are not bound
+to a node remain undefined, that is, they do not refer to an ABAP data object. At the beginning of a subtemplate of this type, the current node is undefined.</li>
+</ul>
+<ul class="disc">
+<li>If no separate data roots are declared using <a href="javascript:call_link('abenst_tt_template_sub.html')" class="blue"><span class="qtext400">
+tt:root</span></a> in a subtemplate <span class="qtext400">tmpl</span>, the root node of the tree structure
+of the called subtemplate is set either explicitly with the optional attribute <span class="qtext400">ref</span> or implicitly to the current node of the calling template at the call position.</li>
+</ul>
+<ul class="disc">
+<li>If formal parameters are declared using <a href="javascript:call_link('abenst_tt_parameter.html')" class="blue"><span class="qtext400">tt:parameter</span></a>
+in the called subtemplate, the command <span class="qtext400">tt:with-parameter</span> can be used to
+associate them with actual parameters. As actual parameters, <span class="qtext400">ref</span> can be used to specify data roots, <span class="qtext400">var</span> to specify variables, and <span class="qtext400">val</span> to specify
+<a href="javascript:call_link('abenst_abap_representation.html')" class="blue">values</a>. Depending on the category of formal
+parameter, the values of the specified actual parameters are either passed in the call or copied when the subtemplate ends (see example below).</li>
+</ul>
+<dl><dd>
+In this case, pass by parameter can be seen as a special case of assignment, which means that the same principle applies as for <a href="javascript:call_link('abenst_tt_assign.html')" class="blue"><span class="qtext400">tt:assign</span></a>:
+</dd></dl>
+<ul class="circlem2">
+<li>An assignment with data nodes as the target is possible only in deserializations.</li>
+</ul>
+<ul class="circlem2">
+<li>An assignment with data nodes as the source is possible only in serializations.</li>
+</ul>
+<p><span class="h4">
+Examples without pass by parameter
+</span></p>
+<p>
+The following simple transformation contains two templates: a main template <span class="qtext400">TEMP_MAIN</span>
+and a subtemplate <span class="qtext400">TEMP_SUB</span> without its own data roots. The subtemplate
+is bound to the main template seven times with <span class="qtext400">tt:apply</span>; the respective
+current node is set with <span class="qtext400">tt:ref</span> beforehand. This ST program can transform a nested structure symmetrically.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform template="TEMP_MAIN" <br> <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template name="TEMP_MAIN"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;week> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day1 tt:ref="ROOT.DAY1"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day2 tt:ref="ROOT.DAY2"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day3 tt:ref="ROOT.DAY3"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day4 tt:ref="ROOT.DAY4"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day4> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day5 tt:ref="ROOT.DAY5"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day5> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day6 tt:ref="ROOT.DAY6"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day6> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day7 tt:ref="ROOT.DAY7"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day7> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/week> <br>&nbsp;&nbsp;&lt;/tt:template> <br>
+&nbsp;&nbsp;&lt;tt:template name="TEMP_SUB"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="$ref.name" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/name> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;work> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="$ref.work" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/work> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The following ABAP program can call the transformation:
+</p>
+<dl><dd>
+<span class="qtext">TYPES: BEGIN OF day, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name TYPE string, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; work(1) TYPE c, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF day. <br>
+ <br>DATA: BEGIN OF week, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day1 TYPE day, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day2 TYPE day, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day3 TYPE day, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day4 TYPE day, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day5 TYPE day, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day6 TYPE day, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day7 TYPE day, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF week. <br>
+ <br>DATA xml_string TYPE string. <br>DATA result LIKE week. <br> <br>week-day1-name = 'Monday'.&nbsp;&nbsp;&nbsp;&nbsp;week-day1-work = 'X'. <br>
+week-day2-name = 'Tuesday'.&nbsp;&nbsp; week-day2-work = 'X'. <br>week-day3-name = 'Wednesday'. week-day3-work = 'X'. <br>
+week-day4-name = 'Thursday'.&nbsp;&nbsp;week-day4-work = 'X'. <br>week-day5-name = 'Friday'.&nbsp;&nbsp;&nbsp;&nbsp;week-day5-work = 'X'. <br>
+week-day6-name = 'Saturday'.&nbsp;&nbsp;week-day6-work = ' '. <br>week-day7-name = 'Sunday'.&nbsp;&nbsp;&nbsp;&nbsp;week-day7-work = ' '. <br>
+ <br>CALL TRANSFORMATION ... <br>&nbsp;&nbsp;SOURCE root = week <br>&nbsp;&nbsp;RESULT XML xml_string. <br> <br>CALL TRANSFORMATION ... <br>&nbsp;&nbsp;SOURCE XML xml_string <br>&nbsp;&nbsp;RESULT root = result.</span>
+</dd></dl>
+<p>
+The result of the serialization is the following:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;week> <br>&nbsp;&nbsp;&lt;day1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Monday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work>X&lt;/work> <br>&nbsp;&nbsp;&lt;/day1> <br>&nbsp;&nbsp;&lt;day2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Tuesday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work>X&lt;/work> <br>&nbsp;&nbsp;&lt;/day2> <br>&nbsp;&nbsp;&lt;day3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Wednesday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work>X&lt;/work> <br>&nbsp;&nbsp;&lt;/day3> <br>&nbsp;&nbsp;&lt;day4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Thursday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work>X&lt;/work> <br>&nbsp;&nbsp;&lt;/day4> <br>&nbsp;&nbsp;&lt;day5> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Friday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work>X&lt;/work> <br>&nbsp;&nbsp;&lt;/day5> <br>&nbsp;&nbsp;&lt;day6> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Saturday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work/> <br>&nbsp;&nbsp;&lt;/day6> <br>&nbsp;&nbsp;&lt;day7> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>Sunday&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;work/> <br>&nbsp;&nbsp;&lt;/day7> <br>&lt;/week></span>
+</dd></dl>
+<p>
+After deserialization, <span class="qtext">result</span> has the same content as <span class="qtext">struc</span>.
+</p>
+<p>
+The simple transformation below has the same function as the previous one and can be called with the
+same result using the specified ABAP program. In contrast to the transformation in the previous example,
+subtemplate <span class="qtext400">TEMP_SUB</span> has a separate data root here, <span class="qtext400">local</span>, to which another data node <span class="qtext400">tt.apply</span> is passed in each bind.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform template="TEMP_MAIN" <br> <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template name="TEMP_MAIN"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;week> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY1" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY2" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY3" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day3> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY4" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day4> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day5> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY5" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day5> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day6> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY6" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day6> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day7> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local" ref="ROOT.DAY7" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day7> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/week> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&nbsp;&nbsp;&lt;tt:template name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:context> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:root name="local" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:context> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;name> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tt:value ref="local.name" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/name> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;work> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tt:value ref="local.work" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/work> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The simple transformation below also has the same function as the ones before. In this case, subtemplate
+<span class="qtext400">TEMP_SUB</span> has two separate data roots, <span class="qtext400">local1</span>
+and <span class="qtext400">local2</span>, to which data nodes are passed in command <span class="qtext400">tt.apply</span>.
+This example demonstrates the use of local data roots and their addressing. In a real case, subtemplates help to reuse code and make simple transformations clearer.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform template="TEMP_MAIN" <br> <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template name="TEMP_MAIN"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;week> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY1.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY1.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY2.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY2.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY3.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY3.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day3> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY4.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY4.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day4> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day5> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY5.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY5.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day5> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day6> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY6.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY6.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day6> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;day7> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local1" ref="ROOT.DAY7.NAME" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-root name="local2" ref="ROOT.DAY7.WORK" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/day7> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/week> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&nbsp;&nbsp;&lt;tt:template name="TEMP_SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:context> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:root name="local1" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:root name="local2" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:context> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;name> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref=".local1" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/name> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;work> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref=".local2" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/work> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p><span class="h4">
+Example with pass by parameter
+</span></p>
+<p>
+The transformation below shows how parameters are passed to a subtemplate.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:variable name="VARI1" val="1"/> <br>&nbsp;&nbsp;&lt;tt:variable name="VARI2" val="2"/> <br>
+&nbsp;&nbsp;&lt;tt:variable name="VARI3" val="3"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:apply name="SUB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-parameter name="PARA1" var="VARI1"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-parameter name="PARA2" var="VARI2"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-parameter name="PARA3" var="VARI3"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:apply> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:write var="VARI1"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:write var="VARI2"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:write var="VARI3"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>
+&nbsp;&nbsp;&lt;tt:template name="SUB"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:context> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:parameter kind="in" name="PARA1" val="4"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:parameter kind="out" name="PARA2"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:parameter kind="in/out" name="PARA3"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:context> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:assign to-var="PARA2" var="PARA3"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:assign to-var="PARA3" var="PARA1"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:assign to-var="PARA1" val="555"/> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The result of the transformation is:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;X0> <br>&nbsp;&nbsp;&lt;X1>1&lt;/X1> <br>&nbsp;&nbsp;&lt;X2>3&lt;/X2> <br>&nbsp;&nbsp;&lt;X3>1&lt;/X3> <br>&lt;/X0></span>
+</dd></dl>
+<p>
+The input parameter <span class="qtext400">PARA1</span> is changed in the subtemplate, but the changed value is not passed back to the actual parameter <span class="qtext400">VARI1</span>.
+</p>
+<p>
+The output parameter <span class="qtext400">PARA2</span> is set to the value of actual parameter <span class="qtext400">
+VARI3</span>, which is passed to the subtemplate, and this value is returned to the actual parameter <span class="qtext400">VARI2</span>.
+</p>
+<p>
+The input/output parameter <span class="qtext400">PARA3</span> is set to the value of actual parameter
+<span class="qtext400">VARI1</span>, which is passed to the subtemplate, and this value is returned to the actual parameter <span class="qtext400">VARI3</span>.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_apply.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:34 GMT -->
+</html>

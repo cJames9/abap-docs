@@ -1,0 +1,136 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPRINT_PARAMETERS_FUNCTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprint_parameters_function.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Setting Program-Driven Spool Parameters">
+<title>
+Setting Program-Driven Spool Parameters - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenprint_parameters_function.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenprint_parameters_function.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprint.html')" class="blue">Spooling Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprint_parameters.html')" class="blue">spool parameter</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@GET_PRINT_PARAMETERS@@!ABAP_FUMO@@"></A>
+<p><span class="h1">
+Setting Program-Driven Spool Parameters
+</span></p>
+<p>
+Spool and archiving parameters can only be set in a program using the following function module: <span class="lnkgrey">
+GET_PRINT_PARAMETERS</span>. If the corresponding structures are changed directly and then the parameters
+in question used in <span class="qtext">NEW-PAGE PRINT ON</span> or <span class="qtext">SUBMIT TO SAP-SPOOL</span>,
+a runtime error occurs. The GET_PRINT_PARAMETERS function module can be used to execute the following functions:
+</p>
+<ul class="disc">
+<li>Creating a complete set of spool and archiving parameters.</li>
+</ul>
+<ul class="disc">
+<li>Determining the spool parameters that are currently valid during spooling</li>
+</ul>
+<ul class="disc">
+<li>Changing individual spool parameters</li>
+</ul>
+<ul class="disc">
+<li>Interactive querying of the spool parameters in the spool dialog box</li>
+</ul>
+<p>
+The interface parameters for the function module are listed in <a href="javascript:call_link('abenprint_parameters_overview.html')" class="blue">Overview of All Spool Parameters</a>.
+</p>
+<p>
+The <a href="javascript:call_link('abenprint_parameters_window.html')" class="blue">spool dialog box</a> is displayed by default
+and can be switched off using the parameter NO_DIALOG.  The values passed to the function module are used as the default values in the spool dialog box and can be overwritten there.
+</p>
+<p>
+The function module gets all parameters that have not been set from the system, taking some values from
+the user master record. Dependent parameters are set automatically. If the function module is unable
+to generate a record with valid spool and archiving parameters, it generates an exception. The generated
+records are either complete or empty. The export parameter VALID (if the <span class="italic">spool dialog box</span> is being used) indicates whether a complete record could be created.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>For GET_PRINT_PARAMETERS, the completeness of the parameter records and the run capability of the
+spool request are of primary importance. The function module does not carry out a complete consistency
+test like the spool dialog box. Consistency is only established in cases where it is significant for the run capability of the spool request. Inconsistent entries are partly ignored, partly replaced. For example:</li>
+</ul>
+<ul class="circlem2">
+<li>The LINE_SIZE parameter or LINE_COUNT parameter can be used to set values that are not compatible
+with the LAYOUT parameter and lead to truncated output. Such inconsistencies are recognized in the spool dialog box.</li>
+</ul>
+<ul class="circlem2">
+<li>Even if invalid values are passed to DESTINATION, it is still possible to set IMMEDIATELY to "X".
+The function module replaces the output device with a standard value (LP01) and initializes IMMEDIATELY. This causes the spool system to store the request using the settings that go with the default printer.</li>
+</ul>
+<ul class="disc">
+<li>The GET_PRINT_PARAMETERS function module can be called multiple times consecutively. For example,
+the spool dialog box can be called at the start of a program if the user enters the basic setting. When
+it is called again, the parameter records created in this way can be passed collectively to the PRI_PARAMS
+and ARC_PARAMS import parameters of the function module and overwritten there. This enables the spooling of wide lists in landscape format or narrow lists in portrait format with otherwise unchanged settings.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprint_parameters_function.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:51 GMT -->
+</html>

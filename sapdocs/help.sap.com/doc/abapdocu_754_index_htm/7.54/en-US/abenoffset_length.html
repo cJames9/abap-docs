@@ -1,0 +1,317 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOFFSET_LENGTH -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenoffset_length.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:29 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Substring Access">
+<meta name="keywords" content="ABAP, Offset/Lengths Specified, Partial Field Access, Subareas, Substring Access">
+<title>
+Substring Access - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenoffset_length.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenoffset_length.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_syntax.html')" class="blue">ABAP Syntax</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_statements.html')" class="blue">ABAP Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenoperands.html')" class="blue">Operands</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenoperands_data_objects.html')" class="blue">Data Objects in Operand Positions</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@+@@!ABAP_OFFLEN!@@"></A>
+<A NAME="@@( )@@!ABAP_OFFLEN!@@"></A>
+<p><span class="h1">
+Substring Access
+</span></p>
+<p>
+In operand positions, subareas of certain data objects can be accessed by specifying an offset/length:
+</p>
+<A name="@@ITOC@@ABENOFFSET_LENGTH_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">dobj<i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i></span>
+</p>
+<p>
+<span class="qtext">&lt;fs><i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i></span>
+</p>
+<p>
+<span class="qtext">dref->*<i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+A specified offset or length is directly appended to either the <span class="qtext">dobj</span> descriptor
+of the data object, an <span class="qtext">&lt;fs></span> field symbol, or a dereferenced data reference variable <span class="qtext">dref->*</span>. Offsets/lengths can be specified for:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenelementary_data_object_glosry.html')" class="grey" title="Glossary Entry">Elementary</a>
+<a href="javascript:call_link('abenbyte_like_data_object_glosry.html')" class="grey" title="Glossary Entry">byte-like data objects</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenelementary_data_object_glosry.html')" class="grey" title="Glossary Entry">Elementary</a>
+<a href="javascript:call_link('abencharlike_data_object_glosry.html')" class="grey" title="Glossary Entry">character-like data objects</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenflat_structure_glosry.html')" class="grey" title="Glossary Entry">Flat structures</a> where one of the following prerequisites must be met:</li>
+</ul>
+<ul class="circlem2">
+<li>The structure contains flat character-like components only.</li>
+</ul>
+<ul class="circlem2">
+<li>The first fragment of the <a href="javascript:call_link('abenunicode_fragment_view_glosry.html')" class="grey" title="Glossary Entry">
+structure fragment view</a> is flat and character-like, and the substring addressed by specifying the offset and length is located within this fragment.</li>
+</ul>
+<p>
+The following restrictions apply:
+</p>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenwriting_position_glosry.html')" class="grey" title="Glossary Entry">write positions</a>, only flat data objects are permitted; it is not possible to write to substrings of strings.</li>
+</ul>
+<ul class="disc">
+<li>Access to substrings of strings is also not possible in the following <a href="javascript:call_link('abenreading_position_glosry.html')" class="grey" title="Glossary Entry">reading positions</a>:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">dobj<i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i></span>
+specified as a memory area <a href="javascript:call_link('abapassign_mem_area_static_dobj.html')" class="blue"><span class="qtext">mem_area</span></a>
+of the statement <a href="javascript:call_link('abapassign.html')" class="blue"><span class="qtext">ASSIGN</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">dobj<i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i></span>
+specified as an argument of the statement <a href="javascript:call_link('abapget_reference.html')" class="blue"><span class="qtext">GET
+REFERENCE</span></a> or the reference operator <a href="javascript:call_link('abenconstructor_expression_ref.html')" class="blue"><span class="qtext">REF</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">dobj<i class=bn>[</i>+off<i class=bn>]</i><i class=bn>[</i>(len)<i class=bn>]</i></span> specified as an actual parameter for input parameters in calls of
+<a href="javascript:call_link('abenmethod_calls.html')" class="blue">methods</a>,
+<a href="javascript:call_link('abapcall_function.html')" class="blue">function modules</a> , and <a href="javascript:call_link('abapperform.html')" class="blue">subroutines</a> .</li>
+</ul>
+<ul class="disc">
+<li>Offsets/lengths cannot be specified for literals or text symbols.</li>
+</ul>
+<ul class="disc">
+<li>A specified offset/length cannot be appended directly to a table expression <a href="javascript:call_link('abentable_expressions.html')" class="blue"><span class="qtext">itab[ ... ]</span></a>, but this is possible after a
+<a href="javascript:call_link('abentable_exp_chaining.html')" class="blue">chaining</a> whose final place is a suitable structure component after a structure component selector.</li>
+</ul>
+<ul class="disc">
+<li>No offset or length can be specified for an <a href="javascript:call_link('abenenumerated_object_glosry.html')" class="grey" title="Glossary Entry">enumerated object</a> with an
+<a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">enumerated type</a>, regardless of the <a href="javascript:call_link('abenbase_type_glosry.html')" class="grey" title="Glossary Entry">base type</a>.</li>
+</ul>
+<ul class="disc">
+<li>In the case of dynamically <a href="javascript:call_link('abenoperands_specifying.html')" class="blue">specified operands</a> in parentheses, no lengths can be specified.</li>
+</ul>
+<ul class="disc">
+<li>A dereferenced data reference variable <span class="qtext">dref->*</span> must be typed in full.</li>
+</ul>
+<ul class="disc">
+<li>For a <a href="javascript:call_link('abenwritable_expression_glosry.html')" class="grey" title="Glossary Entry">writable expression</a>, offsets/lengths cannot be specified as
+<a href="javascript:call_link('abapassign_mem_area_writable_exp.html')" class="blue">memory areas</a> in the statement <span class="qtext">
+ASSIGN</span> or as arguments of the reference operator <a href="javascript:call_link('abenconstructor_expression_ref.html')" class="blue"><span class="qtext">REF</span></a> (table expressions only).</li>
+</ul>
+<p>
+The segment of the data object is used that has the offset specified in <span class="qtext">off</span>
+and the length (in characters or bytes) specified in <span class="qtext">len</span>. A memory area must
+not be addressed outside the field boundaries, except in the case of the statement <a href="javascript:call_link('abapassign.html')" class="blue">
+<span class="qtext">ASSIGN</span></a>. In an offset specified without a length, the entire substring
+is addressed from <span class="qtext">off</span> characters; for a length specified without an offset,
+the first <span class="qtext">len</span> characters are addressed (different rules apply to the statement <a href="javascript:call_link('abapassign.html')" class="blue"><span class="qtext">ASSIGN</span></a>).
+</p>
+<p>
+The operands <span class="qtext">off</span> and <span class="qtext">len</span> expect data objects of
+the type <span class="qtext">i</span>. These data objects must contain positive integers, with the following exceptions.
+</p>
+<ul class="disc">
+<li>The length 0 can be specified for <a href="javascript:call_link('abenstring_glosry.html')" class="grey" title="Glossary Entry">strings</a>.</li>
+</ul>
+<ul class="disc">
+<li>A negative offset (but never length 0) can be specified if an <span class="qtext">&lt;fs></span>
+field symbol is specified in the statement <a href="javascript:call_link('abapassign_mem_area_static_dobj.html')" class="blue"><span class="qtext">ASSIGN</span></a> for <span class="qtext">dobj</span>.</li>
+</ul>
+<ul class="disc">
+<li>If <span class="qtext">off</span> is less than the length of <span class="qtext">dobj</span>, an asterisk
+(<span class="qtext">*</span>) can be specified for <span class="qtext">len</span>. The upper limit of <span class="qtext">dobj</span> then determines the upper limit of the memory area.</li>
+</ul>
+<p>
+If the prerequisites are not met or if the subarea defined by <span class="qtext">off</span> and <span class="qtext">
+len</span> is not completely contained in the data object (except in the case of <a href="javascript:call_link('abapassign.html')" class="blue">
+<span class="qtext">ASSIGN</span></a>), a syntax error occurs (if statically identifiable). Otherwise,
+an exception of the class CX_SY_RANGE_OUT_OF_BOUNDS is raised. If <span class="qtext">off</span> is specified as a numeric literal, this literal cannot be prefixed with a sign.
+</p>
+<p>
+The offset and length specifications are counted in characters for character-like data objects and in bytes for all other data objects.
+</p>
+<p>
+A substring specified by an offset or length specification is treated like a data object of the specified
+length for which the data type depends on the data type of the original data object, the field symbol, or the data reference variable, as shown below:
+</p>
+<table border>
+<tr>
+<td><span class="bold">Original Data Type</span></td>
+<td><span class="bold">Data Type of Substring</span></td>
+</tr>
+<tr>
+<td><span class="qtext">c</span></td>
+<td><span class="qtext">c</span></td>
+</tr>
+<tr>
+<td><span class="qtext">n</span></td>
+<td><span class="qtext">n</span></td>
+</tr>
+<tr>
+<td><span class="qtext">d</span></td>
+<td><span class="qtext">n</span></td>
+</tr>
+<tr>
+<td><span class="qtext">t</span></td>
+<td><span class="qtext">n</span></td>
+</tr>
+<tr>
+<td><span class="qtext">string</span></td>
+<td><span class="qtext">string</span></td>
+</tr>
+<tr>
+<td><span class="qtext">x</span></td>
+<td><span class="qtext">x</span></td>
+</tr>
+<tr>
+<td><span class="qtext">xstring</span></td>
+<td><span class="qtext">xstring</span></td>
+</tr>
+<tr>
+<td>Structure type</td>
+<td><span class="qtext">c</span></td>
+</tr>
+</table><br>
+<p>
+If the length of the substring matches the length of the structure in a substring access to a structure
+exactly, the substring does not have data type <span class="qtext">c</span> and is handled like the structure itself instead.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>For reads on substrings of character-like data objects, built-in
+<a href="javascript:call_link('abensubstring_functions.html')" class="blue">substring functions</a> that allow searches by specifying
+both substring and offset/lengths are available. The substring functions can also be used to edit arguments where offsets and lengths cannot be specified, such as data objects with an
+<a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">enumerated type</a>. This is because an implicit conversion to <span class="qtext">string</span> is performed here.</li>
+</ul>
+<ul class="disc">
+<li>It is a good idea to specify offsets with the value 0 explicitly too (that is, <span class="qtext">dobj+0(len)</span>
+instead of <span class="qtext">dobj(len)</span>). This distinguishes a substring access in the source
+code clearly from other language constructs that also use parentheses, such as dynamic specifications, method calls, or inline declarations.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">dobj+0(*)</span>, <span class="qtext">dobj+0</span>, or <span class="qtext">dobj(*)</span>
+are always interpreted as <span class="qtext">dobj</span>. In this case, <span class="qtext">dobj</span> can also be a data object where substring access according to the rules above is not possible.</li>
+</ul>
+<ul class="disc">
+<li>No substring access <span class="qtext">cnt(len)</span>, <span class="qtext">sum(len)</span> can
+be performed on data objects called <span class="qtext">cnt</span> and <span class="qtext">sum</span> unless an offset is specified explicitly. The compiler always interprets this as a
+<a href="javascript:call_link('abapcnt.html')" class="blue">number</a> or <a href="javascript:call_link('abapsum.html')" class="blue">sum</a> of a field <span class="qtext">len</span> in the group level processing of an
+<a href="javascript:call_link('abenextract_dataset_glosry.html')" class="grey" title="Glossary Entry">extract dataset</a>.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abentokenization_obsolete.html')" class="blue">Obsolete syntax forms</a> can still occur with substring access (apart from with classes).</li>
+</ul>
+<ul class="disc">
+<li>The statement <a href="javascript:call_link('abapmove_percentage.html')" class="blue"><span class="qtext">MOVE PERCENTAGE</span></a> indicates an obsolete form of substring access.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following structure has both character-like and non-character-like components:
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF struc, <br>&nbsp;&nbsp;&nbsp;&nbsp;a TYPE c LENGTH 3,&nbsp;&nbsp;&nbsp;&nbsp;"Length 3 characters <br>
+&nbsp;&nbsp;&nbsp;&nbsp;b TYPE n LENGTH 4,&nbsp;&nbsp;&nbsp;&nbsp;"Length 4 characters <br>&nbsp;&nbsp;
+&nbsp;c TYPE d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Length 8 characters <br>
+&nbsp;&nbsp;&nbsp;&nbsp;d TYPE t,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Length 6 characters <br>
+&nbsp;&nbsp;&nbsp;&nbsp;e TYPE decfloat16,&nbsp;&nbsp;&nbsp;&nbsp;"Length 8 bytes <br>&nbsp;&nbsp;&nbsp;&nbsp;f TYPE c LENGTH 28,&nbsp;&nbsp; "Length 28 characters <br>
+&nbsp;&nbsp;&nbsp;&nbsp;g TYPE x LENGTH 2,&nbsp;&nbsp;&nbsp;&nbsp;"Length 2 bytes <br>&nbsp;&nbsp;END OF struc.
+</span>
+</p>
+<p>
+The <a href="javascript:call_link('abenunicode_fragment_view_glosry.html')" class="grey" title="Glossary Entry">fragment view</a> splits the structure into five areas, F1 - F5.
+</p>
+<p>
+<span class="qtext400"> [ aaa | bbbb | cccccccc | ddd | AAA | eeee | fffffffffffff | gg ] <br>[&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;F2 |&nbsp;&nbsp;F3&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| F5 ]</span>
+</p>
+<p>
+Offset/length accesses are possible on the character-like initial fragment <span class="qtext400">F1</span>
+only, for example <span class="qtext">struc(21)</span> or <span class="qtext">struc+7(14)</span>. An access such as <span class="qtext">struc+57(2)</span>, for example, is not permitted.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abendata_process_fields_abexa.html')" class="blue">Substrings</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abendata_process_fields_abexa.html')" class="blue">Substrings</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenoffset_length.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:29 GMT -->
+</html>

@@ -1,0 +1,123 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_HELP_VIEWS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_help_views.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Help Views">
+<meta name="keywords" content="ABAP, ABAP Dictionary, Help Views">
+<title>
+Help Views - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_help_views.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_help_views.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_views.html')" class="blue">Views</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_views.html')" class="blue">Classic Views</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Help Views
+</span></p>
+<p>
+A help view is a special view for use in <a href="javascript:call_link('abensearch_help_glosry.html')" class="grey" title="Glossary Entry">
+search helps</a>. The selection methods of a search help can be database tables, database views, and
+the special help views. Database tables restrict the search help to one table and database views restrict
+it to inner joins, whereas help views also make outer joins possible. A help view is not defined on
+the database. The structure type defined using a help view can be referenced in ABAP programs using <span class="qtext">TYPE</span>. A help view cannot, however, be accessed using ABAP SQL.
+</p>
+<p>
+The join conditions of a help view must be applied from existing foreign keys. Tables can be grouped in help views only if they are joined using
+<a href="javascript:call_link('abenforeign_key_glosry.html')" class="grey" title="Glossary Entry">foreign keys</a>. The first
+table included in the help view is known as the primary table of the help view. The tables added to
+this primary table using foreign keys are known as secondary tables. The same restrictions apply when selecting secondary tables of a help view as to
+<a href="javascript:call_link('abenddic_maintenance_views.html')" class="blue">maintenance views</a>.
+</p>
+<p>
+A help view implements an outer join, which means that the full content of the primary table of the
+help view is always displayed. If records in a secondary table cannot be read due to a selection condition, the content of the corresponding fields of the secondary table are displayed with initial values.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Like other views, help views can be used in elementary search helps if the selection is too complex to be defined using a single database table.</li>
+</ul>
+<ul class="disc">
+<li>Unlike database views, help views implement an outer join, which is why this type is particularly
+well suited for including supplementary information such as explanatory texts from secondary tables. If the supplementary information were missing in an inner join, no part of the dataset would be selected.</li>
+</ul>
+<ul class="disc">
+<li>If the selection is only made using a table and its text table, it is enough to specify the table
+directly as a selection method of the search help, since the fields of the text table can also be used as parameters in the search help in this case.</li>
+</ul>
+<ul class="disc">
+<li>Help views should not be used if the selection is often restricted using fields of the secondary
+tables. In this case, a database view should be created instead. It might also be necessary to create additional suitable indexes for the basis tables.</li>
+</ul>
+<ul class="disc">
+<li>Selections using help views can only be made quicker by making restrictions on the primary table.
+When accessing help views from the ABAP runtime environment, special selection routines are generated.
+These routines always make the selection using the primary table first and then use the records found as a key for selecting the supplementary information.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_help_views.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+</html>

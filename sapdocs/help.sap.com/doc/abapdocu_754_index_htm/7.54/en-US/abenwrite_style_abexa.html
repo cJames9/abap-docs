@@ -1,0 +1,178 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENWRITE_STYLE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwrite_style_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Decimal Floating Point Numbers, Formatting with STYLE">
+<title>
+Decimal Floating Point Numbers, Formatting with STYLE - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenwrite_style_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenwrite_style_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_statements.html')" class="blue">Statements for Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite_to.html')" class="blue">WRITE - TO</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite_to_options.html')" class="blue">WRITE - format_options</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Decimal Floating Point Numbers, Formatting with STYLE
+</span></p>
+<p>
+This example demonstrates the formatting of decimal floating point numbers.
+</p>
+<A name="@@ITOC@@ABENWRITE_STYLE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_style LINE-SIZE 100 NO STANDARD PAGE HEADING.<br>
+<br>
+CLASS cl_abap_format DEFINITION LOAD.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA: BEGIN OF format,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value LIKE cl_abap_format=&gt;e_xml_text,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;TYPE abap_attrdescr-name,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF format,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formats LIKE SORTED TABLE OF format<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH UNIQUE KEY value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS get_formats.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: number&nbsp;&nbsp;TYPE decfloat34 VALUE '-12345.67890',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF result,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_to&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE c length 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;template_raw&nbsp;&nbsp;TYPE c length 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;template_user TYPE c length 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF result,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results LIKE TABLE OF result,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp; TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc&nbsp;&nbsp;&nbsp;&nbsp; TYPE REF TO cx_sy_unknown_currency.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_formats( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT demo=&gt;formats INTO demo=&gt;format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result-style = demo=&gt;format-name+2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE number TO result-write_to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STYLE demo=&gt;format-value LEFT-JUSTIFIED.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result-template_raw =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|{ number STYLE&nbsp;&nbsp;= (demo=&gt;format-value) }|.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result-template_user =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|{ number STYLE&nbsp;&nbsp;= (demo=&gt;format-value)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUMBER = USER }|.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND result TO results.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( results ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get_formats.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: formats&nbsp;&nbsp;TYPE abap_attrdescr_tab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format&nbsp;&nbsp; LIKE LINE OF formats.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;format&gt; LIKE cl_abap_format=&gt;o_scientific.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;formats =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_abap_classdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_classdescr=&gt;describe_by_name( 'CL_ABAP_FORMAT' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;attributes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE formats WHERE name NP 'O_*' OR is_constant &lt;&gt; 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT formats INTO format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN cl_abap_format=&gt;(format-name) TO &lt;format&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo=&gt;format-value = &lt;format&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo=&gt;format-name = format-name.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo=&gt;format INTO TABLE demo=&gt;formats.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENWRITE_STYLE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The program depicts the effects of all possible output formats for a
+<a href="javascript:call_link('abendecfloat_glosry.html')" class="grey" title="Glossary Entry">decimal floating point number</a>
+with the output formats from the class CL_ABAP_FORMAT. The possible output formats are read using RTTI
+and are sorted according to their value. Formatting takes place once with the addition <a href="javascript:call_link('abapwrite_to_options.html')" class="blue">
+<span class="qtext">STYLE</span></a> of the statement <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">
+WRITE TO</span></a> and twice with the parameter <a href="javascript:call_link('abapcompute_string_format_options.html')" class="blue"><span class="qtext">STYLE</span></a> in
+<a href="javascript:call_link('abenstring_templates_expressions.html')" class="blue">embedded expressions</a> of <a href="javascript:call_link('abenstring_templates.html')" class="blue">string templates</a>.
+</p>
+<p>
+For the first string template, the format <span class="qtext">RAW</span> is used implicitly for the formatting option <span class="qtext">NUMBER</span>, which is why a point
+(<span class="qtext">.</span>) and not a thousands separator is displayed as the decimal separator.
+Explicitly specifying the format <span class="qtext">USER</span> creates the same formatting as for <span class="qtext">WRITE TO</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwrite_style_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

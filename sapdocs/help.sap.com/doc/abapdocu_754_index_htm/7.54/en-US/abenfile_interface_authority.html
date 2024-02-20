@@ -1,0 +1,463 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENFILE_INTERFACE_AUTHORITY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfile_interface_authority.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:24 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Automatic Authorization Checks">
+<meta name="keywords" content="ABAP, SPTH, Database Table, S_DATASET, Authorization Object, S_PATH, Authorization Object">
+<title>
+Automatic Authorization Checks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenfile_interface_authority.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenfile_interface_authority.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_files.html')" class="blue">ABAP File Interface</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendataset_auth.html')" class="blue">Authorization for File Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Automatic Authorization Checks
+</span></p>
+<p>
+The following authorization checks take place automatically when data is accessed:
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_1" class="blue">Authorization Check in the Operating System</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_2" class="blue">Authorization Checks for Special Files</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_3" class="blue">Authorization Object S_DATASET</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_4" class="blue">Database Table SPTH and Authorization Object S_PATH</A></li>
+</ul>
+<A name="@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_1"></A>
+<p><span class="h2">
+Authorization Check in the Operating System
+</span></p>
+<p>
+From the point of view of the operating system on the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of a AS Instance, all files are accessed from
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>. As a consequence, the user of the operating system that creates an instance of the
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> AS Instance must
+have the authority to read and write to all files and directories that are handled by the ABAP file
+interface. If this authorization does not exist, the file interface statements can only be partially
+carried out, or not at all. If a statement cannot be executed because of lack of authorization in the operating system, the return value <span class="qtext">sy-subrc</span> is set to not equal to 0.
+</p>
+<A name="@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_2"></A>
+<p><span class="h2">
+Authorization Checks for Special Files
+</span></p>
+<p>
+Every time a PSE file (file with the extension <span class="qtext400">.pse</span> for a Personal Security
+Environment) is accessed, an automatic authorization check for the current user is performed with the value "01" for the field ACTVT of the authorization object S_RZL_ADM of the system administrator.
+</p>
+<A name="@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_3"></A>
+<p><span class="h2">
+Authorization Object S_DATASET
+</span></p>
+<p>
+An authorization check is performed for the current user each time a file is opened or deleted using the following:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abapopen_dataset.html')" class="blue"><span class="qtext">OPEN DATASET</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapdelete_dataset.html')" class="blue"><span class="qtext">DELETE DATASET</span></a></li>
+</ul>
+<p>
+Also, the current program is executed using the predefined authorization object S_DATASET. This authorization
+object contains the authorization fields PROGRAM for the program names, FILENAME for the opened files,
+and ACTVT with the activities <span class="qtext400">Delete</span>, <span class="qtext400">Read</span>,
+<span class="qtext400">Write</span>, <span class="qtext400">Read with Filter</span>, and <span class="qtext400">Write
+with Filter</span>. If the user or program does not have the necessary authorization, a handleable exception
+of the class CX_SY_FILE_AUTHORITY is raised. To avoid this, the function module <span class="lnkgrey">AUTHORITY_CHECK_DATASET</span>
+can be called before the relevant ABAP statement to check whether the authorization exists.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In the authorization check with the authorization object S_DATASET, the
+<a href="javascript:call_link('abenphysical_filename_glosry.html')" class="grey" title="Glossary Entry">physical file name</a>
+used in the statements above and the values of the authorization field FILENAME are subject to a literal
+comparison. Any relative paths specified are not transformed to absolute paths. To avoid unexpected results, it is best to specify only absolute paths in physical file names.
+</p>
+<A name="@@ITOC@@ABENFILE_INTERFACE_AUTHORITY_4"></A>
+<p><span class="h2">
+Database Table SPTH and Authorization Object S_PATH
+</span></p>
+<p>
+An automatic check is made when the following statements access files:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abapopen_dataset.html')" class="blue"><span class="qtext">OPEN DATASET</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapdelete_dataset.html')" class="blue"><span class="qtext">DELETE DATASET</span></a></li>
+</ul>
+<p>
+This check is made on entries in the database tables <span class="lnkgrey">SPTH</span>. The entries
+in the database table SPTH control the general read and write accesses from ABAP programs to files and whether files should be backed up or not.
+</p>
+<p>
+In the database table SPTH, reads and writes can be forbidden on all files specified absolutely or relatively, regardless of the
+<a href="javascript:call_link('abenauthorization_object_glosry.html')" class="grey" title="Glossary Entry">authorization objects</a>.
+For the remaining files (those that are generally allowed to be accessed for read or write according
+to the database table SPTH), authorization checks can be carried out on the basis of authorization objects.
+In the database table <span class="lnkgrey">SPTH</span>, authorization groups from the table <span class="lnkgrey">SPTHB</span>
+(texts in <span class="lnkgrey">SPTHT</span>, shared view <span class="lnkgrey">V_SPT</span>) for program-independent
+authorization checks can be defined. The following table shows the columns of the database table SPTH.
+If the check on the database table SPTH has a negative result, a handleable exception of the class CX_SY_FILE_AUTHORITY is raised.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Column</span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td>PATH</td>
+<td>Absolute or relative path specified for directory names or file names. The content specified in
+the other columns of this row applies to all the files of the AS Instance that are best described by the entry in this column.</td>
+</tr>
+<tr>
+<td>SAVEFLAG</td>
+<td>The value <span class="qtext400">"X"</span> in this column can be evaluated by backups. The ABAP runtime environment does not itself make any backups.</td>
+</tr>
+<tr>
+<td>FS_NOREAD</td>
+<td>If this column contains the value <span class="qtext400">"X"</span>, the files specified in the
+column PATH cannot be accessed from ABAP. This setting overrides the setting in the columns FS_NOWRITE and FS_BRGRU as well as the authorization check on the authorization object S_DATASET.</td>
+</tr>
+<tr>
+<td>FS_NOWRITE</td>
+<td>If this column contains the value <span class="qtext400">"X"</span>, writes cannot be performed
+on the files specified in the column PATH from ABAP. This setting overrides the setting in the column FS_BRGRU as well as the authorization check on the authorization object S_DATASET.</td>
+</tr>
+<tr>
+<td>FS_BRGRU</td>
+<td>In this column, an authorization group can be specified that is defined in the table <span class="lnkgrey">SPTHB</span>.
+The files of multiple rows can be grouped together in this way. When the database table SPTH is evaluated,
+an authorization check for the current user is made against the authorization object S_PATH (which contains
+an authorization field FS_BRGRU and an authorization field ACTVT with the possible values <span class="qtext400">"03"</span>
+(Display), <span class="qtext400">"02"</span> (Change), <span class="qtext400">"A6"</span> (Display
+with Addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a>
+), and <span class="qtext400">"A7"</span> (Change with Addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue">
+<span class="qtext">FILTER</span></a>). This makes it possible to grant access to the files specified
+in PATH to specific users. If no authorization group is entered, no authorization check is made against the authorization object S_PATH.</td>
+</tr>
+</table><br>
+<p>
+In the paths specified in the column PATH, placeholders can be specified for specific
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameters</a> or for the current <a href="javascript:call_link('abenclient_glosry.html')" class="grey" title="Glossary Entry">client</a>:
+</p>
+<p>
+<span class="qtext400">... &lt;P=name> ...</span>
+</p>
+<p>
+When evaluated, a placeholder is replaced by the value of the profile parameter specified in <span class="qtext400">name</span> or by the current
+<a href="javascript:call_link('abenclient_identifier_glosry.html')" class="grey" title="Glossary Entry">client ID</a>. The possible
+values for <span class="qtext400">name</span> are specified in the <span class="lnkgrey">documentation</span> of the table SPTH.
+</p>
+<p>
+When a file is accessed using the statements <a href="javascript:call_link('abapopen_dataset.html')" class="blue">
+<span class="qtext">OPEN DATASET</span></a> and <a href="javascript:call_link('abapdelete_dataset.html')" class="blue"><span class="qtext">DELETE DATASET</span></a>, a
+<a href="javascript:call_link('abenphysical_filename_glosry.html')" class="grey" title="Glossary Entry">physical file name</a>
+is used. When the content of the database table SPTH is transformed, a check is made to see whether
+the physical file name starts with an entry in the column PATH and the row with the longest matching path is used. Before the check, a specified path in the physical file name is standardized as follows:
+</p>
+<ul class="disc">
+<li>Any <span class="qtext400">../</span> segments are removed. For example, a path specified as <span class="qtext400">/tmp/sub1/../sub2/file</span> is transformed to <span class="qtext400">/tmp/sub2/file</span>.</li>
+</ul>
+<ul class="disc">
+<li>If the operating system is not an MS Windows operating system, the <span class="qtext400">/</span>
+characters are converted to <span class="qtext400">\</span> characters and all letters are changed to uppercase letters.</li>
+</ul>
+<p>
+If no matching path is specified in the column PATH, the row is used in which the column PATH contains
+the entry <span class="qtext400">"*"</span>. If this entry does not exist either, no automatic authorization check is made.
+</p>
+<p>
+The character <span class="qtext400">"*"</span> in the column PATH is relevant only if it is the only
+character entered here. When specified within paths, is subject to literal comparisons and is not used as a wildcard character.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In comparison to the authorization check using the authorization object S_DATASET (see above), an authorization check using the authorization object S_PATH is independent of the ABAP program in which it occurs.</li>
+</ul>
+<ul class="disc">
+<li>Paths specified in the column PATH should usually exist in a standardized form.</li>
+</ul>
+<ul class="disc">
+<li>When the path specified is standardized to a physical file name, any relative paths specified are not transformed to absolute paths. Any links and any other changeable information are not resolved.</li>
+</ul>
+<ul class="disc">
+<li>The comparison rule for a path specified in the column PATH with a physical file name used to access
+a file is both literal and (due to the check on whether the initial segment matches) generic too. The following aspects should be noted to avoid unexpected results:</li>
+</ul>
+<ul class="circlem2">
+<li>The character <span class="qtext400">"*"</span> only has a special function if it is the only character in the column PATH.</li>
+</ul>
+<ul class="circlem2">
+<li>The table SPTH should always contain an entry with the value <span class="qtext400">"*"</span> for the column PATH. This entry is used whenever no other entries match.</li>
+</ul>
+<ul class="circlem2">
+<li>The names of directories should always be closed with the character <span class="qtext400">"/"</span>.
+If this is not the case, a path specified as <span class="qtext400">"/tmp"</span> in the column PATH
+specifies all files and directories that start with <span class="qtext400">"/tmp"</span> (like <span class="qtext400">"/tmpxxx"</span>) and not just the directory <span class="qtext400">"/tmp/"</span>.</li>
+</ul>
+<ul class="disc">
+<li>Any path specified in the column PATH is not unique. It can contain hard links and soft links. Mount points, network paths, and similar entries can also be specified. This means the following must be noted:</li>
+</ul>
+<ul class="circlem2">
+<li>A combination of paths specified in the column PATH with values <span class="qtext400">"X"</span>
+in the columns FS_NOREAD and FS_NOWRITE defines non-user-specific blacklists of forbidden paths. The access rights are not necessarily unique, which makes them difficult to delimit sufficiently.</li>
+</ul>
+<ul class="circlem2">
+<li>A combination of paths specified in the column PATH with authorization groups in the column FS_BRGRU
+defines whitelists of valid paths for authorized users. In this case, the lack of uniqueness of the access rights is not critical.</li>
+</ul>
+<dl><dd>
+For this reason, is recommended that the authorization groups in the column FS_BRGRU and the authorization object S_PATH are used instead of the columns FS_NOREAD and FS_NOWRITE.
+</dd></dl>
+<ul class="disc">
+<li>Unlike in an authorization check using the authorization object S_PATH, checks made on the columns FS_NOREAD and FS_NOWRITE are not made as part of the general
+<a href="javascript:call_link('abenbc_authority_check.html')" class="blue">authorization concept</a> and none of the associated log entries are written.</li>
+</ul>
+<ul class="disc">
+<li>For compatibility reasons, even empty values are accepted for the activity when the authorization
+object S_PATH is checked, which means that files can be opened using the addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>The column SAVEFLAG, used for backups, should only be used together with a value in another column, preferably FS_BRGRU. If not, no authorization check is made on files covered by the path specified in PATH.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The table SPTH is filled as follows:
+</p>
+<table border>
+<tr>
+<td><span class="bold">PATH</span></td>
+<td><span class="bold">SAVEFLAG</span></td>
+<td><span class="bold">FS_NOREAD</span></td>
+<td><span class="bold">FS_NOWRITE</span></td>
+<td><span class="bold">FS_BRGRU</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">*</span></td>
+<td>-</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">SUPR</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">/</span></td>
+<td>-</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">ROOT</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">/dir_open/</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">/tmp/sub/data/</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">UDAT</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">/tmp/sub/data/work/</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">UWRK</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">/tmp/sub/prefix</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">UPRE</span></td>
+</tr>
+</table><br>
+<p>
+These entries have the following effects:
+</p>
+<ul class="disc">
+<li>Every user can make reads and writes on files in the directory <span class="qtext400">/dir_open</span> and its subdirectories, since no restrictions are entered.</li>
+</ul>
+<ul class="disc">
+<li>Only users with an authorization for the authorization group UWRK can access files in the directory <span class="qtext400">/tmp/sub/data/work/</span> and its subdirectories.</li>
+</ul>
+<ul class="disc">
+<li>Only users with an authorization for the authorization group UDAT can access files in the directory
+<span class="qtext400">/tmp/sub/data/</span> and its subdirectories (with the exception of <span class="qtext400">/tmp/sub/data/work/</span>).
+Instead, an authorization for the authorization group UWRK is required for <span class="qtext400">/tmp/sub/data/work/</span>.</li>
+</ul>
+<ul class="disc">
+<li>Users with an authorization for the authorization group UPRE can access not just those files in
+the directory <span class="qtext400">/tmp/sub</span> whose names start with <span class="qtext400">prefix</span>
+but also all files in subdirectories whose names start with <span class="qtext400">/tmp/sub/prefix</span>.
+If restricted access to files in a subdirectory <span class="qtext400">/tmp/sub/prefix</span> is required, the entry made in PATH must be closed using <span class="qtext400">"/"</span>.</li>
+</ul>
+<ul class="disc">
+<li>User with an authorization for the authorization group ROOT can access files in any directory, as long as the physical file name is specified with <span class="qtext400">"/"</span> at the start or is absolute.</li>
+</ul>
+<ul class="disc">
+<li>Users with an authorization for the authorization group SUPR can access files in any directories
+specified as relative directories as long as the directories are not specified with <span class="qtext400">"/"</span> at the start.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The table SPTH is filled as follows:
+</p>
+<table border>
+<tr>
+<td><span class="bold">PATH</span></td>
+<td><span class="bold">SAVEFLAG</span></td>
+<td><span class="bold">FS_NOREAD</span></td>
+<td><span class="bold">FS_NOWRITE</span></td>
+<td><span class="bold">FS_BRGRU</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">*</span></td>
+<td>-</td>
+<td><span class="qtext400">X</span></td>
+<td><span class="qtext400">X</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">/</span></td>
+<td>-</td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">-</span></td>
+<td><span class="qtext400">ROOT</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">/tmp/</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">/tmp/myfiles/</span></td>
+<td><span class="qtext400">-</span></td>
+<td>-</td>
+<td>-</td>
+<td><span class="qtext400">FILE</span></td>
+</tr>
+</table><br>
+<p>
+The entries have the following properties:
+</p>
+<ul class="disc">
+<li>The entries in the first row apply to all fields on the AS Instance except for those in the paths <span class="qtext400">/</span>, <span class="qtext400">/tmp/</span>, and their subdirectories.</li>
+</ul>
+<ul class="disc">
+<li>The entries in the second row apply to all fields on the AS Instance in the path <span class="qtext400">/</span> except for the files in the path <span class="qtext400">/tmp</span> and its subdirectories.</li>
+</ul>
+<ul class="disc">
+<li>The entries in the third row apply to all fields on the AS Instance in the path <span class="qtext400">/tmp</span>
+except for the files in the path <span class="qtext400">/tmp/myfiles</span> and its subdirectories.</li>
+</ul>
+<ul class="disc">
+<li>The entries in the fourth row apply to the fields in the path <span class="qtext400">/tmp/myfiles</span> and its subdirectories.</li>
+</ul>
+<p>
+The entries dictate that no user can make reads or writes on files specified using relative paths. Users
+with authorization for the authorization group ROOT can access all files specified using absolute paths
+except for the files in the path <span class="qtext400">/tmp/myfiles</span>. All users can make both
+reads and writes on the files in the path <span class="qtext400">/tmp</span>. Only users who have an
+authorization for the authorization group <span class="qtext400">FILE</span> can make reads and writes
+on the files in the path <span class="qtext400">/tmp/myfiles</span>.  When the table above is applied,
+this means that the following program lines produce a runtime error for all users except those with authorization for the authorization group ROOT,
+</p>
+<dl><dd>
+<span class="qtext">DATA fname TYPE string. <br>fname = `/system/files`. <br>OPEN DATASET fname FOR OUTPUT IN BINARY MODE.</span>
+</dd></dl>
+<p>
+This configuration forbids the use of any relative paths when files are accessed. This rule is generally only advisable if this behavior is explicitly required.
+</p>
+<ul class="disc">
+<li>All permitted paths should be specified in the table SPTH and associated with the appropriate authorization groups.</li>
+</ul>
+<ul class="disc">
+<li>Access to the path specified as <span class="qtext400">"*</span> should also be subject to an authorization group permitting access using any relative paths for authorized users.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfile_interface_authority.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:24 GMT -->
+</html>

@@ -1,0 +1,206 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-610-KERNEL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-kernel.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Runtime and Load Size in Release 6.10">
+<title>
+Runtime and Load Size in Release 6.10 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-610-kernel.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-610-kernel.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-610.html')" class="blue">Changes in Release 6.10</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Runtime and Load Size in Release 6.10 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Restrictions on the statement <span class="qtext">STOP</span> </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br>2. Addition ON ROLLBACK for subroutines </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> <br>3. Overwriting of untyped field symbols </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> <br>4. Number of global segments </A> <br><br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> <br>
+5. Passing of <span class="qtext">c</span> literals to numeric parameters </A> <br><br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> <br>
+6. <span class="qtext">c</span> literals as default values for parameters of type <span class="qtext">p</span> </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> <br>7. Paging out of the structure SCREEN </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> <br>8. Syntax revisions in LOOP AT SCREEN and MODIFY SCREEN </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+Restrictions on the Statement <span class="qtext">STOP</span> <br><br><!-- /A -->
+</P>
+<P>
+The statement <a href="javascript:call_link('abapstop.html')" class="blue"><span class="qtext">STOP</span></a> can no longer be used outside of reports or in
+<a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">dynpros</a> called using <a href="javascript:call_link('abapcall_screen.html')" class="blue">
+<span class="qtext">CALL SCREEN</span></a>. Such actions previously produced a runtime error or, in rarer cases, a non-traceable program flow. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+Addition ON ROLLBACK for Subroutines <br><br><!-- /A -->
+</P>
+<P>
+The addition <a href="javascript:call_link('abapperform.html')" class="blue"><span class="qtext">ON ROLLBACK</span></a> is now
+available for subroutines, similar to <span class="qtext">PERFORM ... ON COMMIT</span>. This stops FORM
+routines of this type from being executed until a <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK
+WORK</span></a> or a <a href="javascript:call_link('abapmessage.html')" class="blue"><span class="qtext">MESSAGE</span></a> of type A is triggered. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Overwriting of Untyped Field Symbols <br><br><!-- /A -->
+</P>
+<P>
+Untyped field symbols no longer lose their ready-only status when being read for the first time. Also, the fields %_DUMMY and %_SPACE are now constants. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Number of Global Segments <br><br><!-- /A -->
+</P>
+<P>
+The number of global segments in the program memory is now unrestricted. Previously, a maximum of  2**15 global segments was permitted. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Passing of <span class="qtext">c</span> Literals to Numeric Parameters <br><br><!-- /A -->
+</P>
+<P>
+When passing <span class="qtext">c</span> literals to parameters of type <span class="qtext">p</span>, it was previously possible for a number to have more
+<a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a> than
+the formal parameter. Due to rounding and the associated loss of information loss, the passing of <span class="qtext">
+c</span> literals to parameters of types I, INT1, and INT2 also caused problems. For example, the literal '1245.6789' could be passed to a formal parameter of type <span class="qtext">p DECIMALS
+2</span> or type <span class="qtext">i</span>, and the rounding was performed in accordance with the associated <a href="javascript:call_link('abenconversion_rule_glosry.html')" class="grey" title="Glossary Entry">conversion rule</a>. <br><br>
+</P>
+<P>
+Now the system ensures that the formal parameter has as large as a fractional portion as required by
+the literal. In the case of programs without fixed point arithmetic, the size of the fractional portion must be an exact match. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+<span class="qtext">c</span> Literals as Default Values for Parameters of Type <span class="qtext">p</span> <br><br><!-- /A -->
+</P>
+<P>
+If, in the case of generic parameters of type <span class="qtext">p</span>, a <span class="qtext">c</span>
+literal is specified as the default value (for example in the form '12.345'), a field of type <span class="qtext">
+p</span> with Decimals 0 was created and the literal value converted to this field. This could also result in information loss due to rounding. <br><br>
+</P>
+<P>
+Now a field of type <span class="qtext">p</span> is created with as many decimal places as specified
+in the literal. For example, for a <span class="qtext">c</span> literal with the value '12.345', a P field with Decimals 3 is created. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Paging Out of the Structure SCREEN <br><br><!-- /A -->
+</P>
+<P>
+Until now the structure of the data object SCREEN was generated automatically in every program. In Release 6.10 this structure description was paged out into the
+<a href="javascript:call_link('abaptype-pools.html')" class="blue">type group</a> SYSCR. Instead of
+</P>
+<dl><dd>
+<span class="qtext">data NAME type %_CX_SCREEN-Name</span>
+</dd></dl>
+<P>
+the code should now be
+</P>
+<dl><dd>
+<span class="qtext">data NAME type SYSCR_SCREEN-NAME</span>
+</dd></dl>
+<P>
+. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Syntax Revisions in LOOP AT SCREEN and MODIFY SCREEN <br><br><!-- /A -->
+</P>
+<P>
+The following changes were made to the statements <a href="javascript:call_link('abaploop_at_screen.html')" class="blue"><span class="qtext">
+LOOP AT SCREEN</span></a> and <a href="javascript:call_link('abapmodify_screen.html')" class="blue"><span class="qtext">MODIFY SCREEN</span></a>.
+</P>
+<ol class="ml06">
+<li>
+To ensure independence from global definitions, the additional variants LOOP AT SCREEN INTO wa and MODIFY SCREEN FROM wa were introduced.
+</li>
+<li>
+LOOP AT SCREEN with an internal table SCREEN defined locally in the program is no longer possible. The following program, previously not terminated until runtime, now produces a syntax error: <br><br>
+</li>
+</ol>
+<dl><dd>
+<span class="qtext">PROGRAM loop_test. <br>PERFORM test. <br> <br>FORM test. <br>&nbsp;&nbsp;DATA screen TYPE STANDARD TABLE OF spfli. <br>&nbsp;&nbsp;LOOP AT SCREEN. <br>&nbsp;&nbsp;ENDLOOP. <br>ENDFORM.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-kernel.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

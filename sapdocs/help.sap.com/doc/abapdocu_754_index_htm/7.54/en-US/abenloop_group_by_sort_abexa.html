@@ -1,0 +1,140 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOOP_GROUP_BY_SORT_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenloop_group_by_sort_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables, Grouping with LOOP and Sort">
+<title>
+Internal Tables, Grouping with LOOP and Sort - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenloop_group_by_sort_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenloop_group_by_sort_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue">LOOP AT itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue">LOOP AT itab - GROUP BY</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenloop_group_by_abexas.html')" class="blue">Examples of Grouping with LOOP</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables, Grouping with LOOP and Sort
+</span></p>
+<p>
+This example demonstrates how groupings are used for sorts.
+</p>
+<A name="@@ITOC@@ABENLOOP_GROUP_BY_SORT_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_loop_group_by_sort.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES itab TYPE STANDARD TABLE OF string WITH EMPTY KEY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(itab) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE itab( ( `d` ) ( `B` ) ( `D` ) ( `b` ) ( `a` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `D` ) ( `a` ) ( `C` ) ( `A` ) ( `c` ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write( itab ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA jtab TYPE itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT itab ASSIGNING FIELD-SYMBOL(&lt;line&gt;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY to_upper( &lt;line&gt; ) ASCENDING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASSIGNING FIELD-SYMBOL(&lt;grp1&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT GROUP &lt;grp1&gt; ASSIGNING FIELD-SYMBOL(&lt;mbr1&gt;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY &lt;mbr1&gt; DESCENDING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGNING FIELD-SYMBOL(&lt;grp2&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jtab = VALUE #( BASE jtab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FOR &lt;mbr2&gt; IN GROUP &lt;grp2&gt; ( &lt;mbr2&gt; ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( jtab ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLOOP_GROUP_BY_SORT_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+In this example, the additions <span class="qtext">ASCENDING</span> and <span class="qtext">DESCENDING</span>
+of <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP BY</span></a> are used to sort a character-like table while ignoring case and then sort within the groups to split uppercase and lowercase. A further
+<a href="javascript:call_link('abenfor_group_by_sort_abexa.html')" class="blue">executable example</a> shows how the <span class="qtext">LOOP</span>s can be replaced by a single expression.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenloop_group_by_sort_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

@@ -1,0 +1,167 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_SXML_LIB_FORMATS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_sxml_lib_formats.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sXML Library - Formats">
+<title>
+sXML Library - Formats - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_sxml_lib_formats.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_sxml_lib_formats.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+sXML Library - Formats
+</span></p>
+<p>
+The formats supported by sXML Library are represented by the constants of the interface <span class="lnkgrey">IF_SXML</span>:
+</p>
+<ul class="disc">
+<li>XML 1.0 (constant IF_SXML=>CO_XT_XML10)</li>
+</ul>
+<dl><dd>
+Standard XML in accordance with <a href="http://www.w3.org/XML/" target="blank" class="blue">W3C</a>.
+XML data is represented in a specific character format using a character string (standard is Unicode character format UTF-8). Raw data whose binary content is to be saved is portrayed using
+<a href="javascript:call_link('abenbase64_glosry.html')" class="grey" title="Glossary Entry">Base64</a> representation.
+</dd></dl>
+<ul class="disc">
+<li>XOP (constant IF_SXML=>CO_XT_XOP)</li>
+</ul>
+<dl><dd>
+XML-binary Optimized Packaging in accordance with
+<a href="http://www.w3.org/TR/xop10/" target="blank" class="blue">W3C</a>. All data other than raw data is represented as a character string, as in XML 1.0. Raw data is not represented as part of the character string in
+<a href="javascript:call_link('abenbase64_glosry.html')" class="grey" title="Glossary Entry">Base64</a> format. Instead, elements <span class="qtext400">xop:Include</span> (namespace <span
+ class="qtext400">http://www.w3.org/2004/08/xop/include</span>) are inserted in its place, which contain
+references to the raw data. The raw data itself is extracted unchanged and saved in byte strings. The
+string with the character string and the byte strings with the raw data are combined in a package whose
+parts can be edited together. In sXML Library, a package of this type is described using the structured
+type IF_SXML_XOP=>XOP_PACKAGE, whose first component XOP_DOCUMENT has the type <span class="qtext">string</span>
+for the character string. The second component PARTS is a hashed table for the byte strings. The key
+column CONTENT_ID is the reference target for the references in the <span class="qtext400">xop:Include</span>
+elements. The column BINARY_DATA has the type <span class="qtext">xstring</span> and the raw data is passed to this column.
+</dd></dl>
+<ul class="disc">
+<li>Binary XML (constant IF_SXML=>CO_XT_BINARY)</li>
+</ul>
+<dl><dd>
+SAP-specific binary format for XML data. It suppresses redundant information. The XML data is not represented
+as globally readable character strings and the only character set allowed is UTF-8. Special XML readers and XML writers that understand the format are needed to parse and render XML data to
+<a href="javascript:call_link('abenbinary_xml_glosry.html')" class="grey" title="Glossary Entry">Binary XML</a>. sXML can be used to create these objects.
+</dd></dl>
+<ul class="disc">
+<li>JSON (constant IF_SXML=>CO_XT_JSON)</li>
+</ul>
+<dl><dd>
+JavaScript Object Notation in accordance with <a href="http://www.json.org/" target="blank" class="blue">json.org</a>.
+<a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a> is not XML but JSON data can be represented using XML data. Once mapping of this type is the SAP-specific
+<a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON-XML</a>. The format JSON
+in sXML Library indicates that an XML writer of this format transforms valid JSON-XML data to JSON data and an XML reader detects JSON data and parses it as if it were JSON-XML data. All methods for
+<a href="javascript:call_link('abenabap_json.html')" class="blue">handling JSON in ABAP</a> are based on readers and writers like these.
+</dd></dl>
+<p>
+When an <a href="javascript:call_link('abenabap_sxml_lib_render.html')" class="blue">XML writer</a> is created, the format created by the writer is defined as follows:
+</p>
+<ul class="disc">
+<li>For all formats except XOP, the factory methods CREATE of the various writers have an input parameter
+TYPE to which the value of the constants above can be passed. The XML 1.0 format is used by default.
+The character format can be passed to the input parameter ENCODING. The default value is UTF-8. Writers Binary XML only accept the default.</li>
+</ul>
+<ul class="disc">
+<li>Only the special class CL_SXML_XOP_WRITER can be used for the XOP format. The factory method CREATE
+of this class does not need an input parameter. XOP writers always return data objects with the type IF_SXML_XOP=>XOP_PACKAGE.</li>
+</ul>
+<p>
+When an <a href="javascript:call_link('abenabap_sxml_lib_parse.html')" class="blue">XML reader</a> is created, it detects the
+format of the data passed to the parameter INPUT of the factory method CREATE. The same reader classes
+can be used for all formats except XOP. Only the special class CL_SXML_XOP_READER can be used for the XOP format. The factory method CREATE of this class expects an actual parameter of the type IF_SXML_XOP=>XOP_PACKAGE.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The attribute TYPE declared in the interface <span class="lnkgrey">IF_SXML</span> contains the type
+of every XML reader and XML writer or the format it is editing. The possible values of the attribute are the same as those of the constants CO_XT_... of the interface.</li>
+</ul>
+<ul class="disc">
+<li>XML readers and XML writers of a particular XML format can be used to transform this format to another format.</li>
+</ul>
+<ul class="disc">
+<li>An XML writer (with the character format "UTF16BE" or "UTF16LE" that was passed to parameter <span class="qtext">
+ENCODING</span>) uses the byte order mark (BOM) required by the XML standard as the prefix for the written XML data.</li>
+</ul>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abensxml_formats_abexa.html')" class="blue">XML Formats</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensxml_format_trafos_abexa.html')" class="blue">Transformation of Formats</a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_sxml_lib_formats.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

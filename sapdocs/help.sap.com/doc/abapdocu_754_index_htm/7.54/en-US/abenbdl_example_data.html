@@ -1,0 +1,185 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBDL_EXAMPLE_DATA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_example_data.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Other entity examples">
+<title>
+Other entity examples - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbdl_example_data.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbdl_example_data.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_definitions.html')" class="blue">Behavior Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Other entity examples
+</span></p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+<span class="bold">CDS entity <span class="qtext400">Agency</span></span>
+</p>
+<p>
+The CDS view <span class="qtext400">/DMO/I_Agency</span> represents travel agency data, for example,
+the address and contact information. The relevant agency data is saved in the database table <span class="qtext400">/DMO/AGENCY</span>.
+The flight data scenario defines a <span class="qtext400">1:n</span> cardinality between the entities <span class="qtext400">Agency</span> and <span class="qtext400">Travel</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'ZDEMO_AGENCY_DB' <br>@AbapCatalog.compiler.compareFilter: true <br>
+@AbapCatalog.preserveKey: true <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>@EndUserText.label: 'Agency - CDS Data Model' <br>
+ <br>define view /DMO/I_Agency <br>&nbsp;&nbsp;as select from /dmo/agency as Agency <br>&nbsp;&nbsp;association [0..1] to I_Country as _Country on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.CountryCode = _Country.Country <br>{ <br>&nbsp;&nbsp;key Agency.agency_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as AgencyID, <br>
+&nbsp;&nbsp;@Semantics.text: true <br>&nbsp;&nbsp;Agency.name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Name, <br>
+&nbsp;&nbsp;Agency.street&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Street, <br>
+&nbsp;&nbsp;Agency.postal_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as PostalCode, <br>
+&nbsp;&nbsp;Agency.city&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as City, <br>
+&nbsp;&nbsp;Agency.country_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as CountryCode, <br>&nbsp;&nbsp;Agency.phone_number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as PhoneNumber, <br>
+&nbsp;&nbsp;Agency.email_address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as EMailAddress, <br>
+&nbsp;&nbsp;Agency.web_address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as WebAddress, <br> <br>&nbsp;&nbsp;/* Associations */ <br>&nbsp;&nbsp;_Country <br>}</span> <br><br>
+</dd></dl>
+<p>
+<span class="bold">CDS entity <span class="qtext400">Customer</span></span>
+</p>
+<p>
+The CDS view <span class="qtext400">/DMO/I_Customer</span> represents the data model for managing passengers,
+for example, the name, address, and contact information. The relevant data is saved in the database
+table <span class="qtext400">/DMO/CUSTOMER</span>. The flight data scenario defines a <span class="qtext400">1:n</span>
+cardinality between the entities <span class="qtext400">Customer</span> and <span class="qtext400">Travel</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'ZDEMO_CUSTOM_DB' <br>@AbapCatalog.compiler.compareFilter: true <br>
+@AbapCatalog.preserveKey: true <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>@EndUserText.label: 'Customer - CDS Data Model' <br>
+ <br>define view /DMO/I_Customer <br>&nbsp;&nbsp;as select from /dmo/customer as Customer <br>&nbsp;&nbsp;association [0..1] to I_Country as _Country on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.CountryCode = _Country.Country <br>{ <br>&nbsp;&nbsp;key Customer.customer_id&nbsp;&nbsp;&nbsp;&nbsp;as CustomerID, <br>
+&nbsp;&nbsp;Customer.first_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as FirstName, <br>&nbsp;&nbsp;@Semantics.text: true <br>
+&nbsp;&nbsp;Customer.last_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as LastName, <br>
+&nbsp;&nbsp;Customer.title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Title, <br>
+&nbsp;&nbsp;Customer.street&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Street, <br>
+&nbsp;&nbsp;Customer.postal_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as PostalCode, <br>&nbsp;&nbsp;Customer.city
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as City, <br>&nbsp;&nbsp;Customer.country_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as CountryCode, <br>
+&nbsp;&nbsp;Customer.phone_number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as PhoneNumber, <br>&nbsp;&nbsp;Customer.email_address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as EMailAddress, <br>
+ <br>&nbsp;&nbsp;/* Associations */ <br>&nbsp;&nbsp;_Country <br>}</span> <br><br>
+</dd></dl>
+<p>
+<span class="bold">CDS entity <span class="qtext400">Carrier</span></span>
+</p>
+<p>
+The CDS view <span class="qtext400">/DMO/I_Carrier</span> represents the data model for managing airline
+data, for example, the carrier ID and name. The relevant data is saved in the database table <span class="qtext400">/DMO/CARRIER</span>.
+The flight data scenario defines a <span class="qtext400">1:n</span> cardinality between the entities <span class="qtext400">Carrier</span> and <span class="qtext400">Connection</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'ZDEMO_CARRIER_DB' <br>@AbapCatalog.compiler.compareFilter: true <br>
+@AccessControl.authorizationCheck: #NOT_REQUIRED <br>@EndUserText.label: 'Carrier - CDS Data Model' <br>
+@Search.searchable: true <br> <br>define view /DMO/I_Carrier <br>&nbsp;&nbsp; as select from /dmo/carrier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Carrier <br>
+{ <br>&nbsp;&nbsp;key Carrier.carrier_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as CarrierID, <br>
+&nbsp;&nbsp;@Semantics.text: true <br>&nbsp;&nbsp;@Search.defaultSearchElement: true <br>&nbsp;&nbsp;@Search.fuzzinessThreshold: 0.86 <br>
+&nbsp;&nbsp;Carrier.name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Name, <br>
+&nbsp;&nbsp;@Semantics.currencyCode: true <br>&nbsp;&nbsp;Carrier.currency_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as CurrencyCode <br>}</span> <br><br>
+</dd></dl>
+<p>
+<span class="bold">CDS entity <span class="qtext400">Connection</span></span>
+</p>
+<p>
+The CDS view <span class="qtext400">/DMO/I_Connection</span> represents the data model for managing
+flight connection data, for example, the departure airport and arrival airport. The relevant data is
+saved in the database table <span class="qtext400">/DMO/CONNECTION</span>. The flight data scenario
+defines a <span class="qtext400">1:n</span> cardinality between the entities <span class="qtext400">Connection</span> and <span class="qtext400">Carrier</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'ZDEMO_CONNECT_DB' <br>@AbapCatalog.compiler.compareFilter: true <br>
+@AccessControl.authorizationCheck: #NOT_REQUIRED <br>@ObjectModel.dataCategory: #TEXT <br>@EndUserText.label: 'Connection - CDS Data Model' <br>
+ <br>define view /DMO/I_Connection <br>&nbsp;&nbsp;as select from /dmo/connection as Connection <br>{ <br>
+&nbsp;&nbsp;@ObjectModel.text.element: ['Description'] <br>&nbsp;&nbsp;key Connection.carrier_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as CarrierID, <br>
+&nbsp;&nbsp;key Connection.connection_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as ConnectionID, <br>
+&nbsp;&nbsp;airport_from_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Departure, <br>
+&nbsp;&nbsp;airport_to_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as DestinationAirport, <br>
+&nbsp;&nbsp;departure_time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as DepartureTime, <br>
+&nbsp;&nbsp;arrival_time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as ArrialTime, <br>
+&nbsp;&nbsp;@Semantics.quantity.unitOfMeasure: 'DistanceUnit' <br>&nbsp;&nbsp;distance&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Distance, <br>
+&nbsp;&nbsp;@Semantics.unitOfMeasure: true <br>&nbsp;&nbsp;distance_unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as DistanceUnit, <br>}</span> <br><br>
+</dd></dl>
+<p>
+<span class="bold">CDS entity <span class="qtext400">Status</span></span>
+</p>
+<p>
+The CDS view <span class="qtext400">/DMO/I_Status_Text</span> represents the data model for managing the status of a trip, for example, new and booked.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'ZEMO_STATUS_DB' <br>@AbapCatalog.compiler.compareFilter: true <br>
+@AccessControl.authorizationCheck: #CHECK <br>@EndUserText.label: 'Status - CDS Data Model' <br> <br>define view /DMO/I_Status_Text <br>
+&nbsp;&nbsp;as select from dd07t as dd <br>{ <br>&nbsp;&nbsp;key cast ( substring( dd.domvalue_l, 1, 1 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as /dmo/travel_status ) as Status, <br>
+&nbsp;&nbsp;@Semantics.language: true <br>&nbsp;&nbsp;key dd.ddlanguage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as language, <br>
+&nbsp;&nbsp;@Semantics.text: true <br>&nbsp;&nbsp;dd.ddtext&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as StatusText <br>
+} <br>where dd.domname&nbsp;&nbsp;= '/DMO/STATUS' <br>&nbsp;&nbsp;and dd.as4local = 'A' <br></span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_example_data.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

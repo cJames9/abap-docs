@@ -1,0 +1,143 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSORT_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensort_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Sorted Filling">
+<title>
+Sorted Filling - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensort_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensort_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_guidl.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Sorted Filling
+</span></p>
+<A name="@@ITOC@@ABENSORT_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The statement <span class="qtext">APPEND</span> for attaching rows to an internal table has the addition
+<span class="qtext">SORTED BY</span>. This addition can be used to fill a standard table by using sorted filling. The prerequisites are:
+</p>
+<ul class="disc">
+<li>A value greater than zero must be specified for the addition <a href="javascript:call_link('abeninitial_memory_requ_guidl.html')" class="lnkpurple" title="Guideline"><span class="qtext">INITIAL SIZE</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Only the statement <span class="qtext">APPEND</span> with the addition <span class="qtext">SORTED BY</span> can be used to fill the internal table.</li>
+</ul>
+<p>
+Once these prerequisites have been met, a ranking list is created that contains at most the same number
+of rows as specified with <span class="qtext">INITIAL SIZE</span>. This list is sorted by the component specified after <span class="qtext">SORTED BY</span> in descending order.
+</p>
+<A name="@@ITOC@@ABENSORT_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Create ranking lists with unsorted filling</span>
+</p>
+<p>
+Do not use the addition <span class="qtext">SORTED BY</span> of the statement <span class="qtext">APPEND</span> to create ranking lists. Use the statement <span class="qtext">SORT</span> instead.
+</p>
+<A name="@@ITOC@@ABENSORT_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+If the statement <span class="qtext">APPEND</span> is used with the addition <span class="qtext">SORTED
+BY</span>, you cannot simply append rows (contrary to what the name implies). Instead, a complicated
+process is started that only creates a ranking list if specific prerequisites are met. Otherwise incomprehensible results are returned. In addition, it is not possible to sort by more than one column.
+</p>
+<p>
+The statement <span class="qtext">SORT</span> is more robust, more powerful and easier to comprehend when used in this scenario.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows how to create a ranking list of the ten longest distances from a table
+of flight connections, by using the rule <span class="qtext">APPEND SORTED BY</span>. This rule is no
+longer recommended, as described above. When declaring the ranking list table, you need to specify the addition <span class="qtext">INITIAL SIZE</span>.
+</p>
+<dl><dd>
+<span class="qtext">... <br>DATA distance_list TYPE TABLE OF spfli-distance <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INITIAL SIZE 10. <br>FIELD-SYMBOLS &lt;spfli_wa> LIKE LINE OF spfli_tab. <br>
+... <br>LOOP AT spfli_tab ASSIGNING &lt;spfli_wa>. <br>&nbsp;&nbsp;APPEND &lt;spfli_wa>-distance TO distance_list <br>&nbsp;&nbsp;&nbsp;&nbsp;SORTED BY table_line. <br>ENDLOOP. <br>...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows how to create the same ranking list in the previous example, but using the more robust statement <span class="qtext">SORT</span>.
+</p>
+<dl><dd>
+<span class="qtext">... <br>DATA distance_list TYPE TABLE OF spfli-distance. <br>FIELD-SYMBOLS &lt;spfli_wa> LIKE LINE OF spfli_tab. <br>
+... <br>SORT spfli_tab BY distance DESCENDING. <br>LOOP AT spfli_tab TO 10 ASSIGNING &lt;spfli_wa>. <br>&nbsp;&nbsp;APPEND &lt;spfli_wa>-distance TO distance_list. <br>ENDLOOP. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensort_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

@@ -1,0 +1,211 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_REPLACEMENT_OBJECT_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_replacement_object_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Replacement Object for Database Table">
+<title>
+Replacement Object for Database Table - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_replacement_object_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_replacement_object_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_replacement_objects.html')" class="blue">Replacement Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Replacement Object for Database Table
+</span></p>
+<p>
+This example demonstrates a database table with a <a href="javascript:call_link('abenreplacement_object_glosry.html')" class="grey" title="Glossary Entry">replacement object</a>.
+</p>
+<A name="@@ITOC@@ABENDDIC_REPLACEMENT_OBJECT_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_table_replacement_object.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Aggregate table (GTT)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_sumdist_agg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY PRIMARY KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_agg).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_sumdist_agg.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Table with replacement object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_sumdist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY PRIMARY KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result = result_agg.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Direct access to CDS view<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_cds_sumdist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS @sy-mandt AS mandt, demo_cds_sumdist~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY PRIMARY KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_cds).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result_cds = result.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Classic view on demo_sumdist without replacement object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_sumdist_obs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY PRIMARY KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_view_obs).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF result &lt;&gt; result_view_obs.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Classic view without replacement object differs.' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Classic view on demo_sumdist with replacement object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_sumdistview<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY PRIMARY KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_view).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF result =&nbsp;&nbsp;result_view.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Classic view with replacement object is the same.' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_sumdist_agg.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_sumdist_agg FROM<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( SELECT<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM scarr AS s<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN spfli AS p ON s~carrid = p~carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIELDS s~carrname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p~distid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SUM( p~distance ) AS sum_distance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY s~mandt, s~carrname, p~distid ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDDIC_REPLACEMENT_OBJECT_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This program accesses two database tables, <span class="lnkgrey">DEMO_SUMDIST_AGG</span> and <span class="lnkgrey">DEMO_SUMDIST</span>. These tables are identical except for the fact that the
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> DEMO_CDS_SUMDIST is defined as a
+<a href="javascript:call_link('abenddic_replacement_objects.html')" class="blue">replacement object</a> for <span class="lnkgrey">DEMO_SUMDIST</span>.
+</p>
+<p>
+The database table DEMO_SUMDIST_AGG is filled with aggregated data (done here in the static constructor
+of the class <span class="qtext">demo</span>). When DEMO_SUMDIST is accessed, the replacement object performs exactly the same aggregation:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_SUDI' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_sumdist( <br> client, <br> carrname, <br> distid, <br> sum_distance <br> ) <br> as select from <br>
+ scarr as s <br> join spfli as p on <br> s.carrid = p.carrid <br> { <br> key s.mandt, <br> key s.carrname, <br>
+ key p.distid, <br> sum(p.distance) <br> } <br> group by <br> s.mandt, <br> s.carrname, <br> p.distid&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<p>
+Similar access to the database tables produce similar results, which can be verified using the statement <a href="javascript:call_link('abapassert.html')" class="blue"><span class="qtext">ASSERT</span></a>.
+</p>
+<p>
+A third <span class="qtext">SELECT</span> statement accesses the
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> DEMO_CDS_SUMDIST directly. To produce the same results set for the comparison with the other results as when accessing the database tables, the
+<a href="javascript:call_link('abenclient_column_glosry.html')" class="grey" title="Glossary Entry">client column</a> must be added, since the results set of a
+<a href="javascript:call_link('abencds_client_handling.html')" class="blue">client-specific CDS view</a> does not contain a column of this type.
+</p>
+<p>
+A <a href="javascript:call_link('abenclassical_view_glosry.html')" class="grey" title="Glossary Entry">classic</a>
+<a href="javascript:call_link('abendatabase_view_glosry.html')" class="grey" title="Glossary Entry">database view</a> <span class="lnkgrey">DEMO_SUMDIST_OBS</span>
+contains the database table DEMO_SUMDIST as a basis table. There is no redirect to the replacement object
+of DEMO_SUMDIST in a <span class="qtext">SELECT</span>. A classic database view <span class="lnkgrey">DEMO_SUMDISTVIEW</span> that is otherwise similar has the following CDS view as a replacement object:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_SUDIV' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_sumdistview <br> as select from <br> demo_cds_sumdist <br> { <br> key client, <br> key carrname, <br> key distid, <br> sum_distance <br> }&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<p>
+This view accesses the replacement object of the database table DEMO_SUMDIST. When DEMO_SUMDISTVIEW
+is accessed using <span class="qtext">SELECT</span>, its replacement object is evaluated and the result again matches the preceding result.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_replacement_object_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

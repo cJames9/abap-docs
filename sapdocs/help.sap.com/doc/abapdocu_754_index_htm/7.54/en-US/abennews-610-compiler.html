@@ -1,0 +1,201 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-610-COMPILER -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-compiler.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Compiler in Release 6.10">
+<title>
+Compiler in Release 6.10 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-610-compiler.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-610-compiler.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-610.html')" class="blue">Changes in Release 6.10</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Compiler in Release 6.10 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Error handling using the statement SYNTAX-CHECK </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br>2. Static checks in specified offsets/lengths </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> <br>3. Data types for source code in SCAN ABAP-SOURCE </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> <br>4. Implementation in TOP includes </A> <br><br>
+<A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> <br>5. Faster generation of program segments </A> <br><br>
+<A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> <br>6. Generating data and types in system includes </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> <br>7. Converting C literals with a negative maximum value </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> <br>8. Changing read-only database views </A> <br><br>
+<A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> <br>9. Typing the source code in <span class="qtext">GENERATE SUBROUTINE POOL</span> </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+Error Handling Using the Statement SYNTAX-CHECK <br><br><!-- /A -->
+</P>
+<P>
+The statement <a href="javascript:call_link('abapsyntax-check_for_itab.html')" class="blue"><span class="qtext">SYNTAX-CHECK</span></a>
+has been enhanced so that the syntax check also continues after error messages occur, as long as the
+parameter <span class="qtext">ID</span> = ERR is set. Any error messages are written to an internal
+table, which can be specified using <span class="qtext">TABLE</span>. The collected errors also provide the return code SY-SUBRC = 4. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+Static Checks in Specified Offsets/Lengths <br><br><!-- /A -->
+</P>
+<P>
+Previously, in offsets/lengths specified as <span class="qtext">field+offset(length)</span> the values
+were not checked for convertibility to numbers of the types I, F, or P until runtime. This is now checked as part of the syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Data Types for Source Code in SCAN ABAP-SOURCE <br><br><!-- /A -->
+</P>
+<P>
+The statement <a href="javascript:call_link('abapscan.html')" class="blue"><span class="qtext">SCAN ABAP-SOURCE</span></a> has
+been enhanced so that fields of type C or STRING are permitted in the scanned source code, instead of an internal table. This means that an internal table no longer needs to be edited. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Implementation in TOP Includes <br><br><!-- /A -->
+</P>
+<P>
+If implementations of the type <span class="qtext">FORM</span>, <span class="qtext">FUNCTION</span>,
+or <span class="qtext">CLASS ... IMPLEMENTATION</span> are made in a top include, a syntax warning is now produced. The program can still be activated however. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Faster Generation of Program Segments <br><br><!-- /A -->
+</P>
+<P>
+Program segments can be generated much more quickly, now that pre-compiled headers have been introduced.
+Pre-compiled headers allow the system to import and reuse previously processed data declarations of
+global classes, interfaces, and type groups more quickly, both during the syntax check and when generating
+the program. This means it is no longer necessary to import program segments repeatedly. If the compiler does not find a pre-compiled header for the required program segment, it generates one and stores it in the program buffer
+(<a href="javascript:call_link('abenpxa_glosry.html')" class="grey" title="Glossary Entry">PXA</a>). <br>
+</P>
+<P>
+The addition <span class="qtext">WITH PRECOMPILED HEADERS</span> of the statement <a href="javascript:call_link('abapgenerate_report.html')" class="blue">
+<span class="qtext">GENERATE REPORT</span></a> can now be used to speed up generation from within an ABAP program. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+Generating Data and Types in System Includes <br><br><!-- /A -->
+</P>
+<P>
+Data and types in includes of the form &lt;...> were previously viewed as system objects and packed
+into a separate name space; however, this was ignored when the program was generated. For this reason,
+objects of this type could be obscured by global program definitions, so that it was unclear at runtime
+which definition was used. Now both generation and runtime handle system objects in the same way. Therefore in future, the following example will always produce the value 5.
+</P>
+<dl><dd>
+<span class="qtext">include &lt;SCREEN>. <br>data SCREEN type I value 5. <br>write / SCREEN.</span> <br><br> <br><br>
+</dd></dl>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Converting C Literals with a Negative Maximum Value <br><br><!-- /A -->
+</P>
+<P>
+Previously, if an attempt was made to assign the highest negative integer value to a type I variable,
+in the form of the C literal '-2147483648', the system raised a handleable exception, CX_SY_CONVERSION_OVERFLOW.
+On the other hand, an assignment in the form of a numeric literal was accepted. Now both forms are supported, as the following example shows: <br><br>
+</P>
+<p class="qtextml1">
+<span class="qtext">
+PROGRAM test_int. <br>DATA int TYPE i. <br>int = '-2147483648'. <br>int =&nbsp;&nbsp;-2147483648. <br>WRITE int. <br><br> <br><br>
+</span>
+</p>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Changing Read-Only Database Views <br><br><!-- /A -->
+</P>
+<P>
+In the editing status of the dictionary, it is possible to set a database view to <span class="italic">read
+only</span>, so that ABAP programs cannot make any changes. Previously the editing status was only checked at runtime. Now a syntax error is produced when this situation is detected statically. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+Typing the Source Code in <span class="qtext">GENERATE SUBROUTINE POOL</span> <br><br><!-- /A -->
+</P>
+<P>
+In the statement <a href="javascript:call_link('abapgenerate_report.html')" class="blue"><span class="qtext">GENERATE SUBROUTINE
+POOL</span></a>, source code can now also be passed in an internal table of row type <span class="qtext">string</span>.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-compiler.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

@@ -1,0 +1,278 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENIUM_LOB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenium_lob.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="INSERT, UPDATE, MODIFY dbtab - LOB Handles">
+<title>
+INSERT, UPDATE, MODIFY dbtab - LOB Handles - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenium_lob.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenium_lob.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">ABAP SQL - Write Accesses</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+INSERT, UPDATE, MODIFY dbtab - LOB Handles
+</span></p>
+<p>
+In the statements <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">INSERT</span></a>,
+<a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>, or <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY</span></a>,
+<a href="javascript:call_link('abenlob_handle_glosry.html')" class="grey" title="Glossary Entry">LOB handles</a> can be created as
+<a href="javascript:call_link('abenwriter_stream_glosry.html')" class="grey" title="Glossary Entry">writer streams</a> and specified as <a href="javascript:call_link('abenlocator_glosry.html')" class="grey" title="Glossary Entry">locators</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENIUM_LOB_1" class="blue">Prerequisites</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENIUM_LOB_2" class="blue">Rules</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENIUM_LOB_3" class="blue">Writes Using Writer Streams</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENIUM_LOB_4" class="blue">Writes Using Locators</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENIUM_LOB_5" class="blue">Restrictions</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENIUM_LOB_6" class="blue">Examples</A></li>
+</ul>
+<A name="@@ITOC@@ABENIUM_LOB_1"></A>
+<p><span class="h2">
+Prerequisites
+</span></p>
+<p>
+An <a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOB</a> in a row to be inserted or changed can be supplied from an
+<a href="javascript:call_link('abenlob_handle_glosry.html')" class="grey" title="Glossary Entry">LOB handle component</a> of
+a work area or an individual reference variable for an LOB handle (at <span class="qtext">UPDATE</span> with <span class="qtext">SET</span>). The static type of each LOB handle component must be one of the following system classes for
+<a href="javascript:call_link('abenopen_sql_streaming.html')" class="blue">streaming</a> or <a href="javascript:call_link('abenlocators.html')" class="blue">locators</a>:
+</p>
+<ul class="disc">
+<li><span class="lnkgrey">CL_ABAP_DB_C_WRITER</span> or <span class="lnkgrey">CL_ABAP_DB_C_LOCATOR</span> in the case of <a href="javascript:call_link('abenclob_glosry.html')" class="grey" title="Glossary Entry">CLOBs</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="lnkgrey">CL_ABAP_DB_X_WRITER</span> or <span class="lnkgrey">CL_ABAP_DB_X_LOCATOR</span> in the case of <a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOBs</a>.</li>
+</ul>
+<p>
+The <a href="javascript:call_link('abenstream_type_glosry.html')" class="grey" title="Glossary Entry">stream type</a> or
+<a href="javascript:call_link('abenlocator_type_glosry.html')" class="grey" title="Glossary Entry">locator type</a> must match the data type of the LOBs.
+</p>
+<A name="@@ITOC@@ABENIUM_LOB_2"></A>
+<p><span class="h2">
+Rules
+</span></p>
+<p>
+Unlike in <a href="javascript:call_link('abenselect_into_lob_handles.html')" class="blue">reads</a>, the behavior for streams does not match the behavior for locators.
+</p>
+<A name="@@ITOC@@ABENIUM_LOB_3"></A>
+<p><span class="h3">
+Writes Using Writer Streams
+</span></p>
+<p>
+If, in a write, an <a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOB</a> is associated
+with a reference variable of the type <span class="lnkgrey">CL_ABAP_DB_C_WRITER</span> or <span class="lnkgrey">CL_ABAP_DB_X_WRITER</span>,
+a corresponding writer stream is usually created and the reference variable points to the object after
+execution. The LOB to be changed can be edited using the methods of the writer stream. When an LOB is associated with a writer stream referenced by an
+<a href="javascript:call_link('abenlob_handle_component_glosry.html')" class="grey" title="Glossary Entry">LOB handle component</a> from the source work area, the following various platform-dependent behavior may occur:
+</p>
+<ul class="disc">
+<li>On some database systems (MaxDB, Oracle), the components of the work area which are not LOB handle
+components are written directly to the database when executing the statement. If the rows cannot be
+added or changed, <span class="qtext">sy-subrc</span> and <span class="qtext">sy-dbcnt</span> respectively
+are set immediately and no writer stream is created for the LOB handle components. If the rows can be
+added or changed, writer streams are created and their content is passed to the database when closing the last writer stream of the ABAP SQL statement at the latest.</li>
+</ul>
+<ul class="disc">
+<li>On other database systems, the components of the work area which are not LOB handle components are
+not written directly to the database when executing the statement. Instead, writer streams are always
+created for the LOB handle components. The contents of the remaining components are also delayed, that
+is, they are passed when closing the last writer stream of the ABAP SQL statement at the latest. Between
+executing the statement and actually writing the remaining components, the status is undefined since
+it is not yet determined whether the operation can be executed at all. In this case, <span class="qtext">sy-subrc</span>
+is set to the value 2 and <span class="qtext">sy-dbcnt</span> is set to -1 after the statement is executed.
+Before a writer stream is closed, a reference to an object from the class <span class="lnkgrey">CL_ABAP_SQL_CHANGING_STMNT</span>,
+a subclass of <span class="lnkgrey">CL_ABAP_SQL_STATEMENT_HANDLE</span>, from the interface <span class="lnkgrey">IF_ABAP_DB_WRITER</span>,
+can be obtained using the method GET_STATEMENT_HANDLE. The GET_STATE method provides information about
+the status of the ABAP SQL statement, and the GET_DB_COUNT method returns the number of added or changed
+rows after the last writer stream of the ABAP SQL statement was closed. The methods of the abstract
+superclass can be used to check the status of the ABAP SQL statement and all streams that are still
+open can be closed. If the ABAP SQL statement is not closed by the closing of the last writer stream,
+GET_DB_COUNT also returns the value -1. If the operation cannot be executed, for example due to duplicate
+key entries, the exception CX_STREAM_IO_EXCEPTION or CX_CLOSE_RESOURCE_ERROR is raised when the data is passed to the database, depending on exactly when the data is passed.</li>
+</ul>
+<p>
+A writer stream created in this way exists until it is explicitly closed using its method CLOSE from
+the IF_ABAP_CLOSE_RESOURCE interface. As long as a writer stream for an ABAP SQL statement is still
+open, the corresponding database operation is not finished. The state of the ABAP SQL statement is described
+using an object of the CL_ABAP_SQL_STATEMENT_HANDLE class, for which the GET_STATEMENT_HANDLE method returns a reference for every writer stream.
+</p>
+<p>
+When using writer streams, a non-handleable exception is raised in the following cases:
+</p>
+<ul class="disc">
+<li>If a writer stream is still open when closing a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> using a <a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a>.</li>
+</ul>
+<ul class="disc">
+<li>When accessing a writer stream that is already closed.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Exactly when the data of a writer stream is passed to the database is not defined. The data is passed
+at the latest when the last writer stream is closed but can also occur during writing in the stream, for example because a buffer is no longer large enough.</li>
+</ul>
+<ul class="disc">
+<li>Always close a writer stream explicitly and as soon as possible using its method CLOSE. Also refer to <a href="javascript:call_link('abenstreams_locators.html')" class="blue">Streaming and Locators</a>.</li>
+</ul>
+<A name="@@ITOC@@ABENIUM_LOB_4"></A>
+<p><span class="h3">
+Writes Using Locators
+</span></p>
+<p>
+If, in a write, an <a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOB</a> is associated
+with a reference variable of type <span class="lnkgrey">CL_ABAP_DB_C_LOCATOR</span> or <span class="lnkgrey">CL_ABAP_DB_X_LOCATOR</span>, this variable must point to an appropriate locator,
+<a href="javascript:call_link('abenselect_into_lob_handles.html')" class="blue">created</a> in a statement <span class="qtext">SELECT</span> for a LOB in a different database table or the same table. If the statement can be executed
+(<span class="qtext">sy-subrc</span> is 0), the LOB to be changed is replaced directly in the database system using the complete LOB of the locator.
+</p>
+<A name="@@ITOC@@ABENIUM_LOB_5"></A>
+<p><span class="h2">
+Restrictions
+</span></p>
+<p>
+The following restrictions apply:
+</p>
+<ul class="disc">
+<li>A maximum of 16 data streams can be opened for an ABAP SQL statement.</li>
+</ul>
+<ul class="disc">
+<li>In a <a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> there can be a maximum of 16 ABAP SQL statements whose data streams are open at the same time.</li>
+</ul>
+<ul class="disc">
+<li>A maximum of 1000 LOB handles can be open in a <a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Always close a LOB handle as soon as possible using its method CLOSE. Also refer to <a href="javascript:call_link('abenstreams_locators.html')" class="blue">Streaming and Locators</a>.
+</p>
+<A name="@@ITOC@@ABENIUM_LOB_6"></A>
+<p><span class="h2">
+Examples
+</span></p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Components <span class="qtext">string1</span> and <span class="qtext">string2</span> in structure <span class="qtext">
+wa</span> are declared as LOB handles for character-like writer streams. The statement <span class="qtext">MODIFY</span>
+creates the writer streams. Character strings are passed to both writer streams via reference variable
+<span class="qtext">stmnt</span>. Once the writer streams have been closed, the associated database fields STRING1 und STRING2 contain the chained content of the streams.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA wa TYPE demo_expressions WRITER FOR COLUMNS string1 string2. <br> <br>wa = VALUE #( id = 'X' ). <br>
+ <br>MODIFY demo_expressions FROM wa. <br> <br>DATA(stmnt) = wa-string1->get_statement_handle( ). <br>DO 10 TIMES. <br>
+&nbsp;&nbsp;wa-string1->write( CONV #( sy-index ) ). <br>ENDDO. <br>wa-string1->close( ). <br> <br>stmnt = wa-string2->get_statement_handle( ). <br>
+DO 26 TIMES. <br>&nbsp;&nbsp;wa-string2->write( substring( val = sy-abcde <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;off = sy-index - 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len = 1 ) ). <br>ENDDO. <br>
+wa-string2->close( ). <br> <br>SELECT SINGLE string1, string2 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = 'X' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the statement <span class="qtext">UPDATE</span>, the column STRING2 is modified with a locator, which
+was created in a <span class="qtext">SELECT</span> statement for the column STRING1 of the same database table. Afterwards STRING1 and STRING2 have the same content.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM @( VALUE #( id = 'X' string1 = sy-abcde ) ). <br>
+ <br>DATA locator TYPE REF TO cl_abap_db_c_locator. <br> <br>SELECT SINGLE string1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; demo_expressions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp;&nbsp;id = 'X' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO&nbsp;&nbsp; @locator. <br>
+ <br>UPDATE demo_expressions SET string2 = @locator WHERE id = 'X'. <br> <br>SELECT SINGLE string1, string2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = 'X' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abendb_writer_abexa.html')" class="blue">Writer Stream, Fill Database Table</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendb_copy_abexa.html')" class="blue">Locator, Copy Column</a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenium_lob.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

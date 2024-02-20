@@ -1,0 +1,248 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENASXML_CLASS_INSTANCES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenasxml_class_instances.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="asXML - Instances of Classes">
+<title>
+asXML - Instances of Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenasxml_class_instances.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenasxml_class_instances.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">asXML - Canonical XML Representation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml_named.html')" class="blue">asXML - Mapping of ABAP Data Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml_references.html')" class="blue">asXML - Mapping of Reference Variables and Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@IF_SERIALIZABLE_OBJECT@@!ABAP_INTERFACE!@@"></A>
+<p><span class="h1">
+asXML - Instances of Classes
+</span></p>
+<p>
+To transform classes to <a href="javascript:call_link('abenxml_glosry.html')" class="grey" title="Glossary Entry">XML</a> using
+the statement <a href="javascript:call_link('abapcall_transformation.html')" class="blue"><span class="qtext">CALL TRANSFORMATION</span></a>,
+or to create classes from XML data, their classes must implement the interface <span class="lnkgrey">IF_SERIALIZABLE_OBJECT</span>.
+The instance of a class (object) is represented as a subelement of <a href="javascript:call_link('abenabap_xslt_asxml_general.html')" class="blue"><span class="qtext400">heap</span></a> as follows:
+</p>
+<dl><dd>
+<span class="qtext400">&nbsp;&nbsp;&lt;asx:heap xmlns:nspace ...> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;class id = "key"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;part classVersion = "..."> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;name>...&lt;/name> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/part> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/class> <br>&nbsp;&nbsp;&lt;/asx:heap></span>
+</dd></dl>
+<p>
+The <span class="qtext400">class</span> element name is the schema type name of the class of the object
+(or the dynamic type of the reference variables) from the <span class="qtext400">nspace</span> namespace
+(see table below) in uppercase letters. Mandatory attribute <span class="qtext400">id</span> contains
+unique key <span class="qtext400">key</span> of the element by means of which it is referenced by the
+display of the corresponding reference variables in <span class="qtext400">values</span>. Subelements
+<span class="qtext400">&lt;part>...&lt;/part></span> contain the values of the instance attributes of
+individual object parts as subelements <span class="qtext400">&lt;name>...&lt;/name></span>. The individual object parts are defined by means of the serializable classes of the current inheritance hierarchy.
+</p>
+<p>
+The namespace of the class name indicates where the class is defined. The table below shows the possible
+namespaces, whereby in the first column, <span class="qtext400">classes</span> stands for <span class="qtext400">http://www.sap.com/abapxml/classes</span>.
+For identifiers PRG, CPOOL, and FPOOL, the same substitution rule applies as that for the namespaces for <a href="javascript:call_link('abenasxml_anonymous_data_object.html')" class="blue">anonymous data objects</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Namespace</span></td>
+<td><span class="bold">Where Defined</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">classes/global</span></td>
+<td>Class Library</td>
+</tr>
+<tr>
+<td><span class="qtext400">classes/program/PRG</span></td>
+<td>Program prg</td>
+</tr>
+<tr>
+<td><span class="qtext400">classes/class-pool/CPOOL</span></td>
+<td>Class Pool cpool</td>
+</tr>
+<tr>
+<td><span class="qtext400">classes/function-pool/FPOOL</span></td>
+<td>Function group fpool</td>
+</tr>
+</table><br>
+<p>
+The serializable values of an instance of a class (instance attributes or output parameters of a special
+helper method) are displayed in the asXML representation for named data objects or for reference variables
+as the content or attributes of <span class="qtext400">&lt;name>...&lt;/name></span>. Here, <span class="qtext400">name</span>
+is the name of an instance attribute or output parameter in uppercase letters. For interface attributes,
+the name of the interface is added before the name, separated by a point (.), to differentiate it from a class attribute of the same name. For the identifiers, the same
+<a href="javascript:call_link('abenabap_xslt_asxml_named.html')" class="blue">substitution rules</a> apply as for all elements.
+</p>
+<p>
+The serializable values of an instance of a class are specified in the class by implementing the system interface <span class="lnkgrey">IF_SERIALIZABLE_OBJECT</span>. The system interface IF_SERIALIZABLE_OBJECT is a
+<a href="javascript:call_link('abentag_interface_glosry.html')" class="grey" title="Glossary Entry">tag interface</a>. Its implementation
+shows the runtime environment the serializability of a class and its subclasses and allows it to declare
+certain other components in the class according to fixed syntax rules. This interface IF_SERIALIZABLE_OBJECT can only be implemented in one class of a path and is effective for all subclasses from this class.
+</p>
+<p>
+If the class or one of its superclasses does not implement the interface IF_SERIALIZABLE_OBJECT, the
+element <span class="qtext400">class</span> does not contain any subelements. By default, all instance
+attributes of a class in which the interface IF_SERIALIZABLE_OBJECT is implemented directly or in a superclass are serialized and deserialized to this class. This behavior can be changed by declaring special helper methods.
+<a href="javascript:call_link('abenstatic_attribute_glosry.html')" class="grey" title="Glossary Entry">Static attributes</a> are ignored in serializations or deserializations (with the exception of special constant SERIALIZABLE_CLASS_VERSION).
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENASXML_CLASS_INSTANCES_1" class="blue">Standard Behavior</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENASXML_CLASS_INSTANCES_2" class="blue">Adjusted Behavior</A></li>
+</ul>
+<A name="@@ITOC@@ABENASXML_CLASS_INSTANCES_1"></A>
+<p><span class="h2">
+Standard Behavior
+</span></p>
+<p>
+If the class or one of its superclasses implements the interface IF_SERIALIZABLE_OBJECT, the element
+<span class="qtext400">&lt;class>...&lt;/class></span> contains at least one subelement <span class="qtext400">&lt;part>...&lt;/part>&lt;/class></span>.
+These subelements correspond to individual serializable object parts and contain the displays of the
+instance attributes of the respective object part in asXML format. An object part is specified by the
+class in which instance attributes are declared or into which an interface that contains instance attributes
+is integrated. A serializable class contains an object part for itself as well as object parts for all
+superclasses in the current path of the inheritance tree up to and including the class that implements
+the interface IF_SERIALIZABLE_OBJECT. Name <span class="qtext400">part</span> is the name of the respective
+class. If the class is a local class, prefix <span class="qtext400">local</span> is added in front of
+the name, separated by a point (.), to differentiate it from a global class of the same name. Object
+parts of superclasses in which the interface IF_SERIALIZABLE_OBJECT is not implemented are not serializable
+and do not have a corresponding subelement <span class="qtext400">part</span>. This means that a class
+in which the interface IF_SERIALIZABLE_OBJECT is not implemented (neither in the class itself nor in a superclass) creates an empty XML element <span class="qtext400">class</span> in serializations.
+</p>
+<p>
+In serializations, the XML elements <span class="qtext400">part</span> of the object parts of the superclasses
+that implemented the interface IF_SERIALIZABLE_OBJECT are created for the subclasses and by default the XML elements of the instance attributes are created in the order in which they are declared in the class.
+</p>
+<p>
+In deserializations, an object of the respective class is created. The instance constructor is not executed here. After the object is created, all instance attributes have their
+<a href="javascript:call_link('abeninitial_value_glosry.html')" class="grey" title="Glossary Entry">initial value</a> or the
+<a href="javascript:call_link('abenstart_value_glosry.html')" class="grey" title="Glossary Entry">start value</a> that is specified
+using the addition <span class="qtext">VALUE</span> of the statement <span class="qtext">DATA</span>.
+By default, the instance attributes are supplied with the values of the corresponding XML elements.
+Here the order of the object parts and the attributes is not important. Instance attributes without
+a corresponding XML element retain their value. Unnecessary XML elements are ignored as long as they
+do not belong to a namespace and otherwise raise a handleable exception. When an element that does not
+have any subelements <span class="qtext400">part</span> is deserialized, no object is created but instead the target reference variable is initialized.
+</p>
+<p>
+If a class or one of its superclasses implements the interface IF_SERIALIZABLE_OBJECT, the
+<a href="javascript:call_link('abenprivate_glosry.html')" class="grey" title="Glossary Entry">private</a> constant SERIALIZABLE_CLASS_VERSION
+of type <span class="qtext">i</span> can be declared in each object part, that is, in each participating
+class of the inheritance tree. In serializations, the value of the constant is assigned to attribute
+<span class="qtext400">classVersion</span> of the XML element <span class="qtext400">part</span>. In deserializations, the attribute value is currently not evaluated but is intended for possible future enhancements.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Using the standard behavior involves a certain security risk, because all instance attributes of an object can be serialized and can be manipulated in the XML data that is created (see
+<a href="javascript:call_link('abenserializable_object_abexa.html')" class="blue">executable example</a>).
+</p>
+<A name="@@ITOC@@ABENASXML_CLASS_INSTANCES_2"></A>
+<p><span class="h2">
+Adjusted Behavior
+</span></p>
+<p>
+By default, all instance attributes of an object part are serialized regardless of their visibility
+and the version of the class is checked. To change this behavior, for each object part, instance methods
+SERIALIZE_HELPER and DESERIALIZE_HELPER can be declared and implemented in the respective class. These
+methods can only be declared as private instance methods in classes that implement the interface IF_SERIALIZABLE_OBJECT
+directly or in one of its superclasses. The declaration of one of the methods restricts the declaration of the others, and the interface is predefined by the syntax check as described below:
+</p>
+<ul class="disc">
+<li>The method SERIALIZE_HELPER is only allowed to have output parameters, and the method DESERIALIZE_HELPER is only allowed to have input parameters with generic
+<a href="javascript:call_link('abentyping_glosry.html')" class="grey" title="Glossary Entry">typing</a>.</li>
+</ul>
+<ul class="disc">
+<li>For each output parameter of the method SERIALIZE_HELPER, there must be an input parameter of the
+method DESERIALIZE_HELPER that has the same name and the same typing. Additional input parameters of the method DESERIALIZE_HELPER have to be optional.</li>
+</ul>
+<ul class="disc">
+<li>The method SERIALIZE_HELPER is not allowed to have any output parameters with the name SERIALIZABLE_CLASS_VERSION,
+and the method DESERIALIZE_HELPER is allowed to have this optional input parameter of type <span class="qtext">i</span>. This parameter is currently not used but is intended for possible future enhancements.</li>
+</ul>
+<p>
+If the methods SERIALIZE_HELPER and DESERIALIZE_HELPER are declared in an object part, the instance
+attributes of the object part are not serialized and deserialized. Instead, in serializations, the method
+SERIALIZE_HELPER is executed and the values of all output parameters are written to the corresponding
+element <span class="qtext400">part</span> as subelements in the order specified in asXML format. The
+name of a subelement is the name of the corresponding output parameter in uppercase letters. In deserializations,
+the method DESERIALIZE_HELPER is called and the values of the subelements of the corresponding element
+<span class="qtext400">part</span> are passed to the input parameters of the methods that have the same name. The order does not matter here and unnecessary XML elements are ignored.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenserializable_object_abexa.html')" class="blue">Modified Serialization and Deserialization</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenserializable_object_abexa.html')" class="blue">Modified Serialization and Deserialization</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenasxml_class_instances.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+</html>

@@ -1,0 +1,324 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCL_OSQL_REPLACE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_osql_replace.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CL_OSQL_REPLACE - Replacement Service">
+<title>
+CL_OSQL_REPLACE - Replacement Service - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencl_osql_replace.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencl_osql_replace.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencl_osql.html')" class="blue">ABAP SQL - System Classes</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CL_OSQL_REPLACE@@!ABAP_CLASS!@@"></A>
+<p><span class="h1">
+CL_OSQL_REPLACE - Replacement Service
+</span></p>
+<p>
+The system class <span class="lnkgrey">CL_OSQL_REPLACE</span> implements a replacement service that can be used to redirect access to data sources in
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> statements during the execution of
+<a href="javascript:call_link('abenunit_test_glosry.html')" class="grey" title="Glossary Entry">unit tests</a>
+<a href="javascript:call_link('abenabap_unit_glosry.html')" class="grey" title="Glossary Entry">ABAP Unit</a>. The system class CL_OSQL_REPLACE can only be used in
+<a href="javascript:call_link('abentest_class_glosry.html')" class="grey" title="Glossary Entry">test classes</a> by <a href="javascript:call_link('abenabap_unit_glosry.html')" class="grey" title="Glossary Entry">ABAP Unit</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCL_OSQL_REPLACE_1" class="blue">Defining Replacement Rules</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCL_OSQL_REPLACE_2" class="blue">Additional Methods</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCL_OSQL_REPLACE_3" class="blue">Restrictions and Special Features</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENCL_OSQL_REPLACE_4" class="blue">Data Sources of Reads</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENCL_OSQL_REPLACE_5" class="blue">Targets of Writes</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCL_OSQL_REPLACE_6" class="blue">Example</A></li>
+</ul>
+<A name="@@ITOC@@ABENCL_OSQL_REPLACE_1"></A>
+<p><span class="h2">
+Defining Replacement Rules
+</span></p>
+<p>
+The static method ACTIVATE_REPLACEMENT of the system class <span class="lnkgrey">CL_OSQL_REPLACE</span> is used to define replacement rules.
+</p>
+<ul class="disc">
+<li>A three-column internal table is passed to the parameter REPLACEMENT_TABLE:</li>
+</ul>
+<ul class="circlem2">
+<li>The first column, SOURCE, contains the name of a data source defined in ABAP Dictionary, namely a database table, a classic view, or a non-abstract CDS entity.</li>
+</ul>
+<ul class="circlem2">
+<li>The second column, TARGET, contains the name of a database object in the current database to which an ABAP SQL access to the data source named in the first column is redirected.</li>
+</ul>
+<ul class="circlem2">
+<li>The third column, SCHEMA, contains the name of a
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schema</a> to be searched to find the database object from the second column. If the third column is empty, the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a> is used.</li>
+</ul>
+<ul class="disc">
+<li>An ID can be passed to the parameter FLG_DML to define whether the redirection also applies to write ABAP SQL statements:</li>
+</ul>
+<ul class="circlem2">
+<li>If the value <span class="qtext">abap_false</span> is passed to the parameter FLG_DML, the redirection only applies to
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">queries</a>, that is, to the
+<a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">main queries</a> of
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">reads</a> and for the <a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subqueries</a> of all accesses.</li>
+</ul>
+<ul class="circlem2">
+<li>If the value <span class="qtext">abap_true</span> is passed to the parameter FLG_DML, the redirection also applies to the database tables to be changed by
+<a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a>.</li>
+</ul>
+<ul class="disc">
+<li>An ID can be passed to the parameter FLG_SURVIVE_SUBMIT to define whether the redirection also applies to called programs:</li>
+</ul>
+<ul class="circlem2">
+<li>If the value of <span class="qtext">abap_false</span> is passed to the parameter FLG_SURVIVE_SUBMIT, the redirection applies only to the current program.</li>
+</ul>
+<ul class="circlem2">
+<li>If the value of <span class="qtext">abap_true</span> is passed to the parameter FLG_SURVIVE_SUBMIT,
+the redirection also applies to programs called using <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a>,
+<a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">CALL TRANSACTION</span></a>, and <a href="javascript:call_link('abapcall_dialog.html')" class="blue"><span class="qtext">CALL DIALOG</span></a>.</li>
+</ul>
+<p>
+The redirection can be made to any database objects, in particular variants of the database tables or
+views defined in the ABAP Dictionary. The database objects that are redirected to must have the same structure as the object that is redirected from, otherwise the result is database specific and exceptions may arise.
+</p>
+<p>
+A successful redirection applies for the entire execution of a module test until the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> is
+ended or there is another redirection. A redirection is ended explicitly if an empty internal table is passed to the method ACTIVATE_REPLACEMENT.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>From a technical perspective, a redirection replaces the names of the database objects in the platform-specific SQL statements, which the
+<a href="javascript:call_link('abendatabase_interface_glosry.html')" class="grey" title="Glossary Entry">database interface</a> generates from the ABAP SQL statements and passes to the database system.</li>
+</ul>
+<ul class="disc">
+<li>Redirection of the data sources used by ABAP SQL is used during module tests so that test tables
+and test data can be processed instead of the actual tables and their data. In particular, this enables testing of system programs that access system tables.</li>
+</ul>
+<ul class="disc">
+<li>In the case of redirections in called programs using the parameter FLG_SURVIVE_SUBMIT, program calls
+using <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a> without the addition <span class="qtext">AND RETURN</span> are pointless.</li>
+</ul>
+<A name="@@ITOC@@ABENCL_OSQL_REPLACE_2"></A>
+<p><span class="h2">
+Additional Methods
+</span></p>
+<p>
+As well as the method ACTIVATE_REPLACEMENT, <span class="lnkgrey">CL_OSQL_REPLACE</span> has the following methods:
+</p>
+<ul class="disc">
+<li>The methods IS_REPLACEMENT_ACTIVE and IS_REPLACEMENT_ACTIVE_DML are used to check whether a redirection is active and whether it also applies to writes.</li>
+</ul>
+<ul class="disc">
+<li>The methods SET_ACTIVE_FOR_DML and TOGGLE_ACTIVE_FOR_DML are used to set or change the setting for writes for an existing redirection.</li>
+</ul>
+<A name="@@ITOC@@ABENCL_OSQL_REPLACE_3"></A>
+<p><span class="h2">
+Restrictions and Special Features
+</span></p>
+<A name="@@ITOC@@ABENCL_OSQL_REPLACE_4"></A>
+<p><span class="h3">
+Data Sources of Reads
+</span></p>
+<p>
+The following applies to data sources of reads:
+</p>
+<ul class="disc">
+<li>The data source of a read can only be redirected to an object defined in ABAP Dictionary if the object appears in the database with the name that it is defined with in ABAP Dictionary.</li>
+</ul>
+<ul class="disc">
+<li>To redirect a read from a <a href="javascript:call_link('abenprojection_view_glosry.html')" class="grey" title="Glossary Entry">projection view</a> to another data source, the underlying database table can be redirected.</li>
+</ul>
+<ul class="disc">
+<li>It is not possible to redirect to the following:</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenprojection_view_glosry.html')" class="grey" title="Glossary Entry">Projection views</a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a></li>
+</ul>
+<ul class="disc">
+<li>If the data source of a subquery in the <span class="qtext">WHERE</span> condition of a write statement is redirected to the target of the write, the behavior is undefined and unexpected errors may occur.</li>
+</ul>
+<ul class="disc">
+<li>The following should be noted for <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a>:</li>
+</ul>
+<ul class="circlem2">
+<li>If a read is redirected to a CDS view or a CDS table function for which one or more
+<a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS roles</a> are defined as part of
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS access control</a>, the associated
+access conditions are evaluated independently of the target of the redirection. CDS roles that are defined for the target of a redirection are ignored.</li>
+</ul>
+<ul class="disc">
+<li>The following should be noted for <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table functions</a>:</li>
+</ul>
+<ul class="circlem2">
+<li>A CDS table function can only be redirected to a
+<a href="javascript:call_link('abentable_function_glosry.html')" class="grey" title="Glossary Entry">table function</a>. However, this does not have to be an
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP function</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>If a direct or indirect read of a CDS table function is redirected to another data source, the
+<a href="javascript:call_link('abenstatic_constructor_glosry.html')" class="grey" title="Glossary Entry">static constructor</a> of the
+<a href="javascript:call_link('abenamdp_class_glosry.html')" class="grey" title="Glossary Entry">AMDP class</a> in which the associated
+<a href="javascript:call_link('abenamdp_table_function_glosry.html')" class="grey" title="Glossary Entry">AMDP table function</a> is implemented is executed.</li>
+</ul>
+<ul class="circlem2">
+<li>If a read of a data source is redirected to an
+<a href="javascript:call_link('abenamdp_table_function_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> table function that is known in the current AS ABAP, the
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> framework creates the associated variant in the database if necessary, and the
+<a href="javascript:call_link('abenstatic_constructor_glosry.html')" class="grey" title="Glossary Entry">static constructor</a> of the associated
+<a href="javascript:call_link('abenamdp_class_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> class is executed.</li>
+</ul>
+<ul class="disc">
+<li>If the source or target of a redirection is a database table of the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a> defined in ABAP Dictionary, for which a
+<a href="javascript:call_link('abenreplacement_object_glosry.html')" class="grey" title="Glossary Entry">replacement object</a> is defined, the redirection is evaluated first and then the replacement object.</li>
+</ul>
+<ul class="circlem2">
+<li>If a data source of a read is redirected to a database table for which a replacement object is defined, a redirect to the replacement object is made.</li>
+</ul>
+<ul class="circlem2">
+<li>If a database table is redirected for which a replacement object is defined, the redirection is applied. The replacement object is ignored.</li>
+</ul>
+<ul class="circlem2">
+<li>If a replacement object is defined for a database table and the replacement object is redirected, the redirection is ignored. The replacement object is accessed here.</li>
+</ul>
+<ul class="disc">
+<li>A redirection always bypasses <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.</li>
+</ul>
+<A name="@@ITOC@@ABENCL_OSQL_REPLACE_5"></A>
+<p><span class="h3">
+Targets of Writes
+</span></p>
+<p>
+The same restrictions apply to the target of a write as to the data sources of reads, if applicable. In addition, targets of writes cannot be redirected to the following objects defined in ABAP Dictionary:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenclassical_view_glosry.html')" class="grey" title="Glossary Entry">Classic views</a></li>
+</ul>
+<ul class="disc">
+<li>Database tables with active <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a></li>
+</ul>
+<ul class="disc">
+<li>Database tables with active <a href="javascript:call_link('abenddic_database_tables_protocol.html')" class="blue">logging</a></li>
+</ul>
+<p>
+Writes to a <a href="javascript:call_link('abenprojection_view_glosry.html')" class="grey" title="Glossary Entry">projection
+view</a> cannot be redirected if the rows to be changed are defined by a work area or an internal table.
+Therefore, it is only possible to redirect accesses to the database table of a projection view if there
+are no writes to the view (except with the statements <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">
+DELETE</span></a> with a <span class="qtext">WHERE</span> condition or <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">
+UPDATE</span></a> with the addition <span class="qtext">SET</span>). Otherwise, a runtime error occurs.
+</p>
+<A name="@@ITOC@@ABENCL_OSQL_REPLACE_6"></A>
+<p><span class="h2">
+Example
+</span></p>
+<p>
+See the program <span class="lnkgrey">DEMO_CL_OSQL_REPLACE</span>.
+</p>
+<ul class="disc">
+<li>A production class <span class="qtext">prod</span> reads data from the database table SCARR in the
+method <span class="qtext">select</span>, and deletes a row from this table in the method <span class="qtext">delete</span>.</li>
+</ul>
+<ul class="disc">
+<li>The test class <span class="qtext">test_prod</span> tests the methods of the production class.</li>
+</ul>
+<ul class="circlem2">
+<li>In the method <span class="qtext">setup</span>, access to SCARR is redirected for read and write
+ABAP SQL statements with <span class="qtext">cl_osql_replace=>activate_replacement</span> to a test
+table DEMO_TEST_SCARR, which was defined in ABAP Dictionary as a copy of SCARR. The database schema of DEMO_TEST_SCARR is passed here explicitly for demonstration purposes, but this is not necessary for database objects from the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>In the method <span class="qtext">setup</span>, the test table DEMO_TEST_SCARR is supplied with two rows of test data from an internal table <span class="qtext">testdata</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>In the method <span class="qtext">test</span>, the method <span class="qtext">select</span> is called
+and the return value is compared with the internal table <span class="qtext">testdata</span>. Calling
+the method <span class="qtext">delete</span> deletes a row of test data from the test table and checks that the deleted row no longer exists.</li>
+</ul>
+<ul class="circlem2">
+<li>In the method <span class="qtext">teardown</span>, the test data is deleted from the test table.</li>
+</ul>
+<dl><dd>
+Execution of the module test should always be successful, regardless of the content of SCARR.
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_osql_replace.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+</html>

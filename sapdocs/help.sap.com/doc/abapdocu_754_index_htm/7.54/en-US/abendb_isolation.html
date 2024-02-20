@@ -1,0 +1,158 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDB_ISOLATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_isolation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Isolation Levels">
+<meta name="keywords" content="ABAP, Isolation Levels">
+<title>
+Isolation Levels - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendb_isolation.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendb_isolation.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentransaction.html')" class="blue">Data Consistency</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendb_transaction.html')" class="blue">Database LUW</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Isolation Levels
+</span></p>
+<p>
+The term "isolation" refers to the separation of different transactions performed on the same data in a database. Different isolation levels specify how a database user can perform reads on the data of a different user modified in a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. The data is isolated by implementing appropriate
+<a href="javascript:call_link('abendatabase_lock_glosry.html')" class="grey" title="Glossary Entry">database locks</a>.
+</p>
+<p>
+The following isolation levels are significant in AS ABAP:
+</p>
+<ul class="disc">
+<li><span class="bold">Uncommitted read</span></li>
+</ul>
+<dl><dd>
+In uncommitted reads, every database user performing a read can see the modified data directly, not just the owner of the database LUW where the data was modified, even if no
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commit</a> has been performed yet. The read is performed
+without setting a shared lock (known as a dirty read), which means the existing exclusive lock is ignored
+by the read. Data in a temporary state can, therefore, be read, even if it is to be removed again using a database rollback.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Committed read</span></li>
+</ul>
+<dl><dd>
+In committed reads, only the user of a database LUW has access to data modified in the LUW. Other database users cannot access the modified data before a
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commit</a> is performed. In the case of reads, a shared
+lock is set (not possible for the modified data due to the existing exclusive lock). Data can be accessed only when released by a database commit.
+</dd></dl>
+<p>
+In an <a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>, the following settings apply to the isolation level:
+</p>
+<ul class="disc">
+<li>The SAP HANA database and Oracle databases support these isolation levels in their strictest form.
+In the case of reads, they do not set a shared lock as in <span class="qtext400">uncommitted reads</span>,
+but do read the data like in a <span class="qtext400">committed read</span>. If the data is locked in a different LUW by a write, the cached state of the data after the last database commit is accessed.</li>
+</ul>
+<ul class="disc">
+<li>Both isolation levels are possible on all other database with <span class="qtext400">uncommitted
+read</span> being the default setting. The method SET_ISOLATION_LEVEL of the class <span class="lnkgrey">CL_SQL_CONNECTION</span>
+can be used to set the isolation level of a database connection to <span class="qtext400">committed
+read</span>. In the case of reads, an attempt is actually made to set a shared lock, which can cause
+wait times. The same method can be used to reset the isolation level to the default setting (this happens anyway after the next database commit or database rollback).</li>
+</ul>
+<p>
+Many database systems employ additional isolation levels, such as <span class="qtext400">serializable</span>
+and <span class="qtext400">repeatable read</span>. These work in a similar way to <span class="qtext400">committed reads</span>, but the shared lock is preserved until the next data object is read or until the
+<a href="javascript:call_link('abendatabase_cursor_glosry.html')" class="grey" title="Glossary Entry">database cursor</a> is closed. Since these isolation levels are not sufficiently standardized, they are not currently used in
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In databases that support the isolation levels <span class="qtext400">committed read</span> and
+<span class="qtext400">uncommitted read</span>, the latter must be the default setting, since otherwise
+deadlocks occur too quickly. There is no risk of this on SAP HANA databases and on Oracle databases.
+These databases read the same data as in a <span class="qtext400">committed read</span> but do not set shared locks.</li>
+</ul>
+<ul class="disc">
+<li>When the database is accessed on AS ABAP, a database user is the same as a work process. This means
+that, for the isolation level <span class="qtext400">uncommitted read</span>, a work process can perform
+reads on data in a database LUW of the same or another user that has not yet been committed using a database commit.</li>
+</ul>
+<ul class="disc">
+<li>The isolation level does not modify how <a href="javascript:call_link('abensap_puffering.html')" class="blue">buffered tables in ABAP SQL</a> are accessed. The isolation level <span class="qtext400">committed read</span> also accesses the
+<a href="javascript:call_link('abentable_buffer_glosry.html')" class="grey" title="Glossary Entry">table buffer</a>. However,
+data may be obsolete if it has been changed since the last buffer synchronization in the database. There
+is a guarantee, however, that data is only read if committed on the database using a database commit.
+To make it possible to also access current data in a buffered data, the addition <a href="javascript:call_link('abapselect_additions.html')" class="blue">
+<span class="qtext">BYPASSING BUFFER</span></a> must be used in the <span class="qtext400">Committed Read</span> isolation level.</li>
+</ul>
+<ul class="disc">
+<li>The method SET_ISOLATION_LEVEL of the class <span class="lnkgrey">CL_SQL_CONNECTION</span> replaces
+the function modules <span class="lnkgrey">DB_SET_ISOLATION_LEVEL</span> and <span class="lnkgrey">DB_RESET_ISOLATION_TO_DEFAULT</span>.</li>
+</ul>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_isolation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

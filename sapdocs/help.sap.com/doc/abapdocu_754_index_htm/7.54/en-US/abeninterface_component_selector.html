@@ -1,0 +1,125 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINTERFACE_COMPONENT_SELECTOR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninterface_component_selector.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Interface Component Selector">
+<meta name="keywords" content="ABAP, Interface Component Selector">
+<title>
+Interface Component Selector - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninterface_component_selector.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninterface_component_selector.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_syntax.html')" class="blue">ABAP Syntax</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_statements.html')" class="blue">ABAP Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenoperands.html')" class="blue">Operands</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenoperands_names.html')" class="blue">Names for Individual Operands</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@~@@!ABAP_SELECTOR!@@"></A>
+<p><span class="h1">
+Interface Component Selector
+</span></p>
+<p>
+A component <span class="qtext">comp</span> of an interface is accessed using the following name:
+</p>
+<p>
+<span class="qtext">intf~comp</span>
+</p>
+<p>
+In this case, the character <span class="qtext">~</span> is the interface component selector. The name
+<span class="qtext">intf</span> of an interface must be on the left of the interface component selector. The name <span class="qtext">comp</span> of the component must be on the right of the interface component selector.
+</p>
+<p>
+The name <span class="qtext">intf~comp</span> identifies the components of interfaces in classes or component interfaces in composite interfaces.
+</p>
+<p><span class="h4">
+Programming Guideline
+</span></p>
+<P>
+<a href="javascript:call_link('abenclass_ref_interf_ref_guidl.html')" class="lnkpurple" title="Guideline">Address interface components using interface reference variables</a>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+An interface contains each component exactly once, regardless of how it is composed of component interfaces.
+All the interface components are at the same hierarchical level. The name of an interface component
+is uniquely defined using <span class="qtext">intf~comp</span>. <span class="qtext">intf</span> is always
+the interface in which the component is declared. A direct chaining of interface names <span class="qtext">intf1~...~intfn~comp</span> is not possible.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Declares interfaces and accesses their components.
+</p>
+<dl><dd>
+<span class="qtext">INTERFACE i1. <br>&nbsp;&nbsp;TYPES t1 TYPE string. <br>ENDINTERFACE. <br> <br>INTERFACE i2. <br>
+&nbsp;&nbsp;INTERFACES i1. <br>&nbsp;&nbsp;METHODS m2 IMPORTING p1 TYPE i1~t1. <br>ENDINTERFACE. <br> <br>
+CLASS c1 DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES i2. <br>ENDCLASS. <br>
+ <br>... <br>DATA oref TYPE REF TO c1. <br> <br>oref->i2~m2( ... ). <br> <br>... <br> <br>CLASS c1 IMPLEMENTATION. <br>
+&nbsp;&nbsp;METHOD i2~m2. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninterface_component_selector.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:32 GMT -->
+</html>

@@ -1,0 +1,190 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENUSE_SHARED_MEMORY_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_shared_memory_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Using the Shared Memory">
+<title>
+Using the Shared Memory - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenuse_shared_memory_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenuse_shared_memory_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_guidl.html')" class="blue">Data Storage</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Using the Shared Memory
+</span></p>
+<A name="@@ITOC@@ABENUSE_SHARED_MEMORY_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The shared memory of an AS Instance is an highly important medium for buffering data with the goal of high-performance access. For this purpose, the shared memory can be used as follows:
+</p>
+<ul class="disc">
+<li>To buffer data from database tables implicitly using
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>, which can be determined when defining the tables in ABAP Dictionary</li>
+</ul>
+<ul class="disc">
+<li>To explicitly store data clusters in the cross-transaction application buffer using the statements
+<span class="qtext">EXPORT TO SHARED</span> <span class="qtext">MEMORY</span> or <span class="qtext">EXPORT TO SHARED BUFFER</span></li>
+</ul>
+<ul class="disc">
+<li>To explicitly handle (data) objects stored there using shared objects, which are created using the
+addition <span class="qtext">AREA HANDLE</span> of the statements <span class="qtext">CREATE OBJECT</span> or <span class="qtext">CREATE DATA</span></li>
+</ul>
+<A name="@@ITOC@@ABENUSE_SHARED_MEMORY_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Implement the explicit buffering in the shared memory using shared objects</span>
+</p>
+<p>
+Work with shared objects to explicitly use the shared memory for cross-program data buffering. The appropriate
+application scenarios are shared buffer and exclusive buffer. The access to shared objects should be wrapped in loader and broker classes.
+</p>
+<A name="@@ITOC@@ABENUSE_SHARED_MEMORY_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+For explicit access to the shared memory, shared objects
+(<span class="qtext">CREATE AREA HANDLE</span>) provide the following advantages compared to the cross-transaction application buffer (<span class="qtext">SHARED MEMORY</span>, <span class="qtext">SHARED BUFFER</span>):
+</p>
+<ul class="disc">
+<li>Any number of (data) objects can be saved, including their mutual interdependencies.</li>
+</ul>
+<ul class="disc">
+<li>(Data) objects can be used in the shared objects memory just like objects in the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>.
+Technically, the shared objects memory can be considered an extension of the internal session during the time the memory is bound to it.</li>
+</ul>
+<ul class="disc">
+<li>Multiple programs can access the same memory area simultaneously without having to copy data to their own internal session.</li>
+</ul>
+<p>
+Scenarios in which shared objects can be used efficiently include the following:
+</p>
+<ul class="disc">
+<li><span class="bold">Usage as a shared buffer</span> <br>A shared buffer contains a large data set on which many consumers can perform reads but which is changed rarely and is usually provided by a single program.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Usage as an exclusive buffer</span> <br>An exclusive buffer contains data that are accessed by only one program but that is maintained for various programs across transaction boundaries.</li>
+</ul>
+<p>
+The shared memory should not be used for different purposes, if, for example this results in many modifying accesses of parallel consumers, since the current locking concept does not support this.
+</p>
+<p>
+Access to the shared memory should be encapsulated in specific classes, and application programs should
+access the shared memory using these classes only. Normally, there are two classes, which can also be combined into one class:
+</p>
+<ul class="disc">
+<li>A <span class="italic">loader</span> for creating and changing area instances</li>
+</ul>
+<ul class="disc">
+<li>A <span class="italic">broker</span> for reads on area instances</li>
+</ul>
+<p>
+Such wrapping ensures the following:
+</p>
+<ul class="disc">
+<li>Central management of the connection of the internal session to the shared objects memory and the associated locks</li>
+</ul>
+<ul class="disc">
+<li>Central exception handling and respective fallback strategies (for example, if the shared objects
+memory overflows, it is possible to ensure that objects in the internal session are used without the using program having to be notified of this).</li>
+</ul>
+<ul class="disc">
+<li>Potential authorization checks</li>
+</ul>
+<p>
+This makes the application program more legible, more robust, and easier to maintain.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows how an internal table <span class="qtext">index_table</span>, which
+has been formatted elsewhere and buffered in the cross-transaction application buffer, is imported to
+a program. To store it locally, a local data object is required. Tasks like these can be performed more efficiently by using shared objects.
+</p>
+<dl><dd>
+<span class="qtext">"Get index page from data cluster <br>IMPORT index_html = index_html <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM SHARED MEMORY docutables(...) ID ... <br>ASSERT sy-subrc = 0.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows how an internal table <span class="qtext">index_table</span>, which
+has been formatted elsewhere and buffered in the shared objects memory, can be accessed within program.
+By calling a <span class="qtext">get</span> method, the corresponding broker ensures that its <span class="qtext">
+root</span> attribute refers to a shared object that contains the table. A local data object is then not required to access the internal table in the program.
+</p>
+<dl><dd>
+<span class="qtext">"Get index page from shared memory <br>cl_docu_tables_broker=>get_index_table( ). <br>ASSERT cl_docu_tables_broker=>root->index_html <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IS NOT INITIAL.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_shared_memory_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

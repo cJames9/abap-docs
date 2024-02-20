@@ -1,0 +1,380 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSXML_FORMATS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensxml_formats_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:39 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sXML Library, Formats">
+<title>
+sXML Library, Formats - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensxml_formats_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensxml_formats_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sxml_lib_abexas.html')" class="blue">sXML Library, Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+sXML Library, Formats
+</span></p>
+<p>
+This example demonstrates the four formats supported by sXML.
+</p>
+<A name="@@ITOC@@ABENSXML_FORMATS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_sxml_formats.<br>
+<br>
+CLASS sxml_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS fill_writer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING writer TYPE REF TO if_sxml_writer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS parse_outputs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING xml_10 TYPE xstring<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_xop TYPE if_sxml_xop=&gt;xop_package<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_binary TYPE xstring<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_json TYPE xstring<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING xml TYPE xstring<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(rc) TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS equals<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING p1 TYPE data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2 TYPE data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p3 TYPE data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p4 TYPE data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(equals) TYPE abap_bool.<br>
+ENDCLASS.<br>
+<br>
+CLASS sxml_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA writer TYPE REF TO if_sxml_writer.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;XML 1.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `XML 1.0` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer = CAST if_sxml_writer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_sxml_string_writer=&gt;create( type = if_sxml=&gt;co_xt_xml10 ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fill_writer( writer ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(xml_10) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_sxml_string_writer( writer )-&gt;get_output(&nbsp;&nbsp;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( xml_10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_conv_codepage=&gt;create_in(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;convert( xml_10 ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;XOP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `XOP` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer = CAST if_sxml_writer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_sxml_xop_writer=&gt;create( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fill_writer( writer ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(xml_xop) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_sxml_xop_writer( writer )-&gt;get_output(&nbsp;&nbsp;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( xml_xop-xop_document<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_conv_codepage=&gt;create_in(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;convert( xml_xop-xop_document )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data( xml_xop-parts ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Binary XML<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Binary XML` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer = CAST if_sxml_writer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_sxml_string_writer=&gt;create( type = if_sxml=&gt;co_xt_binary ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fill_writer( writer ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(xml_binary) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_sxml_string_writer( writer )-&gt;get_output(&nbsp;&nbsp;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( xml_binary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_conv_codepage=&gt;create_in(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;convert( xml_binary ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;JSON<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `JSON` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer = CAST if_sxml_writer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_sxml_string_writer=&gt;create( type = if_sxml=&gt;co_xt_json ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fill_writer( writer ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(xml_json) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_sxml_string_writer( writer )-&gt;get_output(&nbsp;&nbsp;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( xml_json<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_conv_codepage=&gt;create_in(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;convert( xml_json ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Parse outputs and compare results<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Parsing all outputs` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA xml TYPE xstring.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CASE parse_outputs( EXPORTING xml_10 = xml_10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_xop = xml_xop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_binary = xml_binary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_json = xml_json<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING xml = xml ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Result is the same for all outputs:' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_xml( xml ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Results differ for elements!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Results differ for attributes!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 8.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Parsing raised an exception!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 16.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Transformation results are different!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD fill_writer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;open_element( name = 'object' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;open_element( name = 'str' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;write_attribute( name = 'name' value = 'text' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;write_value( 'Hello sXML!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;close_element( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;open_element( name = 'str' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;write_attribute( name = 'name' value = 'raw' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;write_value_raw( cl_abap_conv_codepage=&gt;create_out(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;convert( 'raw' ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;close_element( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer-&gt;close_element( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD parse_outputs.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(reader_10) = cl_sxml_string_reader=&gt;create( xml_10 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(reader_xop) = cl_sxml_xop_reader=&gt;create( xml_xop ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(reader_binary) = cl_sxml_string_reader=&gt;create( xml_binary ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(reader_json) = cl_sxml_string_reader=&gt;create( xml_json ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_10-&gt;next_node( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_xop-&gt;next_node( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_binary-&gt;next_node( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_json-&gt;next_node( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF equals( p1 = reader_10-&gt;node_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;node_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;node_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;node_type ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;prefix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;prefix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;prefix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;prefix ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;name ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;nsuri<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;nsuri<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;nsuri<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;nsuri ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;value_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;value_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;value_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;value_type ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;value ) = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc = 2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF reader_10-&gt;node_type = if_sxml_node=&gt;co_nt_final.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF reader_10-&gt;node_type = if_sxml_node=&gt;co_nt_element_open.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_10-&gt;next_attribute( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_xop-&gt;next_attribute( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_binary-&gt;next_attribute( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader_json-&gt;next_attribute( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF equals( p1 = reader_10-&gt;prefix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;prefix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;prefix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;prefix ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;name ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;nsuri<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;nsuri<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;nsuri<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;nsuri ) = abap_false OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equals( p1 = reader_10-&gt;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = reader_xop-&gt;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = reader_binary-&gt;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = reader_json-&gt;value ) = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc = 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF reader_10-&gt;node_type &lt;&gt; if_sxml_node=&gt;co_nt_attribute.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sxml_parse_error INTO DATA(parse_error).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc = 8.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader_10 = cl_sxml_string_reader=&gt;create( xml_10 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader_xop = cl_sxml_xop_reader=&gt;create( xml_xop ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader_binary = cl_sxml_string_reader=&gt;create( xml_binary ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader_json = cl_sxml_string_reader=&gt;create( xml_json ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE XML reader_10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT XML DATA(xstr_10).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE XML reader_xop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT XML DATA(xstr_xop).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE XML reader_binary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT XML DATA(xstr_binary).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE XML reader_json<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT XML DATA(xstr_json).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF equals( p1 = xstr_10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p2 = xstr_xop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p3 = xstr_binary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p4 = xstr_json ) = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc = 16.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml = xstr_10.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD equals.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF p1 = p2 AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p1 = p4 AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p1 = p4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;equals = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;equals = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;sxml_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSXML_FORMATS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+A writer is created for each of the four <a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">formats</a>
+and used in the method <span class="qtext">fill_writer</span> to fill the string with XML data. A string writer can be created for all formats except XOP. A special XOP writer must be created for XOP. The XML complies with the
+<a href="javascript:call_link('abenabap_json_xml.html')" class="blue">JSON-XML</a> rules and contain an element with raw data
+(the UTF-8 encoding of the string <span class="qtext400">"raw"</span> with the hexadecimal value 726177).
+For each writer, the results are fetched using GET_OUTPUT and the binary content and the content of UTF-8 (default setting) represented in content converted to characters.
+</p>
+<ul class="disc">
+<li>XML 1.0</li>
+</ul>
+<dl><dd>
+The string contains the characters of the XML data in UTF-8 encoding. The raw data is represented in
+<a href="javascript:call_link('abenbase64_glosry.html')" class="grey" title="Glossary Entry">Base64</a> format, where 726177 is the same as the Base64 value <span class="qtext400">"cmF3"</span>.
+</dd></dl>
+<ul class="disc">
+<li>XOP</li>
+</ul>
+<dl><dd>
+The result of the writer is structured, where the component <span class="qtext">xop_document</span>
+contains the string and the table-like component <span class="qtext">xop_parts</span> contains the raw
+data. The content of the string is the same as in XML 1.0 format. The raw data is not represented in
+Base64 format, however, but is replaced by a reference to an external entity. The target of the reference is a table row in <span class="qtext">xop_parts</span>, where the hexadecimal value 726177 is saved directly.
+</dd></dl>
+<ul class="disc">
+<li>Binary XML</li>
+</ul>
+<dl><dd>
+The encoding of the XML data in the string uses the SAP-specific format with dedicated tokens. The hexadecimal
+value of the row data, 726177, can be found here directly. A direct conversion of UTF-8 to a character representation does not produce usable results. A file of this type can only be read by a specially designed parser.
+</dd></dl>
+<ul class="disc">
+<li>JSON</li>
+</ul>
+<dl><dd>
+The string contains the characters of the JSON data written using JSON-XML in UTF-8 encoding. The raw data is represented in Base64 format.
+</dd></dl>
+<p>
+Readers are created for the result of each writer in the method <span class="qtext">parse_outputs</span>. The readers parse the results using two different methods, which are then compared:
+</p>
+<ul class="disc">
+<li>The results are parsed in parallel loops using the method <span class="qtext">next_node</span>. The equality of the attributes of the current nodes is then checked.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> ID is called to create XML in a byte string from each result. The equality of this data is then checked.</li>
+</ul>
+<p>
+The results demonstrate that the readers produce identical results for the four formats. Of special
+note is the fact that only the XOP reader has a special class, CL_SXML_XOP_READER, and the other readers all have the class CL_SXML_STRING_READER and can detect the format themselves.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensxml_formats_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:39 GMT -->
+</html>

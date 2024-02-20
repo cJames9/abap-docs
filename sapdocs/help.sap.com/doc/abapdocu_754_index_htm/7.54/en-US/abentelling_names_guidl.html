@@ -1,0 +1,346 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTELLING_NAMES_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentelling_names_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Descriptive Names">
+<title>
+Descriptive Names - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentelling_names_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentelling_names_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennaming_guidl.html')" class="blue">Naming</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Descriptive Names
+</span></p>
+<A name="@@ITOC@@ABENTELLING_NAMES_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+A name can include technical and semantic information:
+</p>
+<ul class="disc">
+<li>Technical information can be very versatile. Examples of options in a data object: data type, declaration context, whether a procedure parameter is passed by value or by reference.</li>
+</ul>
+<ul class="disc">
+<li>The semantic information indicates the purpose of classes or data types, the content of data objects, how methods work, and so on.</li>
+</ul>
+<p>
+The technical information about a repository object or internal program entity can be viewed directly
+in ABAP Workbench. This information is also displayed in tooltips or can be displayed with a simple
+double-click. However, in contrast to purely technical type information, the semantics of a variable are more difficult to identify without the relevant information in the name.
+</p>
+<A name="@@ITOC@@ABENTELLING_NAMES_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use descriptive names</span>
+</p>
+<p>
+Always choose names that include the semantic information required for your context and that also easy to understand.
+</p>
+<A name="@@ITOC@@ABENTELLING_NAMES_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The aim is to assign descriptive and self-documenting names. You should always follow a problem-oriented
+approach instead of an implementation-oriented approach. For example, a truth value should not be named
+<span class="qtext">flag</span>. Instead it should have a name that indicates its meaning, such as <span class="qtext">is_checked</span>.
+</p>
+<p>
+When you select a descriptive, problem-oriented name, you should consider the following aspects in particular:
+</p>
+<ul class="disc">
+<li>Appropriate use of nouns, verbs, and adjectives</li>
+</ul>
+<ul class="disc">
+<li>Meaningful use of abbreviations</li>
+</ul>
+<ul class="disc">
+<li>Appropriate separation of name components</li>
+</ul>
+<p>
+These points are discussed in detail in the following sections. The purely technical information for
+a named object can be displayed quickly and easily, using double-click navigation in ABAP Workbench. Therefore, this information can be omitted from names and semantic information can be used in names instead.
+</p>
+<p>
+Any organizations (within SAP or external) that want to specify technical information in addition to
+semantic information in names, can define their own naming conventions that are based on our semantic
+rules. However, we believe that encoding technical attributes in names is not suitable for making ABAP
+programs (developed according to the present guidelines) easier to understand and maintain. This may be different in the context of other programming languages with fewer types and less powerful development environments.
+</p>
+<p>
+The use of nouns, verbs, and adjectives for naming depends on the entity that you want to name:
+</p>
+<ul class="disc">
+<li><span class="bold">Packages and package interfaces</span> <br>A package comprises a collection of
+repository objects for a specific subject area. The package name can either consist of one or more singular
+nouns that describe the subject area (such as <span class="qtext">sabp_compiler</span>), or one or more
+plural nouns that indicate the contained objects (such as <span class="qtext">sabp_analyze_tools</span>).
+Subpackages start with the name of the super package and contain suffixes that indicate the specialization.
+The name of a package interface starts with the name of the package. Information about visibility or
+restrictions to certain consumers are attached as an optional suffix. For example, <span class="qtext">_public</span>,
+stands for public interface and <span class="qtext">_verification</span> stands for interface to verification tools.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Data types, classes, and interfaces</span> <br>They denote categories of things
+and are therefore named using nouns, for example, <span class="qtext">cl_abap_conv_codepage</span>.
+The greater the degree of specialization, the greater the number of nouns required for description.
+This can result in longer, combined names, for instance, <span class="qtext">if_abap_string_writer</span>
+or <span class="qtext">cl_abap_xml_name_converter</span>. If necessary, the name can be further specified
+with an additional adjective, as in <span class="qtext">if_serializable_object</span> and <span class="qtext">cl_abap_weak_reference</span>.
+The name of a category is usually written in the singular form. Therefore, a class name should generally
+consist of singular nouns. However, there are many examples of deviations from this rule, such as <span class="qtext">
+cl_abap_ memory_utilities</span>. These classes often do not model a category but instead provide a hodgepodge of loosely related functions, usually in the form of exclusively static methods.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Associations</span> <br>An association refers to a semantic relationship between
+a start object and a target object. To make sure this relationship is unambiguous when an association
+is used in a path, you should prefix the association with the _ character. This should be followed by a name that contains the name of the target object (in the case of non-reflexive associations).</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Variable data objects and procedure parameters</span> <br>These describe attributes
+and are therefore named with a noun, for instance, <span class="qtext">cl_abap_regex->pattern</span>.
+Truth values are labeled using the <span class="qtext">is_</span> prefix, which is consistent with natural
+language usage. If the attribute in question is a quantity (in ABAP, usually an internal table), this
+should be expressed using the plural form, for example in the interface parameter <span class="qtext">matches</span> of the method <span class="qtext">cl_abap_matcher->find_all</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Constants</span> <br>From a technical point of view, these are data objects with
+non-modifiable values at program runtime. They describe special, non-modifiable attributes. Values of
+constants are described with nouns. They are distinguished by a specific attribute (such as minimum size, start value) expressed by one or more additional adjectives. Some examples are <span
+ class="qtext">cl_abap_exceptional_values=>decfloat34_max</span> and <span class="qtext">cl_abap_format=>o_sign_as_postfix</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Events</span> <br>They are named using an expression in present perfect that
+describes their occurrence, for example, <span class="qtext">cl_dd_form_element->button_clicked</span> and <span class="qtext">cl_gui_alv_ tree->selection_changed</span>. In this example, the noun is abbreviated significantly
+(<span class="qtext">o</span> for <span class="qtext">output</span> format). More information about useful abbreviations can be found below.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Procedures</span> <br>New procedures are methods according to the
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">use ABAP objects</a> rule. Here, we distinguish between different cases:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="italic">Event handlers</span> are named after the corresponding event. They are assigned
+a prefix that identifies them as handler methods. In ABAP, the <span class="qtext">on_</span> prefix
+has established itself. This is consistent with natural language use and clearly labels a method as
+an event handler. For the two event examples above, the names of the corresponding handler methods would be <span class="qtext">on_ button_clicked</span> and <span class="qtext">on_selection_changed</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>The name of methods with a return value (functional methods) describes the returned result. The <span class="qtext">get_</span> prefix is added to describe the task of the method. An example of this is the <span
+ class="qtext">cl_abap_exceptional_values=>get_max_value</span> method. If the method returns a truth
+value, <span class="qtext">is_</span> is used as a prefix instead of <span class="qtext">get_</span>.
+In ABAP, these <span class="qtext">get_</span> methods are intended to identify the return value (by
+using a calculation, for example). Unlike in Java, for example, no own methods should be used to simply
+return attribute values. Instead you should use the <a href="javascript:call_link('abenencapsulation_guidl.html')" class="lnkpurple" title="Guideline">write-protected (<span class="qtext">READ-ONLY</span>) attributes</a> provided in ABAP.</li>
+</ul>
+<ul class="circlem2">
+<li>In all other cases, the name of a method describes an activity to be performed. Therefore, the method name is a verb, generally expressed in the imperative. Examples: <span class="qtext">cl_abap_regex->create_ matcher</span> and <span
+ class="qtext">cl_abap_memory_utilities=>do_garbage_collection</span>. Methods used to set attributes are described using the relevant attribute, which is prefixed with <span class="qtext">set_</span>. Other procedures
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">function modules and subroutines</a>) required to wrap method calls are named accordingly.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Exception</span> <br>Exceptions describe unexpected states. Technically they are classes.
+<a href="javascript:call_link('abenclass_exception_guidl.html')" class="lnkpurple" title="Guideline">Classic exceptions</a> should
+no longer be used. Except for the prefix, the same considerations apply here. To distinguish exceptions from normal classes, they are assigned their
+<a href="javascript:call_link('abennames_repos_obj_guidl.html')" class="lnkpurple" title="Guideline">own prefix</a> <span class="qtext">cx_</span>,
+provided that they are global exception classes. The name of an exception reflects the rejected state
+as clearly as possible, for instance, <span class="qtext">cx_sy_offset_not_allowed</span>. If an entire
+hierarchy of exception classes exists, the names of the superclasses do not describe special exception
+situations. Instead they describe error categories (such as <span class="qtext">cx_ sy_data_access_error</span> in this example).</li>
+</ul>
+<p>
+You should avoid using abbreviations as name components wherever possible. Exceptions to this rule are
+abbreviations that are usually used instead of the complete term, such as GUI or XML. However, if the use of certain abbreviations cannot be avoided due to restricted space, you should initially use common abbreviations.
+</p>
+<p>
+If no common abbreviation exists, you should proceed as follows: Vowels are omitted, unless they are
+the first letter of the word. They are of minor significance for the recognition value. If a word starts
+with a double vowel, both letters are kept for ease of recognition (for example, <span class="qtext">outbnd</span>
+as the abbreviation for <span class="qtext">outbound</span> instead of <span class="qtext">otbnd</span>).
+If further abbreviations are required, you can replace double consonants with single consonants. Even after this step, the word is generally still recognizable.
+</p>
+<p>
+An example of a poorly chosen abbreviation would be <span class="qtext">tstmp</span> for <span class="qtext">timestamp</span>.
+This abbreviation does not follow the above rules and is not intuitive. Readers would probably initially
+think of the possible components <span class="qtext">tst</span> or <span class="qtext">tmp</span>, which
+would remind them of <span class="qtext">test</span> or <span class="qtext">temporary</span>. However,
+an association with <span class="qtext">timestamp</span> is initially very difficult to identify. Therefore,
+if you create abbreviations, you must ensure that the result is not similar to another, possibly more common abbreviation for a completely different term.
+</p>
+<p>
+When you create abbreviations in a foreign language, you run the risk that the result represents a word
+or abbreviation with a completely different meaning. If in doubt, you should enter the abbreviation
+in a search engine to check it. For example, you only have four characters available and you want to
+use the word <span class="qtext">button</span>. In this case, you should select the abbreviation <span class="qtext">bttn</span> (following the abbreviation rules above), instead of the first four characters.
+</p>
+<p>
+As a rule, name components should be visually separated using underscores in ABAP. This makes the names easier to read. Separating name components with uppercase and lowercase (common in languages with C-like syntax) is
+<a href="javascript:call_link('abenlower_upper_case_guidl.html')" class="lnkpurple" title="Guideline">not useful</a> in ABAP.
+Underscores normally identify a name, because ABAP words are usually not formed this way. The only exceptions
+here are certain format options for character string templates (such as <span class="qtext">SCIENTIFIC_
+WITH_LEADING_ZERO</span>), which can only occur within character string expressions, and certain additions of <span class="qtext">SELECTION-SCREEN</span> and <span class="qtext">WRITE</span>.
+</p>
+<p>
+You should not use digits as name components. They are often a sign of poorly selected names (because
+they are not very descriptive) or indicate the use of multiple individual variables, where the use of
+an internal table would make more sense. Exceptions include the interface parameters of procedures. Numbering similar parameters definitely makes sense here.
+</p>
+<p>
+The use of digits to form phonetic names is also problematic because they require a degree of familiarization,
+and their meaning is not always obvious to everyone. A particularly bad use of digits is the abbreviation
+<span class="qtext">trmn8r</span> for <span class="qtext">terminator</span>. The commonly used <span class="qtext">
+2</span> for <span class="qtext">to</span> is the only justifiable exception here. This is often found as a name component in conversion procedures and can be interpreted easily
+(<span class="qtext">convert_itf_2_html</span>, for example).
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>You must always keep in mind that the information included in a name must remain valid. This applies
+to semantic information, but especially to technical information. If, for example, technical information
+included in a name changes due to a refactoring measure, all relevant names and their consumers must
+be modified. However, this is not an easy task in released interfaces. If in doubt, remember that names
+containing incorrect information are worse than names that do not provide any information at all. This
+is why programming guidelines exist that suggest only using nondescript names. Since semantic attributes
+are less likely to change in the course of (further) development than technical attributes, our predominantly semantic specifications for naming are relatively well safeguarded from program changes.</li>
+</ul>
+<ul class="disc">
+<li>Less is often more. Our suggestions indicate how to compose names to include the information that
+is necessary in a context. They should only be used when the meaning of the name is not completely obvious from the context. For example:</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD do_something. <br>&nbsp;&nbsp;CONSTANTS lcv_maximum_do_loop_count TYPE i VALUE 100. <br>
+&nbsp;&nbsp;DO lcv_maximum_do_loop_count TIMES. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDDO. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+The long name <span class="qtext">lcv_maximum_do_loop_count</span> is quite difficult to read. A method can only include a manageable
+<a href="javascript:call_link('abenproc_volume_guidl.html')" class="lnkpurple" title="Guideline">number of statements</a>. Therefore, you can select a very simple name in simple cases:
+</dd></dl>
+<dl><dd>
+<span class="qtext">METHOD do_something. <br>&nbsp;&nbsp;CONSTANTS nmax TYPE i VALUE 100. <br>&nbsp;&nbsp;DO nmax TIMES. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDDO. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+A further example of where short names are useful is helper fields declared in <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span> expressions</a>.
+</dd></dl>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the declaration of a class that executes arithmetic calculations. This should be understood as a synthetic naming example. Of course, in ABAP, it makes absolutely no sense to
+<a href="javascript:call_link('abenmodularization_guidl.html')" class="lnkpurple" title="Guideline">wrap</a> the arithmetic operations
+on elementary numeric data types using a class. The names of the class and its methods are unnecessarily short, and the names of the method parameters have no semantic meaning at all.
+</p>
+<dl><dd>
+<span class="qtext">CLASS calcltr DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: add IMPORTING a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(c) TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sub IMPORTING a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(c) TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mul IMPORTING a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(c) TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; div IMPORTING a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(c) TYPE f. <br>ENDCLASS.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows the same class as in the code above, but the names of the class and its methods are now spelled in full, and the names of the method parameters indicate their semantic meaning.
+</p>
+<dl><dd>
+<span class="qtext">CLASS calculator DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: add IMPORTING addend1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addend2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(sum)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subtract IMPORTING minuend&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; subtrahend&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(difference) TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;multiply IMPORTING factor1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; factor2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(product)&nbsp;&nbsp;&nbsp;&nbsp;TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;divide IMPORTING dividend&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; divisor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(quotient)&nbsp;&nbsp; TYPE f. <br>ENDCLASS.</span>
+</dd></dl>
+<p>
+The addition and multiplication operands are commutative, which means you can use digits here to distinguish them.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentelling_names_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

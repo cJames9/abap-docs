@@ -1,0 +1,263 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHANDLER_METHOD_READ -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhandler_method_read.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FOR READ">
+<title>
+FOR READ - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhandler_method_read.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhandler_method_read.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_implementations.html')" class="blue">Behavior Implementations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">Handler Class</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@FOR READ@@!ABAP_REST_BEHAVIOR!@@"></A>
+<A NAME="@@FULL@@!ABAP_REST_READ!@@"></A>
+<A NAME="@@LINK@@!ABAP_REST_READ!@@"></A>
+<A NAME="@@RESULT@@!ABAP_REST_READ!@@"></A>
+<p><span class="h1">
+FOR READ
+</span></p>
+<A name="@@ITOC@@ABENHANDLER_METHOD_READ_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">METHODS method_name FOR READ <br>&nbsp;&nbsp;<i class=bn>[</i>IMPORTING<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp; read_import_parameter&nbsp;&nbsp; FOR READ entity_name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>RESULT read_export_parameter<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp; read_import_param_assoc FOR READ entity_name\_assoc <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FULL&nbsp;&nbsp; read_export_param_full <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT read_export_param_assoc <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LINK&nbsp;&nbsp; read_export_param_link <br>
+&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;<i class=bn>[</i>image TYPE if_abap_behv=>t_image<i class=bn>]</i> <br>
+&nbsp;&nbsp;... <br>&nbsp;&nbsp;<i class=bn>[</i>CHANGING failed&nbsp;&nbsp; TYPE DATA <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported TYPE DATA<i class=bn>]</i>.</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The <span class="qtext400">READ</span> method implements the handler that processes read requests for
+the entities in the context of the ABAP RESTful programming model. The method is used to return data from the application buffer. If the buffer is empty, the data must be read from the database.
+</p>
+<p>
+The <span class="qtext400">READ</span> method can be called to support handling of an <a href="javascript:call_link('abenentity_tag_glosry.html')" class="grey" title="Glossary Entry">
+<span class="qtext400">ETag</span></a>. A change operation (such as <span class="qtext400">update</span>)
+is triggered by the if match condition. First the <a href="javascript:call_link('abenhandler_method_lock.html')" class="blue"><span class="qtext400">
+LOCK</span></a> method is called. If the <span class="qtext400">LOCK</span> method was successful, the
+<span class="qtext400">READ</span> method is triggered to request the current <span class="qtext400">ETag</span>
+value. The structure <a href="javascript:call_link('abencomponents_derived_types.html')" class="blue"><span class="qtext400">%CONTROL</span></a>
+requests the ID fields and the <span class="qtext400">ETag</span> attributes. The data is then checked using the if match condition. If the check is passed, the change method is called.
+</p>
+<p>
+Like <a href="javascript:call_link('abenhandler_method_modify.html')" class="blue"><span class="qtext400">MODIFY</span></a> methods,
+the <span class="qtext400">READ</span>method is mass-enabled and bundle-enabled. This means that it
+can handle mass requests and implement multiple operations. Multiple operations in a <span class="qtext400">READ</span> method, however, are not permitted.
+</p>
+<p>
+The method name <span class="qtext400">method_name</span> is arbitrary. Using this generalization, it is possible to accommodate multiple <span class="qtext400">READ</span> methods in a single
+<a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">handler class</a>. This enables the
+<a href="javascript:call_link('abenbehavior_implement_glosry.html')" class="grey" title="Glossary Entry">behavior implementation</a> of a
+<a href="javascript:call_link('abenbusiness_object_glosry.html')" class="grey" title="Glossary Entry">business object</a> without introducing a corresponding number of handler classes.
+</p>
+<p>
+<span class="qtext400">entity_name</span> refers to the name of the entity or the
+<a href="javascript:call_link('abenbdl_alias.html')" class="blue">alias</a>, if one is defined in the <a href="javascript:call_link('abenbehavior_definition_glosry.html')" class="grey" title="Glossary Entry">behavior definition</a>.
+</p>
+<p>
+Just like the direct operation <span class="qtext400">read</span>, the operation read-by-association
+uses a table with instance keys of the source entity as input parameter <span class="qtext400">read_import_param_assoc</span>. The output is as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext400">FULL</span> <br>Boolean parameter indicating whether the consumer is making a query based only on the links or whether full results are queried.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">RESULT</span> <br>A table with the full row type of the target entity.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">LINK</span> <br>A table in which source keys and target keys are set in relationship with each other.</li>
+</ul>
+<p>
+<span class="bold">Input Parameters</span>
+</p>
+<p>
+The name of the input parameter (for example, <span class="qtext400">read_import_parameter</span>) can be specified freely.
+</p>
+<p>
+The row structure of the input parameter contains the following <a href="javascript:call_link('abencomponents_derived_types.html')" class="blue">components</a>:
+</p>
+<ul class="disc">
+<li><span class="qtext400">%PID</span></li>
+</ul>
+<ul class="disc">
+<li>ID fields</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">%CONTROL</span>.</li>
+</ul>
+<p>
+Furthermore, the implicit input parameter <span class="qtext400">image</span> can be declared explicitly as an optional parameter:
+</p>
+<p>
+<span class="qtext400">&nbsp;&nbsp;<i class=bn>[</i>IMPORTING<i class=bn>]</i> image TYPE if_abap_behv=>t_image</span>
+</p>
+<p>
+The values of the parameter <span class="qtext400">image</span> are as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext400">transactional</span> <br>This is the parameter's default value. The state of the entities is queried from the transactional buffer.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">before</span> <br>The state of the entities is queried from the database.</li>
+</ul>
+<p>
+<span class="bold">Output Parameters</span>
+</p>
+<p>
+The name of the output parameter (for example, <span class="qtext400">read_export_parameter</span>) can be specified freely.
+</p>
+<p>
+The output parameter <span class="qtext400">read_export_parameter</span>, which can be declared explicitly, has the successfully read data as its output. Its row structure contains the following components:
+</p>
+<ul class="disc">
+<li><span class="qtext400">%PID</span></li>
+</ul>
+<ul class="disc">
+<li>All fields of the entity.</li>
+</ul>
+<p>
+The output parameters <span class="qtext400">failed</span> and <span class="qtext400">reported</span>
+for errors or messages are added implicitly (automatically). They can, however, be declared explicitly
+as <a href="javascript:call_link('abenchanging_type_data.html')" class="blue"><span class="qtext400">CHANGING</span></a> parameters in the method signature using the generic type <span class="qtext400">DATA</span>:
+</p>
+<dl><dd>
+<span class="qtext400">CHANGING failed&nbsp;&nbsp; TYPE DATA <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reported TYPE DATA</span>
+</dd></dl>
+<p>
+The parameters <span class="qtext400">failed</span> and <span class="qtext400">reported</span> don&#x2019;t have fixed data types and are assigned with
+<a href="javascript:call_link('abenrpm_derived_types.html')" class="blue">derived types</a> from the behavior definition instead.
+The parameter <span class="qtext400">mapped</span> is part of the method signature, but it is not used in the method.
+</p>
+<p><span class="h4">
+Tip
+</span></p>
+<p>
+The control structure <span class="qtext400">%CONTROL</span> shows which elements are requested by the consumer. It may, however, be a good idea to return all elements and not just the requested elements.
+</p>
+<p><span class="h4">
+Remarks
+</span></p>
+<ul class="disc">
+<li>The old syntax <span class="qtext400">METHODS read FOR BEHAVIOR ...</span> is also valid but is not recommended.</li>
+</ul>
+<ul class="disc">
+<li>The keyword <span class="qtext400">IMPORTING</span> is not mandatory and can be specified in front of the input parameter.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following example, the data from the ABAP flight data reference scenario (or flight data scenario
+for short) is used. It represents a legacy business logic that can be used to create and edit flight
+bookings. The root entity <span class="qtext400">Travel</span> represents the business object for managing flight trips. The underlying data model and the behavior of the root entity <span class="qtext400">Travel</span> are described in
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>.
+</p>
+<p>
+The following example shows the definition and the implementation of the <span class="qtext400">READ</span>
+method <span class="qtext400">read_travel</span> for processing read requests for the entity <span class="qtext400">Travel</span>. The implementation of the method includes
+</p>
+<ul class="disc">
+<li>a loop for all instances of the entity <span class="qtext400">Travel</span> to be read,</li>
+</ul>
+<ul class="disc">
+<li>calling the function module of the legacy business logic <span class="qtext400">/DMO/FLIGHT_TRAVEL_READ</span> for reading <span class="qtext400">Travel</span> instances, and</li>
+</ul>
+<ul class="disc">
+<li>message handling for processing instance-specific messages if an error occurs. For the sake of readability,
+the methods for handling the messages are implemented in the separate class <span class="qtext400">zcl_messages</span>. The class <span class="qtext400">zcl_messages</span> is described in
+<a href="javascript:call_link('abenrpm_handling_messages.html')" class="blue">Example - Handling of Messages</a>.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">CLASS lcl_travel_handler DEFINITION <br>&nbsp;&nbsp;&nbsp;&nbsp;INHERITING FROM cl_abap_behavior_handler. <br>
+ <br>&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS read_travel FOR READ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_travel_read FOR READ travel <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT et_travel. <br> <br>ENDCLASS.</span> <br><br>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">CLASS lcl_travel_handler IMPLEMENTATION. <br> <br>&nbsp;&nbsp;METHOD read_travel. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: lt_messages&nbsp;&nbsp; TYPE /dmo/if_flight_legacy=>tt_message, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_travel_out TYPE /dmo/travel. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT it_travel_read INTO DATA(ls_travel_read). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION '/DMO/FLIGHT_TRAVEL_READ' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = ls_travel_read-travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;es_travel&nbsp;&nbsp;&nbsp;&nbsp;= ls_travel_out <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_messages&nbsp;&nbsp;= lt_messages. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF lt_messages IS NOT INITIAL. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zcl_messages=>handle_messages( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id = ls_travel_read-travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_messages&nbsp;&nbsp;= lt_messages <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = failed-travel <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported&nbsp;&nbsp;&nbsp;&nbsp; = reported-travel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTINUE. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT CORRESPONDING #( ls_travel_out ) INTO TABLE et_travel. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDMETHOD. <br> <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhandler_method_read.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:50 GMT -->
+</html>

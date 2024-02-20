@@ -1,0 +1,231 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENADBC_DML_DDL_BULK_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadbc_dml_ddl_bulk_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADBC, Bulk Access">
+<title>
+ADBC, Bulk Access - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenadbc_dml_ddl_bulk_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenadbc_dml_ddl_bulk_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennative_sql.html')" class="blue">Native SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC - ABAP Database Connectivity</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenadbc_abexas.html')" class="blue">ADBC Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ADBC, Bulk Access
+</span></p>
+<p>
+This example demonstrates bulk access in ADBC.
+</p>
+<A name="@@ITOC@@ABENADBC_DML_DDL_BULK_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_adbc_ddl_dml_bulk_access.<br>
+<br>
+PARAMETERS&nbsp;&nbsp;p_name TYPE c LENGTH 10 DEFAULT 'mytab'.<br>
+SELECTION-SCREEN SKIP.<br>
+PARAMETERS: p_create RADIOBUTTON GROUP grp,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_insert RADIOBUTTON GROUP grp,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_delete RADIOBUTTON GROUP grp,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_select RADIOBUTTON GROUP grp,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_drop&nbsp;&nbsp; RADIOBUTTON GROUP grp.<br>
+SELECTION-SCREEN SKIP.<br>
+PARAMETERS&nbsp;&nbsp;p_key TYPE i DEFAULT 10.<br>
+<br>
+CLASS adbc DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA: dbname TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF wa,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE c LENGTH 10,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE c LENGTH 10,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF wa,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab LIKE TABLE OF wa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: create RAISING cx_sql_exception,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; insert RETURNING VALUE(rc) TYPE i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_sql_exception,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delete RETURNING VALUE(rc) TYPE i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_sql_exception,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; select RETURNING VALUE(rc) TYPE i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_sql_exception,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; drop&nbsp;&nbsp; RAISING cx_sql_exception.<br>
+ENDCLASS.<br>
+<br>
+CLASS adbc IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF cl_abap_demo_services=&gt;is_production_system( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;&nbsp;'This demo cannot be executed in a production system'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dbname = 'ABAP_DOCU_DEMO_' &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=&gt;check_variable_name( p_name ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_invalid_name INTO DATA(exc1).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE exc1 TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF p_create = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Create was successful' TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF p_insert = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(rci) = insert( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE rci &amp;&amp; ' lines inserted' TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF p_delete = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(rcd) = delete( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE rcd &amp;&amp; ' lines deleted' TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF p_select = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(rcs) = select( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE rcs &amp;&amp; ' lines selected' TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF p_drop&nbsp;&nbsp; = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drop( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Drop was successful' TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sql_exception INTO DATA(exc2).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE exc2 TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD create.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_sql_statement( )-&gt;execute_ddl(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CREATE TABLE ` &amp;&amp; dbname&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`( val1 char(10) NOT NULL,` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&nbsp;&nbsp;val2 char(10) NOT NULL,` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&nbsp;&nbsp;PRIMARY KEY (val1) )` ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD insert.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(sql) = NEW cl_sql_statement( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;set_param_table( REF #( itab ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO 50 TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa-col1 = sy-index.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa-col2 = ipow( base = sy-index exp = 2 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND wa TO itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = sql-&gt;execute_update(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `INSERT INTO ` &amp;&amp; dbname &amp;&amp; ` VALUES (?,?)` ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD delete.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA itab LIKE TABLE OF wa-col1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(sql) = NEW cl_sql_statement( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;set_param_table( REF #( itab ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO 10 TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND sy-index + p_key - 1 TO itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = sql-&gt;execute_update(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `DELETE FROM ` &amp;&amp; dbname &amp;&amp; ` WHERE val1 = ?`&nbsp;&nbsp;).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD select.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(sql) = NEW cl_sql_statement( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(result) = sql-&gt;execute_query(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`SELECT val1, val2 ` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`FROM ` &amp;&amp; dbname&nbsp;&nbsp;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result-&gt;set_param_table( itab_ref = REF #( itab ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = result-&gt;next_package( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF rc &gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_demo_services=&gt;list_table( itab ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result-&gt;close( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD drop.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_sql_statement( )-&gt;execute_ddl(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; `DROP TABLE ` &amp;&amp; dbname ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;adbc=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENADBC_DML_DDL_BULK_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This program makes it possible to create and delete a database table whose name can be chosen by the
+user. Rows can be inserted in the database table, deleted again, all rows can be read, and the database table can be deleted.
+</p>
+<p>
+In all methods for DML statements, parameters are bound using an internal table.
+</p>
+<ul class="disc">
+<li><span class="qtext">insert</span> writes all rows of an internal table to the database table whose key value does not yet exist there.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">delete</span> deletes all rows of a database table whose key value occurs in an internal table.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">select</span> reads the results set of a query across all rows of the database table to an internal table.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadbc_dml_ddl_bulk_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

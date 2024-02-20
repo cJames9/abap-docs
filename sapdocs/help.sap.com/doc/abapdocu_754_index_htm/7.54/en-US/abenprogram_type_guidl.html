@@ -1,0 +1,247 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPROGRAM_TYPE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprogram_type_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Program Type">
+<title>
+Program Type - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenprogram_type_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenprogram_type_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_specific_rules_guidl.html')" class="blue">ABAP-Specific Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogr_type_features_guidl.html')" class="blue">Programm Type and Program Properties</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Program Type
+</span></p>
+<A name="@@ITOC@@ABENPROGRAM_TYPE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Every ABAP program has a program type that specifies which declarations and processing blocks a program
+can contain, and how it can be executed using the ABAP runtime environment. These are the possible program types in ABAP:
+</p>
+<ul class="disc">
+<li><span class="bold">Executable program</span> <br>An executable program can contain all possible
+declarative statements. All processing blocks are possible except for function modules. The program
+supports classic dynpros and selection screens. It can be executed  using the statement <span class="qtext">SUBMIT</span> or using transaction codes. Executable programs are created in ABAP Editor.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Class pool</span> <br>A class pool always contains declarative statements for
+a global class. It can also include declarative statements for local types, interfaces, and classes.
+Only methods can be used as processing blocks. The pool does not support classic dynpros or selection
+screens. Global class methods can be called externally (depending on visibility) and public methods of the global class can be executed using transaction codes. Class pools are created using Class Builder.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Interface pool</span> <br>An interface pool can only contain the declarative
+statements for a global interface. Processing blocks, classic dynpros, and selection screens are not possible. Interface pools cannot be called or executed and are created using Class Builder.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Function group (function pool)</span> <br>A function group can contain all types
+of declarative statements. All processing blocks are supported except for the reporting event blocks.
+Classic dynpros and selection screens are supported. The associated function modules can be called,
+but it is also possible to access dynpro processing of the function group by using transaction codes. Function groups using Function Builder.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Module pool</span> <br>A module pool can contain all possible declarative statements.
+All processing blocks are supported except for reporting event blocks and function modules. The module
+pool supports classic dynpros and selection screens. It can be executed using transaction codes. Module pools are created using ABAP Editor.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Subroutine pool</span> <br>A subroutine pool can contain all possible declarative
+statements. The <span class="qtext">LOAD-OF-PROGRAM</span> event block, subroutines and methods can
+be used as processing blocks. The pool does not support classic dynpros or selection screens. The subroutines
+can be called, but it is also possible to execute methods using transaction codes. Subroutine pools are created using ABAP Editor.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Type group (type pool)</span> <br>A type group can contain the declarative statements,
+<span class="qtext">TYPES</span> and <span class="qtext">CONSTANTS</span>. Processing blocks, classic
+dynpros, and selection screens are not possible. Type groups cannot be called or executed. Type groups are created using ABAP Dictionary.</li>
+</ul>
+<p>
+In addition to these compilation units (programs that can be compiled independently), <span class="italic">include programs</span> can also be used for
+<a href="javascript:call_link('abensource_code_orga_guidl.html')" class="lnkpurple" title="Guideline">source code organization</a>.
+</p>
+<p>
+In ABAP, a program execution means that the system loads a program into the memory and executes one or more of its processing blocks. A distinction is made between standalone and called program execution:
+</p>
+<ul class="disc">
+<li><span class="bold">Standalone program execution</span> <br>When programs are executed as standalone
+programs, the program is started using a transaction code (statements <span class="qtext">CALL TRANSACTION</span>
+and <span class="qtext">LEAVE TO TRANSACTION</span>) or using the statement <span class="qtext">SUBMIT</span>
+for an executable program. The statement <span class="qtext">SUBMIT</span> also allows execution in a background process.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Called program execution</span> <br>In called program executions, a running program calls a procedure (method, function module, or subroutine) of another program. If necessary, this other program is loaded into the
+<a href="javascript:call_link('abenintern_extern_proc_call_guidl.html')" class="lnkpurple" title="Guideline">internal session of the calling program</a>.</li>
+</ul>
+<ul class="disc">
+<li>The program flow for standalone program execution depends on the selected program type and the type of program call:</li>
+</ul>
+<ul class="disc">
+<li>If the program is called using a transaction, a distinction is made between <span class="italic">object-oriented</span>
+(<span class="italic">OO) transactions</span> and <span class="italic">dialog transactions</span>. For
+object-oriented transactions, the transaction code is linked to a method of a local or global class.
+This method defines the program flow. Dialog transactions, however, are associated with a classic dynpro of the program. In this case, the program flow is defined by the associated dynpro flow logic.</li>
+</ul>
+<ul class="disc">
+<li>The program flow of an executable program that was started using <span class="qtext">SUBMIT</span> is defined by the reporting process of the ABAP runtime environment. The runtime environment calls the different reporting event blocks
+(<span class="qtext">START-OFSELECTION, GET</span> and <span class="qtext">END-OF-SELECTION</span>) of the program.</li>
+</ul>
+<ul class="disc">
+<li>The program type must be selected based on the technical program attributes described here and the requirements for program execution. Not all the program types mention here are appropriate for new developments.</li>
+</ul>
+<A name="@@ITOC@@ABENPROGRAM_TYPE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Select the appropriate program type</span>
+</p>
+<p>
+To select the program type, proceed as follows:
+</p>
+<ul class="disc">
+<li>The program type "class pool" or "interface pool" is automatically set for global classes and interfaces.</li>
+</ul>
+<ul class="disc">
+<li>To implement completed functions that are to be displayed in the class library, use the program type "subroutine pool" can be used for local classes.</li>
+</ul>
+<ul class="disc">
+<li>If required, the program type "function group" is set automatically for function modules. In addition, function groups must be used to wrap classic dynpros or selection screens.</li>
+</ul>
+<ul class="disc">
+<li>If the programs needs to be executed within the scope of background processing, the executable program type is automatically set.</li>
+</ul>
+<ul class="disc">
+<li>New module pools or type groups should no longer be created.</li>
+</ul>
+<A name="@@ITOC@@ABENPROGRAM_TYPE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The above hierarchy for selecting the program type is derived from the basic
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">rule</a> described, which defines the use of ABAP Objects. The following list describes specific aspects in detail:
+</p>
+<ul class="disc">
+<li>If ABAP Objects functions need to be provided across the whole package or system, this is done using
+global classes or interfaces that have the program type "class pool" or "interface pool" implicitly. The call is performed using a method call or an OO transaction (if a standalone program execution is required).</li>
+</ul>
+<ul class="disc">
+<li>The "subroutine pool" program type can be used to implement completed functions called using a transaction
+code (not using a method call), and which do not require passed parameters and do not have a user interface.
+Only local classes are used for implementation. The program is called using an OO transaction. Subroutine
+pools - as the name suggests - were originally intended for subroutines that were called from other
+programs. Subroutines (and calling subroutines externally in particular) are declared as obsolete, according
+to the existing programming guidelines. Subroutine pools no longer have this purpose. Instead, subroutine
+pools are suggested as independent containers for local classes. This is because they are otherwise barely affected by implicit processes of the ABAP runtime environment.</li>
+</ul>
+<ul class="disc">
+<li>Remote-enabled function modules (RFM) (which provide functions using the RFC interface across servers
+or across systems or are used for parallelization) can only be created in a function group. The implementation of the actual functions, however, is carried out in a class, for example in a local class within the
+<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">function group</a>.</li>
+</ul>
+<ul class="disc">
+<li>The same applies to update function modules (which are called for the update using <span class="qtext">CALL FUNCTION IN UPDATE TASK</span>) as to RFMs.</li>
+</ul>
+<ul class="disc">
+<li>Programs with a <a href="javascript:call_link('abenencap_class_interf_guidl.html')" class="lnkpurple" title="Guideline">classic
+dynpro interface or selection screens</a> (if still required) should also be created as a function group. The function group only implements the UI but does not contain its own application logic (based on the
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">SoC principle</a>).
+This program type is suitable because it can contain both classic dynpros and an external functional
+interface in the form of function modules. The dialog modules of the function group called by the dynpro flow logic should only contain method calls, for instance, for methods of local classes.</li>
+</ul>
+<ul class="disc">
+<li>An executable program includes multiple event blocks that are executed when the various reporting
+events occur. This form of event control is largely obsolete and should no longer be used. Executable
+programs should only be used where they are technically required, thus mainly for background processing.
+In this case, the actual implementation should also be carried out in methods, for example, methods
+of a local class within the executable program. The event block of the initial event, <span class="qtext">START-OF-SELECTION</span>, should only contain a
+<a href="javascript:call_link('abendial_mod_event_block_guidl.html')" class="lnkpurple" title="Guideline">method call</a>. No other event blocks should be included anymore.</li>
+</ul>
+<ul class="disc">
+<li>The module pool used to be the program type traditionally used for classic dialog programming with dynpros. The
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">Separation of Concerns</a>
+concept is not sufficiently supported by module pools. This is why no more new module pools should be created. Instead, any classic dynpros that are still required should be wrapped in function groups.</li>
+</ul>
+<ul class="disc">
+<li>The type group program type was initially implemented as a temporary solution. This was because
+it was not always possible to define types for internal tables in ABAP Dictionary. The same applied
+to the global storage of constants. Both gaps have now been closed. In ABAP Dictionary, any types can
+be defined. In global classes and interfaces, types and constants can be created for package-wide or system-wide use. Therefore, the "type group" program type is obsolete, and no new
+<a href="javascript:call_link('abendeclaration_dtypes_const_guidl.html')" class="lnkpurple" title="Guideline">type groups</a> should be created.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In cases where program types other than class and interface pools are still used, the check <span class="italic">Obsolete Statements (OO Context)</span> should be activated in the
+<a href="javascript:call_link('abenextended_program_check_guidl.html')" class="lnkpurple" title="Guideline">extended program
+check</a>. This enables same stringent syntax check to be implemented for program components not implemented in local classes as for within classes.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprogram_type_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

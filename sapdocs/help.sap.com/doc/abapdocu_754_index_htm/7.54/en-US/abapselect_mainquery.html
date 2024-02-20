@@ -1,0 +1,260 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPSELECT_MAINQUERY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapselect_mainquery.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - mainquery_clauses">
+<title>
+SELECT - mainquery_clauses - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapselect_mainquery.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapselect_mainquery.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselect.html')" class="blue">SELECT</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SELECT - mainquery_clauses
+</span></p>
+<A name="@@ITOC@@ABAPSELECT_MAINQUERY_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... <i class=bn>[</i><a href="javascript:call_link('abapselect_single.html')" class="blue">SINGLE <i class=bn>[</i>FOR UPDATE<i class=bn>]</i></a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>{</i> <a href="javascript:call_link('abapfrom_clause.html')" class="blue">FROM</a> source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abapfields_clause.html')" class="blue">FIELDS</a> <a href="javascript:call_link('abapselect_clause.html')" class="blue">select_clause</a> <i class=bn>}</i> <br>
+&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> <a href="javascript:call_link('abapselect_clause.html')" class="blue">select_clause</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abapfrom_clause.html')" class="blue">FROM</a> source <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><i class=bn>[</i><a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue">FOR ALL ENTRIES IN</a> itab<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abapwhere.html')" class="blue">WHERE</a> sql_cond<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapgroupby_clause.html')" class="blue">GROUP BY</a> group<i class=bn>]</i> <i class=bn>[</i>
+<a href="javascript:call_link('abaphaving_clause.html')" class="blue">HAVING</a> group_cond<i class=bn>]</i> <br>&nbsp;&nbsp;
+&nbsp;<i class=bn>[</i><a href="javascript:call_link('abaporderby_clause.html')" class="blue">ORDER BY</a> sort_key<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abenosql_db_hints.html')" class="blue">db_hints</a><i class=bn>]</i>&nbsp;&nbsp;...</span> <br><br>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Possible <a href="javascript:call_link('abenselect_clauses.html')" class="blue">clauses and additions</a> of a
+<a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">main query</a> represented by
+a standalone <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement. The clauses and additions define the results set of the <span class="qtext">SELECT</span> statement:
+</P>
+<ul class="disc">
+<li>
+Rows of the results set
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>Multirow Results Set <br> <br>If <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">SINGLE</span></a> is not specified, and if
+<a href="javascript:call_link('abenaggregate_expression_glosry.html')" class="grey" title="Glossary Entry">aggregate expressions</a>
+are not exclusively specified in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> of the <span class="qtext">SELECT</span> clause <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">
+select_clause</span></a>, the results set is multirow or tabular by default. All database rows that
+are selected by the remaining additions of the <span class="qtext">SELECT</span> statement are included
+in the results set. If the addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER
+BY</span></a> is not used, the order of the rows in the results set is not defined and, if the same
+statement <span class="qtext">SELECT</span> is executed multiple times, the order may be different each
+time. A data object specified after <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a>
+can be an internal table and the addition <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">APPENDING</span></a>
+can be used. If no internal table is specified after <span class="qtext">INTO</span> or <span class="qtext">APPENDING</span>,
+the statement <span class="qtext">SELECT</span> in multirow results sets triggers a loop that must be closed using <span class="qtext">ENDSELECT</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Single Row Results Set <br> <br>The optional addition <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">
+SINGLE</span></a> defines a single-row results set that can be protected against parallel changes by
+another program. When using <span class="qtext">SINGLE</span>, it is not possible to specify an internal
+table as target object, and the addition <span class="qtext">SINGLE</span> cannot be combined with all additions of the <span class="qtext">SELECT</span> statement.</li>
+</ul>
+<ul class="disc">
+<li>
+Columns of the Results Set
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The <span class="qtext">SELECT</span> clause <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">select_clause</span></a>
+defines the structure of the results set. It consists mainly of a <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">
+SELECT</span> list</a> that defines the columns of the results set. Duplicate rows can be excluded (this is optional).
+</dd>
+</dl>
+<ul class="disc">
+<li>
+Data Sources
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a> clause specifies which
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data sources</a> <span class="qtext">source</span> are read. These can either be data sources in the database accessed by the current query or they can be
+<a href="javascript:call_link('abapselect_itab.html')" class="blue">internal tables</a>. Data sources in the database must be defined in ABAP Dictionary.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+Conditions
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The results set can be restricted using the <a href="javascript:call_link('abapwhere.html')" class="blue"><span class="qtext">WHERE</span></a>
+clause. The optional addition <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR
+ALL ENTRIES</span></a> can be used to compare the content of a column in the database with a component with all rows of a structured internal table <span class="qtext">itab</span>.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+Grouping
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a> clause merges
+multiple database rows into one row of the results set. The <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a> clause restricts the merged rows.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+Database Notes
+<br></li>
+</ul>
+<dl>
+
+<dd>
+<a href="javascript:call_link('abenosql_db_hints.html')" class="blue"><span class="qtext">db_hints</span></a> can be used to specify <a href="javascript:call_link('abendatabase_hint_glosry.html')" class="grey" title="Glossary Entry">database hints</a>.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+Sorting
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> clause sorts
+the results set. If <span class="qtext">ORDER BY</span> is not specified, the order of the rows in the results set is undefined.
+</dd>
+</dl>
+<P>
+The <span class="qtext">SELECT</span> clause <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">select_clause</span></a>
+can be specified before or after the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span>
+clause</a>. After the <span class="qtext">FROM</span> clause, the <span class="qtext">SELECT</span> clause must be prefixed with the addition <span class="qtext">FIELDS</span>.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Although the <span class="qtext">WHERE</span> condition is optional, for performance reasons, it should always be specified, and the results set should not be restricted in
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>.
+<br><br></li>
+<li>
+The arrangement of the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a>
+before a <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">SELECT</span> clause</a> with
+<a href="javascript:call_link('abapfields_clause.html')" class="blue"><span class="qtext">FIELDS</span></a> supports tools such as code completion in the ABAP Editor.
+<br></li>
+</ul>
+<ul class="disc">
+<li>If a <a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a> is used to access a <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS</a> entity</a> associated with a <a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS</a> role</a> and for which <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue">
+<a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS</a> access control</a>
+is not disabled using the value <span class="qtext400">#NOT_ALLOWED</span> for the annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">@AccessControl.authorizationCheck</span></a> or using the addition <a href="javascript:call_link('abapselect_data_source.html')" class="blue">
+<span class="qtext">WITH PRIVILEGED ACCESS</span></a> in the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a> clause, only that data is read implicitly that matches the
+<a href="javascript:call_link('abenaccess_condition_glosry.html')" class="grey" title="Glossary Entry">access condition</a> defined
+in the CDS role. If data cannot be read, ABAP programs cannot distinguish whether this is due to the conditions of the <span class="qtext">SELECT</span> statement, the conditions of the CDS entity, or an associated CDS role. If the
+<a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database view</a> database view of a CDS view is accessed, no access control takes place.</li>
+</ul>
+<ul class="disc">
+<li>
+A <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">SELECT</span> clause</a> started
+with <span class="qtext">FIELDS</span> after the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a> leads to the
+<a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue">strict mode as of Release 7.50</a>.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+<a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement with all possible clauses.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUM( seatsocc ) AS seatsocc <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY carrid, connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HAVING SUM( seatsocc ) > 1000 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapselect_mainquery.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+</html>

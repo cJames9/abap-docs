@@ -1,0 +1,136 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_DYNPROS_CHECKS_AUTO -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_dynpros_checks_auto.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Automatic Input Checks">
+<title>
+Automatic Input Checks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_dynpros_checks_auto.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_dynpros_checks_auto.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_checks.html')" class="blue">Input Checks</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Automatic Input Checks
+</span></p>
+<p>
+In the PAI event, the dynpro makes a series of automatic input checks. These checks take place before
+data transports to the ABAP program and before the dynpro flow logic is processed. Before these automatic
+input checks, a single dialog module can be called using an unconditional module call and with a special function type. This dialog module is usually used to bypass the checks and exit the dynpro directly.
+</p>
+<p>
+If the automatic input checks find an error, a message appears in the status bar of the screen, and
+the corresponding fields remain ready for input. The user must correct the input and trigger PAI again. The actual PAI processing does not start until there are no more errors.
+</p>
+<p>
+The automatic input checks run in the following order:
+</p>
+<ul class="disc">
+<li>Mandatory input</li>
+</ul>
+<dl><dd>
+If a field is defined as a mandatory field in Screen Painter, the user must enter a value for it before PAI can start.
+</dd></dl>
+<ul class="disc">
+<li>Input format</li>
+</ul>
+<dl><dd>
+The values entered in an input field must match the data format of the associated dynpro field. For
+example, the format of a date field with the type DATS is an eight-character string with the format
+<span class="qtext400">YYYYMMDD</span>. All characters must be numbers and the characters <span class="qtext400">MM</span>
+and <span class="qtext400">DD</span> must be less than or equal to 12 or 31 respectively. The system also checks that the specified day is valid for the month.
+</dd></dl>
+<ul class="disc">
+<li>Checks defined in ABAP Dictionary</li>
+</ul>
+<dl><dd>
+If an input field in Screen Painter is defined by being taken from ABAP Dictionary, the dynpro checks the following:
+</dd></dl>
+<ul class="circlem2">
+<li>Does the entered value match any <a href="javascript:call_link('abenforeign_key_dependency_glosry.html')" class="grey" title="Glossary Entry">
+foreign key relationship</a> with a different database table? This means the check table is checked
+to verify whether the input value exists as a foreign key in the check table. This check only takes
+place, however, if the foreign key attribute is set for the input field in Screen Painter. This input check is not necessarily identical with the
+<a href="javascript:call_link('abenabap_dynpros_value_help_auto.html')" class="blue">input help</a>. The developers in question must ensure that the input help represents a subset of the content of the check table.</li>
+</ul>
+<ul class="circlem2">
+<li>Does the entered value exist as a <a href="javascript:call_link('abenfixed_value_glosry.html')" class="grey" title="Glossary Entry">
+fixed value</a> of the domain of the field? This means that the definition of the domain of the field
+in ABAP Dictionary is checked. The fixed values of the domain can also be used as an input help. The
+value table of a domain, however, is not checked. It is only used as a default value for the check tables of the fields that reference the domain.</li>
+</ul>
+<dl><dd>
+If necessary, the input check also triggers a <a href="javascript:call_link('abenddic_deprecation.html')" class="blue">check on obsolete data</a>.
+</dd></dl>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abendynpro_auto_check_abexa.html')" class="blue">Automatic Input Checks</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_dynpros_checks_auto.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+</html>

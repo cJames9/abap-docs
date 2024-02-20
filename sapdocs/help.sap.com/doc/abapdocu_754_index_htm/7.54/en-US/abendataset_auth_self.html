@@ -1,0 +1,229 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDATASET_AUTH_SELF -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendataset_auth_self.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Validation of File Names">
+<title>
+Validation of File Names - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendataset_auth_self.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendataset_auth_self.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_files.html')" class="blue">ABAP File Interface</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendataset_auth.html')" class="blue">Authorization for File Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Validation of File Names
+</span></p>
+<p>
+Alongside the <a href="javascript:call_link('abenfile_interface_authority.html')" class="blue">automatic authorization checks</a>, it may be necessary to validate file names before they are used to prevent
+<a href="javascript:call_link('abendirectory_traversal_glosry.html')" class="grey" title="Glossary Entry">directory traversals</a>. This is particularly important if
+</p>
+<ul class="disc">
+<li>the automatic authorization checks are not enough, for example because the database table SPTH or the authorizations for the authorization object S_DATASET have not been defined in full.</li>
+</ul>
+<ul class="disc">
+<li>programs with <a href="javascript:call_link('abenphysical_filename_glosry.html')" class="grey" title="Glossary Entry">physical file names</a> are used, and these file names are provided using external interfaces such as APIs or UIs.</li>
+</ul>
+<p>
+However if logical file names are consistently used, there is no need for validation.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDATASET_AUTH_SELF_1" class="blue">Using Logical File Names</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDATASET_AUTH_SELF_2" class="blue">Using Physical File Names</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENDATASET_AUTH_SELF_3" class="blue">Self-Programmed Validation</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENDATASET_AUTH_SELF_4" class="blue">Validation with logical file names</A></li>
+</ul>
+<A name="@@ITOC@@ABENDATASET_AUTH_SELF_1"></A>
+<p><span class="h2">
+Using Logical File Names
+</span></p>
+<p>
+File names do not usually need to be validated if a program is consistent in using only
+<a href="javascript:call_link('abenlogical_filename_glosry.html')" class="grey" title="Glossary Entry">logical file names</a>
+created by the system administrator in the transactions <span class="lnkgrey">FILE</span> or <span class="lnkgrey">SF01</span>.
+Next, the set of logical file names available to an application defines the set of possible physical
+file names. The associated physical file names are not edited explicitly in the program. Instead, the
+function module <span class="lnkgrey">FILE_GET_NAME</span> is used to create the physical file name from the logical file name directly before it is used in a
+<a href="javascript:call_link('abenfile_interface_statements.html')" class="blue">statement of the file interface</a> and used for file access.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following program works with a logical file name in field <span class="qtext">log_name</span>. The
+function module FILE_GET_NAME uses this file name to create a platform-specific physical file name in
+<span class="qtext">phys_name</span> (for use in the statement <span class="qtext">OPEN DATASET</span>).
+As the value <span class="qtext">abap_true</span> is passed to parameter INCLUDING_DIR, the physical file name is absolute; in other words, it contains an absolute path.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: log_name&nbsp;&nbsp;TYPE filename-fileintern, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phys_name TYPE string. <br>
+ <br>... <br> <br>CALL FUNCTION 'FILE_GET_NAME' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;logical_filename = log_name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;including_dir&nbsp;&nbsp;&nbsp;&nbsp;= abap_true <br>&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;file_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= phys_name <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;file_not_found&nbsp;&nbsp; = 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 4. <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;MESSAGE ID sy-msgid TYPE 'I' NUMBER sy-msgno <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY LIKE sy-msgty. <br>
+&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>OPEN DATASET phys_name FOR OUTPUT IN TEXT MODE ENCODING UTF-8 . <br> <br>...
+</span>
+</p>
+<A name="@@ITOC@@ABENDATASET_AUTH_SELF_2"></A>
+<p><span class="h2">
+Using Physical File Names
+</span></p>
+<p>
+If a program uses <a href="javascript:call_link('abenphysical_filename_glosry.html')" class="grey" title="Glossary Entry">physical file names</a>, the name almost always needs to be validated.
+</p>
+<A name="@@ITOC@@ABENDATASET_AUTH_SELF_3"></A>
+<p><span class="h3">
+Self-Programmed Validation
+</span></p>
+<p>
+If valid directories and file names are defined precisely (as is often the case in programs from the technical infrastructure), this type of validation can be skipped. The following can be used, for example:
+</p>
+<ul class="disc">
+<li>Methods from <a href="javascript:call_link('abenabap_data_string.html')" class="blue">character string processing</a>,</li>
+</ul>
+<ul class="disc">
+<li>Methods from class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> for checking whitelists,</li>
+</ul>
+<ul class="disc">
+<li>Methods in the class <span class="lnkgrey">CL_FS_PATH</span></li>
+</ul>
+<p>
+However, self-programmed validations (especially when using character string processing) is suitable only for simple cases. For all other cases, validation with logical file names is usually recommended.
+</p>
+<A name="@@ITOC@@ABENDATASET_AUTH_SELF_4"></A>
+<p><span class="h3">
+Validation with logical file names
+</span></p>
+<p>
+In many cases, directories and file names are generic, and are predefined by the system administrator
+when configuring the system. They can be modified or enhanced while the system is running. In these cases, the concept of logical file names should be employed when handling physical file names explicitly.
+</p>
+<p>
+In addition to the case above, where a program uses only logical file names, the associations between
+logical and physical file names can also be useful when handling physical file names for validation
+purposes. As long as the list of logical file names is complete, the function module <span class="lnkgrey">FILE_VALIDATE_NAME</span>
+can be called before a file is accessed. This module checks whether the physical file name is associated
+with a logical file name or whether the directory is valid. In this way, the function module checks whether the physical file exists in the set defined by the logical file names.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The function module FILE_VALIDATE_NAME always checks absolute file names with specified paths. If a
+relative file name is passed for checking, the default path is implicitly added as a prefix to <span class="lnkgrey">DIR_HOME</span> in accordance with the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Validation of a directory. For a directory, the logical file name contained in <span class="qtext">log_name</span>
+must have been created in the format <span class="qtext400">DIR</span> using transaction <span class="lnkgrey">FILE</span>.
+The function module FILE_GET_NAME provides the platform-specific path for this directory in <span class="qtext">path</span>.
+For a directory, the value <span class="qtext">abap_true</span> must be passed to parameter INCLUDING_DIR,
+otherwise the function module is terminated with an exception. The method IS_RELATIVE of class <span class="lnkgrey">
+CL_FS_PATH</span> is used to check whether a file name <span class="qtext">phys_name</span> entered
+by a user is relative or contains an absolute path. An existing absolute file name is applied without
+being modified. Relative file names are concatenated with the path. This is done using the method APPEND_PATH_NAME
+of a path object from the class CL_FS_PATH created from <span class="qtext">path</span>. This object
+is platform-independent and works regardless of whether <span class="qtext">path</span> contains a closing
+separator like <span class="qtext400">\</span>. Finally, <span class="qtext">phys_name</span> with FILE_VALIDATE_NAME
+is validated by checking the directory of <span class="qtext">log_name</span>. This check is also necessary
+when creating a chain from the path and relative file name. This is because the specified relative file
+name can contains parts such as <span class="qtext400">\..\</span>, which can point to path locations outside of the permitted directory.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: phys_name TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log_name&nbsp;&nbsp;TYPE filename-fileintern, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE string. <br> <br>... <br>
+ <br>CALL FUNCTION 'FILE_GET_NAME' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;logical_filename = log_name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;including_dir&nbsp;&nbsp;&nbsp;&nbsp;= abap_true <br>&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;file_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= path <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;file_not_found&nbsp;&nbsp; = 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 4. <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;MESSAGE ID sy-msgid TYPE 'I' NUMBER sy-msgno DISPLAY LIKE sy-msgty. <br>
+&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>cl_demo_input=>request( CHANGING field = phys_name ). <br> <br>IF cl_fs_path=>create( phys_name )->is_relative( ) = abap_true. <br>
+&nbsp;&nbsp;DATA(pref) = cl_fs_path=>create( path ). <br>&nbsp;&nbsp;pref->append_path_name( phys_name ). <br>
+&nbsp;&nbsp;phys_name = pref->get_path_name( ). <br>ENDIF. <br> <br>CALL FUNCTION 'FILE_VALIDATE_NAME' <br>
+&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;logical_filename&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = log_name <br>
+&nbsp;&nbsp;CHANGING <br>&nbsp;&nbsp;&nbsp;&nbsp;physical_filename&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= phys_name <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;logical_filename_not_found = 1 <br>&nbsp;&nbsp;&nbsp;&nbsp;validation_failed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 4. <br>
+ <br>IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;MESSAGE ID sy-msgid TYPE 'I' NUMBER sy-msgno <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY LIKE sy-msgty. <br>
+&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>OPEN DATASET phys_name FOR OUTPUT IN TEXT MODE ENCODING UTF-8 .
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendataset_auth_self.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

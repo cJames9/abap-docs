@@ -1,0 +1,129 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINSTANCE_CONSTRUCTOR_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninstance_constructor_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Instance Constructor">
+<title>
+Instance Constructor - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninstance_constructor_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninstance_constructor_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenobj_oriented_guidl.html')" class="blue">Object-Oriented Programming</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Instance Constructor
+</span></p>
+<A name="@@ITOC@@ABENINSTANCE_CONSTRUCTOR_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+When you define an ABAP class, you specify who creates an instance of this class or who may access the
+instance constructor of the class. To do this, you use the addition <span class="qtext">CREATE</span>
+of the statement <span class="qtext">CLASS ... DEFINITION</span>. The addition <span class="qtext">CREATE
+PUBLIC</span> is the default setting and allows for the instancing by any user of the class. By specifying
+<span class="qtext">CREATE PROTECTED</span>, you can restrict the object creation to the class itself
+and its subclasses. Using the addition <span class="qtext">CREATE PRIVATE</span> addition, objects can only be created by the class itself. The restriction of the object creation to the class itself is useful in connection with the
+<a href="javascript:call_link('abenstatic_class_singleton_guidl.html')" class="lnkpurple" title="Guideline">singleton design pattern</a>, for example, where the class itself performs the object creation.
+</p>
+<p>
+From a technical point of view, the instance constructor can be declared in all visibility sections
+that are more general or equal to the instantiation specified in the addition <span class="qtext">CREATE</span>
+of the statement <span class="qtext">CLASS ... DEFINITION</span>, using the statement <span class="qtext">METHODS</span>
+<span class="qtext">constructor</span>. However, the actual visibility is controlled by the addition <span class="qtext">CREATE</span>.
+</p>
+<A name="@@ITOC@@ABENINSTANCE_CONSTRUCTOR_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Declare the instance constructor in the public visibility section.</span>
+</p>
+<p>
+Always declare the instance constructor of a global class in its public visibility section and independently of the instantiation specified by the addition <span class="qtext">CREATE</span> in the class definition.
+</p>
+<A name="@@ITOC@@ABENINSTANCE_CONSTRUCTOR_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The components of global classes are stored internally, separated according to the visibility section
+they belong to. Depending on the usage type of the class, only parts of the class are respected by ABAP
+Compiler in compilations. This procedure requires that the constructor of a global class is always declared
+in the public visibility section of the class. For these technical reasons, the instance constructor of a global class is always supposed to be declared in the public visibility section
+(<span class="qtext">PUBLIC SECTION</span>). If it is declared in another visibility section, this may produce unjustified syntax errors in individual cases when global classes are used.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+The technical restrictions mentioned only apply to the processing of global classes. Within local classes,
+the instance constructor can also be defined in other visibility sections. However, this positioning
+should correspond with the visibility section specified using the addition <span class="qtext">CREATE</span>.
+A strategy like this enables you to use types for the interface of the instance constructor of a local class that are only accessible in a restricted visibility section.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninstance_constructor_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

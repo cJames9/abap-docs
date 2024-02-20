@@ -1,0 +1,159 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_EXPR_COALESCE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_expr_coalesce_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL Expressions, Coalesce Function">
+<title>
+SQL Expressions, Coalesce Function - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_expr_coalesce_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_expr_coalesce_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">ABAP SQL - SQL Expressions sql_exp</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_builtin_func.html')" class="blue">sql_exp - sql_func</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_builtin_functions.html')" class="blue">ABAP SQL - Built-In Functions sql_func</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_functions.html')" class="blue">ABAP SQL - SQL Functions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_coalesce.html')" class="blue">sql_exp - sql_coalesce</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL Expressions, Coalesce Function
+</span></p>
+<p>
+This example demonstrates the coalesce function in <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a>.
+</p>
+<A name="@@ITOC@@ABENSQL_EXPR_COALESCE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_sql_expr_coalesce NO STANDARD PAGE HEADING.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: class_constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA: wa1 TYPE demo_join1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa2 TYPE demo_join2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out TYPE REF TO if_demo_output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA BEGIN OF wa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE STRUCTURE wa1 AS wa1 RENAMING WITH SUFFIX 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE STRUCTURE wa2 AS wa2 RENAMING WITH SUFFIX 2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA END OF wa.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA itab LIKE TABLE OF wa WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;begin_section( `OUTER JOIN with Coalesce` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT t1~a AS a1, t1~b AS b1, t1~c AS c1, t1~d AS d1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COALESCE( t2~d, '--' ) AS d2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COALESCE( t2~e, '--' ) AS e2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COALESCE( t2~f, '--' ) AS f2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COALESCE( t2~g, '--' ) AS g2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COALESCE( t2~h, '--' ) AS h2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_join1 AS t1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LEFT OUTER JOIN demo_join2 AS t2 ON t2~d = t1~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY t1~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO CORRESPONDING FIELDS OF TABLE @itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( itab ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_join1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_join1 FROM TABLE @( VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a1' b = 'b1' c = 'c1'&nbsp;&nbsp;d = 'uu' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a2' b = 'b2' c = 'c2'&nbsp;&nbsp;d = 'uu' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a3' b = 'b3' c = 'c3'&nbsp;&nbsp;d = 'vv' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a4' b = 'b4' c = 'c4'&nbsp;&nbsp;d = 'ww' ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_join2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_join2 FROM TABLE @( VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( d = 'uu' e = 'e1' f = 'f1'&nbsp;&nbsp;g = 'g1'&nbsp;&nbsp;h = 'h1' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( d = 'ww' e = 'e2' f = 'f2'&nbsp;&nbsp;g = 'g2'&nbsp;&nbsp;h = 'h2' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( d = 'xx' e = 'e3' f = 'f3'&nbsp;&nbsp;g = 'g3'&nbsp;&nbsp;h = 'h3' ) ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSQL_EXPR_COALESCE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This executable example is an excerpt from the <a href="javascript:call_link('abenjoins_abexa.html')" class="blue">joins</a>
+example. Here, the function <a href="javascript:call_link('abensql_coalesce.html')" class="blue"><span class="qtext">COALESCE</span></a> is used to replace null values produced by an outer join with a different value.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_expr_coalesce_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

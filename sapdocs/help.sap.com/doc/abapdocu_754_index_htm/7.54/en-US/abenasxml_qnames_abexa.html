@@ -1,0 +1,182 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENASXML_QNAMES_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenasxml_qnames_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="asXML, Mapping of Qualified Names">
+<title>
+asXML, Mapping of Qualified Names - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenasxml_qnames_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenasxml_qnames_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">asXML - Canonical XML Representation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenasxml_abexas.html')" class="blue">asXML, Examples of Mappings</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+asXML, Mapping of Qualified Names
+</span></p>
+<p>
+This example demonstrates the mapping of XML schema data types for qualified names.
+</p>
+<A name="@@ITOC@@ABENASXML_QNAMES_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_asxml_qname.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: name1&nbsp;&nbsp;TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name2&nbsp;&nbsp;TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qname1 TYPE xsdqname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qname2 TYPE xsdqname.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA xmlstring TYPE string.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name1 = qname1 = '{test_uri}Value1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name2 = qname2 = '{test_uri}Value2'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;begin_section( 'Serialization of Strings' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE test1 = name1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test2 = name2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT XML xmlstring.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_xml( xmlstring ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'Serialization of XSDQNAME' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE test1 = qname1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test2 = qname2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT XML xmlstring.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_xml( xmlstring ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'Source for Deserialization' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xmlstring =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;`&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;asx:abap `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`xmlns:asx=&quot;http://www.sap.com/abapxml&quot; ` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`xmlns:demox=&quot;my_uri&quot;&nbsp;&nbsp;version=&quot;1.0&quot;&gt;`&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;asx:values &gt;`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;TEST1&gt;demox:Value1&lt;/TEST1&gt;`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;TEST2&gt;Value2&lt;/TEST2&gt;`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;/asx:values&gt;`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`&lt;/asx:abap&gt;`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_xml( xmlstring ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'Deserialization' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE XML xmlstring<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT test1 = name1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test2 = name2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id SOURCE XML xmlstring<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT test1 = qname1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test2 = qname2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|{ name1&nbsp;&nbsp;WIDTH = 20 }{ name2&nbsp;&nbsp;WIDTH = 20 }| &amp; |\n| &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|{ qname1 WIDTH = 20 }{ qname2 WIDTH = 20 }| ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENASXML_QNAMES_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+In this example, only two serializations of ABAP data objects are performed to asXML format. Their content
+corresponds to <span class="qtext400">"{URI}name"</span> format. In the first serialization, the data
+objects have the type <span class="qtext">string</span>; in the second they have the type XSDQNAME.
+In the first case, the content is passed unchanged, but in the second case it is interpreted as a qualified name and the associated namespace declarations are created.
+</p>
+<p>
+Next, XML data is created, which contains one element with a namespace prefix and one without a namespace
+prefix. This data is deserialized to ABAP data objects with the type <span class="qtext">string</span>
+and the type XSDQNAME. The element with a namespace prefix is deserialized to the data object with the
+type <span class="qtext">string</span> without being changed. However, when deserializing to the data
+object of the type XSDQNAME, a conversion to the format <span class="qtext400">"{URI}name"</span> takes
+place. The element with no namespace prefix is deserialized without being changed in both cases, since only the empty standard namespace exists.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenasxml_qnames_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONVERSION_RULES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_rules.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Assignment and Conversion Rules">
+<meta name="keywords" content="ABAP, Assignment Rules, Conversion, Conversion Rules, Conversions">
+<title>
+Assignment and Conversion Rules - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconversion_rules.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconversion_rules.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Assignment and Conversion Rules
+</span></p>
+<p>
+When the value of a source object (<span class="qtext">source</span>) is assigned to a destination object (<span class="qtext">destination</span>), three cases can be distinguished with respect to the data type:
+</p>
+<ol>
+<li>
+<span class="qtext">source</span> and <span class="qtext">destination</span> are
+<a href="javascript:call_link('abencompatible_glosry.html')" class="grey" title="Glossary Entry">compatible</a>, which means that all
+<a href="javascript:call_link('abentechnical_type_attr_glosry.html')" class="grey" title="Glossary Entry">technical type attributes</a>
+match. The content is copied from <span class="qtext">source</span> to <span class="qtext">destination</span>
+without being converted. For flat data objects and related character-like or byte-like structural areas, a copy of the source object is created down to the exact byte. In the case of
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data objects, a reference
+is created in the destination object and the actual byte-like content of the reference cannot be seen externally. When entire structures are assigned, the response in terms of
+<a href="javascript:call_link('abenalignment_gap_glosry.html')" class="grey" title="Glossary Entry">alignment gaps</a> is undefined.
+The binary content of an alignment gap in the destination structure can either be copied from the source structure or keep the original value. <br><br>
+</li>
+<li>
+<span class="qtext">source</span> and <span class="qtext">destination</span> are not compatible, but can be
+<a href="javascript:call_link('abenconvertible_glosry.html')" class="grey" title="Glossary Entry">converted</a>. The content
+of <span class="qtext">source</span> is converted in accordance with the conversion rules and then copied
+to <span class="qtext">destination</span>. Two data types are convertible if a conversion rule exists
+for them. An exception is raised if the content of <span class="qtext">source</span> cannot be handled
+in accordance with the conversion rules. After an exception, the content of <span class="qtext">destination</span>
+is determined by the category of the data type. An assignment that requires a conversion is always slower than an assignment without conversion. <br><br>
+</li>
+<li>
+If the data objects are not compatible or convertible, no assignment can take place. If the syntax check
+detects this situation, a syntax error is displayed. If it does not, an exception is raised when the program is executed.
+</li>
+</ol>
+<p>
+The following sections describe the conversion rules. Conversion rules exist for:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenconversion_elementary.html')" class="blue">Elementary data objects</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenconversion_struc.html')" class="blue">Structures</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenconversion_itab.html')" class="blue">Internal tables</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenconversion_mesh.html')" class="blue">Meshes</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenconversion_enumerated.html')" class="blue">Enumerated types</a></li>
+</ul>
+<p>
+The special <a href="javascript:call_link('abenconversion_references.html')" class="blue">assignment rules for reference variables</a> are described in a separate section.
+</p>
+<p>
+The conversion rules explained here generally apply to all
+<a href="javascript:call_link('abenequals_operator.html')" class="blue">assignments</a> and all statements in which the content of data objects is changed. Exceptions to these rules are explained for each individual statement.
+</p>
+<p>
+The <a href="javascript:call_link('abenconversion_operator_glosry.html')" class="grey" title="Glossary Entry">conversion operator</a>
+<a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue"><span class="qtext">CONV</span></a> can be
+used in many operand positions to perform a conversion of a source value to an explicitly specified target data type in accordance with the rules explained here.
+<a href="javascript:call_link('abencl_abap_conv.html')" class="blue">System classes</a> are provided for special conversions of character sets and numeric formats.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In the <a href="javascript:call_link('abenoperand_position_glosry.html')" class="grey" title="Glossary Entry">operand positions</a>
+of many statements, assignments take place internally according to the assignment rules. If exceptions
+occur during an assignment, whether they can be handled or not depends on the operand and the operand position. The following are some examples:</li>
+</ul>
+<ul class="circlem2">
+<li>If <a href="javascript:call_link('abapcall_method_functional.html')" class="blue">functional method calls</a> are used in
+operand positions, exceptions that can be handled when data objects are used directly cannot be handled and lead directly to runtime errors.</li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abenlogexp.html')" class="blue">comparisons</a>, some different
+<a href="javascript:call_link('abenlogexp_rules_operands.html')" class="blue">rules</a> apply than in assignments. Exceptions
+that are handleable in assignments are either handled implicitly or produce runtime errors and cannot be handled explicitly in comparisons.</li>
+</ul>
+<ul class="circlem2">
+<li>Using <a href="javascript:call_link('abenexpression_glosry.html')" class="grey" title="Glossary Entry">expressions</a> in operand positions can make unhandleable exceptions handleable in some cases.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenlossless_operator_glosry.html')" class="grey" title="Glossary Entry">lossless operator</a>
+<a href="javascript:call_link('abenconstructor_expression_exact.html')" class="blue"><span class="qtext">EXACT</span></a> can
+be used to perform checks before the conversion is carried out. These ensure that only applicable values are assigned and that no values are lost in assignments.</li>
+</ul>
+<ul class="disc">
+<li>Checks generally are not made on assignments between compatible data objects. If a data object already
+contains an invalid value, for example an invalid date or time in a date or time field, then this value is passed just like a valid value if the assignment is being made to a compatible data object.</li>
+</ul>
+<p><span class="h4">
+Programming Guideline
+</span></p>
+<P>
+<a href="javascript:call_link('abenuse_conversion_rules_guidl.html')" class="lnkpurple" title="Guideline">Avoid unexpected conversion results</a>
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">Conversion Rules for Elementary Data Objects</a><br>
+<a href="javascript:call_link('abenconversion_struc.html')" class="blue">Conversion Rules for Structures</a><br>
+<a href="javascript:call_link('abenconversion_itab.html')" class="blue">Conversion Rules for Internal Tables</a><br>
+<a href="javascript:call_link('abenconversion_mesh.html')" class="blue">Conversion Rules for Meshes</a><br>
+<a href="javascript:call_link('abenconversion_enumerated.html')" class="blue">Conversion Rules for Enumerated Types</a><br>
+<a href="javascript:call_link('abencl_abap_conv.html')" class="blue">System Classes for Converting Character Sets and Number Formats</a><br>
+<a href="javascript:call_link('abenconversion_perfo.html')" class="blue">Conversions - Performance Notes</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_rules.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

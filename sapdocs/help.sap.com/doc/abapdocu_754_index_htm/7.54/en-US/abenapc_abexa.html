@@ -1,0 +1,222 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAPC_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenapc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="APC, AS ABAP as WebSocket Server">
+<title>
+APC, AS ABAP as WebSocket Server - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenapc_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenapc_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_channels.html')" class="blue">ABAP Channels</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenapc.html')" class="blue">APC - ABAP Push Channels</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenapc_abexas.html')" class="blue">Examples of APC</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+APC, AS ABAP as WebSocket Server
+</span></p>
+<p>
+This example demonstrates <a href="javascript:call_link('abenapc_glosry.html')" class="grey" title="Glossary Entry">ABAP push channel</a>s in AS ABAP as a WebSocket server.
+</p>
+<A name="@@ITOC@@ABENAPC_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_apc_wsp.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS class_constructor.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA url TYPE string.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;IF url IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA amc TYPE abap_bool VALUE 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_field( EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING field&nbsp;&nbsp;= amc ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_line( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA pcp TYPE abap_bool VALUE ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_field( EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING field&nbsp;&nbsp;= pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA pcp_stateful TYPE abap_bool VALUE ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_field( EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING field&nbsp;&nbsp;= pcp_stateful ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;amc = to_upper( amc ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;html&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;body&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;a href=&quot;{ COND string( WHEN pcp IS INITIAL AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp_stateful IS INITIAL THEN url<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE url &amp;&amp; `_pcp` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}?sap-client={ sy-mandt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&amp;sap-language={ cl_i18n_languages=&gt;sap1_to_sap2( sy-langu )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}{ COND string( WHEN amc = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN `&amp;amc=x`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE `` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}{ COND string( WHEN pcp_stateful = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN `&amp;pcp_stateful=x`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE `` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&quot; target=&quot;_blank&quot;&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Open demo web page with standard browser&lt;/a&gt;&lt;br&gt;&lt;br&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|If your browser does not support WebSocket, | &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|copy the URL to another browser.| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;/body&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;/html&gt;| ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS path TYPE string VALUE `/sap/bc/abap/demo_apc`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(location) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_http_server=&gt;get_location( application = path ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF location IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url = location &amp;&amp; path.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENAPC_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example demonstrates bidirectional communication between a browser that supports the WebSocket
+protocol as an APC client and AS ABAP as an APC server. The example program above has the task of displaying a webpage that communicates with the current AS ABAP. It is possible to specify the following:
+</p>
+<ul class="disc">
+<li>Is the APC used associated with an <a href="javascript:call_link('abenamc.html')" class="blue">ABAP messaging channel (AMC)</a>?</li>
+</ul>
+<ul class="disc">
+<li>Is an APC used together with the <a href="javascript:call_link('abenpush_channel_protocol_glosry.html')" class="grey" title="Glossary Entry">Push Channel Protocol (PCP)</a> or is an APC used without this protocol?</li>
+</ul>
+<ul class="disc">
+<li>Is a stateful service used when the subprotocol PCP is used?</li>
+</ul>
+<p>
+The Web page is provided by an <a href="javascript:call_link('abenicf.html')" class="blue">ICF</a> HTTP service whose URL is
+constructed in the program for the current AS Instance. If the standard browser called does not support communication using the WebSocket protocol, you must open the URL using a suitable browser instead.
+</p>
+<p>
+The communication partners are:
+</p>
+<ul class="disc">
+<li>The Web pages generated in the HTTP request handler <span class="lnkgrey">CL_HTTP_EXT_APC_DEMO</span>
+or <span class="lnkgrey">CL_HTTP_EXT_APC_PCP_DEMO</span>. One Web page makes it possible to open a WebSocket
+object without Push Channel Protocol (PCP) support and the other Web page makes it possible to open
+a WebSocket object with the support of this protocol. Both Web pages make it possible to send messages
+using the object and to close the object. These tasks are performed by a JavaScript function implemented
+in the Web page. If PCP is used, a JavaScript file <span class="qtext400"><span class="lnkgrey">sap-pcp-websocket.js</span></span>
+is included from the Mime repository in AS ABAP. This file provides the client-side framework for using
+this protocol. This API is not needed if PCP is not used. If the PCP protocol is used, it is possible to access both a stateless ABAP channel and a stateful channel.</li>
+</ul>
+<ul class="disc">
+<li>The ABAP push channel <span class="qtext400">DEMO_APC</span>, <span class="qtext400">DEMO_APC_PCP</span>,
+or <span class="qtext400">DEMO_APC_PCP_STATEFUL</span> from the package SABAPDEMOS in the current AS
+ABAP (with the latter two supporting the Push Channel Protocol (PCP) and the latter being stateful).
+The URL of the service assigned to the push channel is used in the JavaScript function of the associated
+Web page to open the WebSocket communication of this Web page. The form field <span class="qtext400">amc</span>
+is passed further. The APC handler classes <span class="lnkgrey">CL_APC_WS_EXT_DEMO_APC</span> and <span class="lnkgrey">
+CL_APC_WSP_EXT_DEMO_APC_PCP</span> implement the methods ON_START and ON_MESSAGE of the interface <span class="lnkgrey">IF_APC_WSP_EXTENSION</span> for communication with and without a connection to an
+<a href="javascript:call_link('abenamc.html')" class="blue">AMC</a>. The APC handler class <span class="lnkgrey">CL_APC_WSP_EXT_DEMO_APC_PCP_ST</span>
+demonstrates a stateful service by simply calling the identically named methods of an object of the
+class CL_APC_WSP_EXT_DEMO_APC_PCP. The AMC used here is <span class="qtext400">/demo_text</span> or <span class="qtext400">/demo_pcp</span> from the
+<a href="javascript:call_link('abenamc_abexas.html')" class="blue">executable examples</a> for AMC. When a message is received,
+the method ON_MESSAGE creates a new message with information about the received message and sends it.
+If PCP is not used, a text message is sent. In the version for PCP, this protocol is used. CL_APC_WSP_EXT_DEMO_APC_PCP
+demonstrates the stateful service by raising a counter whose value stays the same in stateless services.</li>
+</ul>
+<p>
+If the ABAP push channel is opened using the form field <span class="qtext400">amc=x</span>, communication
+takes place using AMC. Each Web page bound to the push channel receives every message sent using AMC.
+In the example, this means that the message sent by ON_MESSAGE is not just received by the Web page
+that sent a message. Furthermore, the Web pages bound to the push channel receive messages sent, for example, using the program <span class="lnkgrey">DEMO_SEND_AMC</span> from the executable example
+<a href="javascript:call_link('abenamc_send_abexa.html')" class="blue">Sending AMC Messages</a>. Conversely, the program <span class="lnkgrey">DEMO_RECEIVE_AMC</span> receives the messages sent from the Web pages from the executable example
+<a href="javascript:call_link('abenamc_receive_abexa.html')" class="blue">Receiving AMC Messages</a>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Before this example can work, the protocols WEBSOCKET and WEBSOCKETS must be specified as active services in the <span class="italic">Services</span> function in the transaction <span class="lnkgrey">SMICM</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenapc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

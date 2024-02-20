@@ -1,0 +1,161 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTYPE_TRANSF_FORMAL_PARA_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentype_transf_formal_para_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="How Formal Parameters Are Passed">
+<title>
+How Formal Parameters Are Passed - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentype_transf_formal_para_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentype_transf_formal_para_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+How Formal Parameters Are Passed
+</span></p>
+<A name="@@ITOC@@ABENTYPE_TRANSF_FORMAL_PARA_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Parameters can be passed to procedures either by reference or by value.
+</p>
+<ul class="disc">
+<li><span class="bold">Pass by reference</span> <br>In the case of pass by reference, a reference to
+the actual parameter is passed to the procedure when it is called. The procedure then works with the
+actual parameter. No local data object is created for the actual parameter. Input parameters that are
+passed by reference cannot be changed in the procedure (exception: <span class="qtext">USING</span> parameters of subroutines).</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Pass by value</span> <br>In the case of pass by value, a type-friendly local
+data object is created as a copy of the actual parameter for the formal parameter. The system initializes
+output parameters and return values when the procedure is started. Input parameters as well as input/output
+parameters receive the value of the actual parameter. A changed formal parameter is only passed to the actual parameter if the procedure is completed without errors.</li>
+</ul>
+<p>
+<span class="qtext">IMPORTING</span> parameters that are passed by reference are protected from explicit
+changes within the procedure. This is not the case for the pass by value method. <span class="qtext">RETURNING</span> parameters always require the pass by value method.
+</p>
+<A name="@@ITOC@@ABENTYPE_TRANSF_FORMAL_PARA_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Choose a suitable pass-by type</span>
+</p>
+<p>
+When selecting the pass-by type, consider both speed and security:
+</p>
+<ul class="disc">
+<li>Pass by value for small data sets for security reasons</li>
+</ul>
+<ul class="disc">
+<li>Pass by reference for large data sets for performance reasons</li>
+</ul>
+<A name="@@ITOC@@ABENTYPE_TRANSF_FORMAL_PARA_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The pass by reference method generally has a higher performance than pass by value because no values
+need to be copied. This speed advantage can be noticed especially in the case of large parameters, such
+as internal tables or strings, or in mass data processing. In the case of small, flat parameters, the
+pass by value method usually does not lead to problems because the copy costs incurred are not high
+here. Furthermore, for strings and internal tables, <span class="italic">sharing</span> takes effect
+in the case of pass by value. Consequently, only references are passed here. The time-intensive copy
+process is skipped if the data objects involved are only to be read-accessed, such as in the case of <span class="qtext">EXPORTING</span> parameters that are filled within a procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>), and are not modified by the calling program after the pass.
+</p>
+<p>
+Despite the speed advantage, the pass by reference method can lead to problems due to the following aspects:
+</p>
+<ul class="disc">
+<li><span class="qtext">EXPORTING</span> parameters that are passed by reference are not initialized automatically. Therefore, such parameters are
+<a href="javascript:call_link('abenref_transf_output_param_guidl.html')" class="lnkpurple" title="Guideline">not supposed to be read</a> until the first value has been assigned to them.</li>
+</ul>
+<ul class="disc">
+<li>Writes performed on <span class="qtext">EXPORTING</span> and <span class="qtext">CHANGING</span> parameters with the pass by reference method work directly on the actual parameters. Their values are also modified if the procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>) is left early due to an exception.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">IMPORTING</span> parameters that are passed by reference change if the actual parameter changes. The actual parameter can change, for example, if it is a
+<a href="javascript:call_link('abenref_transf_global_data_guidl.html')" class="lnkpurple" title="Guideline">global variable</a> or a
+<a href="javascript:call_link('abenuse_actual_parameters_guidl.html')" class="lnkpurple" title="Guideline">system field</a>.</li>
+</ul>
+<p>
+If passing by value does not cause performance problems, that is, if small data sets are passed or sharing
+can be used, this method should be used for security reasons. If speed is an issue, pass by reference should be chosen. In this case, the potential risks of implementing the procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>) must be <a href="javascript:call_link('abenref_transf_output_param_guidl.html')" class="lnkpurple" title="Guideline">considered</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See the example in the section about <a href="javascript:call_link('abencode_inspector_guidl.html')" class="lnkpurple" title="Guideline">Code
+Inspector</a>. In this example, an internal table is passed by reference due to performance reasons, while an elementary parameter is passed by value due to robustness reasons.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentype_transf_formal_para_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

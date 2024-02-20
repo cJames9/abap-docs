@@ -1,0 +1,213 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSTATIC_CLASS_SINGLETON_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstatic_class_singleton_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Static Classes and Singletons">
+<title>
+Static Classes and Singletons - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenstatic_class_singleton_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenstatic_class_singleton_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenobj_oriented_guidl.html')" class="blue">Object-Oriented Programming</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Static Classes and Singletons
+</span></p>
+<A name="@@ITOC@@ABENSTATIC_CLASS_SINGLETON_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The classes of ABAP Objects support two types of components:
+</p>
+<ul class="disc">
+<li>Instance components (instance attributes, instance events and instance methods). You can only address the instance components of a class using instances of the class (objects).</li>
+</ul>
+<ul class="disc">
+<li>Static components (static attributes, static events and static methods). The static components of
+a class can be addressed using an object and also using the name of the class. This means they can be used independently of a class instance.</li>
+</ul>
+<p>
+A class that only contains static components and no instance components is referred to as a static class. A global static class is loaded once with its class pool into the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>.
+Like every ABAP program, it cannot be explicitly deleted from the session. The static methods (declared using <span class="qtext">CLASS-METHODS</span>) of a class cannot be redefined in subclasses.
+</p>
+<p>
+A singleton is a design pattern where the class has the task of creating objects. The class ensures that only one object exists for every internal session that is made available to consumers.
+</p>
+<A name="@@ITOC@@ABENSTATIC_CLASS_SINGLETON_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Do not use static classes</span>
+</p>
+<p>
+Use objects instead of static classes. If you do not want multiple instantiation, you can use singletons.
+</p>
+<A name="@@ITOC@@ABENSTATIC_CLASS_SINGLETON_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+If no real object-oriented design exists that would use the multiple instantiation of classes, for example, this often produces classes that only contain static methods (declared using <span class="qtext">CLASS-METHODS</span>), when
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">ABAP Objects</a> are
+used. These methods are then used as simple procedures. However, even if multiple instantiation is not
+explicitly required, object creation is preferable to the use of static classes, for the reasons listed below. You can use the singleton design pattern to prevent multiple instantiation:
+</p>
+<ul class="disc">
+<li>Explicit object creation is essential for object-oriented programming. Static classes, however,
+are implicitly loaded the first time they are used, and the corresponding static constructor &#x2014;
+if available &#x2014; is executed. They are persisted in the memory for as long as the current internal
+session exists. Therefore, if you use static classes, you cannot actually control the time of initialization.
+You have no way of releasing the memory occupied by the attributes, as soon as the class function is no longer required.</li>
+</ul>
+<ul class="disc">
+<li>Another important argument against the use of static classes are the limited functions of the static constructor, in comparison to an instance constructor. A static constructor has no parameter interface and cannot propagate any
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="lnkpurple" title="Guideline">exceptions</a>. This is why
+you cannot always respond appropriately to an error situation in the static constructor, which can cause a runtime error in extreme cases. However, the exceptions of an instance constructor can be handled.</li>
+</ul>
+<ul class="disc">
+<li>By using static classes, you restrict your polymorphism options, which are actually provided by
+object-oriented programming. On the one hand, you cannot redefine static methods. On the other hand,
+access is not possible using reference variables (the other &#x201C;pillar&#x201D; of polymorphism). However, it is worth keeping the option of polymorphism open:</li>
+</ul>
+<ul class="circlem2">
+<li>Even if you initially do not plan to overwrite the behavior of a method later on using inheritance or redefinition, this is a request that frequently arises in the course of the further development.</li>
+</ul>
+<ul class="circlem2">
+<li>When implementing unit tests with ABAP Unit, redefining the behavior of certain methods, to resolve problematic dependencies, is often unavoidable.</li>
+</ul>
+<p>
+To keep the option of redefinition open, you should always use instance methods instead of static methods.
+</p>
+<p>
+You can express the retrieval of a singleton object and the subsequent call of an instance method, by using the very compact form of a chained method call:
+</p>
+<dl><dd>
+<span class="qtext">cl_singleton=>get_instance( )->do_something( ).</span>
+</dd></dl>
+<p>
+Since an additional object reference variable and an additional factory call are omitted, there are no aesthetic disadvantages related to the use of a singleton design pattern.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Classes that only cover trivial functions can still be implemented as static classes. Here you must
+accurately assess whether one of the previously mentioned aspects has any effect. The need for a class
+constructor can be an indicator here. Once a static class requires a nontrivial class constructor to provide the required functions, you should use objects instead.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows a static class with purely static methods and how one of these methods
+is used. In general, it is not immediately obvious from the source code whether the method call also
+calls the static constructor or whether this has already happened earlier (following a simple attribute access, for example).
+</p>
+<dl><dd>
+<span class="qtext">CLASS static_class DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: class_constructor, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>ENDCLASS. <br>... <br>static_class=>meth1( ). <br>...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows an implementation of the singleton design pattern. A static method allows access to the only object of the class.
+</p>
+<dl><dd>
+<span class="qtext">CLASS singleton_class DEFINITION CREATE PRIVATE. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS get_instance <br>&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(r_instance) TYPE REF TO singleton_class <br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_some_failure. <br>&nbsp;&nbsp;METHODS constructor <br>&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_some_failure. <br>
+&nbsp;&nbsp;METHODS: meth1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth2. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA instance TYPE REF TO singleton_class. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS singleton_class IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD get_instance. <br>&nbsp;&nbsp;&nbsp;&nbsp;IF instance IS NOT BOUND. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT instance. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;r_instance = instance. <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;... <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">... <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp; singleton_class=>get_instance( )->meth1( ). <br>
+&nbsp;&nbsp; CATCH cx_some_failure. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;ENDTRY.</span>
+</dd></dl>
+<p>
+In the above example, the <span class="qtext">get_instance</span> method is used to return the object reference to the object created with the first call. Therefore, this example would appear to violate the rule
+<a href="javascript:call_link('abenmodularization_guidl.html')" class="lnkpurple" title="Guideline">modularize rather than atomize</a>.
+This rule states that no method should be created in ABAP that only returns the value of an attribute.
+However, this objection is not justified here, because the main task of the <span class="qtext">get_instance</span>
+method is to enable the object consumer to control the time of object creation. This is necessary to enable the consumer to respond (in the usual way) to any exceptional situation during the object creation process.
+</p>
+<p>
+In special cases, where object creation is performed without parameters and is always successful, you
+can omit the <span class="qtext">get_instance</span> method and publish the object reference using a
+<span class="qtext">READ-ONLY</span> attribute. In this case, the object is created within the static
+constructor. Therefore, this approach is still afflicted with some of the problems of static classes described in other sections.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstatic_class_singleton_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

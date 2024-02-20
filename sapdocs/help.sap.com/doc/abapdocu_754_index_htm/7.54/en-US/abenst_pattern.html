@@ -1,0 +1,191 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_PATTERN -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_pattern.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - Pattern">
+<title>
+ST - Pattern - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_pattern.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_pattern.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_flow_control.html')" class="blue">ST - Flow Control</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_tt_cond.html')" class="blue">ST - tt:cond, Conditional Transformations</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ST - Pattern
+</span></p>
+<p>
+When <a href="javascript:call_link('abenst_tt_cond.html')" class="blue">conditional transformations</a> are deserialized, the
+fact that the template content is also a pattern is used as a criterion for the assessment. A pattern
+contains one or more constructs that are used as <span class="italic">markers</span>. The most common
+form of a marker is a literal XML element: if the content of the condition consists of exactly one XML
+element, then the condition has exactly one positive result if an XML element with this name follows at the current position in the XML input stream.
+</p>
+<p>
+Marker constructs are:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenst_xml_literals.html')" class="blue">Literal XML element</a> with or without content</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenst_tt_attribute.html')" class="blue">Non-literal attribute</a> with content</li>
+</ul>
+<ul class="disc">
+<li>Non-empty <a href="javascript:call_link('abenst_tt_text.html')" class="blue">literal text</a></li>
+</ul>
+<ul class="disc">
+<li>Explict <a href="javascript:call_link('abenst_tt_empty.html')" class="blue">empty template content</a></li>
+</ul>
+<p>
+Each of these constructs can be compared with the input stream in an obvious way.
+</p>
+<p>
+A pattern can usually contain multiple markers. For example, the sequence
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:cond> <br>&nbsp;&nbsp;&lt;X> ... &lt;/X> <br>&lt;/tt:cond> <br>&lt;Y> ... &lt;/Y></span>
+</dd></dl>
+<p>
+is also a pattern; it contains the markers <span class="qtext400">&lt;X></span> and <span class="qtext400">&lt;Y></span>.
+A condition with this pattern is determined positively by element <span class="qtext400">X</span> as
+well as by element <span class="qtext400">Y</span> in the input stream (in the second case, condition is determined negatively with <span class="qtext400">X</span>).
+</p>
+<p>
+The number of marker constructs <span class="qtext400">M(c)</span> contained in template content <span class="qtext400">
+c</span> is defined recursively below. Template content <span class="qtext400">c</span> is a pattern
+if <span class="qtext400">M(c)</span> is not empty. In summary, <span class="qtext400">M(c)</span> consists
+of the markers that can be used to positively determine pattern <span class="qtext400">c</span>, where conditions in an initial part of <span class="qtext400">c</span> can also be determined negatively.
+</p>
+<ul class="disc">
+<li><span class="qtext400">M(c) = {c}</span> for marker <span class="qtext400">c</span>. This means that each marker is a (primitive) pattern and the marker set for this pattern consists of the marker itself.</li>
+</ul>
+<p>
+Some constructs propagate markers externally:
+</p>
+<ul class="disc">
+<li><span class="qtext400">M(tt:deserialize) = M(tt:ref) = M(c)</span> for the content <span class="qtext400">c</span> of the construct in question.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">M(tt:apply) = M(c)</span> for the body <span class="qtext400">c</span> of the called template.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">M(tt:loop) = M(c)</span> for the loop body <span class="qtext400">c</span>.</li>
+</ul>
+<p>
+Transformations with conditions also propagate markers. If differences in cases exist or groupings, the union of all cases is determined:
+</p>
+<ul class="disc">
+<li><span class="qtext400">M(tt:<i class=bn>[</i>d-<i class=bn>]</i>cond) = M(c)</span> for the condition body <span class="qtext400">c</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">M(tt:group) = M(tt:switch) = M(c1) U ... U M(cn)</span> for all cases <span class="qtext400">ci = tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span></li>
+</ul>
+<p>
+For all other instructions <span class="qtext400">c</span>, <span class="qtext400">M(c)</span> is empty.
+</p>
+<p>
+For <span class="qtext400">c1 c2 ...</span> sequences in template content, the following applies:
+</p>
+<ul class="disc">
+<li><span class="qtext400">M(c1 c2 ...) = M(c1) U M(c2 ...)</span>, if <span class="qtext400">c1</span> is a prepattern, otherwise <span class="qtext400">M(c1)</span></li>
+</ul>
+<p>
+Template content is a pre-pattern if its deserialization is possible without the use of content from the input stream. In detail:
+</p>
+<ul class="disc">
+<li>All constructs with an empty deserialization are pre-patterns. These are <span class="qtext400">tt:s-cond</span>,
+<span class="qtext400">tt:assign</span>, <span class="qtext400">tt:clear</span>, <span class="qtext400">tt:serialize</span>,
+<span class="qtext400">tt:write</span>, and compositions of these with <span class="qtext400">tt:cond-var</span>, <span class="qtext400">tt:switch-var</span>, and <span class="qtext400">tt:apply</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is a pre-pattern if the
+condition body is a pattern. (If the pattern cannot be compared, the condition is determined negatively and is skipped.)</li>
+</ul>
+<p>
+<span class="qtext400">tt:deserialize</span>, <span class="qtext400">tt:ref</span>, and <span class="qtext400">tt:apply</span> propagate the pre-pattern property.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The content of the following element <span class="qtext400">tt:cond</span> is a pattern with marker elements
+{<span class="qtext400">f1</span>, <span class="qtext400">f2</span>, <span class="qtext400">f3</span>} (but not <span class="qtext400">fx</span>).
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:cond s-check="not-initial(F3) and initial(F6)"> <br>&nbsp;&nbsp;&lt;tt:clear ref="F3"/> <br>
+&nbsp;&nbsp;&lt;tt:cond check="not-initial(F1) or not-initial(F2)"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:cond check="not-initial(F1)"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:clear ref="F1"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:serialize> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;f1 a="v" tt:value-ref="F1"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:serialize> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:deserialize> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;f1 tt:value-ref="F1"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:deserialize> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:cond> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;f2 tt:value-ref="F2"/> <br>
+&nbsp;&nbsp;&lt;/tt:cond> <br>&nbsp;&nbsp;&lt;f3 tt:value-ref="F3"/> <br>&nbsp;&nbsp;&lt;fx> ... &lt;/fx> <br>&lt;/tt:cond></span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_pattern.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+</html>

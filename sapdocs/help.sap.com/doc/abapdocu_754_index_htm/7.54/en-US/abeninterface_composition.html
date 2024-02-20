@@ -1,0 +1,177 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINTERFACE_COMPOSITION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninterface_composition.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:21 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Nesting Interfaces">
+<meta name="keywords" content="ABAP, Nested Interfaces">
+<title>
+Nesting Interfaces - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninterface_composition.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninterface_composition.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninterfac.html')" class="blue">Interfaces</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Nesting Interfaces
+</span></p>
+<p>
+Interfaces can be nested. An <a href="javascript:call_link('abeninterfac.html')" class="blue">interface</a> can include one or more interfaces as components, which can contain interfaces themselves. An interface that includes another interface is called a
+<a href="javascript:call_link('abencompound_interface_glosry.html')" class="grey" title="Glossary Entry">compound interface</a>.
+An interface nested within an interface is called a component interface. An interface that does not contain any compound interfaces is called an elementary interface.
+</p>
+<p>
+All interface components of a compound interface have the same level. If a compound interface <span class="qtext">
+i3</span> contains compound interfaces <span class="qtext">i2</span>, its interface components <span class="qtext">
+i1</span> becomes interface components of <span class="qtext">i3</span>. A compound interface includes
+each interface component exactly once. A component interface exists only once even if it is used again as a component of another component interface.
+</p>
+<p>
+The statement <span class="qtext">INTERFACES</span> is used for nesting interfaces within an interface definition:
+</p>
+<dl><dd>
+<a href="javascript:call_link('abapinterface.html')" class="blue"><span class="qtext">INTERFACE i3.</span></a> <br><a href="javascript:call_link('abapinterfaces.html')" class="blue"><span class="qtext">&nbsp;&nbsp;INTERFACES: i1, i2 ...</span></a> <br>
+<a href="javascript:call_link('abapendinterface.html')" class="blue"><span class="qtext">ENDINTERFACE.</span></a>
+</dd></dl>
+<p>
+Here, the interface <span class="qtext">i3</span> consists of its components and the interfaces <span class="qtext">
+i1</span> and <span class="qtext">i2</span>. In the compound interface, the components of the component
+interfaces are visible using the interface component selector (~). Within the above definition of <span class="qtext">
+i3</span>, expressions such as <span class="qtext">i1~comp</span> or <span class="qtext">i2~comp</span>
+are possible. However, independent names can be defined using the <a href="javascript:call_link('abapaliases.html')" class="blue"><span class="qtext">ALIASES</span></a> statement.
+</p>
+<A name="@@ITOC@@ABENINTERFACE_COMPOSITION_1"></A>
+<p><span class="h2">
+Using Alias Names
+</span></p>
+<p>
+Within interface definitions, the statement <a href="javascript:call_link('abapaliases.html')" class="blue"><span class="qtext">ALIASES</span></a>
+can be used to assign alias names to the components of component interfaces. This makes those nested to a depth greater than one level visible within the interface definition.
+</p>
+<dl><dd>
+<span class="qtext">INTERFACE i2.</span> <br><span class="qtext">&nbsp;&nbsp;INTERFACES i1.</span> <br><span class="qtext">&nbsp;&nbsp;ALIASES alias21 FOR i1~comp1.</span> <br>
+<span class="qtext">ENDINTERFACE.</span> <br> <br><span class="qtext">INTERFACE i3.</span> <br><span class="qtext">&nbsp;&nbsp;INTERFACES i2.</span> <br>
+<span class="qtext">&nbsp;&nbsp;ALIASES alias31 FOR i2~alias21.</span> <br><span class="qtext">&nbsp;&nbsp;ALIASES alias32 FOR i2~comp2.</span> <br><span class="qtext">ENDINTERFACE.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENINTERFACE_COMPOSITION_2"></A>
+<p><span class="h2">
+Accessing Interface Reference Variables
+</span></p>
+<p>
+Reference variables typed with reference to a compound interface can be assigned reference variables typed with reference to one of the component interfaces (known as an
+<a href="javascript:call_link('abenup_cast_glosry.html')" class="grey" title="Glossary Entry">up cast</a>).
+The latter can be used to address the components of the component interfaces. The opposite case cannot be checked statically and must be done using the
+<a href="javascript:call_link('abencasting_operator_glosry.html')" class="grey" title="Glossary Entry">casting operator</a> (?= or <span class="qtext">CAST</span>) (know as a
+<a href="javascript:call_link('abendown_cast_glosry.html')" class="grey" title="Glossary Entry">down cast</a>).
+</p>
+<dl><dd>
+<span class="qtext">INTERFACE i1.</span> <br><span class="qtext">&nbsp;&nbsp;DATA comp1.</span> <br><span class="qtext">ENDINTERFACE.</span> <br>
+ <br><span class="qtext">INTERFACE i2.</span> <br><span class="qtext">&nbsp;&nbsp;DATA comp2.</span> <br>
+<span class="qtext">&nbsp;&nbsp;INTERFACES i1.</span> <br><span class="qtext">ENDINTERFACE.</span> <br> <br>
+<span class="qtext">INTERFACE i3.</span> <br><span class="qtext">&nbsp;&nbsp;INTERFACES i2.</span> <br><span class="qtext">ENDINTERFACE.</span> <br>
+ <br><span class="qtext">DATA: iref1 TYPE REF TO i1,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iref2 TYPE REF TO i2,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iref3 TYPE REF TO i3.</span> <br> <br><span class="qtext">iref2 = iref3</span>. <br>
+<span class="qtext">iref1 = iref2</span>. <br> <br><span class="qtext">* recommended access:</span> <br>
+ <br><span class="qtext">... iref1->comp1 ...</span> <br><span class="qtext">... iref2->comp2 ...</span> <br>
+ <br><span class="qtext">* this access is not recommended:</span> <br> <br><span class="qtext">... iref2->i1~comp1 ...</span> <br><span class="qtext">... iref3->i2~comp2 ...</span> <br>
+</dd></dl>
+<A name="@@ITOC@@ABENINTERFACE_COMPOSITION_3"></A>
+<p><span class="h2">
+Implementing Nested Interfaces in Classes
+</span></p>
+<p>
+When a nested interface is implemented in a class, all associated interfaces are implemented in the class at the same level irrespective of their nesting hierarchy and the class must implement all methods only once.
+</p>
+<dl><dd>
+<span class="qtext">INTERFACE i1.</span> <br><span class="qtext">&nbsp;&nbsp;DATA comp1.</span> <br><span class="qtext">&nbsp;&nbsp;METHODS meth1.</span> <br>
+<span class="qtext">ENDINTERFACE.</span> <br> <br><span class="qtext">INTERFACE i2.</span> <br><span class="qtext">&nbsp;&nbsp;DATA comp2.</span> <br>
+<span class="qtext">&nbsp;&nbsp;INTERFACES i1.</span> <br><span class="qtext">ENDINTERFACE.</span> <br> <br>
+<span class="qtext">INTERFACE i3.</span> <br><span class="qtext">&nbsp;&nbsp;DATA comp3.</span> <br><span class="qtext">&nbsp;&nbsp;INTERFACES i2.</span> <br>
+<span class="qtext">ENDINTERFACE.</span> <br> <br><span class="qtext">CLASS class DEFINITION.</span> <br>
+<span class="qtext">&nbsp;&nbsp;PUBLIC SECTION.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES i3.</span> <br>
+<span class="qtext">ENDCLASS.</span> <br> <br><span class="qtext">CLASS class IMPLEMENTATION.</span> <br>
+<span class="qtext">&nbsp;&nbsp;METHOD i1~meth.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;...</span> <br>
+<span class="qtext">&nbsp;&nbsp;ENDMETHOD.</span> <br><span class="qtext">ENDCLASS.</span> <br> <br><span class="qtext">DATA cref TYPE REF TO class.</span> <br>
+<span class="qtext">DATA iref1 TYPE REF TO i1.</span> <br><span class="qtext">DATA iref2 TYPE REF TO i2.</span> <br>
+<span class="qtext">DATA iref3 TYPE REF TO i3.</span> <br> <br><span class="qtext">iref1 = iref2 = iref3 = cref.</span> <br>
+ <br><span class="qtext">* recommended access:</span> <br> <br><span class="qtext">... iref1->comp1 ...</span> <br>
+<span class="qtext">... iref2->comp2 ...</span> <br><span class="qtext">... iref3->comp3 ...</span> <br>
+ <br><span class="qtext">* this access is not recommended:</span> <br> <br><span class="qtext">... cref->i1~comp1 ...</span> <br>
+<span class="qtext">... cref->i2~comp2 ...</span> <br><span class="qtext">... cref->i3~comp3 ...</span> <br>
+ <br><span class="qtext">... iref3->i1~comp1 ...</span> <br><span class="qtext">... iref3->i2~comp2 ...</span> <br><span class="qtext">... iref2->i1~comp1 ...</span>
+</dd></dl>
+<p>
+You can always assign reference variables using up cast. Class reference variables for classes that
+implement a compound interface can be assigned to all interface references that are typed with reference
+to an associated interface component. In the class, the interface reference variables know only the
+components of their respective interfaces. The same applies for assignments between interface reference
+variables. It is possible to access components using the interface component selector, but this is not
+recommended. Compound expressions such as <span class="qtext">cref->i3~i2~comp2</span> or <span class="qtext">cref->i3~i2~i3~comp3</span> are not possible.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninterface_composition.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:21 GMT -->
+</html>

@@ -1,0 +1,149 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCOND_CONSTRUCTOR_INFERENCE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencond_constructor_inference.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="COND, SWITCH - Type Inference for Actual Parameters">
+<title>
+COND, SWITCH - Type Inference for Actual Parameters - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencond_constructor_inference.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencond_constructor_inference.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconditional_expressions.html')" class="blue">Conditional Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+COND, SWITCH - Type Inference for Actual Parameters
+</span></p>
+<p>
+The following constructor expression can be passed to generically typed formal parameters as an actual parameter using the character <span class="qtext">#</span> as a symbol for the operand type:
+</p>
+<p>
+<span class="qtext"><a href="javascript:call_link('abenconditional_expression_cond.html')" class="blue">COND</a><i class=bn>|</i><a href="javascript:call_link('abenconditional_expression_switch.html')" class="blue">SWITCH</a> #( ... THEN ... )</span>
+</p>
+<p>
+is passed to generically typed formal parameters as an actual parameter using the character <span class="qtext">#</span>
+as a symbol for the operand type, the following type inference is performed for the character <span class="qtext">#</span>:
+</p>
+<ul class="disc">
+<li>If the data type of the operand after the first <span class="qtext">THEN</span> is known statically and matches the generic type of the formal parameter, this data type is used.</li>
+</ul>
+<ul class="disc">
+<li>If the data type of the operand after the first <span class="qtext">THEN</span> is known statically
+and does not match the generic type of the formal parameter or if it is not known statically, the type is derived from the generic type as follows:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">string</span> for <span class="qtext">csequence</span> and <span class="qtext">clike</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">xstring</span> for <span class="qtext">xsequence</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">decfloat34</span> for <span class="qtext">numeric</span> and <span class="qtext">decfloat</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">p</span> with the length 8 and no decimal places if <span class="qtext">p</span> is generic</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard key</a> for a standard table type with generic primary table key</li>
+</ul>
+<dl><dd>
+Other generic data types (except for table types) that are explicitly generic with respect to their
+secondary table keys cannot be made more concrete and produce a syntax error. More specifically, this
+applies to the types <span class="qtext">c</span>, <span class="qtext">n</span>, and <span class="qtext">x</span> with generic lengths.
+</dd></dl>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+ Rules apply when deriving the type in cases where <span class="qtext">#</span> is specified for actual
+parameters that can be passed to generically typed formal parameters. These rules prevent syntax errors
+in programs that call a procedure and the procedure makes the full typing of a formal parameter type more general by switching to a generic type. <br><br>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The operator <span class="qtext">COND</span> generates a result of type <span class="qtext">string</span>
+in this case. The generic parameter <span class="qtext">p</span> has this type during the execution
+of the method. This is shown by the value "g" returned by <a href="javascript:call_link('abapdescribe_field.html')" class="blue"><span class="qtext">DESCRIBE FIELD</span></a>. The method call leads to a corresponding syntax warning.
+</p>
+<dl><dd>
+<span class="qtext">CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main IMPORTING p TYPE csequence. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;DESCRIBE FIELD p TYPE DATA(t). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( |{ p } of type { t }| ). <br>&nbsp;&nbsp;ENDMETHOD. <br>
+ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;FIELD-SYMBOLS: <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;fs1> TYPE any, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;fs2> TYPE any. <br>&nbsp;&nbsp;ASSIGN 'AM' TO &lt;fs1>. <br>&nbsp;&nbsp;ASSIGN 'PM' TO &lt;fs2>. <br>
+ <br>&nbsp;&nbsp;demo=>main( COND #( WHEN sy-timlo &lt; '120000' THEN &lt;fs1> <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE &lt;fs2> ) ).</span> <br><br>
+</dd></dl>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abencond_type_inference_abexa.html')" class="blue">Conditional Operator, Type Inference</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencond_constructor_inference.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

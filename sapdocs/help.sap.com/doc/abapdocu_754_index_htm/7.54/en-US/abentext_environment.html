@@ -1,0 +1,240 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTEXT_ENVIRONMENT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentext_environment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Text Environment Language and Text Environment">
+<meta name="keywords" content="ABAP, Code Page, Locale, Text Environment, Text Environment Language">
+<title>
+Text Environment Language and Text Environment - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentext_environment.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentext_environment.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlanguage.html')" class="blue">Language Environment</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlanguage_settings.html')" class="blue">Language Settings</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Text Environment Language and Text Environment
+</span></p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENTEXT_ENVIRONMENT_1" class="blue">Text Environment Language</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENTEXT_ENVIRONMENT_2" class="blue">Text Environment</A></li>
+</ul>
+<A name="@@ITOC@@ABENTEXT_ENVIRONMENT_1"></A>
+<p><span class="h2">
+Text Environment Language
+</span></p>
+<p>
+The <a href="javascript:call_link('abentext_env_langu_glosry.html')" class="grey" title="Glossary Entry">text environment language</a> is part of the
+<a href="javascript:call_link('abenlanguage_settings.html')" class="blue">language settings</a> of an ABAP program and determines its
+<a href="javascript:call_link('abentext_environment_glosry.html')" class="grey" title="Glossary Entry">text environment</a>. It is valid during an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>.
+</p>
+<ul class="disc">
+<li>The text environment language is set at the start of each internal session to the
+<a href="javascript:call_link('abenlogon_language_glosry.html')" class="grey" title="Glossary Entry">logon language</a> of the current <a href="javascript:call_link('abenuser_session_glosry.html')" class="grey" title="Glossary Entry">user session</a>.</li>
+</ul>
+<ul class="disc">
+<li>It can also be set to a different language for the current internal session using the statement <a href="javascript:call_link('abapset_locale.html')" class="blue"><span class="qtext">SET LOCALE LANGUAGE</span></a>.</li>
+</ul>
+<p>
+The current text environment language can be determined using the method GET_LANGUAGE of the class <span class="lnkgrey">
+CL_ABAP_SYST</span> or using the statement <a href="javascript:call_link('abapget_locale.html')" class="blue"><span class="qtext">GET
+LOCALE LANGUAGE</span></a>, and is the nominal content of the system field <a href="javascript:call_link('abensystem_fields.html')" class="blue">
+<span class="qtext">sy-langu</span></a>. The possible single-character abbreviations for the text environment
+language are stored as language keys in the column SPRAS of the database table <span class="lnkgrey">T002</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Asserts that the system field <span class="qtext">sy-langu</span> contains the current text environment language, An exception is raised if the system field is overwritten in the program.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+ASSERT sy-langu = cl_abap_syst=>get_language( ).
+</span>
+</p>
+<A name="@@ITOC@@ABENTEXT_ENVIRONMENT_2"></A>
+<p><span class="h2">
+Text Environment
+</span></p>
+<p>
+All programs in an <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal
+session</a> run in a shared text environment determined by the text environment language and which can
+also be set using the statement <a href="javascript:call_link('abapset_locale.html')" class="blue"><span class="qtext">SET LOCALE LANGUAGE</span></a>. As well as the language, the text environment comprises the following:
+</p>
+<ul class="disc">
+<li>A <span class="bold">code page</span></li>
+</ul>
+<dl><dd>
+The <a href="javascript:call_link('abencodepage_glosry.html')" class="grey" title="Glossary Entry">code page</a> of the text environment is always the
+<a href="javascript:call_link('abensystem_codepage_glosry.html')" class="grey" title="Glossary Entry">system code page</a>
+<a href="javascript:call_link('abenutf16_glosry.html')" class="grey" title="Glossary Entry">UTF-16</a> of the AS Instances of a
+<a href="javascript:call_link('abenunicode_system_glosry.html')" class="grey" title="Glossary Entry">Unicode system</a> and cannot
+be changed. The current release supports Unicode systems only. Text environments with other code pages
+are no longer supported. There is a special feature in which the non-Unicode code page that is used
+for conversions is the one that would be assigned to the current text environment in a non-Unicode system. This only applies to specific statements, such as reading and writing
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy files</a> using the <a href="javascript:call_link('abenabap_language_files.html')" class="blue"> ABAP file interface</a>.
+</dd></dl>
+<ul class="disc">
+<li>A <span class="bold">locale</span></li>
+</ul>
+<dl><dd>
+The <a href="javascript:call_link('abenlocale_glosry.html')" class="grey" title="Glossary Entry">locale</a> properties that match
+the text environment language and country are defined in an ICU (International Components for Unicode) library. This library is made available for AS ABAP and is independent of the operating system of the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the <a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instances</a>.
+</dd></dl>
+<p>
+The text environment handles texts in character-like data objects:
+</p>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abencodepage_glosry.html')" class="grey" title="Glossary Entry">code page</a> of the text environment affects all operations that depend on the current character set, such as</li>
+</ul>
+<ul class="circlem2">
+<li>Casting character-like data objects to byte-like types</li>
+</ul>
+<ul class="circlem2">
+<li>Transferring data from and to <a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">external storage</a></li>
+</ul>
+<ul class="circlem2">
+<li>Transferring data using <a href="javascript:call_link('abenabap_data_communication.html')" class="blue">data and communication interfaces</a></li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenlocale_glosry.html')" class="grey" title="Glossary Entry">locale</a> of the text environment affects all statements that sort character-like data objects as text, such as</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT AS TEXT</span></a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abapconvert_text.html')" class="blue"><span class="qtext">CONVERT TEXT INTO SORTABLE CODE</span></a></li>
+</ul>
+<ul class="disc">
+<li>In addition, the text environment language, and not the logon language, is used in the following cases:</li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP-specific <a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session
+variable</a> <a href="javascript:call_link('abenhana_session_variables.html')" class="blue"><span class="qtext400">LOCALE_SAP</span></a>
+in SAP HANA and the session variable <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue"><span class="qtext400">system_language</span></a>
+in ABAP CDS contain the current text environment language in reads from ABAP or ABAP SQL.</li>
+</ul>
+<ul class="circlem2">
+<li>If the logon language for the <a href="javascript:call_link('abenrfc_session_glosry.html')" class="grey" title="Glossary Entry">RFC session</a> is not defined in the
+<a href="javascript:call_link('abendestination_glosry.html')" class="grey" title="Glossary Entry">RFC destination</a> in a
+<a href="javascript:call_link('abenremote_function_call_glosry.html')" class="grey" title="Glossary Entry">remote function call</a>, it is determined by the current text environment language.</li>
+</ul>
+<ul class="circlem2">
+<li>If a language is not specified explicitly in the statement <a href="javascript:call_link('abapsubmit_via_job.html')" class="blue"><span class="qtext">SUBMIT VIA JOB</span></a>, the logon language of the
+<a href="javascript:call_link('abenbatch_session_glosry.html')" class="grey" title="Glossary Entry">background session</a> is set implicitly to the current text environment language.</li>
+</ul>
+<ul class="circlem2">
+<li>The texts on <a href="javascript:call_link('abenselection_screen_glosry.html')" class="grey" title="Glossary Entry">selection screens</a> are determined by the current text environment language.</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abenexception_text_glosry.html')" class="grey" title="Glossary Entry">exception texts</a> returned by
+<a href="javascript:call_link('abenexception_class_glosry.html')" class="grey" title="Glossary Entry">exception classes</a> are determined by the current text environment language.</li>
+</ul>
+<dl><dd>
+Any further frameworks based on the nominal value of the system field <span class="qtext">sy-langu</span> access the current text environment language and not the logon language.
+</dd></dl>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The ABAP programming language supports a subset covered by
+<a href="javascript:call_link('abenucs2_glosry.html')" class="grey" title="Glossary Entry">UCS-2</a> and not the full UTF-16 set. This contains all
+<a href="javascript:call_link('abenutf_glosry.html')" class="grey" title="Glossary Entry">UTF</a> characters except those in the
+<a href="javascript:call_link('abensurrogate_area_glosry.html')" class="grey" title="Glossary Entry">surrogate area</a>. ABAP interprets a character from the surrogate area as two characters.</li>
+</ul>
+<ul class="disc">
+<li>In the non-Unicode <a href="javascript:call_link('abensingle_codepage_system_glosry.html')" class="grey" title="Glossary Entry">
+single code page systems</a> supported before release 7.50, the code page of the text environment was
+always the non-Unicode system code page of the current AS Instance. It was possible to configure different system code pages for the code page of the text environment of a system only in the
+<a href="javascript:call_link('abenmdmp-system_glosry.html')" class="grey" title="Glossary Entry">MDMP systems</a> supported before Release 7.0.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Sets the text environment explicitly before an <a href="javascript:call_link('abensrfc_glosry.html')" class="grey" title="Glossary Entry">aRFC</a>. The function module <span class="lnkgrey">DEMO_RFM_CALL_TRANSACTION</span> calls a transaction using a
+<a href="javascript:call_link('abentransaction_code_glosry.html')" class="grey" title="Glossary Entry">transaction code</a> passed to it. The logon language of the
+<a href="javascript:call_link('abenrfc_session_glosry.html')" class="grey" title="Glossary Entry">RFC session</a> is not determined by the
+<a href="javascript:call_link('abenlogon_language_glosry.html')" class="grey" title="Glossary Entry">logon language</a> of the current session and is always English. Afterwards, the text environment language is set back to its previous value.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+GET LOCALE LANGUAGE DATA(langu) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COUNTRY&nbsp;&nbsp;DATA(dummy) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MODIFIER dummy. <br> <br>SET LOCALE LANGUAGE 'E'. <br>
+CALL FUNCTION 'DEMO_RFM_CALL_TRANSACTION' <br>&nbsp;&nbsp;STARTING NEW TASK 'TCODE' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;tcode = 'SE11'. <br>SET LOCALE LANGUAGE langu.
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapset_locale.html')" class="blue">SET LOCALE LANGUAGE</a><br>
+<a href="javascript:call_link('abapget_locale.html')" class="blue">GET LOCALE LANGUAGE</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenset_locale_abexa.html')" class="blue">Setting the Text Environment</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentext_environment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+</html>

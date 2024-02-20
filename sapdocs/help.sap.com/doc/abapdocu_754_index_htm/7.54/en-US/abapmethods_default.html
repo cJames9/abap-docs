@@ -1,0 +1,163 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPMETHODS_DEFAULT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapmethods_default.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="METHODS - DEFAULT">
+<title>
+METHODS - DEFAULT - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapmethods_default.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapmethods_default.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_ifac_components.html')" class="blue">Components in Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmethods.html')" class="blue">Methods</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapmethods.html')" class="blue">METHODS</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@DEFAULT IGNORE@@METHODS@@"></A>
+<A NAME="@@DEFAULT FAIL@@METHODS@@"></A>
+<p><span class="h1">
+METHODS - DEFAULT <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapmethods_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">METHODS meth ... DEFAULT IGNORE<i class=bn>|</i>FAIL ...</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">DEFAULT</span> makes the explicit implementation of an interface method
+optional and defines a default behavior for calls of non-implemented methods. It cannot be used in classes,
+only in interfaces. Any instance methods and static methods can be defined as optional except for constructors and test methods.
+</P>
+<P>
+A class that implements an interface with the statement <a href="javascript:call_link('abapinterfaces.html')" class="blue"><span class="qtext">
+INTERFACES</span></a> can implement its optional methods, but this is not mandatory. The additions <span class="qtext">
+IGNORE</span> or <span class="qtext">FAIL</span> define the behavior that applies when an optional interface method of an object or class is called at runtime and this object or class is not implemented explicitly.
+</P>
+<ul class="disc">
+<li>
+When a non-implemented optional interface method defined with the addition <span class="qtext">IGNORE</span>
+is defined, the behavior is the same as when it is implemented with an empty body. In particular, all actual parameters are initialized that receive values from formal parameters using
+<a href="javascript:call_link('abenpass_by_value_glosry.html')" class="grey" title="Glossary Entry">pass by value</a>.
+<br><br></li>
+<li>
+Calls of a non-implemented optional interface method defined using the addition <span class="qtext">FAIL</span>
+raise an exception of the class CX_SY_DYN_CALL_ILLEGAL_METHOD. If this exception is not handled, the runtime error CALL_METHOD_NOT_IMPLEMENTED occurs.
+<br></li>
+</ul>
+<P>
+The default behavior defined using <span class="qtext">DEFAULT</span> also applies to the redefinition
+of an inherited optional interface method using the addition <a href="javascript:call_link('abapmethods_redefinition.html')" class="blue">
+<span class="qtext">REDEFINITION</span></a>. A subclass that redefines an optional interface method
+does not need to implement this method explicitly. If the implementation is missing, the default behavior is applied along a path of the inheritance tree until an explicit implementation occurs.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The <span class="qtext">DEFAULT</span> addition can also be used for <a href="javascript:call_link('abenbadi_method_glosry.html')" class="grey" title="Glossary Entry">BAdI methods</a>.
+<br><br></li>
+<li>
+The default behavior defined using <span class="qtext">DEFAULT FAIL</span> that applies to calls of
+a non-implemented optional method matches the behavior that applies when a non-implemented non-optional method of a normal global interface is called. In a
+<a href="javascript:call_link('abenbadi_interface_glosry.html')" class="grey" title="Glossary Entry">BAdI interface</a> on the
+other hand, <span class="qtext">DEFAULT IGNORE</span> matches the default behavior of the <a href="javascript:call_link('abapcall_badi.html')" class="blue"><span class="qtext">CALL BADI</span></a> statement.
+<br><br></li>
+<li>
+If an optional interface method is redefined in a subclass, it needs to be implemented explicitly in this subclass as well. The default behavior does not usually meet expectations here.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The class <span class="qtext">class</span> implements the interface <span class="qtext">intf</span>
+without implementing its optional methods. A call of the non-implemented static method <span class="qtext">m1</span>
+raises a (handled) exception due to the addition <span class="qtext">FAIL</span>. A call of the non-implemented
+instance method <span class="qtext">m2</span> does not execute any statements due to the addition <span class="qtext">IGNORE</span>, but does set their return value <span class="qtext">r</span> to 0.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE intf. <br>&nbsp;&nbsp;CLASS-METHODS m1 DEFAULT FAIL. <br>&nbsp;&nbsp;METHODS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m2 DEFAULT IGNORE <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RETURNING VALUE(r) TYPE i. <br>
+ENDINTERFACE. <br> <br>CLASS class DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ALIASES m1 FOR intf~m1. <br>&nbsp;&nbsp;&nbsp;&nbsp;ALIASES m2 FOR intf~m2. <br>
+ENDCLASS. <br> <br>CLASS class IMPLEMENTATION. <br>ENDCLASS. <br> <br>DATA oref TYPE REF TO class. <br> <br>
+START-OF-SELECTION. <br> <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class=>m1( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_dyn_call_illegal_method INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>
+&nbsp;&nbsp;ENDTRY. <br> <br>&nbsp;&nbsp;cl_demo_output=>display( NEW class( )->m2( ) ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapmethods_default.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:45 GMT -->
+</html>

@@ -1,0 +1,210 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPWITH_SUBQUERY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwith_subquery.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:59 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="WITH subquery_clauses">
+<title>
+WITH subquery_clauses - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapwith_subquery.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapwith_subquery.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwith.html')" class="blue">WITH</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@subquery@@WITH@@"></A>
+<p><span class="h1">
+WITH subquery_clauses <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapinsert_dbtab_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<A name="@@ITOC@@ABAPWITH_SUBQUERY_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... <i class=bn>{</i> <a href="javascript:call_link('abapfrom_clause.html')" class="blue">FROM</a> source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abapfields_clause.html')" class="blue">FIELDS</a> <a href="javascript:call_link('abapselect_clause.html')" class="blue">select_clause</a> <i class=bn>}</i> <br>
+&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> <a href="javascript:call_link('abapselect_clause.html')" class="blue">select_clause</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abapfrom_clause.html')" class="blue">FROM</a> source <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapwhere.html')" class="blue">WHERE</a> <a href="javascript:call_link('abenwhere_logexp.html')" class="blue">sql_cond</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>
+<a href="javascript:call_link('abapgroupby_clause.html')" class="blue">GROUP BY</a> group<i class=bn>]</i> <i class=bn>[</i><a href="javascript:call_link('abaphaving_clause.html')" class="blue">HAVING</a> group_cond<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>
+<a href="javascript:call_link('abaporderby_clause.html')" class="blue">ORDER BY</a> <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><i
+class=bn>[</i>UP TO n ROWS <i class=bn>[</i>OFFSET o<i class=bn>]</i><i class=bn>]</i></a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abenosql_db_hints.html')" class="blue">db_hints</a><i class=bn>]</i>&nbsp;&nbsp;...</span> <br><br>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Possible <a href="javascript:call_link('abenselect_clauses.html')" class="blue">clauses and additions</a> of
+<a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subqueries</a>
+of a <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement. These clauses define the results set of a
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expression</a>.
+</P>
+<P>
+The results set can be used as a temporary table in subsequent subqueries and in the current <span class="qtext">WITH</span>
+statement as a data source <a href="javascript:call_link('abapselect_data_source.html')" class="blue"><span class="qtext">data_source</span></a>.
+</P>
+<P>
+The names of the columns of the result set are defined by the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">
+SELECT</span></a> of the subquery by default. However they can be overwritten in the <span class="qtext">WITH</span>
+statement. If a union set is created in the subquery using <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">
+UNION</span></a>, the column names are determined by the <span class="qtext">SELECT</span> list of the first <span class="qtext">SELECT</span> statement.
+</P>
+<P>
+If the clauses of the subquery contain dynamic tokens, the common table expression can only be used in other dynamic tokens of the <span class="qtext">WITH</span> statement.
+</P>
+<P>
+The addition <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><span class="qtext">UP TO n ROWS</span></a>
+can only be used after <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>
+and the addition <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><span class="qtext">OFFSET</span></a>
+can only be used after <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><span class="qtext">UP TO
+n ROWS</span></a>. An <span class="qtext">ORDER BY</span> clause in a subquery is not supported by all databases. This means a syntax check warning from the
+<a href="javascript:call_link('abenextended_program_check_glosry.html')" class="grey" title="Glossary Entry">extended program check</a> can occur that can be hidden using the pragma <span
+ class="qtext">##db_feature_mode[limit_in_subselect_or_cte]</span>. If this is detected at runtime on
+a database that does not support the pragma, a handleable exception of the class <span class="lnkgrey">CX_SY_SQL_UNSUPPORTED_FEATURE</span> is raised.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+In an ABAP program, it is possible to use the method USE_FEATURES of the class
+<a href="javascript:call_link('abencl_abap_dbfeatures.html')" class="blue">CL_ABAP_DBFEATURES</a> to check whether the current database system or a database system accessed using a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">
+secondary connection</a> supports <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> clauses in
+<a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subqueries</a>. This requires the constant LIMIT_IN_SUBSELECT_OR_CTE of this class to be passed to the method in an internal table.
+<br></li>
+</ul>
+<ul class="disc">
+<li>If a <a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a> is used to access a <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS</a> entity</a> associated with a <a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS</a> role</a> and for which <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue">
+<a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS</a> access control</a>
+is not disabled using the value <span class="qtext400">#NOT_ALLOWED</span> for the annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">@AccessControl.authorizationCheck</span></a> or using the addition <a href="javascript:call_link('abapselect_data_source.html')" class="blue">
+<span class="qtext">WITH PRIVILEGED ACCESS</span></a> in the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a> clause, only that data is read implicitly that matches the
+<a href="javascript:call_link('abenaccess_condition_glosry.html')" class="grey" title="Glossary Entry">access condition</a> defined
+in the CDS role. If data cannot be read, ABAP programs cannot distinguish whether this is due to the conditions of the <span class="qtext">SELECT</span> statement, the conditions of the CDS entity, or an associated CDS role. If the
+<a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database view</a> database view of a CDS view is accessed, no access control takes place.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Subquery of a common table expression <span class="qtext">+flights</span> with almost all possible clauses.
+The <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> clause followed
+by the addition <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><span class="qtext">UP TO</span></a> is not supported by all database, which means a syntax warning from the
+<a href="javascript:call_link('abenextended_program_check_glosry.html')" class="grey" title="Glossary Entry">extended program check</a> is raised that can be hidden here using the pragma <span
+ class="qtext">##db_feature_mode[limit_in_subselect_or_cte]</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA carrids TYPE RANGE OF sflight-carrid. <br> <br>... <br> <br>WITH <br>&nbsp;&nbsp;+flights AS ( SELECT FROM sflight <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AVG( seatsocc AS DEC( 16,2 ) ) AS avg <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid IN @carrids <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY carrid, connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid UP TO 1 ROWS ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ##db_feature_mode[limit_in_subselect_or_cte] <br>
+&nbsp;&nbsp;SELECT FROM +flights AS f <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN scarr AS s <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON f~carrid = s~carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS s~carrname, f~connid, f~avg <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY s~carrname, f~connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+This example demonstrates a common table expression in which all clauses of the subquery, and the main
+query too, are specified as dynamic tokens. In the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause, the addition <a href="javascript:call_link('abapselect_into_target.html')" class="blue"><span class="qtext">NEW</span></a>
+and the declaration operator <a href="javascript:call_link('abapselect_into_target.html')" class="blue"><span class="qtext">@DATA(...)</span></a>
+are used to declare a generic data reference variable that points to the result in an anonymous data object.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA carrid TYPE spfli-carrid VALUE 'LH'. <br>cl_demo_input=>request( CHANGING field = carrid ). <br> <br>
+DATA: <br>&nbsp;&nbsp;sel_sub1 TYPE string VALUE `cityfrom AS city`, <br>&nbsp;&nbsp;sel_sub2 TYPE string VALUE `cityto AS city`, <br>
+&nbsp;&nbsp;frm_sub&nbsp;&nbsp;TYPE string VALUE `spfli`, <br>&nbsp;&nbsp;whr_sub&nbsp;&nbsp;TYPE string VALUE `carrid = @carrid`, <br>
+&nbsp;&nbsp;sel_main TYPE string VALUE `*`, <br>&nbsp;&nbsp;frm_main TYPE string VALUE `sgeocity`, <br>&nbsp;&nbsp;whr_main TYPE string VALUE `city IN ( SELECT city FROM +cities )`. <br>
+ <br>WITH <br>&nbsp;&nbsp;+cities AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT (sel_sub1) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (frm_sub) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE (whr_sub) <br>&nbsp;&nbsp;&nbsp;&nbsp;UNION DISTINCT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT (sel_sub1) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (frm_sub) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE (whr_sub) ) <br>&nbsp;&nbsp;SELECT (sel_main) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (frm_main) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE (whr_main) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE NEW @DATA(result). <br> <br>ASSIGN result->* TO FIELD-SYMBOL(&lt;fs>). <br>cl_demo_output=>display( &lt;fs> ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwith_subquery.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:59 GMT -->
+</html>

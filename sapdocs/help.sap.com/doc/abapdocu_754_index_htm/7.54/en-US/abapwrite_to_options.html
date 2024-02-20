@@ -1,0 +1,1148 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPWRITE_TO_OPTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwrite_to_options.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="WRITE - format_options">
+<title>
+WRITE - format_options - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapwrite_to_options.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapwrite_to_options.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_statements.html')" class="blue">Statements for Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite_to.html')" class="blue">WRITE - TO</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+WRITE - format_options <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapwrite_to_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>[</i>LEFT-JUSTIFIED<i class=bn>|</i>CENTERED<i class=bn>|</i>RIGHT-JUSTIFIED<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>EXPONENT exp<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>NO-GROUPING<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>NO-SIGN<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>NO-ZERO<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>CURRENCY cur<i class=bn>]</i></span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>DECIMALS dec<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ROUND scale<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>UNIT unit<i class=bn>]</i></span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ENVIRONMENT TIME FORMAT<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>TIME ZONE tz<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>STYLE stl<i class=bn>]</i></span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>USING <i class=bn>{</i> <i class=bn>{</i>NO EDIT MASK<i class=bn>}</i><i
+class=bn>|</i><i class=bn>{</i>EDIT MASK mask<i class=bn>}</i> <i class=bn>}</i><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i> DD/MM/YY&nbsp;&nbsp; <i class=bn>|</i> MM/DD/YY</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> DD/MM/YYYY <i class=bn>|</i> MM/DD/YYYY</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> DDMMYY&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> MMDDYY</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> YYMMDD <i class=bn>]</i> ...</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... LEFT-JUSTIFIED<i class=bn>|</i>CENTERED<i class=bn>|</i>RIGHT-JUSTIFIED</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... EXPONENT exp</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">... NO-GROUPING</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_4@4@" class="blue"> 4. <span class="qtext">... NO-SIGN</span> </A> <br><br>
+<A HREF="#!ABAP_ADDITION_5@5@" class="blue"> 5. <span class="qtext">... NO-ZERO</span> </A> <br><br><A HREF="#!ABAP_ADDITION_6@6@" class="blue"> 6. <span class="qtext">... CURRENCY cur</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_7@7@" class="blue"> 7. <span class="qtext">... DECIMALS dec</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_8@8@" class="blue"> 8. <span class="qtext">... ROUND scale</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_9@9@" class="blue"> 9. <span class="qtext">... UNIT unit</span> </A> <br><br>
+<A HREF="#!ABAP_ADDITION_10@10@" class="blue"> 10. <span class="qtext">... ENVIRONMENT TIME FORMAT</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_11@11@" class="blue"> 11. <span class="qtext">... TIME ZONE tz</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_12@12@" class="blue"> 12. <span class="qtext">... STYLE stl</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_13@13@" class="blue"> 13. <span class="qtext">... USING <i class=bn>{</i> <i
+class=bn>{</i>NO EDIT MASK<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>EDIT MASK mask<i class=bn>}</i> <i class=bn>}</i></span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_14@14@" class="blue"> 14. <span class="qtext">... DD/MM/YY&nbsp;&nbsp; <i class=bn>|</i> MM/DD/YY</span> </A> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> DD/MM/YYYY <i class=bn>|</i> MM/DD/YYYY</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> DDMMYY&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> MMDDYY</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> YYMMDD</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+These formatting options override the <a href="javascript:call_link('abenwrite_formats.html')" class="blue">predefined formats</a>
+of the statements <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE ... TO</span></a>
+and <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a>. Without these additions, the content of the source field is formatted only according to its data type.
+</P>
+<P>
+The result of the formatting is adapted to the available length. In the case of <span class="qtext">WRITE ... TO</span>, this is the length of the target variable, with <span class="qtext">WRITE</span>, this is the
+<a href="javascript:call_link('abenwrite_output_length.html')" class="blue">output length</a>. In some cases, the behavior of
+the additions used in <a href="javascript:call_link('abapwrite_int_options.html')" class="blue">combination with <span class="qtext">WRITE</span></a> can differ from the general behavior in the case of <span class="qtext">WRITE ... TO</span>.
+</P>
+<P>
+If a <a href="javascript:call_link('abenconversion_routine_glosry.html')" class="grey" title="Glossary Entry">conversion routine</a> is executed when formatting, the other formatting options are ignored.
+</P>
+<P>
+The additions can be used together, with the following restrictions:
+</P>
+<ul class="disc">
+<li>
+The additions <span class="qtext">ENVIRONMENT TIME FORMAT</span> and <span class="qtext">TIME ZONE</span>
+are mutually exclusive and cannot be used with the additions <span class="qtext">CURRENCY</span>, <span class="qtext">
+DECIMALS</span>, <span class="qtext">EXPONENT</span>, <span class="qtext">NO-GROUPING</span>, <span class="qtext">
+NO-SIGN</span>, <span class="qtext">NO-ZERO</span>, <span class="qtext">ROUND</span>, <span class="qtext">STYLE</span>, or <span class="qtext">UNIT</span>.
+<br><br></li>
+<li>
+The addition <span class="qtext">STYLE</span> cannot be used together with the additions <span class="qtext">CURRENCY</span>,
+<span class="qtext">DD/MM/YY</span>, ... , <span class="qtext">YYMMDD</span>, <span class="qtext">ROUND</span>,
+<span class="qtext">ENVIRONMENT TIME FORMAT</span>, <span class="qtext">TIME ZONE</span>, and <span class="qtext">UNIT</span>.
+<br><br></li>
+<li>
+The addition <span class="qtext">UNIT</span> cannot be used together with the additions <span class="qtext">DECIMALS</span>,
+<span class="qtext">ROUND</span>, <span class="qtext">STYLE</span>, <span class="qtext">ENVIRONMENT TIME FORMAT</span>, and <span class="qtext">TIME ZONE</span>.
+<br></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The definition of a <a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point
+number in ABAP Dictionary</a> always defines an output style. This means that, when data objects declared
+with a reference to this type in ABAP Dictionary and are part of the output, the same exclusions apply as when using the addition <span class="qtext">STYLE</span>. <br><br>
+</P>
+<A NAME="@@LEFT-JUSTIFIED@@WRITE@@"></A>
+<A NAME="@@CENTERED@@WRITE@@"></A>
+<A NAME="@@RIGHT-JUSTIFIED@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... LEFT-JUSTIFIED<i class=bn>|</i>CENTERED<i class=bn>|</i>RIGHT-JUSTIFIED</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition determines whether the content of the source field that is formatted according to the
+other options will be adjusted within the available length to the right, the center, or to the left.
+Trailing blanks are ignored for fields of type <span class="qtext">c</span> and are handled like all other characters for fields of type <span class="qtext">string</span>.
+</P>
+<P>
+The adjustment is done by filling surplus positions in the result either from the right or from the
+left or alternately from the left and right with blanks. If the available length is too short, source
+fields of the types <span class="qtext">c</span> and <span class="qtext">string</span> are truncated on the left (if right-justified), unlike the usual
+<a href="javascript:call_link('abenwrite_cutoffs.html')" class="blue">cutoff behavior</a>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Left-justified, centered, and right-justified assignment of three text field literals to a text field of 50 characters length.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA formatted_text TYPE c LENGTH 50. <br> <br>WRITE 'Left'&nbsp;&nbsp; TO formatted_text LEFT-JUSTIFIED. <br>
+cl_demo_output=>write( formatted_text ). <br>WRITE 'Center' TO formatted_text CENTERED. <br>cl_demo_output=>write( formatted_text ). <br>
+WRITE 'Right'&nbsp;&nbsp;TO formatted_text RIGHT-JUSTIFIED. <br>cl_demo_output=>write( formatted_text ). <br> <br>cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<A NAME="@@EXPONENT@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... EXPONENT exp</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">ENVIRONMENT TIME FORMAT</span> and <span class="qtext">TIME ZONE</span>. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition determines the exponent when formatting
+<a href="javascript:call_link('abenfloating_point_number_2_glosry.html')" class="grey" title="Glossary Entry">floating point
+numbers</a>. The addition <span class="qtext">EXPONENT</span> is applied to source fields of the type
+<span class="qtext">f</span> or when the addition <span class="qtext">STYLE</span> is specified.  Otherwise it is ignored.
+</P>
+<P>
+<span class="qtext">exp</span> expects a data object of the type <span class="qtext">i</span> that contains the required exponent.
+</P>
+<ul class="disc">
+<li>
+In data type <span class="qtext">f</span>, the mantissa is adjusted to this exponent by moving the decimal
+point and padding with zeroes. If <span class="qtext">exp</span> contains 0, no exponent is created.
+If the value of <span class="qtext">exp</span> is greater than the exponent of the source field plus
+16, only zeroes are allocated to the mantissa. If the value of <span class="qtext">exp</span> is less
+than the exponent of the source field, and there is not enough space for the places required before
+the decimal point, the addition is ignored. If the value in <span class="qtext">exp</span> is positive and has more than three characters, only the first three places of the exponent are used.
+<br><br></li>
+<li>
+If the formatting option <span class="qtext">STYLE</span> is also specified, source fields of all numeric types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+<span class="qtext">p</span>, <span class="qtext">f</span>, <span class="qtext">decfloat16</span>, and
+<span class="qtext">decfloat34</span> are converted before the formatting to <span class="qtext">decfloat34</span>.
+For <span class="qtext">STYLE</span>, only the scientific notation O_SCIENTIFIC can be declared together
+with <span class="qtext">EXPONENT</span>. The addition <span class="qtext">EXPONENT</span> defines the exponent here. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The formatted result of the statement <span class="qtext">WRITE TO</span> is "1,414". The standard formatting for a length of 6 would be "1E+00".
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE f, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 6. <br>
+ <br>float = SQRT( 2 ). <br> <br>WRITE float TO formatted_text EXPONENT 0. <br> <br>cl_demo_output=>display( formatted_text ). <br><br>
+</span>
+</p>
+<A NAME="@@NO-GROUPING@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... NO-GROUPING</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">ENVIRONMENT TIME FORMAT</span> and <span class="qtext">TIME ZONE</span>. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+When formatting data objects of the data types (<span class="qtext">s</span>), <span class="qtext">i</span>,
+<span class="qtext">int8</span>, <span class="qtext">p</span>, <span class="qtext">decfloat16</span>,
+or <span class="qtext">decfloat34</span>, this addition suppresses the thousands separators. Otherwise, the addition is ignored. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+If not defined otherwise in the <a href="javascript:call_link('abenformat_setting_glosry.html')" class="grey" title="Glossary Entry">
+format settings</a>, the result of the formats is <span class="qtext400">1,000,000</span> and <span class="qtext400">1000000</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE c LENGTH 20. <br> <br>SET COUNTRY 'US'. <br> <br>WRITE CONV i( '1000000' ) TO text. <br>cl_demo_output=>write( text ). <br>
+WRITE CONV i( '1000000' ) TO text NO-GROUPING. <br>cl_demo_output=>display( text ). <br><br>
+</span>
+</p>
+<A NAME="@@NO-SIGN@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_4@4@"></A> <span class="bold">Addition 4</span>
+</span></p>
+<P>
+<span class="qtext">... NO-SIGN</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">ENVIRONMENT TIME FORMAT</span> and <span class="qtext">TIME ZONE</span>. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+When formatting data objects of the data types (<span class="qtext">s</span>), <span class="qtext">i</span>,
+<span class="qtext">int8</span>, <span class="qtext">p</span>, <span class="qtext">decfloat16</span>,
+<span class="qtext">decfloat34</span>, or <span class="qtext">f</span>, this addition suppresses the sign. Otherwise, the addition is ignored. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Number output with explanatory text instead of with +/-sign.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 10. <br>
+ <br>DO 10 TIMES. <br>&nbsp;&nbsp;number = sy-index - 5. <br>&nbsp;&nbsp;IF number >= 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;WRITE number TO formatted_text. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write_text( formatted_text &amp;&amp; ` (positive)` ). <br>&nbsp;&nbsp;ELSE. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE number TO formatted_text NO-SIGN. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write_text( formatted_text &amp;&amp; ` (negative)` ). <br>
+&nbsp;&nbsp;ENDIF. <br>ENDDO. <br>cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<A NAME="@@NO-ZERO@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_5@5@"></A> <span class="bold">Addition 5</span>
+</span></p>
+<P>
+<span class="qtext">... NO-ZERO</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">ENVIRONMENT TIME FORMAT</span> and <span class="qtext">TIME ZONE</span>. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+If the source field has a numeric data type and contains the value 0, the available length is padded
+with blanks. If the source field has the data type <span class="qtext">c</span>, <span class="qtext">n</span>,
+or <span class="qtext">string</span>, leading zeroes are formatted as blanks. Otherwise, the addition is ignored. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Formats the content of a numeric text field as "123" instead of "0000000123".
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: num&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE n LENGTH 10 VALUE '123', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 10. <br> <br>WRITE num TO formatted_text. <br>
+cl_demo_output=>write_text( formatted_text ). <br>WRITE num TO formatted_text NO-ZERO. <br>cl_demo_output=>display_text( formatted_text ). <br><br>
+</span>
+</p>
+<A NAME="@@CURRENCY@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_6@6@"></A> <span class="bold">Addition 6</span>
+</span></p>
+<P>
+<span class="qtext">... CURRENCY cur</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with the additions <span class="qtext">ENVIRONMENT TIME FORMAT</span>
+and <span class="qtext">TIME ZONE</span> and not for the numeric data types <span class="qtext">decfloat16</span>
+and <span class="qtext">decfloat34</span>. This means it also cannot be used together with the addition <span class="qtext">STYLE</span>. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition determines the currency-dependent <a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a> when formatting data objects of the numeric data types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+<span class="qtext">p</span> and <span class="qtext">f</span>. The numeric data types <span class="qtext">decfloat16</span>
+and <span class="qtext">decfloat34</span> produce a syntax error or raise an exception. For all other data types the addition is ignored.
+</P>
+<P>
+For all permitted numeric data types, <span class="qtext">cur</span> expects a character-like field containing a
+<a href="javascript:call_link('abencurrency_id_glosry.html')" class="grey" title="Glossary Entry">currency ID</a> from the column
+WAERS of the database table <span class="lnkgrey">TCURC</span> in uppercase. Usually two decimal places
+are used for every value entered in <span class="qtext">cur</span>, unless the currency ID specified
+is in the column CURRKEY of the database table <span class="lnkgrey">TCURX</span>. In this case, the number of decimal places is determined using the CURRDEC column of this table.
+</P>
+<P>
+For the individual numeric data types, the following applies:
+</P>
+<ul class="disc">
+<li>
+For data objects of types (<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>,
+and <span class="qtext">int8</span>, a decimal separator is inserted into the result at the position determined by <span class="qtext">cur</span> and the thousands separators are moved accordingly.
+<br><br></li>
+<li>
+For data objects of type <span class="qtext">p</span>, the decimal places determined by the definition
+of the data type are ignored completely. Independently of the actual value and without rounding, decimal
+separators and thousands separators are inserted between the digits in the places determined by <span class="qtext">cur</span>.
+<br><br></li>
+<li>
+For data objects of type <span class="qtext">f</span>, addition <span class="qtext">CURRENCY</span>
+has the same effect as addition <span class="qtext">DECIMALS</span> (see below), where the number of decimal places is determined by <span class="qtext">cur</span>.
+<br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The addition <span class="qtext">CURRENCY</span> is useful with currencies from the tables TCURX or TCURX for displaying data objects of types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+or <span class="qtext">p</span> without decimal places, whose contents are currency amounts in the smallest unit of the currency.
+<br><br></li>
+<li>
+For decimal floating point numbers, the methods CONVERT_CURR_TO_DECFLOAT and CONVERT_DECFLOAT_TO_CURR of the system class
+<a href="javascript:call_link('abencl_abap_decfloat_doc.html')" class="blue">CL_ABAP_DECFLOAT</a> are provided. These methods convert currency amounts to decimal floating point numbers, as specified by a currency key, and back again. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The formatted result of "12345678" is "123456,78". The currency ID <span class="qtext400">"EUR"</span> is contained in the database table TCURC, but not in TCURX. For this reason two decimal places are used by default.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i VALUE 12345678, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 10. <br> <br>WRITE int TO formatted_text NO-GROUPING CURRENCY 'EUR'. <br>cl_demo_output=>display_text( formatted_text ). <br><br>
+</span>
+</p>
+<A NAME="@@DECIMALS@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_7@7@"></A> <span class="bold">Addition 7</span>
+</span></p>
+<P>
+<span class="qtext">... DECIMALS dec</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">ENVIRONMENT TIME FORMAT</span> and <span class="qtext">UNIT</span>. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition determines the number of <a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a> when formatting data objects of the data types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+<span class="qtext">p</span>, <span class="qtext">decfloat16</span>, <span class="qtext">decfloat34</span>,
+or <span class="qtext">f</span>, as well as for <span class="qtext">utclong</span>. Otherwise, the addition is ignored.
+</P>
+<P>
+<span class="qtext">dec</span> expects a data object of type <span class="qtext">i</span> that contains the number of decimal places required.  For the individual data types, the following applies:
+</P>
+<ul class="disc">
+<li>
+Numeric Data Types
+<br></li>
+</ul>
+<dl>
+
+<dd>
+If the content of <span class="qtext">dec</span> is less than 0, it is handled like 0. The content of data objects of data types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+or <span class="qtext">p</span> is multiplied by 10 to the power of <span class="qtext">dec</span> beforehand.
+</dd>
+</dl>
+<ul class="circlem2">
+<li>For data objects of types (<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>,
+and <span class="qtext">int8</span>, a decimal separator and as many zeroes as specified in <span class="qtext">dec</span>
+are appended. The content of <span class="qtext">dec</span> must not exceed 14. If it does, a non-handleable exception is raised. If the content of <span class="qtext">dec</span> is 0, the output remains unaffected.</li>
+</ul>
+<ul class="circlem2">
+<li>For data objects of type <span class="qtext">p</span>, independently of the number of decimal places
+determined in the data type, as many decimal places are used as are specified in <span class="qtext">dec</span>.
+The content of <span class="qtext">dec</span> must not exceed 14. If it does, a non-handleable exception
+is raised. If the source field has more decimal places, they are rounded to the decimal places in <span class="qtext">dec</span>. If the source field has fewer decimal places, zeroes are appended accordingly.</li>
+</ul>
+<ul class="circlem2">
+<li>For data objects of types <span class="qtext">decfloat16</span> and <span class="qtext">decfloat34</span>,
+the content of <span class="qtext">dec</span> decides the number of decimal places in mathematical notation and the number of places in the mantissa in scientific notation.</li>
+</ul>
+<ul class="circlem2">
+<li>For data objects of type <span class="qtext">f</span>, the content of <span class="qtext">dec</span> determines the number of decimal places in the
+<a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">scientific notation</a>.
+If the content of <span class="qtext">dec</span> is greater than 16, it is handled like 16. If the content
+of <span class="qtext">dec</span> is greater than the number of decimal places of the source field,
+zeroes are appended accordingly. If the content of <span class="qtext">dec</span> is less than the number
+of decimal places of the source field, they are rounded to the decimal places in <span class="qtext">dec</span>.</li>
+</ul>
+<ul class="disc">
+<li>
+Time stamp
+<br></li>
+</ul>
+<dl>
+
+<dd>
+The content of <span class="qtext">dec</span> must be between 0 and 7.
+</dd>
+</dl>
+<ul class="circlem2">
+<li>For time stamp fields of the time stamp type <span class="qtext">utclong</span> as many decimal
+places as specified in <span class="qtext">dec</span> are used. Excess decimal places are truncated.
+If <span class="qtext">dec</span> has the value 0, the decimal separator is removed. If <span class="qtext">dec</span> has an invalid value, a handleable exception of class CX_SY_CONVERSION_NO_DATE_TIME is raised.</li>
+</ul>
+<ul class="circlem2">
+<li>If the addition <span class="qtext">TIMEZONE</span> is specified for suitable numbers of the type
+<span class="qtext">p</span>, its content is interpreted as a time stamp. For data type <span class="qtext">p</span>
+of length 8 without decimal places (TIMESTAMP from ABAP Dictionary), as many zeroes as specified in
+<span class="qtext">dec</span> are appended. For data type <span class="qtext">p</span> of length 11
+with 7 decimal places (TIMESTAMPL from ABAP Dictionary), as many decimal places as specified in <span class="qtext">
+dec</span> are used. Excess decimal places are truncated. If <span class="qtext">dec</span> has the
+value 0, the decimal separator is removed. If <span class="qtext">dec</span> has an invalid value, an asterisk "*" is inserted before the date and the last position of the time is truncated.</li>
+</ul>
+<P>
+If the formatting option <span class="qtext">CURRENCY</span> is also specified, it is first executed for the data types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>
+and <span class="qtext">p</span> before the formatting option <span class="qtext">DECIMALS</span> is
+applied. For data type <span class="qtext">f</span>, the formatting option <span class="qtext">CURRENCY</span> is ignored if it is specified together with <span class="qtext">DECIMALS</span>.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+If decimal places are added for a time stamp in a packed number without decimal places (TIMESTAMPL from
+ABAP Dictionary) with <span class="qtext">DECIMALS</span>, these are generated only if the available length is sufficient. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The formatted result of "1234.5678" is "1234,57".
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: pack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE p LENGTH 8 DECIMALS 4 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE '1234.5678', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 10. <br> <br>WRITE pack TO formatted_text NO-GROUPING DECIMALS 2. <br>cl_demo_output=>display_text( formatted_text ). <br><br>
+</span>
+</p>
+<A NAME="@@ROUND@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_8@8@"></A> <span class="bold">Addition 8</span>
+</span></p>
+<P>
+<span class="qtext">... ROUND scale</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">STYLE</span>, <span class="qtext">ENVIRONMENT
+TIME FORMAT</span>, <span class="qtext">TIME ZONE</span>, and <span class="qtext">UNIT</span>. Also, <span class="qtext">ROUND</span> cannot be used for
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point numbers defined in ABAP Dictionary</a>, because these always have an output style assigned to them. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+For source fields of data type <span class="qtext">p</span>, this addition multiplies the value of the data object by 10 to the power of
+-<span class="qtext">scale</span> before it is formatted.  Otherwise, the addition is ignored.
+</P>
+<P>
+<span class="qtext">scale</span> expects a data object of type <span class="qtext">i</span> that contains the scaling value required.
+</P>
+<P>
+If the value of <span class="qtext">scale</span> is greater than 0 and the addition <span class="qtext">DECIMALS</span> is not specified, the intermediate result is rounded to the
+<a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a> defined
+in the data type. If the addition <span class="qtext">DECIMALS</span> is specified, it is rounded to the number of decimal places specified in <span class="qtext">dec</span> and these places are output.
+</P>
+<P>
+If the addition <span class="qtext">CURRENCY</span> is specified, it is applied to the content of the
+source field before the multiplication is executed. If the addition <span class="qtext">DECIMALS</span>
+is not specified, the number of decimal places determined by <span class="qtext">cur</span> is used
+for rounding and formatting. If the addition <span class="qtext">DECIMALS</span> is specified, the value in <span class="qtext">dec</span> is used. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The formatted result of "12345678" is "123456.7800".
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: pack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE p LENGTH 8 DECIMALS 0 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE '12345678', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 12. <br> <br>WRITE pack TO formatted_text NO-GROUPING ROUND 2 DECIMALS 4. <br>cl_demo_output=>display_text( formatted_text ). <br><br>
+</span>
+</p>
+<A NAME="@@UNIT@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_9@9@"></A> <span class="bold">Addition 9</span>
+</span></p>
+<P>
+<span class="qtext">... UNIT unit</span>   <br><!-- /A --> <br><br>This addition cannot be used together
+with additions <span class="qtext">DECIMALS</span>, <span class="qtext">ROUND</span>, <span class="qtext">STYLE</span>,
+<span class="qtext">ENVIRONMENT TIME FORMAT</span>, and <span class="qtext">TIME ZONE</span>. Also, <span class="qtext">UNIT</span> cannot be used for
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point numbers defined in ABAP Dictionary</a>, because these always have an output style assigned to them. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition truncates the <a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">
+decimal places</a> that have a value of 0 and that lie outside of the accuracy of a measurement unit
+when formatting data objects of data type <span class="qtext">p</span>. Otherwise the addition is ignored (except for type <span class="qtext">f</span>).
+</P>
+<P>
+<span class="qtext">unit</span> expects a character-like field that contains a
+<a href="javascript:call_link('abenunit_id_glosry.html')" class="grey" title="Glossary Entry">unit code</a> from column MSEHI
+of database table <span class="lnkgrey">T006</span> in uppercase letters. The system uses column DECAN
+of the related row in database table T006 to determine the number of decimal places. If the content of <span class="qtext">unit</span> is not found in T006, the addition is ignored.
+</P>
+<ul class="disc">
+<li>
+If the data type of source field is <span class="qtext">p</span> and has at least as many decimal places
+as specified by <span class="qtext">unit</span>, and if no other places that are not equal to 0 are cut off by this action, the content of the source field is formatted with this number of decimal places.
+<br><br></li>
+<li>
+For data objects of type <span class="qtext">f</span>, the addition <span class="qtext">UNIT</span>
+has the same effect as the addition <span class="qtext">DECIMALS</span> (see above), where the number of decimal places is determined by <span class="qtext">unit</span>.
+<br></li>
+</ul>
+<P>
+If, at the same time, the addition <span class="qtext">CURRENCY</span> is used, this addition is executed
+first for data type <span class="qtext">p</span>, before addition <span class="qtext">UNIT</span>. In this case the addition is ignored for data type <span class="qtext">f</span> as well. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The first unit ID of the database table T006 is read for which no decimal places are specified in the
+column DECAN and this ID is used after the addition <span class="qtext">UNIT</span>. This formats "1234.0000" as "1234".
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: pack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE p LENGTH 8 DECIMALS 4 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE '1234.0000', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 12, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE t006-msehi. <br>
+ <br>SELECT SINGLE msehi <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM t006 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE decan = 0 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@unit). <br> <br>IF sy-subrc = 0. <br>&nbsp;&nbsp;WRITE pack TO formatted_text NO-GROUPING UNIT unit. <br>
+&nbsp;&nbsp;cl_demo_output=>display_text( formatted_text ). <br>ENDIF. <br><br>
+</span>
+</p>
+<A NAME="@@ENVIRONMENT TIME FORMAT@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_10@10@"></A> <span class="bold">Addition 10</span>
+</span></p>
+<P>
+<span class="qtext">... ENVIRONMENT TIME FORMAT</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">CURRENCY</span>, <span class="qtext">DECIMALS</span>,
+<span class="qtext">EXPONENT</span>, <span class="qtext">NO-GROUPING</span>, <span class="qtext">NO-SIGN</span>,
+<span class="qtext">NO-ZERO</span>, <span class="qtext">ROUND</span>, <span class="qtext">STYLE</span>,
+<span class="qtext">TIME ZONE</span>, or <span class="qtext">UNIT</span>. Also, <span class="qtext">ENVIRONMENT TIME FORMAT</span> cannot be used for
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point numbers defined in ABAP Dictionary</a>, because these always have an output style assigned to them. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+When this addition is used, the formatting is based on a specified time according to the current
+<a href="javascript:call_link('abencountry.html')" class="blue">formatting setting</a> of the
+<a href="javascript:call_link('abenlanguage_environment_glosry.html')" class="grey" title="Glossary Entry">language environment</a>
+that can be set using <a href="javascript:call_link('abapset_country.html')" class="blue"><span class="qtext">SET COUNTRY</span></a>.
+A 24-hour format (default) and four 12-hour formats can be configured. The source field can have the type <span class="qtext">t</span>. The addition is ignored if other types are specified.
+</P>
+<P>
+The required output length for the 12-hour formats is 11. If data is specified explicitly and statically
+in the statement <span class="qtext">WRITE</span> for a source field with type <span class="qtext">t</span>,
+an output length of at least 11 must be specified. If a dynamic output length is specified, or if the target field for <span class="qtext">WRITE TO</span> is shorter than 11, the truncation is performed as described
+<a href="javascript:call_link('abenwrite_cutoffs.html')" class="blue">here</a>.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+Unlike times, the format of digits or dates in the statement <span class="qtext">WRITE</span> is always
+variable. The format of times is variable only if addition <span class="qtext">ENVIRONMENT TIME FORMAT</span> is specified.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The following example searches for a 12 hour format in column TIMEFM of data base table <span class="lnkgrey">T005X</span>
+and sets the formatting settings accordingly. Time is then formatted as follows: <span class="qtext400">02:29:11 PM</span>. For a demonstration of all formats, see the appropriate
+<a href="javascript:call_link('abenstring_template_time_abexa.html')" class="blue">executable example with string templates</a>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE c LENGTH 20. <br> <br>SELECT SINGLE land <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM t005x <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE timefm = 1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(land). <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>SET COUNTRY land. <br>WRITE sy-timlo TO text ENVIRONMENT TIME FORMAT. <br>cl_demo_output=>display( text ). <br><br>
+</span>
+</p>
+<A NAME="@@TIME ZONE@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_11@11@"></A> <span class="bold">Addition 11</span>
+</span></p>
+<P>
+<span class="qtext">... TIME ZONE tz</span>   <br><!-- /A -->
+</P>
+<P>
+This addition cannot be used together with additions <span class="qtext">CURRENCY</span>, <span class="qtext">ENVIRONMENT
+TIME FORMAT</span>, <span class="qtext">EXPONENT</span>, <span class="qtext">NO-GROUPING</span>, <span class="qtext">
+NO-SIGN</span>, <span class="qtext">NO-ZERO</span>, <span class="qtext">ROUND</span>, <span class="qtext">STYLE</span>, or <span class="qtext">UNIT</span>. Also, <span class="qtext">TIME ZONE</span> cannot be used for
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point numbers defined in ABAP Dictionary</a>, because these always have an output style assigned to them. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition uses the <a href="javascript:call_link('abentime_zone_rules.html')" class="blue">rules for time zones</a> to convert the date and time information of a
+<a href="javascript:call_link('abentime_stamp_glosry.html')" class="grey" title="Glossary Entry">time stamp</a> to the
+<a href="javascript:call_link('abenlocal_date_glosry.html')" class="grey" title="Glossary Entry">local date</a> and the
+<a href="javascript:call_link('abenlocal_time_glosry.html')" class="grey" title="Glossary Entry">local time</a> of the
+<a href="javascript:call_link('abentime_zone_glosry.html')" class="grey" title="Glossary Entry">time zone</a> specified in <span class="qtext">tz</span>. The formatting is done in accordance with the
+<a href="javascript:call_link('abenwrite_formats.html')" class="blue">predefined format</a> for time stamps. The addition <span class="qtext">
+TIME ZONE</span> can be specified only if the source field is of one of the following data types, otherwise a syntax or runtime error occurs:
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abentimestamp_type_glosry.html')" class="grey" title="Glossary Entry">Time Stamp Type</a> <a href="javascript:call_link('abenbuiltin_types_date_time.html')" class="blue"><span class="qtext">utclong</span></a>.
+<br><br></li>
+<li>
+Numeric data type <span class="qtext">p</span> with length 8 without decimal places (TIMESTAMP from
+ABAP Dictionary) or <span class="qtext">p</span> with length 11 and seven decimal places (TIMESTAMPL from ABAP Dictionary). The value of the embedded expression is interpreted as a
+<a href="javascript:call_link('abentime_stamps_packed.html')" class="blue">time stamp in a packed number</a>.
+<br></li>
+</ul>
+<P>
+With the addition <span class="qtext">TIME ZONE</span>, source fields of these types are formatted in accordance with the <a href="javascript:call_link('abenwrite_formats.html')" class="blue">predefined format</a> for time stamp outputs.
+</P>
+<ul class="disc">
+<li>
+If the addition <span class="qtext">TIME ZONE</span> is not specified for the time stamp type <span class="qtext">utclong</span>, the initial time zone is added implicitly.
+<br><br></li>
+<li>
+If the addition <span class="qtext">TIME ZONE</span> is not specified for time stamps in packed numbers, these are formatted as numeric fields of the type <span class="qtext">p</span>.
+<br></li>
+</ul>
+<P>
+<span class="qtext">tz</span> expects a character-like data object containing a
+<a href="javascript:call_link('abentime_zone_glosry.html')" class="grey" title="Glossary Entry">time zone</a> from the database table <span class="lnkgrey">TTZZ</span>. If the
+<a href="javascript:call_link('abentime_zone_rules.html')" class="blue">rule set</a> for the specified time zone is incomplete,
+a non-handleable exception is raised. If <span class="qtext">tz</span> is initial, no time shift is
+calculated. The conversion takes place as for the statements <a href="javascript:call_link('abapconvert_utclong.html')" class="blue"><span class="qtext">
+CONVERT UTCLONG</span></a> and <a href="javascript:call_link('abapconvert_time-stamp.html')" class="blue"><span class="qtext">CONVERT
+TIME STAMP</span></a>. The special rules for the first and last second apply to the time stamp type <span class="qtext">utclong</span>.
+</P>
+<P>
+Initial values are handled as follows:
+</P>
+<ul class="disc">
+<li>
+The target area is filled with spaces for the time stamp type <span class="qtext">utclong</span>.
+<br><br></li>
+<li>
+For time stamps in packed numbers, the initial value 0 is an invalid value and is formatted as such.
+<br></li>
+</ul>
+<P>
+Error handling is as follows:
+</P>
+<ul class="disc">
+<li>
+The source field does not contain a valid time stamp:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>For the time stamp type <span class="qtext">utclong</span>, a handleable exception of the class
+CX_SY_CONVERSION_NO_DATE_TIME is raised. Befor the exception is raised, the character string <span class="qtext400">"*??.??.???? ??:??:??,??????"</span> is written to the target variable or list.</li>
+</ul>
+<ul class="circlem2">
+<li>Time stamps in packed numbers are still formatted as a time stamp, whereby the absolute value is
+considered for negative numbers. An asterisk "*" is inserted before the date and the last position of the time is truncated. The time zone specified has no effect.</li>
+</ul>
+<ul class="disc">
+<li>
+The value of <span class="qtext">tz</span> is not contained in the database table TTZZ, or the conversion would result in a local time outside the value range for local date and time:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>For the time stamp type <span class="qtext">utclong</span>, a handleable exception of the class
+CX_SY_CONVERSION_NO_DATE_TIME is raised. Before the exception is raised, the current time stamp is formatted
+and written to the target variable or list, whereby an asterisk "*" is inserted before the date and the last position of the time is truncated.</li>
+</ul>
+<ul class="circlem2">
+<li>Time stamps in packed numbers are still formatted like a time stamp. An asterisk "*" is inserted before the date and the last position of the time is truncated. The time zone specified has no effect.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The addition <span class="qtext">ENVIRONMENT TIME FORMAT</span> cannot be specified together with <span class="qtext">
+TIME ZONE</span>, which means that the 12-hour format for times cannot be used for time stamps in packed numbers. In contrast, the time stamp type <span class="qtext">utclong</span> follows the current
+<a href="javascript:call_link('abenformat_setting_glosry.html')" class="grey" title="Glossary Entry">formatting settings</a> by default.
+<br><br></li>
+<li>
+The additions <span class="qtext">DD/MM/YY</span>, and so on, can be specified together with <span class="qtext">TIME
+ZONE</span> for time stamps in packed numbers and modify the format of the specified date. They cannot be specified for the time stamp type <span class="qtext">utclong</span>.
+<br><br></li>
+<li>
+The addition <span class="qtext">DECIMALS</span> can modify the number of decimal places.
+<br><br></li>
+<li>
+An initial time zone <span class="qtext">tz</span> matches <span class="qtext400">UTC</span> only if the tables of the
+<a href="javascript:call_link('abentime_zone_rules.html')" class="blue">rules for time zones</a> are filled correctly for the time zone UTC. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Formatting of time stamps in a time stamp field and in a packed number in Tasmanian time. If nothing else is defined in the formatting settings, the output shown below is produced.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA(ts)&nbsp;&nbsp; = utclong_current( ). <br>DATA(tspl) = cl_abap_tstmp=>utclong2tstmp_short( ts ). <br>
+ <br>DATA: <br>&nbsp;&nbsp;formatted_text1 TYPE c LENGTH 50, <br>&nbsp;&nbsp;formatted_text2 TYPE c LENGTH 50. <br>
+ <br>SET COUNTRY 'US'. <br> <br>WRITE ts&nbsp;&nbsp; TO formatted_text1 TIME ZONE 'AUSTAS' DECIMALS 3. <br>
+WRITE tspl TO formatted_text2 TIME ZONE 'AUSTAS' DECIMALS 3. <br> <br>cl_demo_output=>new( <br>&nbsp;&nbsp;)->write(&nbsp;&nbsp; formatted_text1 <br>&nbsp;&nbsp;)->display( formatted_text2 ).
+</span>
+</p>
+<dl><dd>
+<span class="qtext400">04/05/2019 23:57:58.529 <br> <br>04/05/2019 23:57:58.000</span> <br><br>
+</dd></dl>
+<A NAME="@@STYLE@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_12@12@"></A> <span class="bold">Addition 12</span>
+</span></p>
+<P>
+<span class="qtext">... STYLE stl</span>   <br><!-- /A -->
+</P>
+<P>
+The addition cannot be used together with the additions <span class="qtext">CURRENCY</span>, <span class="qtext">DD/MM/YY</span>,
+... , <span class="qtext">YYMMDD</span>, <span class="qtext">ROUND</span>, <span class="qtext">ENVIRONMENT TIME FORMAT</span>, <span class="qtext">TIME ZONE</span>, and <span class="qtext">UNIT</span> . <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition defines the output format for <a href="javascript:call_link('abendecfloat_glosry.html')" class="grey" title="Glossary Entry">decimal floating point numbers</a>. Only source fields with a
+<a href="javascript:call_link('abennumeric_data_type_glosry.html')" class="grey" title="Glossary Entry">numeric data type</a> are allowed. Numeric source fields that do not have type <span class="qtext">decfloat34</span> are
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">converted</a> to this type before they are formatted. If other types are specified dynamically, the exception CX_SY_WRITE_INVALID_STYLE is raised.
+</P>
+<P>
+Only those values can be specified for the <span class="qtext">stl</span> output format that exist as
+constants of type OUTPUTSTYLE in the class <span class="lnkgrey">CL_ABAP_FORMAT</span>. If other values
+are specified, the exception CX_SY_WRITE_INVALID_STYLE is also raised. The following table contains all possible output formats:
+</P>
+<table border>
+<tr>
+<td><span class="bold">Constant CL_ABAP_FORMAT=>...</span></td>
+<td><span class="bold">Output Format</span></td>
+</tr>
+<tr>
+<td>O_SIMPLE</td>
+<td><a href="javascript:call_link('abenwrite_formats.html')" class="blue">Predefined Output Format</a></td>
+</tr>
+<tr>
+<td>O_SIGN_AS_POSTFIX</td>
+<td><a href="javascript:call_link('abencommercial_notation_glosry.html')" class="grey" title="Glossary Entry">Commercial notation</a>
+The sign is appended to the right (minus sign for negative values, blank for positive values). Trailing
+zeros in decimal places are truncated. Unlike in O_SIMPLE, where it switches to scientific notation, an exception is raised if not enough space is available.</td>
+</tr>
+<tr>
+<td>O_SCALE_PRESERVING</td>
+<td>Predefined output format that preserves the <a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">
+scale</a>, in which trailing zeroes in decimal places are not cut off. The same format is used as in
+the <a href="javascript:call_link('abenconversion_type_decfloat.html')" class="blue">conversion of a source field of type <span class="qtext">decfloat34</span> to type <span class="qtext">string</span></a>, where the
+<a href="javascript:call_link('abenwrite_formats.html')" class="blue">predefined decimal separator</a> of the statement <span class="qtext">
+WRITE</span> is used. If enough space is available, thousands separators are also inserted in the mathematical
+notation. If not enough space is available, an exception is raised. The maximum required length is 24 for <span class="qtext">decfloat16</span> and 46 for <span class="qtext">decfloat34</span>.</td>
+</tr>
+<tr>
+<td>O_SCIENTIFIC</td>
+<td><a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">Scientific notation</a>
+No sign is used for a positive number. The output always has at least a two digit exponent with a sign.
+If the <span class="qtext">EXPONENT</span> addition is not specified, only one digit (whose value is
+not zero) is output in the mantissa before the decimal place, unless the source field has the value
+0. Any trailing zeros in the decimal places of the mantissa are truncated. Using the addition <span class="qtext">
+DECIMALS</span>, the number of decimal places of the exponent can be specified with <span class="qtext">EXPONENT</span>.
+If neither of the additions <span class="qtext">DECIMALS</span> and <span class="qtext">EXPONENT</span>
+are used, the maximum length needed is 23 for <span class="qtext">decfloat16</span> and 42 for <span class="qtext">
+decfloat34</span>. If not enough space is available, commercial rounding is used. If insufficient space
+is available for the sign, the minimum number of digits before the decimal place of the mantissa, and the required exponent, an exception of the CX_SY_CONVERSION_OVERFLOW class is raised.</td>
+</tr>
+<tr>
+<td>O_SCIENTIFIC_WITH_LEADING_ZERO</td>
+<td><a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">Scientific with
+leading zero</a> with leading zero As O_SCIENTIFIC with the following differences: Only one digit with
+the value 0 is output before the decimal place. The addition <span class="qtext">EXPONENT</span> cannot
+be used. If the addition <span class="qtext">DECIMALS</span> is not used, the maximum length needed is 24 for <span class="qtext">decfloat16</span> and 43 for <span class="qtext">decfloat34</span>.</td>
+</tr>
+<tr>
+<td>O_SCALE_PRESERVING_SCIENTIFIC</td>
+<td><a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">Scientific notation</a> preserving
+<a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a>. As O_SCIENTIFIC with
+the following differences: The exponent always has three digits for <span class="qtext">decfloat16</span>
+and four digits for <span class="qtext">decfloat34</span>. Trailing zeros after the decimal point of
+the mantissa are not truncated. The addition <span class="qtext">EXPONENT</span> cannot be specified.
+If insufficient space is available, rounding does not take place; instead an exception of the CX_SY_CONVERSION_OVERFLOW class is raised.</td>
+</tr>
+<tr>
+<td>O_ENGINEERING</td>
+<td>Engineering format - as O_SCIENTIFIC with the following differences: The value of the exponent is
+always a whole number to the power of 3. The value range of the digits before the decimal place is between
+1 and 999, unless the source field has the value 0. The <span class="qtext">EXPONENT</span> addition must not be used.</td>
+</tr>
+</table><br>
+<P>
+If the addition <span class="qtext">STYLE</span> is used together with other additions that also influence the format of numbers, the following rules apply:
+</P>
+<ul class="disc">
+<li>
+The addition <span class="qtext">EXPONENT</span> can only be specified for the output format O_SCIENTIFIC for scientific notation.
+<br><br></li>
+<li>
+The addition <span class="qtext">DECIMALS</span> cannot be specified for output formats that preserve
+scale. For the output formats O_SIMPLE and O_SIGN_AS_POSTFIX, <span class="qtext">DECIMALS</span> determines
+the number of decimal places. In some cases commercial rounding may take place or trailing zeroes may
+be appended. For the scientific output formats, <span class="qtext">DECIMALS</span> determines the number of decimal places in the mantissa. In some cases commercial rounding may take place.
+<br><br></li>
+<li>
+The addition <span class="qtext">USING EDIT MASK</span> can only be specified if it calls a conversion routine. The addition <span class="qtext">USING NO EDIT MASK</span> can be specified as normal.
+<br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+To a great extent, the formats match the output styles specified when a
+<a href="javascript:call_link('abendomain_glosry.html')" class="grey" title="Glossary Entry">domain</a> is created with one of the types DF16_DEC, DF16_RAW, DF16_SCL (obsolete), DF34_DEC, DF34_RAW, or DF34_SCL (obsolete) in ABAP Dictionary.
+<br><br></li>
+<li>
+When a <a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point number defined
+in ABAP Dictionary</a> is formatted, the formatting option <span class="qtext">STYLE</span> overrides the output style defined in ABAP Dictionary.
+<br><br></li>
+<li>
+It is best to use the formatting option <span class="qtext">STYLE</span> for the formatting of all numeric
+output. This addition then replaces all other additions whose output format can be specified using <span class="qtext">stl</span>.
+<br><br></li>
+<li>
+To specify the scaling of a decimal floating point number before the use of the format O_SCALE_PRESERVING_SCIENTIFIC,
+the built-in function <a href="javascript:call_link('abendec_floating_point_functions.html')" class="blue"><span class="qtext">rescale</span></a> can be called by specifying the parameter <span class="qtext">dec</span>.
+<br><br></li>
+<li>
+The methods CONVERT_CURR_TO_DECFLOAT and CONVERT_DECFLOAT_TO_CURR of the system class
+<a href="javascript:call_link('abencl_abap_decfloat_doc.html')" class="blue">CL_ABAP_DECFLOAT</a> are helpful when representing
+currency amounts saved as decimal floating point numbers. These methods convert currency amounts to decimal floating point numbers, as specified by a currency key, and back again.
+<br><br></li>
+<li>
+The format O_SCALE_PRESERVING_SCIENTIFIC is intended to help create output that is aligned vertically
+with reference to the decimal separator and exponent without the addition <span class="qtext">DECIMALS</span>
+being used. To make this possible, the built-in function <a href="javascript:call_link('abendec_floating_point_functions.html')" class="blue">
+<span class="qtext">rescale</span></a> can be called before output by specifying the parameter <span class="qtext">prec</span>. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following <span class="qtext">WRITE</span> statement formats the decimal floating point number 123456 as <span class="qtext400">123,456E+03</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE c LENGTH 20. <br> <br>WRITE CONV decfloat34( '123456' ) TO text <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STYLE cl_abap_format=>o_engineering. <br>cl_demo_output=>display( text ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenwrite_style_abexa.html')" class="blue">Decimal Floating Point Number, Formatting with <span class="qtext">STYLE</span></a> <br><br>
+</P>
+<A NAME="@@USING NO EDIT MASK@@WRITE@@"></A>
+<A NAME="@@USING EDIT MASK@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_13@13@"></A> <span class="bold">Addition 13</span>
+</span></p>
+<P>
+<span class="qtext">... USING <i class=bn>{</i> <i class=bn>{</i>NO EDIT MASK<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>EDIT MASK mask<i class=bn>}</i> <i class=bn>}</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition overrides a <a href="javascript:call_link('abenconversion_routine_glosry.html')" class="grey" title="Glossary Entry">conversion
+routine</a> assigned using a reference to ABAP Dictionary. The addition <span class="qtext">NO EDIT
+MASK</span> only switches off the execution of an assigned conversion routine. The addition <span class="qtext">EDIT MASK</span> calls either another conversion routine or defines an
+<a href="javascript:call_link('abenedit_mask_glosry.html')" class="grey" title="Glossary Entry">edit mask</a>. <span class="qtext">mask</span> expects a character-like data object.
+</P>
+<P>
+To call any conversion routine CNVRT, <span class="qtext">mask</span> must contain two equals signs
+directly followed by the name of the conversion routine: "==CNVRT". During formatting, the content of
+the source field is passed to function module CONVERSION_EXIT_CNVRT_OUTPUT, converted there, and the
+result is used. If the function module is not found, a handleable exception is raised. The statement
+<span class="qtext">DESCRIBE FIELD</span> contains an addition so that it can fill <span class="qtext">mask</span> accordingly.
+</P>
+<P>
+If the first two characters in <span class="qtext">mask</span> are not equals signs, the content is
+interpreted as an edit mask, in which some characters have a particular meaning. The statement <span class="qtext">
+WRITE</span> then does not directly format the content of the source field, but the character string in <span class="qtext">mask</span> instead, as follows:
+</P>
+<ul class="disc">
+<li>
+If the first two characters in <span class="qtext">mask</span> are "LL" or "RR", they are not inserted
+into the result. They specify whether the formatting is executed left-justified or right-justified. If the first two characters are any other characters, the formatting is left-justified.
+<br><br></li>
+<li>
+All characters "_" are replaced from the left (if "LL") or from the right (if "RR") by the characters for character-like types or numbers for the types
+(<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">i</span>, <span class="qtext">int8</span>,
+or <span class="qtext">p</span> from the source field. For fields of type <span class="qtext">c</span>,
+trailing blanks are ignored. Data objects of types <span class="qtext">f</span> or <span class="qtext">x</span>
+are converted to type <span class="qtext">c</span> before they are formatted. Surplus characters "_"
+in <span class="qtext">mask</span> are replaced by blanks. Characters from the source field for which there are no "_" characters in <span class="qtext">mask</span> are not included in the result.
+<br><br></li>
+<li>
+If the source field is of type ((<span class="qtext">b</span>, <span class="qtext">s</span>), <span class="qtext">
+i</span>, <span class="qtext">int8</span> or <span class="qtext">p</span>, the character "V" in <span class="qtext">
+mask</span> is inserted from the left for a negative number as "-" and for a positive number as a blank into the result.
+<br><br></li>
+<li>
+All other characters in the edit mask are taken over unchanged.
+<br></li>
+</ul>
+<P>
+The formatting is executed for the available length. If formatting options other than an edit mask have
+also been specified, they are applied first and then the special characters in the edit mask are replaced
+by the intermediate result. The date formatting mask <span class="qtext">DD/MM/YY</span> is an exception to this rule. If it is specified, the edit mask is ignored. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The sign of a negative number is not included in the result if no formatting character "V" is specified. The decimal separator of a packed number with
+<a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a> must be specified at the required place in the edit mask.
+<br><br></li>
+<li>
+For type <span class="qtext">p</span>, note that only the digits are evaluated and the place of the decimal separator is ignored.
+<br><br></li>
+<li>
+A conversion routine must be called for the types <span class="qtext">decfloat16</span> and <span class="qtext">decfloat34</span>. Edit masks cannot be specified.
+<br><br></li>
+<li>
+When using <span class="qtext">EDIT MASK</span> in the statement <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> for lists, a number of
+<a href="javascript:call_link('abapwrite_int_options.html')" class="blue">special features</a> are applicable. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Formats a duration. The assignment executes the function module <span class="lnkgrey">CONVERSION_EXIT_DURA_OUTPUT</span>,
+which converts the period given in seconds into minutes. In the second mapping, the edit mask is used
+in accordance with the rules specified above, where the underscores "_" are replaced with characters from <span class="qtext">time</span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: dura&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i, <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE t VALUE '080000', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_text TYPE c LENGTH 30. <br> <br>dura = sy-uzeit - time. <br>
+time = dura. <br> <br>WRITE dura TO formatted_text USING EDIT MASK '==SDURA'. <br>cl_demo_output=>write_text( formatted_text ). <br>
+WRITE time TO formatted_text USING EDIT MASK <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'RRThe duration is __:__:__'. <br>cl_demo_output=>display_text( formatted_text ). <br><br>
+</span>
+</p>
+<A NAME="@@DD/MM/YY@@WRITE@@"></A>
+<A NAME="@@MM/DD/YY@@WRITE@@"></A>
+<A NAME="@@DD/MM/YYYY@@WRITE@@"></A>
+<A NAME="@@MM/DD/YYYY@@WRITE@@"></A>
+<A NAME="@@DDMMYY@@WRITE@@"></A>
+<A NAME="@@MMDDYY@@WRITE@@"></A>
+<A NAME="@@YYMMDD@@WRITE@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_14@14@"></A> <span class="bold">Addition 14</span>
+</span></p>
+<P>
+<span class="qtext">... DD/MM/YY&nbsp;&nbsp; <i class=bn>|</i> MM/DD/YY</span>   <!-- /A --> <br><span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> DD/MM/YYYY <i class=bn>|</i> MM/DD/YYYY</span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> DDMMYY&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>|</i> MMDDYY</span> <br><span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> YYMMDD</span> <br><br>
+</P>
+<P>
+These additions cannot be used together with the addition <span class="qtext">STYLE</span>, not for the time stamp type <span class="qtext">utclong</span>, and not for
+<a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal floating point numbers defined in ABAP Dictionary</a>, which are always assigned an output style. <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+These additions affect the formatting of data objects of the data type <span class="qtext">d</span> or the date specified in
+<a href="javascript:call_link('abentime_stamps_packed.html')" class="blue">time stamps in packed numbers</a> if they are specified as such by the addition <span class="qtext">TIME ZONE</span>. Otherwise they are ignored.
+</P>
+<P>
+The content of a data object of type <span class="qtext">d</span>, or the date specified in a time stamp,
+is interpreted as a valid date in the form <span class="qtext400">"yyyymmdd"</span> and formatted for the individual additions as follows:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">DD/MM/YY</span> and <span class="qtext">MM/DD/YY</span> <br>Both additions have
+the same effect. The date is formatted with a two-digit year and separators. Separators and the order are based on according to the current
+<a href="javascript:call_link('abencountry.html')" class="blue">formatting setting</a> of the
+<a href="javascript:call_link('abenlanguage_environment_glosry.html')" class="grey" title="Glossary Entry">language
+environment</a> that can be set using <a href="javascript:call_link('abapset_country.html')" class="blue"><span class="qtext">SET COUNTRY</span></a>. <br>
+<br></li>
+<li>
+<span class="qtext">DD/MM/YYYY</span> and <span class="qtext">MM/DD/YYYY</span> <br>Both additions have
+the same effect. The date is formatted with a four-digit year with separators. Separators and the order are based on according to the current
+<a href="javascript:call_link('abencountry.html')" class="blue">formatting setting</a> of the
+<a href="javascript:call_link('abenlanguage_environment_glosry.html')" class="grey" title="Glossary Entry">language
+environment</a> that can be set using <a href="javascript:call_link('abapset_country.html')" class="blue"><span class="qtext">SET COUNTRY</span></a>. <br>
+<br></li>
+<li>
+<span class="qtext">DDMMYY</span> and <span class="qtext">MMDDYY</span> <br>Both additions have the same effect. The date is formatted with a two-digit year with no separators. The order is based according to the current
+<a href="javascript:call_link('abencountry.html')" class="blue">formatting setting</a> of the
+<a href="javascript:call_link('abenlanguage_environment_glosry.html')" class="grey" title="Glossary Entry">language
+environment</a> that can be set using <a href="javascript:call_link('abapset_country.html')" class="blue"><span class="qtext">SET COUNTRY</span></a>. <br>
+<br></li>
+<li>
+<span class="qtext">YYMMDD</span> <br>This addition formats the date with a two-digit year without separators in the format <span class="qtext400">"yymmdd"</span>.
+<br></li>
+</ul>
+<P>
+If the available length is too short, the formatted output is truncated at the right. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The truncation on the right differs from the usual
+<a href="javascript:call_link('abenwrite_cutoffs.html')" class="blue">cutoff behavior</a> in the date output specified by the
+<a href="javascript:call_link('abencountry.html')" class="blue">formatting setting</a> of the
+<a href="javascript:call_link('abenlanguage_environment_glosry.html')" class="grey" title="Glossary Entry">language environment</a>, where first the separators are removed and then any surplus characters are cut off. <br>
+<br></li>
+<li>
+Some <a href="javascript:call_link('abapwrite_int_options.html')" class="blue">special properties</a>
+apply when date masks are used in the statement <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a> for lists. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The formatting is, for example, "060131".
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA formatted_text TYPE c LENGTH 50. <br> <br>WRITE sy-datlo TO formatted_text YYMMDD. <br>cl_demo_output=>display_text( formatted_text ).
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenwrite_style_abexa.html')" class="blue">Decimal Floating Point Numbers, Formatting with STYLE</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapwrite_to_options.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+</html>

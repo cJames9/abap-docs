@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNUMBERS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennumbers_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Specifying Numbers">
+<title>
+Specifying Numbers - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennumbers_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennumbers_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenassignment_access_guidl.html')" class="blue">Assignments, Calculations, and Other Types of Data Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Specifying Numbers
+</span></p>
+<A name="@@ITOC@@ABENNUMBERS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+There are no special literals available for numbers with decimal places, or with mantissa plus exponent. If required, these numbers must be expressed using character literals. The following notations can be used:
+</p>
+<ul class="disc">
+<li><span class="bold">Mathematical notation</span> <br>A string of digits with a maximum of one period
+(.) as a decimal separator and an optional sign "+" or "-" on the left. This sign can be separated from the digits by blanks, for example: - 1234.56</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Commercial notation</span> <br>A string of digits with a maximum of one period
+(.) as a decimal separator and an optional sign "+" or "-" on the right. This sign can be separated from the digits by blanks, for example: 1234.56-</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Scientific notation</span> <br>An uninterrupted string consisting of a mantissa
+(an optional sign "+" or "-", digits with a maximum of one period (.) as a decimal separator), a character
+<span class="qtext">e</span> or <span class="qtext">E</span>, and an exponent (an optional sign "+" or "-" and further digits), for example: -1.23456E03</li>
+</ul>
+<A name="@@ITOC@@ABENNUMBERS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use globally valid notation for numeric values</span>
+</p>
+<p>
+When using numbers in character strings that are intended for assignments to a numeric data object,
+create them so that they are accepted by all possible target types. The sign must always be on the left, and there must be no blanks.
+</p>
+<A name="@@ITOC@@ABENNUMBERS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+When converting a character string to a numeric variable, the type of the target variables decides which notations are accepted:
+</p>
+<ul class="disc">
+<li>If the type of the target variable is <span class="qtext">decfloat16</span> or <span class="qtext">decfloat34</span>, all three notations are accepted.</li>
+</ul>
+<ul class="disc">
+<li>If the type of the target variable is <span class="qtext">f</span>, all three notations are accepted.
+The mathematical and commercial notations are only accepted, however, if the sign is not separated from the string of digits by one or more blanks and there are blanks in front of the string of digits.</li>
+</ul>
+<ul class="disc">
+<li>If the type of the target variable is <span class="qtext">p</span> or <span class="qtext">i</span>, only the mathematical and commercial notations are accepted.</li>
+</ul>
+<p>
+To make sure that a program is readable, and also that numbers in character strings can be converted
+to as many numeric data types as possible, always use mathematical notation without blanks between the
+sign and the string of digits. This notation also confirms to other standards, such as the canonic representation of XML schema data types.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code demonstrates the initialization of a generically typed parameter with commercial
+notation, where the sign is separated by a blank. If an actual parameter with a type other than f is
+passed, the assignment produces the value -1000 (as expected); if an actual parameter of the type <span class="qtext">f</span> is passed, however, the value is +1000.
+</p>
+<dl><dd>
+<span class="qtext">CLASS class DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS calculate_something <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING number TYPE numeric. <br>ENDCLASS. <br>CLASS class IMPLEMENTATION. <br>
+&nbsp;&nbsp;METHOD calculate_something. <br>&nbsp;&nbsp;&nbsp;&nbsp;number = '1000 -'. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code demonstrates an assignment using globally valid notation that is easy to read and which produces the same result, the value -1000, for all numeric data types.
+</p>
+<dl><dd>
+<span class="qtext">METHOD calculate_something. <br>number = '-1000'. <br>... <br>ENDMETHOD.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennumbers_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

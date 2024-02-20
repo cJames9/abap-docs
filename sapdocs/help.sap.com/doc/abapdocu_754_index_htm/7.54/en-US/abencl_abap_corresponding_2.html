@@ -1,0 +1,190 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCL_ABAP_CORRESPONDING_2 -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_abap_corresponding_2.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CL_ABAP_CORRESPONDING - Lookup Table">
+<title>
+CL_ABAP_CORRESPONDING - Lookup Table - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencl_abap_corresponding_2.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencl_abap_corresponding_2.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding.html')" class="blue">Assigning Structure Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencl_abap_corresponding.html')" class="blue">CL_ABAP_CORRESPONDING - System Class</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CL_ABAP_CORRESPONDING - Lookup Table
+</span></p>
+<p>
+The methods CREATE_USING and EXECUTE_USING of the system class <span class="lnkgrey">CL_ABAP_CORRESPONDING</span>
+can be used to assign components between internal tables with a dynamically specified mapping rule. The source table is used as a lookup table.
+</p>
+<p>
+The factory method CREATE_USING is used to create a mapping object:
+</p>
+<p>
+<span class="qtext">DATA(mapper) = cl_abap_corresponding=>create_using( destination = itab <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = lookup_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mapping&nbsp;&nbsp;&nbsp;&nbsp; = mapping_tab ).</span>
+</p>
+<p>
+Internal tables <span class="qtext">itab</span> and <span class="qtext">lookup_table</span>, with the
+table types to which the assignment applies, must be passed to the parameters <span class="qtext">destination</span>
+and <span class="qtext">using</span>. An internal table of the type CL_ABAP_CORRESPONDING=>MAPPING_TABLE,
+containing the mapping rule, must be passed to the parameter <span class="qtext">mapping</span>. The mapping table has the same components as the methods for
+<a href="javascript:call_link('abencl_abap_corresponding_1.html')" class="blue">simple assignments</a> with the following special semantics:
+</p>
+<ul class="disc">
+<li>KIND</li>
+</ul>
+<dl><dd>
+Mapping type. The additional possible values are:
+</dd></dl>
+<ul class="circlem2">
+<li>CL_ABAP_CORRESPONDING=>USING_KEY (4), the table key of the lookup table used for the evaluation is specified in the component SRCNAME in this row. The table must contain a row like this.</li>
+</ul>
+<ul class="circlem2">
+<li>CL_ABAP_CORRESPONDING=>MAPPING_USING_COMPONENT (5), the name of a column of the lookup table in
+SRCNAME is associated with the name of a column of the target table in DSTNAME in a row like this. All key fields of the table key used must be covered by a row like this.</li>
+</ul>
+<dl><dd>
+The mapping types for <a href="javascript:call_link('abencl_abap_corresponding_1.html')" class="blue">simple assignments</a> can also be used and have the same semantics as described here.
+</dd></dl>
+<p>
+The method EXECUTE_USING of a mapping object can be used to perform any number of assignments between
+tables <span class="qtext">lookup_src</span> and <span class="qtext">dst</span> whose data type matches
+the source type or target type <span class="qtext">lookup_tab</span> or <span class="qtext">itab</span> specified when the object was created:
+</p>
+<p>
+<span class="qtext"> mapper->execute_using( EXPORTING using&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = lookup_src <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;destination = dst ).</span>
+</p>
+<p>
+For each row in <span class="qtext">dst</span>, a row is found in the lookup table <span class="qtext">lookup_src</span>
+that matches this row in accordance with the relationship defined using the mapping type CL_ABAP_CORRESPONDING=>MAPPING_USING_COMPONENT
+in the mapping table. If the key is not unique, the first row found is used. If no row like this is
+found, the row from <span class="qtext">dst</span> remains unchanged. If a row like this is found in
+<span class="qtext">lookup_src</span>, it is assigned to the row from <span class="qtext">dst</span>
+in accordance with the rules of <a href="javascript:call_link('abapmove-corresponding_structure.html')" class="blue"><span class="qtext">MOVE-CORRESPONDING</span>
+for structures</a> using the addition <span class="qtext">EXPANDING NESTED TABLES</span>, with the following exception. The components used for the search are not assigned by default. The rows in the mapping table with mapping types for
+<a href="javascript:call_link('abencl_abap_corresponding_1.html')" class="blue">simple assignments</a> can be used to override
+the default assignment of identically named components and the default exclusion of the components used
+for the search. It is not possible to specify the same table for <span class="qtext">dst</span> and <span class="qtext">lookup_src</span>; if specified, the runtime error CORRESPONDING_SELF occurs.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The methods CREATE_USING and EXECUTE_USING of the system class CL_ABAP_CORRESPONDING produce an assignment similar to the statement</li>
+</ul>
+<dl><dd>
+<span class="qtext">dst = <a href="javascript:call_link('abencorresponding_constr_using.html')" class="blue">CORRESPONDING</a> #( dst FROM lookup_tab KEY key_name ... ).</span>
+</dd></dl>
+<dl><dd>
+Here, however. the columns used to synchronize the target table and lookup table, plus the
+<a href="javascript:call_link('abencorresponding_constr_mapping.html')" class="blue">mapping rule</a> are specified dynamically as the content of a special internal table.
+</dd></dl>
+<ul class="disc">
+<li>In the mapping table, the columns of the target table <span class="qtext">dst</span> are part of
+the column DSTNAME, regardless of the mapping type, and the columns of the lookup table are part of
+the column SRCNAME. In the <a href="javascript:call_link('abencorresponding_constr_using.html')" class="blue"><span class="qtext">CORRESPONDING</span></a>
+operator, however, the arrangement of the operands after <span class="qtext">USING</span> is different from the arrangement after <span class="qtext">MAPPING</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The example displays the implementation of an example for component operator <a href="javascript:call_link('abencorresponding_constr_using.html')" class="blue">
+<span class="qtext">CORRESPONDING</span> with lookup table</a> to class CL_ABAP_CORRESPONDING.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF line, <br>&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;&nbsp; TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;comment TYPE string, <br>
+&nbsp;&nbsp;END OF line, <br>&nbsp;&nbsp;itab1 TYPE STANDARD TABLE OF line WITH EMPTY KEY, <br>&nbsp;&nbsp;itab2 TYPE HASHED TABLE OF line WITH UNIQUE KEY value. <br>
+ <br>DATA(itab1) = VALUE itab1( FOR i = 1 UNTIL i >= 10 ( value = i ) ). <br>DATA(itab2) = VALUE itab2( ( value = 2 comment = `...` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( value = 3 comment = `...` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( value = 5 comment = `...` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( value = 8 comment = `...` ) ). <br>
+ <br>DATA(mapping_tab) = VALUE cl_abap_corresponding=>mapping_table( <br>&nbsp;&nbsp;( level = 0 kind = 4 srcname = 'PRIMARY_KEY' ) <br>
+&nbsp;&nbsp;( level = 0 kind = 5 srcname = 'VALUE' dstname = 'VALUE' ) ). <br> <br>cl_abap_corresponding=>create_using( <br>
+&nbsp;&nbsp;&nbsp;&nbsp; destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = itab1 <br>&nbsp;&nbsp;&nbsp;&nbsp; using&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = itab2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp; mapping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = mapping_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp; )->execute_using( EXPORTING using&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = itab2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;destination = itab1 ). <br> <br>cl_demo_output=>display( itab1 ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abencl_abap_corr_lookup_abexa.html')" class="blue">CL_ABAP_CORRESPONDING with Lookup Table</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_abap_corresponding_2.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

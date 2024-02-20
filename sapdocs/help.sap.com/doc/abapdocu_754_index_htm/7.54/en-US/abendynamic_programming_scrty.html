@@ -1,0 +1,161 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNAMIC_PROGRAMMING_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynamic_programming_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:50:42 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Security Risks Caused by Input from Outside">
+<title>
+Security Risks Caused by Input from Outside - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynamic_programming_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynamic_programming_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Security Risks Caused by Input from Outside
+</span></p>
+<p>
+Most security issues in ABAP programs are caused by because input injected into a program from outside, that is
+</p>
+<ul class="disc">
+<li>from a user interface</li>
+</ul>
+<ul class="disc">
+<li>from a parameter interface</li>
+</ul>
+<ul class="disc">
+<li>from a persistent repository,</li>
+</ul>
+<p>
+is used wrongly or carelessly. More specifically, security risks arise here whenever full statements,
+parts of statements, or objects accessed in statements are specified dynamically and hence are not subject to static checks. Dynamically specified items of this nature occur, for example, in the following cases:
+</p>
+<ul class="disc">
+<li>Dynamically specified objects are anchored in the syntax of a statement in a natural way. For example, file names specified dynamically using a variable in a statement from the
+<a href="javascript:call_link('abenfile_interface_glosry.html')" class="grey" title="Glossary Entry">ABAP file interface</a> are the norm, and not exceptions .</li>
+</ul>
+<ul class="disc">
+<li>Frameworks are fully dynamic (for example <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>) if they use dynamic SQL statements only.</li>
+</ul>
+<ul class="disc">
+<li>Here, information is specified dynamically to make the programming of functions more compact than if they were programmed statically (perhaps due to a large number of case distinctions).</li>
+</ul>
+<p>
+Two main cases must be distinguished here:
+</p>
+<ul class="disc">
+<li>The dynamic information is created in full in the same program and does not contain any parts that originate outside the program.</li>
+</ul>
+<ul class="disc">
+<li>Some or all of the dynamically created information originates outside the program, meaning that it is taking from a UI, a parameter interface, or a repository.</li>
+</ul>
+<p>
+If assuming that the developer of a program does so without malicious intent, dynamically specified objects are uncritical in the former case.
+</p>
+<p>
+The latter case, on the other hand, is critical. If external input is specified dynamically in an ABAP
+statement without being checked or masked, damage can be incurred (whether unintentional or malicious). The damage can range from exceptions being raised, the absence of system resources
+(<span class="italic">Denial of Service</span> attacks), to the manipulation of persistent data.
+</p>
+<p>
+The following sections provide examples of the most significant security risks when input from outside is used in statements:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abensql_injections_scrty.html')" class="blue">SQL injections</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendyn_call_scrty.html')" class="blue">Dynamic calls</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendyn_file_scrty.html')" class="blue">Directory traversal</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensys_comm_injections_scrty.html')" class="blue">System command injections</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenxss_scrty.html')" class="blue">Cross site scripting</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abengeneric_prog_scrty.html')" class="blue">ABAP command injections</a></li>
+</ul>
+<p>
+The global principle in these sections of always checking and/or masking external input also applies
+in all cases not listed separately here, such as using a dynamic <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">WHERE</span></a> condition when accessing internal tables.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Back doors, implemented by malicious developers using dynamically specified information, are not discussed
+here. These cannot be checked statically, since they do not originate outside the program, and are not usually classified as dangerous by static checks. The two-man rule code inspections are probably the only solution here. See also
+<a href="javascript:call_link('abenobscure_code_scrty.html')" class="blue">Obscuring ABAP Source Code</a>.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abensql_injections_scrty.html')" class="blue">SQL Injections</a><br>
+<a href="javascript:call_link('abendyn_call_scrty.html')" class="blue">Dynamic Calls</a><br>
+<a href="javascript:call_link('abendyn_file_scrty.html')" class="blue">Directory Traversal</a><br>
+<a href="javascript:call_link('abensys_comm_injections_scrty.html')" class="blue">System Command Injections</a><br>
+<a href="javascript:call_link('abenxss_scrty.html')" class="blue">Cross Site Scripting</a><br>
+<a href="javascript:call_link('abengeneric_prog_scrty.html')" class="blue">ABAP Command Injections</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynamic_programming_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:50:42 GMT -->
+</html>

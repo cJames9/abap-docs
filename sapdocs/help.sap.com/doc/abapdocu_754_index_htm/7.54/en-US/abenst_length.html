@@ -1,0 +1,186 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_LENGTH -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_length.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - length, minLength, maxLength, Specified Length">
+<meta name="keywords" content="ABAP, Simple Transformations, length">
+<title>
+ST - length, minLength, maxLength, Specified Length - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_length.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_length.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_abap_values.html')" class="blue">ST - Transformation of ABAP Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_tt_value_elementary.html')" class="blue">ST - tt:value, Elementary Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@length@@!ABAP_ST_ELEMENT!@@"></A>
+<A NAME="@@minLength@@!ABAP_ST_ELEMENT!@@"></A>
+<A NAME="@@maxLength@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - length, minLength, maxLength, Specified Length
+</span></p>
+<A name="@@ITOC@@ABENST_LENGTH_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">... length="len" ...</span> <br><span class="qtext400">... minLength="len" ...</span> <br><span class="qtext400">... maxLength="len" ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The attributes <span class="qtext400">length</span>, <span class="qtext400">minLength</span>, and <span class="qtext400">
+maxLength</span> can be used to specify a length <span class="qtext400">len</span> for <a href="javascript:call_link('abenst_tt_value_elementary.html')" class="blue">
+<span class="qtext400">tt:value</span></a>, <a href="javascript:call_link('abenst_tt_write.html')" class="blue"><span class="qtext400">tt:write</span></a>,
+and <a href="javascript:call_link('abenst_tt_read.html')" class="blue"><span class="qtext400">tt:read</span></a>. This restricts the length of the data passed in serializations and deserializations.
+</p>
+<p>
+Positive integers can be specified for <span class="qtext400">len</span>. Lengths can be specified for
+data nodes or variables with the ABAP types <span class="qtext">c</span>, <span class="qtext">x</span>,
+<span class="qtext">string</span>, and <span class="qtext">xstring</span>. Any other data types ignore any lengths specified.
+</p>
+<p>
+Specifying the <span class="qtext400">length</span> attribute always affects <span class="qtext400">tt:value</span>
+and <span class="qtext400">tt:write</span> as if <span class="qtext400">minLength</span> and <span class="qtext400">maxLength</span>
+were executed at the same time with the value specified for <span class="qtext400">len</span>.
+</p>
+<A name="@@ITOC@@ABENST_LENGTH_2"></A>
+<p><span class="h3">
+Serialization
+</span></p>
+<p>
+The <span class="qtext400">minLength</span> or <span class="qtext400">length</span> attribute defines
+the resulting XML value as representing at least the number of characters or bytes defined in <span class="qtext400">
+len</span>. If a passed value contains fewer characters, or bytes, it is filled on the right with blanks
+or <span class="qtext400">"0x00"</span> until it is of the specified length and an XML value is created.
+The <span class="qtext400">maxLength</span> or <span class="qtext400">length</span> attribute defines
+the maximum number of characters or bytes that can be passed. If the XML value being serialized contains
+more characters or bytes than specified by <span class="qtext400">len</span>, the exception CX_ST_CONSTRAINT_ERROR
+is raised (unless only trailing blanks or zero bytes in a serialization of a data object with type <span class="qtext">c</span> or <span class="qtext">x</span> are affected).
+</p>
+<A name="@@ITOC@@ABENST_LENGTH_3"></A>
+<p><span class="h3">
+Deserialization
+</span></p>
+<p>
+The <span class="qtext400">minLength</span> attribute is ignored by deserialization. The <span class="qtext400">maxLength</span>
+or <span class="qtext400">length</span> attribute defines the maximum number of characters or bytes
+expected in the XML value. If the XML value that is being deserialized contains more characters or bytes
+than specified by <span class="qtext400">len</span>, the exception CX_ST_CONSTRAINT_ERROR is raised
+(unless only trailing blanks or zero bytes in a deserialization to a data object with type <span class="qtext">c</span> or <span class="qtext">x</span> are affected).
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Exception CX_ST_CONSTRAINT_ERROR cannot be caught directly during the call of <span class="qtext">CALL TRANSFORMATION</span>, instead it is wrapped in CX_ST_SERIALIZATION_ERROR or CX_ST_DESERIALIZATION_ERROR.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following transformation performs serializations and deserializations with differing lengths:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;?sap.transform simple?> <br>&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:serialize> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Text> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value length="8" ref="ROOT"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Text> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:serialize> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:deserialize> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Text> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value length="4" ref="ROOT"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Text> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:deserialize> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The following ABAP program can call the transformation:
+</p>
+<dl><dd>
+<span class="qtext">DATA: text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE string VALUE `1234`, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml_xstring TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_trafo&nbsp;&nbsp; TYPE REF TO cx_transformation_error, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_prev&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cx_root. <br> <br>CALL TRANSFORMATION ... SOURCE root = text <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML xml_xstring. <br>
+ <br>cl_abap_browser=>show_xml( xml_string = xml_xstring ). <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION ... SOURCE XML xml_xstring <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT root = text. <br>
+&nbsp;&nbsp;CATCH cx_st_deserialization_error INTO exc_trafo. <br>&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE exc_trafo TYPE 'I' DISPLAY LIKE 'E'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF exc_trafo->previous IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc_prev = exc_trafo->previous. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE exc_prev TYPE 'I' DISPLAY LIKE 'E'. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>ENDTRY.</span>
+</dd></dl>
+<p>
+The result of the transformation is:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;Text>1234&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Text></span>
+</dd></dl>
+<p>
+Since more characters are passed by the deserialization than expected, the exception CX_ST_CONSTRAINT_ERROR is raised, which is wrapped in the exception CX_ST_DESERIALIZATION_ERROR.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_length.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:55 GMT -->
+</html>

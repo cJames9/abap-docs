@@ -1,0 +1,229 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMESSAGES_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmessages_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Messages">
+<title>
+Messages - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmessages_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmessages_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="blue">Error Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Messages
+</span></p>
+<A name="@@ITOC@@ABENMESSAGES_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Messages are texts that are created using a message editor (transaction <span class="lnkgrey">SE91</span>).
+They are stored in the system table <span class="lnkgrey">T100</span>. In ABAP programs, the statement
+<a href="javascript:call_link('abapmessage.html')" class="blue"><span class="qtext">MESSAGE</span></a> is the main element for
+using messages. In its basic form, this statement sends a message; by specifying a message type, the
+display type and subsequent program behavior can be defined. For this reason, a distinction is made between the following message types:
+</p>
+<ul class="disc">
+<li>Status message (S)</li>
+</ul>
+<ul class="disc">
+<li>Information message (I)</li>
+</ul>
+<ul class="disc">
+<li>Warning (W)</li>
+</ul>
+<ul class="disc">
+<li>Error message (E)</li>
+</ul>
+<ul class="disc">
+<li>Termination (abort) message (A)</li>
+</ul>
+<p>
+In addition, there is a special message type, exit message (X), which causes a targeted program termination with a runtime error.
+</p>
+<p>
+The actual system behavior after a message is sent is highly context-dependent. The current version of the ABAP keyword documentation contains a
+<a href="javascript:call_link('abenabap_messages_types.html')" class="blue">detailed list</a> of effects caused by different
+message types in different contexts (such as dialog processing, background processing, during an RFC and during the processing of HTTP requests).
+</p>
+<p>
+The original purpose of messages is to act as dialog messages to display short information (types I
+and S) and handle incorrect user input (types W and E), during classic dynpro processing. Messages also have aspects that overlap with exceptions:
+</p>
+<ul class="disc">
+<li>The statement <a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">MESSAGE ... RAISING</span></a>
+is a combination of the statements <span class="qtext">MESSAGE</span> and <span class="qtext">RAISE</span> which enables classic exceptions to be associated with messages.</li>
+</ul>
+<ul class="disc">
+<li>Using the special, predefined classic exception, <span class="qtext">error_message</span>, error
+and termination messages (that occur when function modules run) can be handled in the same way as exceptions.
+This also applies to messages sent from the ABAP runtime environment (for example, when the automatic input check of classic dynpros is running).</li>
+</ul>
+<ul class="disc">
+<li>In exception classes, <a href="javascript:call_link('abenexception_texts_guidl.html')" class="lnkpurple" title="Guideline">exception
+texts</a> can be defined with a reference to messages. The message types A and X can also be used for direct program terminations.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A further variant, <a href="javascript:call_link('abapmessage_into.html')" class="blue"><span class="qtext">MESSAGE ... INTO</span></a> makes it possible to copy the short texts of messages into fields.
+</p>
+<A name="@@ITOC@@ABENMESSAGES_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only use messages for error handling in classic dynpros and as exception texts</span>
+</p>
+<p>
+Only send dialog messages in PAI processing of classic dynpros. Messages should only be used as exception
+texts and should no longer be used anywhere else. In particular, messages should no longer be used to force program terminations.
+</p>
+<A name="@@ITOC@@ABENMESSAGES_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The wide use of messages for different purposes can be traced back to the previous programming model,
+which was only driven by classic dynpros. Here, an exception situation usually always required the direct
+output of a message to the user. This concept was adopted for other situations, such as targeted program terminations. Triggering a dialog message within application logic procedures violates the
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">SoC principle</a> and limits the usability of the relevant procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">Method</a>) to
+the context of classic dynpro processing. The predefined exception <span class="qtext">error_message</span>
+should be regarded as a workaround that enables procedures to be executed for sending messages in the application logic or in the background.
+</p>
+<p>
+In new programs, the use of messages should be restricted as described below.
+</p>
+<p><span class="h4">
+Dialog Messages
+</span></p>
+<p>
+In cases where <a href="javascript:call_link('abenuser_interfaces_guidl.html')" class="lnkpurple" title="Guideline">classic dynpros</a>
+are still used, message types E, I, S, and W are still suitable for sending information to the user
+or for running error dialogs at the time of PAI (which is the original purpose of these messages types).
+Running error dialogs, in particular, is supported by the statements <span class="qtext">FIELD</span> and <span class="qtext">CHAIN</span> of the dynpro flow logic.
+</p>
+<p><span class="h4">
+Exception Texts
+</span></p>
+<p>
+Messages are the recommended category of text for
+<a href="javascript:call_link('abenexception_texts_guidl.html')" class="lnkpurple" title="Guideline">exception texts</a>. The
+statement <span class="qtext">MESSAGE</span> allows these exception texts to be sent directly as dialog
+messages. A reference to a corresponding exception object can be specified directly. From a technical point of view, a reference must be specified to an object whose class includes the interface
+<a href="javascript:call_link('abenif_t100_message.html')" class="blue">IF_T100_MESSAGE</a>.
+</p>
+<p>
+Messages in procedures where classic exceptions are still necessary can continue to replace real exception
+texts. This is done by using the statement <a href="javascript:call_link('abapraise_exception.html')" class="blue"><span class="qtext">MESSAGE
+... RAISING</span></a> instead of <a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">RAISE</span></a>.
+During this process, information about the exception text is passed to the handler, in the system fields
+<span class="qtext">sy-msgid</span> and <span class="qtext">sy-msgv1</span> - <span class="qtext">sy-msgv4</span>.
+These fields are filled using the statement <span class="qtext">MESSAGE</span>. This works especially
+well for handling exceptions during an RFC, for which class-based exception handling is not possible.
+When a classic exception of this type is handled or a message caught using <a href="javascript:call_link('abapcall_function_parameter.html')" class="blue">
+<span class="qtext">error_message</span></a>, the message can then be raised as an exception and forwarded with a suitable message class. The system interface
+<a href="javascript:call_link('abenif_t100_dyn_msg.html')" class="blue">IF_T100_DYN_MSG</a> and the addition <a href="javascript:call_link('abapraise_exception_message.html')" class="blue">
+<span class="qtext">MESSAGE</span></a> of the statement <a href="javascript:call_link('abapraise_exception_class.html')" class="blue"><span class="qtext">
+RAISE EXCEPTION</span></a> and of the addition <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW</span></a> in a
+<a href="javascript:call_link('abenconditional_expressions.html')" class="blue">conditional exception</a> are used for these cases.
+</p>
+<p><span class="h4">
+Program Terminations
+</span></p>
+<p>
+Message types A and X cause program terminations (aborts) and should no longer be used:
+</p>
+<ul class="disc">
+<li>If a termination message of type A is sent, the statement <span class="qtext">ROLLBACK WORK</span>
+is executed implicitly. This can lead to unexpected results, if the message is handled with <span class="qtext">error_message</span>
+as a classic exception (rather than causing a program termination) To be on the safe side, the statements
+<span class="qtext">ROLLBACK WORK</span> and <span class="qtext">LEAVE PROGRAM</span> should be used explicitly to exit the program.</li>
+</ul>
+<ul class="disc">
+<li>If a message of type X is sent, the program is terminated with the runtime error <span class="qtext">MESSAGE_ TYPE_X</span>. When programs are forced to terminate due to internal inconsistencies, however,
+<a href="javascript:call_link('abenassertions_guidl.html')" class="lnkpurple" title="Guideline">assertions</a> or the language
+elements <a href="javascript:call_link('abapraise_shortdump.html')" class="blue"><span class="qtext">RAISE SHORTDUMP</span></a>
+or <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW SHORTDUMP</span></a>
+should now be used. The values specified here using the addition <span class="qtext">FIELDS</span> of
+the statement <span class="qtext">ASSERT</span> or the exception object <span class="qtext">RAISE SHORTDUMP</span>
+or <span class="qtext">THROW SHORTDUMP</span> are usually better suited for troubleshooting than a message.</li>
+</ul>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Exit messages can still be used if you want only the text of the message to appear in the short dump
+of the runtime error. However, this should not be misunderstood as communication with the user. A runtime
+error is not a suitable way of communicating with users. For a simple, unconditional program termination,
+however, exit messages should no longer be used. Instead, where required, the language elements <a href="javascript:call_link('abapraise_shortdump.html')" class="blue">
+<span class="qtext">RAISE SHORTDUMP</span></a> or <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW SHORTDUMP</span></a> can be used instead.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmessages_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

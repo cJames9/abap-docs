@@ -1,0 +1,231 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-640-RTTI -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-640-rtti.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Runtime Type Services in Release 6.40">
+<title>
+Runtime Type Services in Release 6.40 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-640-rtti.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-640-rtti.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-640.html')" class="blue">Changes in Release 6.40</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Runtime Type Services in Release 6.40 <br><br>
+</span></p>
+<P>
+The <a href="javascript:call_link('abenrun_time_type_services_glosry.html')" class="grey" title="Glossary Entry">runtime type services (RTTS)</a> are a further development of the former
+<a href="javascript:call_link('abenrun_time_type_identific_glosry.html')" class="grey" title="Glossary Entry">runtime type identification (RTTI)</a>. With the enhancement of the
+<a href="javascript:call_link('abentype_class_glosry.html')" class="grey" title="Glossary Entry">type description classes</a>
+to include methods for creating dynamic types (see modification 1), the RTTS include (from Release 6.40) the RTTI and also runtime type creation (RTTC). <br><br>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Methods for creating data types </A> <br><br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br>
+2. New methods for types from ABAP Dictionary </A> <br><br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> <br>
+3. Enhancement of the method GET_COMPONENT_TYPE </A> <br><br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> <br>
+4. Enhancement of the method GET_PROPERTY </A> <br><br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> <br>
+5. New method HAS_PROPERTY </A> <br><br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> <br>6. New method GET_CLASS_NAME </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> <br>7. New method GET_DATA_TYPE_KIND </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">Methods for Creating Data Types</span> <br><br><!-- /A -->
+</P>
+<P>
+The type description classes of RTTI were enhanced using
+<a href="javascript:call_link('abenrun_time_type_creation_glosry.html')" class="grey" title="Glossary Entry">RTTC</a> methods. These methods create type description objects independently of existing types. This means what was previously RTTI becomes the
+<a href="javascript:call_link('abenrun_time_type_services_glosry.html')" class="grey" title="Glossary Entry">RTTS</a>.
+</P>
+<P>
+Together with the addition <span class="qtext">HANDLE</span> of the statements <a href="javascript:call_link('abapcreate_data_handle.html')" class="blue">
+<span class="qtext">CREATE DATA</span></a> and <a href="javascript:call_link('abapassign_casting.html')" class="blue"><span class="qtext">ASSIGN</span></a>,
+the RTTC-specific methods of the RTTS allow the construction of data objects of any types for the program runtime and the
+<a href="javascript:call_link('abencast_casting_glosry.html')" class="grey" title="Glossary Entry">casting</a> of dynamic types.
+</P>
+<P>
+The most important new methods for dynamically defining data types are:
+</P>
+<ul class="disc">
+<li>
+GET_C, GET_D, GET_F, and so on of class <span class="lnkgrey">CL_ABAP_ELEMDESCR</span> for creating type description objects for elementary data types.
+<br><br></li>
+<li>
+CREATE of class <span class="lnkgrey">CL_ABAP_STRUCTDESCR</span> for creating type description objects for structured data types based on a component table.
+<br><br></li>
+<li>
+CREATE of class <span class="lnkgrey">CL_ABAP_TABLEDESCR</span> for creating type description objects for table types, where the attributes of the table are passed to the input parameters.
+<br><br></li>
+<li>
+CREATE of class <span class="lnkgrey">CL_ABAP_REFDESCR</span> for creating type description objects for reference types, where the static type is passed to an input parameter. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">New Methods for Types from ABAP Dictionary</span> <br><br><!-- /A -->
+</P>
+<P>
+If the type of a type description object comes from ABAP Dictionary, the dictionary attributes of the type can be identified using the following methods: <br>
+</P>
+<P>
+<span class="bold">For any data types</span> <br>
+</P>
+<ul class="disc">
+<li>
+CL_ABAP_TYPEDESCR=>IS_DDIC_TYPE <br>returns ABAP_TRUE when the object describes a type from ABAP Dictionary
+<br><br></li>
+<li>
+CL_ABAP_TYPEDESCR=>ABSOLUTE_NAME <br>returns the absolute name of a type (also for program-defined types)
+<br><br></li>
+<li>
+CL_ABAP_TYPEDESCR=>GET_DDIC_HEADER <br>returns the <a href="javascript:call_link('abenname_tab_header_glosry.html')" class="grey" title="Glossary Entry">nametab header</a> of a type from ABAP Dictionary
+<br><br></li>
+<li>
+CL_ABAP_TYPEDESCR=>GET_DDIC_OBJECT <br>returns the <a href="javascript:call_link('abenname_tab_fields_glosry.html')" class="grey" title="Glossary Entry">nametab field descriptions</a> of a type from ABAP Dictionary <br>
+<br></li>
+</ul>
+<P>
+<span class="bold">For elementary data types</span> <br>
+</P>
+<ul class="disc">
+<li>
+CL_ABAP_ELEMDESCR=>GET_DDIC_FIELD <br>returns the attributes of the data element and its texts (replaces function module DDIF_FIELDINFO_GET)
+<br><br></li>
+<li>
+CL_ABAP_ELEMDESCR=>GET_DDIC_FIXED_VALUES <br>returns the <a href="javascript:call_link('abenfixed_value_glosry.html')" class="grey" title="Glossary Entry">fixed values</a> of the data element <br>
+<br></li>
+</ul>
+<P>
+<span class="bold">For structures and database tables</span>
+</P>
+<ul class="disc">
+<li>
+CL_ABAP_STRUCTDESCR=>GET_DDIC_FIELD_LIST <br>returns the features of the structure and its texts (replaces function module DDIF_FIELDINFO_GET) <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">Enhancement of the Method GET_COMPONENT_TYPE</span> <br><br><!-- /A -->
+</P>
+<P>
+Previously, the method GET_COMPONENT_TYPE of class CL_ABAP_STRUCTDESCR for parameter P_NAME only accepted
+actual parameters of types <span class="qtext">string</span> and <span class="qtext">c</span>. Although
+the formal parameter is type <span class="qtext">any</span>, during the call, a type check was executed
+that caused a serious error for non-text-like actual parameters. Actual parameters of type <span class="qtext">csequence</span>
+and <span class="qtext">numeric</span> are now accepted. A text-like parameter is interpreted as a component
+name, a numeric parameter as the position of the component in the structure. An actual parameter that
+does not apply to <span class="qtext">csequence</span> or <span class="qtext">numeric</span> triggers the non-class-based exception UNSUPPORTED_INPUT_TYPE. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+<span class="bold">Enhancement of the Method GET_PROPERTY</span> <br><br><!-- /A -->
+</P>
+<P>
+A new public constant CL_ABAP_TYPEDESCR=>TYPEPROPKIND_HASCLIENT has been introduced. If this constant
+of method GET_PROPERTY is passed to class CL_ABAP_TYPEDESCR, the system checks whether the type of the
+type description object has a client field. A reference to a data object of type ABAP_BOOL is always
+returned. If the type has a client field, the referenced data object has the value of the constant ABAP_TRUE.
+If the type does not have a client field or if it does not affect a structure, the referenced data object has the value of the constant ABAP_FALSE . <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="bold">New Method HAS_PROPERTY</span> <br><br><!-- /A -->
+</P>
+<P>
+A new public method HAS_PROPERTY has been introduced in class CL_ABAP_TYPEDESCR. Unlike GET_PROPERTY,
+this method only identifies whether a type has a property and only returns the values from ABAP_TRUE or ABAP_FALSE. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+<span class="bold">New Method GET_CLASS_NAME</span> <br><br><!-- /A -->
+</P>
+<P>
+A new public method GET_CLASS_NAME has been introduced in class CL_ABAP_CLASSDESCR. This method returns the name of the class of an object. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+<span class="bold">New Method GET_DATA_TYPE_KIND</span> <br><br><!-- /A -->
+</P>
+<P>
+A new public method GET_DATA_TYPE_KIND has been introduced in class CL_ABAP_DATADESCR. This method returns
+the same values as the statement <a href="javascript:call_link('abapdescribe_field.html')" class="blue"><span class="qtext">DESCRIBE
+FIELD</span></a> with the addition <span class="qtext">TYPE</span>. These values are also defined as constants with the prefix TYPE_KIND_ of class CL_ABAP_DATADESCR.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-640-rtti.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

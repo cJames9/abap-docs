@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_EXPR_ARITH_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_expr_arith_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL expressions, arithmetic calculations">
+<title>
+SQL expressions, arithmetic calculations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_expr_arith_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_expr_arith_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">ABAP SQL - SQL Expressions sql_exp</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_arith.html')" class="blue">sql_exp - sql_arith</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL expressions, arithmetic calculations
+</span></p>
+<p>
+This example demonstrates arithmetic calculations in <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a>.
+</p>
+<A name="@@ITOC@@ABENSQL_EXPR_ARITH_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_sql_expr_arith.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(rnd) = cl_abap_random_int=&gt;create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seed = CONV i( sy-uzeit ) min = 1 max = 100 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_expressions.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_expressions FROM TABLE @( VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR i = 0 UNTIL i &gt; 9<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( id = |{ i }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num1 = rnd-&gt;get_next( )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num2 = rnd-&gt;get_next( ) ) ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(offset) = 10000.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT id, num1, num2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CAST( num1 AS D34N ) / CAST( num2 AS D34N ) AS ratio,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DIV( num1, num2 ) AS div,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DIVISION( num1, num2, 2 ) AS division,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MOD( num1, num2 ) AS mod,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @offset + ABS( num1 - num2 ) AS sum<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY sum DESCENDING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(results).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( results ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSQL_EXPR_ARITH_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Calculations are made and functions called in a list of columns specified after <span class="qtext">SELECT</span>.
+</p>
+<ul class="disc">
+<li>To perform <a href="javascript:call_link('abensql_arith.html')" class="blue">floating point division</a> with integer columns,
+these columns are updated to the type DECFLOAT34 using <a href="javascript:call_link('abensql_cast.html')" class="blue"><span class="qtext">cast</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Integer divisions with the functions  <a href="javascript:call_link('abensql_arith_func.html')" class="blue"><span class="qtext">DIV</span></a>,
+<a href="javascript:call_link('abensql_arith_func.html')" class="blue"><span class="qtext">MOD</span></a>, and <a href="javascript:call_link('abensql_arith_func.html')" class="blue"><span class="qtext">DIVISION</span></a> do not require this update.</li>
+</ul>
+<ul class="disc">
+<li>A <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a> is added to the absolute value of a difference between column values.</li>
+</ul>
+<p>
+Using the alias names defined after <span class="qtext">AS</span>, the results are assigned to the columns
+with the same names of an internal table declared inline, <span class="qtext">results</span>. The result of the final calculation are used as a sort criterion.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_expr_arith_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

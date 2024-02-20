@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMOVE_EXACT_ITAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmove_exact_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Checking Internal Tables">
+<title>
+Checking Internal Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmove_exact_itab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmove_exact_itab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlossless_move.html')" class="blue">Lossless Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapmove_exact.html')" class="blue">Lossless Assignments - Rules</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Checking Internal Tables
+</span></p>
+<p>
+The operator <a href="javascript:call_link('abenconstructor_expression_exact.html')" class="blue"><span class="qtext">EXACT</span></a> checks a table specified as an argument row-by-row against the table-like row type:
+</p>
+<ul class="disc">
+<li>If the row types are elementary, each row is checked for <a href="javascript:call_link('abenmove_exact_elementary.html')" class="blue">elementary data objects</a>.</li>
+</ul>
+<ul class="disc">
+<li>If the row types are structured, each row is checked for <a href="javascript:call_link('abenmove_exact_structure.html')" class="blue">structures</a>.</li>
+</ul>
+<ul class="disc">
+<li>If the row types are table-like, the check described here is performed. If the inner table is a table with an elementary row type, the row types must be compatible.</li>
+</ul>
+<p>
+The <a href="javascript:call_link('abentable_category_glosry.html')" class="grey" title="Glossary Entry">table category</a> and the
+<a href="javascript:call_link('abentable_key_glosry.html')" class="grey" title="Glossary Entry">table key</a> are ignored by the check.
+</p>
+<p>
+If the check raises an exception due to an invalid value or loss of values, the target table is filled with all rows assigned up to that point.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If an internal table with elementary row type is converted, this row type does not have to be compatible
+with the target row type. It only needs to be convertible according to the conditions of <span class="qtext">EXACT</span>.
+If an internal table with elementary row type is converted that occurs as an inner table of another table, it is handled like a structure components and the row types must be compatible.</li>
+</ul>
+<ul class="disc">
+<li>If internal tables are converted using the operator <span class="qtext">EXACT</span>, only internal tables with elementary row type can raise an exception.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The first seven rows of the internal table <span class="qtext">itab</span> are assigned to the internal
+table <span class="qtext">jtab</span>. When the eighth row is assigned, the exception CX_SY_CONVERSION_NO_DATE occurs.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE STANDARD TABLE OF d <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH EMPTY KEY. <br>
+ <br>itab = VALUE #( ( CONV d( '20160101' ) ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160201' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160301' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160401' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160501' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160601' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160701' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160&#x00DF;01' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20160901' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20161001' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20161101' ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CONV d( '20161201' ) ) ). <br>
+ <br>DATA jtab TYPE SORTED TABLE OF string <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH UNIQUE KEY table_line. <br>
+ <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;jtab = EXACT #( itab ). <br>&nbsp;&nbsp;CATCH cx_sy_conversion_no_date. <br>ENDTRY. <br> <br>cl_demo_output=>display( jtab ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmove_exact_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

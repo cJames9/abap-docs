@@ -1,0 +1,170 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXCEPTION_TEXTS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_texts_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exception Texts">
+<title>
+Exception Texts - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexception_texts_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexception_texts_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="blue">Error Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exception Texts
+</span></p>
+<A name="@@ITOC@@ABENEXCEPTION_TEXTS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Each global exception class has a predefined <a href="javascript:call_link('abenexception_texts.html')" class="blue">exception
+text</a> that has the same name as the exception class. This text can be edited and further exception texts can be defined. The exception texts of an exception class can be created either by referencing
+<a href="javascript:call_link('abenexception_texts_t100.html')" class="blue">messages in the table T100</a> or by referencing <a href="javascript:call_link('abenexception_texts_internal.html')" class="blue">texts in Online Text Repository (OTR)</a>.
+</p>
+<p>
+For each exception text, Class Builder creates a static constant in the exception class with the same
+name as the exception text. When the exception is raised, this can be passed to the parameter TEXTID
+of the instance constructor to determine the exception text. If the parameter is not passed, the predefined exception text with the same name as the exception class is used.
+</p>
+<p>
+From a technical perspective, the parameter TEXTID of the instance constructor can also be used to pass messages or texts from OTR as exception texts.
+</p>
+<A name="@@ITOC@@ABENEXCEPTION_TEXTS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Using Messages as Exception Texts</span>
+</p>
+<p>
+Messages should be used as exception texts for exception classes in applications. OTR texts should be restricted to system classes. Only the associated texts can be used when an exception is raised.
+</p>
+<A name="@@ITOC@@ABENEXCEPTION_TEXTS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The following guideline describes how to choose the text category:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenexception_texts_t100.html')" class="blue">Messages</a> should be used as exception texts in all exception classes in application programming.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenexception_texts_internal.html')" class="blue">OTR texts</a> should only be used in system
+classes, namely exception classes for system exceptions. OTR offers various benefits when compared with messages, such as no restriction to 73 characters and unlimited placeholders, but lacks full tool support. More specifically,
+<a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools (ADT)</a> do not support OTR texts.</li>
+</ul>
+<p>
+From a technical perspective, it is possible to pass a data object to the input parameter TEXTID of
+the instance constructor when an exception is raised. This data object specifies either a message or
+an OTR text, depending on the text category. This approach is, however, absolutely not advisable. If
+the parameter TEXTID is used, an exception can only be raised with the texts specific to it. Only the associated constants of the exception class can be passed to the input parameter TEXTID of the instance constructor.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In cases where a class-based exception is used to wrap a
+<a href="javascript:call_link('abenclass_exception_guidl.html')" class="lnkpurple" title="Guideline">classic exception</a> and
+<a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">MESSAGE ... RAISING</span></a> is
+used to associate this classic exception with a message text (or after a message is caught using <a href="javascript:call_link('abapcall_function_parameter.html')" class="blue">
+<span class="qtext">error_message</span></a>), the class-based exception can use the same message text regardless of whether the program in question is a system program or application program. The system interface
+<a href="javascript:call_link('abenif_t100_dyn_msg.html')" class="blue">IF_T100_DYN_MSG</a> and the addition <a href="javascript:call_link('abapraise_exception_message.html')" class="blue">
+<span class="qtext">MESSAGE</span></a> of the statement <a href="javascript:call_link('abapraise_exception_class.html')" class="blue"><span class="qtext">
+RAISE EXCEPTION</span></a> and of the addition <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW</span></a> in a
+<a href="javascript:call_link('abenconditional_expressions.html')" class="blue">conditional exception</a> are used for these cases.</li>
+</ul>
+<ul class="disc">
+<li>Classic exceptions are not associated with exception texts. If classic exceptions are required for
+reasons of downward compatibility, the statement <a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">
+MESSAGE ... RAISING</span></a> gives the option of emulating exception texts here. Using <span class="qtext">MESSAGE
+...</span> <span class="qtext">RAISING</span> in cases in which non-class-based exceptions must still
+be used is preferable to using the statement <span class="qtext">RAISE</span>, because it offers the option of providing additional text information with an exception.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code passes a <a href="javascript:call_link('abenuuid_glosry.html')" class="grey" title="Glossary Entry">UUID</a>
+for an OTR text to the input parameter TEXTID of the instance constructor when an exception is raised.
+According to the rule above, however, only exception texts from the exception class can be passed, with each exception class containing the corresponding constants.
+</p>
+<dl><dd>
+<span class="qtext">... <br>DATA otr_id TYPE sotr_conc. <br>otr_id = '9753EBD0102AD0418D902B8D972083C4'. <br>
+RAISE EXCEPTION TYPE cx_system_exception <br>&nbsp;&nbsp; EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textid = otr_id. <br>...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code passes the constant for the associated OTR text to the input parameter TEXTID of the instance constructor when an exception is raised, as specified by the rule above.
+</p>
+<dl><dd>
+<span class="qtext">... <br>RAISE EXCEPTION TYPE cx_system_exception <br>&nbsp;&nbsp; EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textid = cx_system_exception=>cx_system_exception. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_texts_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

@@ -1,0 +1,128 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSHM_AREA_DYNAMIC_PROPERTIES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshm_area_dynamic_properties.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Areas - Dynamic Area Properties">
+<title>
+Areas - Dynamic Area Properties - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenshm_area_dynamic_properties.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenshm_area_dynamic_properties.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_shared_objects.html')" class="blue">Shared Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenshm_areas.html')" class="blue">Shared Objects - Areas</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Areas - Dynamic Area Properties
+</span></p>
+<p>
+The dynamic properties of an area are not considered when the
+<a href="javascript:call_link('abenarea_class_glosry.html')" class="grey" title="Glossary Entry">area class</a> is generated.
+These properties can be changed by developers only. When the dynamic properties of an area are changed dynamically during operation, the current
+<a href="javascript:call_link('abenarea_instance_version_glosry.html')" class="grey" title="Glossary Entry">area instance versions</a>
+(versions that are being built, active or obsolete) are not affected. The new dynamic properties are not used until the next change lock is set in the corresponding version that is being built.
+</p>
+<ul class="disc">
+<li><span class="italic">Area Constructor Class</span></li>
+</ul>
+<dl><dd>
+Any global class that implements the interface <a href="javascript:call_link('abenshm_if_shm_build_instance.html')" class="blue">SHM_IF_SHM_BUILD_INSTANCE</a>
+can be specified as an area constructor class. The implementation of the interface method IF_SHM_BUILD_INSTANCE~BUILD is used as the area constructor.
+</dd></dl>
+<dl><dd>
+An <span class="italic">area constructor class</span> has to be specified if automatic area building is activated in the
+<a href="javascript:call_link('abenshm_area_basic_properties.html')" class="blue">basic properties</a>. The interface method IF_SHM_BUILD_INSTANCE~BUILD of the specified class is called implicitly in a separate
+<a href="javascript:call_link('abenmain_session_glosry.html')" class="grey" title="Glossary Entry">ABAP session</a> when an area is built automatically.
+</dd></dl>
+<dl><dd>
+An area constructor class can be specified if automatic area building is not activated in the basic properties. The interface method IF_SHM_BUILD_INSTANCE~BUILD of the current area constructor class can be called explicitly in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> (using the method BUILD generated in every area class).
+</dd></dl>
+<dl><dd>
+An example of how to implement the interface method IF_SHM_BUILD_INSTANCE~BUILD in an area constructor class can be found under <a href="javascript:call_link('abenshm_area_constructor_class.html')" class="blue">Area Constructor Class</a>.
+</dd></dl>
+<ul class="disc">
+<li><span class="italic">Displacement Type</span></li>
+</ul>
+<dl><dd>
+This property determines whether and how instances of the area can be displaced. Displacement may be
+necessary if the available addressing area of the shared memory is not sufficient for all area instance
+versions. This may be the case in 32-bit systems, but should not be an issue for 64-bit systems. Possible displacement types are:
+</dd></dl>
+<ul class="circlem2">
+<li><span class="italic">Displacement Not Possible</span> <br> <br>Area instance versions cannot be
+displaced. If the addressing area is no longer sufficient for all area instance versions, this results in a runtime error.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="italic">Displacement Possible</span> <br> <br>Area instance versions can be displaced. The content is lost (complete displacement). Displacement only takes place if no
+<a href="javascript:call_link('abenarea_handle_glosry.html')" class="grey" title="Glossary Entry">area handle</a> is bound to
+the area instance at the same time, or if there are no locks on the area instance. This means that only
+those area instances can be displaced that have exactly one version (the active version) with no read lock at the time of displacement.</li>
+</ul>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshm_area_dynamic_properties.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:44 GMT -->
+</html>

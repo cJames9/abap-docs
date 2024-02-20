@@ -1,0 +1,232 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCLEANUP -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcleanup.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:41 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CLEANUP">
+<meta name="keywords" content="ABAP, CLEANUP">
+<title>
+CLEANUP - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapcleanup.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapcleanup.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions.html')" class="blue">Class-Based Exceptions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptry.html')" class="blue">TRY</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CLEANUP@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+CLEANUP <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abaptry_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">CLEANUP <i class=bn>[</i>INTO oref<i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... INTO oref</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Introduces a statement block of a <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY</span></a> control structure where cleanups can be performed.
+</P>
+<P>
+A <span class="qtext">CLEANUP</span> block is executed when a class-based exception in the <span class="qtext">TRY</span>
+block of the same <span class="qtext">TRY</span> control structure is raised, but is handled in a <span class="qtext">
+CATCH</span> block of an external <span class="qtext">TRY</span> control structure. A <span class="qtext">CLEANUP</span> block is executed immediately before the context of the exception is deleted:
+</P>
+<ul class="disc">
+<li>
+If the addition <span class="qtext">BEFORE UNWIND</span> is specified for the handling <a href="javascript:call_link('abapcatch_try.html')" class="blue">
+<span class="qtext">CATCH</span></a> block, the context is deleted when the <span class="qtext">CATCH</span> block is exited and the <span class="qtext">CLEANUP</span> block is executed accordingly after handling.
+<br><br></li>
+<li>
+If the addition <span class="qtext">BEFORE UNWIND</span> is not specified, the context is deleted before
+the <span class="qtext">CATCH</span> block is executed and the <span class="qtext">CLEANUP</span> block is executed accordingly.
+<br><br></li>
+<li>
+If <a href="javascript:call_link('abapresume.html')" class="blue"><span class="qtext">RESUME</span></a> is used to resume processing after a
+<a href="javascript:call_link('abenresumable_exception_glosry.html')" class="grey" title="Glossary Entry">resumable exception</a>, the context is not deleted and accordingly no <span class="qtext">CLEANUP</span> block is executed.
+<br></li>
+</ul>
+<P>
+The <span class="qtext">CLEANUP</span> block must be executed completely and must be exited using <span class="qtext">
+ENDTRY</span> so that the exception can be propagated to its handler. If an attempt is made to exit
+the context of a <span class="qtext">CLEANUP</span> block prematurely, a runtime error occurs. A <span class="qtext">CLEANUP</span> block cannot contain any
+<a href="javascript:call_link('abenleave_program_units.html')" class="blue">statements</a> where the system can knows statically
+that it cannot return to the <span class="qtext">CLEANUP</span> block. Program calls using <a href="javascript:call_link('abapsubmit.html')" class="blue">
+<span class="qtext">SUBMIT</span></a> and <a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">CALL TRANSACTION</span></a> should also be avoided here. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The context of the <span class="qtext">TRY</span> block can be cleaned up in a <span class="qtext">CLEANUP</span>
+block. For example, objects can be updated to a consistent state or external resources released to which an external handler would no longer have access.
+<br><br></li>
+<li>
+Since a <span class="qtext">CLEANUP</span> block must always be executed completely, all the exceptions raised there must also be handled there. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In an inner <span class="qtext">TRY</span> block, either the exception <span class="qtext">cx_demo0</span>
+or <span class="qtext">cx_demo1</span> can be raised. If <span class="qtext">cx_demo1</span> is raised,
+the <span class="qtext">CLEANUP</span> block of the inner <span class="qtext">TRY</span> block is executed before handling in the outer <span class="qtext">TRY</span> block.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF ENUM exception, <br>&nbsp;&nbsp;&nbsp;&nbsp;cx_demo0, <br>&nbsp;&nbsp;&nbsp;&nbsp;cx_demo1, <br>
+&nbsp;&nbsp;END OF ENUM exception. <br> <br>CLASS cx_demo0 DEFINITION INHERITING FROM cx_static_check. <br>
+ENDCLASS. <br>CLASS cx_demo1 DEFINITION INHERITING FROM cx_static_check. <br>ENDCLASS. <br> <br>START-OF-SELECTION. <br>
+&nbsp;&nbsp;DATA(exception) = cx_demo1. <br>&nbsp;&nbsp;cl_demo_input=>request( CHANGING field = exception ). <br>
+ <br>&nbsp;&nbsp;DATA exc TYPE REF TO cx_static_check. <br>&nbsp;&nbsp;exc = COND #( WHEN exception = cx_demo0 THEN NEW cx_demo0( ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE NEW cx_demo1( ) ). <br>
+ <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION exc. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_demo0. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( 'Catching cx_demo0' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEANUP. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( 'Cleanup' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_demo1. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( 'Catching cx_demo1' ). <br>
+&nbsp;&nbsp;ENDTRY. <br>&nbsp;&nbsp;cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abentry_abexa.html')" class="blue">Exceptions, <span class="qtext">TRY</span></a>
+<br><br></li>
+<li>
+<a href="javascript:call_link('abencatch_exception_abexa.html')" class="blue">Exceptions, <span class="qtext">CATCH</span></a> <br><br>
+<br></li>
+</ul>
+<A NAME="@@INTO@@CLEANUP@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... INTO oref</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+If the addition <span class="qtext">INTO</span> is specified, a reference to the exception object is saved to <span class="qtext">oref</span>. The following can be specified for <span class="qtext">oref</span>:
+</P>
+<ul class="disc">
+<li>
+An existing object reference variable of the type CX_ROOT
+<br><br></li>
+<li>
+An inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>, where an object reference variable of the type CX_ROOT is declared.
+<br></li>
+</ul>
+<P>
+<span class="qtext">oref</span> can be used to access the exception object.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Within the <span class="qtext">CLEANUP</span> block, do not raise the current exception again using <span class="qtext">RAISE EXCEPTION oref</span>, since this would modify the attributes of the exception object.
+<br><br></li>
+<li>
+Within a <span class="qtext">CLEANUP</span> block, the attribute IS_RESUMABLE of the exception object is undefined. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The <span class="qtext">CLEANUP</span> block of the inner <span class="qtext">TRY</span> block is executed
+before handling of the exception <span class="qtext">cx_demo1</span> in the outer <span class="qtext">TRY</span>
+block. The reference variable <span class="qtext">exc</span> points to the exception object of the class <span class="qtext">cx_demo1</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS cx_demo0 DEFINITION INHERITING FROM cx_static_check. <br>ENDCLASS. <br>CLASS cx_demo1 DEFINITION INHERITING FROM cx_static_check. <br>
+ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_demo1. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_demo0. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEANUP INTO data(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_classdescr=>get_class_name( p_object = exc ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_demo1. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDTRY. <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcleanup.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:41 GMT -->
+</html>

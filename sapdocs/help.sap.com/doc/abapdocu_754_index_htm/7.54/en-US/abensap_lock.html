@@ -1,0 +1,188 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSAP_LOCK -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensap_lock.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:17 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SAP Locks">
+<meta name="keywords" content="ABAP, DEQUEUE, Lock Function Modules, ENQUEUE, Lock Function Modules, Lock Objects, SAP Locking">
+<title>
+SAP Locks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensap_lock.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensap_lock.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentransaction.html')" class="blue">Data Consistency</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SAP Locks
+</span></p>
+<p>
+SAP locks must be persisted for the duration of <a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUWs</a>. For this reason, different work processes and, if applicable, a new
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instances</a> must be able to handle these locks.
+</p>
+<p>
+SAP locks are based on lock objects. These are <span class="lnkgrey">defined</span> in ABAP Dictionary
+and enable locks to be set on one or more rows in a single database table or locks to be set on rows in multiple database tables associated using
+<a href="javascript:call_link('abenforeign_key_dependency_glosry.html')" class="grey" title="Glossary Entry">foreign key dependencies</a>.
+</p>
+<p>
+When a lock object is created, two lock function modules are generated whose names consist of the prefixes ENQUEUE_ and DEQUEUE_ and the name of the lock object.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSAP_LOCK_1" class="blue">Setting SAP Locks</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSAP_LOCK_2" class="blue">Releasing SAP Locks</A></li>
+</ul>
+<p>
+More details can be found under <span class="lnkgrey">SAP Lock Concept</span> in the SAP Help Portal.
+</p>
+<A name="@@ITOC@@ABENSAP_LOCK_1"></A>
+<p><span class="h2">
+Setting SAP Locks
+</span></p>
+<p>
+When called, lock function modules set or remove SAP locks. These function modules access a central lock table in the memory of a special work process of the current AS Instance. Every
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> contains exactly
+one such table (administered by transaction SM12). An enqueue function module sets an SAP lock by writing
+a corresponding entry in the lock table. If a lock cannot be set because corresponding lock entries already exist in the lock table, the function module terminates with the exception FOREIGN_LOCK.
+</p>
+<p>
+The most important input parameters of an enqueue function module are:
+</p>
+<table border>
+<tr>
+<td>Parameter</td>
+<td>Meaning</td>
+</tr>
+<tr>
+<td>MODE_dbtab</td>
+<td>Type of the lock for the database table <span class="qtext">dbtab</span> of the lock object. Possible values include "S" for a
+<a href="javascript:call_link('abenshared_lock_glosry.html')" class="grey" title="Glossary Entry">shared lock</a>, "E" for an
+<a href="javascript:call_link('abenexclusive_lock_glosry.html')" class="grey" title="Glossary Entry">exclusive lock</a>, "X"
+for an expanded exclusive lock that can be requested only once (unlike a regular exclusive lock within
+a program), and "O" for an optimistic lock, which behaves like a shared lock at first, but can be transformed to an exclusive lock.</td>
+</tr>
+<tr>
+<td>KEY_FIELDS</td>
+<td>For all key fields of the lock object, values can be specified that define the rows to be locked. If no value is specified for a key field, all corresponding rows are locked.</td>
+</tr>
+<tr>
+<td>_SCOPE</td>
+<td>Definition of the lock duration with respect to an SAP LUW. Possible values include "1" for handling the lock in the same program, "2" for passing the lock to the
+<a href="javascript:call_link('abenupdate_glosry.html')" class="grey" title="Glossary Entry">updater</a>, and "3" for handling the lock in the program and in the updater.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+An SAP lock is checked by trying to set a corresponding lock and handling the exception FOREIGN_LOCK in the process.
+</p>
+<A name="@@ITOC@@ABENSAP_LOCK_2"></A>
+<p><span class="h2">
+Releasing SAP Locks
+</span></p>
+<p>
+SAP locks can be released by deleting the associated entry in the lock table.
+</p>
+<p>
+When an SAP lock is set using the function module ENQUEUE, the value passed to the input parameter _SCOPE determines the lock duration. Depending on the formal parameter _SCOPE, an SAP lock can be released as follows:
+</p>
+<ul class="disc">
+<li>If _SCOPE is set to 1, the lock is not associated with the current SAP LUW. The lock can be released
+either by calling the DEQUEUE function module if the value "1" or "3" is passed to the formal parameter _SCOPE, or by terminating the program.</li>
+</ul>
+<ul class="disc">
+<li>If _SCOPE is set to 2, the lock is associated with the current SAP LUW. If <a href="javascript:call_link('abapcall_function_update.html')" class="blue">
+<span class="qtext">CALL FUNCTION ... IN UPDATE TASK</span></a> registered at least one update function
+module, the statement <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a>
+or <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a> releases the
+lock when the SAP LUW is completed. When using <span class="qtext">COMMIT WORK</span>, the update function
+releases the lock after processing the update function modules. This type of lock may persist beyond the end of a program until the update procedure has been completed.</li>
+</ul>
+<ul class="disc">
+<li>If _SCOPE is set to 3, both the update function and the program must release the lock. Releasing
+the lock by update corresponds to _SCOPE having the value 2. Releasing the lock in the program corresponds to _SCOPE having the value 1. The full lock release is defined by who released the lock last.</li>
+</ul>
+<p>
+If the function module DEQUEUE is used to release an SAP lock independently of the update, the formal
+parameter _SCOPE must be given a value that is greater than or equal to the value passed to the same parameter of the function module ENQUEUE.
+</p>
+<p>
+Besides the _SCOPE parameter, the input parameters of a DEQUEUE function module correspond to those
+of the ENQUEUE function module.  The additional parameter _SYNCHRON can then be used to specify whether the release of the lock should be delayed until program processing is resumed.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenenqueue_abexa.html')" class="blue">SAP Locks, Set and Release</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenenqueue_abexa.html')" class="blue">SAP Locks, Set and Release</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensap_lock.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:17 GMT -->
+</html>

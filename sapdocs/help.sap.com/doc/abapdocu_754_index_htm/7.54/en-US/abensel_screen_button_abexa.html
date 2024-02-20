@@ -1,0 +1,161 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSEL_SCREEN_BUTTON_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_button_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Selection Screens, Pushbuttons">
+<title>
+Selection Screens, Pushbuttons - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensel_screen_button_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensel_screen_button_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen.html')" class="blue">Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselection_screen_create.html')" class="blue">Create Selection Screens</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselection-screen.html')" class="blue">SELECTION-SCREEN</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselection-screen_layout.html')" class="blue">SELECTION-SCREEN - screen_elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselection-screen_pushbutton.html')" class="blue">SELECTION-SCREEN - PUSHBUTTON</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Selection Screens, Pushbuttons
+</span></p>
+<p>
+This example demonstrates how pushbuttons with function codes can be defined on selection screens.
+</p>
+<A name="@@ITOC@@ABENSEL_SCREEN_BUTTON_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_sel_screen_pushbutton.<br>
+<br>
+TABLES sscrfields.<br>
+<br>
+DATA flag(1) TYPE c.<br>
+<br>
+SELECTION-SCREEN:<br>
+&nbsp;&nbsp;BEGIN OF SCREEN 500 AS WINDOW TITLE tit,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF LINE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHBUTTON 2(10) but1 USER-COMMAND cli1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHBUTTON 12(10) text-020 USER-COMMAND cli2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;END OF LINE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF LINE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHBUTTON 2(10) but3 USER-COMMAND cli3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHBUTTON 12(10) text-040 USER-COMMAND cli4,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;END OF LINE,<br>
+&nbsp;&nbsp;END OF SCREEN 500.<br>
+<br>
+AT SELECTION-SCREEN.<br>
+<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-001 sscrfields-ucomm.<br>
+&nbsp;&nbsp;CASE sscrfields-ucomm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CLI1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = '1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CLI2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = '2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CLI3'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = '3'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CLI4'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = '4'.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+<br>
+START-OF-SELECTION.<br>
+<br>
+&nbsp;&nbsp;tit&nbsp;&nbsp;= 'Four Buttons'.<br>
+&nbsp;&nbsp;but1 = 'Button 1'.<br>
+&nbsp;&nbsp;but3 = 'Button 3'.<br>
+<br>
+&nbsp;&nbsp;CALL SELECTION-SCREEN 500 STARTING AT 10 10.<br>
+<br>
+&nbsp;&nbsp;CASE flag.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN '1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / 'Button 1 was clicked'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN '2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / 'Button 2 was clicked'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN '3'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / 'Button 3 was clicked'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN '4'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / 'Button 4 was clicked'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN OTHERS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / 'No Button was clicked'.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSEL_SCREEN_BUTTON_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example defines four pushbuttons on a selection screen that is displayed as a dialog box. The selection screen is defined in a chained statement for the keyword <span class="qtext">SELECTION-SCREEN</span>.
+</p>
+<p>
+<span class="qtext400">&#x201C;CLI1"</span>, <span class="qtext400">"CLI2"</span>, <span class="qtext400">"CLI3"</span>,
+and <span class="qtext400">"CLI4"</span> are used for <span class="qtext">fcode</span>. If the user
+chooses a pushbutton, the runtime environment triggers the <span class="qtext">AT SELECTION-SCREEN</span>
+event. The program is resumed after <span class="qtext">CALL SELECTION-SCREEN</span> only if the user chooses Execute.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensel_screen_button_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

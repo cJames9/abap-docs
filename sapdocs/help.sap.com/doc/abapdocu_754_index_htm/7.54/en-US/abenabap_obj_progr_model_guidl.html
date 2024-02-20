@@ -1,0 +1,363 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_OBJ_PROGR_MODEL_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_obj_progr_model_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP Objects as a Programming Model">
+<title>
+ABAP Objects as a Programming Model - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_obj_progr_model_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_obj_progr_model_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_specific_rules_guidl.html')" class="blue">ABAP-Specific Rules</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP Objects as a Programming Model
+</span></p>
+<A name="@@ITOC@@ABENABAP_OBJ_PROGR_MODEL_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+ABAP is a hybrid programming language that supports both a procedural and an object-oriented programming
+model. The procedural programming model is based on the modularization of programs in classic processing
+blocks (event blocks, dialog modules, function modules, and subroutines). In ABAP Objects, the class
+conceptually supersedes the classic program, and modularization is implemented using methods. From a technical point of view, classes are still declared and implemented in programs.
+</p>
+<p>
+Both models possess interoperability, meaning that classes can be accessed in classic processing blocks
+and classic programs and procedures can be called within methods. The hybrid nature of the language
+is mainly due to the downward compatibility. This is because ABAP has procedural roots, and the introduction
+of the object-oriented programming model was intended to make sure entire programs and reusable procedures (primarily function modules) could still be used.
+</p>
+<A name="@@ITOC@@ABENABAP_OBJ_PROGR_MODEL_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use ABAP objects</span>
+</p>
+<p>
+Use ABAP objects wherever possible for new and further developments. Classic processing blocks should only be created in exceptional cases.
+</p>
+<A name="@@ITOC@@ABENABAP_OBJ_PROGR_MODEL_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The need to achieve <a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">separation
+of concerns</a> is best supported by using ABAP objects as much as possible. Object-oriented programming - particularly ABAP Objects in comparison to classic procedural ABAP - is better suited. Here are the reasons why:
+</p>
+<ol>
+<li>
+<span class="bold">Data encapsulation</span> <br>ABAP Objects enables an advanced type of data encapsulation
+to be used. In classic procedural programming, the state of an application is determined by the content
+of the global variables of a program. In object-oriented programming, the state is encapsulated in classes
+or objects as instances of classes. The distribution of data across the different visibility sections
+of a class &#x2014; public, protected and private &#x2014; allows a clear differentiation between externally
+and internally usable data. Even without in-depth object-oriented modeling, application programs benefit from these properties in terms of stability and maintainability.
+</li>
+<li>
+<span class="bold">Explicit instantiation</span> <br>ABAP Objects enables multiple instantiation of
+a class, by using explicit object creation with the <span class="qtext">CREATE OBJECT</span> statement.
+Each instance of a class (object) has its own state that is determined using the values of its attributes.
+It can be changed using class methods. Automatic garbage collection ensures that any objects no longer
+required are deleted from the memory. Procedural models do not offer multiple instantiation. Therefore stateless functions must be applied to data stored in separate repositories.
+</li>
+<li>
+<span class="bold">Inheritance</span> <br>ABAP Objects enables the reuse of classes through inheritance,
+where classes with special behaviors are derived from more general classes. Only the differences must
+be implemented again. In the procedural model, only existing functions can be used as they are, or new functions must be created.
+</li>
+<li>
+<span class="bold">Interfaces</span> <br>In ABAP Objects, objects can be addressed using standalone
+interfaces. This means that developers do not need to concern themselves with the implementation details
+of the class behind the interface. The provider of an interface can change the underlying implementations,
+without having to modify the programs that the interface uses. The procedural model does not have this concept of standalone interfaces.
+</li>
+<li>
+<span class="bold">Events</span> <br>ABAP Objects makes it easier to implement event-driven program
+flows. A publish-and-subscribe mechanism can loosely couple applications. The event trigger does not
+need to know anything about any possible handlers. This allows greater flexibility than the procedural approach, where the programs are much stronger coupled and the program flow is usually much more strictly defined.
+</li>
+<li>
+<span class="bold">Explicit orthogonal concepts</span> <br>ABAP Objects contains a small number of closely
+defined, mutually orthogonal, fundamental concepts, which makes it more reliable and less error-prone
+than classic ABAP. Classic procedural ABAP is dominated by implicit behaviors, where programs are controlled
+by implicit events of the runtime environment and by global data. The concepts of ABAP Objects, however, are explicitly shown in a program. ABAP Objects is easier to learn and use than classic procedural ABAP.
+</li>
+<li>
+<span class="bold">Cleansed syntax</span> <br>ABAP Objects uses cleansed syntax rules and semantics
+rules. Classic procedural ABAP is a language that has evolved over time, and contains several obsolete
+and overlapping concepts. The introduction of ABAP Objects meant that classes and methods provided a
+field for cleansed syntax and semantics rules, which was completely unaffected by downward compatibility
+requirements. This meant that most obsolete and error-prone language constructs were forbidden in ABAP
+Objects syntax (within classes and methods). Also, any questionable and potentially incorrect data accesses
+are checked more closely and can also be forbidden. The syntax cleansing enforces the use of the ABAP language in classes, which can only be requested using the
+<a href="javascript:call_link('abenmodern_abap_guidl.html')" class="lnkpurple" title="Guideline">Modern ABAP</a> guideline, outside of classes.
+</li>
+<li>
+<span class="bold">Access to new technologies</span> <br>ABAP Objects is often the only way of dealing
+with new ABAP technologies. For example, GUI controls, Web Dynpro ABAP, runtime type services (RTTS),
+or Internet Connection Framework (ICF) only provide class-based interfaces. If programs that use these
+services were still implemented on a purely procedural basis, this would result in an unnecessary mix of programming models and increased complexity.
+</li>
+</ol>
+<p>
+Therefore the urgent recommendation to use ABAP Objects has both formal and content-related issues:
+</p>
+<ul class="disc">
+<li>As described in points 1 through 5, the object-oriented programming model is better suited to keeping
+the complexity of software manageable through principles, such as encapsulation and inheritance. Admittedly,
+a good object-oriented design is not an easy task, and there are developers with only limited experience
+in this area even today. Given these facts, anyone who is still considering approaching a new development
+in the classic procedural way, must bear in mind that the procedural event-driven ABAP programming model with its system events is also not easy to understand.</li>
+</ul>
+<ul class="disc">
+<li>Points 6 through 8 describe more formal aspects. These points suggest that procedures should be
+created only as methods, even in the absence of a real object-oriented design. Function modules and
+subroutines should be created only in exceptional cases, where ABAP Objects does not currently provide any alternatives.</li>
+</ul>
+<p>
+The section <a href="javascript:call_link('abenobj_oriented_guidl.html')" class="lnkpurple" title="Guideline">Object-Oriented Programming</a> provides notes and recommendations on the optimal use of ABAP Objects.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+The following properties are still missing in ABAP Objects. They are needed to replace classic processing blocks with methods:
+</p>
+<ul class="disc">
+<li>Remote Method Invocation (RMI) as a replacement for Remote Function Call (RFC)</li>
+</ul>
+<ul class="disc">
+<li>A replacement for the call of update function modules (<span class="qtext">CALL FUNCTION IN UPDATE TASK</span>)</li>
+</ul>
+<ul class="disc">
+<li>A replacement for the call of subroutines during <span class="qtext">COMMIT WORK</span> and <span class="qtext">ROLLBACK WORK</span> (<span class="qtext">PERFORM ON COMMIT<i class=bn>|</i>ROLLBACK</span>)</li>
+</ul>
+<ul class="disc">
+<li>Object-oriented handling of classic dynpros, including selection screens as a replacement for dialog transactions, <span class="qtext">CALL SCREEN</span> and <span class="qtext">CALL SELECTION-SCREEN</span></li>
+</ul>
+<ul class="disc">
+<li>Dynamic creation of classes as a replacement for classic dynamic program creation (<span class="qtext">GENERATE SUBROUTINE POOL</span>)</li>
+</ul>
+<ul class="disc">
+<li>Direct support for background processing as a substitute for calling executable programs (<span class="qtext">SUBMIT VIA JOB</span>)</li>
+</ul>
+<p>
+In these cases, the following classic processing blocks can still be created in new programs:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">Function modules</a> are still required for RFC and the update and are recommended for calling
+<a href="javascript:call_link('abenencap_class_interf_guidl.html')" class="lnkpurple" title="Guideline">classic dynpros and selection screens</a>.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">Subroutines</a> are still required for <span class="qtext">PERFORM ON COMMIT$/ROLLBACK</span> and in dynamically generated subroutine pools
+(<span class="qtext">GENERATE SUBROUTINE POOL</span>).</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendial_mod_event_block_guidl.html')" class="lnkpurple" title="Guideline">Dialog modules and event blocks</a> for selection screen events are still required in function groups that
+<a href="javascript:call_link('abenprogram_type_guidl.html')" class="lnkpurple" title="Guideline">wrap</a> the classic dynpros and selection screens.</li>
+</ul>
+<ul class="disc">
+<li>The <span class="qtext">START-OF-SELECTION</span> event block is still required in executable programs that are intended for background processing.</li>
+</ul>
+<p>
+Within this type of processing block, however, the execution should be delegated immediately to a suitable
+method This does not have to be a method of a global class, but it can be located in the associated
+main program within the scope of a local class. To ensure that the system implements the same stricter check in these processing blocks as in the methods, the obsolete statements check (OO context) can be activated in the
+<a href="javascript:call_link('abenextended_program_check_guidl.html')" class="lnkpurple" title="Guideline">extended program check</a>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code contains a rudimentary implementation for handling different types of bank
+accounts in a function group and their use in a program. Only the &#x201C;withdrawal of an amount&#x201D;
+function is shown. The function modules of the function group work on external data that is loaded into
+a global internal table in the <span class="qtext">LOAD-OF-PROGRAM</span> event. An input parameter
+checks whether money is being withdrawn from a checking account or a savings account. Next, the handling
+is delegated to various subroutines using a <span class="qtext">CASE</span>-<span class="qtext">WHEN</span>
+control structure. No reuse takes place. The subroutines access the global internal table. The function
+module for withdrawing money is called for different accounts in an application program. Classic exception
+handling is performed using further <span class="qtext">CASE</span>-<span class="qtext">WHEN</span> control structures for querying <span class="qtext">sy-subrc</span>.
+</p>
+<dl><dd>
+<span class="qtext">FUNCTION-POOL account.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA account_tab TYPE SORTED TABLE OF accounts <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY id.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">LOAD-OF-PROGRAM. <br>&nbsp;&nbsp;"fetch amount for all accounts into account_tab <br>
+&nbsp;&nbsp;... <br>... <br>FUNCTION withdraw. <br>*"----------------------------------------------------- <br>
+*" IMPORTING <br>*"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REFERENCE(id) TYPE accounts-id <br>*"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REFERENCE(kind) TYPE c DEFAULT 'C' <br>
+*"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REFERENCE(amount) TYPE accounts-amount <br>*" EXCEPTIONS <br>*"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative_amount <br>
+*"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unknown_account_type <br>*"------------------------------------------------------ <br>
+&nbsp;&nbsp;CASE kind. <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'C'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM withdraw_from_checking_account <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING id amount. <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'S'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM withdraw_from_savings_account <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING id amount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN OTHERS. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE unknown_account_type. <br>&nbsp;&nbsp;ENDCASE. <br>ENDFUNCTION.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FORM withdraw_from_checking_account <br>&nbsp;&nbsp;USING l_id&nbsp;&nbsp;&nbsp;&nbsp; TYPE accounts-id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_amount TYPE accounts-amount. <br>&nbsp;&nbsp;FIELD-SYMBOLS &lt;account> TYPE accounts. <br>
+&nbsp;&nbsp;ASSIGN account_tab[ KEY primary_key id = l_id ] TO &lt;account>. <br>&nbsp;&nbsp;&lt;account> = &lt;account> - l_amount. <br>
+&nbsp;&nbsp;IF &lt;account> &lt; 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;"Handle debit balance <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDIF. <br>ENDFORM.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FORM withdraw_from_savings_account <br>&nbsp;&nbsp;USING l_id&nbsp;&nbsp;&nbsp;&nbsp; TYPE accounts-id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_amount TYPE accounts-amount. <br>&nbsp;&nbsp;FIELD-SYMBOLS &lt;account> TYPE accounts. <br>
+&nbsp;&nbsp; ASSIGN account_tab[ KEY primary_key id = l_id ] TO &lt;account>. <br>&nbsp;&nbsp;IF &lt;account>-amount > l_amount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;account>-amount = &lt;account>-amount - l_amount. <br>&nbsp;&nbsp;ELSE. <br>&nbsp;&nbsp;&nbsp;&nbsp; RAISE negative_amount. <br>&nbsp;&nbsp;ENDIF. <br>ENDFORM.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">*********************************************************</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">PROGRAM bank_application. <br>...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CALL FUNCTION 'WITHDRAW' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;id
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'C' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ... <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;unknown_account_type = 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;negative_amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 4. <br>
+CASE sy-subrc. <br>&nbsp;&nbsp;WHEN 2. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;WHEN 4. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>
+ENDCASE. <br>... <br>CALL FUNCTION 'WITHDRAW' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;id
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'S' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ... <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;unknown_account_type = 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;negative_amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 4. <br>
+CASE sy-subrc. <br>&nbsp;&nbsp;WHEN 2. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;WHEN 4. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDCASE.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code contains a rudimentary implementation for handling different types of bank accounts in classes and their use in a class. Only the &#x201C;withdrawal of an amount&#x201D; function is shown.
+</p>
+<p>
+The different types of accounts are implemented in subclasses of an abstract class for accounts. Each
+instance of an account is provided with the required data in its constructor. If required, the application
+class creates instances of accounts of the required type and uses their methods polymorphically by means
+of a superclass reference variable. Exception handling is carried out using class-based exceptions. <span class="qtext">CASE</span>-<span class="qtext">WHEN</span> control structures are not required. As already explained in
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">separation of concerns</a>, no overhead code is incurred here when using classes, compared to procedural programming.
+</p>
+<dl><dd>
+<span class="qtext">CLASS cx_negative_amount DEFINITION PUBLIC <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INHERITING FROM cx_static_check. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS cl_account DEFINITION ABSTRACT PUBLIC. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: constructor IMPORTING id&nbsp;&nbsp;&nbsp;&nbsp; TYPE string, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; withdraw&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING amount TYPE i <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RAISING cx_negative_amount. <br>
+&nbsp;&nbsp;PROTECTED SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA amount TYPE accounts-amount. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS cl_account IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD constructor. <br>&nbsp;&nbsp;&nbsp;&nbsp;"fetch amount for one account into attribute amount <br>
+&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD withdraw. <br>&nbsp;&nbsp;&nbsp;&nbsp;me->amount = me->amount - amount. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS cl_checking_account DEFINITION PUBLIC <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INHERITING FROM cl_account. <br>
+&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS withdraw REDEFINITION. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS cl_checking_account IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD withdraw. <br>&nbsp;&nbsp;&nbsp;&nbsp; super->withdraw( amount ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp; IF me->amount &lt; 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Handle debit balance <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;&nbsp;&nbsp; ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS cl_savings_account DEFINITION PUBLIC <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INHERITING FROM cl_account. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;METHODS withdraw REDEFINITION. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS cl_savings_account IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD withdraw. <br>&nbsp;&nbsp;&nbsp;&nbsp;IF me->amount > amount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super->withdraw( amount ). <br>&nbsp;&nbsp;&nbsp;&nbsp;ELSE. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RAISE EXCEPTION TYPE cx_negative_amount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br>********************************************************</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS bank_application DEFINITION PUBLIC. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp; CLASS-METHODS main. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS bank_application IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA: account1 TYPE REF TO cl_account, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;account2 TYPE REF TO cl_account. <br>&nbsp;&nbsp;...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CREATE OBJECT account1 TYPE cl_checking_account <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;id = ...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CREATE OBJECT account2 TYPE cl_savings_account <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;
+&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ... <br>...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">&nbsp;&nbsp; TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;account1->withdraw( ... ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;account2->withdraw( ... ). <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_negative_amount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp; ENDTRY. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_obj_progr_model_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

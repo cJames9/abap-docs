@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENASSIGN_INCREMENT_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenassign_increment_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Field Symbols, ASSIGN INCREMENT">
+<title>
+Field Symbols, ASSIGN INCREMENT - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenassign_increment_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenassign_increment_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenreference_assignments.html')" class="blue">Assigning References</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenset_field_symbols.html')" class="blue">Setting Field Symbols</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign.html')" class="blue">ASSIGN</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign_mem_area.html')" class="blue">ASSIGN - mem_area</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapassign_mem_area_dynamic_dobj.html')" class="blue">ASSIGN - dynamic_dobj</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Field Symbols, ASSIGN INCREMENT
+</span></p>
+<p>
+The examples shows how the statement <span class="qtext">ASSIGN</span> behaves when the addition <span class="qtext">INCREMENT</span> is used.
+</p>
+<A name="@@ITOC@@ABENASSIGN_INCREMENT_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT&nbsp;&nbsp;demo_assign_increment.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA assign TYPE c LENGTH 1 VALUE '1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING text&nbsp;&nbsp;= `ASSIGN statement (1 to 6)`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field = assign ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: BEGIN OF struc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;word TYPE c LENGTH 4 VALUE 'abcd',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int1 TYPE i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE 111,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int2 TYPE i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE 222,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stri TYPE string&nbsp;&nbsp;&nbsp;&nbsp; VALUE `efgh`,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF struc.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS: &lt;word&gt; LIKE struc-word,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;int&gt;&nbsp;&nbsp;TYPE i.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CASE assign.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN '1'. &quot;-&gt; sy-subrc 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN struc-word INCREMENT 1 TO &lt;word&gt; RANGE struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN '2'. &quot;-&gt; Runtime error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN struc-word INCREMENT 1 TO &lt;int&gt;&nbsp;&nbsp;RANGE struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN '3'. &quot;-&gt; Runtime error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN struc-word INCREMENT 2 TO &lt;word&gt; RANGE struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN '4'. &quot;-&gt; Runtime error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN struc-word INCREMENT 2 TO &lt;int&gt;&nbsp;&nbsp;RANGE struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN '5'. &quot;-&gt; sy-subrc 4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN struc-word INCREMENT 3 TO &lt;word&gt; RANGE struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN '6'. &quot;-&gt; sy-subrc 4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN struc-word INCREMENT 3 TO &lt;int&gt;&nbsp;&nbsp;RANGE struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN OTHERS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( 'Enter a number between 1 and 6' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write( |sy-subrc: { sy-subrc }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;word&gt; IS ASSIGNED OR &lt;int&gt; IS ASSIGNED.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write( 'Field symbol is assigned' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENASSIGN_INCREMENT_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example shows why use the addition <span class="qtext">INCREMENT</span> in the statement <span class="qtext">
+ASSIGN</span> should be used only if it is necessary access sequences of similar memory areas and that
+the typing of the field symbol must match the way <a href="javascript:call_link('abapassign_casting.html')" class="blue"><span class="qtext">
+casting_spec</span></a> is specified. Any access which is not appropriate as shown in the example can produce the following behavior:
+</p>
+<ul class="disc">
+<li>The first <span class="qtext">ASSIGN</span> statement returns the value 0 in <span class="qtext">sy-subrc</span>.
+<span class="qtext">&lt;word></span> is assigned the contiguous memory area of <span class="qtext">struc-int1</span>
+and <span class="qtext">struc-int2</span> and this is cast to the type <span class="qtext">c</span>.</li>
+</ul>
+<ul class="disc">
+<li>The second <span class="qtext">ASSIGN</span> statement terminates with a runtime error since the
+data type of <span class="qtext">struc-word</span> does not match the typing of <span class="qtext">&lt;int></span>.</li>
+</ul>
+<ul class="disc">
+<li>The third <span class="qtext">ASSIGN</span> statement terminates with a runtime error since the
+system tries to assign the component <span class="qtext">struc-stri</span>to <span class="qtext">&lt;word></span>,
+and as the structure is deep and the typing of <span class="qtext">&lt;word></span> is flat, no casting is possible.</li>
+</ul>
+<ul class="disc">
+<li>The fourth <span class="qtext">ASSIGN</span> statement terminates with a runtime error since the
+system tries to assign the component <span class="qtext">struc-stri</span> to <span class="qtext">&lt;int></span>,
+and as the structure is deep and the typing of <span class="qtext">&lt;int></span> is flat, no casting is possible.</li>
+</ul>
+<ul class="disc">
+<li>The fifth and the sixth <span class="qtext">ASSIGN</span> statement both return the value 4 in <span class="qtext">
+sy-subrc</span> since the system tries to allocate memory area outside the structure <span class="qtext">struc</span> specified after <span class="qtext">RANGE</span>.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenassign_increment_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:34 GMT -->
+</html>

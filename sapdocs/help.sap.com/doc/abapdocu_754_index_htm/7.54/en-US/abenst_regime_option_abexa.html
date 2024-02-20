@@ -1,0 +1,221 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_REGIME_OPTION_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_regime_option_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Simple Transformation, Option for Regime">
+<title>
+Simple Transformation, Option for Regime - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_regime_option_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_regime_option_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_abap_values.html')" class="blue">ST - Transformation of ABAP Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_tt_value_elementary.html')" class="blue">ST - tt:value, Elementary Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_option.html')" class="blue">ST - option, Mapping Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_option_format.html')" class="blue">ST - option, Mapping Rules for Elementary Types</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Simple Transformation, Option for Regime
+</span></p>
+<p>
+The example demonstrates the display of ABAP types when using regimes.
+</p>
+<A name="@@ITOC@@ABENST_REGIME_OPTION_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_st_regime_option.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call_transformation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING writer TYPE REF TO cl_sxml_string_writer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;TYPE t,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean TYPE xsdboolean,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numtext TYPE n LENGTH 3.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;time = sy-timlo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;boolean = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numtext = '255'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( )-&gt;next_section( 'XML' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(writer) = cl_sxml_string_writer=&gt;create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type = if_sxml=&gt;co_xt_xml10 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;call_transformation( CHANGING writer = writer ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(result) = writer-&gt;get_output( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_xml( result<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;next_section( 'JSON' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writer = cl_sxml_string_writer=&gt;create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type = if_sxml=&gt;co_xt_json ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;call_transformation( CHANGING writer = writer ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result = writer-&gt;get_output( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_json( result<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD call_transformation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_st_regime_option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE time&nbsp;&nbsp;&nbsp;&nbsp;= time<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; boolean = boolean<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; numtext = numtext<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result xml writer.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENST_REGIME_OPTION_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example passes various types of ABAP data to the transformation <span class="lnkgrey">DEMO_ST_REGIME_OPTION</span> and provides the result for XML and
+<a href="javascript:call_link('abenabap_json.html')" class="blue">JSON</a>. The transformation applies the option <a href="javascript:call_link('abenst_option_format.html')" class="blue"><span class="qtext400">regime</span></a> to the ABAP data:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;?sap.transform simple?&gt; <br>&lt;tt:transform xmlns:tt="http://www.sap.com/transformation-templates"&gt; <br>
+&nbsp;&nbsp;&lt;tt:root name="TIME"/&gt; <br>&nbsp;&nbsp;&lt;tt:root name="BOOLEAN"/&gt; <br>&nbsp;&nbsp;&lt;tt:root name="NUMTEXT"/&gt; <br>
+&nbsp;&nbsp;&lt;tt:template&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;array&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;object&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="TIME"&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="TIME"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="regime(num) for TIME"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value option="regime(num)" <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref="TIME"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="regime(num),decimals(2) for TIME"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value option="regime(num),decimals(2)" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref="TIME"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="BOOLEAN"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="BOOLEAN"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="regime(char) for BOOLEAN"&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value option="regime(char)" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref="BOOLEAN"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="regime(char),format(boolean) for BOOLEAN"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value option="regime(char),format(boolean)" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref="BOOLEAN"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="NUMTEXT"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="NUMTEXT"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="regime(bin) for NUMTEXT"&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value option="regime(bin)" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref="NUMTEXT"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str name="regime(bin),format(uri1) for NUMTEXT"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value option="regime(bin),format(uri1)" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref="NUMTEXT"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/str&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/object&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/array&gt; <br>&nbsp;&nbsp;&lt;/tt:template&gt; <br>&lt;/tt:transform&gt;</span>
+</dd></dl>
+<p>
+The transformation creates <a href="javascript:call_link('abenjson_xml_glosry.html')" class="grey" title="Glossary Entry">JSON-XML</a> to represent both XML and JSON. The example shows the following:
+</p>
+<ul class="disc">
+<li>Source Field of Type <span class="qtext">t</span></li>
+</ul>
+<ul class="circlem2">
+<li>Normal <a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">asXML</a> display according to the XML schema type <span class="qtext400">xsd:time</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Applying <span class="qtext400">regime(num)</span> gives the number of days since 01.01.0001.</li>
+</ul>
+<ul class="circlem2">
+<li>Applying <span class="qtext400">regime(num),decimals(2)</span> appends two decimal places.</li>
+</ul>
+<ul class="disc">
+<li>Source field with reference to the special domain XSDBOOLEAN</li>
+</ul>
+<ul class="circlem2">
+<li>Special display of the value <span class="qtext400">X</span> in the XML schema type <span class="qtext400">xsd:boolean</span> as <span class="qtext400">true</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Applying <span class="qtext400">regime(char)</span> removes the effect of the domain and <span class="qtext400">X</span> is displayed according to the XML schema type <span class="qtext400">xsd:string</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Applying <span class="qtext400">regime(char),format(boolean)</span> restores the display <span class="qtext400">true</span>.</li>
+</ul>
+<ul class="disc">
+<li>Source field of type <span class="qtext">n</span> with length 3</li>
+</ul>
+<ul class="circlem2">
+<li>Normal <a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">asXML</a> display according to the XML schema type <span class="qtext400">xsd:string (pattern [0-9]+)</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Applying <span class="qtext400">regime(bin)</span> converts the number in the source field to its binary representation and displays it in the XML schema type <span class="qtext400">xsd:base64Binary</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Applying <span class="qtext400">regime(bin),format(uri1)</span> displays the binary value hexadecimally and adds quotation marks and a prefix.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_regime_option_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

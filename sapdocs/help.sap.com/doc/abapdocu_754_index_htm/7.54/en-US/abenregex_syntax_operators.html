@@ -1,0 +1,496 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREGEX_SYNTAX_OPERATORS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_syntax_operators.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Character String Patterns">
+<meta name="keywords" content="ABAP, Character String Pattern">
+<title>
+Character String Patterns - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenregex_syntax_operators.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenregex_syntax_operators.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregular_expressions.html')" class="blue">Regular Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregex_syntax.html')" class="blue">Syntax of Regular Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Character String Patterns
+</span></p>
+<p>
+Character strings are represented by chainings or operators.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_1" class="blue">Chainings</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_2" class="blue">Operators for Character Strings</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_3" class="blue">Chaining Operators</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_4" class="blue">Alternatives</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_5" class="blue">Subgroups</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_6" class="blue">Subgroups with Registration</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_7" class="blue">Literal Characters</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_8" class="blue">Reserved Enhancements</A></li>
+</ul>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_1"></A>
+<p><span class="h2">
+Chainings
+</span></p>
+<p>
+Chainings are valid regular expressions that are written after each other. If <span class="qtext400">r</span>
+and <span class="qtext400">s</span> are regular expressions, the chaining <span class="qtext400">rs</span>
+matches all character strings that can be formed from the chaining of character strings that match <span class="qtext400">r</span> and <span class="qtext400">s</span>.
+</p>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+The following table shows some results from a <a href="javascript:call_link('abenregex_test.html')" class="blue">test</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Pattern</span></td>
+<td><span class="bold">Text</span></td>
+<td><span class="qtext">match</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">H[aeu]llo</span></td>
+<td>Hallo</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">H[aeu]llo</span></td>
+<td>Hello</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">H[aeu]llo</span></td>
+<td>Hullo</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">H[aeu]llo</span></td>
+<td>Hollo</td>
+<td>-</td>
+</tr>
+</table><br>
+<p>
+<span class="qtext400">H[aeu]llo</span> is the chaining of five <a href="javascript:call_link('abenregex_syntax_signs.html')" class="blue">regular expressions for single characters</a>.
+</p>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_2"></A>
+<p><span class="h2">
+Operators for Character Strings
+</span></p>
+<p>
+These operators are made up of the special characters <span class="qtext400">{</span>, <span class="qtext400">}</span>,
+<span class="qtext400">*</span>, <span class="qtext400">+</span>, <span class="qtext400">?</span>, <span class="qtext400">
+|</span>, <span class="qtext400">(</span>, <span class="qtext400">)</span>, and <span class="qtext400">\</span>.
+The special characters can be made into literal characters using the prefix <span class="qtext400">\</span> or by enclosing with <span class="qtext400">\Q ... \E</span>.
+</p>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_3"></A>
+<p><span class="h3">
+Chaining Operators
+</span></p>
+<p>
+The operators <span class="qtext400">{n}</span>, <span class="qtext400">{n,m}</span>, <span class="qtext400">*</span>,
+<span class="qtext400">+</span>, and <span class="qtext400">?</span> (where <span class="qtext400">n</span>
+and <span class="qtext400">m</span> are natural numbers, including zero) can be written directly after
+a regular expression <span class="qtext400">r</span>, and thus create chainings <span class="qtext400">rrr...</span> of the regular expression:
+</p>
+<ul class="disc">
+<li>The regular expression <span class="qtext400">r{n}</span> is equivalent to an n-fold chaining of
+<span class="qtext400">r</span>. The regular expression <span class="qtext400">r{0}</span> matches an
+empty character string, and therefore also the offset before the first character of a character string,
+the spaces between the characters in character strings, and the offset after the last character in a character string.</li>
+</ul>
+<ul class="disc">
+<li>The regular expression <span class="qtext400">r{n,m}</span> is equivalent to at least n and a maximum
+of m chainings of <span class="qtext400">r</span>. The value of n must be less than or equal to the
+value of m. The expression <span class="qtext400">r{n}</span> is equivalent to at least an n-fold chaining of <span class="qtext400">r</span>.</li>
+</ul>
+<ul class="disc">
+<li>The regular expression <span class="qtext400">r?</span> is equivalent to <span class="qtext400">r{0,1}</span>, which means the expression <span class="qtext400">r</span> or the empty character string.</li>
+</ul>
+<ul class="disc">
+<li>The regular expression <span class="qtext400">r*</span> is equivalent to <span class="qtext400">r{0,}</span>,
+in other words a chaining of <span class="qtext400">r</span> of any length, including the empty character string. When using subgroups (see below), and in a
+<a href="javascript:call_link('abenregex_search.html')" class="blue">text search</a>, <span class="qtext400">r*</span> matches the longest possible substring (greedy behavior).</li>
+</ul>
+<ul class="disc">
+<li>The regular expression <span class="qtext400">r+</span> is equivalent to <span class="qtext400">r{1,}</span>,
+in other words a chaining of any length of <span class="qtext400">r</span> excluding the empty character
+string. When using subgroups, and in a text search, <span class="qtext400">r+</span> matches the longest possible substring (greedy behavior).</li>
+</ul>
+<ul class="disc">
+<li>The regular expressions <span class="qtext400">r{n,m}?</span>, <span class="qtext400">r*?</span>
+and <span class="qtext400">r+?</span> are reserved for future language enhancements (economical behavior) and currently raise the exception CX_SY_INVALID_REGEX.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+For a regular expression with chaining operators, the first rule is that where possible the entire expression
+must match. This rule restricts the length of character strings that match the chaining with the operators <span class="qtext400">*</span>and <span class="qtext400">+</span> and therefore their greedy behavior.
+</p>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+The following table shows some results from a <a href="javascript:call_link('abenregex_test.html')" class="blue">test</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">pattern</span></td>
+<td><span class="bold">Text</span></td>
+<td><span class="qtext">match</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">Hel{2}o</span></td>
+<td>Hello</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">H.{4}</span></td>
+<td>Hello</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">.{0,4}</span></td>
+<td>Hello</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">.{4,}</span></td>
+<td>Hello</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">.+H.+e.+l.+l.+o.+</span></td>
+<td>Hello</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">x*Hx*ex*lx*lx*ox*</span></td>
+<td>Hello</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">l+</span></td>
+<td>ll</td>
+<td>X</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The first partial expression <span class="qtext400">a+</span> is compared with the first five characters
+<span class="qtext400">"aaaaa"</span> from <span class="qtext">text</span> and the last character <span class="qtext400">
+"a"</span> from <span class="qtext">text</span> is reserved for the second partial expression <span class="qtext400">a</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA TEXT type STRING. <br>DATA result_tab TYPE match_result_tab. <br> <br>text = 'aaaaaa'. <br> <br>FIND ALL OCCURRENCES OF REGEX '(a+)(a)' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text RESULTS result_tab.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_4"></A>
+<p><span class="h3">
+Alternatives
+</span></p>
+<p>
+The operator <span class="qtext400">|</span> can be written between two regular expressions <span class="qtext400">r</span>
+and <span class="qtext400">s</span>, and thereby creates one single regular expression <span class="qtext400">r|s</span>, that matches both <span class="qtext400">r</span> as well as <span class="qtext400">s</span>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Chainings and other operators form a stronger bond than <span class="qtext400">|</span>, in other words
+<span class="qtext400">r|st</span> and <span class="qtext400">r|s+</span> are equivalent to <span class="qtext400">r|(?:st)</span>
+or <span class="qtext400">r|(?:s+)</span> but not to <span class="qtext400">(?:r|s)t</span> or <span class="qtext400">(?:r|s)+</span>.
+</p>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+The following table shows some results from a <a href="javascript:call_link('abenregex_test.html')" class="blue">test</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Pattern</span></td>
+<td><span class="bold">Text</span></td>
+<td><span class="qtext">match</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">H(e|a|u)llo</span></td>
+<td>Hello</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">H(e|a|u)llo</span></td>
+<td>Hollo</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">He|a|ullo</span></td>
+<td>Hallo</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">He|a|ullo</span></td>
+<td>ullo</td>
+<td>X</td>
+</tr>
+</table><br>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_5"></A>
+<p><span class="h3">
+Subgroups
+</span></p>
+<p>
+The operators <span class="qtext400">(</span> ... <span class="qtext400">)</span> and <span class="qtext400">(?:</span>
+... <span class="qtext400">)</span> group concatenations of regular expressions, forming a unit. This
+affects the scope of other operators such as <span class="qtext400">*</span> or <span class="qtext400">|</span>.
+Here, the regular expressions <span class="qtext400">(r)</span> and <span class="qtext400">(?:r)</span>
+correspond to the regular expression <span class="qtext400">r</span>. The difference between <span class="qtext400">(</span>
+... <span class="qtext400">)</span> and <span class="qtext400">(?:</span> ... <span class="qtext400">)</span>
+is that the operator <span class="qtext400">(</span> ... <span class="qtext400">)</span> saves the substrings found in registers and <span class="qtext400">(?:</span> ... <span class="qtext400">)</span> does not.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The greedy behavior of chaining operators mentioned above also applies to subgroups (from left to right). This does not break the rule that generally requires the entire regular expression to match.
+</p>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+The following table shows some results from a <a href="javascript:call_link('abenregex_test.html')" class="blue">test</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Pattern</span></td>
+<td><span class="bold">Text</span></td>
+<td><span class="qtext">match</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">Tral+a</span></td>
+<td>Tralala</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">Tr(al)+a</span></td>
+<td>Tralala</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">Tr(?:al)+a</span></td>
+<td>Tralala</td>
+<td>X</td>
+</tr>
+</table><br>
+<p>
+In the first expression, the chaining with the operator <span class="qtext400">+</span> affects the
+literal character <span class="qtext400">l</span>, and in the second and third expression it affects the subgroup <span class="qtext400">al</span>.
+</p>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_6"></A>
+<p><span class="h3">
+Subgroups with Registration
+</span></p>
+<p>
+Besides its effect with respect to creating subgroups, the operator <span class="qtext400">(</span>
+... <span class="qtext400">)</span> also saves the substrings (when matching the regular expression
+to a character string) in the correct order in tabs. The subgroups <span class="qtext400">(</span> ...
+<span class="qtext400">)</span> of the expression match these substrings. In this process, an operator
+<span class="qtext400">\1</span>, <span class="qtext400">\2</span>, <span class="qtext400">\3</span>,
+... is assigned to each subgroup, which can be specified within the expression after its subgroup, and thus acts as a placeholder for the character string stored in the corresponding register. In
+<a href="javascript:call_link('abenregex_replace.html')" class="blue">text replacements</a>, the special characters <span class="qtext400">$1</span>,
+<span class="qtext400">$2</span>, <span class="qtext400">$3</span>, ... can be used to access the last assignment to the register.
+</p>
+<p>
+The number of subgroups and registers is only limited by the capacity of the platform.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The addition <span class="qtext">SUBMATCHES</span> of the statements <a href="javascript:call_link('abapfind.html')" class="blue"><span class="qtext">
+FIND</span></a> and <a href="javascript:call_link('abapreplace.html')" class="blue"><span class="qtext">REPLACE</span></a> and
+the identically named column of the results table filled using the addition <span class="qtext">RESULTS</span>
+can be used to access the content of all registers for an occurrence. The class CL_ABAP_MATCHER contains the method GET_SUBMATCH for this purpose.</li>
+</ul>
+<ul class="disc">
+<li>If only grouping is required and no substrings need to be saved in registers, the operator <span class="qtext400">
+(?:</span> ... <span class="qtext400">)</span> can be used instead of <span class="qtext400">(</span>
+... <span class="qtext400">)</span>. With respect to the formation of subgroups, both operators have
+the same effect. However <span class="qtext400">(?:</span> ... <span class="qtext400">)</span> does not save anything in registers.</li>
+</ul>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+The following table shows some results from a <a href="javascript:call_link('abenregex_test.html')" class="blue">test</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Pattern</span></td>
+<td><span class="bold">Text</span></td>
+<td><span class="qtext">match</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">(["']).+\1</span></td>
+<td>" Hello "</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">(["']).+\1</span></td>
+<td>"Hello'</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">(["']).+\1</span></td>
+<td>'Hello'</td>
+<td>X</td>
+</tr>
+</table><br>
+<p>
+The chaining <span class="qtext400">(["']).+\1</span> matches all text strings of which the first character
+is " or  ' and the last character is the same as the first. In the two successful checks, the register is given the values " or '.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The example demonstrates the greedy behavior of the operator <span class="qtext400">+</span> in subgroups
+and its relation to the primary rule that the entire regular expression must match where possible. The
+first subgroup takes up as many characters as possible <span class="qtext400">"a"</span>. It is assigned
+the first four characters <span class="qtext400">"aaaa"</span>. One character <span class="qtext400">"a"</span> remains for each of the other two subgroups.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br>DATA result_tab TYPE match_result_tab. <br> <br>text = 'aaaaaa'. <br> <br>FIND ALL OCCURRENCES OF REGEX '(a+)(a+)(a+)' <br>&nbsp;&nbsp;&nbsp;&nbsp; IN text RESULTS result_tab.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_7"></A>
+<p><span class="h3">
+Literal Characters
+</span></p>
+<p>
+The operators <span class="qtext400">\Q</span> ... <span class="qtext400">\E</span> form a character string of literal characters from all enclosed characters. Special characters are ignored in this character string.
+</p>
+<p>
+The following table shows some results from a <a href="javascript:call_link('abenregex_test.html')" class="blue">test</a>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">pattern</span></td>
+<td><span class="bold">Text</span></td>
+<td><span class="qtext">match</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">.+\w\d</span></td>
+<td>Special: \w\d</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="qtext400">.+\\w\\d</span></td>
+<td>Special: \w\d</td>
+<td>X</td>
+</tr>
+<tr>
+<td><span class="qtext400">.+\Q\w\d\E</span></td>
+<td>Special: \w\d</td>
+<td>X</td>
+</tr>
+</table><br>
+<A name="@@ITOC@@ABENREGEX_SYNTAX_OPERATORS_8"></A>
+<p><span class="h3">
+Reserved Enhancements
+</span></p>
+<p>
+The character string <span class="qtext400">(?</span> ... <span class="qtext400">)</span> is generally
+reserved for later language enhancements. Apart from the operators already supported <span class="qtext400">(?:</span>...<span class="qtext400">
+)</span>, <a href="javascript:call_link('abenregex_search.html')" class="blue"><span class="qtext400">(?=</span>...<span class="qtext400">)</span></a>,
+<a href="javascript:call_link('abenregex_search.html')" class="blue"><span class="qtext400">(?!</span>...<span class="qtext400">)</span></a>,
+and <a href="javascript:call_link('abenregex_search.html')" class="blue"><span class="qtext400">(?></span> ... <span class="qtext400">)</span></a>, this string raises the exception CX_SY_INVALID_REGEX.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_syntax_operators.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+</html>

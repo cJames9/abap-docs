@@ -1,0 +1,294 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLIST_OVERVIEW -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_overview.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Lists - Overview">
+<meta name="keywords" content="ABAP, Basic Lists, Basic Lists, Details Lists, List Buffer, List Levels">
+<title>
+Lists - Overview - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlist_overview.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlist_overview.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Lists - Overview
+</span></p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_1" class="blue">Lists as Screens</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_2" class="blue">Lists in ABAP Programs</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_3" class="blue">Basic List</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_4" class="blue">Details Lists</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_5" class="blue">Structure of a List</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_6" class="blue">Spool Lists</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_7" class="blue">Characters in Lists</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENLIST_OVERVIEW_8" class="blue">Lists and ABAP Objects</A></li>
+</ul>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_1"></A>
+<p><span class="h2">
+Lists as Screens
+</span></p>
+<p>
+By default, classic lists (or lists for short) are
+<a href="javascript:call_link('abenscreen_glosry.html')" class="grey" title="Glossary Entry">screens</a> that contain text output defined using ABAP statements instead of screen elements in their display area. Lists are displayed as part of a special
+<a href="javascript:call_link('abenlist_dynpro_glosry.html')" class="grey" title="Glossary Entry">list dynpro</a>, which is a component of the list processor system program.
+</p>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_2"></A>
+<p><span class="h2">
+Lists in ABAP Programs
+</span></p>
+<p>
+An ABAP program can process multiple lists, which are stored in one or more
+<a href="javascript:call_link('abenlist_buffer_glosry.html')" class="grey" title="Glossary Entry">list buffers</a>. Each time a
+<a href="javascript:call_link('abendynpro_sequence_glosry.html')" class="grey" title="Glossary Entry">dynpro sequence</a> is
+called, a new list buffer is opened and assigned to this dynpro sequence. A single list buffer can contain
+up to 21 lists, a basic list and 20 detail lists. A list index is assigned to each list, and this index
+organizes the lists in the list buffer in hierarchical list levels. The first list of a list buffer
+is the basic list with list index 0. All other lists, whose list indexes are increased continuously starting at 1, are details lists.
+</p>
+<p>
+The output statements of an ABAP program write to the current list, whose list index is determined by
+the system field <span class="qtext">sy-lsind</span>. The current list after the call of a dynpro sequence is the basic list. As long as the basic list is not displayed, no other list levels can be created.
+</p>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_3"></A>
+<p><span class="h2">
+Basic List
+</span></p>
+<p>
+The basic list is displayed either implicitly during the processing of an executable program (see <a href="javascript:call_link('abapsubmit.html')" class="blue">
+<span class="qtext">SUBMIT</span></a>) or explicitly using the statement <a href="javascript:call_link('abapleave_to_list-processing.html')" class="blue">
+<span class="qtext">LEAVE TO LIST-PROCESSING</span></a>. In both cases, the list processor is called,
+which then sends the list to the list dynpro. Displaying this list closes it in the list buffer. It can no longer be written to, but it can be read or modified.
+</p>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_4"></A>
+<p><span class="h2">
+Details Lists
+</span></p>
+<p>
+Every user action on a displayed list that raises a list event for which an
+<a href="javascript:call_link('abenevent_block_glosry.html')" class="grey" title="Glossary Entry">event block</a> is defined
+in the ABAP program, creates a new details list. The list index of this details list is always one more
+than the list index of the list on which the event was raised. This index is contained in the system
+field <span class="qtext">sy-listi</span>. The output statements of the event block write to the current
+details list. If the event block is finished normally, the details list is displayed automatically in the list dynpro.
+</p>
+<p>
+User actions on displayed lists can cause a stack of up to 20 details lists to be created in the list buffer. The list with the highest list index
+(<span class="qtext">sy-lsind</span>) is always the current list of the ABAP program, while the list with the list index one below the highest
+(<span class="qtext">sy-listi</span>) is displayed on the screen. In certain list processing statements, the list index can be used to access all lists within the stack for reading or changing.
+</p>
+<p>
+The details list stack in a list buffer can be reduced in two ways:
+</p>
+<ol>
+<li>
+A user action on a displayed details list is linked to function code <span class="qtext400">"BACK"</span>.
+This function code causes the previous list to be displayed and reduces the value of <span class="qtext">sy-lsind</span>
+by 1. In the basic list, <span class="qtext400">"BACK"</span> causes the current dynpro sequence to be exited.
+</li>
+<li>
+Within an event block for a list event, a value is assigned to the system field <span class="qtext">sy-lsind</span>.
+If the value of <span class="qtext">sy-lsind</span> after the event block is closed is less than the
+list index of the current list and greater than or equal to 0, the current list replaces the list of
+this list level and all lists whose list index is greater than the value of <span class="qtext">sy-lsind</span>
+are deleted from the list buffer. Other values of <span class="qtext">sy-lsind</span> are reset to the index of the current list after the event block is closed.
+</li>
+</ol>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_5"></A>
+<p><span class="h2">
+Structure of a List
+</span></p>
+<p>
+A list consists of list lines with a fixed width of up to 1023 characters. The line width of the current
+list is stored in the system field <span class="qtext">sy-linsz</span>. The number of lines in a list is limited only by the memory resources of the system.
+</p>
+<p>
+A list is divided into pages. Every list starts on page 1. The current page of the current list is stored
+in the system field <span class="qtext">sy-pagno</span>. The output position on the current page in
+the list buffer is determined by the list cursor, which is provided in the system fields <span class="qtext">sy-colno</span>
+(column) and <span class="qtext">sy-linno</span> (line). A page can contain a maximum of 60000 lines.
+The number of lines per page is stored for the current list in the system field <span class="qtext">sy-linct</span>. The value 0 represents the maximum number of lines per page.
+</p>
+<p>
+On every page of a list, lines can be used for a page header and a page footer. The lines of the page
+header of the basic list are by default filled with a standard page header from the text elements of
+the ABAP program. The standard page header consists of a standard title and can contain column headings. The standard title is fixed so that it does not disappear when the page is scrolled vertically on the screen.
+</p>
+<p>
+In the list event <a href="javascript:call_link('abaptop-of-page.html')" class="blue"><span class="qtext">TOP-OF-PAGE</span></a>,
+the page header can be filled with additional lines. The page footer can only be filled only in the
+list event <a href="javascript:call_link('abapend-of-page.html')" class="blue"><span class="qtext">END-OF-PAGE</span></a>. The
+entire page header of the list displayed on top is fixed so that it does not move when the page is scrolled
+vertically. The column headings of the standard page header and the lines filled in <span class="qtext">TOP-OF-PAGE</span> are moved when the page is scrolled horizontally.
+</p>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_6"></A>
+<p><span class="h2">
+Spool Lists
+</span></p>
+<p>
+The lists in the list buffer are screen lists. Their content is displayed in the list dynpro after an implicit call of the list processor in an
+<a href="javascript:call_link('abenexecutable_program_glosry.html')" class="grey" title="Glossary Entry">executable program</a> or after an explicit call using <span class="qtext">LEAVE TO LIST-PROCESSING</span>.
+</p>
+<p>
+When lists are created, there is also the option of excluding individual pages or all pages of one or
+more lists from the screen display and to send them to the SAP spool system instead. This is done using
+the addition <a href="javascript:call_link('abapnew-page_print.html')" class="blue"><span class="qtext">PRINT ON</span></a> of
+the statement <a href="javascript:call_link('abapnew-page.html')" class="blue"><span class="qtext">NEW-PAGE</span></a>. All these
+pages together then form the spool list. The addition <a href="javascript:call_link('abapsubmit_list_options.html')" class="blue"><span class="qtext">
+TO SAP-SPOOL</span></a> of the statement <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a> provides another option for creating spool lists.
+</p>
+<p>
+See also <a href="javascript:call_link('abenprint.html')" class="blue">Spooling Lists</a>.
+</p>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_7"></A>
+<p><span class="h2">
+Characters in Lists
+</span></p>
+<p>
+Any character supported by the current <a href="javascript:call_link('abensystem_codepage_glosry.html')" class="grey" title="Glossary Entry">
+system code page</a> can be displayed in a list. The prerequisite here is that a code page or a font
+is defined in the output medium (GUI, printer), into which the characters can be converted. Control
+characters for line breaks or tabs are ignored in strings and cannot be displayed. Non-displayable characters,
+such as control characters and non-convertible characters, appear as the <span class="qtext400">#</span> character in list output.
+</p>
+<p>
+When displaying or spooling a list, the content stored in the list buffer is passed to the list Every character represented in the Unicode character representation
+<a href="javascript:call_link('abenucs2_glosry.html')" class="grey" title="Glossary Entry">UCS-2</a> used by the ABAP programming
+language usually occupies one place in the list buffer. On the list, however, a character can occupy
+more than one column (especially Eastern Asian characters). However, since the list only contains the
+same number of columns as there are places in the list buffer, this means the list can only display fewer characters than are saved in the list buffer. The list output is shortened accordingly (the page is displayed according to the
+<a href="javascript:call_link('abenalignment_gap_glosry.html')" class="grey" title="Glossary Entry">alignment</a>) and is flagged
+(<span class="qtext">&gt;</span> or <span class="qtext">&lt;</span>). On a displayed list, the entire list content can be displayed by choosing <span class="italic">System &rarr; List &rarr; Unicode Display</span>.
+</p>
+<p>
+For these reasons, the horizontal position of the list cursor definitely matches the output column of a displayed or spooled list only in the case of the lower and upper output limits.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The following list programming rules must be followed to guarantee that lists appear and work as expected:
+</p>
+<ul class="disc">
+<li>Specify an adequate output length</li>
+</ul>
+<ul class="disc">
+<li>Do not overwrite parts of a field</li>
+</ul>
+<ul class="disc">
+<li>Do not use the additions <span class="qtext">RIGHT-JUSTIFIED</span> or <span class="qtext">CENTERED</span>
+for <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a> if this statement is followed by list output with <span class="qtext">WRITE</span>.</li>
+</ul>
+<ul class="disc">
+<li>In customer-programmed horizontal scrolling with the statement <a href="javascript:call_link('abapscroll.html')" class="blue"><span class="qtext">
+SCROLL</span></a>, only the upper or lower limit of data objects displayed should be specified, since the positions in the list buffer and in the list displayed are only certain to match for these field limits.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_CHARACTERS_IN_LISTS</span> shows the current display of all characters
+that are assigned to the hexadecimal codes <span class="qtext400">"0000"</span> to <span class="qtext400">"FFFF"</span> in the current code page.
+</p>
+<A name="@@ITOC@@ABENLIST_OVERVIEW_8"></A>
+<p><span class="h2">
+Lists and ABAP Objects
+</span></p>
+<p>
+The list processing statements covered in this section are based on global data and events of the runtime environment and are no longer completely supported in ABAP Objects and when using ABAP Objects.
+</p>
+<p>
+Classic lists are no longer intended to be used directly in production programs. The use of other suitable output media is recommended instead.
+</p>
+<ul class="disc">
+<li>For table list output, the classes of SAP List Viewer (ALV), such as <span class="lnkgrey">CL_SALV_TABLE</span>, should be used.</li>
+</ul>
+<ul class="disc">
+<li>For simple text output, the wrappers of the browser control, such as dynamic documents or wrappers of the textedit control should be used.
+<a href="javascript:call_link('abentext_output_abexa.html')" class="blue">Dynpros, Text Output</a> shows an executable example of the latter.</li>
+</ul>
+<ul class="disc">
+<li>For simple console output, XML-based output streams can be used. An example of this is shown by
+the class <span class="lnkgrey">CL_DEMO_OUTPUT_STREAM</span>. The program <span class="lnkgrey">DEMO_OUTPUT_STREAM</span>
+shows potential uses of this class. The class <span class="lnkgrey">CL_DEMO_OUTPUT</span>, which is based on CL_DEMO_OUTPUT_STREAM, is used in programs from the
+<a href="javascript:call_link('abenabap_examples.html')" class="blue">ABAP Example Library</a>.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_overview.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

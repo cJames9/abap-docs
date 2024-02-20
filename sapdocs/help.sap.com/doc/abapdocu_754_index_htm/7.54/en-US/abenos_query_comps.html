@@ -1,0 +1,291 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_QUERY_COMPS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_query_comps.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Query Service Components">
+<title>
+Query Service Components - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_query_comps.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_query_comps.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_query.html')" class="blue">Query Service</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@IF_OS_QUERY_MANAGER@@!ABAP_INTERFACE!@@"></A>
+<A NAME="@@IF_OS_QUERY@@!ABAP_INTERFACE!@@"></A>
+<A NAME="@@IF_OS_QUERY_OPTIONS@@!ABAP_INTERFACE!@@"></A>
+<p><span class="h1">
+Query Service Components
+</span></p>
+<p>
+A query is represented by a query object, which is managed by a query manager (also an object). The query manager represents the query service with respect to the ABAP program.
+</p>
+<p>
+To create a query manager, the static method GET_QUERY_MANAGER of the general system service class <span class="lnkgrey">CL_OS_SYSTEM</span> is required.
+</p>
+<p>
+An ABAP program does not work with the query manager and queries by using class reference variables.
+Instead, it uses the interfaces <span class="lnkgrey">IF_OS_QUERY_MANAGER</span>, <span class="lnkgrey">IF_OS_QUERY</span>, and <span class="lnkgrey">IF_OS_QUERY_FACTORY</span>.
+</p>
+<p>
+A query is not executed directly, but using the method GET_PERSISTENT_BY_QUERY of the interface <span class="lnkgrey">
+IF_OS_CA_PERSISTENCY</span> of a class agent. This means a search is carried out for persistent objects of the associated persistent class that match the query condition.
+</p>
+<p>
+The options for executing a query are controlled using the interface <span class="lnkgrey">IF_OS_QUERY_OPTIONS</span>.
+To enable this, a structure of the type IF_OS_QUERY_OPTIONS=>OPTIONS can be passed to the method GET_PERSISTENT_BY_QUERY.
+</p>
+<A name="@@ITOC@@ABENOS_QUERY_COMPS_1"></A>
+<p><span class="h2">
+Relevant Method of the System Service
+</span></p>
+<p>
+Most of the components of the system service class <span class="lnkgrey">CL_OS_SYSTEM</span> are used
+internally by the Object Services. A method must be used in an application program to be able to work explicitly with object-oriented queries.
+</p>
+<ul class="disc">
+<li>GET_QUERY_MANAGER</li>
+</ul>
+<dl><dd>
+This static method returns the return value RESULT of type IF_OS_QUERY_MANAGER containing a reference to the Query Manager. The query manager is created when the Object Services are initialized.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_QUERY_COMPS_2"></A>
+<p><span class="h2">
+Methods of the Query Manager
+</span></p>
+<p>
+The query manager manages the object-oriented queries of the ABAP program and is executed from interface <span class="lnkgrey">IF_OS_QUERY_MANAGER</span>.
+</p>
+<ul class="disc">
+<li>IF_OS_QUERY_MANAGER~CREATE_QUERY</li>
+</ul>
+<dl><dd>
+Creates a query and returns a reference to the query object in the return value RESULT of type IF_OS_QUERY.
+The query condition is passed to the parameter I_FILTER of type <span class="qtext">string</span>. The
+sort condition is passed to the parameter I_ORDERING of type <span class="qtext">string</span>. If the
+parameters of the query are specified using a parameter list, this must be passed to the parameter I_PARAMETERS of type <span class="qtext">string</span>.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_QUERY_COMPS_3"></A>
+<p><span class="h2">
+Methods of a Query
+</span></p>
+<p>
+Queries are executed from interfaces <span class="lnkgrey">IF_OS_QUERY</span> and <span class="lnkgrey">IF_OS_QUERY_EXPR_FACTORY</span>.
+</p>
+<A name="@@ITOC@@ABENOS_QUERY_COMPS_4"></A>
+<p><span class="h3">
+Methods of the Interface IF_OS_QUERY
+</span></p>
+<ul class="disc">
+<li>IF_OS_QUERY~GET_EXPR_FACTORY</li>
+</ul>
+<dl><dd>
+Returns a reference to a query expression factory in the return parameter RESULT of type IF_OS_QUERY_EXPR_FACTORY.
+Technically speaking, a query expression factory is part of a query object, although it is executed using the interface IF_OS_QUERY_EXPR_FACTORY, like a separate object.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY~SET_FILTER_EXPR</li>
+</ul>
+<dl><dd>
+Sets the query condition. The internal display of the query condition that is created with a query expression factory is passed to the parameter I_FILTER_EXPR of type IF_OS_QUERY_FILTER_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY~SET_PARAMETERS_EXPR</li>
+</ul>
+<dl><dd>
+Sets the parameter list of the query condition. The internal display of the parameter list that is created with a query expression factory is passed to the parameter I_PARAMETERS_EXPR of type IF_OS_QUERY_PARAMETERS_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY~SET_ORDERING_EXPR</li>
+</ul>
+<dl><dd>
+Sets the sort condition. The internal display of a sort condition created with the query expression factory is passed to the parameter I_ORDERING_EXPR of type IF_OS_QUERY_ORDERING_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY~PARSE</li>
+</ul>
+<dl><dd>
+Creates the internal displays of the query condition, the parameter list, and the sort term if these have not yet been created or set.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_QUERY_COMPS_5"></A>
+<p><span class="h3">
+Methods of the Interface IF_OS_QUERY_EXPR_FACTORY
+</span></p>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_OPERATOR_EXPR</li>
+</ul>
+<dl><dd>
+Creates either a <a href="javascript:call_link('abenos_query_filter_cond.html')" class="blue">query condition</a> of the form <br>
+<span class="qtext400">attr1 operator attr2</span>, <br>where <span class="qtext400">attr1</span>, <span class="qtext400">
+operator</span>, and <span class="qtext400">attr2</span> are the values of the parameters I_ATTR, I_OPERATOR, and I_ATTR2 or a query condition of the form <br>
+<span class="qtext400">attr1 operator 'val'</span> or <br><span class="qtext400">attr1 operator val_w_quotes</span> <br>
+where <span class="qtext400">val</span> and <span class="qtext400">val_w_quotes</span> are the values of the parameters I_VAL and I_VAL_W_QUOTES.
+</dd></dl>
+<dl><dd>
+If the parameter I_IDX of type <span class="qtext">i</span> is passed, <span class="qtext400">val</span>
+is the value of the parameter from the parameter list, for which the index when the query is executed is determined by the value of the parameter I_IDX.
+</dd></dl>
+<dl><dd>
+The query condition that is created is returned in the return value RESULT of type IF_OS_QUERY_FILTER_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_LIKE_EXPR</li>
+</ul>
+<dl><dd>
+Depending on the value of the parameter I_NOT, creates a query condition of the form <br><span class="qtext400">attr <i class=bn>[</i>NOT<i class=bn>]</i> LIKE 'pattern'</span> or <br>
+<span class="qtext400">attr <i class=bn>[</i>NOT<i class=bn>]</i> LIKE pattern_w_quotes</span>, <br>where
+<span class="qtext400">attr</span>, <span class="qtext400">pattern</span>, and <span class="qtext400">pattern_w_quotes</span> are the values of the parameters I_ATTR, I_PATTERN and I_PATTERN_W_QUOTES.
+</dd></dl>
+<dl><dd>
+If the parameter I_IDX of type <span class="qtext">i</span> is passed, <span class="qtext400">pattern</span>
+is the value of the parameter from the parameter list, for which the index when the query is executed is determined by the value of the parameter I_IDX.
+</dd></dl>
+<dl><dd>
+Passing one of the parameters I_ESCAPE or I_ESCAPE_W_QUOTES appends the definition of an escape character
+of the form <span class="qtext400">... ESCAPE 'escape' or . ... ESCAPE escape_w_quotes</span> where
+<span class="qtext400">escape</span> and <span class="qtext400">escape_w_quotes</span> are the values of the parameters I_ESCAPE and I_ESCAPE_W_QUOTES.
+</dd></dl>
+<dl><dd>
+The query condition that is created is returned in the return value RESULT of type IF_OS_QUERY_FILTER_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_ISNULL_EXPR</li>
+</ul>
+<dl><dd>
+Depending on the value of the parameter I_NOT, creates a query condition of the form <br><span class="qtext400">attr IS <i class=bn>[</i>NOT<i class=bn>]</i> NULL</span>, <br>
+where <span class="qtext400">attr</span> is the value of the parameter I_ATTR.
+</dd></dl>
+<dl><dd>
+The query condition that is created is returned in the return value RESULT of type IF_OS_QUERY_FILTER_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_REF_EXPR</li>
+</ul>
+<dl><dd>
+Creates a query condition of the form <br><span class="qtext400">attr EQUALSREF ref</span>, <br>where
+<span class="qtext400">attr</span> is the value of the parameter I_ATTR and <span class="qtext400">ref</span>
+is the value of the parameter from the parameter list whose index when the query is executed is determined by the value of the parameter I_IDX.
+</dd></dl>
+<dl><dd>
+Instead of using a parameter to set the persistent object reference, the instance GUID and class GUID can be specified using the parameters I_GUID and I_CLSGUID of type OS_GUID.
+</dd></dl>
+<dl><dd>
+The query condition that is created is returned in the return value RESULT of type IF_OS_QUERY_FILTER_EXPR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_NOT_EXPR</li>
+</ul>
+<dl><dd>
+Creates a query condition of the form <br><span class="qtext400">NOT ( expr ),</span> <br>where <span class="qtext400">expr</span> is a query condition that already exists and was passed to the parameter I_EXPR.
+</dd></dl>
+<dl><dd>
+The new query condition is returned in the return value RESULT.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_AND_EXPR</li>
+</ul>
+<dl><dd>
+Creates a query condition of the form <br><span class="qtext400">( expr1 ) AND ( expr2
+)</span> <br>where <span class="qtext400">expr1</span> or <span class="qtext400">expr2</span> are query conditions that already exist and were passed to the parameters I_EXPR1 or I_EXPR2.
+</dd></dl>
+<dl><dd>
+The new query condition is returned in the return value RESULT.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_OR_EXPR</li>
+</ul>
+<dl><dd>
+Creates a query condition of the form <br><span class="qtext400">( expr1 ) OR ( expr2
+)</span> <br>where <span class="qtext400">expr1</span> or <span class="qtext400">expr2</span> are query conditions that already exist and were passed to the parameters I_EXPR1 or I_EXPR2.
+</dd></dl>
+<dl><dd>
+The new query condition is returned in the return value RESULT.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_PARAMETERS_EXPR</li>
+</ul>
+<dl><dd>
+Creates a parameter list. The parameter list that is created is returned in return value RESULT of type IF_OS_QUERY_PARAMETERS_EXPR.
+</dd></dl>
+<dl><dd>
+The parameters are appended in succession when the method APPEND of an additional interface <span class="lnkgrey">IF_OS_QUERY_PARAMETERS_EXPR</span> is called. The parameter name is passed to the parameter I_PAR.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_QUERY_EXPR_FACTORY~CREATE_ORDERING_EXPR</li>
+</ul>
+<dl><dd>
+Creates a sort condition. The sort condition is returned in the return value RESULT of type IF_OS_QUERY_ORDERING_EXPR.
+</dd></dl>
+<dl><dd>
+The attributes used for the sort are appended one after the other when the method APPEND_ASCENDING or
+APPEND_DESCENDING of the additional interface <span class="lnkgrey">IF_OS_QUERY_ORDERING_EXPR</span> is called. The parameter name is passed to the parameter I_ATTR.
+</dd></dl>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_query_comps.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+</html>

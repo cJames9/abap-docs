@@ -1,0 +1,172 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMULTIPLE_USE_INCLUDE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmultiple_use_include_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Multiple Use of Include Programs">
+<title>
+Multiple Use of Include Programs - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmultiple_use_include_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmultiple_use_include_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensource_code_orga_guidl.html')" class="blue">Source Code Organization</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Multiple Use of Include Programs
+</span></p>
+<A name="@@ITOC@@ABENMULTIPLE_USE_INCLUDE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+From a technical point of view, it is possible to use an include program multiple times by integrating it more than once into a master program or different master programs.
+</p>
+<A name="@@ITOC@@ABENMULTIPLE_USE_INCLUDE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Do not use include programs more than once</span>
+</p>
+<p>
+Use an include program for the modularization of exactly one master program. It must not be integrated
+into multiple different master programs. Also, an include program should only be integrated once within a master program.
+</p>
+<A name="@@ITOC@@ABENMULTIPLE_USE_INCLUDE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The multiple use of include programs is highly problematic conceptually. This particularly concerns the use of include programs for the reuse of:
+</p>
+<ul class="disc">
+<li>Type definitions</li>
+</ul>
+<ul class="disc">
+<li>Data declarations</li>
+</ul>
+<ul class="disc">
+<li>Local classes</li>
+</ul>
+<ul class="disc">
+<li>Procedure implementations</li>
+</ul>
+<p>
+We strongly recommended using only suitable means for reuse, such as global classes or interfaces, for the reasons specified in the following sections.
+</p>
+<p>
+<span class="bold">Restricted maintainability</span> <br>The integration of an include program into
+multiple master programs dramatically restricts the maintainability both of the include program itself
+and of the master programs using it. Changes to an include program like this can be unproblematic in
+the context of selected master programs, but can make other master programs syntactically incorrect
+at the same time. This is particularly critical for master programs that integrate include programs that were developed in other systems.
+</p>
+<p>
+<span class="bold">Increased resource consumption</span> <br>If master programs that use shared include
+programs are executed at the same time, these include programs must be loaded multiple times by the
+ABAP runtime environment, which increases memory consumption. In the past, include programs were used
+multiple times for the central definition of constants, for example. Today, you should use a global
+interface or global class for this purpose. Because it is loaded only once, the memory consumption does not increase with every new use as it does with any multiple use of include programs.
+</p>
+<p>
+The memory consumption also increases if an include program is used multiple times within one master
+program (for example, through integration into the source code of multiple function modules of a function
+group or into the source code of multiple methods of a class) because this expands the master program unnecessarily. When using centrally defined,
+<a href="javascript:call_link('abenbound_independent_dtype_guidl.html')" class="lnkpurple" title="Guideline">standalone types</a>
+and storing required constants in suitable classes or interfaces, there remains no conceivable scenario where it would be useful to use include programs multiple times within a master program.
+</p>
+<p>
+<span class="bold">Missing semantic context</span> <br>Like source code files in other programming environments,
+include programs are integrated into a master program as pure text and without any semantics. The semantics
+only emerge in the context of the master program and the position where the include program is integrated.
+Consequently, especially class definitions that are integrated into different master programs by using
+an include program result in different technical classes whose objects have different reference types and cannot be exchanged between the master programs.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows an include program that contains declarations of constants intended for use in multiple programs. According to the above rule, procedures of this type are no longer permitted.
+</p>
+<dl><dd>
+<span class="qtext">*&amp;---------------------------------------------* <br>*&amp; Include Z_ORDERS_OF_MAGNITUDE <br>
+*&amp;---------------------------------------------* <br>CONSTANTS: <br>&nbsp;&nbsp;mega TYPE&nbsp;&nbsp;p DECIMALS 6 VALUE '1000000.0', <br>
+&nbsp;&nbsp;kilo TYPE&nbsp;&nbsp;p DECIMALS 6 VALUE '1000.0', <br>&nbsp;&nbsp;milli TYPE p DECIMALS 6 VALUE '0.001', <br>&nbsp;&nbsp;micro TYPE p DECIMALS 6 VALUE '0.000001'.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows the same declarations of constants as in the above example, but this
+time in a global class suitable for reuse. Here, a corresponding ABAP Unit test method would even be possible that checks the consistency of the constants.
+</p>
+<dl><dd>
+<span class="qtext">CLASS zcl_orders_of_magnitude DEFINITION PUBLIC . <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mega TYPE&nbsp;&nbsp;p DECIMALS 6 VALUE '1000000.0', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kilo TYPE&nbsp;&nbsp;p DECIMALS 6 VALUE '1000.0', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milli TYPE p DECIMALS 6 VALUE '0.001', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;micro TYPE p DECIMALS 6 VALUE '0.000001'. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmultiple_use_include_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

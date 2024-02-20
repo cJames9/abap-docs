@@ -1,0 +1,197 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRFC_PARAMETERS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_parameters_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Parameter Passing in sRFC and aRFC">
+<title>
+Parameter Passing in sRFC and aRFC - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrfc_parameters_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrfc_parameters_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc.html')" class="blue">RFC - Remote Function Call</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc_abexas.html')" class="blue">Examples for Remote Function Call</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Parameter Passing in sRFC and aRFC
+</span></p>
+<p>
+This example demonstrates parameter passing in two RFC variants.
+</p>
+<A name="@@ITOC@@ABENRFC_PARAMETERS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_rfc_parameters.<br>
+<br>
+CLASS demo_rfc DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback IMPORTING p_task TYPE clike.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val_in&nbsp;&nbsp;&nbsp;&nbsp; TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val_out&nbsp;&nbsp;&nbsp;&nbsp;TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val_in_out TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 80,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO if_demo_output.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo_rfc IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Synchronous RFC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_in&nbsp;&nbsp;&nbsp;&nbsp; = `val_in`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_out&nbsp;&nbsp;&nbsp;&nbsp;= ``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_in_out = `val_in_out`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'DEMO_RFM_PARAMETERS'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESTINATION 'NONE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= val_in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = val_out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_in_out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= val_in_out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_failure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 2 MESSAGE msg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;communication_failure = 4 MESSAGE msg.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( |Error when calling sRFC.\n{ msg }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'sRFC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |{ val_out }\n{ val_in_out }| ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Asynchronous RFC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_in&nbsp;&nbsp;&nbsp;&nbsp; = `val_in`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_out&nbsp;&nbsp;&nbsp;&nbsp;= ``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_in_out = `val_in_out`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'DEMO_RFM_PARAMETERS'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESTINATION 'NONE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STARTING NEW TASK 'DEMO'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALLING demo_rfc=&gt;callback ON END OF TASK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= val_in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_in_out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= val_in_out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_failure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 2 MESSAGE msg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;communication_failure = 4 MESSAGE msg.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( |Error when calling aRFC.\n{ msg }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR ASYNCHRONOUS TASKS UNTIL val_out IS NOT INITIAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UP TO 10 SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'aRFC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( |{ val_out }\n{ val_in_out }| ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD callback.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_out&nbsp;&nbsp;&nbsp;&nbsp;= ``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_in_out = ``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RECEIVE RESULTS FROM FUNCTION 'DEMO_RFM_PARAMETERS'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = val_out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_in_out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= val_in_out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_failure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 2 MESSAGE msg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;communication_failure = 4 MESSAGE msg.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( '|Error when receiving aRFC.\n{ msg }|' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo_rfc=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENRFC_PARAMETERS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The function module <span class="lnkgrey">DEMO_RFM_PARAMETERS</span> is called using
+<a href="javascript:call_link('abapcall_function_destination.html')" class="blue">synchronous</a> and <a href="javascript:call_link('abapcall_function_starting.html')" class="blue">asynchronous</a> RFC.
+</p>
+<ul class="disc">
+<li>In synchronous calls, parameters are passed and applied directly in the statement <span class="qtext">CALL FUNCTION</span>.</li>
+</ul>
+<ul class="disc">
+<li>In asynchronous calls, parameters can only be passed in the statement <span class="qtext">CALL FUNCTION</span>.
+Parameters are applied using the statement <a href="javascript:call_link('abapreceive.html')" class="blue"><span class="qtext">RECEIVE</span></a>
+in a callback routine. The statement <a href="javascript:call_link('abapwait_until.html')" class="blue"><span class="qtext">WAIT FOR ASYNCHRONOUS TASKS</span></a> is used to wait for this routine.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_parameters_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

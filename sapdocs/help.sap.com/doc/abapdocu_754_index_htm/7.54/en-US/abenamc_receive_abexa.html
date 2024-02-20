@@ -1,0 +1,277 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMC_RECEIVE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamc_receive_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMC, Receiving Messages">
+<title>
+AMC, Receiving Messages - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamc_receive_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamc_receive_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_channels.html')" class="blue">ABAP Channels</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamc.html')" class="blue">AMC - ABAP Messaging Channels</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamc_abexas.html')" class="blue">AMC Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMC, Receiving Messages
+</span></p>
+<p>
+This example demonstrates how messages are received using <a href="javascript:call_link('abenamc_glosry.html')" class="grey" title="Glossary Entry">AMC</a>.
+</p>
+<A name="@@ITOC@@ABENAMC_RECEIVE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_receive_amc.<br>
+<br>
+CLASS message_receiver DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if_amc_message_receiver_text,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if_amc_message_receiver_binary,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if_amc_message_receiver_pcp.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: text_message&nbsp;&nbsp; TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;binary_message TYPE xstring,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp_message&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO if_ac_message_type_pcp.<br>
+ENDCLASS.<br>
+<br>
+CLASS message_receiver IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD if_amc_message_receiver_text~receive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text_message = i_message.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD if_amc_message_receiver_binary~receive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;binary_message = i_message.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD if_amc_message_receiver_pcp~receive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pcp_message = i_message.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS amc_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS amc_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp; DATA(in) = cl_demo_input=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in-&gt;add_text( `Session id: ` &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_amc_channel_manager=&gt;get_consumer_session_id( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(id_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( id_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(txt) = ` `.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in-&gt;add_field(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'Wait for text messages'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = txt ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(hex) = ` `.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in-&gt;add_field(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'Wait for binary messages'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = hex ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(pcp) = ` `.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in-&gt;add_field(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING as_checkbox = 'X'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'Wait for PCP message'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(time) = 60.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in-&gt;request(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING&nbsp;&nbsp;text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'Waiting time'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = time ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(patt) = |{ txt WIDTH = 1 }{ hex WIDTH = 1 }{ pcp WIDTH = 1 }|.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(receiver) = NEW message_receiver( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_amc_channel_manager=&gt;create_message_consumer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_application_id = 'DEMO_AMC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_channel_id&nbsp;&nbsp;&nbsp;&nbsp; = '/demo_text'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;start_message_delivery( i_receiver = receiver ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(text_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( text_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_amc_channel_manager=&gt;create_message_consumer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_application_id = 'DEMO_AMC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_channel_id&nbsp;&nbsp;&nbsp;&nbsp; = '/demo_binary'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;start_message_delivery( i_receiver = receiver ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(binary_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( binary_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_amc_channel_manager=&gt;create_message_consumer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_application_id = 'DEMO_AMC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_channel_id&nbsp;&nbsp;&nbsp;&nbsp; = '/demo_pcp'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;start_message_delivery( i_receiver = receiver ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(amc_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( amc_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CASE patt.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `X&nbsp;&nbsp;`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;text_message&nbsp;&nbsp; IS NOT INITIAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO time SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `XX `.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;text_message&nbsp;&nbsp; IS NOT INITIAL AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receiver-&gt;binary_message IS NOT INITIAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO time SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `XXX`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;text_message&nbsp;&nbsp; IS NOT INITIAL AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receiver-&gt;binary_message IS NOT INITIAL AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receiver-&gt;pcp_message&nbsp;&nbsp;&nbsp;&nbsp;IS BOUND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO time SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN ` X `.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;binary_message IS NOT INITIAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO time SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN ` XX`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;binary_message IS NOT INITIAL AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receiver-&gt;pcp_message&nbsp;&nbsp;&nbsp;&nbsp;IS BOUND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO time SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `&nbsp;&nbsp;X`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;pcp_message&nbsp;&nbsp;&nbsp;&nbsp;IS BOUND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO time SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN OTHERS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF txt = 'X' AND receiver-&gt;text_message IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Text Message`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( receiver-&gt;text_message ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF hex = 'X' AND receiver-&gt;binary_message IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Binary Message`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_json( receiver-&gt;binary_message ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF pcp = 'X' AND receiver-&gt;pcp_message IS BOUND.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA fields TYPE pcp_fields.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receiver-&gt;pcp_message-&gt;get_fields(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING c_fields = fields ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(body) = receiver-&gt;pcp_message-&gt;get_text( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error INTO DATA(pcp_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( pcp_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF fields IS NOT INITIAL OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; body&nbsp;&nbsp; IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'Push Channel Protocol (PCP)'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( fields<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_html( body ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;amc_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENAMC_RECEIVE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The local class <span class="qtext">message_receiver</span> implements the interfaces <span class="lnkgrey">IF_AMC_MESSAGE_RECEIVER_TEXT</span>,
+<span class="lnkgrey">IF_AMC_MESSAGE_RECEIVER_BINARY</span>, and <span class="lnkgrey">IF_AMC_MESSAGE_RECEIVER_PCP</span>.
+AMC consumers (created using the factory method CREATE_MESSAGE_CONSUMER of the system class <span class="lnkgrey">CL_AMC_CHANNEL_MANAGER</span>)
+are used to register instances of this local class for the messaging channels <span class="qtext400">/demo_text</span>,
+<span class="qtext400">/demo_binary</span>, and <span class="qtext400">/demo_pcp</span> of the application <span class="qtext400">DEMO_AMC</span> from the package SABAPDEMOS.
+</p>
+<p>
+It is possible to select which messages are waited for. As specified by this selection, the <a href="javascript:call_link('abapwait_amc.html')" class="blue">
+<span class="qtext">WAIT</span></a> statement creates a wait state until all the fields in question
+<span class="qtext">text_message</span>, <span class="qtext">binary_message</span>, and <span class="qtext">pcp_message</span>
+have been filled in the callback routines RECEIVE (themselves triggered by messages). The wait time
+is limited to a definable number of seconds. The transaction <span class="lnkgrey">SMAMC</span> displays the registered AMC consumer during the wait time.
+</p>
+<p>
+The required messages can be sebt by the program <span class="lnkgrey">DEMO_SEND_AMC</span> (see the executable example
+<a href="javascript:call_link('abenamc_send_abexa.html')" class="blue">Sending AMC Messages</a>) from any current AS ABAP user session. The content of the messages is displayed once they have been received. The executable example
+<a href="javascript:call_link('abenapc_abexa.html')" class="blue">APC, WebSocket Communication</a> shows how the messaging channels are associated with
+<a href="javascript:call_link('abenapc.html')" class="blue">ABAP push channels (APC)</a>. The program DEMO_RECEIVE_APC also receives messages sent from Web pages associated with an APC like this.
+</p>
+<p>
+The ID of the receiver session is displayed on the input window on the program.  If this ID is entered in the executable example for
+<a href="javascript:call_link('abenamc_send_abexa.html')" class="blue">sending AMC messages</a>, point-to-point communication is used and only this receiver session is sent.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamc_receive_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

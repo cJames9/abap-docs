@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENVALUE_CONSTRUCTOR_PARAMS_INIT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenvalue_constructor_params_init.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="VALUE - Initial Value for All Types">
+<title>
+VALUE - Initial Value for All Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenvalue_constructor_params_init.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenvalue_constructor_params_init.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue">VALUE - Value Operator</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+VALUE - Initial Value for All Types
+</span></p>
+<A name="@@ITOC@@ABENVALUE_CONSTRUCTOR_PARAMS_INIT_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... VALUE dtype<i class=bn>|</i>#( ) ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+If no parameters are specified in the parentheses, the return value is set to its type-specific initial
+value. This is possible for any non-generic data types <span class="qtext">dtype</span>. The <span class="qtext">#</span> character can stand for appropriate operand types known statically. When <span class="qtext">VALUE #(
+)</span> is passed to a generically typed formal parameter, the type is also derived from the generic type of this parameter in the following cases:
+</p>
+<ul class="disc">
+<li><span class="qtext">string</span> for <span class="qtext">csequence</span> and <span class="qtext">clike</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">xstring</span> for <span class="qtext">xsequence</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">decfloat34</span> for <span class="qtext">numeric</span> and <span class="qtext">decfloat</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">p</span> with the length 8 and no decimal places if <span class="qtext">p</span> is generic</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard key</a> for a standard table type with generic primary table key</li>
+</ul>
+<p>
+Other generic data types (except for table types) that are explicitly generic with respect to their
+secondary table keys cannot be made more concrete and produce a syntax error. More specifically, this
+applies to the types <span class="qtext">c</span>, <span class="qtext">n</span>, and <span class="qtext">x</span> with generic lengths.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li><span class="qtext">VALUE</span> with pass by value is used only to construct certain complex values
+(structures and internal tables). <span class="qtext">VALUE</span> without pass by value, on the other hand, is a general method for creating type-dependent initial values in any operand positions.</li>
+</ul>
+<ul class="disc">
+<li> Rules apply when deriving the type in cases where <span class="qtext">#</span> is specified for
+actual parameters that can be passed to generically typed formal parameters. These rules prevent syntax
+errors in programs that call a procedure and the procedure makes the full typing of a formal parameter type more general by switching to a generic type.</li>
+</ul>
+<ul class="disc">
+<li>If <span class="qtext">dtype</span> or <span class="qtext">#</span> stand for an
+<a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">enumerated type</a>, its initial value is generated according to its
+<a href="javascript:call_link('abenbase_type_glosry.html')" class="grey" title="Glossary Entry">base type</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Creates a suitable initial structure for a non-optional input parameter of a method.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS c1 DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF t_struct, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col1 TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col2 TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF t_struct. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS m1 IMPORTING p TYPE t_struct. <br>
+ENDCLASS. <br> <br>CLASS c1 IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD m1. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br> <br>START-OF-SELECTION. <br> <br>&nbsp;&nbsp;c1=>m1( VALUE #( ) ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenvalue_type_inference_abexa.html')" class="blue">Value Operator, Type Inference</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenvalue_type_inference_abexa.html')" class="blue">Value Operator, Type Inference</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenvalue_constructor_params_init.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:44 GMT -->
+</html>

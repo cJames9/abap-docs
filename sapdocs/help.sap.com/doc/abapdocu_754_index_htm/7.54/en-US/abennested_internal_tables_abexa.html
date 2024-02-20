@@ -1,0 +1,225 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNESTED_INTERNAL_TABLES_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennested_internal_tables_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables, Nested Tables">
+<title>
+Internal Tables, Nested Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennested_internal_tables_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennested_internal_tables_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_statements.html')" class="blue">Declaring Data Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptypes.html')" class="blue">TYPES</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptypes_itab.html')" class="blue">TYPES - TABLE OF</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables, Nested Tables
+</span></p>
+<p>
+This example demonstrates how nested internal tables are declared and used.
+</p>
+<A name="@@ITOC@@ABENNESTED_INTERNAL_TABLES_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_nested_internal_tables.<br>
+<br>
+CLASS table_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF t_address,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;street TYPE c LENGTH 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city&nbsp;&nbsp; TYPE c LENGTH 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF t_address,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_address_tab TYPE STANDARD TABLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OF t_address<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH NON-UNIQUE KEY city.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF company,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addresses&nbsp;&nbsp;TYPE t_address_tab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF company,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;company_tab LIKE HASHED TABLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OF&nbsp;&nbsp; company<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH UNIQUE KEY name,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;company_sorted_tab LIKE SORTED TABLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OF&nbsp;&nbsp; company<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY name.<br>
+ENDCLASS.<br>
+<br>
+CLASS table_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: address TYPE t_address,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idx&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-tabix,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output&nbsp;&nbsp;TYPE c LENGTH 80.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;fs&gt; LIKE company.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+<span class="blue">* Filling Internal Tables</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;company_tab = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( name&nbsp;&nbsp; = 'Racing Bikes Inc.'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addresses = VALUE #( ( street = 'Fifth Avenue'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; city&nbsp;&nbsp; = 'New York' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( street = 'Second Street'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; city&nbsp;&nbsp; = 'Boston' ) ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( name&nbsp;&nbsp; = 'Chocolatiers Suisse'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addresses = VALUE #( ( street = 'Avenue des Forets'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; city&nbsp;&nbsp; = 'Geneve' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( street = 'Kleine Bachgasse'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; city&nbsp;&nbsp; = 'Basel' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( street = 'Piazza di Lago'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; city&nbsp;&nbsp; = 'Lugano' ) ) ) ).<br>
+<span class="blue">* Reading Internal Tables</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE company_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH TABLE KEY name = 'Racing Bikes Inc.'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASSIGNING &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |{ &lt;fs&gt;-name }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT &lt;fs&gt;-addresses INTO address.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE: sy-tabix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO output+4(4),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; address-street TO output+8(20),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; address-city&nbsp;&nbsp; TO output+28(20).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( output ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<span class="blue">* Modifying Internal Tables</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;address-street = 'Rue des Montagnes'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;address-city&nbsp;&nbsp; = 'Geneve'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE company_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH TABLE KEY name = 'Chocolatiers Suisse'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO company.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE company-addresses TRANSPORTING NO FIELDS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH TABLE KEY city = address-city.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;idx = sy-tabix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY company-addresses FROM address INDEX idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY TABLE company_tab FROM company.<br>
+<span class="blue">* Moving and sorting Internal Tables</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;company_sorted_tab = company_tab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT company_sorted_tab INTO company.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |{ company-name }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SORT company-addresses.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT company-addresses INTO address.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE: sy-tabix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO output+4(4),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; address-street TO output+8(20),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; address-city&nbsp;&nbsp; TO output+28(20).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( output ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<span class="blue">* text output</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;table_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENNESTED_INTERNAL_TABLES_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The example shows the declaration of two internal tables, <span class="qtext">t_address_tab</span> and
+<span class="qtext">company_tab</span>, where <span class="qtext">t_address_tab</span> is contained
+in <span class="qtext">company_tab</span>. For this purpose, <span class="qtext">t_address_tab</span>
+is defined as the table type. The component <span class="qtext">addresses</span> of the <span class="qtext">company</span>
+structure is declared with this type. The data type of <span class="qtext">company</span> is used as the row type for the tables <span class="qtext">company_tab</span> and <span class="qtext">company_sorted_tab</span>.
+</p>
+<p>
+The internal table is filled using the value operator <a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue"><span class="qtext">VALUE</span></a>.
+</p>
+<p>
+A row from <span class="qtext">company_tab</span> is assigned to the field symbol <span class="qtext">&lt;fs></span>
+using <a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ</span></a> and its table-like
+component <span class="qtext">addresses</span> is processed in a <a href="javascript:call_link('abaploop_at_itab_shortref.html')" class="blue">
+<span class="qtext">LOOP</span></a>. The content of the row is assigned to the structure <span class="qtext">address</span>.
+Since <span class="qtext">addresses</span> is an index table, <span class="qtext">sy-tabix</span> can be evaluated.
+</p>
+<p>
+To change the content of the component <span class="qtext">street</span> of a row of the inner table
+<span class="qtext">addresses</span>, the index of the relevant row is determined using a <span class="qtext">READ</span>
+statement and it is then used in <a href="javascript:call_link('abapmodify_itab.html')" class="blue"><span class="qtext">MODIFY</span></a>.
+ To make the changes effective in the corresponding row of the outer hashed table as well, the key access of the <span class="qtext">MODIFY</span> statement is used.
+</p>
+<p>
+Finally, the hashed table is assigned a sorted table with the same row type. In this way, the entries
+are automatically sorted by the table key <span class="qtext">name</span>. The entries of the inner
+standard table, however, are sorted using the <a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT</span></a> command.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennested_internal_tables_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

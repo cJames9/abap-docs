@@ -1,0 +1,237 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_MANAGED_DB_OBJECTS_AMDP -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_managed_db_objects_amdp.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP Access to ABAP-Managed Database Objects">
+<title>
+AMDP Access to ABAP-Managed Database Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_managed_db_objects_amdp.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_managed_db_objects_amdp.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_managed_db_objects.html')" class="blue">ABAP-Managed Database Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_managed_db_objects_access.html')" class="blue">Access to ABAP-Managed Database Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMDP Access to ABAP-Managed Database Objects
+</span></p>
+<p>
+<a href="javascript:call_link('abenabap_managed_db_proc_glosry.html')" class="grey" title="Glossary Entry">ABAP Managed Database Procedures (AMDP)</a> is a class-based AS ABAP framework for managing and calling
+<a href="javascript:call_link('abendatabase_procedure_glosry.html')" class="grey" title="Glossary Entry">database procedures</a> and
+<a href="javascript:call_link('abendatabase_function_glosry.html')" class="grey" title="Glossary Entry">database functions</a> in the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>. No other database platforms are currently supported.
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP methods</a> are implemented in
+<a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQLScript</a>. The AMDP framework
+creates the procedures and functions as ABAP-managed database objects and is also the management framework for these objects. From ABAP,
+<a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> or
+<a href="javascript:call_link('abenamdp_scalar_function_glosry.html')" class="grey" title="Glossary Entry">AMDP scalar functions</a> are called using method calls.
+<a href="javascript:call_link('abenamdp_table_function_glosry.html')" class="grey" title="Glossary Entry">AMDP table functions</a>, on the other hand, are called by accessing the associated
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> using ABAP SQL. The AMDP framework itself uses the AS ABAP
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a> internally to access the database.
+</p>
+<p>
+AMDP can be used to access <a href="javascript:call_link('abenabap_managed_db_object_glosry.html')" class="grey" title="Glossary Entry">ABAP-managed database objects</a> as follows:
+</p>
+<ul class="disc">
+<li>Reads and writes on the following ABAP-managed database objects in the SQLScript implementation of an AMDP method.</li>
+</ul>
+<ul class="circlem2">
+<li>Instances of the <a href="javascript:call_link('abenddic_database_tables.html')" class="blue">database tables</a> and classic <a href="javascript:call_link('abenddic_database_views.html')" class="blue">database views</a> defined in ABAP Dictionary.</li>
+</ul>
+<ul class="circlem2">
+<li>Instances of the <a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database views</a> of CDS views defined in ABAP CDS.</li>
+</ul>
+<ul class="disc">
+<li>Calls of the following ABAP-managed database procedures or database functions:</li>
+</ul>
+<ul class="circlem2">
+<li>It is possible to call <a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a>, as well as
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP functions</a> that do not implement any
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table functions</a>, from other AMDP methods.</li>
+</ul>
+<ul class="circlem2">
+<li>The AMDP table function of a <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> can be called from other AMDP methods.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenhana_session_variables.html')" class="blue">ABAP-specific session variables</a> can be read using the built-in HANA function <span class="qtext400">SESSION_CONTEXT</span>.</li>
+</ul>
+<p>
+The most important AMDP features are as follows:
+</p>
+<ul class="disc">
+<li>The management of <a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> and
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP functions</a> is the
+full responsibility of the AMDP framework. This framework creates these database objects before they are used for the first time in ABAP or updates them as required.</li>
+</ul>
+<ul class="disc">
+<li>AMDP methods are implemented as platform-dependent methods and their implementation is currently restricted to
+<a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQLScript</a> in the SAP HANA database.</li>
+</ul>
+<ul class="disc">
+<li>Data types defined in ABAP Dictionary (and any enhancements of these types) are not currently known in the actual implementation of AMDP methods. Dictionary types are, however, respected as follows:</li>
+</ul>
+<ul class="circlem2">
+<li>If possible, AMDP respects the order of fields defined in ABAP Dictionary, since this can differ
+from the order in the database. To do this, a view is generated internally. The prerequisite for this feature is that the AMDP framework detects that a database object defined in ABAP Dictionary is being accessed.</li>
+</ul>
+<ul class="circlem2">
+<li>The typing of the formal parameters of an AMDP method using dictionary types is one way of creating matching variables. Here, a predefined mapping takes place between ABAP types and database types.</li>
+</ul>
+<ul class="circlem2">
+<li>Any <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null values</a> passed
+from formal parameters to ABAP data objects are transformed to their type-dependent initial values. There is no special handling, however, within the implementation of an AMDP method.</li>
+</ul>
+<ul class="circlem2">
+<li>The interface parameters of AMDP methods can be tabular parameters. Internal ABAP tables can be bound to all categories of parameters. In the case of
+<a href="javascript:call_link('abeninput_output_parameter_glosry.html')" class="grey" title="Glossary Entry">input/output parameters</a>
+declared using <span class="qtext">CHANGING</span>, the parameters are transformed to a pair of input and output parameters declared using <span class="qtext400">IN</span> and <span class="qtext400">OUT</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abenamdp_macro_glosry.html')" class="grey" title="Glossary Entry">AMDP macro</a> <a href="javascript:call_link('abenamdp_abap_types.html')" class="blue">
+<span class="qtext400">$ABAP.type</span></a> can be used to specify ABAP Dictionary types and other ABAP types in the implementation of an
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP method</a>. The AMDP framework transforms this information into the respective HANA types.</li>
+</ul>
+<ul class="disc">
+<li>AMDP does not support the following ABAP Dictionary and ABAP CDS functions:</li>
+</ul>
+<ul class="circlem2">
+<li>AMDP <a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">does not support implicit client handling</a>.
+The client ID must either be passed explicitly using an input parameter (recommended) or the ABAP-specific
+session variables <span class="qtext400">CLIENT</span> and <span class="qtext400">CDS_CLIENT</span>
+can be accessed. When an AMDP method is called whose declaration specifies the addition <a href="javascript:call_link('abapmethods_amdp_options.html')" class="blue">
+<span class="qtext">AMDP OPTIONS CDS SESSION CLIENT</span></a>, the value of the session variable <span class="qtext400">CDS_CLIENT</span> can be set to the value of an input parameter here.</li>
+</ul>
+<ul class="circlem2">
+<li>AMDP does not support <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>AMDP does not support <a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS access control</a>. CDS access control can only be applied when using ABAP SQL to access a
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> implemented in AMDP.</li>
+</ul>
+<ul class="circlem2">
+<li>AMDP cannot handle the <a href="javascript:call_link('abenddic_structures_enh_cat.html')" class="blue">enhancement category of structures</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>AMDP does not support the <a href="javascript:call_link('abenddic_database_tables_protocol.html')" class="blue">logging of database tables</a>.</li>
+</ul>
+<ul class="disc">
+<li>AMDP accesses the database objects of <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a> directly and ignores any other properties of CDS entities:</li>
+</ul>
+<ul class="circlem2">
+<li>When the <a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database
+view</a> of a CDS view is accessed, the database-specific instance created of this view must be known. This applies in particular to CDS views with input parameters.</li>
+</ul>
+<ul class="circlem2">
+<li>When an instance of a <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> is accessed, its AMDP table function must be called.</li>
+</ul>
+<ul class="circlem2">
+<li>AMDP cannot handle <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a> and
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS roles</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Care must be taken that all <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">session variables</a>
+used in a CDS view have the correct value. This applies in particular to the session variable <span class="qtext400">
+client</span>, which is mapped to the HANA session variable <span class="qtext400">CDS_CLIENT</span> and not to <span class="qtext400">CLIENT</span>.</li>
+</ul>
+<ul class="disc">
+<li>The ABAP-managed database objects accessed in an AMDP method must be declared with <a href="javascript:call_link('abapmethod_by_db_proc.html')" class="blue">
+<span class="qtext">USING</span></a> in the implementation of the method. This guarantees that the AMDP methods are recorded in the where-used list.</li>
+</ul>
+<ul class="disc">
+<li>DDL statements are not allowed in AMDP methods. Furthermore, no statements are allowed that are
+only possible in database tables and not in views, such as <span class="qtext400">TRUNCATE TABLE</span> or <span class="qtext400">LOCK TABLE</span>.</li>
+</ul>
+<ul class="disc">
+<li>AMDP supports ABAP-managed <a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a> but does not support
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connections</a>.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQLScript</a> used to implement AMDP methods can use the input parameters of the AMDP as operands but does not support dynamic tokens.</li>
+</ul>
+<ul class="disc">
+<li>In the implementation of <a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP methods</a>, the
+<a href="javascript:call_link('abenamdp_macro_glosry.html')" class="grey" title="Glossary Entry">AMDP macro</a> <a
+ href="javascript:call_link('abenamdp_logical_db_schemas.html')" class="blue"><span class="qtext400">"$ABAP.schema</span></a> can be used to specify
+<a href="javascript:call_link('abenlogical_schema_glosry.html')" class="grey" title="Glossary Entry">logical schemas</a> that are transformed to the names of actual
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schemas</a> by the AMDP framework. This enables, for example, simple access to
+<a href="javascript:call_link('abenhdi_object_glosry.html')" class="grey" title="Glossary Entry">HDI objects</a> that use an
+<a href="javascript:call_link('abenamhc_glosry.html')" class="grey" title="Glossary Entry">ABAP-managed HDI container</a> as an interface to the
+<a href="javascript:call_link('abencts_glosry.html')" class="grey" title="Glossary Entry">Change and Transport System</a>.</li>
+</ul>
+<ul class="disc">
+<li>AMDP respects the <a href="javascript:call_link('abendependency_rule_glosry.html')" class="grey" title="Glossary Entry">dependency rules</a> defined for a database.</li>
+</ul>
+<ul class="disc">
+<li>AMDP respects <a href="javascript:call_link('abendata_aging_glosry.html')" class="grey" title="Glossary Entry">data aging</a> by default.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Implementations of AMDP methods can be debugged in the <a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools (ADT)</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_managed_db_objects_amdp.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+</html>

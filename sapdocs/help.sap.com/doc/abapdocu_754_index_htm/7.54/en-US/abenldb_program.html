@@ -1,0 +1,323 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLDB_PROGRAM -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_program.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Logical Databases - Database Program">
+<meta name="keywords" content="ABAP, Logical Databases, Database Program">
+<title>
+Logical Databases - Database Program - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenldb_program.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenldb_program.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb.html')" class="blue">Logical Databases (Obsolete)</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_oview.html')" class="blue">Logical Databases - Components</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Logical Databases - Database Program
+</span></p>
+<p>
+The database program of a logical database <span class="qtext">ldb</span> has the name <span class="qtext">SAPDBldb</span>. It is used as a container for
+<a href="javascript:call_link('abensubroutine_glosry.html')" class="grey" title="Glossary Entry">subroutines</a> called by the
+ABAP runtime environment when a logical database is processing. The order of the calls and how they
+combine with events in executable programs or the function module <span class="lnkgrey">LDB_PROCESS</span> is determined by the structure of the logical database.
+</p>
+<p>
+A logical database program usually contains the following subroutines.
+</p>
+<ul class="disc">
+<li><span class="qtext">ldb_process_init</span></li>
+</ul>
+<dl><dd>
+Called once before processing in the logical database, to prepare the database for any multiple calls
+by the function module LDB_PROCESS. If a logical database needs to be called more than once consecutively,
+the subroutine must exist and its input/output parameter <span class="qtext">subrc</span> must be set
+to zero. If the parameter <span class="qtext">subrc</span> is not set to zero, the function module LDB_PROCESS raises the non-class-based exception LDB_NOT_REENTRANT.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">init</span></li>
+</ul>
+<dl><dd>
+Called once before the selections are edited.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">pbo</span></li>
+</ul>
+<dl><dd>
+Called each time the selection screen is displayed, which means only when associated with executable programs and not in calls of the function module LDB_PROCESS.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">pai</span></li>
+</ul>
+<dl><dd>
+Called each time a user action is performed on the selection screen, which means only when associated
+with executable programs and not in calls of the function module LDB_PROCESS. At the same time, the interface parameters <span class="qtext">fname</span> and <span class="qtext">mark</span> are passed to the subroutine.
+</dd></dl>
+<ul class="circlem2">
+<li><span class="qtext">fname</span> contains the name of a selection criterion or parameter on the selection screen.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">mark</span> describes the selection mad by the user. If <span class="qtext">mark</span>
+contains a blank, this indicates that the user entered a simple single value or interval selection.
+If <span class="qtext">mark</span> contains "*", this indicates that the user also made entries on the multiple selection screen.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">ldb_process_check_selections</span></li>
+</ul>
+<dl><dd>
+Is called instead of the subroutine <span class="qtext">pai</span> if the logical database is called
+without selection screen processing by the function module LDB_PROCESS. This subroutine can check the
+selections passed by the function module. The subroutine is called after the parameters and selection
+tables of the selection screen are filled by the interface parameters of  LDB_PROCESS. If its input/output
+parameter <span class="qtext">subrc</span> is not set to zero, the function module LDB_PROCESS raises
+the exception LDB_SELECTIONS_NOT_ACCEPTED. A message in <span class="lnkgrey">SYMSG</span> format can
+be assigned to the structured input/output parameter <span class="qtext">msg</span>. This message is then available to the caller of the function module in the system fields <span class="qtext">sy-msg...</span>.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">put_node</span></li>
+</ul>
+<dl><dd>
+Called in an order defined by the structure. This subroutine reads the data of the node <span class="qtext">node</span>
+and uses the statement <a href="javascript:call_link('abapput.html')" class="blue"><span class="qtext">PUT node</span></a> to
+raise an appropriate <span class="qtext">GET</span> event in the ABAP runtime environment. This statement
+is the central statement of this subroutine. It can be used only in a subroutine of a logical database
+whose structure has the node <span class="qtext">node</span> and whose name starts with <span class="qtext">put_node</span>.
+The <span class="qtext">PUT</span> statement branches the program flow in accordance with the structure
+of the logical database. The read depth is determine by the <a href="javascript:call_link('abapget-.html')" class="blue"><span class="qtext">
+GET</span> statements</a> of the application program or by the interface parameter CALLBACK of the function
+module LDB_PROCESS. First, the subroutine <span class="qtext">put_node</span> is edited for the root node. The statement <span class="qtext">PUT</span> branches the program flow as follows:
+</dd></dl>
+<ul class="circlem2">
+<li>If the subroutine <span class="qtext">authority_check_node</span> exists in the database program, the statement <span class="qtext">PUT</span> branches to this subroutine first.</li>
+</ul>
+<ul class="circlem2">
+<li>The <span class="qtext">PUT</span> statement then raises a <span class="qtext">GET</span> event
+in the runtime environment. If a related statement <a href="javascript:call_link('abapget-.html')" class="blue"><span class="qtext">GET
+node</span></a> exists in an associated executable program, the corresponding event block is processed.
+If the parameter CALLBACK of the function module LDB_PROCESS is filled accordingly, the associated callback routine is called.</li>
+</ul>
+<ul class="circlem2">
+<li>The <span class="qtext">PUT</span> statement then branches the program flow as follows: <br> <br>(a)
+ To the next existing subroutine of a direct successor node, if a lower node (not necessarily the direct
+successor) of the associated subtree in the executable program or function module is requested using <span class="qtext">GET</span>. <br>
+ <br>(b)  To the subroutine of a node at the same level, if the superordinate node branches to a subroutine
+of this type and if a node of this type is requested in the executable program or function module using
+<span class="qtext">GET</span>. Here, the <span class="qtext">PUT</span> statement starts again with
+the first step. Branching does not continue in the subroutine of the lowest node in a subtree requested
+using <span class="qtext">GET</span>. Instead, the current subroutine is resumed. If a subroutine <span class="qtext">
+put_node</span> is executed in full, the program flow returns to the <span class="qtext">PUT</span> statement from which a branch to <span class="qtext">put_node</span> was made.</li>
+</ul>
+<ul class="circlem2">
+<li>After returning from a subordinate subroutine <span class="qtext">put_node</span>, the <span class="qtext">PUT</span>
+statement raises the event <a href="javascript:call_link('abapget-.html')" class="blue"><span class="qtext">GET node LATE</span></a> in the runtime environment.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">authority_check_node</span></li>
+</ul>
+<dl><dd>
+Called automatically by the statement <span class="qtext">PUT node</span>. An authorization check for
+the node <span class="qtext">node</span> in question from the structure of the logical database can be incorporated into this subroutine.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">put_ldb_sp</span></li>
+</ul>
+<dl><dd>
+Called when a selection is made using the search help, to be edited in the key selected in the search
+help. <span class="qtext">ldb</span> is the name of the logical database. The table entries in the search
+help tables can be used to read the required entries from the root node from this subroutine. <span class="qtext">
+PUT</span> can then be used to trigger the processing in the program. The subroutine <span class="qtext">put_node</span> cannot then be called automatically for the root node.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">before_event</span></li>
+</ul>
+<dl><dd>
+Called before an event whose name is passed in the interface parameter <span class="qtext">event</span>.
+Currently, only the value "START-OF-SELECTION" can be assigned to <span class="qtext">event</span> to execute a subroutine before this time.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">after_event</span></li>
+</ul>
+<dl><dd>
+Called after an event whose name is passed in the interface parameter <span class="qtext">event</span>.
+Currently, only the value "END-OF-SELECTION" can be assigned to <span class="qtext">event</span> to execute a subroutine after this time.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">par_val</span>, <span class="qtext">selcrit_val</span>, <span class="qtext">selcrit-low_val</span>, <span class="qtext">selcrit-high_val</span></li>
+</ul>
+<dl><dd>
+Called if (on the selection screen) the user calls the input help for the parameter <span class="qtext">par</span>
+or the selection criterion <span class="qtext">selcrit</span>, which must be one of the selections of the logical database.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">par_hlp</span>, <span class="qtext">selcrit_hlp</span>, <span class="qtext">selcrit-low_hlp</span>, <span class="qtext">selcrit-high_hlp</span></li>
+</ul>
+<dl><dd>
+Called if (on the selection screen) the user calls the input help for the parameter <span class="qtext">par</span>
+or the selection criterion <span class="qtext">selcrit</span>, which must be one of the selections of the logical database.
+</dd></dl>
+<p>
+The following internal table exists implicitly and can be used in the program:
+</p>
+<dl><dd>
+<span class="qtext">DATA: BEGIN OF get_events OCCURS 10, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node(10), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kind, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF get_events.</span>
+</dd></dl>
+<p>
+In each row, it contains the name of a node of the logical database in the component <span class="qtext">node</span>.
+The component <span class="qtext">kind</span> indicates whether the node is requested by the consumer and how:
+</p>
+<ul class="disc">
+<li>"X": Node is addressed using <span class="qtext">GET</span> and <span class="qtext">GET LATE</span>.</li>
+</ul>
+<ul class="disc">
+<li>"G": Node is addressed using <span class="qtext">GET</span> only.</li>
+</ul>
+<ul class="disc">
+<li>"L": Node is addressed using <span class="qtext">GET LATE</span> only.</li>
+</ul>
+<ul class="disc">
+<li>"W": Node is not addressed using <span class="qtext">GET</span> or <span class="qtext">GET LATE</span>.
+A subordinate node, however, is addressed using <span class="qtext">GET</span> or <span class="qtext">GET LATE</span>.</li>
+</ul>
+<ul class="disc">
+<li>" ": Node is not addressed using <span class="qtext">GET</span> or <span class="qtext">GET LATE</span> and no subordinate node is addressed either.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When a selection include is created, <span class="lnkgrey">Logical Database Builder</span> generates
+a template based on the existing structure and the selections defined in the selection include. The generated database program consists of multiple include programs:
+</p>
+<ul class="disc">
+<li>DBldbTOP <br>Contains the introductory program statement and global declarations.</li>
+</ul>
+<ul class="disc">
+<li>DBldbXXX Incorporates the following include programs:</li>
+</ul>
+<ul class="circlem2">
+<li>DBldb001, DBldb002, ... <br>For the subroutines <span class="qtext">put_node</span> and <span class="qtext">authority_check_node</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>DBldbFXXX <br>Subroutines for processing selection screens (initialization, PBO, PAI, ...).</li>
+</ul>
+<ul class="circlem2">
+<li>DBldbSXXX <br>Subroutine <span class="qtext">put_ldb_sp</span> for handling search helps.</li>
+</ul>
+<ul class="disc">
+<li>DBldbF001, DBldbF002, ... Self-defined include programs for additional functions.</li>
+</ul>
+<p>
+The predefined <span class="qtext">NODES</span> or <span class="qtext">TABLES</span> statements and
+the predefined names of the automatically created include programs and subroutines cannot be modified.
+It is, however, possible to define further include programs or subroutines and modify the ABAP statements
+that read data. Self-defined include programs must use the naming convention DBldbFnnn, otherwise they cannot be transported by the logical database.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+LFB1 is a successor of LFA1 in the structure of the logical database. The following selection criteria are defined in the selection include:
+</p>
+<dl><dd>
+<span class="qtext">SELECT-OPTIONS: slifnr FOR lfa1-lifnr, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbukrs FOR lfb1-bukrs.</span>
+</dd></dl>
+<p>
+One possible section of a database program is therefore:
+</p>
+<dl><dd>
+<span class="qtext">FORM put_lfa1. <br>&nbsp;&nbsp;SELECT * FROM lfa1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE lifnr IN slifnr. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;PUT lfa1. <br>&nbsp;&nbsp;ENDSELECT. <br>ENDFORM. <br> <br>FORM put_lfb1. <br>&nbsp;&nbsp;SELECT * FROM lfb1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE lifnr =&nbsp;&nbsp;lfa1-lifnr. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp; bukrs IN sbukrs. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;PUT lfb1. <br>&nbsp;&nbsp;ENDSELECT. <br>ENDFORM.</span>
+</dd></dl>
+<p>
+An executable program associated with the logical database contains the lines:
+</p>
+<dl><dd>
+<span class="qtext">GET lfa1. <br>&nbsp;&nbsp;WRITE lfa1-lifnr. <br>GET lfb1. <br>&nbsp;&nbsp;WRITE lfb1-bukrs.</span>
+</dd></dl>
+<p>
+In this example, the runtime environment calls the routine <span class="qtext">put_lfa1</span> after
+the event <span class="qtext">START-OF-SELECTION</span>. The statement <span class="qtext">PUT lfa1</span>
+raises the event <span class="qtext">GET lfa1</span>. If the corresponding event block has been processed
+in the program, <span class="qtext">PUT lfa1</span> branches to the subroutine <span class="qtext">put_lfb1</span>.
+From here, the event <span class="qtext">GET lfb1</span> is raised in the program. If LFB1 is the last
+node to be read, the processing of the <span class="qtext">SELECT</span> loop is then resumed in <span class="qtext">
+put_lfb1</span>. If not, a branch to the subroutine <span class="qtext">put_node</span> of the next
+node is performed. At the end of the <span class="qtext">SELECT</span> loop of the last node, the <span class="qtext">
+SELECT</span> loop of the next node up is resumed. The programming across nested <span class="qtext">SELECT</span>
+loops makes the process flow easier to understand here. This should be avoided in real logical databases,
+however, to reduce the number of database reads. The <span class="qtext">PUT</span> statements also do not branch to the subroutines for authorization checks in this example.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See also <a href="javascript:call_link('abenldb_program_example.html')" class="blue">Example of a Database Program</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_program.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+</html>

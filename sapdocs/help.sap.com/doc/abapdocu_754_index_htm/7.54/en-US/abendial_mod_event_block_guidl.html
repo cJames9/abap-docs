@@ -1,0 +1,172 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDIAL_MOD_EVENT_BLOCK_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendial_mod_event_block_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dialog Modules and Event Blocks">
+<title>
+Dialog Modules and Event Blocks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendial_mod_event_block_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendial_mod_event_block_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dialog Modules and Event Blocks
+</span></p>
+<A name="@@ITOC@@ABENDIAL_MOD_EVENT_BLOCK_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Besides procedures, there are two further types of processing blocks. However, they do not have a parameter interface and do not allow declaration of local data:
+(<span class="qtext">AT SELECTION-SCREEN</span> and <span class="qtext">GET</span> are exceptions but they should not be exploited):
+</p>
+<ul class="disc">
+<li><span class="bold">Dialog modules</span> <br>Dialog modules are introduced using the statement <span class="qtext">
+MODULE</span> and ended using the statement <span class="qtext">ENDMODULE</span>. These modules form
+the functional interface between classic dynpros and the associated ABAP program. They are called from within the dynpro flow logic.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Event blocks</span> <br>Event blocks are introduced by the corresponding keyword
+and implicitly ended by the next processing block. The processing of an event block is triggered by the ABAP runtime environment when the relevant event occurs. There are event blocks for:</li>
+</ul>
+<ul class="circlem2">
+<li>Loading a program (<span class="qtext">LOAD-OF-PROGRAM</span>)</li>
+</ul>
+<ul class="circlem2">
+<li>Reporting events that occur during the processing of an executable program (with a logical database)
+(<span class="qtext">INITIALIZATION</span>, <span class="qtext">START-OF-SELECTION</span>, <span class="qtext">GET</span>, <span class="qtext">END-OF-SELECTION</span>)</li>
+</ul>
+<ul class="circlem2">
+<li>Selection screen events (<span class="qtext">AT SELECTION-SCREEN ...</span>)</li>
+</ul>
+<ul class="circlem2">
+<li>List events of classic list processing (<span class="qtext">AT LINE-SELECTION</span>, <span class="qtext">AT USER-COMMAND</span>)</li>
+</ul>
+<A name="@@ITOC@@ABENDIAL_MOD_EVENT_BLOCK_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">No implementations in dialog modules and event blocks</span>
+</p>
+<p>
+Only use dialog modules and event routines if they are necessary from a technical viewpoint. In these cases, do not implement the required function. Instead, call the relevant (local) methods.
+</p>
+<A name="@@ITOC@@ABENDIAL_MOD_EVENT_BLOCK_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Since it is not possible to declare local data in dialog modules and event blocks, you cannot implement
+any useful program logic. This means that any dialog modules and event blocks (provided that they are still necessary) should only contain one method call. If you
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">use ABAP Objects</a> consistently, only the following elements are required:
+</p>
+<ul class="disc">
+<li><span class="qtext">LOAD-OF-PROGRAM</span> or <span class="qtext">INITIALIZATION</span> as the program constructor in cases where
+<a href="javascript:call_link('abenprogram_type_guidl.html')" class="lnkpurple" title="Guideline">program types</a> other than class pools are used</li>
+</ul>
+<ul class="disc">
+<li>Dialog modules and <span class="qtext">AT SELECTION-SCREEN</span> when <a href="javascript:call_link('abenencap_class_interf_guidl.html')" class="lnkpurple" title="Guideline">classic dynpros and selection screens</a> are processed</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">START-OF-SELECTION</span> in
+<a href="javascript:call_link('abenprogram_type_guidl.html')" class="lnkpurple" title="Guideline">executable programs</a> for
+background processing To improve readability, you should always specify the statement explicitly (although it is optional in many situations).</li>
+</ul>
+<ul class="disc">
+<li>Although possible in the syntax, you should never specify an event block more than once within a program.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Using <span class="qtext">LOAD-OF-PROGRAM</span> in a function group is basically the same as using
+a static constructor in a global class. In executable programs, you can use <span class="qtext">INITIALIZATION</span> instead, if any parameters passed using <span class="qtext">SUBMIT</span> need to be evaluated.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following source code shows the PAI modules of the function group DEMO_CR_CAR_RENTAL_SCREENS from
+the package <span class="lnkgrey">SABAP_DEMOS_CAR_RENTAL_DYNPRO</span>. The screens in this package
+can be called using transaction <span class="lnkgrey">DEMO_CR_CAR_RENTAL</span>. These dialog modules
+adhere to the above rule. They do not contain their own implementations. They call methods of a local class of the function group.
+</p>
+<dl><dd>
+<span class="qtext">MODULE cancel INPUT. <br>&nbsp;&nbsp;screen_handler=>cancel( ). <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE user_command_0100 INPUT. <br>&nbsp;&nbsp;screen_handler=>user_command_0100( ). <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE customers_mark INPUT. <br>&nbsp;&nbsp;customer_table=>mark( ). <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE reservations_mark INPUT. <br>&nbsp;&nbsp;reservation_table=>mark( ). <br>ENDMODULE.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendial_mod_event_block_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

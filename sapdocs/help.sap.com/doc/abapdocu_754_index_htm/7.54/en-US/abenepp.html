@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEPP -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenepp.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="EPP - Extended Passport">
+<meta name="keywords" content="ABAP, EPP">
+<title>
+EPP - Extended Passport - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenepp.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenepp.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+EPP - Extended Passport
+</span></p>
+<p>
+An Extended Passport (EPP) is a data structure that can be sent from a client to a server and is used to analyze call stacks. For the
+<a href="javascript:call_link('abenrfc_interface.html')" class="blue">RFC interface</a>, Extended Passports can be sent and received in both
+<a href="javascript:call_link('abenmain_session_glosry.html')" class="grey" title="Glossary Entry">ABAP sessions</a> and external communication components such as RFC SDK or JCo. In HTTP communication, this is supported by
+<a href="javascript:call_link('abenicf_glosry.html')" class="grey" title="Glossary Entry">ICF</a>. In an ABAP session, the Extended Passport is a constant internal data structure in the ABAP kernel and contains information about the session:
+</p>
+<ul class="disc">
+<li>The Extended Passport is generated with initial values when an ABAP session is created.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenabap_data_communication.html')" class="blue">communication</a> between clients and
+servers that support Extended Passport, the client passes its EPP to the server. Here, some components
+remain untouched and others are set to connection-specific values. If the server is an ABAP session, its EPP contains the values passed from the client.</li>
+</ul>
+<p>
+The most important EPP components are as follows:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenepp_root_context_id_glosry.html')" class="grey" title="Glossary Entry">EPP root context ID</a></li>
+</ul>
+<dl><dd>
+The root context ID is a <a href="javascript:call_link('abenuuid_glosry.html')" class="grey" title="Glossary Entry">UUID</a>
+assigned to an ABAP session when it is created. It is unchanged when the Extended Passport is sent to a server and hence identifies the original ABAP session.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenepp_connection_id_glosry.html')" class="grey" title="Glossary Entry">EPP connection ID</a></li>
+</ul>
+<dl><dd>
+The connection ID is a <a href="javascript:call_link('abenuuid_glosry.html')" class="grey" title="Glossary Entry">UUID</a> assigned
+to the connection in question when the Extended Passport is sent to a server. In most cases, an initial
+connection ID identifies the first component in a call stack. In a server ABAP session, it contains
+the UUID of the connection. Together with the root context ID, it provides a unique identification for
+an ABAP session. In most cases, the connection ID keeps the same value when the same connection is reused. If an ABAP session is a stateless
+<a href="javascript:call_link('abenapc.html')" class="blue">APC</a> server, a new connection ID is created each time the server is accessed from the <a href="javascript:call_link('abenapc.html')" class="blue">APC</a>.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenepp_connection_counter_glosry.html')" class="grey" title="Glossary Entry">EPP connection counter</a></li>
+</ul>
+<dl><dd>
+If a server is accessed using a connection with the same connection ID, the EPP connection counter is usually raised accordingly when the Extended Passport is sent.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenepp_transaction_id_glosry.html')" class="grey" title="Glossary Entry">EPP transaction ID</a></li>
+</ul>
+<dl><dd>
+The transaction ID is a <a href="javascript:call_link('abenuuid_glosry.html')" class="grey" title="Glossary Entry">UUID</a> that identifies a
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a> in most cases. The
+statement <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a> modifies the transaction ID in non-server ABAP sessions, as long as an
+<a href="javascript:call_link('abenupdate_function_module_glosry.html')" class="grey" title="Glossary Entry">update function
+module</a> was called using <a href="javascript:call_link('abapcall_function_update.html')" class="blue"><span class="qtext">CALL
+FUNCTION IN UPDATE TASK</span></a> in the closed SAP LUW. The transaction ID is not usually modified when the Extended Passport is sent from a client to a server.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenepp_component_id_glosry.html')" class="grey" title="Glossary Entry">EPP component ID</a></li>
+</ul>
+<dl><dd>
+After an ABAP session is created, the component ID contains the
+<a href="javascript:call_link('abensystem_id_glosry.html')" class="grey" title="Glossary Entry">system ID</a> of the
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">Application Server ABAP</a> and the name of the
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">application server instance</a>. It is passed to a server without being modified.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenepp_pre_component_id_glosry.html')" class="grey" title="Glossary Entry">EPP precomponent ID</a></li>
+</ul>
+<dl><dd>
+When the Extended Passport is sent to a server, the precomponent ID is set to the
+<a href="javascript:call_link('abensystem_id_glosry.html')" class="grey" title="Glossary Entry">system ID</a> and the name of the
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">application server instance</a> of the source ABAP session.
+</dd></dl>
+<p>
+Further components can contain additional information.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Extended Passport can be used by frameworks and analysis tools to track external call stacks in
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">communication</a> between
+clients and servers beyond system boundaries. The values of the EPP components can be saved to log files and used for monitoring. One example of this are
+<a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dumps</a>, which all display the most important EPP components.</li>
+</ul>
+<ul class="disc">
+<li>The method GET_SECTION of the class <span class="lnkgrey">CL_EPP_GLOBAL_FACTORY</span> can be used
+to created a handler whose interface <span class="lnkgrey">IF_EPP_GLOBAL_SECTION</span> accesses the Extended Passport (EPP) of the current ABAP session in an ABAP program.</li>
+</ul>
+<ul class="disc">
+<li>For more information, see <span class="lnkgrey">Extended Passport (EPP)</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_EPP</span> demonstrates the content of the Extended Passport (EPP) components shown above. This program reads these components and saves them to an internal table of a
+<a href="javascript:call_link('abendata_cluster_glosry.html')" class="grey" title="Glossary Entry">data cluster</a> on the database. This then becomes a log file.
+</p>
+<ul class="disc">
+<li>Firstly, information about the ABAP session where the program is executed is read. If the ABAP session
+of the program was not created by an external call, the connection ID and the connection counter are initial.</li>
+</ul>
+<ul class="disc">
+<li>When an <a href="javascript:call_link('abenrfc_glosry.html')" class="grey" title="Glossary Entry">RFC</a> connects to another
+application server instance, the connection ID here is set for this connection and the root context ID becomes the ID of the caller. The precomponent ID contains the component ID of the original session.</li>
+</ul>
+<ul class="disc">
+<li>Any further <a href="javascript:call_link('abenrfc_glosry.html')" class="grey" title="Glossary Entry">RFC</a>s from the called
+<a href="javascript:call_link('abenrfm_glosry.html')" class="grey" title="Glossary Entry">RFM</a> set a new connection ID and set the precomponent ID to the system ID and name of the application server instance of the caller RFM.</li>
+</ul>
+<ul class="disc">
+<li>After this, an <a href="javascript:call_link('abenupdate_glosry.html')" class="grey" title="Glossary Entry">update</a> runs in the original ABAP session that sets a new transaction ID here.</li>
+</ul>
+<ul class="disc">
+<li>Finally, both <a href="javascript:call_link('abenrfc_glosry.html')" class="grey" title="Glossary Entry">RFC</a>s are repeated,
+with the same connection IDs being set in the called servers as before and the connection Counter being raised by 1 this time. The transaction ID set previously is persisted.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenepp.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+</html>

@@ -1,0 +1,231 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDICDDL_DEFINE_JOIN_DRUL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddicddl_define_join_drul.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="DEFINE JOIN DEPENDENCY RULE">
+<meta name="keywords" content="ABAP, Dictionary, DEFINE JOIN DEPENDENCY RULE">
+<title>
+DEFINE JOIN DEPENDENCY RULE - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddicddl_define_join_drul.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddicddl_define_join_drul.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_dependency_rules.html')" class="blue">Dependency Rules in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_define_dependency_rule.html')" class="blue">Dictionary DDL for defining dependency rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddicddl_define_drul.html')" class="blue">DEFINE DEPENDENCY RULE</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@DEFINE JOIN DEPENDENCY RULE@@!ABAP_DDIC_STATEMENT!@@"></A>
+<p><span class="h1">
+DEFINE JOIN DEPENDENCY RULE
+</span></p>
+<A name="@@ITOC@@ABENDDICDDL_DEFINE_JOIN_DRUL_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">DEFINE JOIN DEPENDENCY RULE drul <br>&nbsp;&nbsp;ON dbtab1, dbtab2 <br>&nbsp;&nbsp;&nbsp;&nbsp;IF { cond_pattern } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN { derived_cond }</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Variant of the <a href="javascript:call_link('abendictionary_ddl_glosry.html')" class="grey" title="Glossary Entry">Dictionary
+DDL</a> statement <a href="javascript:call_link('abenddicddl_define_drul.html')" class="blue"><span class="qtext400">DEFINE DEPENDENCY RULE</span></a> used to define a join
+<a href="javascript:call_link('abendependency_rule_glosry.html')" class="grey" title="Glossary Entry">dependency rule</a>. A
+join dependency rule can be defined for precisely two database tables. <span class="qtext400">dbtab1</span>
+and <span class="qtext400">dbtab2</span>, separated by a comma. It derives an additional join condition
+<span class="qtext400">derived_cond</span> from the pattern <span class="qtext400">cond_pattern</span>
+When two database tables joined by a join expression are read, the SAP HANA database optimizer finds
+the pattern in the <span class="qtext400">ON</span> condition of the expression and, if necessary, adds the additional join condition <span class="qtext">AND</span> to this condition. Any additional conditions defined by
+<a href="javascript:call_link('abenddicddl_define_filter_drul.html')" class="blue">filter dependency rules</a> for the two database rules are also applied to the other database table, if they apply to the columns specified in the join condition.
+</p>
+<p>
+<span class="bold">cond_pattern</span>
+</p>
+<p>
+In <span class="qtext400">cond_pattern</span>, a pattern from a relational expression can be specified in the curly brackets after <span class="qtext400">IF</span> as follows:
+</p>
+<p>
+<span class="qtext400">lhs = rhs <i class=bn>[</i>AND lhs = rhs ...<i class=bn>]</i></span>
+</p>
+<p>
+Comparisons with the operator <span class="qtext400">=</span> joined using <span class="qtext400">AND</span>
+are possible. Joins using <span class="qtext400">OR</span> or negations using <span class="qtext400">NOT</span> are not possible.
+</p>
+<ul class="disc">
+<li>The following can be specified as the left side <span class="qtext400">lhs</span> of the comparison:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">dbtab1.column</span> or <span class="qtext400">dbtab2.column</span> for a
+column <span class="qtext400">column</span> of the database tables <span class="qtext400">dbtab1</span> or <span class="qtext400">dbtab2</span>.</li>
+</ul>
+<ul class="disc">
+<li>The following can be specified as the right side <span class="qtext400">rhs</span> of the comparison:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">dbtab1.column</span> or <span class="qtext400">dbtab2.column</span> for a
+column <span class="qtext400">column</span> of the database tables <span class="qtext400">dbtab1</span> or <span class="qtext400">dbtab2</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>A character literal or a numeric literal. This syntax is the same as in <a href="javascript:call_link('abencds_f1_literal.html')" class="blue">literals in ABAP CDS</a>, but without the domain prefix.</li>
+</ul>
+<ul class="circlem2">
+<li>A numbered placeholder <span class="qtext400">$1</span>, <span class="qtext400">$2</span>, ...</li>
+</ul>
+<p>
+<span class="bold">derived_cond</span>
+</p>
+<p>
+In <span class="qtext400">derived_cond</span>, a template from a relational expression can be specified in the curly brackets after <span class="qtext400">THEN</span> as follows:
+</p>
+<p>
+<span class="qtext400">lhs =<i class=bn>|</i>&lt;<i class=bn>|</i>><i class=bn>|</i>&lt;=<i class=bn>|</i>>= rhs <i
+class=bn>[</i>OR lhs =<i class=bn>|</i>&lt;<i class=bn>|</i>><i class=bn>|</i>&lt;=<i class=bn>|</i>>= rhs ...<i class=bn>]</i></span>
+</p>
+<p>
+Single comparisons cannot be placed in parentheses <span class="qtext400">( )</span>. Negations using <span class="qtext400">NOT</span> are not possible.
+</p>
+<ul class="disc">
+<li>The following can be specified as the left side <span class="qtext400">lhs</span> of a comparison:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">dbtab1.column</span> or <span class="qtext400">dbtab2.column</span> for a
+column <span class="qtext400">column</span> of the database column <span class="qtext400">dbtab2.column</span> or <span class="qtext400">dbtab2.column</span>.</li>
+</ul>
+<ul class="disc">
+<li>The following can be specified as the right side <span class="qtext400">rhs</span> of a comparison:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">dbtab1.column</span> or <span class="qtext400">dbtab2.column</span> for a
+column <span class="qtext400">column</span> of the database column <span class="qtext400">dbtab2.column</span> or <span class="qtext400">dbtab2.column</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>A character literal or a numeric literal. This syntax is the same as in <a href="javascript:call_link('abencds_f1_literal.html')" class="blue">literals in ABAP CDS</a>, but without the domain prefix.</li>
+</ul>
+<ul class="circlem2">
+<li>A numbered placeholder <span class="qtext400">$1</span>, <span class="qtext400">$2</span>, ...,
+which must also be specified in <span class="qtext400">cond_pattern</span>. When the condition is added,
+the operand for the condition is inserted here for which the same placeholder exists in the pattern <span class="qtext400">cond_pattern</span>.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenddic_builtin_functions.html')" class="blue">Built-in functions in ABAP Dictionary</a> in <a href="javascript:call_link('abencds_f1_builtin_functions.html')" class="blue">ABAP CDS</a> syntax.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abencds_f1_simple_case_expression.html')" class="blue">Simple case distinctions</a> in ABAP CDS syntax.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>It cannot be guaranteed that the SAP HANA database finds the pattern <span class="qtext400">cond_pattern</span>.
+This is why the additional condition <span class="qtext400">derived_cond</span> must not modify the
+results set of the original query. This is technically possible, but produces undefined behavior in
+cases where the SAP HANA database optimizer finds the pattern <span class="qtext400">cond_pattern</span> in some reads but not in others.</li>
+</ul>
+<ul class="disc">
+<li>The additional condition for a query can be viewed in the
+<a href="javascript:call_link('abensql_trace_glosry.html')" class="grey" title="Glossary Entry">SQL Trace</a> tool (transaction <span class="lnkgrey">ST05</span>) by choosing <span class="italic">Display Execution Plan</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following dependency rules are defined:
+</p>
+<dl><dd>
+<span class="qtext400">DEFINE FILTER DEPENDENCY RULE demo_drul_3 <br>&nbsp;&nbsp;ON demo_parts_3 <br>&nbsp;&nbsp;&nbsp;&nbsp;IF { demo_parts_3.value >= 30 } <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN { demo_parts_3.area >= 3 } <br> <br>DEFINE FILTER DEPENDENCY RULE demo_drul_4 <br>
+&nbsp;&nbsp;ON demo_parts_3 <br>&nbsp;&nbsp;&nbsp;&nbsp;IF { demo_parts_3.value &lt; 40 } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN { demo_parts_3.area &lt; 4 } <br>
+ <br>DEFINE JOIN DEPENDENCY RULE demo_drul_5 <br>&nbsp;&nbsp;ON demo_parts_3, demo_parts_4 <br>&nbsp;&nbsp;&nbsp;&nbsp;IF { demo_parts_3.client = demo_parts_4.client AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; demo_parts_3.id&nbsp;&nbsp;&nbsp;&nbsp; = demo_parts_4.id&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; demo_parts_3.value&nbsp;&nbsp;= demo_parts_4.value } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN { demo_parts_3.area&nbsp;&nbsp;= demo_parts_4.area }</span>
+</dd></dl>
+<p>
+The program <span class="lnkgrey">DEMO_DEPENDENCY_RULE_3</span> uses the following <span class="qtext">SELECT</span> statement to access DEMO_PARTS_3 and DEMO_PARTS_4:
+</p>
+<dl><dd>
+<span class="qtext">SELECT demo_parts_3~id, demo_parts_3~value, demo_parts_4~text <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_parts_3 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_parts_4 <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_parts_3~id&nbsp;&nbsp;&nbsp;&nbsp;= demo_parts_4~id AND <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_parts_3~value = demo_parts_4~value <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE demo_parts_3~value >= 30 AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; demo_parts_3~value &lt;&nbsp;&nbsp;40 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY demo_parts_3~id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result).</span>
+</dd></dl>
+<p>
+The SAP HANA database optimizer adds the following to the <span class="qtext">ON</span> condition implicitly:
+</p>
+<p>
+<span class="qtext">AND demo_parts_3~area = demo_parts_4~area</span>
+</p>
+<p>
+It also appends the following addition filter conditions to the <span class="qtext">WHERE</span> condition implicitly:
+</p>
+<p>
+<span class="qtext">AND demo_parts_3~area >= 3 <br>AND demo_parts_3~area &lt;&nbsp;&nbsp;4 <br>AND demo_parts_4~area >= 3 <br>AND demo_parts_4~area &lt;&nbsp;&nbsp;4</span>
+</p>
+<p>
+If the data in the database tables is structured correctly, the dependency rules do not modify the results set.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddicddl_define_join_drul.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:45 GMT -->
+</html>

@@ -1,0 +1,170 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_ADDRESSING_SUBNODES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_addressing_subnodes.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - Addressing Subnodes">
+<title>
+ST - Addressing Subnodes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_addressing_subnodes.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_addressing_subnodes.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_addressing.html')" class="blue">ST - Addressing ABAP Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_addressing_nodes.html')" class="blue">ST - Addressing Data Nodes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ST - Addressing Subnodes
+</span></p>
+<p>
+When addressing subnodes, it is important to distinguish between a defined and undefined <a href="javascript:call_link('abenst_tt_ref.html')" class="blue">current node</a>.
+</p>
+<A name="@@ITOC@@ABENST_ADDRESSING_SUBNODES_1"></A>
+<p><span class="h2">
+Subnodes When the Current Node is Undefined
+</span></p>
+<p>
+If the current node is undefined, the subnodes of the data root of the template can be addressed as follows:
+</p>
+<dl><dd>
+<span class="qtext400">name.node1.node2. ...</span>
+</dd></dl>
+<p>
+Here, <span class="qtext400">name</span> is the symbolic name of a
+<a href="javascript:call_link('abenst_tt_root.html')" class="blue">data root</a> and <span class="qtext400">node1</span>, <span class="qtext400">
+node2</span>, ... are the actual names of components of the hierarchy levels 1, 2, ... When the transformation is executed, the ABAP data object bound to the data root must have a structured type with these components.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If the current node is undefined, the first name of a chain is always interpreted as the name of a data root. In particular, <span class="qtext400">name</span> is used for the data root itself.
+</p>
+<A name="@@ITOC@@ABENST_ADDRESSING_SUBNODES_2"></A>
+<p><span class="h2">
+Subnodes When the Current Node is Defined
+</span></p>
+<ul class="disc">
+<li>The subnodes of the current node can be addressed in the following way:</li>
+</ul>
+<dl><dd>
+<span class="qtext400">node1.node2. ...</span>
+</dd></dl>
+<dl><dd>
+Here, <span class="qtext400">node1</span>, <span class="qtext400">node2</span>, ... are the actual names
+of components of the hierarchy levels 1, 2, ... below the current node. If the current node is defined,
+the first name of a chain is always interpreted as the name of a component of the current node. The chain above therefore has the same meaning as
+</dd></dl>
+<dl><dd>
+<span class="qtext400">$ref.node1.node2. ...</span>
+</dd></dl>
+<dl><dd>
+where <span class="qtext400">$ref</span> is the current node.
+</dd></dl>
+<ul class="disc">
+<li>The subnodes of the data root of the template can be addressed in the following way:</li>
+</ul>
+<dl><dd>
+<span class="qtext400">.name.node1.node2. ...</span>
+</dd></dl>
+<dl><dd>
+Here, <span class="qtext400">name</span> is the symbolic name of a data root and <span class="qtext400">node1</span>, <span class="qtext400">node2</span>, ... are the actual names of components of the hierarchy levels 1, 3.... The period
+(<span class="qtext400">.</span>) bypasses the obscuring of the root by the current node.
+</dd></dl>
+<p>
+When the transformation is executed, the ABAP data object bound to the current node or to the data root must have a structured type with these components.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If the current node is defined, the first name of a chain is always interpreted as the name of a subcomponent
+of the current node. In particular, <span class="qtext400">node</span> does not stand for a data root, but for a direct subcomponent of the current node.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following ST program can be used to serialize a nested ABAP structure:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="ROOT.COL1" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="ROOT.COL2" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="ROOT.STRUC2.COL1" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="ROOT.STRUC2.COL2" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X3> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+For each <span class="qtext400">tt:value command</span>, the current node is set individually to a subnode
+of the data root. Otherwise the current node is undefined and the data root <span class="qtext400">ROOT</span>
+can be addressed using its name. Also see the example for calling a transformation in the <a href="javascript:call_link('abenst_tt_value_structure.html')" class="blue"><span class="qtext400">tt:value</span>, Structures</a> section.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_addressing_subnodes.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

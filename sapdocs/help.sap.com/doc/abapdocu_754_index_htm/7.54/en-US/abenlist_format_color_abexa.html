@@ -1,0 +1,161 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLIST_FORMAT_COLOR_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_format_color_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Lists, Using Colors">
+<title>
+Lists, Using Colors - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlist_format_color_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlist_format_color_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_lists.html')" class="blue">Creating Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite-.html')" class="blue">WRITE</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite_ext_options.html')" class="blue">WRITE - ext_format_options</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Lists, Using Colors
+</span></p>
+<p>
+This example demonstrates how colors can make lists easier to read.
+</p>
+<A name="@@ITOC@@ABENLIST_FORMAT_COLOR_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_list_format_color_2 NO STANDARD PAGE HEADING LINE-SIZE 70.<br>
+<br>
+NODES: spfli, sflight.<br>
+DATA sum TYPE i.<br>
+<br>
+TOP-OF-PAGE.<br>
+<br>
+&nbsp;&nbsp;WRITE 'List of Flights' COLOR COL_HEADING.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+GET spfli.<br>
+<br>
+&nbsp;&nbsp;FORMAT COLOR COL_HEADING.<br>
+&nbsp;&nbsp;WRITE: 'CARRID', 10 'CONNID', 20 'FROM', 40 'TO'.<br>
+<br>
+&nbsp;&nbsp;FORMAT COLOR COL_KEY.<br>
+&nbsp;&nbsp;WRITE: / spfli-carrid&nbsp;&nbsp; UNDER 'CARRID',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli-connid&nbsp;&nbsp; UNDER 'CONNID',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli-cityfrom UNDER 'FROM',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli-cityto&nbsp;&nbsp; UNDER 'TO'.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+&nbsp;&nbsp;FORMAT COLOR COL_HEADING.<br>
+&nbsp;&nbsp;WRITE: 'Date', 20 'Seats Occupied', 50 'Seats Available'.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+&nbsp;&nbsp;sum = 0.<br>
+<br>
+GET sflight.<br>
+<br>
+&nbsp;&nbsp;IF sflight-seatsocc LE 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FORMAT COLOR COL_NEGATIVE.<br>
+&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FORMAT COLOR COL_NORMAL.<br>
+&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;WRITE: sflight-fldate&nbsp;&nbsp; UNDER 'Date',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sflight-seatsocc UNDER 'Seats Occupied',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sflight-seatsmax UNDER 'Seats Available'.<br>
+<br>
+&nbsp;&nbsp;sum += sflight-seatsocc.<br>
+<br>
+GET spfli LATE.<br>
+<br>
+&nbsp;&nbsp;ULINE.<br>
+&nbsp;&nbsp;WRITE: 'Total Bookings:&nbsp;&nbsp;' INTENSIFIED OFF,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sum COLOR COL_TOTAL.<br>
+&nbsp;&nbsp;ULINE.<br>
+&nbsp;&nbsp;SKIP.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLIST_FORMAT_COLOR_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+All headings are displayed with the background color <span class="qtext">COL_HEADING</span>. The key
+fields from the table SPFLI are defined using <span class="qtext">COL_KEY</span>. At the event <span class="qtext">GET</span> <span class="qtext">sflight</span>, the list body has a different line background color
+(<span class="qtext">COL_NORMAL</span>) than the background of the list
+(<span class="qtext">COL_BACKGROUND</span>). In addition, flights where the number of bookings falls
+below a certain minimum number, have a red background. The total number of bookings for each flight has a yellow background.
+</p>
+<p>
+Note that after each event the system assumes the default setting
+(<span class="qtext">COLOR OFF</span>, <span class="qtext">INTENSIFIED ON</span>). For this reason,
+the row background of 'Total Bookings:' at the event <span class="qtext">GET LATE</span> becomes <span class="qtext">
+COL_BACKGROUND</span> again in the program above. <span class="qtext">INTENSIFIED</span> is set to <span class="qtext">OFF</span> here to preserve the same foreground color as for the other values displayed.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_format_color_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+</html>

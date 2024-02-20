@@ -1,0 +1,181 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_NAMESPACE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_namespace.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:56 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:namespace, Namespaces">
+<meta name="keywords" content="ABAP, Simple Transformations, namespace">
+<title>
+ST - tt:namespace, Namespaces - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_namespace.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_namespace.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@namespace@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:namespace, Namespaces
+</span></p>
+<A name="@@ITOC@@ABENST_TT_NAMESPACE_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:namespace name="prefix"/></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The ST command <span class="qtext400">tt.namespace</span> declares an explicit namespace.
+</p>
+<p>
+By default in serializations, namespace declarations are written to the resulting XML data only if the
+relevant namespace prefix is used as part of the name in a literal XML element or attribute or in a
+non-literal attribute. A namespace declaration is written into the exact element in which it is needed.
+Namespace declarations whose prefix is not used explicitly are ignored in serializations. In deserializations, the binding of the namespace prefix to the correct URI is checked.
+</p>
+<p>
+For XML elements of the resulting XML data (in which a namespace declaration is required even though
+the relevant namespace prefix is not part of a name but used, for example, as content of an attribute),
+this can be forced in serializations by using the command <span class="qtext400">tt:namespace</span>.
+The statement can be specified one or more times within a literal XML element before its subelements.
+Each statement declares a namespace for the current XML element with the namespace prefix <span class="qtext400">prefix</span>
+specified after the attribute <span class="qtext400">name</span>. The namespace prefix must be known
+in the current context, that is, it must have been defined in a surrounding XML element with <span class="qtext400">xmlns:="prefix"</span>.
+</p>
+<A name="@@ITOC@@ABENST_TT_NAMESPACE_2"></A>
+<p><span class="h3">
+Serializing Namespace Declarations
+</span></p>
+<p>
+If a surrounding element does not yet contain a declaration of the namespace, the statement <span class="qtext400">tt:namespace</span>
+inserts the definition <span class="qtext400">xmlns:="prefix"</span> into the definition of the literal
+XML element and thus applies it to all its subelements. Within the XML element, no other declarations
+of this namespace are created. In particular, other <span class="qtext400">tt:namespace</span> statements within the same XML element are ignored.
+</p>
+<A name="@@ITOC@@ABENST_TT_NAMESPACE_3"></A>
+<p><span class="h3">
+Deserializing Namespace Declarations
+</span></p>
+<p>
+In deserializations, the command <span class="qtext400">tt:namespace</span> is ignored.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The ST program below shows how namespaces are handled by default:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates" <br>
+&nbsp;&nbsp;xmlns:abc="www.abc.com" xmlns:xyz="www.xyz.com"> <br>&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context1 xmlns:abc="www.abc.com" attr="abc:uvw"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X>...&lt;/X> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;abc:X xyz:attr="xyz">...&lt;/abc:X> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xyz:Y>...&lt;/xyz:Y> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The definition of the namespace with the prefix <span class="qtext400">abc</span> in element <span class="qtext400">context1</span>
+is not needed in standard XML and is omitted in serializations. In the subelements <span class="qtext400">abc:X</span>
+and <span class="qtext400">xyz:Y</span> of <span class="qtext400">context2</span>, the declaration of namespaces is needed and inserted in serializations. The result of a serialization is as follows:
+</p>
+<p>
+<span class="qtext400">&lt;X0> <br>&nbsp;&nbsp;&lt;context1 attr="abc:uvw"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X> <br>
+&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X> <br>&nbsp;&nbsp;&lt;/context1> <br>&nbsp;&nbsp;&lt;context2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;abc:X <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlns:abc="www.abc.com" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlns:xyz="www.xyz.com" xyz:attr="xyz"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/abc:X> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xyz:Y xmlns:xyz="www.xyz.com"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/xyz:Y> <br>&nbsp;&nbsp;&lt;/context2> <br>&lt;/X0></span>
+</p>
+<p>
+The ST program below contains explicit namespace declarations:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates" <br>
+&nbsp;&nbsp;xmlns:abc="www.abc.com" <br>&nbsp;&nbsp;xmlns:xyz="www.xyz.com"> <br>&nbsp;&nbsp;&lt;tt:root name="ROOT"/> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context1 attr="abc:uvw"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:namespace name="abc" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X>...&lt;/X> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:namespace name="abc" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:namespace name="xyz" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;abc:X xyz:attr="xyz">...&lt;/abc:X> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xyz:Y>...&lt;/xyz:Y> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The <span class="qtext400">tt:namespace</span> commands are used to explicitly insert namespace declarations
+for the prefixes <span class="qtext400">abc</span> and <span class="qtext400">xyz</span> into the elements
+<span class="qtext400">context1</span> and <span class="qtext400">context2</span>. Now the content of
+attribute <span class="qtext400">attr</span> of <span class="qtext400">context1</span> can be evaluated
+with specific reference to the namespace and the declaration of namespaces is no longer needed in the
+elements <span class="qtext400">abc:X</span> and <span class="qtext400">xyz:Y</span> of <span class="qtext400">context2</span>.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_namespace.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:56 GMT -->
+</html>

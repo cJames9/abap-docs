@@ -1,0 +1,167 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTABLE_WORK_AREA_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_work_area_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Table Work Areas">
+<title>
+Table Work Areas - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentable_work_area_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentable_work_area_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Table Work Areas
+</span></p>
+<A name="@@ITOC@@ABENTABLE_WORK_AREA_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Table work areas are structured data objects of a flat structure type, a database table type, or a view
+type from ABAP Dictionary declared using the statements <span class="qtext">TABLES</span> or <span class="qtext">NODES</span>.
+If declared using <span class="qtext">NODES</span>, other ABAP Dictionary types are also possible.
+</p>
+<p>
+From the perspective of the data type, the statements
+</p>
+<dl><dd>
+<a href="javascript:call_link('abaptables.html')" class="blue"><span class="qtext">TABLES table_wa</span></a>.
+</dd></dl>
+<dl><dd>
+<a href="javascript:call_link('abapnodes.html')" class="blue"><span class="qtext">NODES table_wa</span></a>.
+</dd></dl>
+<p>
+are the same as
+</p>
+<dl><dd>
+<span class="qtext">DATA table_wa TYPE table_wa</span>.
+</dd></dl>
+<p>
+This means that data objects with the same name and type as the corresponding data types from ABAP Dictionary
+are declared. This is supplemented by further meanings of <span class="qtext">TABLES</span> and <span class="qtext">
+NODES</span>. For the full range of meanings, refer to their documentation. The essential properties are as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext">TABLES</span> and <span class="qtext">NODES</span> declare
+<a href="javascript:call_link('abenintern_extern_proc_call_guidl.html')" class="lnkpurple" title="Guideline">interface work areas</a>, which are shared by multiple programs of a program group.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">TABLES</span> declares interfaces to classic dynpros and selection screens.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">NODES</span> declares an interface to logical databases.</li>
+</ul>
+<p>
+In addition, it is also possible to use table work areas declared using <span class="qtext">TABLES</span> as implicit work areas in obsolete abbreviated forms of ABAP SQL, or even older statements for database accesses.
+</p>
+<A name="@@ITOC@@ABENTABLE_WORK_AREA_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">No table work areas except for classic dynpros</span>
+</p>
+<p>
+Only use the statement <span class="qtext">TABLES</span> in the global declaration part of function
+groups to communicate with classic dynpros. Apart from in wrappers of logical databases, the statement <span class="qtext">NODES</span> is no longer required.
+</p>
+<A name="@@ITOC@@ABENTABLE_WORK_AREA_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The statement <span class="qtext">TABLES</span> is not allowed within classes anyway and, in the syntax,
+the statement <span class="qtext">NODES</span> can only be created in the global declaration part of an executable program associated with a logical database. The latter option is
+<a href="javascript:call_link('abenprogram_attribute_guidl.html')" class="lnkpurple" title="Guideline">no longer allowed</a>.
+</p>
+<p>
+Since obsolete database accesses requiring the statement <span class="qtext">TABLES</span> and shared
+data areas between programs are not allowed, there is no need to use the statement <span class="qtext">TABLES</span>, except for declaring interfaces to classic dynpros (see the following exception).
+</p>
+<A name="@@ITOC@@ABENTABLE_WORK_AREA_GUIDL_4"></A>
+<p><span class="h2">
+Exception
+</span></p>
+<p>
+If dynpro fields in <a href="javascript:call_link('abenuser_interfaces_guidl.html')" class="lnkpurple" title="Guideline">classic
+dynpros</a> are defined with reference to flat structures in ABAP Dictionary, the identically named
+global data objects of the ABAP program must be declared with the statement <span class="qtext">TABLES</span>.
+Otherwise, the data objects of the ABAP program are not linked to the dynpro fields, and their content
+cannot be accessed. In addition, <span class="qtext">TABLES</span> is also required for declaring specific work areas when handling function codes of selection screens.
+</p>
+<A name="@@ITOC@@ABENTABLE_WORK_AREA_GUIDL_5"></A>
+<p><span class="h2">
+Note
+</span></p>
+<p>
+The restriction on the statement <span class="qtext">TABLES</span> to this last remaining technical
+requirement, that is, the communication with classic dynpros and selection screens, can also be derived
+from other rules of these guidelines. However, since the use of the statement <span class="qtext">TABLES</span>
+instead of the statement <span class="qtext">DATA</span> is still very popular among experienced ABAP developers, the rule above explicitly stresses that it is not allowed.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_work_area_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

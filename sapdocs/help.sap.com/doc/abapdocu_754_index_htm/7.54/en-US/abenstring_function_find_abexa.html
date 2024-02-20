@@ -1,0 +1,147 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSTRING_FUNCTION_FIND_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstring_function_find_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:39 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="String Functions, count, find, and match">
+<title>
+String Functions, count, find, and match - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenstring_function_find_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenstring_function_find_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_functions.html')" class="blue">String Functions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_functions_abexas.html')" class="blue">Examples of String Functions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+String Functions, count, find, and match
+</span></p>
+<p>
+The example demonstrates the string functions <a href="javascript:call_link('abencount_functions.html')" class="blue"><span class="qtext">count</span></a>,
+<a href="javascript:call_link('abensearch_functions.html')" class="blue"><span class="qtext">find</span></a>, and <a href="javascript:call_link('abenmatch_functions.html')" class="blue"><span class="qtext">match</span></a>.
+</p>
+<A name="@@ITOC@@ABENSTRING_FUNCTION_FIND_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_find_and_match.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: text TYPE c LENGTH 120<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE `Cathy's cat with the hat sat on Matt's mat.`,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regx TYPE c LENGTH 120<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE `\&lt;.at\&gt;`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: result TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;substr TYPE string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data out TYPE c LENGTH 120.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_field( CHANGING field = text ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request(&nbsp;&nbsp; CHANGING field = regx ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;write( text ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result = count( val&nbsp;&nbsp; = text<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regex = regx ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO result TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = find( val&nbsp;&nbsp; = text<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; regex = regx<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; occ&nbsp;&nbsp; = sy-index ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;substr = match( val&nbsp;&nbsp; = text<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regex = regx<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;occ&nbsp;&nbsp; = sy-index ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data(len) = strlen( substr ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out+result(len) = substr.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( out ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENSTRING_FUNCTION_FIND_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+In the text field <span class="qtext">text</span>, all occurrences are found (using <span class="qtext">count</span>
+and <span class="qtext">find</span>) that match a regular expression. When a search is successful, the subsequence found is read and displayed using the function <span class="qtext">match</span>.
+</p>
+<p>
+Instead of using the function <span class="qtext">count</span>, it is also possible to use an unlimited
+<span class="qtext">DO</span> loop that is exited using <span class="qtext">EXIT</span> if the result of <span class="qtext">find</span> has the value -1.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenstring_function_find_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:39 GMT -->
+</html>

@@ -1,0 +1,134 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_IXML_LIB_PARSE_EVENT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_parse_event.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="iXML Library - Sequential Parsing">
+<title>
+iXML Library - Sequential Parsing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_ixml_lib_parse_event.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_ixml_lib_parse_event.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib_parse.html')" class="blue">iXML Library - Parsing</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+iXML Library - Sequential Parsing
+</span></p>
+<p>
+To parse XML data sequentially, a dedicated <a href="javascript:call_link('abenabap_ixml_lib_parse.html')" class="blue">parser</a> is called multiple times as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(event) = parser->parse_event( ).</span>
+</dd></dl>
+<p>
+Here, <span class="qtext">parser</span> is a reference variable that points to the parser. The method
+PARSE_EVENT returns a reference variable with the type <span class="lnkgrey">IF_IXML_EVENT</span> that
+points to an object representing an event that occurred during parsing. The parser processes the input
+stream <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue"><span class="qtext">istream</span></a>
+in  sequences defined by the events for which the caller registered itself earlier. The possible events
+are saved as constants <span class="qtext">co_event...</span> in the interface <span class="lnkgrey">IF_IXML_EVENT</span>. They are registered using the method
+</p>
+<dl><dd>
+<span class="qtext">parser->set_event_subscription( events = if_ixml_event=>co_event... + <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if_ixml_event=>co_event... + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... ).</span>
+</dd></dl>
+<p>
+The parser pauses after every event registered like this and uses the object referenced by <span class="qtext">event</span>
+to return the properties of the current sequence. The method PARSE_EVENT must be called again to edit the next sequence. If all XML data was parsed or if an error occurred, the return value of PARSE_EVENT is initial.
+</p>
+<p>
+By default, DOM-based XML documents are constructed bit by bit in the memory during sequential processing. Once processing is complete, they are available in the same ways as after the method
+<a href="javascript:call_link('abenabap_ixml_lib_parse_dom.html')" class="blue">PARSE</a>.
+<a href="javascript:call_link('abenabap_ixml_lib_parse_error.html')" class="blue">Troubleshooting</a> is also similar. During
+sequential parsing, the document represents a valid XML document with the elements parsed up until now.
+If sequential parsing is ended before all elements in the input stream have been processed, the XML
+document represents the part of the input stream parsed up until now. The method SET_DOM_GENERATING of the parser can be used to switch the generation of the DOM representation off.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A parsing event is an iterator concept and not an event raised by <a href="javascript:call_link('abapevents.html')" class="blue"><span class="qtext">EVENTS</span></a> in ABAP Objects.</li>
+</ul>
+<ul class="disc">
+<li>If the caller does not register any events before PARSE_EVENT is called, PARSE_EVENT works like PARSE.</li>
+</ul>
+<ul class="disc">
+<li>The sequential parsing shown here is not a variant of SAX (Simple API for XML). Callback methods are not called when an event occurs.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenixml_sequential_parsing_abexa.html')" class="blue">iXML Library - Sequential Parsing</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_parse_event.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

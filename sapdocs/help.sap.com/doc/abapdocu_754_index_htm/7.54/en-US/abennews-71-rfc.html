@@ -1,0 +1,173 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-71-RFC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-rfc.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Remote Function Call in Release 7.0, EhP2">
+<title>
+Remote Function Call in Release 7.0, EhP2 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-71-rfc.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-71-rfc.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-70_ehps.html')" class="blue">Changes in Release 7.0 and its EhPs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-71.html')" class="blue">Changes in Release 7.0, EhP2</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Remote Function Call in Release 7.0, EhP2 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Background RFC </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2. Local Data Queue </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. SAP RFC SDK </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> 4. RFC Connectivity in SAP Java Enterprise Edition (Java EE) </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> 5. basXML as new RFC protocol </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> 6. Identification of trusted systems </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">Background RFC</span> <br><br><!-- /A -->
+</P>
+<P>
+With the new <a href="javascript:call_link('abenbg_remote_function_glosry.html')" class="grey" title="Glossary Entry">Background
+RFC</a> (bgRFC) Remote Function Calls can be carried out safely in a transaction and in the call sequence.
+The calling application and the called application are connected asynchronously. bgRFC replaces the functions previously provided by tRFC and qRFC (but not qRFC No-Send).
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+This modification was also added to Release 7.0 in SP14. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">Local Data Queue</span> <br><br><!-- /A -->
+</P>
+<P>
+The Local Data Queue (LDQ) is a persistence layer into which data can be placed. This data can only
+be read in the order that it is recorded in. This involves separation of data recording from data retrieval
+by the receiver like in an inbox. Since the access order is defined according to the First-In First-Out
+(FIFO) principle, queues are used as the organizational element for the individual receivers. The LDQ replaces the functions previously provided by the qRFC No-Send scenario. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">SAP RFC SDK</span> <br><br><!-- /A -->
+</P>
+<P>
+The new SAP RFC SDK replaces the classic RFC SDK. It supports a revised API that can be used like the SAP Java Connector. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+<span class="bold">RFC Connectivity in SAP Java Enterprise Edition (Java EE)</span> <br><br><!-- /A -->
+</P>
+<P>
+For the SAP Java Enterprise Edition (Java EE), the SAP Java Resource Adapter (SAP JRA) for SAP JCo is provided. It provides connections to resources in accordance with JCA 1.5 SAP JCo. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="bold">basXML as New RFC Protocol</span> <br><br><!-- /A -->
+</P>
+<P>
+The <a href="javascript:call_link('abenbasxml_glosry.html')" class="grey" title="Glossary Entry">basXML</a> format is supported as the new standard
+<a href="javascript:call_link('abenrfc_protocol.html')" class="blue">RFC protocol</a> and replaces the previous formats. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+<span class="bold">Identification of Trusted Systems</span> <br><br><!-- /A -->
+</P>
+<P>
+In transaction <span class="lnkgrey">SMT1</span> for editing
+<a href="javascript:call_link('abensmt1_2.html')" class="blue">RFC trust relationships</a>, the installation number is now also used when creating
+<a href="javascript:call_link('abentrusted_system_glosry.html')" class="grey" title="Glossary Entry">trusted systems</a> by entering the system ID (name of the
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>). This applies to all trusted systems from Releases 7.02, EhP2 and 7.2 (including 7.1).
+</P>
+<P>
+When creating a trusted relationship from Release 7.0, EhP2, the
+<a href="javascript:call_link('abentrusting_system_glosry.html')" class="grey" title="Glossary Entry">trusting system</a> checks
+the installation number of the calling system, if it is specified in transaction <span class="lnkgrey">SMT1</span>.
+For trust relationships of this kind, the relevant authorizations need to be modified so that field RFC_INFO in authorization object S_RFCACL contains the installation number of the calling system.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-rfc.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+</html>

@@ -1,0 +1,127 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_GEO_DATA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_geo_data.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:43 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Geodata Types">
+<title>
+Geodata Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_geo_data.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_geo_data.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_intro.html')" class="blue">Built-In Data Types in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_prop.html')" class="blue">Attributes of the Predefined Dictionary Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_special.html')" class="blue">Special Dictionary Types</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Geodata Types
+</span></p>
+<p>
+The <a href="javascript:call_link('abengeo_data_type_glosry.html')" class="grey" title="Glossary Entry">geodata type</a>
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">GEOM_EWKB</a> is a built-in data type in ABAP Dictionary that describes the geometric position in a given coordinate reference system.
+</p>
+<p>
+It represents fields in the database that contain geometric data in the EWKB (Extended Well-Known Binary) format. This type is currently only supported on
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA databases</a> and references the database type <span class="qtext400">ST_GEOMETRY</span>.
+</p>
+<p>
+The internal representation of the geodata type GEOM_EWKB is a
+<a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOB</a> (Binary Large Object) and the same rules and restrictions largely apply as to the type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">RAWSTRING</a>. The type GEOM_EWKB is mapped to the ABAP type <a href="javascript:call_link('abenbuiltin_types_byte.html')" class="blue"><span class="qtext">xstring</span></a>.
+</p>
+<p>
+There is no semantic representation for geometric data at the ABAP level and ABAP can merely manage
+the transfer of geometric data between the application and the SAP HANA database. The SAP HANA database functions for geometric data types can be implemented using <a href="javascript:call_link('abenamdp.html')" class="blue">AMDP</a>.
+</p>
+<p>
+The data type GEOM_EWKB requires a coordinate reference system (a Spatial Reference System), namely
+a defined space in which geometric positions are described. Every spatial reference system has a unique
+spatial reference identifier (or SRID). This SRID is appended as an attribute of a table column with
+geometric data. The annotation <span class="qtext400">@AbapCatalog.geo.spatialRefSystem</span> and the
+corresponding SRID can be used to assign every coordinate reference system available in the specified SAP HANA database to a GEOM_EWKB column.
+</p>
+<p>
+If the SRID is not assigned to a GEOM_EWKB column as an attribute, the system assigns the default value
+<span class="qtext400">"0&#x201D;</span>to the annotation <span class="qtext400">@AbapCatalog.geo.spatialRefSystem</span>, which represents a Cartesian coordinate system.
+</p>
+<p>
+Once a table is activated, however, the coordinate reference system of a geodata type cannot be changed.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Columns of the data type GEOM_EWKB are not supported as
+<a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOBs</a> in <a href="javascript:call_link('abenstreams_locators.html')" class="blue">streaming and locators in ABAP SQL</a>.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_database_tables_init.html')" class="blue"><span class="qtext400">NOT NULL</span></a> cannot be set for a column of the type GEOM_EWKB.</li>
+</ul>
+<ul class="disc">
+<li>Coordinate reference system information provided by a given SAP HANA database is saved in the SAP
+HANA system view <span class="qtext400">ST_SPATIAL_REFERENCE_SYSTEMS</span>. In the class <span class="qtext400">CL_DD_DATATYPE</span>,
+ABAP Dictionary provides the method <span class="qtext400">get_spatial_reference_systems</span> for extracting information about available coordinate reference systems.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_geo_data.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:43 GMT -->
+</html>

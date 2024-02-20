@@ -1,0 +1,131 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXCEPTION_TEXTS_INTERNAL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_texts_internal.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exception Texts for System Classes">
+<title>
+Exception Texts for System Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexception_texts_internal.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexception_texts_internal.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions.html')" class="blue">Class-Based Exceptions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions_classes.html')" class="blue">Exception Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexception_texts.html')" class="blue">Exception Texts</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exception Texts for System Classes
+</span></p>
+<P>
+<span class="bold">This function is for internal use only. <br>Do not use it in application programs.</span>
+</P>
+<p>
+If an exception class does not implement the interface IF_T100_MESSAGE, texts stored in OTR (Online
+Text Repository) are used as exception texts. These texts can contain any number of placeholders. Each
+placeholder is represented by the name of an attribute from the exception class, which is enclosed by
+"&amp;" characters. When the exception is raised, the placeholders are replaced by the content of the attributes. Exception texts can only be edited in one tool:
+</p>
+<ul class="disc">
+<li>Any exception texts can be defined on the <span class="italic">Texts</span> tab in
+<a href="javascript:call_link('abenclass_builder_glosry.html')" class="grey" title="Glossary Entry">Class Builder</a> in ABAP Workbench. When saved, they are stored under a
+<a href="javascript:call_link('abenuuid_glosry.html')" class="grey" title="Glossary Entry">UUID</a> in OTR. For each exception
+text, Class Builder creates an identically named constant with the data type <span class="lnkgrey">SOTR_CONC</span>
+from ABAP Dictionary. This constant contains the UUID and generates an appropriate instance constructor.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools (ADT)</a> do not support any exception texts from OTR. No exception texts can be defined for OTR and no UUIDs are created.</li>
+</ul>
+<p>
+The input parameter TEXTID of the instance constructor has the data type SOTR_CONC. When an exception
+with these exception texts is raised, a UUID that identifies a text from OTR can be passed to the constructor.
+It is strongly recommended that only the constants that exist in the class for the predefined exception
+texts are passed. This selects a predefined text for the exception. The attributes assigned to the placeholders of the text can be assigned values using the input parameters of the same name of the instance constructor.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>OTR texts should only occur in predefined exception classes for system exceptions and should not be used in self-defined exception classes. One example are the predefined
+<a href="javascript:call_link('abenabap_exception_classes.html')" class="blue">exception classes for ABAP statements</a>.</li>
+</ul>
+<ul class="disc">
+<li>An exception text from OTR can be displayed and edited on the <span class="italic">Texts</span>
+tab in Class Builder, but the reference between the class and the text is made by the UUID saved in the identically named constant.</li>
+</ul>
+<ul class="disc">
+<li>From a technical perspective, any UUID that specifies any text from OTR can also be passed to the
+input parameter TEXTID of the instance constructor. This is strongly discouraged, however, because an exception should only be raised with specific texts.</li>
+</ul>
+<ul class="disc">
+<li>If the implementation of the interface IF_T100_MESSAGE is deleted from an existing exception class using
+<a href="javascript:call_link('abenexception_texts_t100.html')" class="blue">messages as exception texts</a>, the instance constructor
+can be modified using the function <span class="italic">Utilities &rarr; Clean Up &rarr; Constructor</span> in Class Builder in ABAP Workbench.</li>
+</ul>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_texts_internal.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+</html>

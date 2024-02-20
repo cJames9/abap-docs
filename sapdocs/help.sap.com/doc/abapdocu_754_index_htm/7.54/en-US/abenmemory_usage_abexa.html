@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMEMORY_USAGE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_usage_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Deep Data Objects, Memory Consumption">
+<title>
+Deep Data Objects, Memory Consumption - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmemory_usage_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmemory_usage_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">Types and Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_objects.html')" class="blue">Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmemory_consumption.html')" class="blue">Memory Management of Deep Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Deep Data Objects, Memory Consumption
+</span></p>
+<p>
+The example illustrates the management costs of deep components with low data content.
+</p>
+<A name="@@ITOC@@ABENMEMORY_USAGE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_memory_usage.<br>
+<br>
+CLASS lcl DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA atab TYPE TABLE OF i.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS n TYPE i VALUE 1000.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: itab TYPE TABLE OF i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dref TYPE REF&nbsp;&nbsp; TO i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rtab TYPE TABLE OF REF TO i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ltab TYPE TABLE OF i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ttab LIKE TABLE OF ltab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oref TYPE REF&nbsp;&nbsp; TO lcl,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otab TYPE TABLE OF REF TO lcl.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;line&gt; TYPE any.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO n TIMES.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND sy-index TO itab.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR dref.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE DATA dref.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dref-&gt;* = sy-index.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND dref TO rtab.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ltab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND sy-index TO ltab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND ltab TO ttab.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR oref.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT oref.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND sy-index TO oref-&gt;atab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND oref TO otab.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BREAK-POINT ##no_break.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT itab ASSIGNING &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREE &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT rtab ASSIGNING &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREE &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT ttab ASSIGNING &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREE &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT otab ASSIGNING &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREE &lt;line&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BREAK-POINT ##no_break.<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENMEMORY_USAGE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+At the breakpoints, you can use the ABAP Debugger to display the memory requirements of the four internal
+tables <span class="qtext">itab</span>, <span class="qtext">rtab</span>, <span class="qtext">ttab</span>, and <span class="qtext">otab</span>.
+</p>
+<p>
+At the first breakpoint, the four tables have the same dynamic yet not duplicative data content, that
+is, 1000 different integers. In <span class="qtext">itab</span>, the data content of about 4 KB is only
+increased by the management costs for <span class="qtext">itab</span> itself (around 100 bytes); in
+all other tables, management costs are created for each single table row. In the case of the deep row
+types in <span class="qtext">rtab</span>, <span class="qtext">ttab</span>, and <span class="qtext">otab</span>,
+the data content size of 4 KB compares with management costs in the order of 100, 200, and 300 KB. The
+costs for the inner internal table in <span class="qtext">ttab</span> are higher than that for the data
+reference in <span class="qtext">rtab</span>. The management costs for <span class="qtext">otab</span> are made up of the costs for the object references and for the internal tables in the object references.
+</p>
+<p>
+At the second breakpoint, all rows of each of the four tables were initialized using <span class="qtext">FREE</span>.
+Of course, this does not effect the memory requirements of <span class="qtext">itab</span>. In the case
+of <span class="qtext">rtab</span>, all data as well as all management information of the individual
+reference variables was deleted, leaving memory requirements of about 8 KB for the initial references
+plus the management costs for <span class="qtext">rtab</span> itself. In the case of <span class="qtext">ttab</span>,
+all data was deleted but the individual table headers were retained. Although the management costs could
+be reduced slightly this way, this still leaves about 100 KB of management-only costs. For <span class="qtext">otab</span>,
+by contrast, the situation was similar to <span class="qtext">rtab</span>, leaving only the costs for the initial references.
+</p>
+<p>
+This example shows on the one hand that for internal tables with deep row types the management costs
+may easily exceed the data content and on the other hand that after deleting data a table with object references is less expensive than a table with inner tables.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_usage_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

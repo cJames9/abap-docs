@@ -1,0 +1,142 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_SYSTEM_COMMANDS_APPL_SXPG -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_system_commands_appl_sxpg.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:27 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SXPG Framework for Operating System Statements">
+<meta name="keywords" content="ABAP, SXPG Framework, SXPG, Operating System Statements">
+<title>
+SXPG Framework for Operating System Statements - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_system_commands_appl_sxpg.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_system_commands_appl_sxpg.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_system_commands.html')" class="blue">ABAP and Operating System Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_system_commands_appl.html')" class="blue">Operating System Statements of the Host Computer</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SXPG Framework for Operating System Statements
+</span></p>
+<p>
+The only recommended method for executing operating system statements from ABAP on the operating system of the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+current AS Instance or another server is to use the SXPG framework. This framework is based on a list of permitted operating system statements that can be called using function modules in the function group SXPG.
+</p>
+<p>
+The list of permitted operating system statements is defined by the system administrator in transaction
+<span class="lnkgrey">SM69</span>. Here, the platform-dependent physical operating system statements
+are assigned to a logical command name used to address them in ABAP. When one of these logical command
+names is passed to one of the function modules listed below, the operating system statement appropriate
+for the platform in question is executed. Logical command names assigned to an operating system command
+used by all platforms can be flagged with the operating system <span class="qtext400">ANYOS</span>.
+Static parameters can be assigned to any operating system statement and further parameters can be specified
+for when the statement is called. When an operating system statement is called using a logical command
+name, implicit authorization checks are performed, accompanied by extra self-defined checks. SAP provides
+a range of predefined logical command names with the type <span class="qtext400">SAP</span>. Logical command names created by customers have the type <span class="qtext400">KUNDE</span>.
+</p>
+<p>
+If they have the right authorizations, developers can view the list of operating system statements in
+transaction <span class="lnkgrey">SM49</span> and execute them from here. The following function modules can be called from ABAP programs:
+</p>
+<ul class="disc">
+<li><span class="lnkgrey">SXPG_CALL_SYSTEM</span> for execution on the host computer of the current AS Instance</li>
+</ul>
+<ul class="disc">
+<li><span class="lnkgrey">SXPG_COMMAND_EXECUTE</span> for execution on other servers; the result can caught, but this is not mandatory</li>
+</ul>
+<ul class="disc">
+<li><span class="lnkgrey">SXPG_COMMAND_EXECUTE_LONG</span>, like SXPG_COMMAND_EXECUTE but with a longer list of parameters</li>
+</ul>
+<p>
+These function modules can also be called remotely.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+For more information, see the Documentation <span class="lnkgrey">Programming with External Commands</span> in <a href="http://help.sap.com/" target="blank" class="blue">SAP Help Portal</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calls the operating system statement <span class="qtext400">ping</span> for the central database server
+of the system on the host computer of the current AS Instance using the logical command name <span class="qtext400">PING</span>
+defined by SAP. The result of the call is passed to the internal table <span class="qtext">result</span>. The function module SXPG_CALL_SYSTEM can raise more specific exceptions than those handled explicitly here.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA dbserver TYPE c LENGTH 255. <br>CALL 'C_SAPGPARAM' ID 'NAME'&nbsp;&nbsp;FIELD 'SAPDBHOST' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'VALUE' FIELD&nbsp;&nbsp;dbserver. <br>
+ <br>DATA parameters TYPE sxpgcolist-parameters. <br>parameters = |-c1 { dbserver }|. <br> <br>DATA result TYPE TABLE OF btcxpm WITH EMPTY KEY. <br>
+CALL FUNCTION 'SXPG_CALL_SYSTEM' <br>&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;commandname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'PING' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;additional_parameters = parameters <br>&nbsp;&nbsp;TABLES <br>&nbsp;&nbsp;&nbsp;&nbsp;exec_protocol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = result <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;no_permission&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;command_not_found&nbsp;&nbsp;&nbsp;&nbsp; = 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;security_risk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 3 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 4. <br>
+ <br>IF sy-subrc = 0. <br>&nbsp;&nbsp;cl_demo_output=>display( result ). <br>ELSE. <br>&nbsp;&nbsp;cl_demo_output=>display( |Error, return code { sy-subrc }| ). <br>ENDIF.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_system_commands_appl_sxpg.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:27 GMT -->
+</html>

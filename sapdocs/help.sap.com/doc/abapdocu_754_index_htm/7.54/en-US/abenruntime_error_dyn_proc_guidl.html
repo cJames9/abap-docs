@@ -1,0 +1,165 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRUNTIME_ERROR_DYN_PROC_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenruntime_error_dyn_proc_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Runtime Errors in Dynamic Processing">
+<title>
+Runtime Errors in Dynamic Processing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenruntime_error_dyn_proc_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenruntime_error_dyn_proc_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="blue">Dynamic Programming Techniques</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Runtime Errors in Dynamic Processing
+</span></p>
+<A name="@@ITOC@@ABENRUNTIME_ERROR_DYN_PROC_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+When dynamic techniques are used, various exception situations can arise that can never occur when the corresponding static techniques are used because they can be checked statically.
+</p>
+<A name="@@ITOC@@ABENRUNTIME_ERROR_DYN_PROC_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Prevent runtime errors in dynamic processing</span>
+</p>
+<p>
+Respond appropriately to all possible error situations when using dynamic techniques.
+</p>
+<A name="@@ITOC@@ABENRUNTIME_ERROR_DYN_PROC_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The different dynamic techniques also require different reactions to the possible exception situations. Examples:
+</p>
+<ul class="disc">
+<li>When <span class="italic">dynamic data objects</span> are accessed,
+<a href="javascript:call_link('abenruntime_error_data_obj_guidl.html')" class="lnkpurple" title="Guideline">their limitations
+must not be violated</a>. For internal tables, for example, no row numbers must be specified for which no row exists.</li>
+</ul>
+<ul class="disc">
+<li>Before data objects are <span class="italic">accessed dynamically</span> by using data references
+or field symbols, it must be ensured, before execution, that these are bound to a data object and this
+binding checked using <span class="qtext">IS BOUND</span> or <span class="qtext">IS</span> <span class="qtext">ASSIGNED</span>,
+if necessary. Afterwards, the return value should be checked to see whether execution was successful.</li>
+</ul>
+<ul class="disc">
+<li>In <span class="italic">dynamic calls</span>, exceptions must be caught that are raised due to nonexistent programs, classes, or procedures, or due to inappropriate parameters.</li>
+</ul>
+<ul class="disc">
+<li>In the case of a dynamically specified token, for example, a dynamic <span class="qtext">WHERE</span> condition in ABAP SQL or internal tables, possible exceptions must be caught and responded to accordingly.</li>
+</ul>
+<ul class="disc">
+<li>If programs are developed generically, the programs in question must checked using the statement <span class="qtext">SYNTAX-CHECK</span>.</li>
+</ul>
+<p>
+These examples illustrate how the use of dynamic techniques can lead to more complex and less clear
+code due to the numerous possible exception situations. Of course, the more the mentioned techniques are combined, the more complex and less clear the code becomes. Therefore,
+<a href="javascript:call_link('abenuse_dynamic_progr_tech_guidl.html')" class="lnkpurple" title="Guideline">dynamic programming techniques must always be used with care</a>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If it is not possible to particular error situations, for example, because no exception that can be
+handled exists, it must be ensured that this error situation never occurs and this then verified in extensive test scenarios.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The seemingly legible source code section uses almost only dynamic operands and tokens. Neither ABAP
+Compiler nor the reader can know the content of the specified variables at runtime. An error in one of these variables results in a termination of the program.
+</p>
+<dl><dd>
+<span class="qtext">READ TABLE where_clauses ASSIGNING &lt;where_clause> WITH ... <br>DELETE FROM (dbtab_name) WHERE (&lt;where_clause>). <br>
+IF sy-subrc = 0. <br>&nbsp;&nbsp;CALL METHOD (class_name)=>(method_name). <br>ENDIF.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code corrects the above example with an appropriate error handling &#x2014; this
+reduces the legibility, of course. Here, the fact that an initial dynamic <span class="qtext">WHERE</span>
+condition means that no restrictions are imposed is also taken into account. As shown here, this case must be explicitly avoided. Otherwise, the entire table content will be deleted.
+</p>
+<dl><dd>
+<span class="qtext">UNASSIGN &lt;where_clause>. <br>ASSIGN where_clauses[ ... ] TO &lt;where_clause>. <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp; RAISE EXCEPTION ... <br>ENDIF. <br>ASSERT &lt;where_clause> IS ASSIGNED. <br>
+IF &lt;where_clause> IS NOT INITIAL. <br>&nbsp;&nbsp; TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DELETE FROM (dbtab_name) WHERE (&lt;where_clause>). <br>
+&nbsp;&nbsp;&nbsp;&nbsp; CATCH cx_sy_dynamic_osql_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>
+&nbsp;&nbsp; ENDTRY. <br>&nbsp;&nbsp; IF sy-subrc = 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL METHOD (class_name)=>(method_name). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_dyn_call_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENDTRY. <br>&nbsp;&nbsp; ENDIF. <br>ENDIF.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenruntime_error_dyn_proc_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

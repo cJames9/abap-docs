@@ -1,0 +1,130 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_DYNPROS_LISTBOX -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_dynpros_listbox.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dropdown List Boxes">
+<title>
+Dropdown List Boxes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_dynpros_listbox.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_dynpros_listbox.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_help.html')" class="blue">Field Help, Input Help, and Dropdown List Boxes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dropdown List Boxes
+</span></p>
+<p>
+<a href="javascript:call_link('abendropdown_listbox_glosry.html')" class="grey" title="Glossary Entry">Dropdown list boxes</a>,
+which contain a predefined set of proposal values, can be defined for input/output fields on dynpros.
+It is not possible to enter a value in this type of input field and a value must be chosen from the proposal list instead. If a dropdown list box is associated with a field, the input help key
+(<span class="qtext400">F4</span>) cannot be used.
+</p>
+<p>
+A dropdown list box is a single-column list of text fields with a maximum length of 80 characters. Internally,
+each text field is associated with a key of up to 40 characters. When the user selects a row, the content
+of the text field is entered in the input field on the screen and the content of the key is passed to
+the dynpro field. This means that the content and length of the screen field and dynpro field are not generally identical.
+</p>
+<p>
+If a function code is associated with an input/output field with a dropdown list box, selecting a value
+triggers PAI immediately and the function code is passed to the fields <span class="qtext">sy-ucomm</span>
+and the OK field. If no function code is associated, PAI must be triggered as usual using a different screen element.
+</p>
+<p>
+If a dropdown list box is associated with an input/output field, the attribute <span class="qtext400">Value
+List</span> of the screen element can be used to define how the texts in the dropdown list box are created. There are two options:
+</p>
+<ul class="disc">
+<li>Value list from the input help (recommended)</li>
+</ul>
+<dl><dd>
+If the attribute <span class="qtext400">Value List</span> is empty, the text field of the dropdown list box takes the first column of the
+<a href="javascript:call_link('abenabap_dynpros_value_help.html')" class="blue">input help</a> associated with the screen field.
+This input help should have two columns. The key of the dropdown list box is filled automatically from the second column.
+</dd></dl>
+<ul class="disc">
+<li>Value list from PBO modules (not recommended)</li>
+</ul>
+<dl><dd>
+If the attribute <span class="qtext400">Value List</span> has the value "A", the value list must be
+filled using the function module <span class="lnkgrey">VRM_SET_VALUES</span> before the screen is sent.
+This is done by passing an internal table of the type VRM_VALUES of the type group VRM to the import
+parameterVALUES of the function module. The row type is a structure consisting of two text fields, KEY
+and TEXT, with a length of 40 or 80 characters respectively. The table rows can combine values in the
+component KEY with any texts in the component TEXT. The associated input/output field is passed to the import parameter ID.
+</dd></dl>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abendynpro_drop1_abexa.html')" class="blue">List Box with Value List from Input Help</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendynpro_drop2_abexa.html')" class="blue">List Box with Value List from PBO Module</a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_dynpros_listbox.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:56 GMT -->
+</html>

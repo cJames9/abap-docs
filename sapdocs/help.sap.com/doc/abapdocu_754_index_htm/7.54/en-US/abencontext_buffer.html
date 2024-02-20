@@ -1,0 +1,156 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONTEXT_BUFFER -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencontext_buffer.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:57 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Contexts - Buffering Concept">
+<title>
+Contexts - Buffering Concept - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencontext_buffer.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencontext_buffer.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencontext.html')" class="blue">Contexts (Obsolete)</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Contexts - Buffering Concept
+</span></p>
+<p>
+A context buffer is managed by the context program CONTEXT_X_... of a
+<a href="javascript:call_link('abencontext_glosry.html')" class="grey" title="Glossary Entry">context</a>. From a technical point of view, it is a
+<a href="javascript:call_link('abencrosstrans_app_buffer_glosry.html')" class="grey" title="Glossary Entry">cross-transaction application buffer</a> of structure <span class="lnkgrey">CONTEXTB</span> and of ID IB in the
+<a href="javascript:call_link('abenshared_memory_glosry.html')" class="grey" title="Glossary Entry">shared memory</a> of the current
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instance</a>, which
+is edited in the context program with statements <a href="javascript:call_link('abapexport_data_cluster_medium.html')" class="blue"><span class="qtext">
+EXPORT TO SHARED BUFFER</span></a> and <a href="javascript:call_link('abapimport_medium.html')" class="blue"><span class="qtext">IMPORT
+FROM SHARED BUFFER</span></a>. The context program renews the context buffer at specific times, but does not try to synchronously or nearly synchronously track current changes.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONTEXT_BUFFER_1" class="blue">Buffering Types</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONTEXT_BUFFER_2" class="blue">Buffer Size</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONTEXT_BUFFER_3" class="blue">Buffering Types</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONTEXT_BUFFER_4" class="blue">Performance</A></li>
+</ul>
+<A name="@@ITOC@@ABENCONTEXT_BUFFER_1"></A>
+<p><span class="h2">
+Buffering Types
+</span></p>
+<ul class="disc">
+<li><span class="bold">Permanent (P)</span>: This is the default setting. In this case, the data is
+obtained using the transaction context. The buffer is reset every hour on the hour (8:00, 9:00...). Entries not found are not buffered. The buffer for each context can be deleted manually using
+<a href="javascript:call_link('abencontext_builder_glosry.html')" class="grey" title="Glossary Entry">Context Builder</a>. The reset affects all AS Instances.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Temporary (T)</span>: Data is only buffered for the duration of the current <a href="javascript:call_link('abentransaction_glosry.html')" class="grey" title="Glossary Entry">transaction</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">No buffering (N)</span></li>
+</ul>
+<A name="@@ITOC@@ABENCONTEXT_BUFFER_2"></A>
+<p><span class="h2">
+Buffer Size
+</span></p>
+<p>
+The maximum number of entries to be buffered can also be defined. The default value is 128. This number
+relates to the permanent buffer per module. Within a transaction, all of the data, which is written
+to the context, is stored in the buffer unless buffering is switched off for this module. We recommend
+keeping a default value of 128. This is intended to prevent a module from occupying the entire buffer.
+Different combinations should no longer occur within an hour in a single AS Instance. The system resets the buffer after one hour.
+</p>
+<A name="@@ITOC@@ABENCONTEXT_BUFFER_3"></A>
+<p><span class="h2">
+Buffering Types
+</span></p>
+<ul class="disc">
+<li>An I buffer is a table that assigns derived values to the input fields of the module. It</li>
+</ul>
+<ul class="circlem2">
+<li>only contains one entry with key values.</li>
+</ul>
+<ul class="disc">
+<li>An E buffer is a table that assigns the derived values of the module to the key fields of the context. It:</li>
+</ul>
+<ul class="circlem2">
+<li>contains more than one entry with key values.</li>
+</ul>
+<ul class="circlem2">
+<li>can be a join of all I buffers for the modules buffered</li>
+</ul>
+<A name="@@ITOC@@ABENCONTEXT_BUFFER_4"></A>
+<p><span class="h2">
+Performance
+</span></p>
+<p>
+The E buffer gives the fastest access, since it can find the values requested in the <span class="qtext">DEMAND</span>
+statement in a single step. Under certain circumstances, it can return a smaller number of hits than the I buffer.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencontext_buffer.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:57 GMT -->
+</html>

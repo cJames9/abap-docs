@@ -1,0 +1,189 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTYPE_FORMAL_PARAM_PROC_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentype_formal_param_proc_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Type of Formal Parameters in Procedures">
+<title>
+Type of Formal Parameters in Procedures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentype_formal_param_proc_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentype_formal_param_proc_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Type of Formal Parameters in Procedures
+</span></p>
+<A name="@@ITOC@@ABENTYPE_FORMAL_PARAM_PROC_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The parameter interface of a procedure consists of formal parameters and specifies the
+<a href="javascript:call_link('abenclass_exception_guidl.html')" class="lnkpurple" title="Guideline">exceptions</a> possible in the procedure. The possible types of formal parameters are:
+</p>
+<ul class="disc">
+<li><span class="bold">Input parameters</span> <br>Defined using <span class="qtext">IMPORTING</span> in methods and function modules and using <span class="qtext">USING</span> in subroutines.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Output parameters</span> <br>Defined using <span class="qtext">EXPORTING</span> in methods and function modules.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Input/output parameters</span> <br>Defined using <span class="qtext">CHANGING</span> in methods, function modules, and subroutines.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Return codes</span> <br>Defined using <span class="qtext">RETURNING</span> in methods.</li>
+</ul>
+<p>
+The actual behavior of a formal parameter, however, is in part determined by the combination of the parameter type and the
+<a href="javascript:call_link('abentype_transf_formal_para_guidl.html')" class="lnkpurple" title="Guideline">pass by type</a>.
+</p>
+<A name="@@ITOC@@ABENTYPE_FORMAL_PARAM_PROC_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Choose the appropriate formal parameter type</span>
+</p>
+<p>
+Select a formal parameter type that corresponds to the parameter semantics:
+</p>
+<ul class="disc">
+<li>Input parameters for parameters that are evaluated but not changed in the procedure.</li>
+</ul>
+<ul class="disc">
+<li>Output parameters or return codes for parameters that are not evaluated but changed in the procedure.</li>
+</ul>
+<ul class="disc">
+<li>Input/output parameters for parameters that are evaluated and changed in the procedure.</li>
+</ul>
+<A name="@@ITOC@@ABENTYPE_FORMAL_PARAM_PROC_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+For the consumer of a procedure, the parameter types provide important information about how they are
+used in the procedure and leads the user to expect the procedure to behave in a certain way. If an unsuitable parameter type is selected, the risk of inappropriate use increases.
+</p>
+<ul class="disc">
+<li>Input-only parameters should always have the <span class="qtext">IMPORTING</span> type (or <span class="qtext">
+USING</span> for subroutines). Be aware that, when using pass by reference, writes performed on an input
+parameter defined using <span class="qtext">USING</span> are possible without a syntax error being produced
+(as is the case with input parameters of methods or function modules defined using <span class="qtext">IMPORTING</span>). Yet another reason to not use subroutines.</li>
+</ul>
+<ul class="disc">
+<li>Output-only parameters should always be <span class="qtext">EXPORTING</span> or <span class="qtext">RETURNING</span>.</li>
+</ul>
+<ul class="disc">
+<li>Parameters that are received and changed should always be of the <span class="qtext">CHANGING</span> type. In particular, in a procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>) the
+fact that an <span class="qtext">EXPORTING</span> parameter (or a <span class="qtext">USING</span> parameter in the case of subroutines) passed by reference
+<a href="javascript:call_link('abenref_transf_output_param_guidl.html')" class="lnkpurple" title="Guideline">behaves</a> (from a technical perspective) like a <span class="qtext">CHANGING</span> parameter should not be exploited.</li>
+</ul>
+<p>
+Input parameters or input/output parameters that are not necessarily required for the execution of a
+procedure should be defined as optional by using <span class="qtext">OPTIONAL</span> or by specifying
+a <span class="qtext">DEFAULT</span> value. Otherwise, calling programs are forced to pass unnecessary parameters and create helper variables especially for this purpose.
+</p>
+<p>
+A narrow parameter interface in line with a <a href="javascript:call_link('abenproc_volume_guidl.html')" class="lnkpurple" title="Guideline">procedure
+with an appropriate number of statements</a> only requires a few input parameters and one return value. However, this cannot really be applied consistently in practice and is therefore not set out as a rule here.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Another parameter type are table parameters that can be declared for function modules and subroutines
+using <span class="qtext">TABLES</span>. Basically, they have the same effects as input/output parameters for internal tables. This parameter type is obsolete and should no longer be used.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows a formal parameter that is declared as an output parameter using <span class="qtext">
+EXPORTING</span>, but is used in the method like an input/output parameter declared with <span class="qtext">CHANGING</span>. This does not correspond to the semantics that a calling program expects.
+</p>
+<dl><dd>
+<span class="qtext">CLASS class DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS do_something <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING e_parameter TYPE ... <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS class IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD do_something. <br>&nbsp;&nbsp;&nbsp;&nbsp;"evaluate e_parameter <br>
+&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;"set e_parameter <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code corrects the above example by declaring the parameter as an input/output parameter with <span class="qtext">CHANGING</span> according to its use.
+</p>
+<dl><dd>
+<span class="qtext">CLASS class DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS do_something <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING c_parameter TYPE ... <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS class IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD do_something. <br>&nbsp;&nbsp;&nbsp;&nbsp;"evaluate c_parameter <br>
+&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;"set c_parameter <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentype_formal_param_proc_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

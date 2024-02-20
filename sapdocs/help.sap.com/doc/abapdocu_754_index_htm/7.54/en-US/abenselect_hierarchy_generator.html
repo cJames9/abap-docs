@@ -1,0 +1,1109 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSELECT_HIERARCHY_GENERATOR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_hierarchy_generator.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - FROM HIERARCHY">
+<title>
+SELECT - FROM HIERARCHY - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenselect_hierarchy_generator.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenselect_hierarchy_generator.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">SELECT clauses</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapfrom_clause.html')" class="blue">SELECT - FROM</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">SELECT - FROM data_source</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_hierarchy_data.html')" class="blue">SELECT - FROM hierarchy_data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_hierarchy.html')" class="blue">SELECT - FROM hierarchy</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@HIERARCHY@@!ABAP_OSQL_TABLE_FUNC!@@"></A>
+<A NAME="@@SOURCE@@HIERARCHY@@"></A>
+<A NAME="@@WITH PRIVILEGED ACCESS@@HIERARCHY@@"></A>
+<A NAME="@@CHILD TO PARENT ASSOCIATION@@HIERARCHY@@"></A>
+<A NAME="@@PERIOD FROM TO@@HIERARCHY@@"></A>
+<A NAME="@@VALID FROM TO@@HIERARCHY@@"></A>
+<A NAME="@@START WHERE@@HIERARCHY@@"></A>
+<A NAME="@@SIBLINGS ORDER BY@@HIERARCHY@@"></A>
+<A NAME="@@ASCENDING@@HIERARCHY@@"></A>
+<A NAME="@@DESCENDING@@HIERARCHY@@"></A>
+<A NAME="@@DEPTH@@HIERARCHY@@"></A>
+<A NAME="@@MULTIPLE PARENTS ALLOWED@@HIERARCHY@@"></A>
+<A NAME="@@MULTIPLE PARENTS NOT ALLOWED@@HIERARCHY@@"></A>
+<A NAME="@@MULTIPLE PARENTS LEAVES ONLY@@HIERARCHY@@"></A>
+<A NAME="@@ORPHANS ERROR@@HIERARCHY@@"></A>
+<A NAME="@@ORPHANS IGNORE@@HIERARCHY@@"></A>
+<A NAME="@@ORPHANS ROOT@@HIERARCHY@@"></A>
+<A NAME="@@CYCLES ERROR@@HIERARCHY@@"></A>
+<A NAME="@@CYCLES BREAKUP@@HIERARCHY@@"></A>
+<A NAME="@@GENERATE SPANTREE@@HIERARCHY@@"></A>
+<p><span class="h1">
+SELECT - FROM HIERARCHY
+</span></p>
+<A name="@@ITOC@@ABENSELECT_HIERARCHY_GENERATOR_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... HIERARCHY( SOURCE hierarchy_source <i class=bn>[</i>WITH PRIVILEGED ACCESS<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _hierarchy_assoc <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>PERIOD FROM field1 TO field2 VALID FROM from TO to<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">sql_cond</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>SIBLINGS ORDER BY field1 <i
+class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i><i class=bn>[</i>, <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; field2 <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i>, ...<i class=bn>]</i><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>DEPTH depth<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>MULTIPLE PARENTS <i
+class=bn>{</i>NOT ALLOWED<i class=bn>}</i><i class=bn>{</i>LEAVES ONLY<i class=bn>}</i><i class=bn>|</i>ALLOWED<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ORPHANS IGNORE<i class=bn>|</i>ERROR<i class=bn>|</i>ROOT<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>CYCLES ERROR<i class=bn>|</i>BREAKUP<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>GENERATE SPANTREE<i class=bn>]</i> ) ...</span> <br><br>
+</p>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... SOURCE hierarchy_source <i class=bn>[</i>WITH PRIVILEGED ACCESS<i class=bn>]</i></span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... CHILD TO PARENT ASSOCIATION _hierarchy_assoc</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">... PERIOD FROM field1 TO field2 VALID FROM from TO to</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_4@4@" class="blue"> 4. <span class="qtext">... START WHERE sql_cond</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_5@5@" class="blue"> 5. <span class="qtext">... SIBLINGS ORDER BY field1 <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i>, ...</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_6@6@" class="blue"> 6. <span class="qtext">... DEPTH depth</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_7@7@" class="blue"> 7. <span class="qtext">... MULTIPLE PARENTS <i class=bn>{</i>NOT ALLOWED<i
+class=bn>}</i><i class=bn>|</i><i class=bn>{</i>LEAVES ONLY<i class=bn>}</i><i class=bn>|</i>ALLOWED</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_8@8@" class="blue"> 8. <span class="qtext">... ORPHANS IGNORE<i class=bn>|</i>ERROR<i class=bn>|</i>ROOT</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_9@9@" class="blue"> 9. <span class="qtext">... CYCLES ERROR<i class=bn>|</i>BREAKUP</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_10@10@" class="blue"> 10. <span class="qtext">... GENERATE SPANTREE</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Specifies the <a href="javascript:call_link('abenhierarchy_generator_glosry.html')" class="grey" title="Glossary Entry">hierarchy
+generator</a> <span class="qtext">HIERARCHY</span> as a hierarchy <a href="javascript:call_link('abenselect_hierarchy.html')" class="blue"><span class="qtext">hierarchy</span></a> in an ABAP SQL query. The hierarchy generator generates the
+<a href="javascript:call_link('abenhierarchy_glosry.html')" class="grey" title="Glossary Entry">hierarchy</a>. The following needs to be specified:
+</p>
+<ul class="disc">
+<li><span class="qtext">SOURCE</span> must be followed by the source <span class="qtext">hierarchy_source</span> of the hierarchy.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">CHILD TO PARENT ASSOCIATION</span> must be followed by a
+<a href="javascript:call_link('abenhierarchy_association_glosry.html')" class="grey" title="Glossary Entry">hierarchy association</a>
+<span class="qtext">_hierarchy_assoc</span> published by the source <span class="qtext">hierarchy_source</span>.
+The source data source and target data source of this association must be the source <span class="qtext">hierarchy_source</span>. The <span class="qtext400">ON</span> condition of the hierarchy association defines the
+<a href="javascript:call_link('abenpcr_glosry.html')" class="grey" title="Glossary Entry">parent-child relationships</a> between the
+<a href="javascript:call_link('abenhierarchy_node_glosry.html')" class="grey" title="Glossary Entry">hierarchy nodes</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">START WHERE</span> must be followed by a start condition that defines
+<a href="javascript:call_link('abenroot_node_glosry.html')" class="grey" title="Glossary Entry">root nodes</a> for the
+<a href="javascript:call_link('abenroot_node_set_glosry.html')" class="grey" title="Glossary Entry">root node set</a> of the hierarchy. The hierarchy consists of the root nodes of the root node set and their
+<a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">descendant nodes</a>.</li>
+</ul>
+<p>
+All other additions are optional and define further properties of the hierarchy. The rows of the tabular results set of the hierarchy generator are the
+<a href="javascript:call_link('abenhierarchy_node_glosry.html')" class="grey" title="Glossary Entry">hierarchy nodes</a> of the
+generated hierarchy and their columns comprise the elements of the source specified after <span class="qtext">SOURCE</span> and the additional <a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy columns</a>.
+</p>
+<p>
+The hierarchy navigator <span class="qtext">HIERARCHY</span> publishes all associations of the source
+<span class="qtext">hierarchy_source</span> specified after <span class="qtext">SOURCE</span> implicitly and leaves its target data source unchanged.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The order of the additions is fixed. They must be specified as shown here.</li>
+</ul>
+<ul class="disc">
+<li>Rows of the results set of the source specified after <span class="qtext">SOURCE</span> can occur
+more than once in the results set of the hierarchy generator, if selected by appropriate parent-child relationships.</li>
+</ul>
+<ul class="disc">
+<li>The hierarchy generator <span class="qtext">HIERARCHY</span> in ABAP SQL works in the same way as the statement <a href="javascript:call_link('abencds_f1_define_hierarchy.html')" class="blue"><span class="qtext400">DEFINE HIERARCHY</span></a> in
+<a href="javascript:call_link('abenabap_cds_glosry.html')" class="grey" title="Glossary Entry">ABAP CDS</a>. Accessing the hierarchy generator <span class="qtext">HIERARCHY</span> as the data source of a query is the same as accessing a
+<a href="javascript:call_link('abencds_hierarchy_glosry.html')" class="grey" title="Glossary Entry">CDS hierarchy</a> defined accordingly.</li>
+</ul>
+<ul class="disc">
+<li>An association published implicitly by the hierarchy generator <span class="qtext">HIERARCHY</span> can be used in
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expressions</a> or in further hierarchy generators. <br><br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies the hierarchy generator <span class="qtext">HIERARCHY</span> as the data source of a <span class="qtext">
+SELECT</span> statement in the program <span class="lnkgrey">DEMO_HIERARCHY_TREE</span>. The source of the hierarchy generator is a CDS view that uses the
+<a href="javascript:call_link('abenglobal_temporary_table_glosry.html')" class="grey" title="Glossary Entry">global temporary
+table</a> DEMO_SIMPLE_TREE as a data source and whose CDS association <span class="qtext400">_tree</span>
+defines the parent-child association. The hierarchy generator selects the row with the value of <span class="qtext">start_id</span> in the column ID as the
+<a href="javascript:call_link('abenroot_node_glosry.html')" class="grey" title="Glossary Entry">root node</a> and, starting from this node, inserts all
+<a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">descendant nodes</a> in
+the results set that meet the <span class="qtext400">ON</span> condition of the hierarchy association. The results set contains all columns of the view DEMO_CDS_SIMPLE_TREE_SOURCE, plus all potential
+<a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy columns</a>. When <span class="lnkgrey">executed</span>, this program demonstrates the result of the <span class="qtext">SELECT</span> statement.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(start_id) = 1. <br> <br>SELECT FROM HIERARCHY( SOURCE demo_cds_simple_tree_source <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = @start_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIBLINGS ORDER BY parent <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS NOT ALLOWED ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_tree_size, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_parent_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_is_cycle, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_is_orphan, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node_id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(asql_result). <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... SOURCE hierarchy_source <i class=bn>[</i>WITH PRIVILEGED ACCESS<i class=bn>]</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">SOURCE</span> specifies <span class="qtext">hierarchy_source</span> as the source of the hierarchy generator. This source must publish the
+<a href="javascript:call_link('abenhierarchy_association_glosry.html')" class="grey" title="Glossary Entry">hierarchy association</a>
+<span class="qtext">_hierarchy_assoc</span> specified after <span class="qtext">CHILD TO PARENT ASSOCIATION</span>. The following are potential sources <span class="qtext">hierarchy_source</span>:
+</p>
+<ul class="disc">
+<li>A CDS view <span class="qtext">cds_view</span></li>
+</ul>
+<dl><dd>
+<span class="qtext">cds_view</span> can be specified as a
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> that
+<a href="javascript:call_link('abencds_f1_select_list_association.html')" class="blue">publishes</a> the hierarchy association <span class="qtext">_hierarchy_assoc</span> in its <span class="qtext400">SELECT</span> list.
+</dd></dl>
+<ul class="disc">
+<li>A common table expression <span class="qtext">+cte</span></li>
+</ul>
+<dl><dd>
+<span class="qtext">+cte</span> can be specified as a preceding
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expression</a>
+in a <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement that publishes
+the hierarchy association <span class="qtext">_hierarchy_assoc</span> using the addition <a href="javascript:call_link('abapwith_associations.html')" class="blue">
+<span class="qtext">WITH ASSOCIATIONS</span></a>. The self association prerequisite can be met as follows:
+</dd></dl>
+<ul class="circlem2">
+<li>The addition <a href="javascript:call_link('abapwith_associations_using.html')" class="blue"><span class="qtext">REDIRECTED</span></a>
+is used to replace the target data source of an association of a data source of the common table expression with the common table expression itself.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abapwith_associations_defining.html')" class="blue"><span class="qtext">JOIN TO ONE<i class=bn>|</i>MANY</span></a>
+is used to define a CTE association as a self association for the common table expression.</li>
+</ul>
+<ul class="disc">
+<li>A nested hierarchy <span class="qtext">hierarchy</span></li>
+</ul>
+<dl><dd>
+The hierarchy generator <span class="qtext">HIERARCHY</span> can use other hierarchies <a href="javascript:call_link('abenselect_hierarchy.html')" class="blue"><span class="qtext">hierarchy</span></a> as a source. The following applies here:
+</dd></dl>
+<ul class="circlem2">
+<li>A CDS hierarchy <a href="javascript:call_link('abenselect_cds_hierarchy.html')" class="blue"><span class="qtext">cds_hierarchy</span></a>
+must publish the hierarchy association <span class="qtext">_hierarchy_assoc</span> in its element list.
+To meet the self association prerequisite, the association must be an additional association between the source of the CDS hierarchy and the CDS hierarchy.</li>
+</ul>
+<ul class="circlem2">
+<li>The hierarchy generator <span class="qtext">HIERARCHY</span> publishes all associations of its source implicitly.</li>
+</ul>
+<ul class="circlem2">
+<li>A <a href="javascript:call_link('abencte_hierarchy_glosry.html')" class="grey" title="Glossary Entry">CTE hierarchy</a> must
+use <a href="javascript:call_link('abapwith_associations.html')" class="blue"><span class="qtext">WITH ASSOCIATIONS</span></a>
+to publish the hierarchy association <span class="qtext">_hierarchy_assoc</span>. Furthermore, the addition
+<span class="qtext">REDIRECTED</span> must be used to replace the target data source of the association in such a way that the self association prerequisite is met.</li>
+</ul>
+<dl><dd>
+The hierarchy generator uses the result of a source specified after <span class="qtext">SOURCE</span> as a source (its additional
+<a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy columns</a> are ignored). An outer hierarchy
+generator always adds its own hierarchy columns directly to the columns of the hierarchy specified after
+<span class="qtext">SOURCE</span>. Any hierarchy columns listed explicitly in the element list of a
+CDS hierarchy that is specified as a source, on the other hand, are part of this hierarchy's results set and are respected accordingly.
+</dd></dl>
+<p>
+If a <a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS role</a> is assigned to a CDS view specified as a source, the source is implicitly subject to
+<a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS access control</a> and only nodes that meet the
+<a href="javascript:call_link('abenaccess_condition_glosry.html')" class="grey" title="Glossary Entry">access conditions</a>
+of the CDS role are transferred to the hierarchy. When specifying the optional addition <span class="qtext">WITH PRIVILEGED ACCESS</span>, the access control is deactivated and the access conditions are not evaluated.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Hierarchies should only be nested in exceptional cases.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses a CDS view and two common table expressions as the source of the hierarchy generator <span class="qtext">HIERARCHY</span> in the program <span class="lnkgrey">DEMO_HIERARCHY_GENERATOR</span>.
+</p>
+<ul class="disc">
+<li>The first common table expression accesses the same CDS view and uses a path expression to
+<a href="javascript:call_link('abapwith_associations_using.html')" class="blue">publish</a> the same hierarchy association. This
+expression must use <a href="javascript:call_link('abapwith_associations.html')" class="blue"><span class="qtext">REDIRECTED TO</span></a> to redirect the hierarchy association to itself and hence meet the self association requirement.</li>
+</ul>
+<ul class="disc">
+<li>The second common table expression accesses the database table DEMO_SIMPLE_TREE in the same way as the CDS view and
+<a href="javascript:call_link('abapwith_associations_defining.html')" class="blue">defines</a> a separate
+<a href="javascript:call_link('abencte_association_glosry.html')" class="grey" title="Glossary Entry">CTE association</a> as a self association that is then used as a hierarchy association.</li>
+</ul>
+<p>
+All main queries have the same result.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(start_id) = 1. <br> <br>"CDS view as source of hierarchy generator <br>SELECT FROM HIERARCHY( SOURCE demo_cds_simple_tree_source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = @start_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIBLINGS ORDER BY parent <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS NOT ALLOWED ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(cds_result). <br>
+ <br>"CTE with association published as path as source of hierarchy generator <br>WITH +tree AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_cds_simple_tree_source AS tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS * ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH ASSOCIATIONS ( \_tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDIRECTED TO +tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA tree ) <br>
+&nbsp;&nbsp;SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE +tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;START WHERE id = @start_id ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(cte_path_result). <br>
+ASSERT cte_path_result = cds_result. <br> <br>"CTE with association defined as join as source of hierarchy generator <br>
+WITH +simple_tree_source AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM demo_simple_tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_id as parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH ASSOCIATIONS ( JOIN TO ONE +simple_tree_source as _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON +simple_tree_source~parent = _tree~id ) <br>
+&nbsp;&nbsp;SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE +simple_tree_source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;START WHERE id = @start_id ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS name <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(cte_join_result). <br>ASSERT cte_join_result = cds_result.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Nests hierarchies in the hierarchy generator <span class="qtext">HIERARCHY</span> in the program <span class="lnkgrey">
+DEMO_HIERARCHY_NESTED</span>. When <span class="lnkgrey">executed</span>, this program demonstrates
+the result of the <span class="qtext">SELECT</span> statements. Three tree-like hierarchies that start
+at the row with the value 1 in the column <span class="qtext400">ID</span> are restricted to a depth
+of 2. From these hierarchies, further hierarchies are selected that start at the row with the value
+5 in the column <span class="qtext400">ID</span>. The three inner hierarchies are specified as a CDS hierarchy, the hierarchy generator <span class="qtext">HIERARCHY</span>, and as a
+<a href="javascript:call_link('abencte_hierarchy_glosry.html')" class="grey" title="Glossary Entry">CTE hierarchy</a>. In the
+case of the CDS hierarchy and the CTE hierarchy, the hierarchy association must be verified as a self
+association explicitly. The three inner hierarchies have the same results sets, which means that the results of the three <span class="qtext">SELECT</span> statements are also the same.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+"CDS hierarchy as source of hierarchy generator <br>SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE demo_cds_simple_tree_redir( p_id = 1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p_depth = 2 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _redir <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;START WHERE id = 5 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(hierarchy_cds_hierarchy). <br> <br>"Hierarchy generator as source of hierarchy generator <br>
+SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE HIERARCHY( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SOURCE demo_cds_simple_tree_source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEPTH 2 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;START WHERE id = 5&nbsp;&nbsp;) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(hierarchy_hierarchy). <br>ASSERT hierarchy_hierarchy = hierarchy_cds_hierarchy. <br>
+ <br>"CTE hierarchy as source of hierarchy generator <br>WITH +hierarchy AS ( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM HIERARCHY( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE demo_cds_simple_tree_source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;START WHERE id = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEPTH 2 ) AS hierarchy <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH HIERARCHY hierarchy <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH ASSOCIATIONS ( \_tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDIRECTED TO +hierarchy <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA hierarchy ) <br>
+&nbsp;&nbsp;SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE +hierarchy <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;START WHERE id = 5 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(hierarchy_cte_hierarchy). <br>ASSERT hierarchy_cte_hierarchy = hierarchy_cds_hierarchy. <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... CHILD TO PARENT ASSOCIATION _hierarchy_assoc</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">CHILD TO PARENT ASSOCIATION</span> specifies the
+<a href="javascript:call_link('abenhierarchy_association_glosry.html')" class="grey" title="Glossary Entry">hierarchy association</a> whose <span class="qtext400">ON</span> condition of the hierarchy generator selects the
+<a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">descendant nodes</a> of the
+<a href="javascript:call_link('abenroot_node_set_glosry.html')" class="grey" title="Glossary Entry">root node set</a>. The hierarchy
+association must be published by the source <span class="qtext">hierarchy_source</span> specified after <span class="qtext">SOURCE</span>.
+</p>
+<p>
+The hierarchy association defines the parent-child relationship between the <a href="javascript:call_link('abenhierarchy_node_glosry.html')" class="grey" title="Glossary Entry">hierarchy nodes</a>. The following conditions apply here:
+</p>
+<ul class="disc">
+<li>The association must be a <a href="javascript:call_link('abenself_association_glosry.html')" class="grey" title="Glossary Entry">self-association</a>.</li>
+</ul>
+<ul class="disc">
+<li>Only equality comparisons with the operator <span class="qtext400">=</span> and joined using <span class="qtext400">AND</span> can occur in the <span class="qtext400">ON</span> condition of the association.</li>
+</ul>
+<ul class="disc">
+<li>In each comparison in the <span class="qtext400">ON</span> condition, one field of the source data
+source must be compared with a field (prefixed with <span class="qtext400">_hierarchy_assoc</span>) of the target data source.</li>
+</ul>
+<ul class="disc">
+<li>The source data source of the association cannot contain any fields that have the same name as a
+<a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy column</a>. An alternative element name must be defined for these fields.</li>
+</ul>
+<p>
+Each row of the results set of the source <span class="qtext">hierarchy_source</span> that meets the <span class="qtext400">ON</span> condition for an existing hierarchy node is included recursively in the hierarchy as its
+<a href="javascript:call_link('abenchild_node_glosry.html')" class="grey" title="Glossary Entry">child node</a> (if this is possible).
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The optional additions define further conditions specifying whether a row can be included as a hierarchy node or not. <br><br>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following CDS view publishes its CDS association <span class="qtext400">_tree</span>. This CDS association meets all requirements of a hierarchy association and can be used as one.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOTREESOURCE' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view DEMO_CDS_SIMPLE_TREE_SOURCE <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_simple_tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;association [1..1] to DEMO_CDS_SIMPLE_TREE_SOURCE as _tree on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$projection.parent = _tree.id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tree, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent_id as parent, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span> <br><br>
+</dd></dl>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... PERIOD FROM field1 TO field2 VALID FROM from TO to</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Defines a hierarchy as a <a href="javascript:call_link('abentemporal_hierarchy_glosry.html')" class="grey" title="Glossary Entry">temporal hierarchy</a> in which the hierarchy nodes are limited by an adjustment of time intervals.
+</p>
+<ul class="disc">
+<li>With <span class="qtext">field1</span> and <span class="qtext">field2</span>, the fields of the source <span class="qtext">hierarchy_source</span> are specified, which define the lower and upper limits of a
+<a href="javascript:call_link('abenperiod_glosry.html')" class="grey" title="Glossary Entry">period</a> in the hierarchy details.
+<span class="qtext">field1</span> and <span class="qtext">field2</span> must be different fields of the same data type. This can be:</li>
+</ul>
+<ul class="circlem2">
+<li>The built-in type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">DATS</a> of ABAP Dictionary.</li>
+</ul>
+<ul class="circlem2">
+<li>A data type that is defined by one of the <a href="javascript:call_link('abendata_element_glosry.html')" class="grey" title="Glossary Entry">
+data elements</a> <span class="lnkgrey">TIMESTAMP</span> or <span class="lnkgrey">TIMESTAMPL</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">from</span> and <span class="qtext">to</span> define the lower and upper limit of a time interval that acts as a condition for the periods of the
+<a href="javascript:call_link('abenroot_node_set_glosry.html')" class="grey" title="Glossary Entry">root node set</a>. For <span class="qtext">from</span> and <span class="qtext">to</span>,
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a> and
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expressions</a> can be specified, whose
+ABAP data type matches the dictionary data type of <span class="qtext">field1</span> and <span class="qtext">field2</span>
+exactly. If <span class="qtext">field1</span> and <span class="qtext">field2</span> are date fields
+of the type DATS, text field literals of at least length 8 can also be specified for <span class="qtext">from</span> and <span class="qtext">to</span>.</li>
+</ul>
+<p>
+A temporal hierarchy is generated as follows:
+</p>
+<ul class="disc">
+<li>Only <a href="javascript:call_link('abenroot_node_glosry.html')" class="grey" title="Glossary Entry">root nodes</a> of the
+<a href="javascript:call_link('abenroot_node_set_glosry.html')" class="grey" title="Glossary Entry">root node set</a> in which
+the period defined using <span class="qtext">field1</span> and <span class="qtext">field2</span> has
+a non empty intersection with the time interval defined by <span class="qtext">from</span> and <span class="qtext">to</span> are taken into account. This intersection forms the
+<a href="javascript:call_link('abenvalidity_interval_glosry.html')" class="grey" title="Glossary Entry">validity interval</a> of the root node.</li>
+</ul>
+<ul class="disc">
+<li>Only <a href="javascript:call_link('abenchild_node_glosry.html')" class="grey" title="Glossary Entry">child nodes</a> in
+which the period defined by <span class="qtext">field1</span> and <span class="qtext">field2</span> has a non empty intersection with the validity interval of the
+<a href="javascript:call_link('abenparent_node_glosry.html')" class="grey" title="Glossary Entry">parent node</a> are generated. This intersection forms the
+<a href="javascript:call_link('abenvalidity_interval_glosry.html')" class="grey" title="Glossary Entry">validity interval</a> of the child node.</li>
+</ul>
+<p>
+For temporal hierarchies, there are additional <a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy columns</a> VALID_FROM and VALID_UNTIL, which contain the interval limits of the
+<a href="javascript:call_link('abenvalidity_interval_glosry.html')" class="grey" title="Glossary Entry">validity interval</a> of each hierarchy node.
+</p>
+<p>
+The addition <span class="qtext">PERIOD</span> must not be used with <span class="qtext">GENERATE SPANTREE</span>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The validity interval of a descendant node is always a subset of a validity interval of all ancestor
+nodes. Validity intervals can only remain the same or become narrower from hierarchy level to hierarchy level, they can never get wider.</li>
+</ul>
+<ul class="disc">
+<li>For a descendant node to belong to a temporal hierarchy, it is not sufficient for its period to
+overlap with the time interval defined by <span class="qtext">from</span> and <span class="qtext">to</span>.
+Only the validity interval of the parent node is decisive. A path of a normal hierarchy is truncated
+in a temporal hierarchy at the position in which there is no intersection between the period and the preceding validity interval.</li>
+</ul>
+<ul class="disc">
+<li>The source data source of the current <a href="javascript:call_link('abenhierarchy_association_glosry.html')" class="grey" title="Glossary Entry">
+hierarchy association</a> must not have any fields called VALID_FROM or VALID_UNTIL. An alternative element name must be defined for these fields.</li>
+</ul>
+<ul class="disc">
+<li>The value of <span class="qtext">to</span> can also be less than the value of <span class="qtext">from</span>.
+However, a validity interval is formed where necessary. In contrast, if the value of the lower interval limit of the period is greater than the value of the upper interval limit, the validity interval is empty.</li>
+</ul>
+<ul class="disc">
+<li>Additions such as <span class="qtext">MULTIPLE PARENTS</span> or <span class="qtext">CYCLES</span>
+affect the temporal hierarchy. Nodes that would raise an exception in a normal hierarchy can be hidden in a temporal hierarchy.</li>
+</ul>
+<ul class="disc">
+<li>To generate a temporal hierarchy, in an <a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>, the hierarchy generator function <a
+ href="https://help.sap.com/viewer/4f9859d273254e04af6ab3e9ea3af286/2.0.03/en-US/a93c356d32ef4e7fbd6143b554278eab.html" target="blank" class="blue">
+<span class="qtext400">HIERARCHY_TEMPORAL</span></a> there is called. <br><br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Generation of two <a href="javascript:call_link('abentemporal_hierarchy_glosry.html')" class="grey" title="Glossary Entry">temporal
+hierarchies</a> in the program <span class="lnkgrey">DEMO_HIERARCHY_TEMPORAL</span>, where in one date fields and in the other time stamp fields are used as
+<a href="javascript:call_link('abenperiod_glosry.html')" class="grey" title="Glossary Entry">periods</a>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;SOURCE demo_cds_parent_child_src_prd <br>&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;PERIOD FROM date_from TO date_to <br>&nbsp;&nbsp; VALID FROM @( CONV d( sy-datlo - 1 ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO @( CONV d( sy-datlo + 1 ) ) <br>&nbsp;&nbsp;START WHERE id = 'A' <br>
+&nbsp;&nbsp;SIBLINGS ORDER BY id ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid_from, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid_until <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(asql_date_period) ##TYPE. <br> <br>GET TIME STAMP FIELD DATA(ts). <br>
+SELECT FROM HIERARCHY( <br>&nbsp;&nbsp;SOURCE demo_cds_parent_child_src_prd <br>&nbsp;&nbsp;CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;PERIOD FROM ts_from TO ts_to <br>&nbsp;&nbsp; VALID FROM @( CONV timestamp( <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_tstmp=>subtractsecs( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tstmp = ts <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; secs&nbsp;&nbsp;= 86400 ) ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO @( CONV timestamp( <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_tstmp=>add( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tstmp = ts <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; secs&nbsp;&nbsp;= 86400 ) ) ) <br>
+&nbsp;&nbsp;START WHERE id = 'A' <br>&nbsp;&nbsp;SIBLINGS ORDER BY id ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid_from, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid_until <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(asql_ts_period) ##TYPE.
+</span>
+</p>
+<p>
+When <span class="lnkgrey">executed</span>, this program demonstrates how the <span class="qtext">PERIOD</span>
+addition works. The date and time stamp fields of the database table <span class="lnkgrey">DEMO_PARCHLD_PRD</span>,
+which are accessed in the source of the hierarchy generator DEMO_CDS_PARENT_CHILD_SRC_PRD, are filled
+with data for this purpose. A normal hierarchy without the addition <span class="qtext">PERIOD</span> and the two temporal hierarchies are shown. The
+<a href="javascript:call_link('abenvalidity_interval_glosry.html')" class="grey" title="Glossary Entry">validity intervals</a> are also output for these.
+</p>
+<ul class="disc">
+<li>The temporal hierarchy based on date fields contains only the nodes with the values <span class="qtext400">A</span>,
+<span class="qtext400">B</span>, and <span class="qtext400">C</span> in the column ID. The period of
+the node with the value <span class="qtext400">D</span> does not overlap with the validity interval
+of the parent node with the value <span class="qtext400">B</span>. This means that the child node with
+the value <span class="qtext400">E</span> is truncated, irrespective of its period. All other nodes
+<span class="qtext400">F</span> to <span class="qtext400">I</span> haven empty periods and do not come into question anyway.</li>
+</ul>
+<ul class="disc">
+<li>The temporal hierarchy based on time stamps contains all nodes with periods TS_FROM to TS_TO that
+are not empty. The example illustrates how the validity intervals with the hierarchy levels can become
+narrower. In the last row, the validity interval corresponds to the previous, even though the period is wider. <br><br></li>
+</ul>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_4@4@"></A> <span class="bold">Addition 4</span>
+</span></p>
+<P>
+<span class="qtext">... START WHERE sql_cond.</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">START WHERE</span> specifies the start condition for the hierarchy
+generator. <span class="qtext">START WHERE</span> must be followed by a logical expression <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">
+<span class="qtext">sql_cond</span></a> that selects rows from the source <span class="qtext">hierarchy_source</span>. The selected rows are inserted in the hierarchy as a
+<a href="javascript:call_link('abenroot_node_set_glosry.html')" class="grey" title="Glossary Entry">root node set</a>. For each
+<a href="javascript:call_link('abenroot_node_glosry.html')" class="grey" title="Glossary Entry">root node</a> in the root node set, the
+<a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">descendant nodes</a> are
+selected that meet the <span class="qtext400">ON</span> condition of the hierarchy association and, if possible, inserted in the hierarchy.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The start condition should select a feasible set of root nodes. If no rows in the results set of the
+source <span class="qtext">hierarchy_source</span> meet the condition, the hierarchy is empty. If all rows meet the condition, the descendant nodes of every row are selected and inserted. <br><br>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies an interval condition for the start condition of the hierarchy generator <span class="qtext">HIERARCHY</span>
+in the program <span class="lnkgrey">DEMO_HIERARCHY_START_WHERE</span>. All rows in the CDS view specified
+as the source that meet the condition are inserted in the hierarchy as root nodes and all their descendant
+nodes are selected. When <span class="lnkgrey">executed</span>, this program permits different limits to be entered and displays the result.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(from) = 'A '. <br>DATA(to) =&nbsp;&nbsp; 'B '. <br> <br>SELECT FROM HIERARCHY( SOURCE demo_cds_parent_child_source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id BETWEEN @from AND @to <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIBLINGS ORDER BY parent <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS ALLOWED <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CYCLES BREAKUP ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(asql_result). <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_5@5@"></A> <span class="bold">Addition 5</span>
+</span></p>
+<P>
+<span class="qtext">... SIBLINGS ORDER BY field1 <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i>, ...</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">SIBLINGS ORDER BY</span> sorts
+<a href="javascript:call_link('abensibling_node_glosry.html')" class="grey" title="Glossary Entry">sibling nodes</a> in the hierarchy
+generated by the hierarchy generator. If this addition is not used, the order of the sibling nodes is undefined.
+</p>
+<p>
+Fields <span class="qtext">field1</span>, <span class="qtext">field2</span>, ... of the source <span class="qtext">
+cds_view</span> can be specified in a comma-separated list after the addition <span class="qtext">hierarchy_source</span> to specify the order of the sibling nodes.
+</p>
+<p>
+The addition <span class="qtext">ASCENDING</span> or <span class="qtext">DESCENDING</span> can be specified for each field to specify an ascending or descending order (ascending is the default).
+</p>
+<p>
+The fields specified after <span class="qtext">ORDER BY</span> cannot be of the <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">type</a> LCHR, LRAW, STRING, RAWSTRING, or GEOM_EWKB.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If specified, an additional general <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER
+BY</span></a> clause of the current query is applied to the hierarchy sorted by <span class="qtext">SIBLINGS ORDER BY</span>.</li>
+</ul>
+<ul class="disc">
+<li>The additional <a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy columns</a> cannot be specified
+after <span class="qtext">SIBLINGS ORDER BY</span>. They can, however, be specified in the general <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> clause of the current query.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Ascending and descending sort of <a href="javascript:call_link('abensibling_node_glosry.html')" class="grey" title="Glossary Entry">
+sibling nodes</a> in the program <span class="lnkgrey">DEMO_HIERARCHY_SIBLINGS_ORDER</span>. When <span class="lnkgrey">executed</span>, this program demonstrates how these additions work.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( SOURCE demo_cds_simple_tree_source <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIBLINGS ORDER BY id ASCENDING ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_parent_rank <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_asc). <br> <br>SELECT FROM HIERARCHY( SOURCE demo_cds_simple_tree_source <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIBLINGS ORDER BY id DESCENDING ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_parent_rank <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_desc). <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_6@6@"></A> <span class="bold">Addition 6</span>
+</span></p>
+<P>
+<span class="qtext">... DEPTH depth</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">depth</span> can be used to limit the number of
+<a href="javascript:call_link('abenhierarchy_level_glosry.html')" class="grey" title="Glossary Entry">hierarchy levels</a> used to create
+<a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">descendant nodes</a>. <span class="qtext">depth</span> expects a
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a>, a
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expression</a>, or a
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literal</a> of type <span class="qtext">i</span>.
+Only the types <span class="qtext">b</span>, <span class="qtext">s</span>, or <span class="qtext">i</span> can be specified for <span class="qtext">depth</span>.
+</p>
+<p>
+The value in <span class="qtext">depth</span> has the following meaning:
+</p>
+<ul class="disc">
+<li>For <span class="qtext">depth</span> values greater then 0, the number of hierarchy edges are traversed that is specified in <span class="qtext">depth</span>, starting from a
+<a href="javascript:call_link('abenroot_node_glosry.html')" class="grey" title="Glossary Entry">root node</a>.</li>
+</ul>
+<ul class="disc">
+<li>If the value of <span class="qtext">depth</span> is 0, only the <a href="javascript:call_link('abenroot_node_glosry.html')" class="grey" title="Glossary Entry">root nodes</a> are inserted in the hierarchy.</li>
+</ul>
+<ul class="disc">
+<li>If <span class="qtext">depth</span> is less than 0, no
+<a href="javascript:call_link('abenhierarchy_node_glosry.html')" class="grey" title="Glossary Entry">hierarchy nodes</a> are created and <span class="qtext">sy-subrc</span> is set to 4.</li>
+</ul>
+<p>
+The addition <span class="qtext">DEPTH</span> can be used only if the addition <span class="qtext">ORPHANS</span> is not specified or is specified as <span class="qtext">ORPHANS IGNORE</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Limits the number of <a href="javascript:call_link('abenhierarchy_level_glosry.html')" class="grey" title="Glossary Entry">hierarchy
+levels</a> in the program <span class="lnkgrey">DEMO_HIERARCHY_DEPTH</span>. When <span class="lnkgrey">executed</span>, this program demonstrates how this addition works. It also shows the
+<a href="javascript:call_link('abenhierarchy_level_glosry.html')" class="grey" title="Glossary Entry">hierarchy level</a> from the hierarchy column HIERARCHY_LEVEL.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( SOURCE demo_cds_simple_tree_source <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _tree <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEPTH 1 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS name, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_1). <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_7@7@"></A> <span class="bold">Addition 7</span>
+</span></p>
+<P>
+<span class="qtext">... MULTIPLE PARENTS <i class=bn>{</i>NOT ALLOWED<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>LEAVES ONLY<i class=bn>}</i><i class=bn>|</i>ALLOWED</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">MULTIPLE PARENTS</span> can be used to define whether the hierarchy generator is able to generate
+<a href="javascript:call_link('abenchild_node_glosry.html')" class="grey" title="Glossary Entry">child nodes</a> with multiple <a href="javascript:call_link('abenparent_node_glosry.html')" class="grey" title="Glossary Entry">parent nodes</a>:
+</p>
+<ul class="disc">
+<li><span class="qtext">NOT ALLOWED</span></li>
+</ul>
+<dl><dd>
+This is the default setting (a child node can have precisely on parent node only).
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">LEAVES ONLY</span></li>
+</ul>
+<dl><dd>
+Only <a href="javascript:call_link('abenleaf_node_glosry.html')" class="grey" title="Glossary Entry">leaf nodes</a> can have multiple parent nodes.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">ALLOWED</span></li>
+</ul>
+<dl><dd>
+All hierarchy nodes can have multiple parent nodes.
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Creates a hierarchy in the program <span class="lnkgrey">DEMO_HIERARCHY_MULTI_PARENTS</span>. Only leaf nodes can have multiple parents here.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( SOURCE demo_cds_parent_child_source <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 'A' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS LEAVES ONLY ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(leaves_only).
+</span>
+</p>
+<p>
+When <span class="lnkgrey">executed</span>, this program demonstrates how the <span class="qtext">MULTIPLE PARENTS</span> addition works.
+</p>
+<ul class="disc">
+<li>The first <span class="qtext">SELECT</span> statement does not specify the addition and <span class="qtext">NOT
+ALLOWED</span> is applied implicitly. The hierarchy node with the ID <span class="qtext400">D</span> has three parent nodes and hence an exception is raised.</li>
+</ul>
+<ul class="disc">
+<li>The next <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">MULTIPLE
+PARENTS LEAVES ONLY</span>. The hierarchy node with the ID <span class="qtext400">D</span> is a leaf node, which means the function can be accessed.</li>
+</ul>
+<ul class="disc">
+<li>A child node for the row with the ID <span class="qtext400">D</span> is inserted in front of the
+next <span class="qtext">SELECT</span> statement in the database table DEMO_PARENT_CHLD. If used, the addition <span class="qtext">MULTIPLE PARENTS LEAVES ONLY</span> now also raises an exception.</li>
+</ul>
+<ul class="disc">
+<li>The next <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">MULTIPLE PARENTS ALLOWED</span> and it is possible to access the table again. <br><br></li>
+</ul>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_8@8@"></A> <span class="bold">Addition 8</span>
+</span></p>
+<P>
+<span class="qtext">... ORPHANS IGNORE<i class=bn>|</i>ERROR<i class=bn>|</i>ROOT</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">ORPHANS</span> defines the way <a href="javascript:call_link('abenorphan_node_glosry.html')" class="grey" title="Glossary Entry">orphan nodes</a> are handled. The following categories of orphan nodes exist:
+</p>
+<ul class="disc">
+<li>Hierarchy nodes that could have parent nodes (as specified by the parent-child relationship) but the parent nodes are not in the hierarchy (known as true orphans).</li>
+</ul>
+<ul class="disc">
+<li>Hierarchy nodes that cannot be reached from the root node set using hierarchy edges.</li>
+</ul>
+<ul class="disc">
+<li>Hierarchy nodes that are part of a <a href="javascript:call_link('abennode_cycle_glosry.html')" class="grey" title="Glossary Entry">
+node cycle</a> and cannot be reached from the root node set using hierarchy nodes (known as island orphans).</li>
+</ul>
+<p>
+The additions work as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext">IGNORE</span></li>
+</ul>
+<dl><dd>
+This is the default setting (any orphan nodes are not inserted in the hierarchy).
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">ERROR</span></li>
+</ul>
+<dl><dd>
+Any orphan nodes detected raise an exception.
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">ROOT</span></li>
+</ul>
+<dl><dd>
+Orphan nodes are inserted in the hierarchy as follows:
+</dd></dl>
+<ul class="circlem2">
+<li>True orphans are included in the root node set as root nodes and flagged as orphan nodes in the <a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy column</a> HIERARCHY_IS_ORPHAN.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">Descendant
+nodes</a> of true orphans are handled like descendant nodes of parent nodes from the root node set, but are also flagged as orphan nodes in the
+<a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy column</a> HIERARCHY_IS_ORPHAN.</li>
+</ul>
+<ul class="circlem2">
+<li>For the hierarchy nodes of island orphans, a parent node in the root node set is generated for the
+child node where the cycle occurs. In the generated root node, all columns of the source <span class="qtext">hierarchy_source</span> contain the null value. In the
+<a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy columns</a>, the additional root node is flagged as an orphan node and PARENT_ID also contains the null value.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Handles orphan nodes in the program <span class="lnkgrey">DEMO_HIERARCHY_ORPHANS</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( SOURCE demo_cds_parent_child_source <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 'A' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS ALLOWED <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORPHANS ROOT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CYCLES BREAKUP ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS CASE WHEN id IS NULL THEN '__' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END AS id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE WHEN parent IS NULL THEN '__' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELSE parent <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END AS parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_is_orphan, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_is_cycle, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_parent_rank, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(root).
+</span>
+</p>
+<p>
+When <span class="lnkgrey">executed</span>, this program demonstrates how the <span class="qtext">ORPHANS</span> addition works.
+</p>
+<ul class="disc">
+<li>The first <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">ORPHANS
+IGNORE</span>. All orphan nodes are ignored and only the root node set consisting of a single root node is read and inserted in the hierarchy.</li>
+</ul>
+<ul class="disc">
+<li>The next <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">ORPHANS ERROR</span>. The hierarchy would contain orphan nodes and hence an exception is raised.</li>
+</ul>
+<ul class="disc">
+<li>The next <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">ORPHANS ROOT</span> and all orphan nodes are inserted in the hierarchy:</li>
+</ul>
+<ul class="circlem2">
+<li>The hierarchy node with the value <span class="qtext400">B</span> in the column ID is a true orphan
+node. It contains a blank in the column PARENT_ID but there is no root node with a blank in the column
+ID. The addition <span class="qtext">ROOT</span> includes the hierarchy node itself in the root node
+set (the hierarchy column HIERARCHY_PARENT_RANK has the value 0) and the row is flagged as an orphan node in the hierarchy column HIERARCHY_IS_ORPHAN.</li>
+</ul>
+<ul class="circlem2">
+<li>The hierarchy node with the value <span class="qtext400">C</span> in the column ID contains the
+value <span class="qtext400">B</span> in the column PARENT_ID. The parent node is an orphan node included in the root node set, which means that this hierarchy node is also flagged as an orphan node.</li>
+</ul>
+<ul class="circlem2">
+<li>The hierarchy node with the value <span class="qtext400">X</span> in the column ID also contains
+the value <span class="qtext400">X</span> in the column PARENT_ID. The hierarchy node then starts a
+node cycle where this node is itself the parent node. It is not part of the root node set, however,
+which means it is an island orphan. A parent node is inserted in the root node set in which the columns of the CDS view DEMO_CDS_PARENT_CHILD_SOURCE, plus the hierarchy column PARENT_ID, contain null values.</li>
+</ul>
+<ul class="circlem2">
+<li>The hierarchy nodes with the values <span class="qtext400">U</span>, <span class="qtext400">V</span>,
+and <span class="qtext400">W</span> in the column ID also comprise an island orphan. None of the hierarchy
+nodes in this node cycle is a root node. Again, a parent node is inserted in the root node set in which the columns of the CDS view, plus the hierarchy column PARENT_ID, contain null values. <br><br></li>
+</ul>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_9@9@"></A> <span class="bold">Addition 9</span>
+</span></p>
+<P>
+<span class="qtext">... CYCLES ERROR<i class=bn>|</i>BREAKUP</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The addition <span class="qtext">CYCLES</span> defines how <a href="javascript:call_link('abennode_cycle_glosry.html')" class="grey" title="Glossary Entry">node cycles</a> are defined. The additions work as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext">ERROR</span></li>
+</ul>
+<dl><dd>
+This is the default setting (an exception is raised when a node cycle is detected).
+</dd></dl>
+<ul class="disc">
+<li><span class="qtext">BREAKUP</span></li>
+</ul>
+<dl><dd>
+The traversal of <a href="javascript:call_link('abendescendant_node_glosry.html')" class="grey" title="Glossary Entry">descendant nodes</a> is broken at the child node where the node cycle occurs and the
+<a href="javascript:call_link('abenddddl_hierarchy.html')" class="blue">hierarchy column</a> HIERARCHY_IS_CYCLE is set to the value 1.
+</dd></dl>
+<p>
+If the addition <span class="qtext">BREAKUP</span> is specified, <span class="qtext">MULTIPLE PARENTS ALLOWED</span> must also be specified. <br><br>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Handles node cycles in the program <span class="lnkgrey">DEMO_HIERARCHY_CYCLES</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( SOURCE demo_cds_parent_child_source <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 'A' OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id = 'X' OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id = 'Y' OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id = 'Z' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS ALLOWED <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CYCLES BREAKUP ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_is_cycle, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy_level <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(breakup).
+</span>
+</p>
+<p>
+When <span class="lnkgrey">executed</span>, this program demonstrates how the <span class="qtext">CYCLES</span> addition works.
+</p>
+<ul class="disc">
+<li>The first <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">CYCLES
+BREAKUP</span>. Here, the root node set consists of four root nodes of the CDS view DEMO_CDS_PARENT_CHILD_SOURCE and the following node cycles are detected:</li>
+</ul>
+<ul class="circlem2">
+<li>The child node with the value <span class="qtext400">A</span> in the column ID is also its own parent node. The hierarchy column HIERARCHY_IS_CYCLE contains the value 1 and no more descendant nodes are created.</li>
+</ul>
+<ul class="circlem2">
+<li>Starting from the hierarchy node with the value <span class="qtext400">X</span> in the column ID,
+child nodes are created with the values <span class="qtext400">Y</span> and <span class="qtext400">Z</span>
+and (again) <span class="qtext400">X</span>. The cycle is detected at the final child node, HIERARCHY_IS_CYCLE
+contains the value 1, and no more descendant nodes are created. The same applies to the descendant nodes
+starting from the root nodes with the values <span class="qtext400">Y</span> and <span class="qtext400">Z</span>.</li>
+</ul>
+<ul class="disc">
+<li>The second <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">CYCLES ERROR</span> and raises an exception. <br><br></li>
+</ul>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_10@10@"></A> <span class="bold">Addition 10</span>
+</span></p>
+<P>
+<span class="qtext">... GENERATE SPANTREE</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+If the addition <span class="qtext">GENERATE SPANTREE</span> is specified, the hierarchy generator inserts
+only child nodes without multiple parent nodes, starting from every root node. If, due to its parent-child
+relationships, a child node were to have multiple parent nodes after its root node, precisely one of the potential paths from the root node to this child node is selected and the child node is created for this path only.
+</p>
+<ul class="disc">
+<li>If the paths have different lengths, the shortest is selected.</li>
+</ul>
+<ul class="disc">
+<li>If the paths all have the same length, the first path found is selected.</li>
+</ul>
+<p>
+If the addition <span class="qtext">GENERATE SPANTREE</span> is specified, the following additions must be specified at the same time:
+</p>
+<ul class="disc">
+<li><span class="qtext">MULTIPLE PARENTS ALLOWED</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">ORPHANS IGNORE</span> or <span class="qtext">ORPHANS</span> not specified</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">CYCLES BREAKUP</span></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If the parent-child relationships for the current data do not produce tree-like hierarchies, the addition <span class="qtext">GENERATE SPANTREE</span> is ignored.</li>
+</ul>
+<ul class="disc">
+<li>Even if one path (from many paths) to a child node is selected, this does not mean that all others are rejected. In this case, only the edges leading to the child node are missing.</li>
+</ul>
+<ul class="disc">
+<li>The addition <span class="qtext">GENERATE SPANTREE</span> can be used to detect whether at least one path leads from a root node to a child node without the results set needing to contain all paths.</li>
+</ul>
+<ul class="disc">
+<li>The addition <span class="qtext">GENERATE SPANTREE</span> is used in an
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> to access the hierarchy generator function <a
+ href="https://help.sap.com/viewer/4f9859d273254e04af6ab3e9ea3af286/2.0.03/en-US/a93c356d32ef4e7fbd6143b554278eab.html" target="blank" class="blue"><span class="qtext400">HIERARCHY_SPANTREE</span></a> there.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses <span class="qtext">GENERATE SPANTREE</span> in the program <span class="lnkgrey">DEMO_HIERARCHY_SPANTREE</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM HIERARCHY( SOURCE demo_cds_parent_child_source <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHILD TO PARENT ASSOCIATION _relat <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; START WHERE id = 'A' OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id = 'K' OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id = 'X' OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id = 'Y' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MULTIPLE PARENTS ALLOWED <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CYCLES BREAKUP <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GENERATE SPANTREE ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(spantree).
+</span>
+</p>
+<p>
+When <span class="lnkgrey">executed</span>, this program demonstrates how the <span class="qtext">GENERATE SPANTREE</span> addition works.
+</p>
+<ul class="disc">
+<li>The first <span class="qtext">SELECT</span> statement does not specify the addition <span class="qtext">GENERATE SPANTREE</span>. The hierarchy contains all possible paths from root nodes to child nodes.</li>
+</ul>
+<ul class="disc">
+<li>The second <span class="qtext">SELECT</span> statement specifies the addition <span class="qtext">GENERATE
+SPANTREE</span>. Starting from each root node, the results set only contains one path to the potential child nodes:</li>
+</ul>
+<ul class="circlem2">
+<li>From the root node with the value <span class="qtext400">A</span> in ID, two paths lead to <span class="qtext400">
+D</span>. Only the shorter path directly from <span class="qtext400">A</span> to <span class="qtext400">D</span>
+is created. The connection between <span class="qtext400">C</span> and <span class="qtext400">D</span> in the longer path is not created.</li>
+</ul>
+<ul class="circlem2">
+<li>From the root node with the value <span class="qtext400">A</span> in ID, two paths lead to <span class="qtext400">
+N</span>. Only one of the two paths from <span class="qtext400">L</span> to <span class="qtext400">N</span> or <span class="qtext400">M</span> to <span class="qtext400">N</span> is created.</li>
+</ul>
+<ul class="circlem2">
+<li>The child node with the value <span class="qtext400">Z</span> in ID has two parent nodes <span class="qtext400">X</span> and <span class="qtext400">Y</span>. Since both are root nodes, both paths are created.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_hierarchy_generator.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:35 GMT -->
+</html>

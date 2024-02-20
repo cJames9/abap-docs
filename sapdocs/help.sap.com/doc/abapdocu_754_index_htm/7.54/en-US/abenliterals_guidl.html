@@ -1,0 +1,198 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLITERALS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenliterals_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Literals">
+<title>
+Literals - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenliterals_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenliterals_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Literals
+</span></p>
+<A name="@@ITOC@@ABENLITERALS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+A literal is a data object defined in the source code of a program by specifying a character-like value.  Possible literals are:
+</p>
+<ul class="disc">
+<li><span class="bold">Numeric literals</span> <br>String of digits with an optional sign. The data type is either <span class="qtext">i</span> or <span class="qtext">p</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Character literals</span></li>
+</ul>
+<ul class="circlem2">
+<li>Text field literals enclosed in single quotation marks ('). The data type is <span class="qtext">c</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>String literals, which are enclosed in backquotes (`). The data type is <span class="qtext">string</span>.</li>
+</ul>
+<p>
+In numeric literals, neither decimal separators nor scientific notation with mantissa and exponent are possible. Character literals with
+<a href="javascript:call_link('abennumbers_guidl.html')" class="lnkpurple" title="Guideline">correct content</a> must be used to represent these types of numeric values.
+</p>
+<A name="@@ITOC@@ABENLITERALS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Avoid using literals in operand positions</span>
+</p>
+<p>
+Avoid using literals to specify values directly in the source code. Instead constants should be declared with these values. This applies to numeric values in particular.
+</p>
+<A name="@@ITOC@@ABENLITERALS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Certain values are required in more than one place in the source code. It is therefore not helpful to
+specify these values directly in the source code, since multiple statements would need to be modified
+each time the value is changed. An appropriate constant can be used instead to enable the value to modified
+at a central position in the source code. Literals are, of course, allowed when specifying values in
+the declaration of the constants.  This can make the program significantly easier to maintain and enhance at a later date.
+</p>
+<p>
+It can also be a good idea to create an appropriate constant for values used in only one place. The name of the constant gives the values semantics that make the source code easier to understand.
+</p>
+<p>
+Number literals that appear in source code seemingly without any semantic meaning are often known as "magic numbers". Avoid using these in ABAP programs. When using character literals,
+<a href="javascript:call_link('abensystem_text_guidl.html')" class="lnkpurple" title="Guideline">translatability</a> is also important.
+</p>
+<A name="@@ITOC@@ABENLITERALS_GUIDL_4"></A>
+<p><span class="h2">
+Exception
+</span></p>
+<p>
+In certain situations, however, using constants can affect the readability of a program. It is better to specify a literal in these cases, as in the following examples:
+</p>
+<ul class="disc">
+<li><span class="qtext">CALL FUNCTION 'MY_FUNC'.</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">IF sy-subrc = 0</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">READ TABLE itab INDEX 1</span> or <span class="qtext">itab[ 1 ]</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">ADD 1 TO counter</span>.</li>
+</ul>
+<p>
+These examples make the semantic meaning of the literals clear and translatability is not an issue.
+</p>
+<p>
+Another area where character literals are vital is dynamic programming. Here, parts of statements or
+entire programs are generated, which is virtually impossible without using character literals. In addition, string templates offer various enhanced options for using literal texts.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If literals are used, ensure that literals are actually used, not equivalent expressions:
+</p>
+<ul class="disc">
+<li>Numeric literal <span class="qtext">+<i class=bn>|</i>-literal</span> instead of arithmetic expression <span class="qtext">+<i class=bn>|</i>- literal</span></li>
+</ul>
+<ul class="disc">
+<li>Text string literal <span class="qtext">`...`</span> instead of string expression <span class="qtext">|...|</span></li>
+</ul>
+<p>
+The expressions are not evaluated until runtime, meaning that they have a lower performance. This distinction is irrelevant only if the literals are parts of expressions anyway.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code uses the same literal multiple times to specify pi (&#x03C0;) in operand positions. This multiple use makes the program unclear and error-prone.
+</p>
+<dl><dd>
+<span class="qtext">DATA: radius TYPE decfloat34, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;circumference TYPE decfloat34, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area TYPE decfloat34. <br>...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">circumference = <br>&nbsp;&nbsp;2* '3.141592653589793238462643383279503' * radius. <br>area = <br>&nbsp;&nbsp;'3.141592653589793238462643383279503' * radius ** 2.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code declares a constant that requires the literal with the value pi (&#x03C0;) only once, and uses it in the appropriate operand positions.
+</p>
+<dl><dd>
+<span class="qtext">CONSTANTS pi TYPE decfloat34 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE '3.141592653589793238462643383279503'.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: radius&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE decfloat34, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;circumference TYPE decfloat34, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE decfloat34. <br>
+... <br>circumference = 2 * pi * radius. <br>area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= pi * radius ** 2.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenliterals_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

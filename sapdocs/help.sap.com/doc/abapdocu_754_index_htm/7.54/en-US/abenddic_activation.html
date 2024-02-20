@@ -1,0 +1,265 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_ACTIVATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_activation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:50:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Activating ABAP Dictionary Types">
+<title>
+Activating ABAP Dictionary Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_activation.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_activation.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Activating ABAP Dictionary Types
+</span></p>
+<p>
+When a data type in ABAP Dictionary is activated, a
+<a href="javascript:call_link('abenruntime_object_glosry.html')" class="grey" title="Glossary Entry">runtime object</a> is created
+that consumers such as dictionary objects, ABAP programs, or dynpros can use to effectively access all
+relevant type attributes. When a data type is activated, all objects that are dependent on it must be activated again as well.
+</p>
+<ul class="disc">
+<li>For dependent Dictionary objects, this usually happens immediately.</li>
+</ul>
+<ul class="disc">
+<li>For dependent ABAP programs or dynpros, this happens the next time they are used.</li>
+</ul>
+<p>
+A data type can only be activated if the dependent Dictionary objects can be activated as well. However,
+if an incompatible change to a Dictionary type leads to an error in an ABAP program or dynpro, this
+does not prevent activation. This type of error is detected in the system the next time the program
+is executed or during an explicit syntax check. When changed Dictionary types are transported to target
+systems, dependent ABAP programs and dynpros are activated by the transport as well. If an error occurs, the transport is reported as unsuccessful.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_ACTIVATION_1" class="blue">Runtime Objects</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_ACTIVATION_2" class="blue">Activating Dependent Objects</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENDDIC_ACTIVATION_3" class="blue">Activating Dependent ABAP Programs and Dynpros</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENDDIC_ACTIVATION_4" class="blue">Activating Dependent Dictionary Objects</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_ACTIVATION_5" class="blue">Mass Activation</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_ACTIVATION_6" class="blue">Cyclical Dependencies</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Each time a dictionary object is activated, a detailed activation log is created that can be evaluated if errors occur.
+</p>
+<A name="@@ITOC@@ABENDDIC_ACTIVATION_1"></A>
+<p><span class="h2">
+Runtime Objects
+</span></p>
+<p>
+When a data type in ABAP Dictionary is activated, a
+<a href="javascript:call_link('abenruntime_object_glosry.html')" class="grey" title="Glossary Entry">runtime object</a> is usually created in the <a href="javascript:call_link('abenname_table_glosry.html')" class="grey" title="Glossary Entry">name table</a>
+(<a href="javascript:call_link('abenname_tab_glosry.html')" class="grey" title="Glossary Entry">nametab</a>), which the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime environment</a>
+accesses when the data type is used in an ABAP program or dynpro. The runtime object summarizes all
+important attributes of the entire data type. A runtime object has a time stamp for the time it was activated. If an existing type is activated, the corresponding runtime object is adapted and the time stamp is updated.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<ul class="disc">
+<li>Runtime objects are only intended for internal use, but can also be checked when analyzing failed activations.</li>
+</ul>
+<ul class="disc">
+<li>For quick access, runtime objects are buffered in the shared memory of the current AS Instance.</li>
+</ul>
+<ul class="disc">
+<li>The runtime object of a dictionary object can be displayed and checked in an ABAP Dictionary
+<a href="javascript:call_link('abenddic_tools.html')" class="blue">tool</a> by choosing <span class="italic">Utilities &rarr; Runtime Object</span>. The meaning of the individual components of a runtime object is also documented here.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_GET_NAMETAB</span> shows a read access to the runtime objects of any data types using the special methods GET_DDIC_HEADER and GET_DDIC_OBJECT of the
+<a href="javascript:call_link('abenrun_time_type_identific_glosry.html')" class="grey" title="Glossary Entry">RTTI</a>. The names
+of data elements, structures, table types, database tables, database views, and CDS entities can be passed to the program, but not domains.
+</p>
+<A name="@@ITOC@@ABENDDIC_ACTIVATION_2"></A>
+<p><span class="h2">
+Activating Dependent Objects
+</span></p>
+<p>
+If existing Dictionary objects that are already used by other Dictionary objects or ABAP programs and dynpros are activated, the dependent objects must be activated as well.
+</p>
+<A name="@@ITOC@@ABENDDIC_ACTIVATION_3"></A>
+<p><span class="h3">
+Activating Dependent ABAP Programs and Dynpros
+</span></p>
+<p>
+ABAP programs and dynpros that are dependent on a changed data type of the ABAP Dictionary are activated
+in the same system the first time they are used, and in the target system after a transport of the Dictionary
+type once it has been activated. When a Dictionary type is activated, the time stamp of its runtime
+object is adapted, as are the time stamp sources of all ABAP programs and dynpros that use this type,
+if a change relevant for a program or dynpro has been made. When a program or dynpro is used, or after it has been transported, this time stamp is compared with the current time stamp of its
+<a href="javascript:call_link('abenload_glosry.html')" class="grey" title="Glossary Entry">load</a> and is generated again if necessary.
+</p>
+<A name="@@ITOC@@ABENDDIC_ACTIVATION_4"></A>
+<p><span class="h3">
+Activating Dependent Dictionary Objects
+</span></p>
+<p>
+Dictionary objects that are dependent on a changed data type of the ABAP Dictionary are activated with it immediately:
+</p>
+<ul class="disc">
+<li>First, the changed data type is activated. If the activation is successful and the data type has dependent objects, its status changes to "partially active" and it is flagged accordingly.</li>
+</ul>
+<ul class="disc">
+<li>The dependent objects are then activated. If a dependent object cannot be activated, its status also changes to "partially active" and it is flagged accordingly.</li>
+</ul>
+<ul class="disc">
+<li>If all dependent objects are activated successfully, the changed data type is set to status "active". Otherwise, it remains "partially active".</li>
+</ul>
+<p>
+The status "partially active" means that a Dictionary object could not be fully activated:
+</p>
+<ul class="disc">
+<li>For the changed data type, "partially active" means that it can be used without restrictions, but that there are restrictions on the dependent objects.</li>
+</ul>
+<ul class="disc">
+<li>For dependent objects, "partially active" means that there are generally restrictions on their use because the previous runtime object is used, which has not yet implemented the changes of the changed data type.</li>
+</ul>
+<p>
+If an activation results in "partially active" objects, these must be located in the activation log. The causes of the errors must be eliminated and
+</p>
+<ul class="disc">
+<li>first the dependent objects and</li>
+</ul>
+<ul class="disc">
+<li>then the changed data type</li>
+</ul>
+<p>
+must be activated again, until all involved objects have the status  "active". If this procedure is
+not completed, Dictionary objects keep the status "partially active". This actually often affects the data type that was originally changed, which is in fact fully usable.
+</p>
+<p>
+The system program <span class="lnkgrey">RUTMSJOB</span> can be used to deal with "partially active" objects. It identifies "partially active" objects and proposes a cleanup if possible.
+</p>
+<A name="@@ITOC@@ABENDDIC_ACTIVATION_5"></A>
+<p><span class="h2">
+Mass Activation
+</span></p>
+<p>
+In a <a href="javascript:call_link('abenmass_activation_glosry.html')" class="grey" title="Glossary Entry">mass activation</a>, a system program (<span class="lnkgrey">RADMASG0</span>) is used as a
+<a href="javascript:call_link('abenmass_activator_glosry.html')" class="grey" title="Glossary Entry">mass activator</a> to activate
+a number of dictionary objects. The mass activator is provided with a list of the Dictionary objects to be activated. A mass activation can be started as follows:
+</p>
+<ul class="disc">
+<li>Explicit call of the mass activator. The list of Dictionary objects can be passed as follows:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="italic">Direct Objects</span> <br> <br>The Dictionary objects to be activated can be entered in an input mask.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="italic">External Table</span> <br> <br>A table from the structure <span class="lnkgrey">TACOB</span>
+can be specified. All Dictionary objects contained in this table are activated. The entries for objects
+that have been successfully activated are deleted from the table. If an object is not activated successfully, the corresponding entry remains in the table and an error text is saved in the relevant column.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="italic">Transport Request</span> <br> <br>A transport request can be specified. All Dictionary objects contained in the request are activated.</li>
+</ul>
+<ul class="disc">
+<li>Implicit call of the mass activator after a transport request has been imported into a target system. All Dictionary objects contained in the request are activated.</li>
+</ul>
+<p>
+For mass activations that will take a long time, <a href="javascript:call_link('abenbackround_processing_glosry.html')" class="grey" title="Glossary Entry">
+background processing</a> can be used to execute the mass activator. In this case, the Dictionary objects to be activated can be specified in an external table with type TACOB or in the TACOB table itself.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If Dictionary objects have interdependencies or belong together, mass activation is preferable to activating them individually. The mass activator activates them in the correct order and avoids unnecessary repetitions.
+</p>
+<A name="@@ITOC@@ABENDDIC_ACTIVATION_6"></A>
+<p><span class="h2">
+Cyclical Dependencies
+</span></p>
+<p>
+Activations that would produce a cycle of technical dependencies between the runtime objects are not
+possible. In mass activations, cyclical dependencies that arise from semantic relationships between
+Dictionary objects are resolved by step-by-step activation. Here, the semantic relationships are first bypassed and then reintroduced.
+</p>
+<p>
+See also <a href="javascript:call_link('abenddic_cds_cycle_problems.html')" class="blue">ABAP CDS - Cyclical Dependencies</a>
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_activation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:50:30 GMT -->
+</html>

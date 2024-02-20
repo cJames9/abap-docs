@@ -1,0 +1,270 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_CONTEXT_MENU_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_context_menu_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Context Menus">
+<title>
+Dynpros, Context Menus - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_context_menu_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_context_menu_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_screen.html')" class="blue">Screen and Screen Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenscreen_elements_abexas.html')" class="blue">Screen Elements - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Context Menus
+</span></p>
+<p>
+The example illustrates how context menus can be integrated into a program.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_CONTEXT_MENU_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_dynpro_context_menu.<br>
+<br>
+DATA: field1 TYPE i VALUE 10,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field2 TYPE p DECIMALS 4.<br>
+<br>
+DATA: prog TYPE sy-repid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag(1) TYPE c VALUE 'X'.<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_ok TYPE sy-ucomm.<br>
+<br>
+prog = sy-repid.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET TITLEBAR 'TIT100'.<br>
+&nbsp;&nbsp;IF flag = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET PF-STATUS 'SCREEN_100' EXCLUDING 'REVEAL'.<br>
+&nbsp;&nbsp;ELSEIF flag = ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET PF-STATUS 'SCREEN_100' EXCLUDING 'HIDE'.<br>
+&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;LOOP AT SCREEN INTO DATA(screen_wa).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF screen_wa-group1 = 'MOD'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flag = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen_wa-active = '1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF flag = ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen_wa-active = '0'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY SCREEN FROM screen_wa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF screen_wa-name = 'TEXT_IN_FRAME'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF flag = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen_wa-active = '0'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF flag = ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen_wa-active = '1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY SCREEN FROM screen_wa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDLOOP.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100.<br>
+&nbsp;&nbsp;save_ok = ok_code.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;CASE save_ok.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'HIDE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = ' '.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'REVEAL'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SQUARE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field2 = field1 ** 2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CUBE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field2 = field1 ** 3.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SQUAREROOT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field2 = field1 ** ( 1 / 2 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CUBICROOT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field2 = field1 ** ( 1 / 3 ).<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+<span class="blue">************************************************************</span><br>
+<span class="blue">* Callback-Routines:</span><br>
+<span class="blue">************************************************************</span><br>
+<br>
+FORM on_ctmenu_text USING l_menu TYPE REF TO cl_ctmenu.<br>
+&nbsp;&nbsp;l_menu-&gt;load_gui_status(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING program = prog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status&nbsp;&nbsp;= 'CONTEXT_MENU_1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menu&nbsp;&nbsp;&nbsp;&nbsp;= l_menu ).<br>
+ENDFORM.<br>
+<br>
+FORM on_ctmenu_frame USING l_menu TYPE REF TO cl_ctmenu.<br>
+&nbsp;&nbsp;l_menu-&gt;load_gui_status(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING program = prog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;= 'CONTEXT_MENU_2'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menu&nbsp;&nbsp;&nbsp;&nbsp;= l_menu ).<br>
+&nbsp;&nbsp;l_menu-&gt;load_gui_status(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING program = prog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;= 'CONTEXT_MENU_1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menu&nbsp;&nbsp;&nbsp;&nbsp;= l_menu ).<br>
+&nbsp;&nbsp;l_menu-&gt;set_default_function(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING fcode = 'HIDE' ).<br>
+ENDFORM.<br>
+<br>
+FORM on_ctmenu_reveal USING l_menu TYPE REF TO cl_ctmenu.<br>
+&nbsp;&nbsp;l_menu-&gt;load_gui_status(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING program = prog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;= 'CONTEXT_MENU_3'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menu&nbsp;&nbsp;&nbsp;&nbsp;= l_menu ).<br>
+&nbsp;&nbsp;l_menu-&gt;load_gui_status(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING program = prog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;= 'CONTEXT_MENU_1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menu&nbsp;&nbsp;&nbsp;&nbsp;= l_menu ).<br>
+&nbsp;&nbsp;l_menu-&gt;set_default_function(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING fcode = 'REVEAL' ).<br>
+ENDFORM.<br>
+<br>
+FORM on_ctmenu_input USING l_menu TYPE REF TO cl_ctmenu.<br>
+&nbsp;&nbsp;DATA calculate_menu TYPE REF TO cl_ctmenu.<br>
+&nbsp;&nbsp;CREATE OBJECT calculate_menu.<br>
+&nbsp;&nbsp;calculate_menu-&gt;add_function(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING fcode = 'SQUARE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;&nbsp;= text-001 ).<br>
+&nbsp;&nbsp;calculate_menu-&gt;add_function(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING fcode = 'CUBE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text&nbsp;&nbsp;= text-002 ).<br>
+&nbsp;&nbsp;calculate_menu-&gt;add_function(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING fcode = 'SQUAREROOT'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text&nbsp;&nbsp;= text-003 ).<br>
+&nbsp;&nbsp;calculate_menu-&gt;add_function(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING fcode = 'CUBICROOT'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text&nbsp;&nbsp;= text-004 ).<br>
+&nbsp;&nbsp;l_menu-&gt;add_submenu(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING menu = calculate_menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text = text-005 ).<br>
+ENDFORM.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_CONTEXT_MENU_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. The elements TEXT2 and FIELD2 do not have their
+own context menus. They inherit the context menu FRAME of the frame. The modification group MOD is assigned to them. The dynpro flow logic is:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE status_0100. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE user_command_0100.</span>
+</dd></dl>
+<p>
+The GUI status SCREEN_100 is set to PBO statically, in which, depending on the field <span class="qtext">flag</span>,
+the function codes HIDE or REVEAL are hidden. The context menus for the screen elements are constructed in the callback routines as follows:
+</p>
+<ul class="disc">
+<li>TEXT: Loads the static context menu CONTEXT_MENU_1 without modification. This context menu has a single row, <span class="italic">Cancel</span>.</li>
+</ul>
+<ul class="disc">
+<li>FRAME: Constructs the context menu from the static context menus CONTEXT_MENU_2 and CONTEXT_MENU_1.
+This context menu has two lines, <span class="italic">Hide Result</span> and <span class="italic">Cancel</span>. The line for the function code HIDE is highlighted.</li>
+</ul>
+<ul class="disc">
+<li>REVEAL: Constructs the context menus from the static context menus CONTEXT_MENU_3 and CONTEXT_MENU_1.
+This context menu has two lines, <span class="italic">Display Result</span> and <span class="italic">Cancel</span>. The line of the function code REVEAL is highlighted.</li>
+</ul>
+<ul class="disc">
+<li>INPUT: Constructs the context menu by including the multiline local context menu CALCULATE_MENU
+as a submenu. For the latter, a local reference variable with reference to CL_CTMENU is created, an
+object is created, and the new function codes SQUARE, CUBE, SQUAREROOT, and CUBICROOT are added. When
+included in the context menu for INPUT, a text must be specified for the entry, after which the submenu is attached.</li>
+</ul>
+<p>
+When the program is executed and the right (secondary) mouse button or SHIFT F10 is pressed, the user
+sees the context menu TEXT in the first line, the context menu INPUT in the second line, and the context
+menu FRAME in the third line. The fourth row is hidden by the program. On all other dynpro components,
+the standard context menu appears with all static function codes and <span class="qtext500">F1</span> and <span class="qtext500">F4</span>.
+</p>
+<p>
+When a new dynamic function is selected, calculations are performed on the number in input field FIELD1
+and then passed to FIELD2. When the function <span class="italic">Hide Result</span> (HIDE) is selected, the screen is modified dynamically. This makes the fourth line visible and the context menu REVEAL can be used.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_context_menu_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

@@ -1,0 +1,113 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMEMORY_CONSUMPTION_2 -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_consumption_2.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:17 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Maximum Size of Dynamic Data Objects">
+<meta name="keywords" content="ABAP, Dynamic Data Objects, Maximum Size, Internal Tables, Maximum Size, Strings, Maximum Size">
+<title>
+Maximum Size of Dynamic Data Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmemory_consumption_2.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmemory_consumption_2.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">Types and Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_objects.html')" class="blue">Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmemory_consumption.html')" class="blue">Memory Management of Deep Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Maximum Size of Dynamic Data Objects
+</span></p>
+<p>
+In addition to the maximum memory size that the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> can request for
+<a href="javascript:call_link('abendynamic_data_object_glosry.html')" class="grey" title="Glossary Entry">dynamic data objects</a>, their maximum size is also limited by the following factors:
+</p>
+<ul class="disc">
+<li>An upper limit for the amount of places in strings or rows of internal tables results from the fact
+that 4 byte integers are used to address them internally and in ABAP statements. This limits them to 2147483647.</li>
+</ul>
+<ul class="disc">
+<li>The size of strings and hash tables is limited by the biggest memory block that can be requested in one chunk. This is a maximum of 2 GB and is usually further limited using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a>
+<span class="lnkgrey">ztta/max_memreq_MB</span>. For strings, the value of the profile parameter directly
+represents the maximum size that can be occupied. The maximum amount of rows in hash tables depends
+on the required size of the hash administration that has to be stored there. Currently, it can be calculated
+from the largest power of two that fits into the value of the profile parameter divided by 8. For example,
+if the profile parameter specifies 250 MB, a hashed table can contain a maximum of roughly 16 million entries (128 times 1024 to the power of two divided by 8).</li>
+</ul>
+<p>
+The actual maximum size is generally smaller than given by the above limits, since the overall available memory is normally not only used by a string or an internal table.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If there is only little memory space available, it may be better to use an internal table, because its
+memory space is requested in blocks, while the entire memory space required for a string must always be free as a whole.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_consumption_2.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:17 GMT -->
+</html>

@@ -1,0 +1,270 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCL_ABAP_CORRESPONDING_1 -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_abap_corresponding_1.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CL_ABAP_CORRESPONDING - Simple Assignment">
+<title>
+CL_ABAP_CORRESPONDING - Simple Assignment - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencl_abap_corresponding_1.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencl_abap_corresponding_1.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding.html')" class="blue">Assigning Structure Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencl_abap_corresponding.html')" class="blue">CL_ABAP_CORRESPONDING - System Class</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CL_ABAP_CORRESPONDING - Simple Assignment
+</span></p>
+<p>
+The methods CREATE and EXECUTE of the system class <span class="lnkgrey">CL_ABAP_CORRESPONDING</span>
+can be used to assigned components between structure or between internal tables with a dynamically specified mapping rule.
+</p>
+<p>
+The factory method CREATE is used to create a mapping object:
+</p>
+<p>
+<span class="qtext">DATA(mapper) = cl_abap_corresponding=>create( source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= struct<i class=bn>|</i>itab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = struct<i class=bn>|</i>itab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mapping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = mapping_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discarding_duplicates = flag ).</span>
+</p>
+<p>
+Structures <span class="qtext">struct</span> or internal tables <span class="qtext">itab</span> of the
+assigned data types must be passed to the parameters <span class="qtext">source</span> and <span class="qtext">destination</span>.
+An internal table of the type CL_ABAP_CORRESPONDING=>MAPPING_TABLE, containing the mapping rule, must
+be passed to the parameter <span class="qtext">mapping</span>. If an initial mapping table is passed, only the identically named components are assigned. The mapping table has the following components:
+</p>
+<ul class="disc">
+<li>LEVEL</li>
+</ul>
+<dl><dd>
+Level of the components in the structure or row structure. The value 0 stands for the top level.
+</dd></dl>
+<ul class="disc">
+<li>KIND</li>
+</ul>
+<dl><dd>
+Mapping type. The possible values are:
+</dd></dl>
+<ul class="circlem2">
+<li>CL_ABAP_CORRESPONDING=>MAPPING_COMPONENT (1) (The components specified in this row are mapped to each other.)</li>
+</ul>
+<ul class="circlem2">
+<li>CL_ABAP_CORRESPONDING=>MAPPING_EXCEPT_COMPONENT (2) (The component of the source structure specified in this row is excluded from the mapping of identically named components.)</li>
+</ul>
+<ul class="circlem2">
+<li>CL_ABAP_CORRESPONDING=>MAPPING_EXCEPT_ALL (3) (All components of the current source structure are excluded from the mapping of identically name components.)</li>
+</ul>
+<ul class="circlem2">
+<li>CL_ABAP_CORRESPONDING=>MAPPING_DISCARDING_DUPLICATES (9) (In a source table, duplicate rows are
+ignored as when using <a href="javascript:call_link('abencorresponding_constr_dupl.html')" class="blue"><span class="qtext">DISCARDING
+DUPLICATES</span></a> in a mapping rule of the component operator. The target table must have a unique table key.)</li>
+</ul>
+<ul class="disc">
+<li>SRCNAME</li>
+</ul>
+<dl><dd>
+Component of the source structure.
+</dd></dl>
+<ul class="disc">
+<li>DSTNAME</li>
+</ul>
+<dl><dd>
+Component of the target (destination) structure.
+</dd></dl>
+<p>
+The rows of the internal table must be constructed so that they produce a mapping rule in the correct
+order. Components of the source structure for which no mapping is defined and that were not excluded are assigned to identically named components of the target structure.
+</p>
+<p>
+The method EXECUTE of a mapping object can be used to perform any number of assignments between structures
+or internal tables <span class="qtext">src</span> and <span class="qtext">dst</span> whose data type matches the source type or target type specified when the object was created:
+</p>
+<p>
+<span class="qtext"> mapper->execute( EXPORTING source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= src <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;destination = dst ).</span>
+</p>
+<p>
+The assignment is performed component by component
+</p>
+<ul class="disc">
+<li>between the components specified in the mapping rule</li>
+</ul>
+<ul class="disc">
+<li>between the remaining identically named components at the same level (if not excluded in the mapping rule).</li>
+</ul>
+<p>
+In assignments between structures, components of the target structure to which no components of the
+source structure are assigned keep their previous value, like the statement <a href="javascript:call_link('abapmove-corresponding.html')" class="blue">
+<span class="qtext">MOVE-CORRESPONDING</span></a> and like the operator <a href="javascript:call_link('abencorresponding_constr_arg_type.html')" class="blue">
+<span class="qtext">CORRESPONDING</span></a> with the addition <span class="qtext">BASE</span>. Any
+nested internal tables are always resolved, as when the addition <span class="qtext">EXPANDING NESTED
+TABLES</span> is specified in <span class="qtext">MOVE-CORRESPONDING</span> or the addition <span class="qtext">DEEP</span>
+for the operator <span class="qtext">CORRESPONDING</span>. In assignments between internal tables, the
+target table is always initialized first. There is no matching addition for the addition <span class="qtext">KEEPING
+TARGET LINES</span> in <span class="qtext">MOVE-CORRESPONDING</span> or <span class="qtext">BASE</span> in <span class="qtext">CORRESPONDING</span>.
+</p>
+<p>
+If the value "X" was passed to the parameter DISCARDING_DUPLICATES of the method CREATE, duplicate rows
+are handled in tabular component assignments in the same way as when using the addition <a href="javascript:call_link('abencorresponding_constr_dupl.html')" class="blue">
+<span class="qtext">DISCARDING DUPLICATES</span></a> in the basic form of the component operator. Here, the target table must have a unique table key.
+</p>
+<p>
+The source and the target may be the same. It should be noted, however, the target object is used directly
+(like in the statement <a href="javascript:call_link('abapmove-corresponding.html')" class="blue"><span class="qtext">MOVE-CORRESPONDING</span></a>)
+and that no temporary intermediate result is created (unlike with the operator <a href="javascript:call_link('abencorresponding_constr_arg_type.html')" class="blue"><span class="qtext">CORRESPONDING</span></a>).
+</p>
+<p>
+Incorrect parameters passed to the methods of the class CL_ABAP_CORRESPONDING raised exceptions of the class <span class="lnkgrey">CX_CORR_DYN_ERROR</span>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The methods CREATE and EXECUTE of the system class CL_ABAP_CORRESPONDING produce an assignment similar to the statement</li>
+</ul>
+<dl><dd>
+<span class="qtext">dst = <a href="javascript:call_link('abencorresponding_constr_arg_type.html')" class="blue">CORRESPONDING</a>
+&nbsp;#( BASE ( dst ) struct<i class=bn>|</i>itab <a href="javascript:call_link('abencorresponding_constr_mapping.html')" class="blue">MAPPING ... EXCEPT ...</a> ).</span>
+</dd></dl>
+<dl><dd>
+Here, the <a href="javascript:call_link('abencorresponding_constr_mapping.html')" class="blue">mapping rule</a> is specified dynamically, however, as the content of a special internal table.
+</dd></dl>
+<ul class="disc">
+<li>The same restrictions apply as in the operator <a href="javascript:call_link('abencorresponding_constr_arg_type.html')" class="blue"><span class="qtext">
+CORRESPONDING</span></a>. Components can only be mapped to each other if they are on the same level.
+Components in a substructure cannot be assigned to the components at higher levels, nor higher level components to components in a substructure.</li>
+</ul>
+<ul class="disc">
+<li>The class CL_ABAP_CORRESPONDING always resolves tabular components, which is the same behavior as
+the operator <a href="javascript:call_link('abencorresponding_constr_arg_type.html')" class="blue"><span class="qtext">CORRESPONDING</span></a>
+when a mapping rule is specified. In this case, the addition <span class="qtext">DEEP</span> is also set implicitly.</li>
+</ul>
+<ul class="disc">
+<li>To achieve the same results for standalone in assignments between structures as in the operator
+<a href="javascript:call_link('abencorresponding_constr_arg_type.html')" class="blue"><span class="qtext">CORRESPONDING</span></a>
+without <span class="qtext">BASE</span>, an initial structure can be assigned to the parameter <span class="qtext">destination</span>.</li>
+</ul>
+<ul class="disc">
+<li>In reflexive assignments between components of the same object, it should be noted that (like in
+<a href="javascript:call_link('abapmove-corresponding.html')" class="blue"><span class="qtext">MOVE-CORRESPONDING</span></a>)
+the editing order is not defined and that a call of the method  EXECUTE cannot be used to switch the content of two components. See the executable example
+<a href="javascript:call_link('abenreflexive_corresponding_abexa.html')" class="blue">Reflexive Component Assignments</a>.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenpseudo_component_glosry.html')" class="grey" title="Glossary Entry">pseudo component</a> <span class="qtext">table_line</span> cannot be addressed in the mapping table.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses the class CL_ABAP_CORRESPONDING for assignments of components to a simple structure. The mapping
+rule dictates that the components <span class="qtext">a3</span> are assigned to <span class="qtext">b1</span>
+and <span class="qtext">a1</span> to <span class="qtext">b3</span>. The component <span class="qtext">a2</span>
+is ignored since there are no identically named components in the target structure and <span class="qtext">b2</span>
+keeps its value. <span class="qtext">a4</span> and <span class="qtext">a5</span> in the target structure
+also keep their values, however, even though the source structure contains identically named components.
+This is because the value of CL_ABAP_CORRESPONDING=>MAPPING_EXCEPT_ALL is specified for the mapping type for all non-specified components. The executable
+<a href="javascript:call_link('abencl_abap_corr_dyn_abexa.html')" class="blue">example for simple structures</a> enables interactive input of the component names that are mapped to each other.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;BEGIN OF struct1, <br>&nbsp;&nbsp;&nbsp;&nbsp;a1 TYPE string VALUE 'a1', <br>&nbsp;&nbsp;&nbsp;&nbsp;a2 TYPE string VALUE 'a2', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;a3 TYPE string VALUE 'a3', <br>&nbsp;&nbsp;&nbsp;&nbsp;a4 TYPE string VALUE 'a4', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;a5 TYPE string VALUE 'a5', <br>&nbsp;&nbsp;END OF struct1, <br>&nbsp;&nbsp;BEGIN OF struct2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;b1 TYPE string VALUE 'b1', <br>&nbsp;&nbsp;&nbsp;&nbsp;b2 TYPE string VALUE 'b2', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;b3 TYPE string VALUE 'b3', <br>&nbsp;&nbsp;&nbsp;&nbsp;a4 TYPE string VALUE 'b4', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;a5 TYPE string VALUE 'b5', <br>&nbsp;&nbsp;END OF struct2. <br> <br>DATA(mapper) = <br>
+&nbsp;&nbsp;cl_abap_corresponding=>create( <br>&nbsp;&nbsp;&nbsp;&nbsp;source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= struct1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = struct2 <br>&nbsp;&nbsp;&nbsp;&nbsp;mapping
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = VALUE cl_abap_corresponding=>mapping_table( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 1 srcname = 'a1' dstname = 'b3' ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 1 srcname = 'a3' dstname = 'b1' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 3 ) ) ). <br> <br>mapper->execute( EXPORTING source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= struct1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;destination = struct2 ). <br> <br>cl_demo_output=>display( struct2 ).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abencl_abap_corr_dyn_abexa.html')" class="blue">CL_ABAP_CORRESPONDING for Simple Structures</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencl_abap_corr_struc_abexa.html')" class="blue">CL_ABAP_CORRESPONDING for Nested Structures</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencl_abap_corr_itab_abexa.html')" class="blue">CL_ABAP_CORRESPONDING for Internal Tables</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencl_abap_corr_deep_abexa.html')" class="blue">CL_ABAP_CORRESPONDING for Tabular Components</a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_abap_corresponding_1.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

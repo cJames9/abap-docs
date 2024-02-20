@@ -1,0 +1,600 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDEC_FLOATING_POINT_FUNCTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendec_floating_point_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:58 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="round, rescale - Rounding Functions">
+<meta name="keywords" content="ABAP, Rounding Functions">
+<title>
+round, rescale - Rounding Functions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendec_floating_point_functions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendec_floating_point_functions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencompute_expressions.html')" class="blue">Numeric Calculations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmathematical_functions.html')" class="blue">Numerical Functions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+round, rescale - Rounding Functions
+</span></p>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+ <br><span class="qtext">... round<i class=bn>|</i>rescale( val = arg ...&nbsp;&nbsp;) ...</span>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The rounding functions expect a <a href="javascript:call_link('abendecfloat_glosry.html')" class="grey" title="Glossary Entry">decimal
+floating point number</a> as a main argument <span class="qtext">val</span> and additional arguments
+that describe how this floating point number is handled. The type of the return value of a rounding
+function is always <span class="qtext">decfloat34</span>. Within an arithmetic expression, the argument
+for the decimal floating point number can either be an arithmetic expression or a function. The other arguments must always be specified as numeric data objects.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDEC_FLOATING_POINT_FUNCTIONS_1" class="blue">Rounding Function</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDEC_FLOATING_POINT_FUNCTIONS_2" class="blue">Rescaling Function</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The class <span class="lnkgrey">CL_ABAP_MATH</span> includes the method NORMALIZE for normalizing a decimal floating point object. The mantissa does not have any closing zeros in a normalized floating point number.
+</p>
+<A NAME="@@round@@!ABAP_FUNCTION!@@"></A>
+<A name="@@ITOC@@ABENDEC_FLOATING_POINT_FUNCTIONS_1"></A>
+<p><span class="h2">
+Rounding Function
+</span></p>
+<p>
+The rounding function <span class="qtext">round</span> can be implemented in <a href="javascript:call_link('abenoperands_expressions.html')" class="blue">operand positions</a> using the following syntax:
+</p>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... round( val = arg <i class=bn>{</i>dec = n<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>prec = n<i class=bn>}</i> <i class=bn>[</i>mode = m<i class=bn>]</i> ) ...</span>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This function rounds a decimal floating point number declared as an argument for the parameter <span class="qtext">
+val</span>. A data object specified for <span class="qtext">arg</span> is converted to the data type <span class="qtext">decfloat34</span> before the function is executed, if necessary.
+</p>
+<p>
+Either the parameter <span class="qtext">dec</span> or the parameter <span class="qtext">prec</span> must be given a value, and rounding must be to either a particular number of decimal places or
+<a href="javascript:call_link('abenprecision_glosry.html')" class="grey" title="Glossary Entry">precision</a>:
+</p>
+<ul class="disc">
+<li>If the parameter <span class="qtext">dec</span> is given a value, the value entered is rounded to
+the number of decimal places specified in <span class="qtext">n</span> and returned. <span class="qtext">n</span>
+expects data objects of the type <span class="qtext">i</span>. The value of these data objects cannot be less than -6144. If a negative value is given, the relevant whole number place is rounded.</li>
+</ul>
+<ul class="disc">
+<li>If the parameter <span class="qtext">prec</span> is given a value, the value entered is rounded to the
+<a href="javascript:call_link('abenprecision_glosry.html')" class="grey" title="Glossary Entry">precision</a> specified in <span class="qtext">
+n</span> and returned. <span class="qtext">n</span> expects data objects of the type <span class="qtext">i</span>. The value of these data objects must be greater than 0.</li>
+</ul>
+<p>
+A rounding can reduce <a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> and
+<a href="javascript:call_link('abenprecision_glosry.html')" class="grey" title="Glossary Entry">precision</a> but cannot increase
+them. If <span class="qtext">dec</span> is specified, the mantissa of the return code does not contain
+any zeroes after the place where the rounding applies. If <span class="qtext">prec</span> is specified,
+the input value is returned without being changed, if the specified precision is greater than or equal to the input value.
+</p>
+<p>
+The parameter <span class="qtext">mode</span> (optional) can be used to set the rounding type. For <span class="qtext">
+m</span> it is only possible to specify values that exist as ROUND_... constants in class <span class="lnkgrey">CL_ABAP_MATH</span>.
+The following table shows the possible rounding rules. If <span class="qtext">mode</span> is not given a value, commercial rounding is used.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Constant</span></td>
+<td><span class="bold">Rounding rule</span></td>
+</tr>
+<tr>
+<td>ROUND_HALF_UP</td>
+<td>The value is rounded down to the next round figure. If the value falls precisely halfway between two rounded values, it is rounded up away from zero (commercial rounding).</td>
+</tr>
+<tr>
+<td>ROUND_HALF_DOWN</td>
+<td>The value is rounded down to the next round figure. If the value falls precisely halfway between two round values, it is rounded down towards zero.</td>
+</tr>
+<tr>
+<td>ROUND_HALF_EVEN</td>
+<td>The value is rounded down to the next round figure. If the value falls precisely halfway between two rounded values, it is rounded to the value which has an even number in the last place.</td>
+</tr>
+<tr>
+<td>ROUND_UP</td>
+<td>The value is always rounded away from zero/to the larger absolute value.</td>
+</tr>
+<tr>
+<td>ROUND_DOWN</td>
+<td>The value is always rounded to zero/to the smaller absolute value.</td>
+</tr>
+<tr>
+<td>ROUND_CEILING</td>
+<td>The value is always rounded in a positive direction/to the larger value.</td>
+</tr>
+<tr>
+<td>ROUND_FLOOR</td>
+<td>The value is always rounded in a positive direction/to the larger value.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following tables show the results of commercial rounding of the decimal floating point number 1234.56789
+(scaling 5, precision 9) with various values for <span class="qtext">dec</span> and <span class="qtext">prec</span>.
+The displayed results are generated by <span class="lnkgrey">executing</span> the program <span class="lnkgrey">DEMO_ROUND_AND_RESCALE</span>.
+</p>
+<table border>
+<tr>
+<td><span class="qtext">dec</span></td>
+<td><span class="bold">Result</span></td>
+<td><span class="bold">Scaling</span></td>
+<td><span class="bold">Precision</span></td>
+</tr>
+<tr>
+<td>-5</td>
+<td>0E+5</td>
+<td>-5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-4</td>
+<td>0E+4</td>
+<td>-4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-3</td>
+<td>1E+3</td>
+<td>-3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-2</td>
+<td>1.2E+3</td>
+<td>-2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>-1</td>
+<td>1.23E+3</td>
+<td>-1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1235</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1234.6</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1234.57</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1234.568</td>
+<td>3</td>
+<td>7</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1234.5679</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1234.56789</td>
+<td>5</td>
+<td>9</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1234.56789</td>
+<td>5</td>
+<td>9</td>
+</tr>
+</table><br>
+<p>
+
+</p>
+<table border>
+<tr>
+<td><span class="qtext">prec</span></td>
+<td><span class="bold">Result</span></td>
+<td><span class="bold">Scaling</span></td>
+<td><span class="bold">Precision</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1E+3</td>
+<td>-3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1.2E+3</td>
+<td>-2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1.23E+3</td>
+<td>-1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1235</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1234.6</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1234.57</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1234.568</td>
+<td>3</td>
+<td>7</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1234.5679</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1234.56789</td>
+<td>5</td>
+<td>9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1234.56789</td>
+<td>5</td>
+<td>9</td>
+</tr>
+</table><br>
+<p>
+
+</p>
+<p>
+
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenround_function_abexa.html')" class="blue">Rounding Function <span class="qtext">round</span></a>
+</p>
+<p>
+
+</p>
+<A NAME="@@rescale@@!ABAP_FUNCTION!@@"></A>
+<A name="@@ITOC@@ABENDEC_FLOATING_POINT_FUNCTIONS_2"></A>
+<p><span class="h2">
+Rescaling Function
+</span></p>
+<p>
+The rescaling function <span class="qtext">rescale</span> can be implemented in <a href="javascript:call_link('abenoperands_expressions.html')" class="blue">operand positions</a> using the following syntax:
+</p>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... rescale( val = arg <i class=bn>{</i>dec = n<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>prec = n<i class=bn>}</i> <i class=bn>[</i>mode = m<i class=bn>]</i> ) ...</span>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This function changes the <a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a>
+of a decimal floating point number declared as an argument for the parameter <span class="qtext">val</span>.
+A data object specified for <span class="qtext">arg</span> is converted to the data type <span class="qtext">decfloat34</span> before the function is executed, if necessary.
+</p>
+<p>
+Either the parameter <span class="qtext">dec</span> or the parameter <span class="qtext">prec</span> must be given a value, where either the
+<a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> or the <a href="javascript:call_link('abenprecision_glosry.html')" class="grey" title="Glossary Entry">precision</a> is set:
+</p>
+<ul class="disc">
+<li>If the parameter <span class="qtext">dec</span> is given a value, the value entered is rounded using the
+<a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> specified in <span class="qtext">n</span>
+and returned. <span class="qtext">n</span> expects data objects of the type <span class="qtext">i</span>.
+The value of these data objects cannot be less than -6144. If the scaling produces more than 34 places in the mantissa of the return value, a handleable exception is raised.</li>
+</ul>
+<ul class="disc">
+<li>If the parameter <span class="qtext">prec</span> is given a value, the value entered is returned with the
+<a href="javascript:call_link('abenprecision_glosry.html')" class="grey" title="Glossary Entry">precision</a> specified in <span class="qtext">n</span> and appropriate
+<a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> and returned. <span class="qtext">n</span>
+expects data objects of the type <span class="qtext">i</span>. The value of these data objects must be greater than 0 and less than 34.</li>
+</ul>
+<p>
+A rescaling can both reduce and increase <a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> and
+<a href="javascript:call_link('abenprecision_glosry.html')" class="grey" title="Glossary Entry">precision</a>. An increase adds zeros on the right.
+</p>
+<p>
+The input value is rounded if required. The optional parameter <span class="qtext">mod</span> can be
+used to specify the rounding rule, as described under the function <span class="qtext">round</span>. The default is commercial rounding.
+</p>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+The following tables show the results of rescaling of the decimal floating point number 1234.56789 (scaling
+5, precision 9) with various values for <span class="qtext">dec</span> and <span class="qtext">prec</span>,
+if commercial rounding is used. The displayed results are generated by <span class="lnkgrey">executing</span> the program <span class="lnkgrey">DEMO_ROUND_AND_RESCALE</span>.
+</p>
+<table border>
+<tr>
+<td><span class="qtext">dec</span></td>
+<td><span class="bold">Result</span></td>
+<td><span class="bold">Scaling</span></td>
+<td><span class="bold">Precision</span></td>
+</tr>
+<tr>
+<td>-5</td>
+<td>0E+5</td>
+<td>-5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-4</td>
+<td>0E+4</td>
+<td>-4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-3</td>
+<td>1E+3</td>
+<td>-3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-2</td>
+<td>1.2E+3</td>
+<td>-2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>-1</td>
+<td>1.23E+3</td>
+<td>-1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1235</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1234.6</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1234.57</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1234.568</td>
+<td>3</td>
+<td>7</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1234.5679</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1234.56789</td>
+<td>5</td>
+<td>9</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1234.567890</td>
+<td>6</td>
+<td>10</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1234.5678900</td>
+<td>7</td>
+<td>11</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1234.56789000</td>
+<td>8</td>
+<td>12</td>
+</tr>
+</table><br>
+<p>
+
+</p>
+<table border>
+<tr>
+<td><span class="qtext">prec</span></td>
+<td><span class="bold">Result</span></td>
+<td><span class="bold">Scaling</span></td>
+<td><span class="bold">Precision</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1E+3</td>
+<td>-3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1.2E+3</td>
+<td>-2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1.23E+3</td>
+<td>-1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1235</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1234.6</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1234.57</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1234.568</td>
+<td>3</td>
+<td>7</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1234.5679</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1234.56789</td>
+<td>5</td>
+<td>9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1234.567890</td>
+<td>6</td>
+<td>10</td>
+</tr>
+<tr>
+<td>11</td>
+<td>1234.5678900</td>
+<td>7</td>
+<td>11</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1234.56789000</td>
+<td>8</td>
+<td>12</td>
+</tr>
+</table><br>
+<p>
+
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendec_floating_point_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:58 GMT -->
+</html>

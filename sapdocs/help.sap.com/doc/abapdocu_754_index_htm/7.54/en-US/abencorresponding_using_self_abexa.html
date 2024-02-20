@@ -1,0 +1,165 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCORRESPONDING_USING_SELF_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencorresponding_using_self_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Component Operator, Reflexive Assignment">
+<title>
+Component Operator, Reflexive Assignment - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencorresponding_using_self_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencorresponding_using_self_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding.html')" class="blue">Assigning Structure Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding_abexas.html')" class="blue">Assigning Components: Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Component Operator, Reflexive Assignment
+</span></p>
+<p>
+This example demonstrates the <a href="javascript:call_link('abenconstructor_expr_corresponding.html')" class="blue">component operator</a> with <span class="qtext">FROM USING</span> for a single table.
+</p>
+<A name="@@ITOC@@ABENCORRESPONDING_USING_SELF_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_corresponding_using_self.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF struct,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;&nbsp; TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;&nbsp; TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF struct.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab TYPE HASHED TABLE OF struct<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY node.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `itab`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( itab ).<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab = CORRESPONDING #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab FROM itab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USING node = parent ) ##operator.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`itab = CORRESPONDING #( itab FROM itab USING node = parent )`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( itab ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `0` parent = `-`&nbsp;&nbsp;text = `node0`&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `1` parent = `0`&nbsp;&nbsp;text = `node1` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `2` parent = `1`&nbsp;&nbsp;text = `node2` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `3` parent = `1`&nbsp;&nbsp;text = `node3` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `4` parent = `3`&nbsp;&nbsp;text = `node4` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `5` parent = `3`&nbsp;&nbsp;text = `node5` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( node = `6` parent = `1`&nbsp;&nbsp;text = `node6` ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCORRESPONDING_USING_SELF_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The example associates an internal table <span class="qtext">itab</span> in a component expression using the component operator <span class="qtext">CORRESPONDING</span> in the
+<a href="javascript:call_link('abencorresponding_constr_using.html')" class="blue">variant with lookup table</a> with itself
+and assigns the result to the same table. This requires a temporary copy of the table to be created,
+which raises a warning from the syntax check. This warning can be hidden using the pragma <span class="qtext">##operator</span>.
+</p>
+<p>
+The table contains a hierarchical tree structure in which nodes of the column <span class="qtext">node</span>
+are assigned to a top node using the column <span class="qtext">parent</span>. This relationship is
+specified after <span class="qtext">USING</span>, which finds the top node for every row. The assignment
+of the identically named component <span class="qtext">text</span> ensures that every row in this column is given the content of its direct top node.
+</p>
+<p>
+For further examples of reflexive assignments, see the executable example <a href="javascript:call_link('abenreflexive_corresponding_abexa.html')" class="blue">Reflexive Component Assignments</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencorresponding_using_self_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

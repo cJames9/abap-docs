@@ -1,0 +1,386 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_CHARACTER_BYTE_TYPES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_character_byte_types.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Character-Like Types and Byte-Like Types">
+<meta name="keywords" content="ABAP, Byte Chains, ABAP Dictionary, Character Strings, ABAP Dictionary, Strings, ABAP Dictionary">
+<title>
+Character-Like Types and Byte-Like Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_character_byte_types.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_character_byte_types.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_intro.html')" class="blue">Built-In Data Types in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_prop.html')" class="blue">Attributes of the Predefined Dictionary Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_general.html')" class="blue">General Dictionary Types</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Character-Like Types and Byte-Like Types
+</span></p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_1" class="blue">Character Strings</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_2" class="blue">Byte Chains</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_3" class="blue">Notes on Strings</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_4" class="blue">Use in ABAP CDS</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_5" class="blue">Use in ABAP SQL</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_6" class="blue">Handling in Dynpros</A></li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_1"></A>
+<p><span class="h2">
+Character Strings
+</span></p>
+<p>
+The following built-in data types in ABAP Dictionary are available for general character strings:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">CHAR</a> for text fields</li>
+</ul>
+<dl><dd>
+The built-in type CHAR, mapped to the ABAP type <span class="qtext">c</span>, is used to describe general
+text fields with a maximum length of 30000 characters (only 1333 characters for table fields, view fields, and fields of CDS entities).
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">LCHR</a> for long text fields</li>
+</ul>
+<dl><dd>
+The built-in type LCHR, also mapped to the ABAP type <span class="qtext">c</span>, is used to describe
+general text fields with lengths between 256 and 32000 characters. In database tables, the maximum length
+must be specified as the value of a preceding INT2 or INT4 field. There can only be one table field
+of type LCHR or LRAW. It must not be a key field and it must be the last table field. It cannot be used in all positions of ABAP SQL statements.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">SSTRING</a> for short text strings</li>
+</ul>
+<dl><dd>
+The built-in type SSTRING is mapped to the ABAP type <span class="qtext">string</span>, but handled
+like the type CHAR or VARCHAR in ABAP Dictionary and by database tables. The length is restricted to a maximum of 1333, but table fields of this type can also be used as
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> by database tables and used by ABAP SQL statements in almost all positions where text fields are possible.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">STRING</a> for text strings</li>
+</ul>
+<dl><dd>
+The built-in type STRING is mapped to the ABAP type <span class="qtext">string</span> and also handled like a text string
+(<a href="javascript:call_link('abenclob_glosry.html')" class="grey" title="Glossary Entry">CLOB</a>) in ABAP Dictionary and by database tables. Table fields of this type cannot be used as
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> or
+<a href="javascript:call_link('abenddic_database_tables_index.html')" class="blue">index fields</a> in database tables or in
+any positions in ABAP SQL statements. The possible length of a text string is unrestricted, but a maximum
+length of 256 can be specified to restrict its length when used for a table field of a database table, which is relevant for ABAP SQL access (see below).
+</dd></dl>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In general <a href="javascript:call_link('abenddic_structures.html')" class="blue">structures</a>, the length of a component of type CHAR is not restricted to 1333.</li>
+</ul>
+<ul class="disc">
+<li>In database tables, there can be only one table field of the type LCHR and it must be the last table
+field. This means that the type LRAW cannot be used simultaneously in the same database table. If the
+statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> is used to read an LCHR field, the preceding length field must also be read. In
+<a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a> using ABAP SQL, the length field must be given the correct value or data may be lost.</li>
+</ul>
+<ul class="disc">
+<li>LCHR is no longer recommended for new developments. The type STRING is recommended instead, however it is also not suitable for
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> of database tables or for unrestricted use in ABAP SQL. Where possible, SSTRING can be used here instead.</li>
+</ul>
+<ul class="disc">
+<li>Switching existing dictionary objects from LCHR to STRING or SSTRING, on the other hand, can be critical, since all ABAP types and ABAP objects that reference dictionary objects like this are then given a
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data type. A switch from a
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> data type to a
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data type usually constitutes an incompatible change and can produce syntax errors in ABAP programs.</li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_2"></A>
+<p><span class="h2">
+Byte Chains
+</span></p>
+<p>
+The following built-in data types in ABAP Dictionary are available for general byte chains:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">RAW</a> for byte fields</li>
+</ul>
+<dl><dd>
+The built-in type RAW, mapped to the ABAP type <span class="qtext">x</span>, is used to describe byte fields with a maximum length of 32000 characters (only 255 characters for table fields).
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">LRAW</a> for long byte fields</li>
+</ul>
+<dl><dd>
+The built-in type LRAW, also mapped to the ABAP type <span class="qtext">x</span>, is used to describe
+byte fields with lengths between 256 and 32000 characters. In database tables, the maximum length must
+be specified as the value of a preceding INT2 or INT4 field. There can only be one table field of type
+LRAW or LCHR. It must not be a key field and it must be the last table field. It cannot be used in all positions of ABAP SQL statements.
+</dd></dl>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">RAWSTRING</a> for byte strings</li>
+</ul>
+<dl><dd>
+The built-in type RAWSTRING is mapped to the ABAP type <span class="qtext">xstring</span> and also handled like a byte string
+(<a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOB</a>) in ABAP Dictionary and by database tables. Table fields of this type cannot be used as
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> or
+<a href="javascript:call_link('abenddic_database_tables_index.html')" class="blue">index fields</a> in database tables or in
+any positions in ABAP SQL statements. The possible length of a byte string is unrestricted, but a maximum
+length of 256 can be specified to restrict its length when used for a table field of a database table, which is relevant for ABAP SQL access (see below).
+</dd></dl>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In general <a href="javascript:call_link('abenddic_structures.html')" class="blue">structures</a>, the length of a component of type RAW is not restricted to 255.</li>
+</ul>
+<ul class="disc">
+<li>In database tables, there can be only one table field of the type LRAW and it must be the last table
+field. This means that the type LCHR cannot be used simultaneously in the same database table. If the
+statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> is used to read an LRAW field, the preceding length field must also be read. In
+<a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a> using ABAP SQL, the length field must be given the correct value or data may be lost.</li>
+</ul>
+<ul class="disc">
+<li>LRAW is no longer recommended for new developments. The type RAWSTRING is recommended instead, however it is also not suitable for
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> of database tables or for unrestricted use in ABAP SQL.</li>
+</ul>
+<ul class="disc">
+<li>Switching existing dictionary objects from LRAW to RAWSTRING, on the other hand, can be critical, since all ABAP types and ABAP objects that reference dictionary objects like this are then given a
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data type. A switch from a
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> data type to a
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data type usually constitutes an incompatible change and can produce syntax errors in ABAP programs.</li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_3"></A>
+<p><span class="h2">
+Notes on Strings
+</span></p>
+<p>
+The following points must be remembered when using built-in data types for text strings or byte strings:
+</p>
+<ul class="disc">
+<li>The types STRING and RAWSTRING for <a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOBs</a>
+have a variable length. A maximum length can be specified, but there is no upper limit. If a maximum length is specified, this represents the actual restriction if used for a table field of a database table.</li>
+</ul>
+<ul class="disc">
+<li>The type SSTRING also has a variable length, but this is restricted upwards by the maximum length
+that can be specified. The greatest maximum length is 1333. The benefit of using SSTRING, and not CHAR,
+is that it is assigned to the ABAP type <span class="qtext">string</span>. Its advantage over STRING
+is that it can also be used for key fields in databases and in any places in ABAP SQL in which the type CHAR is also possible.</li>
+</ul>
+<ul class="disc">
+<li>The maximum possible length for the types STRING and RAWSTRING and the mandatory maximum length for SSTRING must not be exceeded in
+<a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a> performed on database fields of these types
+using ABAP SQL. If it is exceeded, an exception of the class <span class="lnkgrey">CX_SY_OPEN_SQL_DB</span> is raised. Truncations of strings when read to a target field, however, are ignored.</li>
+</ul>
+<ul class="disc">
+<li>In ABAP programs, maximum lengths defined in ABAP Dictionary for the types STRING, RAWSTRING, and
+SSTRING are ignored by the assigned ABAP types <span class="qtext">string</span> and <span class="qtext">xstring</span>.
+As a result, writing a string that is too long to a database can raise an exception. If required, the ABAP program itself must handle the length restrictions on strings.</li>
+</ul>
+<ul class="disc">
+<li>The maximum length of data types based on STRING, RAWSTRING, and SSTRING can be identified in an
+ABAP program using the built-in function <a href="javascript:call_link('abenlength_functions.html')" class="blue"><span class="qtext">dbmaxlen</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Trailing blanks are saved in table fields of the type STRING but not in table fields of the type
+SSTRING. This is particularly significant when short strings are used as key fields of database fields, since trailing blanks cannot be used as distinguishing characteristics here.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOBs</a> of the types STRING and RAWSTRING are usually handled as
+<a href="javascript:call_link('abendeep_glosry.html')" class="grey" title="Glossary Entry">deep</a> data objects in which only
+one LOB locator is saved within the data record. This locator references the actual string data. Database fields of the type SSTRING are usually saved as
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> fields. An empty long string can also be saved using the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a>. The actual handling, however, depends on the individual database system and is not important for ABAP programs.</li>
+</ul>
+<ul class="disc">
+<li>If a <a href="javascript:call_link('abenopen_sql_wa.html')" class="blue">work area</a> or an internal table is used to access
+table fields of the types SSTRING, STRING, or RAWSTRING in ABAP SQL, the work area or the row type of the internal table must be compatible with the database structure.</li>
+</ul>
+<ul class="disc">
+<li>If structures, database tables, or views that have strings as components are used for typings in ABAP, it must be remembered that these objects are
+<a href="javascript:call_link('abendeep_structure_glosry.html')" class="grey" title="Glossary Entry">deep structures</a>. This
+means, for example, that they cannot be used in the <a href="javascript:call_link('abaptables.html')" class="blue"><span class="qtext">TABLES</span></a> statement (obsolete for database accesses) or for typing the obsolete
+<a href="javascript:call_link('abentable_parameter_glosry.html')" class="grey" title="Glossary Entry">table parameters</a> of procedures.</li>
+</ul>
+<ul class="disc">
+<li>Access may be slower for long strings (LOBs) in database tables than for other data types. If not all data is needed at once (and to bypass any memory limits on the AS Instance),
+<a href="javascript:call_link('abenopen_sql_streaming.html')" class="blue">streaming</a> and <a href="javascript:call_link('abenlocators.html')" class="blue">locators</a> can be used to access long strings.</li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_4"></A>
+<p><span class="h2">
+Use in ABAP CDS
+</span></p>
+<p>
+The following restrictions apply in <a href="javascript:call_link('abencds_ddl_glosry.html')" class="grey" title="Glossary Entry">CDS DDL</a> with respect to character-like types and byte-like types:
+</p>
+<ul class="disc">
+<li>The data types STRING and RAWSTRING plus LCHR and LRAW cannot be used in the following cases:</li>
+</ul>
+<ul class="circlem2">
+<li>In the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span></a>
+list if the addition <a href="javascript:call_link('abencds_f1_select_statement.html')" class="blue"><span class="qtext400">DISTINCT</span></a> is specified</li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abencds_f1_cast_expression.html')" class="blue"><span class="qtext400">CAST</span></a> expressions</li>
+</ul>
+<ul class="circlem2">
+<li>In comparison expressions <a href="javascript:call_link('abencds_f1_conditional_expression.html')" class="blue"><span class="qtext400">cond_expr</span></a></li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abencds_f1_sql_functions_character.html')" class="blue">string functions</a></li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abencds_f1_case_expression.html')" class="blue"><span class="qtext400">CASE</span></a> expressions</li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abencds_f1_aggregate_functions.html')" class="blue">aggregate expressions</a></li>
+</ul>
+<ul class="circlem2">
+<li>For columns merged using <a href="javascript:call_link('abencds_f1_union.html')" class="blue"><span class="qtext400">UNION</span></a></li>
+</ul>
+<ul class="circlem2">
+<li>After <a href="javascript:call_link('abencds_f1_group_by.html')" class="blue"><span class="qtext400">GROUP BY</span></a></li>
+</ul>
+<ul class="circlem2">
+<li>After <span class="qtext400">SIBLINGS ORDER BY</span> in the statement <a href="javascript:call_link('abencds_f1_define_hierarchy.html')" class="blue"><span class="qtext400">DEFINE HIERARCHY</span></a></li>
+</ul>
+<ul class="disc">
+<li>The data types LCHR and LRAW cannot be used in the following case:</li>
+</ul>
+<ul class="circlem2">
+<li>For <a href="javascript:call_link('abencds_typing.html')" class="blue">typings</a></li>
+</ul>
+<ul class="disc">
+<li>The data type RAW can only be used in a small number of operand positions.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The obsolete data type VARC cannot be used in ABAP CDS.
+</p>
+<A name="@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_5"></A>
+<p><span class="h2">
+Use in ABAP SQL
+</span></p>
+<p>
+The following restrictions apply when accessing database fields with character-like and byte-like types in ABAP SQL:
+</p>
+<ul class="disc">
+<li>There are no access restrictions to database fields with the data types CHAR and RAW in ABAP SQL.</li>
+</ul>
+<ul class="disc">
+<li>Database fields with the data types STRING and RAWSTRING plus LCHR and LRAW cannot be used in the following operand positions:</li>
+</ul>
+<ul class="circlem2">
+<li>As arguments of <a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate functions</a> and <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a></li>
+</ul>
+<ul class="circlem2">
+<li>In the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> when the addition <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">DISTINCT</span></a> is used</li>
+</ul>
+<ul class="circlem2">
+<li>In the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> when the addition <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR ALL ENTRIES</span></a> is used In the
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp05.html')" class="blue">strict mode from Release 7.40, SP05</a>,
+this produces a syntax error. Otherwise, the extended program check produces a syntax warning that can be hidden by a pragma.</li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abenasql_cond.html')" class="blue">SQL conditions</a> except <a href="javascript:call_link('abenwhere_logexp_null.html')" class="blue"><span class="qtext">IS <i class=bn>[</i>NOT<i class=bn>]</i> NULL</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>In the <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span> clause</a></li>
+</ul>
+<ul class="circlem2">
+<li>In the <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span> clause</a></li>
+</ul>
+<ul class="circlem2">
+<li>After <a href="javascript:call_link('abenselect_hierarchy_generator.html')" class="blue"><span class="qtext">SIBLINGS ORDER BY</span></a> in the
+<a href="javascript:call_link('abenhierarchy_generator_glosry.html')" class="grey" title="Glossary Entry">hierarchy generator</a></li>
+</ul>
+<ul class="disc">
+<li>The data type SSTRING can be used without restrictions, except in the <a href="javascript:call_link('abensql_coalesce.html')" class="blue">
+<span class="qtext">coalesce</span></a> function and in <a href="javascript:call_link('abensql_case.html')" class="blue"><span class="qtext">CASE</span></a> expressions.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The same restrictions apply to the obsolete data type VARC as to STRING and RAWSTRING plus LCHR and LRAW.
+</p>
+<A name="@@ITOC@@ABENDDIC_CHARACTER_BYTE_TYPES_6"></A>
+<p><span class="h2">
+Handling in Dynpros
+</span></p>
+<p>
+When a field with character-like dictionary type is used from a
+<a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">dynpro</a>, lowercase letters are transformed to uppercase letters by default. This behavior can be overridden in Screen Painter. Furthermore,
+<a href="javascript:call_link('abenddic_domains_sema.html')" class="blue">lowercase letters</a> can be preserved for data elements in the semantic attributes of a domain.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_character_byte_types.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

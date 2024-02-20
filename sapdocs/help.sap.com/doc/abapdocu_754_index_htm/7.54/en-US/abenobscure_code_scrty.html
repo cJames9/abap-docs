@@ -1,0 +1,128 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOBSCURE_CODE_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenobscure_code_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Obscuring ABAP Source Code">
+<title>
+Obscuring ABAP Source Code - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenobscure_code_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenobscure_code_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenother_programming_scrty.html')" class="blue">Further Security Risks</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Obscuring ABAP Source Code
+</span></p>
+<p>
+<a href="javascript:call_link('abenabap_source_code_glosry.html')" class="grey" title="Glossary Entry">ABAP source code</a> is
+obscured if tasks that can be performed directly are instead performed across diversions that disguise
+the real purpose. One common form of obscured code is found when information that could be specified
+statically is specified using dynamic programming techniques instead. Code can be obscured for one of the following reasons:
+</p>
+<ul class="disc">
+<li>One form of obscured code (which is not directly malicious) is often used to bypass static checks, for example to disguise false positives.</li>
+</ul>
+<ul class="disc">
+<li>Code is obscured for malicious purposes to disguise back doors and other forms of attacks using injections.</li>
+</ul>
+<p>
+In general, any type of obscured code presents a security risk. Instead of bypassing static checks by
+using obscured code, false positives should be handled using other methods, such as exemptions. Obscured code can often only be detected using a two-man rule (code inspections).
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Maliciously obscured code in a <a href="javascript:call_link('abenuser_dependent_scrty.html')" class="blue">user-dependent program flow</a>, which can generally only be detected using code inspections.
+</p>
+<dl><dd>
+<span class="qtext">DATA(field)&nbsp;&nbsp;= `SY-UNAME`. <br>ASSIGN (field) TO FIELD-SYMBOL(&lt;field>). <br>... <br>IF &lt;field> = `...`. <br>&nbsp;&nbsp;... <br>ENDIF.</span>
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Code obscured without malicious intent. In a HTTP request handler, a HTML file is created by calling a method in which potential
+<a href="javascript:call_link('abenxss_glosry.html')" class="grey" title="Glossary Entry">cross site scripting</a> (XSS) has
+already been prevented. A static security check that ignores the called method can classify this as
+a security risk, however, and demand that the HTML is masked again. The dynamic assignment of the HTML file to a field symbol is used to bypass the false positive raised by the security check.
+</p>
+<dl><dd>
+<span class="qtext">METHOD if_http_extension~handle_request. <br>&nbsp;&nbsp;DATA(html) = cl_demo_html_provider=>get( ). <br>
+&nbsp;&nbsp;"XSS is prevented in cl_demo_html_provider <br>&nbsp;&nbsp;DATA(html_name) = `HTML`. <br>&nbsp;&nbsp;ASSIGN (html_name) TO FIELD-SYMBOL(&lt;html>). <br>
+&nbsp;&nbsp;server->response->set_cdata( data = &lt;html> ). <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+The correct form of the HTTP request handler would be:
+</p>
+<dl><dd>
+<span class="qtext">METHOD if_http_extension~handle_request. <br>&nbsp;&nbsp;DATA(html) = cl_demo_html_provider=>get( ). <br>
+&nbsp;&nbsp;"XSS is prevented in cl_demo_html_provider <br>&nbsp;&nbsp;server->response->set_cdata( data = html ). <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+If the security check raises a false positive, either an exemption or an improvement to the check should be requested.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenobscure_code_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

@@ -1,0 +1,701 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_DAEMON_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_daemon_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADF, Creating and Using an ABAP Daemon">
+<title>
+ADF, Creating and Using an ABAP Daemon - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_daemon_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_daemon_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_daemon.html')" class="blue">ADF - ABAP Daemon Framework</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_daemon_abexas.html')" class="blue">Examples for ABAP Daemons</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ADF, Creating and Using an ABAP Daemon
+</span></p>
+<p>
+This example demonstrates an <a href="javascript:call_link('abenabap_daemon_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon</a>.
+</p>
+<A name="@@ITOC@@ABENABAP_DAEMON_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_abap_daemon.<br>
+<br>
+CLASS amc_receiver DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if_amc_message_receiver_text.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA msg TYPE string.<br>
+ENDCLASS.<br>
+<br>
+CLASS amc_receiver IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD if_amc_message_receiver_text~receive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;msg = i_message.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start_daemon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_information&nbsp;&nbsp;&nbsp;&nbsp;TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send_message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trigger_amc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trigger_exception&nbsp;&nbsp;TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trigger_blocking&nbsp;&nbsp; TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trigger_restart&nbsp;&nbsp;&nbsp;&nbsp;TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trigger_relocation TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trigger_stop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE abap_bool,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stop_daemon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE abap_bool.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out TYPE REF TO if_demo_output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_input,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log IMPORTING msg TYPE string.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM DATABASE demo_indx_blob(dm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID cl_demo_abap_daemon_broker=&gt;daemon_log.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;COMMIT CONNECTION default.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_input( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'ABAP Program' ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF NOT cl_demo_abap_daemon_broker=&gt;check_daemon( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF start_daemon = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(pcp) = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Version`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF cl_demo_abap_daemon_broker=&gt;start_daemon(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon start requested` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon not accepted` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon not started` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;attach_daemon( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE abap_true.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN start_daemon.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon already started` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN get_information.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Information requested` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;get_daemon_info( ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN send_message.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `msg` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_text( `Hello Daemon!` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Text message sent` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN trigger_amc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(receiver) = NEW amc_receiver( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_amc_channel_manager=&gt;create_message_consumer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_application_id = 'DEMO_AMC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_channel_id&nbsp;&nbsp;&nbsp;&nbsp; = '/demo_text'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;start_message_delivery( i_receiver = receiver ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(amc_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; amc_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `amc` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `AMC message triggered` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNTIL receiver-&gt;msg IS NOT INITIAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO 10 SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF receiver-&gt;msg IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( |AMC message &quot;{ receiver-&gt;msg }&quot; received| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `No AMC message received` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN trigger_exception.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `err` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception triggered` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN trigger_blocking.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `blk` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Blocking statement triggered` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN trigger_restart.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `rst` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Restart triggered` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN trigger_relocation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `rlo` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Relocation triggered` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN trigger_stop.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( i_name = `Type`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = `stp` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;send_message( pcp = pcp ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Stop triggered` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN stop_daemon.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_abap_daemon_broker=&gt;stop_daemon( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon stop requested` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_daemon_error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_ac_message_type_pcp_error INTO DATA(exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WAIT UP TO 1 SECONDS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'ABAP Daemon' ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(daemon_log) = ``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORT daemon_log = daemon_log<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM DATABASE demo_indx_blob(dm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID cl_demo_abap_daemon_broker=&gt;daemon_log.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( daemon_log ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get_input.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = start_daemon<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = get_information<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = send_message<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = trigger_amc<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = trigger_exception<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = trigger_blocking<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = trigger_restart<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = trigger_relocation<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = trigger_stop<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;add_field( EXPORTING as_checkbox = abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;field = stop_daemon<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;request( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF start_daemon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; get_information&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; send_message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trigger_amc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trigger_exception&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trigger_blocking&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trigger_restart&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trigger_relocation &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trigger_stop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop_daemon &lt;&gt; abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( `Check exactly one box` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD write_log.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(ts) = utclong_current( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( |{ ts TIMESTAMP = ISO }: { msg }| ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENABAP_DAEMON_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+It implements the most important aspects of an ABAP Daemon and contains the program above and two classes.
+</p>
+<p><span class="h4">
+Program DEMO_ABAP_DAEMON
+</span></p>
+<p>
+This program makes it possible to start an ABAP Daemon interactively and then perform various actions using the daemon. The checkboxes have the following meanings:
+</p>
+<ul class="disc">
+<li>START_DAEMON</li>
+</ul>
+<dl><dd>
+Attempts to start an ABAP Daemon. Only one ABAP Daemon of the ABAP Daemon class in question may exist. When the program starts, a version number is passed in
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> format. If an ABAP Daemon already exists, this daemon is used.
+</dd></dl>
+<ul class="disc">
+<li>GET_INFORMATION</li>
+</ul>
+<dl><dd>
+Gets information about the ABAP Daemon and displays it.
+</dd></dl>
+<ul class="disc">
+<li>SEND_MESSAGE</li>
+</ul>
+<dl><dd>
+Sends a text message to the ABAP Daemon in <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> format.
+</dd></dl>
+<ul class="disc">
+<li>TRIGGER_AMC</li>
+</ul>
+<dl><dd>
+Sends a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the ABAP Daemon instructing the daemon to send an
+<a href="javascript:call_link('abenamc_glosry.html')" class="grey" title="Glossary Entry">AMC</a> message. The program waits until the message arrives at a dedicated AMC receiver.
+</dd></dl>
+<ul class="disc">
+<li>TRIGGER_EXCEPTION</li>
+</ul>
+<dl><dd>
+Sends a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the ABAP Daemon, where an exception is raised. The exception produces a
+<a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dump</a> that can be viewed
+in transaction <span class="lnkgrey">ST22</span> and the ABAP Daemon is restarted automatically. This raises the version number by 1.
+</dd></dl>
+<ul class="disc">
+<li>TRIGGER_BLOCKING</li>
+</ul>
+<dl><dd>
+Sends a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the ABAP Daemon instructing it to create a statement forbidden in
+<a href="javascript:call_link('abenadf_non_blocking_model.html')" class="blue">non-blocking mode</a>. This raises an exception and
+<a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dump</a>, which can be
+viewed in transaction <span class="lnkgrey">ST22</span>. The ABAP Daemon is then restarted automatically. This raises the version number by 1.
+</dd></dl>
+<ul class="disc">
+<li>TRIGGER_RESTART</li>
+</ul>
+<dl><dd>
+Sends a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the ABAP Daemon that restarts the daemon. This raises the version number by 1.
+</dd></dl>
+<ul class="disc">
+<li>TRIGGER_RELOCATION</li>
+</ul>
+<dl><dd>
+Sends a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the ABAP
+Daemon instructing the daemon to create a new instance of its class on a different AS Instance and delete the previous instance.
+</dd></dl>
+<ul class="disc">
+<li>TRIGGER_STOP</li>
+</ul>
+<dl><dd>
+Sends a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message to the ABAP Daemon instructing it to stop.
+</dd></dl>
+<ul class="disc">
+<li>STOP_DAEMON</li>
+</ul>
+<dl><dd>
+Stops the daemon.
+</dd></dl>
+<p>
+The output of the program displays the individual actions in both the program and in the ABAP Daemon. To do this, the daemon writes entries to the
+<a href="javascript:call_link('abenexport_import_table_glosry.html')" class="grey" title="Glossary Entry">export/import table</a>
+DEMO_INDX_BLOB, which are then read by the ABAP program after a short delay. If the system in question
+is slow, this delay may not be long enough to display all actions in the daemon. The ABAP Daemon on
+the current AS Instance can be viewed in parallel to the execution of the program using the transaction <span class="lnkgrey">SMDAEMON</span>.
+</p>
+<p><span class="h4">
+Class CL_ABAP_DAEMON_BROKER
+</span></p>
+<p>
+The program DEMO_ABAP_DAEMON does not work directly with the class <span class="lnkgrey">CL_ABAP_DAEMON_CLIENT_MANAGER</span>
+and any reads performed on this class are wrapped in the class <span class="lnkgrey">CL_DEMO_ABAP_DAEMON_BROKER</span>.
+This is because CL_ABAP_DAEMON_CLIENT_MANAGER can only be used to access an ABAP Daemon in the program
+where the daemon was started. It must be possible for the daemon itself to create an instance of its
+class in this example, which means the reads must be moved to a program that can be accessed from both the ABAP program and the ABAP Daemon. To enable this, CL_DEMO_ABAP_DAEMON_BROKER contains the following methods:
+</p>
+<ul class="disc">
+<li>CHECK_DAEMON</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD check_daemon. <br>&nbsp;&nbsp;DATA(daemon_info) = <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;get_daemon_info( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_class_name = daemon_class ). <br> <br>&nbsp;&nbsp;instance_id = <br>
+&nbsp;&nbsp;&nbsp;&nbsp; VALUE #( daemon_info[ name = daemon_name ]-instance_id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OPTIONAL ). <br>
+ <br>&nbsp;&nbsp;success = COND #( WHEN instance_id IS NOT INITIAL THEN abap_true ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method determines whether a daemon of the ABAP Daemon class CL_DEMO_ABAP_DAEMON already exists
+and saves its ID for further use. The program DEMO_ABAP_DAEMON starts a daemon of the class CL_DEMO_ABAP_DAEMON
+only if no daemon exists. The method shown here for creating an ABAP Daemon as a singleton is not, however,
+100% reliable. It is possible that further daemons are created in the same class in the time between
+starting the daemon and its being returned by the method GET_DAEMON_INFO. A fully reliable program, however, would be too detailed for this simple example.
+</dd></dl>
+<ul class="disc">
+<li>START_DAEMON</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD start_daemon. <br>&nbsp;&nbsp;DATA stack TYPE abap_callstack. <br>&nbsp;&nbsp;CALL FUNCTION 'SYSTEM_CALLSTACK' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callstack = stack. <br>&nbsp;&nbsp;IF VALUE #( stack[ 2 ]-mainprogram OPTIONAL ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;&gt; 'DEMO_ABAP_DAEMON' AND <br>&nbsp;&nbsp;&nbsp;&nbsp; VALUE #( stack[ 2 ]-mainprogram OPTIONAL ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;&gt; 'CL_DEMO_ABAP_DAEMON===========CP'. <br>&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>
+&nbsp;&nbsp;ENDIF. <br> <br>&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;start( <br>&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_class_name&nbsp;&nbsp;= daemon_class <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= daemon_name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parameter&nbsp;&nbsp; = pcp <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_destination = destination <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_instance_id = instance_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_setup_mode&nbsp;&nbsp;= DATA(setup_mode) ). <br> <br>&nbsp;&nbsp;success = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;COND #( WHEN setup_mode = <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if_abap_daemon_extension=&gt;co_setup_mode-accept <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN abap_true ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method wraps the method START of the class CL_ABAP_DAEMON_CLIENT_MANAGER and starts an ABAP Daemon
+of the ABAP Daemon class CL_DEMO_ABAP_DAEMON. Any callers are checked to ensure that the method is only
+used in the program DEMO_ABAP_DAEMON and in the ABAP Daemon class. The ID of the started daemon is saved for further use. If the ABAP Daemon class is accepted when started, the return value is not initial.
+</dd></dl>
+<ul class="disc">
+<li>GET_DAEMON_INFO</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD get_daemon_info. <br>&nbsp;&nbsp;daemon_info = <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;get_daemon_info( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_class_name = daemon_class ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method wraps the identically named method of the class CL_ABAP_DAEMON_CLIENT_MANAGER and returns information about the ABAP Daemons of the ABAP Daemon class CL_DEMO_ABAP_DAEMON.
+</dd></dl>
+<ul class="disc">
+<li>ATTACH_DAEMON</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD attach_daemon. <br>&nbsp;&nbsp;daemon_handle = cl_abap_daemon_client_manager=&gt;attach( <br>&nbsp;&nbsp;&nbsp;&nbsp;i_instance_id = instance_id ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method wraps the method ATTACH of the class CL_ABAP_DAEMON_CLIENT_MANAGER. The returned reference to the
+<a href="javascript:call_link('abenabap_daemon_handle_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon handle</a> is saved in the private attribute DAEMON_HANDLE.
+</dd></dl>
+<ul class="disc">
+<li>SEND_MESSAGE</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD send_message. <br>&nbsp;&nbsp;IF daemon_handle IS INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_abap_daemon_error <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textid = cx_abap_daemon_error=&gt;action_not_permitted. <br>
+&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;daemon_handle-&gt;send( pcp ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method is used to send <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> messages to the ABAP Daemon. To do this, the method SEND of the
+<a href="javascript:call_link('abenabap_daemon_handle_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon handle</a> is used, which is referenced in the private attribute DAEMON_HANDLE.
+</dd></dl>
+<ul class="disc">
+<li>STOP_DAEMON</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD stop_daemon. <br>&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;stop( <br>&nbsp;&nbsp;&nbsp;&nbsp;i_instance_id = instance_id ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method wraps the method STOP of the class CL_ABAP_DAEMON_CLIENT_MANAGER and is used to stop the ABAP Daemon.
+</dd></dl>
+<p>
+The name of the ABAP Daemon and the ABAP Daemon class are defined as constants of the class CL_ABAP_DAEMON_BROKER.
+</p>
+<p><span class="h4">
+Class CL_ABAP_DAEMON
+</span></p>
+<p>
+The class <span class="lnkgrey">CL_DEMO_ABAP_DAEMON</span> is a subclass of CL_ABAP_DAEMON_EXT_BASE
+and is the ABAP Daemon class for this example. It implements the most important methods of the interface
+<span class="lnkgrey">IF_ABAP_DAEMON_EXTENSION</span> and further standalone helper methods. It also implements the interface <span class="lnkgrey">IF_ABAP_TIMER_HANDLER</span> so that it can be an
+<a href="javascript:call_link('abenabap_timer_handler_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer handler</a> for an
+<a href="javascript:call_link('abenabap_timer_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer</a>. Although daemons
+should never be stopped in practice, daemons created by this example are deleted automatically after an hour (if not stopped explicitly first).
+</p>
+<ul class="disc">
+<li>IF_ABAP_DAEMON_EXTENSION~ON_ACCEPT</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_accept. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(caller) = i_context_base-&gt;get_start_caller_info( )-program. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF caller = 'CL_DEMO_ABAP_DAEMON_BROKER====CP'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_setup_mode = co_setup_mode-accept. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_daemon_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+Before the daemon is started, this method checks whether the calling program is the class pool of the
+class <span class="lnkgrey">CL_DEMO_ABAP_DAEMON_BROKER</span>. Only in this case is the output parameter E_SETUP_MODE set so that the daemon can be started.
+</dd></dl>
+<ul class="disc">
+<li>IF_ABAP_DAEMON_EXTENSION~ON_START</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_start. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set_context( context = i_context <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; version = i_context-&gt;get_start_parameter( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;get_field( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i_name = `Version` ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( |Daemon started as version { <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_context-&gt;get_application_parameter( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;get_field( i_name = `Version` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} on { sy-host }| ). <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_daemon_error <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_timer_error INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>
+&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+Directly after the daemon is started, this method calls the helper method SET_CONTEXT, which saves context
+information and starts a timer. One example of context information here is the version number passed by the caller when the daemon is started.
+</dd></dl>
+<ul class="disc">
+<li>IF_ABAP_DAEMON_EXTENSION~ON_MESSAGE</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_message. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(type) = i_message-&gt;get_field( i_name = `Type` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE type. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `msg`. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Message "{ i_message-&gt;get_text( ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" received on { sy-host }| ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `amc`. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Sending AMC message in daemon` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send_amc( `Hello from daemon` ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `err`. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Raising exception in daemon` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE `Type X message in daemon` TYPE 'X'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `blk`. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Executing blocking statement in daemon` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WAIT UP TO 1 SECONDS. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `rst`. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Restarting from daemon` ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_context-&gt;restart( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `rlo`. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Relocating daemon` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;relocate( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN `stp`. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Stopping from daemon` ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_context-&gt;stop( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_daemon_error INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>
+&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method evaluates the inbound <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> messages and performs the actions in question directly or calls helper methods from the ABAP Daemon class.
+</dd></dl>
+<ul class="disc">
+<li>IF_ABAP_DAEMON_EXTENSION~ON_ERROR</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_error. <br>&nbsp;&nbsp;set_context( i_context ). <br>
+&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Daemon restarted after error and version increased to ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i_context-&gt;get_application_parameter( <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;get_field( i_name = `Version` ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_daemon_error INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+IF_ABAP_DAEMON_EXTENSION~ON_RESTART
+</dd></dl>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_restart. <br>&nbsp;&nbsp;set_context( i_context ). <br>
+&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Daemon restarted and version increased to ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i_context-&gt;get_application_parameter( <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;get_field( i_name = `Version` ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_daemon_error INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+These methods call the helper method SET_CONTEXT to set the context information again after a restart.
+</dd></dl>
+<ul class="disc">
+<li>IF_ABAP_DAEMON_EXTENSION~ON_SERVER_SHUTDOWN</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_server_shutdown. <br>&nbsp;&nbsp;relocate( ). <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+When the current AS Instance is shut down, this method calls the helper method RELOCATE to move the daemon to a different AS Instance.
+</dd></dl>
+<ul class="disc">
+<li>IF_ABAP_TIMER_HANDLER~ON_TIMEOUT</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_timer_handler~on_timeout. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Timeout reached, stopping daemon` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daemon_context-&gt;stop( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_daemon_error INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+In the case of a timeout event of the <a href="javascript:call_link('abenabap_timer_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer</a> set in SET_CONTEXT, this method stops the daemon.
+</dd></dl>
+<ul class="disc">
+<li>SET_CONTEXT</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD set_context. <br>&nbsp;&nbsp;daemon_context = context. <br>&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(pcp) = cl_ac_message_type_pcp=&gt;create( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_field( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name = `Version` <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_value = COND #( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN version IS NOT SUPPLIED <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN context-&gt;get_application_parameter( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;get_field( i_name = `Version` ) + 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE version ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context-&gt;set_application_parameter( i_parameter = pcp ). <br> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_timer_manager=&gt;get_timer_manager( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;start_timer( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_timer_handler = me <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_timeout = 3600 * 1000 ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon timeout set to one hour` ). <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_daemon_error <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cx_abap_timer_error INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method sets an attribute of the class to the context object and uses its method SET_APPLICATION_PARAMETER to save the current version number in the
+<a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a> in
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> format. If SET_CONTEXT is called
+after a restart, the previous version number is fetched from the ABAP Daemon memory and raised by 1. Furthermore, SET_CONTEXT initializes an
+<a href="javascript:call_link('abenabap_timer_glosry.html')" class="grey" title="Glossary Entry">ABAP Timer</a> responded to by the method IF_ABAP_TIMER_HANDLER~ON_TIMEOUT of the current daemon.
+</dd></dl>
+<ul class="disc">
+<li>SEND_AMC</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD send_amc. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST if_amc_message_producer_text( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_amc_channel_manager=&gt;create_message_producer( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i_application_id = 'DEMO_AMC' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i_channel_id&nbsp;&nbsp;&nbsp;&nbsp; = '/demo_text' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i_suppress_echo&nbsp;&nbsp;= 'X' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;send( i_message = msg ). <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(amc_exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; amc_exc-&gt;get_text( ) ). <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method sends an <a href="javascript:call_link('abenamc_glosry.html')" class="grey" title="Glossary Entry">AMC</a> message.
+</dd></dl>
+<ul class="disc">
+<li>RELOCATE</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD relocate. <br>&nbsp;&nbsp;DATA list TYPE TABLE OF msxxlist WITH EMPTY KEY. <br>
+&nbsp;&nbsp;CALL FUNCTION 'TH_SERVER_LIST' <br>&nbsp;&nbsp;&nbsp;&nbsp;TABLES <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;&nbsp; = list <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS = 4. <br>&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0 OR lines( list ) &lt; 2. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;write_log( `No other application server available`). <br>&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>
+&nbsp;&nbsp;ENDIF. <br> <br>&nbsp;&nbsp;DELETE list WHERE host = sy-host. <br>&nbsp;&nbsp;DATA(server) = list[ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_random_int=&gt;create( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seed = CONV #( sy-uzeit ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;&nbsp;= 1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max&nbsp;&nbsp;= lines( list ) )-&gt;get_next( ) ]. <br>
+ <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF cl_demo_abap_daemon_broker=&gt;start_daemon( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp = daemon_context-&gt;get_application_parameter( ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination = server-name ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon relocated to ` &amp;&amp; server-host &amp;&amp; ` `&nbsp;&nbsp;). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daemon_context-&gt;stop( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Daemon not accepted on ` &amp;&amp; server-host ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_daemon_error INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_log( `Exception, ` &amp;&amp; exc-&gt;get_text( ) ). <br>&nbsp;&nbsp;ENDTRY. <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method attempts to move the current daemon to a different AS Instance. To do this, an AS Instances
+is selected at random from a list in the current AS ABAP. This application server is then used as a
+destination for starting a daemon of the current ABAP Daemon class using CL_ABAP_DAEMON_BROKER. Here, the current context information from the
+<a href="javascript:call_link('abenabap_daemon_memory_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon memory</a> is passed directly as start parameters in
+<a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> format. The current daemon is then stopped.
+</dd></dl>
+<ul class="disc">
+<li>WRITE_LOG</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD write_log. <br>&nbsp;&nbsp;DATA ts TYPE timestampl. <br>&nbsp;&nbsp;GET TIME STAMP FIELD ts. <br>
+ <br>&nbsp;&nbsp;DATA(daemon_log) = ``. <br>&nbsp;&nbsp;IMPORT daemon_log = daemon_log <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM DATABASE demo_indx_blob(dm) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID cl_demo_abap_daemon_broker=&gt;daemon_log. <br>&nbsp;&nbsp;daemon_log = daemon_log &amp;&amp; |{ ts TIMESTAMP = ISO }: { msg }\n|. <br>
+&nbsp;&nbsp;EXPORT daemon_log = daemon_log <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO DATABASE demo_indx_blob(dm) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID cl_demo_abap_daemon_broker=&gt;daemon_log. <br>&nbsp;&nbsp;COMMIT CONNECTION default. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method writes log entries to the <a href="javascript:call_link('abenexport_import_table_glosry.html')" class="grey" title="Glossary Entry">
+export/import table</a> DEMO_INDX_BLOB as a string. It is called by the other methods to log the actions of the daemon for the output of the program DEMO_ABAP_DAEMON.
+</dd></dl>
+<p>
+In this example, the remaining methods of the interface <span class="lnkgrey">IF_ABAP_DAEMON_EXTENSION</span> only write log entries.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+This simple example does not guarantee that an ABAP Daemon in the ABAP Daemon class CL_ABAP_DAEMON is
+a system-wide singleton. Any parallel reads that cause restarts can be the source of multiple unwanted
+daemons. This applies in particular when moving daemons to other AS Instances. A great deal more work
+is required to create a real singleton. See the class <span class="lnkgrey">CL_AD_EXT_SIMPLE_DAEMON</span>, which can be used by the program <span class="lnkgrey">RS_ABAP_DAEMON_TEST</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_daemon_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

@@ -1,0 +1,128 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTABLE_EXP_LHS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_exp_lhs.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="table_exp - Writing Positions">
+<title>
+table_exp - Writing Positions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentable_exp_lhs.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentable_exp_lhs.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_expr_func.html')" class="blue">Expressions and Functions for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_expressions.html')" class="blue">table_exp - Table Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+table_exp - Writing Positions
+</span></p>
+<p>
+Table expressions and their <a href="javascript:call_link('abentable_exp_chaining.html')" class="blue">chainings</a> can be specified as
+<a href="javascript:call_link('abenwritable_expression_glosry.html')" class="grey" title="Glossary Entry">writable expressions</a> in
+<a href="javascript:call_link('abenresult_position_glosry.html')" class="grey" title="Glossary Entry">result positions</a>. The result of a table expression in these positions is always a temporary field symbol.
+</p>
+<ul class="disc">
+<li>If a single table expression is specified, or a
+<a href="javascript:call_link('abentable_exp_chaining.html')" class="blue">chaining</a> whose last position is a table expression, the entire row that was found is modified in the writing position.</li>
+</ul>
+<ul class="disc">
+<li>If a <a href="javascript:call_link('abentable_exp_chaining.html')" class="blue">chaining</a> is specified whose last position
+is a structure component after a structure component selector, this component is modified in the writing position.</li>
+</ul>
+<p>
+In the case of writes performed on the temporary field symbol, the same rules apply as to a field symbol
+assigned a table row using <a href="javascript:call_link('abapread_table_outdesc.html')" class="blue"><span class="qtext">READ
+TABLE ASSIGNING</span></a>. More specifically, the read-only character of key fields must be respected.
+Table expressions that return a row of a sorted table or hashed table to writing positions (like the left side of an assignment) or as actual parameters for output parameters always raise an exception.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The constructor operators <span class="qtext">VALUE</span> and <span class="qtext">REF</span> used to control the
+<a href="javascript:call_link('abentable_exp_result.html')" class="blue">result</a> of the table expression cannot be used in writing positions. <br><br>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An internal table is prefilled with initial rows, which are overwritten with a value in the <a href="javascript:call_link('abapdo.html')" class="blue"><span class="qtext">DO</span></a> loop.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE TABLE OF i WITH EMPTY KEY. <br> <br>itab = VALUE #( FOR i = 1 UNTIL i > 5 ( ) ). <br> <br>DO lines( itab ) TIMES. <br>&nbsp;&nbsp;itab[ sy-index ] = sy-index ** 2. <br>ENDDO. <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abentable_exp_itab_changing_abexa.html')" class="blue">Table Expressions, Writer Position</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abentable_exp_itab_changing_abexa.html')" class="blue">Table Expressions, Writer Positions</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentable_exp_lhs.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+</html>

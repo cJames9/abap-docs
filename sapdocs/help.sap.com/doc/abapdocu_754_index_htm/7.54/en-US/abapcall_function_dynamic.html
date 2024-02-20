@@ -1,0 +1,241 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCALL_FUNCTION_DYNAMIC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcall_function_dynamic.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CALL FUNCTION - parameter_tables">
+<title>
+CALL FUNCTION - parameter_tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapcall_function_dynamic.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapcall_function_dynamic.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_execution.html')" class="blue">Calling and leaving program units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_processing_blocks.html')" class="blue">Calling Processing Blocks</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_procedures.html')" class="blue">Calling Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcall_function.html')" class="blue">CALL FUNCTION</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CALL FUNCTION - parameter_tables <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapcall_function_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>[</i>PARAMETER-TABLE ptab<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>EXCEPTION-TABLE etab<i class=bn>]</i> ...</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... PARAMETER-TABLE ptab ...</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... EXCEPTION-TABLE etab ...</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+These additions use the special internal tables <span class="qtext">ptab</span> and <span class="qtext">etab</span>
+to assign actual parameters to the formal parameters of the function module and to assign return values to the non-class-based exceptions. <br><br>
+</P>
+<A NAME="@@PARAMETER-TABLE@@CALL FUNCTION@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... PARAMETER-TABLE ptab ...</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+<span class="qtext">PARAMETER-TABLE</span> can be used to assign actual parameters to all formal parameters of the called function module. <span class="qtext">ptab</span> expects a
+<a href="javascript:call_link('abensorted_table_glosry.html')" class="grey" title="Glossary Entry">sorted table</a> of table type ABAP_FUNC_PARMBIND_TAB or of row type ABAP_FUNC_PARMBIND from the
+<a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type group</a> <span class="lnkgrey">ABAP</span>.
+When the statement <span class="qtext">CALL FUNCTION</span> is executed, the table must contain exactly
+one row for each non-optional formal parameter. This row is optional for each optional formal parameter. The table columns are:
+</P>
+<ul class="disc">
+<li>
+NAME of type <span class="qtext">c</span> and length 30 <br>for the name of the corresponding formal parameter in uppercase letters. If a nonexistent formal parameter is specified, a handleable exception is raised. <br>
+<br></li>
+<li>
+KIND of type <span class="qtext">i</span> <br>for the category of the formal parameter. KIND must have the value of one of the following constants of the type group <span class="lnkgrey">ABAP</span>:
+<br></li>
+</ul>
+<dl>
+
+<dd>
+
+</dd>
+<dd>
+<span class="bold">-</span> ABAP_FUNC_EXPORTING for input parameters <br>
+</dd>
+</dl>
+<dl>
+
+<dd>
+
+</dd>
+<dd>
+<span class="bold">-</span> ABAP_FUNC_IMPORTING for output parameters <br>
+</dd>
+</dl>
+<dl>
+
+<dd>
+
+</dd>
+<dd>
+<span class="bold">-</span> ABAP_FUNC_TABLES for table parameters <br>
+</dd>
+</dl>
+<dl>
+
+<dd>
+
+</dd>
+<dd>
+<span class="bold">-</span> ABAP_FUNC_CHANGING for input/output parameters <br> <br>If the category
+specified from the caller perspective does not match the actual category of the formal parameter, a handleable exception is raised. <br>
+</dd>
+</dl>
+<ul class="disc">
+<li>
+VALUE of the type <span class="qtext">REF TO data</span> <br>as a pointer to an appropriate actual parameter.
+The data object to which the reference variable in VALUE points is assigned to the formal parameter specified in NAME. <br>
+<br></li>
+<li>
+TABLES_WA of type <span class="qtext">REF TO data</span> <br>as a pointer to a suitable work area if
+the column KIND contains the value ABAP_FUNC_TABLES. If TABLES_WA is not initial, the data object pointed to by the reference variable in TABLES_WA is passed to the
+<a href="javascript:call_link('abenheader_line_glosry.html')" class="grey" title="Glossary Entry">header line</a> of the table parameter specified in NAME.
+<br></li>
+</ul>
+<P>
+Together, the columns NAME and KIND are the unique key of the table <span class="qtext">ptab</span>. <br><br>
+</P>
+<A NAME="@@EXCEPTION-TABLE@@CALL FUNCTION@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... EXCEPTION-TABLE etab ...</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+<span class="qtext">EXCEPTION-TABLE</span> can be used to assign return values to exceptions of the called function module  that are not marked as exception classes in
+<a href="javascript:call_link('abenfunction_builder_glosry.html')" class="grey" title="Glossary Entry">Function Builder</a>. <span class="qtext">etab</span> expects a
+<a href="javascript:call_link('abenhashed_table_glosry.html')" class="grey" title="Glossary Entry">hashed table</a> of table type ABAP_FUNC_EXCPBIND_TAB or of row type ABAP_FUNC_EXCPBIND from the
+<a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type group</a> <span class="lnkgrey">ABAP</span>.
+The table can contain exactly one row for each non-class-based exception of the function module when the statement <span class="qtext">CALL FUNCTION</span> is executed. The table columns are:
+</P>
+<ul class="disc">
+<li>
+NAME of type <span class="qtext">c</span> and length 30 <br>Specifies the name of the exception or <span class="qtext">error_message</span> in question or specifies <span class="qtext">OTHERS</span> in uppercase. <br>
+<br></li>
+<li>
+VALUE of type <span class="qtext">i</span> <br>Specifies the number value that is available in <span class="qtext">sy-subrc</span> after the exception specified in NAME is handled <br>
+<br></li>
+<li>
+MESSAGE of type <span class="qtext">REF TO data</span> <br>(not currently used)
+<br></li>
+</ul>
+<P>
+The column NAME is the unique key of table <span class="qtext">etab</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Calls the function module GUI_DOWNLOAD with dynamic pass by parameter The name of the function module
+is specified in the string <span class="qtext">func</span> and the interface is supplied with data using the internal tables <span class="qtext">ptab</span> and <span class="qtext">etab</span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: line&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 80, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_tab LIKE STANDARD TABLE OF line, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filetype TYPE c LENGTH 10, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fleng&nbsp;&nbsp;&nbsp;&nbsp;TYPE i. <br> <br>DATA: func TYPE string, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ptab TYPE abap_func_parmbind_tab, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;etab TYPE abap_func_excpbind_tab. <br>
+ <br>func = 'GUI_DOWNLOAD'. <br>filename = 'c:\temp\text.txt'. <br>filetype = 'ASC'. <br> <br>ptab = VALUE #( ( name&nbsp;&nbsp;= 'FILENAME' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;= abap_func_exporting <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = REF #( filename ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( name&nbsp;&nbsp;= 'FILETYPE' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;= abap_func_exporting <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = REF #( filetype ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( name&nbsp;&nbsp;= 'DATA_TAB' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;= abap_func_tables <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = REF #( text_tab ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( name&nbsp;&nbsp;= 'FILELENGTH' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;= abap_func_importing <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = REF #( fleng ) ) ). <br>
+ <br>etab = VALUE #( ( name = 'OTHERS' value = 10 ) ) . <br> <br>CALL FUNCTION func <br>&nbsp;&nbsp;PARAMETER-TABLE ptab <br>
+&nbsp;&nbsp;EXCEPTION-TABLE etab. <br> <br>CASE sy-subrc. <br>&nbsp;&nbsp;WHEN 1. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;... <br>ENDCASE. <br><br> <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcall_function_dynamic.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+</html>

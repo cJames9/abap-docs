@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINHERITANCE_INSTANTIATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_instantiation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inheritance and Instantiation">
+<meta name="keywords" content="ABAP, Instantiation, Inheritance">
+<title>
+Inheritance and Instantiation - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninheritance_instantiation.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninheritance_instantiation.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninheritance.html')" class="blue">Inheritance</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inheritance and Instantiation
+</span></p>
+<p>
+When a subclass is instantiated, all superclasses are instantiated at the same time. Here, the initialization of superclass attributes is ensured by calling the superclass constructors, as described in
+<a href="javascript:call_link('abeninheritance_constructors.html')" class="blue">Inheritance and Constructors</a>.
+</p>
+<p>
+In each individual class, the additions <span class="qtext">CREATE PUBLIC<i class=bn>|</i>PROTECTED<i
+class=bn>|</i>PRIVATE</span> of the statement <a href="javascript:call_link('abapclass.html')" class="blue"><span class="qtext">CLASS</span></a>
+specify who can create an instance of the class or, in other words, can call its instance constructor.
+</p>
+<p>
+This has the following consequences:
+</p>
+<dl><dd>
+If a superclass is defined in a path of the inheritance tree using the addition <span class="qtext">CREATE
+PRIVATE</span>, outside consumers cannot instantiate a subclass, and a subclass cannot even instantiate itself because it has no access to the instance constructor of the superclass.
+</dd></dl>
+<p>
+It would therefore also be useful to apply the addition <span class="qtext">FINAL</span> to a class
+that was defined using the addition <span class="qtext">CREATE PRIVATE</span>, to prevent subclasses
+from being derived. Otherwise subclasses of superclasses like these are all given the implicit addition <span class="qtext">CREATE NONE</span>.
+</p>
+<p>
+The only exception to this rule is if a superclass that can be privately instantiated offers its
+<a href="javascript:call_link('abenfriends.html')" class="blue">friendship</a> to its subclasses. The direct route is rarely
+the case here because the superclass must know its subclasses for it to be possible. However, a superclass can also offer friendship to an interface which, in turn, can be implemented by its subclasses.
+</p>
+<p>
+Conversely, objects of subclasses cannot be created in their superclass if these are declared using <span class="qtext">CREATE PROTECTED</span> or <span class="qtext">CREATE PRIVATE</span>, unless they are
+<a href="javascript:call_link('abenfriend_glosry.html')" class="grey" title="Glossary Entry">friends</a> of its subclasses.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_INSTANTIATION_1"></A>
+<p><span class="h2">
+Overview of All Cases
+</span></p>
+<A name="@@ITOC@@ABENINHERITANCE_INSTANTIATION_2"></A>
+<p><span class="h3">
+Superclass with No Addition or CREATE PUBLIC
+</span></p>
+<p>
+Subclasses can have any <span class="qtext">CREATE</span> addition, regardless of whether they are a
+friend of the superclass. Without an addition, they inherit the attribute <span class="qtext">CREATE
+PUBLIC</span>. The instance constructor of the superclass is visible to everyone. The subclass controls the visibility of its own instance constructor, independently of the superclass.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_INSTANTIATION_3"></A>
+<p><span class="h3">
+Superclass with Addition CREATE PROTECTED.
+</span></p>
+<p>
+Subclasses can have any <span class="qtext">CREATE</span> addition, regardless of whether they are a
+friend of the superclass. Without an addition, they inherit the attribute <span class="qtext">CREATE PROTECTED</span>. The superclass allows its subclasses unlimited instantiation and therefore also allow its
+<a href="javascript:call_link('abenprotected_glosry.html')" class="grey" title="Glossary Entry">protected</a> instance constructor to be published.
+</p>
+<A name="@@ITOC@@ABENINHERITANCE_INSTANTIATION_4"></A>
+<p><span class="h3">
+Superclass with Addition CREATE PRIVATE
+</span></p>
+<p><span class="h4">
+Subclass is not a friend of the superclass
+</span></p>
+<p>
+The subclass has the implicit addition <span class="qtext">CREATE NONE</span>. Nobody other than the
+superclass itself can call its instance constructor, which means that the subclass cannot be instantiated.
+None of the <span class="qtext">CREATE</span> additions is permitted because this would always allow unauthorized publishing of the superclass constructor.
+</p>
+<p><span class="h4">
+Subclass is a friend of the superclass
+</span></p>
+<p>
+If the subclass has no addition, it inherits the attribute <span class="qtext">CREATE PRIVATE</span>.
+However, all <span class="qtext">CREATE</span> additions are permitted. As a friend, the subclass can publish the private constructor of the superclass in any form.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_instantiation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

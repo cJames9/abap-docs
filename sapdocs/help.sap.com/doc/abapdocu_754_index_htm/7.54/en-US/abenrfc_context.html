@@ -1,0 +1,120 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRFC_CONTEXT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_context.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="RFC session">
+<title>
+RFC session - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrfc_context.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrfc_context.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc.html')" class="blue">RFC - Remote Function Call</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc_intro_oview.html')" class="blue">RFC Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+RFC session
+</span></p>
+<p>
+Every remote call of a function module using an RFC interface defines an
+<a href="javascript:call_link('abenrfc_session_glosry.html')" class="grey" title="Glossary Entry">RFC session</a> as a dedicated
+<a href="javascript:call_link('abenuser_session_glosry.html')" class="grey" title="Glossary Entry">user session</a> in the target system.
+</p>
+<p>
+The logon data of an RFC session is defined during the definition of an
+<a href="javascript:call_link('abenrfc_destination.html')" class="blue">RFC destination</a> in transaction <span class="lnkgrey">SM59</span>. If no values are defined for the
+<a href="javascript:call_link('abenuser_name_glosry.html')" class="grey" title="Glossary Entry">user name</a>, the
+<a href="javascript:call_link('abenclient_glosry.html')" class="grey" title="Glossary Entry">client</a>, or the
+<a href="javascript:call_link('abenlogon_language_glosry.html')" class="grey" title="Glossary Entry">logon language</a> in this definition, these are supplied implicitly when the session is loaded for the first time, with the user name
+(<span class="qtext">sy-uname</span>), the client (<span class="qtext">sy-mandt</span>), and the
+<a href="javascript:call_link('abentext_env_langu_glosry.html')" class="grey" title="Glossary Entry">text environment language</a> (<span class="qtext">sy-langu</span>) of the calling session.
+</p>
+<p>
+The function group of the function module is loaded into an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of the RFC session and is persisted there, so that when function modules with the same
+<a href="javascript:call_link('abendestination_glosry.html')" class="grey" title="Glossary Entry">RFC destination</a> and function
+group are called repeatedly, the global data belonging to this function group can all be accessed at
+the same time. When functions are called in an external system, the RFC Library API simulates this behavior.
+A connection and its RFC session is persisted until it is explicitly closed, or until the calling program
+is finished. The function module <span class="lnkgrey">RFC_CONNECTION_CLOSE</span> or API functions RfcAbort and RfcClose are used to explicitly close a connection.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Note that when the <a href="javascript:call_link('abenlogon_language_glosry.html')" class="grey" title="Glossary Entry">logon language</a> is passed from the current session, it is not the logon language of the session that is used, but the
+<a href="javascript:call_link('abentext_env_langu_glosry.html')" class="grey" title="Glossary Entry">text environment language</a>,
+which (unlike the logon language) can be influenced by the statement <a href="javascript:call_link('abapset_locale.html')" class="blue"><span class="qtext">
+SET LOCALE LANGUAGE</span></a>. This applies in particular to the destination <span class="qtext400">"NONE"</span> and also to an
+<a href="javascript:call_link('abenasynchronous_rfc_glosry.html')" class="grey" title="Glossary Entry">asynchronous remote function call</a> without a specified destination.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenrfc_logon_data_abexa.html')" class="blue">Implicit Logon Data in RFC</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_context.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

@@ -1,0 +1,166 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_JSON_SXML -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_json_sxml.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Parsing and Rendering JSON Data">
+<title>
+Parsing and Rendering JSON Data - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_json_sxml.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_json_sxml.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_json.html')" class="blue">ABAP and JSON</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Parsing and Rendering JSON Data
+</span></p>
+<p>
+The processing of <a href="javascript:call_link('abenjson_oview.html')" class="blue">JSON</a> data in ABAP is integrated into
+<a href="javascript:call_link('abensxml_library_glosry.html')" class="grey" title="Glossary Entry">sXML</a> Library. Here, JSON is supported as a separate
+<a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">format</a>, with <a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON-XML</a> used as an intermediate step.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_JSON_SXML_1" class="blue">Parsing JSON Data</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_JSON_SXML_2" class="blue">Rendering of JSON Data</A></li>
+</ul>
+<A name="@@ITOC@@ABENABAP_JSON_SXML_1"></A>
+<p><span class="h2">
+Parsing JSON Data
+</span></p>
+<p>
+The method CREATE can be used to pass both XML data and
+<a href="javascript:call_link('abenjson_oview.html')" class="blue">JSON data</a> to each
+<a href="javascript:call_link('abenabap_sxml_lib_parse.html')" class="blue">XML reader</a> in sXML Library (except for XOP readers) that is based on the appropriate
+<a href="javascript:call_link('abenabap_sxml_lib_reader.html')" class="blue">classes and interfaces</a>. The reader recognizes the JSON format and becomes a  JSON reader. A JSON reader handles JSON data as if it were passed XML data that contains the
+<a href="javascript:call_link('abenabap_json_xml.html')" class="blue">JSON-XML representation</a> of the JSON data.
+</p>
+<p>
+When parsed, invalid JSON data raises an exception of the class CX_SXML_PARSE_ERROR, which must be caught in each parser step.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A JSON reader can, like every XML reader, be used as the source of the statement <a href="javascript:call_link('abapcall_transformation.html')" class="blue">
+<span class="qtext">CALL TRANSFORMATION</span></a>, which permits direct serialization of JSON data to ABAP data objects.</li>
+</ul>
+<ul class="disc">
+<li>When JSON data is parsed, escape characters <span class="qtext400">\</span> in front of <a href="javascript:call_link('abenjson_oview.html')" class="blue">special characters</a> in character-like values are removed automatically.</li>
+</ul>
+<ul class="disc">
+<li>By default, the <a href="javascript:call_link('abenabap_json_xml.html')" class="blue">JSON-XML</a> representation is created internally, where the object components of the JSON data are not nested in an element
+ <span class="qtext400">&lt;member></span>. To create the longer variant with <span class="qtext400">&lt;member></span>
+elements, the method SET_OPTION of the interface <span class="lnkgrey">IF_SXML_READER</span> can be used to set the option IF_SXML_READER=>CO_OPT_SEP_MEMBER.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenabap_json_oo_reader_abexa.html')" class="blue">JSON, Parse</a>
+</p>
+<A name="@@ITOC@@ABENABAP_JSON_SXML_2"></A>
+<p><span class="h2">
+Rendering of JSON Data
+</span></p>
+<p>
+The method CREATE can be used to create each <a href="javascript:call_link('abenabap_sxml_lib_render.html')" class="blue">XML writer</a> in sXML Library (except for XOP writers) that is based on the appropriate
+<a href="javascript:call_link('abenabap_sxml_lib_writer.html')" class="blue">classes and interfaces</a> as a JSON writer. Here, the associated constant of the interface IF_SXML must be passed to the input parameter TYPE.
+</p>
+<dl><dd>
+<span class="qtext">cl_sxml_..._writer=>create( type = if_sxml=>co_xt_json ).</span>
+</dd></dl>
+<p>
+A JSON writer of this type can, like any sXML writer, be provided with XML data using
+<a href="javascript:call_link('abenabap_sxml_lib_render_token.html')" class="blue">token-based</a> and
+<a href="javascript:call_link('abenabap_sxml_lib_render_oo.html')" class="blue">object-oriented rendering</a> methods. This XML data must be a valid
+<a href="javascript:call_link('abenabap_json_xml.html')" class="blue">JSON-XML representation</a> of
+<a href="javascript:call_link('abenjson_oview.html')" class="blue">JSON data</a>. The object components of JSON data can be written to a writer in either JSON-XML notation, with or without <span class="qtext400">&lt;member></span> element.
+</p>
+<p>
+The writer transforms the JSON-XML representation entered to JSON format and provides the result as specified by the writer type.
+</p>
+<p>
+Invalid JSON data is not created and raises an exception of the class CX_SXML_STATE_ERROR, which must be caught in each writer step.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When JSON data is rendered, <a href="javascript:call_link('abenjson_oview.html')" class="blue">special characters</a> in character-like values are prefixed automatically with the escape character <span class="qtext400">\</span>.</li>
+</ul>
+<ul class="disc">
+<li>A JSON writer can, like every XML writer, be used as the target of the statement <a href="javascript:call_link('abapcall_transformation.html')" class="blue">
+<span class="qtext">CALL TRANSFORMATION</span></a>, which permits direct serialization of ABAP data objects to JSON data.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenabap_json_token_writer_abexa.html')" class="blue">JSON, Render</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_json_sxml.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+</html>

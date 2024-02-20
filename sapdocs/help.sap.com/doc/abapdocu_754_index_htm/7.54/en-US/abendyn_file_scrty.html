@@ -1,0 +1,114 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYN_FILE_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendyn_file_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Directory Traversal">
+<title>
+Directory Traversal - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendyn_file_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendyn_file_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_programming_scrty.html')" class="blue">Security Risks Caused by Input from Outside</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Directory Traversal
+</span></p>
+<p>
+Physical file names can be specified as the content of a character-like data object in the statements and system class of the
+<a href="javascript:call_link('abenfile_interface_glosry.html')" class="grey" title="Glossary Entry">ABAP file interface</a>.
+If some or all of this content originates outside of the calling program, there is a risk that files or file paths are accessed by unauthorized sources (this is known as
+<a href="javascript:call_link('abendirectory_traversal_glosry.html')" class="grey" title="Glossary Entry">directory traversal</a>). The following are potential security risks when using input from outside to access the ABAP file interface:
+</p>
+<ul class="disc">
+<li>A file name used in the statements <a href="javascript:call_link('abapopen_dataset.html')" class="blue"><span class="qtext">OPEN
+DATASET</span></a> and <a href="javascript:call_link('abapdelete_dataset.html')" class="blue"><span class="qtext">DELETE DATASET</span></a> originates either partly or in full from outside the program.</li>
+</ul>
+<ul class="disc">
+<li>A file name passed to the method CREATE_UTF8_FILE_WITH_BOM of the system class <span class="lnkgrey">CL_ABAP_FILE_UTILITIES</span> originates either partly or in full from outside the program.</li>
+</ul>
+<p>
+To act against this security risk, <a href="javascript:call_link('abendataset_auth_self.html')" class="blue">the file names must
+be validated</a>. This can be a self-programmed validation or the function module <span class="lnkgrey">FILE_VALIDATE_NAME</span> can be used. This function module checks whether a physical file name matches a
+<a href="javascript:call_link('abenlogical_filename_glosry.html')" class="grey" title="Glossary Entry">logical file name</a>
+or whether it is a valid directory. One prerequisite is that the matching file names or logical paths were created using the transactions <span class="lnkgrey">FILE</span> or <span class="lnkgrey">SF01</span>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If a program uses logical file names exclusively, instead of physical file names, the physical file
+names or paths required by the statements are constructed using the function module <span class="lnkgrey">FILE_GET_NAME</span> only. In this case, validation is not usually necessary.</li>
+</ul>
+<ul class="disc">
+<li>Alongside the validation of file names, adequate checks should be made on the <a href="javascript:call_link('abendataset_auth.html')" class="blue">authorizations for file access</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See the examples under <a href="javascript:call_link('abendataset_auth_self.html')" class="blue">Validating File Names</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendyn_file_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

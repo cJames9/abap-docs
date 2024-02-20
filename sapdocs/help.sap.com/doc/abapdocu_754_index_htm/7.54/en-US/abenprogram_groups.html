@@ -1,0 +1,179 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPROGRAM_GROUPS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprogram_groups.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:23 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Program Groups in External Procedure Calls">
+<meta name="keywords" content="ABAP, Program Groups, Procedure Call">
+<title>
+Program Groups in External Procedure Calls - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenprogram_groups.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenprogram_groups.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_execution.html')" class="blue">Calling and leaving program units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_processing_blocks.html')" class="blue">Calling Processing Blocks</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_procedures.html')" class="blue">Calling Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_procedures_extern.html')" class="blue">External Procedure Call</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Program Groups in External Procedure Calls
+</span></p>
+<p>
+The programs within an <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> are grouped into
+<a href="javascript:call_link('abeninternal_session.html')" class="blue">program groups</a> in the session. There is always one
+<a href="javascript:call_link('abenmain_program_group_glosry.html')" class="grey" title="Glossary Entry">main program group</a> and a number of optional
+<a href="javascript:call_link('abenadditional_prog_group_glosry.html')" class="grey" title="Glossary Entry">additional program
+groups</a>. Each program group contains a main program and any other programs loaded. In an external
+procedure calls where the procedure accesses shared resources of the program group, it is important
+to know the program group of the master program of the procedure. Here, non-critical external procedure calls can be distinguished from critical external procedure calls.
+</p>
+<A name="@@ITOC@@ABENPROGRAM_GROUPS_1"></A>
+<p><span class="h2">
+Non-Critical External Procedure Calls
+</span></p>
+<p>
+The only procedures designed for external calls are the visible methods of global classes and function modules. The master programs of these procedures are always
+<a href="javascript:call_link('abenmain_program_glosry.html')" class="grey" title="Glossary Entry">main programs</a> in their program groups and the procedures always work with the resources of this program group.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+For this reason, only the methods of global classes and function modules should be called externally.
+</p>
+<A name="@@ITOC@@ABENPROGRAM_GROUPS_2"></A>
+<p><span class="h2">
+Critical External Procedure Calls
+</span></p>
+<p>
+Subroutines and the methods of local classes are not designed for external calls. Both in external subroutine
+calls and in dynamic calls of the local class of a program that is not its own program group, there
+is no static assignment to a program group. The program in which a non-loaded program is used for the
+first time determines the program group. The order of the user actions, field content, or switches can
+determine the order in which the programs are used, which means that the master program of the procedure can be in the main program group in one instance, and in an additional program group in another instance.
+</p>
+<p>
+The way external procedures of additionally loaded programs are used is critical for the following reasons:
+</p>
+<ul class="disc">
+<li>Within a program group, only the <a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">dynpros</a>,
+<a href="javascript:call_link('abenselection_screen_glosry.html')" class="grey" title="Glossary Entry">selection screens</a>,
+<a href="javascript:call_link('abenlist_glosry.html')" class="grey" title="Glossary Entry">lists</a>, and
+<a href="javascript:call_link('abengui_status_glosry.html')" class="grey" title="Glossary Entry">GUI statuses</a> of the main
+program are used. For example, the statement <a href="javascript:call_link('abapcall_screen.html')" class="blue"><span class="qtext">CALL
+SCREEN</span></a> does not call any dynpros of its own master program in an externally called subroutine
+of another loaded program and calls a dynpro of the main program of its program group instead. The responses to user actions are also raised in the main program.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abeninterface_work_area_glosry.html')" class="grey" title="Glossary Entry">Interface work
+areas</a> declared using the statements <a href="javascript:call_link('abaptables.html')" class="blue"><span class="qtext">TABLES</span></a>,
+<a href="javascript:call_link('abapnodes.html')" class="blue"><span class="qtext">NODES</span></a>, or <a href="javascript:call_link('abapdata_common.html')" class="blue">
+<span class="qtext">DATA BEGIN OF COMMON PART</span></a> exist once only in each program group and are
+shared by all of its programs. Each main program is shared by the additionally loaded programs of the interface work areas.</li>
+</ul>
+<p>
+This means there is no static way of defining which interface work areas and which screens are used
+by an externally called subroutine or local class. The following figure shows how programs are loaded into program groups, using the example of an external subroutine call.
+</p>
+<p>
+
+</p>
+<span class="border1"><img src="abdoc_prog_group.gif" width="00623" height="00538" alt="Figure"></span>
+<p>
+
+</p>
+<p>
+Subroutines and methods of local classes must always be called internally and never externally.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The <a href="javascript:call_link('abentext_element_glosry.html')" class="grey" title="Glossary Entry">text elements</a> of an additionally loaded program are always taken from its own
+<a href="javascript:call_link('abentext_pool_glosry.html')" class="grey" title="Glossary Entry">text pool</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The table work area <span class="qtext">dbtab</span> declared in <span class="qtext">sapssubr</span>
+is shared either with <span class="qtext">sapmprog</span> or with <span class="qtext">saplfugr</span>.
+If <span class="qtext">share</span> has the value <span class="qtext">'FUGR'</span>, <span class="qtext">saplfugr</span>
+and <span class="qtext">sapssubr</span> share the table work area. Otherwise it is shared by <span class="qtext">sapmprog</span> and <span class="qtext">sapssubr</span>.
+</p>
+<dl><dd>
+<span class="qtext">PROGRAM sapmprog.</span> <br><span class="qtext">TABLES dbtab.</span> <br><span class="qtext">...</span> <br>
+<span class="qtext">IF share = 'FUGR'.</span> <br><span class="qtext">&nbsp;&nbsp;CALL FUNCTION 'FUNC'.</span> <br>
+<span class="qtext">ENDIF.</span> <br><span class="qtext">...</span> <br><span class="qtext">PERFORM sub IN PROGRAM sapssubr.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FUNCTION-POOL saplfugr.</span> <br><span class="qtext">TABLES dbtab.</span> <br><span class="qtext">...</span> <br>
+<span class="qtext">FUNCTION func.</span> <br><span class="qtext">&nbsp;&nbsp;PERFORM sub IN PROGRAM sapssubr.</span> <br><span class="qtext">ENDFUNCTION.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">PROGRAM sapssubr.</span> <br><span class="qtext">TABLES dbtab.</span> <br><span class="qtext">...</span> <br>
+<span class="qtext">FORM sub.</span> <br><span class="qtext">&nbsp;&nbsp;...</span> <br><span class="qtext">ENDFORM.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprogram_groups.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:23 GMT -->
+</html>

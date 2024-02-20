@@ -1,0 +1,203 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSECONDARY_KEY_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensecondary_key_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Secondary Key">
+<title>
+Secondary Key - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensecondary_key_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensecondary_key_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_guidl.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Secondary Key
+</span></p>
+<A name="@@ITOC@@ABENSECONDARY_KEY_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Secondary keys can be declared for internal tables. The following options are possible:
+</p>
+<ul class="disc">
+<li>Sorted keys (non-unique or unique)</li>
+</ul>
+<ul class="disc">
+<li>Hash keys that can only be unique</li>
+</ul>
+<p>
+These keys are assigned a name when they are declared and can be created for any table category. The primary key (nameless up to this point) is assigned a predefined name
+(<span class="qtext">primary_key</span>), which allows it to be explicitly addressed.  A secondary table
+index is created internally for each sorted secondary key. This enables index access to hashed tables.
+When internal tables are accessed, a table key or index must be specified. If nothing is explicitly specified, the internal table is accessed using the primary key or primary index by default.
+</p>
+<p>
+Access to internal tables using secondary keys is always optimized. This generally increases read performance
+significantly. Previously, no optimized key access was possible for this. On the other hand, secondary
+keys also incur additional administration costs due to memory consumption and runtime. Additional runtime
+costs arise, if a secondary table index needs to be updated after changes to table content. The ABAP
+runtime environment delays these runtime costs for as long as possible, until they are actually required (lazy update and delayed update). The
+<a href="javascript:call_link('abenadmin_costs_dyn_mem_obj_guidl.html')" class="lnkpurple" title="Guideline">administration costs</a>
+for a secondary key are just as high as for the primary table keys: on average, 6 bytes for each secondary
+index row and 18 or 30 bytes for each hash key row. On average, another 8 bytes per row are required
+if the table has at least one non-unique sorted secondary key. Additional memory costs are incurred
+if a secondary key needs to be updated after changes to internal table content. These memory costs are on the same scale as the costs above and also depend on the number of rows.
+</p>
+<A name="@@ITOC@@ABENSECONDARY_KEY_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use secondary keys in a way that benefits the table.</span>
+</p>
+<p>
+Use secondary keys sparingly and only in cases where the benefits outweigh the extra costs.
+</p>
+<A name="@@ITOC@@ABENSECONDARY_KEY_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The internal management of secondary keys in an internal table can involve significant memory consumption and updates. Secondary keys are useful for accelerating reads in the following cases:
+</p>
+<ul class="disc">
+<li>The standard scenario for sensibly using secondary table keys relates to a very large internal table
+that is filled once and the content is changed very infrequently. In this case, runtime costs for secondary
+key administration are only incurred when the internal table is created and in a few other rare situations. These costs are more than outweighed by more efficient, more frequent reads.</li>
+</ul>
+<ul class="disc">
+<li>Secondary keys might be useful for small internal tables in some circumstances because they ensure
+unique table entries in relation to particular components. This justifies the extra costs for the secondary key. This applies to standard tables in particular, whose primary keys can never be unique.</li>
+</ul>
+<p>
+When using secondary keys, remember:
+</p>
+<ul class="disc">
+<li>As a matter of principle, secondary hash keys should not have too many components. Otherwise, the
+system has to deal with a high system load caused by the additional hash management. Sorted keys are preferable for secondary keys with a large number of components. The same applies to primary keys.</li>
+</ul>
+<ul class="disc">
+<li>In the case of read-only reads where unique table entries are not relevant, non-unique secondary
+keys are usually sufficient. Reads are just as fast as for unique keys (or nearly as fast if duplicate entries exist). Updates are only performed after table modifications if necessary.</li>
+</ul>
+<ul class="disc">
+<li>If index table rows are deleted using secondary key accesses, the primary index of the table must be updated. This cannot be optimized for standard tables; a linear search needs to be performed instead.</li>
+</ul>
+<p>
+Secondary table keys should not be used in the following situations:
+</p>
+<ul class="disc">
+<li>For small internal tables (less than 50 rows), the performance gain for reads is greatly outweighed by the increased memory and administration costs.</li>
+</ul>
+<ul class="disc">
+<li>In tables where a large number of writes are performed, the load incurred by updating the secondary
+keys outweighs the performance benefits in the case of reads. Delayed updates and lazy updates in particular
+can incur update costs for precisely those reads for which the optimization was actually intended. This results in either no gain or a negative gain.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>It is relatively easy to provide secondary keys later on for existing internal table types in ABAP
+programs. And it is especially easy to provide secondary keys later on for table types that are defined
+in ABAP Dictionary. It must be remembered that (unlike database accesses) the secondary key of an internal
+table must be specified at the where-used position. Otherwise, it is not evaluated. In these cases,
+only non-unique sorted keys are usually defined. Otherwise, programs that use tables of this type (and populate these tables with non-unique rows based on this component) will no longer function properly.</li>
+</ul>
+<ul class="disc">
+<li>Note that the <span class="qtext">sy-tabix</span> system field is populated by the assigned secondary
+index, if sorted secondary keys are used. If this value is used for the subsequent index access to the
+internal table, the same table index must be explicitly used here. If used implicitly, the value would be interpreted as a primary index.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+In the following source code, a large hashed table is accessed using a free key, which does not correspond
+to the primary key of the table. Therefore, a linear search is required for this access. This is very time-intensive.
+</p>
+<dl><dd>
+<span class="qtext">DATA itab TYPE HASHED TABLE OF dbtab <br>&nbsp;&nbsp;WITH UNIQUE KEY col1 col2 ... <br>
+&nbsp;&nbsp;"fill itab with a large amount of data <br>&nbsp;&nbsp;... <br>READ TABLE itab <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH KEY col3 = ... col4 = ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASSIGNING ...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code optimizes the above example by adding a secondary table key to the table declaration.
+This key replaces the free key during access. Sequential processing (in the order defined with this key) can now be performed.
+</p>
+<dl><dd>
+<span class="qtext">DATA itab TYPE HASHED TABLE OF dbtab <br>&nbsp;&nbsp;WITH UNIQUE KEY col1 col2 ... <br>
+&nbsp;&nbsp;WITH NON-UNIQUE SORTED KEY second_key <br>&nbsp;&nbsp;&nbsp;&nbsp;COMPONENTS col3 col4 ... <br>
+&nbsp;&nbsp;"fill itab with a large amount of data <br>&nbsp;&nbsp;... <br>ASSIGN itab[ KEY second_key <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMPONENTS col3 = ... col4 = ... ] <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO ... <br>... <br>LOOP AT itab USING KEY second_key. <br>... <br>ENDLOOP.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensecondary_key_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

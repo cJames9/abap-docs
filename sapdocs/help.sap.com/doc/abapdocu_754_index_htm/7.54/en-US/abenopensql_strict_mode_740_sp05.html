@@ -1,0 +1,187 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOPENSQL_STRICT_MODE_740_SP05 -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopensql_strict_mode_740_sp05.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Strict Mode in Release 7.40, SP05">
+<title>
+Strict Mode in Release 7.40, SP05 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenopensql_strict_mode_740_sp05.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenopensql_strict_mode_740_sp05.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_oview.html')" class="blue">ABAP SQL - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql_strict_modes.html')" class="blue">ABAP SQL - Release-Dependent Syntax Check Modes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Strict Mode in Release 7.40, SP05
+</span></p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_STRICT_MODE_740_SP05_1" class="blue">Conditions for the Strict Mode</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_STRICT_MODE_740_SP05_2" class="blue">Rules for the Strict Mode</A></li>
+</ul>
+<A name="@@ITOC@@ABENOPENSQL_STRICT_MODE_740_SP05_1"></A>
+<p><span class="h2">
+Conditions for the Strict Mode
+</span></p>
+<p>
+The strict mode of the syntax check in Release 7.40, SP05 applies to all ABAP SQL statements that use one of the following attributes introduced in
+<a href="javascript:call_link('abennews-740_sp05-open_sql.html')" class="blue">Release 7.40 SP05</a>:
+</p>
+<ul class="disc">
+<li>Listings of operands as comma-separated lists</li>
+</ul>
+<ul class="disc">
+<li>Escape character <span class="qtext">@</span> in front of <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> except for columns specified individually or aggregate expressions specified individually.</li>
+</ul>
+<ul class="disc">
+<li>Addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING CLIENT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapselect_join.html')" class="blue">Joins</a>:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">ON</span> conditions without a column from a database table or view specified on the right side as an operand.</li>
+</ul>
+<ul class="circlem2">
+<li>Multiple consecutive joins where a join expression (and not a database table or view) is on the right side of a join expression.</li>
+</ul>
+<ul class="circlem2">
+<li>Use of <span class="qtext">RIGHT OUTER JOIN</span></li>
+</ul>
+<ul class="circlem2">
+<li>Fields from the right side specified in <span class="qtext">LEFT OUTER JOIN</span> or from the left side in <span class="qtext">RIGHT OUTER JOIN</span> in the <span class="qtext">WHERE</span> condition.</li>
+</ul>
+<ul class="disc">
+<li>Access to <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a> using <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>.</li>
+</ul>
+<A name="@@ITOC@@ABENOPENSQL_STRICT_MODE_740_SP05_2"></A>
+<p><span class="h2">
+Rules for the Strict Mode
+</span></p>
+<p>
+The strict mode of the syntax in Release 7.40, SP05 checks whether the following additional rules are followed:
+</p>
+<ul class="disc">
+<li>Any errors that would normally be displayed as syntax warnings are reported as syntax errors.</li>
+</ul>
+<ul class="disc">
+<li>All lists of operands must be comma-separated lists. This affects the following:</li>
+</ul>
+<ul class="circlem2">
+<li>In the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>, columns,
+aggregate expressions, or SQL expressions specified in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">
+SELECT</span> list</a> and columns specified after <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">
+GROUP BY</span></a> and <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>In the statement <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>,
+change expressions specified after <a href="javascript:call_link('abapupdate_source.html')" class="blue"><span class="qtext">SET</span></a>.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">Host variables</a> must be prefixed with the escape character <span class="qtext">@</span>.</li>
+</ul>
+<ul class="disc">
+<li>If an explicit comma-separated list is specified without the addition <a href="javascript:call_link('abapselect_clause.html')" class="blue">
+<span class="qtext">DISTINCT</span></a> in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a>, all columns of the results set defined here must exist as identically named components in
+a structure or table specified after <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO CORRESPONDING FIELDS</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenclient_column_glosry.html')" class="grey" title="Glossary Entry">client column</a>
+of a data source of a read statement or of a target of a write statement must not be accessed in <span class="qtext">ON</span> and <span class="qtext">WHERE</span> conditions without
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a> being disabled
+using <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> first. In addition, this applies in particular in strict mode when using
+<a href="javascript:call_link('abenwhere_logexp_dynamic.html')" class="blue">dynamic</a>
+<a href="javascript:call_link('abenasql_cond.html')" class="blue">conditions</a>, alias names defined using <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">AS</span></a>, or
+<a href="javascript:call_link('abapfrom_clause.html')" class="blue">joins</a>.</li>
+</ul>
+<ul class="disc">
+<li>The addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> can only be used for client-specific database tables or views.</li>
+</ul>
+<ul class="disc">
+<li>If the addition <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR ALL ENTRIES</span></a>
+is used, no database fields of the built-in types STRING, RAWSTRING, and GEOM_EWKB plus LCHR and LRAW can occur in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a>.</li>
+</ul>
+<ul class="disc">
+<li>If <a href="javascript:call_link('abendatabase_view_glosry.html')" class="grey" title="Glossary Entry">database views</a>
+with the same number of key fields and view fields are accessed in a dynamic <span class="qtext">FROM</span>
+clause combined with the addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY PRIMARY KEY</span></a>, the exception CX_SY_DYNAMIC_OSQL_SEMANTICS is raised.</li>
+</ul>
+<ul class="disc">
+<li>Like in classes, the <a href="javascript:call_link('abenopen_sql_obsolete.html')" class="blue">obsolete short forms</a> are forbidden.</li>
+</ul>
+<p>
+Comma-separated lists of operands and the escape character <span class="qtext">@</span> can only be
+used in programs in which the program attribute <a href="javascript:call_link('abenfixed_point_arithmetic_glosry.html')" class="grey" title="Glossary Entry"><span class="italic">fixed point arithmetic</span></a> is activated.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopensql_strict_mode_740_sp05.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+</html>

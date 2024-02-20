@@ -1,0 +1,198 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_CLASSICAL_VIEWS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_classical_views.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Classic Views">
+<meta name="keywords" content="ABAP, ABAP Dictionary, Classic Views">
+<title>
+Classic Views - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_classical_views.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_classical_views.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_views.html')" class="blue">Views</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Classic Views
+</span></p>
+<p>
+A classic view (or view for short) is a repository object in ABAP Dictionary defined for existing database tables and their fields in the form-based ABAP Dictionary
+<a href="javascript:call_link('abenddic_tools.html')" class="blue">tool</a> in
+<a href="javascript:call_link('abenabap_workbench_glosry.html')" class="grey" title="Glossary Entry">ABAP Workbench</a>. As well as the classic views, the ABAP Dictionary also manages the
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> of the
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP Core Data Services</a>, which are defined by the
+<a href="javascript:call_link('abencds_ddl_glosry.html')" class="grey" title="Glossary Entry">CDS DDL</a> in <a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL source code</a>.
+</p>
+<p>
+The definition of a classic view consists of the following:
+</p>
+<ul class="disc">
+<li><span class="bold">Basis tables</span></li>
+</ul>
+<dl><dd>
+A list of database tables accessed by the view. Multiple tables are joined using joins.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">View fields</span></li>
+</ul>
+<dl><dd>
+A list of table fields of the basis tables that defines the structure of the view. Except in the case of projection views, a different
+<a href="javascript:call_link('abenddic_data_elements.html')" class="blue">data element</a> can be assigned to a view field that
+that used for the corresponding table field of the basis table. This can only happen if the type of the table field is defined using a data element with a
+<a href="javascript:call_link('abenddic_domains.html')" class="blue">domain</a> and if the new data element references the same domain. This makes it possible to adjust the semantic attributes of the view field to the view.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Key</span></li>
+</ul>
+<dl><dd>
+A key of the view that consists of key fields. The tool derives the key of a view from the key fields
+of the basis tables and the join conditions. All the key fields must be located contiguously at the
+start of the view. Fields that do not belong to the key, but are located between the key fields, are
+thus marked as key fields.  All rows determined by the view must be unique with respect to the key.
+If no key with this property can be identified, all fields of the view are key fields, which can be bad for performance. In the case of ABAP SQL accesses to the view, its key behaves like the key of a database table.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Join conditions</span></li>
+</ul>
+<dl><dd>
+Conditions for joining multiple basis tables using inner joins or outer joins. A join condition compares
+two fields from basis tables of a view for equality. If no join conditions are specified for a pair
+of basis tables, the view is used to select the cross product of the basis tables. Each row in a table
+is combined with each row of the other table. Each join condition then selects the matching rows from the cross product.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Selection conditions</span></li>
+</ul>
+<dl><dd>
+Used to restrict the read rows to specific values of view fields or other fields.
+</dd></dl>
+<ul class="circlem2">
+<li>The possible relational operators are <span class="qtext400">=</span>, <span class="qtext400">&lt;></span>,
+<span class="qtext400">>=</span>, <span class="qtext400">></span>, <span class="qtext400">&lt;=</span>,
+<span class="qtext400">&lt;</span>, <span class="qtext400">LIKE</span>, and <span class="qtext400">NOT LIKE</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Depending on the data type of the view field, constant texts and numbers are allowed as comparison values.
+<a href="javascript:call_link('abensystem_field_glosry.html')" class="grey" title="Glossary Entry">System fields</a> can be specified
+for maintenance views and help views using <span class="qtext400">SYST-...</span> or <span class="qtext400">SY-...</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Multiple comparisons can be joined using <span class="qtext400">AND</span> and multiple comparisons
+for the same field can be joined using <span class="qtext400">OR</span>. Here, <span class="qtext400">OR</span> is stronger than <span class="qtext400">AND</span>.</li>
+</ul>
+<p>
+The following types of classic views exist, of which only the database views are defined as SQL views on the database:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_database_views.html')" class="blue">Database views</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_projection_views.html')" class="blue">Projection views</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_maintenance_views.html')" class="blue">Maintenance views</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_help_views.html')" class="blue">Help views</a></li>
+</ul>
+<p>
+Like database tables, views have a short text description and (optional) documentation. A status known
+as a maintenance status determines whether a view is read-only or whether data can be inserted or modified in the view.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Projections can be implemented using both database views and with special projection views.</li>
+</ul>
+<ul class="disc">
+<li>Only database tables can be specified as the basis tables of classic views, and no other views.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>, only views whose key fields are located together at the beginning of the view can be accessed.</li>
+</ul>
+<ul class="disc">
+<li>Views whose fields are all key fields should not be written to using <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">
+UPDATE FROM</span></a> or <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY FROM</span></a>.
+For database views, this produces a syntax check warning and for projection views a syntax error or runtime error.</li>
+</ul>
+<ul class="disc">
+<li>As in database tables, the <a href="javascript:call_link('abenclient_dependence_glosry.html')" class="grey" title="Glossary Entry">
+client dependency</a> of a classic view that can be accessed using ABAP SQL (a database view or projection
+view) is determined by a first column with the built-in dictionary type CLNT. The client dependency of the basis tables is ignored here.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddic_cds_views.html')" class="blue">CDS views</a> defined using the
+<a href="javascript:call_link('abencds_ddl_glosry.html')" class="grey" title="Glossary Entry">CDS DDL</a> of the ABAP Core Data Services in
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL source code</a> offer
+all the functions of classic views and more. CDS views are, however, read-only, while some classic views can be modified.</li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenddic_database_views.html')" class="blue">Database Views</a><br>
+<a href="javascript:call_link('abenddic_projection_views.html')" class="blue">Projection Views</a><br>
+<a href="javascript:call_link('abenddic_maintenance_views.html')" class="blue">Maintenance Views</a><br>
+<a href="javascript:call_link('abenddic_help_views.html')" class="blue">Help Views</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_classical_views.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+</html>

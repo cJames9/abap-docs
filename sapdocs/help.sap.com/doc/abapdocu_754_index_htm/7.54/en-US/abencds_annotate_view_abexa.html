@@ -1,0 +1,267 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_ANNOTATE_VIEW_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_annotate_view_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CDS Metadata Extensions with CDS Variants">
+<title>
+CDS Metadata Extensions with CDS Variants - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_annotate_view_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_annotate_view_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_annotations.html')" class="blue">ABAP CDS - Annotations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_anno_usage.html')" class="blue">ABAP CDS - Specifying Annotations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_meta_data_extensions.html')" class="blue">ABAP CDS Metadata Extensions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CDS Metadata Extensions with CDS Variants
+</span></p>
+<p>
+The example demonstrates the <a href="javascript:call_link('abencds_meta_data_extension_eval.html')" class="blue">evaluation</a> of CDS annotations that are defined in CDS metadata extensions.
+</p>
+<A name="@@ITOC@@ABENCDS_ANNOTATE_VIEW_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_cds_mde_variants.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( 'No Meta Data Extension' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_dd_ddl_annotation_service=&gt;get_annos(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entityname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp; 'DEMO_CDS_MDE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metadata_extension =&nbsp;&nbsp;&nbsp;&nbsp; abap_false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element_annos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; DATA(element_annos) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE element_annos WHERE elementname &lt;&gt; 'ELEMENT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( element_annos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( 'With Meta Data Extension'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;begin_section( 'No Variant' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_dd_ddl_annotation_service=&gt;get_annos(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entityname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp; 'DEMO_CDS_MDE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metadata_extension =&nbsp;&nbsp;&nbsp;&nbsp; abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element_annos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; element_annos ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE element_annos WHERE elementname &lt;&gt; 'ELEMENT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( element_annos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( 'DemoVariant1' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_dd_ddl_annotation_service=&gt;get_annos(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entityname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp; 'DEMO_CDS_MDE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;variant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; 'DEMOVARIANT1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metadata_extension =&nbsp;&nbsp;&nbsp;&nbsp; abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element_annos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; element_annos ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE element_annos WHERE elementname &lt;&gt; 'ELEMENT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( element_annos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( 'DemoVariant2' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_dd_ddl_annotation_service=&gt;get_annos(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entityname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp; 'DEMO_CDS_MDE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;variant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; 'DEMOVARIANT2'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metadata_extension =&nbsp;&nbsp;&nbsp;&nbsp; abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element_annos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; element_annos ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE element_annos WHERE elementname &lt;&gt; 'ELEMENT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( element_annos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( 'Wrong Variant' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_dd_ddl_annotation_service=&gt;get_annos(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entityname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp; 'DEMO_CDS_MDE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;variant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; '§wrxlbrxlkrk'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metadata_extension =&nbsp;&nbsp;&nbsp;&nbsp; abap_true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element_annos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp; element_annos ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE element_annos WHERE elementname &lt;&gt; 'ELEMENT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( element_annos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCDS_ANNOTATE_VIEW_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The example program uses the method GET_ANNOS of class <span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span> to access the following CDS view:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSVIEWMDE' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+@Metadata.allowExtensions: true <br>define view Demo_Cds_MDE <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_expressions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@UI.dataPoint.title: 'View, title' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@UI.dataPoint.description: 'View, description' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@UI.dataPoint.longDescription: 'View, longdescription' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'X' as element <br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br>&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = 'X'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+</dd></dl>
+<p>
+The annotations of the view are extended or overridden by the following <a href="javascript:call_link('abencds_metadata_extension_glosry.html')" class="grey" title="Glossary Entry">CDS metadata extensions</a>:
+</p>
+<ul class="disc">
+<li>DEMO_CDS_MDE_INDSTR_NO_VARIANT</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@Metadata.layer: #INDUSTRY <br>annotate view Demo_Cds_MDE with <br>{ <br>&nbsp;&nbsp;@UI.dataPoint.title: 'MDE INDUSTRY, no variant, title' <br>
+&nbsp;&nbsp;@UI.dataPoint.description: 'MDE INDUSTRY, no variant, description' <br>&nbsp;&nbsp;element; <br>}</span>
+</dd></dl>
+<ul class="disc">
+<li>DEMO_CDS_MDE_INDSTR_VARIANT_1</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@Metadata.layer: #INDUSTRY <br>annotate view Demo_Cds_MDE with <br>&nbsp;&nbsp;variant <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DemoVariant1 <br>{ <br>&nbsp;&nbsp;@UI.dataPoint.longDescription: 'MDE INDUSTRY, DemoVariant1, longDescription' <br>&nbsp;&nbsp;element; <br>}</span>
+</dd></dl>
+<ul class="disc">
+<li>DEMO_CDS_MDE_INDSTR_VARIANT_2</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@Metadata.layer: #INDUSTRY <br>annotate view Demo_Cds_MDE with <br>&nbsp;&nbsp;variant <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DemoVariant2 <br>{ <br>&nbsp;&nbsp;@UI.dataPoint.title: 'MDE INDUSTRY, DemoVariant2, title' <br>
+&nbsp;&nbsp;@UI.dataPoint.description: 'MDE INDUSTRY, DemoVariant2, description' <br>&nbsp;&nbsp;element; <br>}</span>
+</dd></dl>
+<ul class="disc">
+<li>DEMO_CDS_MDE_PARTNR_NO_VARIANT</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@Metadata.layer: #PARTNER <br>annotate view Demo_Cds_MDE with <br>{ <br>&nbsp;&nbsp;@UI.dataPoint.title: 'MDE PARTNER, no variant, title' <br>&nbsp;&nbsp;element; <br>}</span>
+</dd></dl>
+<ul class="disc">
+<li>DEMO_CDS_MDE_PARTNR_VARIANT_1</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@Metadata.layer: #PARTNER <br>annotate view Demo_Cds_MDE with <br>&nbsp;&nbsp;variant <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DemoVariant1 <br>{ <br>&nbsp;&nbsp;@UI.dataPoint.title: 'MDE PARTNER, DemoVariant1, title' <br>&nbsp;&nbsp;element; <br>}</span>
+</dd></dl>
+<ul class="disc">
+<li>DEMO_CDS_MDE_PARTNR_VARIANT_2</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@Metadata.layer: #PARTNER <br>annotate view Demo_Cds_MDE with <br>&nbsp;&nbsp;variant <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DemoVariant2 <br>{ <br>&nbsp;&nbsp;@UI.dataPoint.title: 'MDE PARTNER, DemoVariant2, title' <br>
+&nbsp;&nbsp;@UI.dataPoint.description: 'MDE PARTNER, DemoVariant2, description' <br>&nbsp;&nbsp;element; <br>}</span>
+</dd></dl>
+<p>
+The evaluation is done with different parameters for the method GET_ANNOS:
+</p>
+<ul class="disc">
+<li>If the value of <span class="qtext">abap_false</span> is transferred to the parameter METADATA_EXTENSION,
+the default evaluation of the metadata extensions is switched off for the view and the annotations that are specified in the source code are returned.</li>
+</ul>
+<ul class="disc">
+<li>If the value of <span class="qtext">abap_true</span> is transferred to the parameter METADATA_EXTENSION (default behavior), all existing metadata extensions for the view are evaluated as follows.</li>
+</ul>
+<ul class="circlem2">
+<li>If the name of a CDS variant is not transferred, only annotations from metadata extensions that
+are not assigned to a variant are used. DEMO_CDS_MDE_PARTNR_NO_VARIANT is evaluated first and the annotation
+<span class="qtext400">@UI.dataPoint.title</span> is found there. This is ignored in the next metadata
+extension in the hierarchy, DEMO_CDS_MDE_INDSTR_NO_VARIANT, from which only <span class="qtext400">@UI.dataPoint.description</span>
+is used. Finally, <span class="qtext400">UI.dataPoint.longDescription</span> is used from the view itself, which has no entry in a metadata extension.</li>
+</ul>
+<ul class="circlem2">
+<li>If the name of the CDS variant DemoVariant1 is transferred, annotations from the metadata extensions
+that are assigned to this variant are used first, and then annotations from metadata extensions that
+are not assigned to a variant. DEMO_CDS_MDE_PARTNR_VARIANT_1 is evaluated first and the annotation <span class="qtext400">
+@UI.dataPoint.title</span> is found there. In the next metadata extension in the hierarchy, DEMO_CDS_MDE_INDSTR_VARIANT1,
+the annotation <span class="qtext400">@UI.dataPoint.longDescription</span> is found. No annotation is
+found in DEMO_CDS_MDE_PARTNR_NO_VARIANT. In DEMO_CDS_MDE_INDSTR_NO_VARIANT, the annotation <span class="qtext400">@UI.dataPoint.description</span>
+(not used until now) is found and used. The annotations of the source code of the view are all overridden.</li>
+</ul>
+<ul class="circlem2">
+<li>If the name of the CDS variant DemoVariant2 is passed, DEMO_CDS_MDE_PARTNR_VARIANT_2 is evaluated
+first and the annotations <span class="qtext400">UI.dataPoint.title</span> and <span class="qtext400">@UI.dataPoint.description</span>
+are found there. In the next metadata extension in the hierarchy, DEMO_CDS_MDE_INDSTR_VARIANT2, there
+are no annotations that have not already been used.  The same applies to DEMO_CDS_MDE_PARTNR_NO_VARIANT
+and DEMO_CDS_MDE_INDSTR_NO_VARIANT, which are evaluated next. Therefore, the annotation <span class="qtext400">UI.dataPoint.longDescription</span> from the view itself is used.</li>
+</ul>
+<ul class="circlem2">
+<li>If the name of an invalid CDS variant is passed, an empty internal table is returned.</li>
+</ul>
+<p>
+The column SOURCEDDLX in the output internal tables contains the metadata extension in which an annotation is specified.
+</p>
+<p><span class="h4">
+Caution
+</span></p>
+<p>
+<span class="bold">CDS variants are not currently released for general use. It is not possible to define standalone CDS variants and the use of CDS variants in metadata extensions produces a syntax check warning.</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_annotate_view_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

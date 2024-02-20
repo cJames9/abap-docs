@@ -1,0 +1,153 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_AUTO_CHECK_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_auto_check_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Automatic Input Checks">
+<title>
+Dynpros, Automatic Input Checks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_auto_check_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_auto_check_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_checks.html')" class="blue">Input Checks</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninput_check_abexas.html')" class="blue">Input Checks - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Automatic Input Checks
+</span></p>
+<p>
+The example demonstrates what an automatic input check does.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_AUTO_CHECK_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM demo_dynpro_automatic_checks .<br>
+<br>
+DATA: ok_code TYPE sy-ucomm,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date TYPE d.<br>
+<br>
+TABLES demo_conn.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE init_screen_100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE pai INPUT.<br>
+&nbsp;&nbsp;MESSAGE i888(sabapdemos) WITH text-001.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_AUTO_CHECK_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static next dynpro number of dynpro 100 is 100. The date field (taken from the program) <span class="qtext">date</span>
+is assigned to the input field <span class="italic">Date</span>. The remaining input fields are the
+components CARRID, CONNID, and MARK of the structure <span class="lnkgrey">DEMO_CONN</span> (taken from ABAP Dictionary). All of the fields are mandatory. The function code of the pushbutton is EXECUTE.
+</p>
+<p>
+In the GUI status STATUS_100, the symbol <span class="italic">Cancel</span>
+(<span class="qtext500">F12</span>) is activated by the function code CANCEL with the function type
+<span class="qtext400">E</span>. Additionally, the function key <span class="qtext500">F8</span> has the function code EXECUTE assigned to it. The screen flow logic is as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE init_screen_100. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE pai.</span>
+</dd></dl>
+<p>
+The user must fill all of the input fields with valid values before the PAI module can be called:
+</p>
+<ul class="disc">
+<li>All of the input fields must contain values</li>
+</ul>
+<ul class="disc">
+<li>The date entry must have the correct format</li>
+</ul>
+<ul class="disc">
+<li>The airline must exist in the check table SCARR.</li>
+</ul>
+<ul class="disc">
+<li>The flight number must exist in the check table SPFLI and match the airline.</li>
+</ul>
+<ul class="disc">
+<li>The marker MARK must be one of the fixed values of the domain S_FLAG.</li>
+</ul>
+<p>
+The user can exit the dynpro using <span class="italic">Cancel</span>
+(<span class="qtext500">F12</span>) without correctly entering all values, since the module call was programmed accordingly using <span class="qtext">AT EXIT-COMMAND</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_auto_check_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

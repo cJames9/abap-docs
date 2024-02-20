@@ -1,0 +1,287 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_COND -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_cond.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:cond, Conditional Transformations">
+<meta name="keywords" content="ABAP, Simple Transformations, cond">
+<title>
+ST - tt:cond, Conditional Transformations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_cond.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_cond.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_flow_control.html')" class="blue">ST - Flow Control</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@cond@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:cond, Conditional Transformations
+</span></p>
+<A name="@@ITOC@@ABENST_TT_COND_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:<i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>cond <i class=bn>[</i>using="..."<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>data="..."<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>check="..."<i class=bn>]</i>> <br>
+&nbsp;&nbsp;... <br>&lt;/tt:<i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>cond></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Conditional transformations are realized as the content of an element <span class="qtext400">tt:[s-|d-]cond</span>.
+They represent parts of ST programs that are not ignored only if certain prerequisites are met. Conditional
+transformations are normally used as cases in <a href="javascript:call_link('abenst_tt_switch.html')" class="blue"><span class="qtext400">tt:switch</span></a>
+and <a href="javascript:call_link('abenst_tt_group.html')" class="blue"><span class="qtext400">tt:group</span></a>.
+</p>
+<p>
+The content of <span class="qtext400">tt:<i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>cond</span> is processed depending on
+</p>
+<ul class="disc">
+<li>a precondition in the attribute <a href="javascript:call_link('abenst_using.html')" class="blue"><span class="qtext400">using</span></a></li>
+</ul>
+<ul class="disc">
+<li>an assertion in the attribute <a href="javascript:call_link('abenst_data.html')" class="blue"><span class="qtext400">data</span></a></li>
+</ul>
+<ul class="disc">
+<li>a condition in the attribute <a href="javascript:call_link('abenst_check.html')" class="blue"><span class="qtext400">check</span></a></li>
+</ul>
+<p>
+. If the content of <span class="qtext400">tt:<i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>cond</span> is not a
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a>, at least one attribute <span class="qtext400">using</span>, <span class="qtext400">data</span>, or <span class="qtext400">check</span> must be specified.
+</p>
+<ul class="disc">
+<li>The element <span class="qtext400">tt:cond</span> is evaluated in serializations and deserializations.</li>
+</ul>
+<ul class="disc">
+<li>The element <span class="qtext400">tt:s-cond</span> is evaluated only in serializations and skipped in deserializations. The content of <span class="qtext400">tt:s-cond</span> is never deserialized.</li>
+</ul>
+<ul class="disc">
+<li>The element <span class="qtext400">tt:d-cond</span> is evaluated only in deserializations and skipped in serializations. The content of <span class="qtext400">tt:s-cond</span> is never serialized.</li>
+</ul>
+<p>
+The condition <a href="javascript:call_link('abenst_check.html')" class="blue"><span class="qtext400">check</span></a> can also be used directionally:
+</p>
+<ul class="disc">
+<li>The condition <span class="qtext400">check</span> is evaluated in serializations and deserializations.</li>
+</ul>
+<ul class="disc">
+<li>The condition <span class="qtext400">s-check</span> is evaluated only in serializations.</li>
+</ul>
+<ul class="disc">
+<li>The condition <span class="qtext400">d-check</span> is evaluated only in deserializations.</li>
+</ul>
+<p>
+It makes no sense to specify <span class="qtext400">s-check</span> in <span class="qtext400">tt:d-cond</span> or <span class="qtext400">d-check</span> in <span class="qtext400">tt:s-cond</span>.
+</p>
+<A name="@@ITOC@@ABENST_TT_COND_2"></A>
+<p><span class="h3">
+Serialization
+</span></p>
+<p>
+In serializations, the
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenst_using.html')" class="blue">precondition <span class="qtext400">using</span></a></li>
+</ul>
+<ul class="disc">
+<li>the <a href="javascript:call_link('abenst_data.html')" class="blue">assertion <span class="qtext400">data</span></a></li>
+</ul>
+<ul class="disc">
+<li>the <a href="javascript:call_link('abenst_check.html')" class="blue">condition <span class="qtext400">check</span></a></li>
+</ul>
+<p>
+are evaluated. The content of element <span class="qtext400">tt:<i class=bn>[</i>s-<i class=bn>]</i>cond</span>
+is serialized only if all three prerequisites are met; otherwise the comparison is terminated at the first false prerequisite and the content of <span class="qtext400">tt:<i
+class=bn>[</i>s-<i class=bn>]</i>cond</span> is skipped.
+</p>
+<p>
+If none of the three possible attributes is specified in <span class="qtext400">tt:<i class=bn>[</i>s-<i
+class=bn>]</i>cond</span>, the prerequisite is considered as being met. If the content of <span class="qtext400">tt:<i class=bn>[</i>s-<i class=bn>]</i>cond</span> is empty in serializations, the element is ignored.
+</p>
+<A name="@@ITOC@@ABENST_TT_COND_3"></A>
+<p><span class="h3">
+Deserialization
+</span></p>
+<p>
+In deserializations, before and during the check of the
+<a href="javascript:call_link('abenst_using.html')" class="blue">precondition</a>, the system distinguishes whether or not the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is a
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a>. The deserialization proceeds as follows:
+</p>
+<dl><dd>
+1. Check whether the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is a <a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a>.
+</dd></dl>
+<ul class="circlem2">
+<li>If the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is a
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a>, it is compared to the current element of the XML inbound stream. If the pattern does not fit the current element, the element <span class="qtext400">tt:<i
+class=bn>[</i>d-<i class=bn>]</i>cond</span> is skipped and the current element of the XML inbound stream is not consumed; otherwise Step 2 follows.</li>
+</ul>
+<ul class="circlem2">
+<li>If the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is not a <a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a>, Step 2 follows.</li>
+</ul>
+<dl><dd>
+2. Check the <a href="javascript:call_link('abenst_using.html')" class="blue">precondition <span class="qtext400">using</span></a>
+</dd></dl>
+<ul class="circlem2">
+<li>If the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is a
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a> and the precondition is not met, the element <span class="qtext400">tt:<i
+class=bn>[</i>d-<i class=bn>]</i>cond</span> is skipped and the current element of the inbound XML stream is consumed without being deserialized. If the precondition is met, Step 3 follows.</li>
+</ul>
+<ul class="circlem2">
+<li>If the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> is not a
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a> and the precondition is not met, the deserialization is canceled with the exception CX_ST_REF_ACCESS. If the precondition is met, Step 3 follows.</li>
+</ul>
+<dl><dd>
+3. Evaluation of the instruction body
+</dd></dl>
+<dl><dd>
+The body of the instruction is evaluated. In this process, data nodes are deserialized. Their existence
+or type can have been checked in Step 2; the result of the deserialization can be checked for plausibility in Step 5.
+</dd></dl>
+<dl><dd>
+4. Establish the <a href="javascript:call_link('abenst_data.html')" class="blue">assertion <span class="qtext400">data</span></a>
+</dd></dl>
+<dl><dd>
+The value asserted in the assertion is assigned to all data nodes specified in this assertion. If, during
+deserialization of the current element of the XML inbound stream, a different value is assigned to one of these data nodes, the deserialization is terminated with exception CX_ST_COND_CHECK_FAIL.
+</dd></dl>
+<dl><dd>
+5. Check the <a href="javascript:call_link('abenst_check.html')" class="blue">condition <span class="qtext400">check</span></a>
+</dd></dl>
+<dl><dd>
+The condition <span class="qtext400"><i class=bn>[</i>d-<i class=bn>]</i>check</span> is checked. If the condition is not met, the deserialization is canceled with the exception CX_ST_COND_CHECK_FAIL.
+</dd></dl>
+<p>
+If none of the three possible attributes <span class="qtext400">using</span>, <span class="qtext400">data</span>, or <span class="qtext400">check</span> is specified in <span class="qtext400">tt:<i
+class=bn>[</i>d-<i class=bn>]</i>cond</span>, the content of <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> must not be empty; it is evaluated in Step 1, depending on whether or not it is a
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">pattern</a>. The other prerequisites (Steps 3 to 4) are considered as being met.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>An assertion can be used to assign a value to a data node without the node being filled by the inbound stream. Instead of an empty element <span class="qtext400">tt:<i
+class=bn>[</i>d-<i class=bn>]</i>cond</span>, the statement <span class="qtext400">tt:assign</span> should be used in this case.</li>
+</ul>
+<ul class="disc">
+<li>The empty element <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> can be used to check the current content of data nodes in deserializations.</li>
+</ul>
+<ul class="disc">
+<li>The element <span class="qtext400">tt:<i class=bn>[</i>d-<i class=bn>]</i>cond</span> without explicit
+conditions can be used to flag optional content in deserializations. This means, if a pattern does not exist in the XML inbound stream, its evaluation is skipped without triggering an exception.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The transformation below shows conditions:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT1"/> <br>&nbsp;&nbsp;&lt;tt:root name="ROOT2"/> <br>&nbsp;&nbsp;&lt;tt:root name="ROOT3"/> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:d-cond> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:d-cond> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:d-cond data="ROOT3=333"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:cond&nbsp;&nbsp;using="type-I(ROOT1), type-I(ROOT2)" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data="ROOT1=111" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d-check="ROOT2&lt;ROOT3"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="ROOT1"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X1> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="ROOT2"/> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X2> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:cond> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:cond d-check="ROOT2>111"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+If the ABAP data objects bound to <span class="qtext400">ROOT1</span> and <span class="qtext400">ROOT2</span>
+are of type <span class="qtext">i</span> and <span class="qtext400">ROOT1</span> has the value 111,
+then the transformation generates the following XML fragment, regardless of the ABAP data object bound to the data root <span class="qtext400">ROOT3</span>:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;X> <br>&nbsp;&nbsp;&lt;X1>111&lt;/X1> <br>&nbsp;&nbsp;&lt;X2>222&lt;/X2> <br>&lt;/X></span>
+</dd></dl>
+<p>
+The same transformation can deserialize this XML fragment, thereby setting ROOT3 to the value 333. The
+deserialization fails if X1 does not have the value 111 and if <span class="qtext400">X2</span> does
+not lie between 111 and 333. The element <span class="qtext400">X0</span> of the transformation is optional. It would also be possible to deserialize the following XML fragment:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;X> <br>&nbsp;&nbsp;&lt;X0>...&lt;/X0> <br>&nbsp;&nbsp;&lt;X1>111&lt;/X1> <br>&nbsp;&nbsp;&lt;X2>222&lt;/X2> <br>&lt;/X></span>
+</dd></dl>
+<p>
+However, if the first subelement of the XML fragment has a name other than <span class="qtext400">X0</span>, the exception CX_ST_MATCH_ELEMENT would be triggered.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenst_using.html')" class="blue">ST - using, Preconditions</a><br>
+<a href="javascript:call_link('abenst_data.html')" class="blue">ST - data, Assertions</a><br>
+<a href="javascript:call_link('abenst_check.html')" class="blue">ST - check, Conditions</a><br>
+<a href="javascript:call_link('abenst_pattern.html')" class="blue">ST - Pattern</a><br>
+<a href="javascript:call_link('abenst_tt_empty.html')" class="blue">ST - tt:empty, Empty Content</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_cond.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+</html>

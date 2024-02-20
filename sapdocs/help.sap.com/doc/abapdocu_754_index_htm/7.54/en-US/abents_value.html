@@ -1,0 +1,171 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTS_VALUE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abents_value.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Representation of Time Stamps in Character-Like Fields">
+<title>
+Representation of Time Stamps in Character-Like Fields - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abents_value.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abents_value.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_rules.html')" class="blue">Assignment and Conversion Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">Conversion Rules for Elementary Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencharacter_source_fields.html')" class="blue">Character-Like Source Fields</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Representation of Time Stamps in Character-Like Fields
+</span></p>
+<p>
+The values of data objects of the character-like data types <span class="qtext">c</span> and <span class="qtext">string</span>
+can be assigned to time stamp fields of the type <span class="qtext">utclong</span> as long as they contain a valid representation of a time stamp. The following strings represent valid time stamps:
+</p>
+<dl><dd>
+<span class="qtext400">"yyyy-mm-dd hh:mm:ss.fffffff"</span> <br><span class="qtext400">"yyyy-mm-dd hh:mm:ss,fffffff"</span> <br>
+<span class="qtext400">"yyyy-mm-ddThh:mm:ss.fffffff"</span> <br><span class="qtext400">"yyyy-mm-ddThh:mm:ss,fffffff"</span>
+</dd></dl>
+<p>
+They are structured as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext400">"yyyy-mm-dd"</span> consists of eight digits separated by hyphens
+(<span class="qtext400">-</span>). They must represent dates that are valid in accordance with the calendar
+rules: <span class="qtext400">"yyyy"</span> (year): 0001 to 9999, <span class="qtext400">"mm"</span>
+(month):  01 to 12, <span class="qtext400">"dd"</span> (day): 01 to 31. The days <span class="qtext400">"1582-10-05&#x201D;</span>
+to <span class="qtext400">"1582-10-14&#x201D;</span> are skipped (due to the switch from the Julian to the Gregorian calendar).</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">"hh:mm:ss"</span> are digits separated by colons
+(<span class="qtext400">:</span>) that must represent a time in the 24 hour range: 00 to 23 for <span class="qtext400">
+"hh"</span> (hours) and 00 to 59 for <span class="qtext400">"mm"</span> (minutes) and 00 to 59 for <span class="qtext400">"ss"</span>.</li>
+</ul>
+<ul class="disc">
+<li>The seconds <span class="qtext400">"ss"</span> can be followed by up to seven significant decimal places <span class="qtext400">"fffffff"</span> (fractions of a second) separated by a period
+(<span class="qtext400">.</span>) or a comma (<span class="qtext400">,</span>). There can be more than seven decimal places, however the digits after the seventh decimal place must be "0".</li>
+</ul>
+<ul class="disc">
+<li>The separator between the date and the time must consist of precisely one blank or the character <span class="qtext400">"T&#x201D;</span>.</li>
+</ul>
+<p>
+A time stamp must have a left-aligned representation in the source field. Trailing blanks are usually
+permitted but are ignored. Any initial strings and strings that contain only blanks are also permitted and are converted to an initial time stamp.
+</p>
+<p>
+Alongside the valid values, the following (invalid) values are possible:
+</p>
+<ul class="disc">
+<li>A value such as <span class="qtext400">"0000-00-00 00:00:00.0000000"</span>, which is invalid, is converted to the initial value.</li>
+</ul>
+<ul class="disc">
+<li>An invalid time such as <span class="qtext400">"24:00:00.0000000"</span> produces a time stamp on the next day, namely the time <span class="qtext400">"00:00:00.0000000"</span>.</li>
+</ul>
+<p>
+No other strings are permitted.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The range of different valid representations mean that different standards are supported:</li>
+</ul>
+<ul class="circlem2">
+<li>The representation that uses a blank as the separator between date and time supports the SDL standard in accordance with ISO 9075.</li>
+</ul>
+<ul class="circlem2">
+<li>The representation that uses the character <span class="qtext400">"T"</span> as a separator between date and time supports ISO 8601 for date formats and times.</li>
+</ul>
+<ul class="disc">
+<li>When time stamps are <a href="javascript:call_link('abendate_time_source_fields.html')" class="blue">converted</a> to character-like
+fields, the representation uses a blank as a separator. This is also the default setting in character-like formatting of time stamps to
+<a href="javascript:call_link('abenstring_templates.html')" class="blue">string templates</a> and when formatting using <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a>. In
+<a href="javascript:call_link('abenembedded_expression_glosry.html')" class="grey" title="Glossary Entry">embedded expressions</a>
+of string templates, the formatting option <a href="javascript:call_link('abapcompute_string_format_options.html')" class="blue"><span class="qtext">
+ISO</span></a> can be used to configure the representation with the separator <span class="qtext400">"T&#x201D;</span>. The separator <span class="qtext400">"T&#x201D;</span> is also used for
+<a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">mappings</a> to<a href="javascript:call_link('abenasxml_glosry.html')" class="grey" title="Glossary Entry">asXML</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Valid representation of time stamps in character-like source fields. All assignments shown here are possible.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA ts TYPE utclong. <br> <br>ts = EXACT #( `2019-04-10 09:53:04&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>ts = EXACT #( `2019-04-10T09:53:04
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10 24:00:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10T24:00:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10 09:53:04,123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10T09:53:04,123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10 09:53:04.123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10T09:53:04.123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10 09:53:04,12345670000000000&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>ts = EXACT #( `2019-04-10T09:53:04,12345670000000000&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>
+ts = EXACT #( `2019-04-10 09:53:04.12345670000000000&nbsp;&nbsp;&nbsp;&nbsp; ` ). <br>ts = EXACT #( `2019-04-10T09:53:04.12345670000000000&nbsp;&nbsp;&nbsp;&nbsp; ` ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abents_value.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

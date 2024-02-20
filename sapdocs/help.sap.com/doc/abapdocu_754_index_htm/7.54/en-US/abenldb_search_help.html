@@ -1,0 +1,260 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLDB_SEARCH_HELP -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_search_help.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Logical Databases - Associated with Search Helps">
+<meta name="keywords" content="ABAP, Logical Databases, Search Help">
+<title>
+Logical Databases - Associated with Search Helps - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenldb_search_help.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenldb_search_help.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb.html')" class="blue">Logical Databases (Obsolete)</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_oview.html')" class="blue">Logical Databases - Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_others.html')" class="blue">Logical Databases - Further Elements</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Logical Databases - Associated with Search Helps
+</span></p>
+<p>
+A logical database can be associated with a suitable
+<a href="javascript:call_link('abensearch_help_glosry.html')" class="grey" title="Glossary Entry">search help</a>. The best type
+of search help for a logical database depends on the content of the database. For example, if a logical
+database is created to read vendor records, one output field of the search help must be the vendor number.
+The logical database is provided with the content of the search help output fields and uses it to perform the actual reads on the database tables.
+</p>
+<p>
+To enable the user to use the search help, the a special parameter with the addition <a href="javascript:call_link('abapparameters_ldb.html')" class="blue">
+<span class="qtext">AS SEARCH PATTERN</span></a> must be declared in the selection include. The selection
+screen then displays the <span class="italic">Selection by Search Help</span> box, including input fields
+for the search help ID and the search string. There is also a pushbutton for complex search helps and multiple selection is permitted for every individual field.
+</p>
+<p>
+The runtime environment is responsible for interpreting the user input on the selection screen and reading
+the value list from the database. These rows are passed to the database program in the internal table
+<span class="qtext">ldb_sp</span> and the subroutine <span class="qtext">put_ldb_sp</span> is called
+for the root node instead of the subroutine <span class="qtext">put_node</span>. Here, <span class="qtext">ldb</span>
+is the name of the logical database. The value list in the internal table <span class="qtext">ldb_sp</span>
+is used to enable this subroutine to read the actual data and raise the event <span class="qtext">GET</span>
+for the root node using the statement <span class="qtext">PUT</span>. It is often useful to call the
+subroutine <span class="qtext">put_node</span> for the root node from <span class="qtext">put_ldb_sp</span>.
+The subroutine then selects the data and raises the associated <span class="qtext">GET</span> event
+using <span class="qtext">PUT</span>. The structure of the internal table <span class="qtext">ldb_sp</span>
+and other automatically generated tables is displayed as a comment in the database program source code. The source code also contains documentation about how to use these tables.
+</p>
+<p>
+The options provided by <a href="javascript:call_link('abenldb_free_selections.html')" class="blue">dynamic selections</a> and
+<a href="javascript:call_link('abenldb_field_selections.html')" class="blue">field selections</a> should also be exploited when
+using search helps to access the database. Search helps can also be used to improve performance. The
+internal tables <span class="qtext">get_events</span>, <span class="qtext">sp_fields</span>, and <span class="qtext">
+sp_tables</span> plus the structure <span class="qtext">sp_events</span> can be used to program different
+database reads in the database program, depending on which tables and fields are used and filled. For
+example, it is possible to use views or joins and collect the read records in internal tables and thereby process the internal tables at a later time and raise the <span class="qtext">GET</span> events in question.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An imaginary logical database ZZF with the root node KNA1 is associated with the search help DEBI. The selection include DBZZFSEL contains the following lines:
+</p>
+<dl><dd>
+<span class="qtext">SELECT-OPTIONS skunnr FOR kna1-kunnr. <br>PARAMETERS p_sp AS SEARCH PATTERN FOR NODE kna1.</span>
+</dd></dl>
+<p>
+The source text of the database program now contains further comment lines, indicating that the following tables and fields were created:
+</p>
+<ul class="disc">
+<li>Internal table <span class="qtext">zzf_sp</span> in accordance with the following declaration:</li>
+</ul>
+<dl><dd>
+<span class="qtext">DATA: BEGIN OF zzf_sp OCCURS 1000, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kunnr
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LIKE kna1-kunnr, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END&nbsp;&nbsp; OF zzf_sp.</span>
+</dd></dl>
+<dl><dd>
+The search help selections of the user create a hitlist in the filled output fields of the search help. This hit list is passed to the database program in the table <span class="qtext">zzf_sp</span>.
+</dd></dl>
+<ul class="disc">
+<li>Internal table <span class="qtext">sp_fields</span> in accordance with the following declaration:</li>
+</ul>
+<dl><dd>
+<span class="qtext">DATA: BEGIN OF sp_fields OCCURS 10. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE STRUCTURE rsspfields. <br>DATA: END&nbsp;&nbsp; OF sp_fields.</span>
+</dd></dl>
+<dl><dd>
+If a collective search help is associated with the logical database, an elementary search help usually
+only fills some of the output fields of the collective search help. The table <span class="qtext">sp_fields</span>
+tells the program which fields these are. The component <span class="qtext">supplied</span> is non-initial whenever the search help passes a value to the field in <span class="qtext">fieldname</span>.
+</dd></dl>
+<ul class="disc">
+<li>Internal table <span class="qtext">sp_tables</span> in accordance with the following declaration:</li>
+</ul>
+<dl><dd>
+<span class="qtext">DATA: BEGIN OF sp_tables OCCURS 10. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE STRUCTURE rssptabs. <br>DATA: END&nbsp;&nbsp; OF sp_tables.</span>
+</dd></dl>
+<dl><dd>
+If the search help contains fields from different tables, the table <span class="qtext">sp_tables</span>
+tells the program which tables are covered by the search help. The component <span class="qtext">supplied</span>
+is non-initial whenever the search help passes a value to the table in <span class="qtext">tablename</span>.
+</dd></dl>
+<ul class="disc">
+<li>Character-like data object <span class="qtext">sp_events</span> with the length 200.</li>
+</ul>
+<dl><dd>
+Each character in <span class="qtext">sp_tables</span> stands for a node in the structure of the logical
+database (for example, the first character stands for the root node). The content of the individual items has the following meaning for the node in question:
+</dd></dl>
+<ul class="circlem2">
+<li>"X2: Node is addressed in the application program using the statement <span class="qtext">GET</span> and the search help assigned values for the key fields to <span class="qtext">sp_ldb</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>"R": Node is addressed in the application program using the statement <span class="qtext">GET</span>, but the search help did not assign values for the key fields to <span class="qtext">sp_ldb</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>"M": Node is not addressed in the application program using the statement <span class="qtext">GET</span>, but the search help assigned values for the key fields to <span class="qtext">sp_ldb</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>" ": Table is not addressed in the application program using the statement <span class="qtext">GET</span> and the search help did not assign values for the key fields to <span class="qtext">sp_ldb</span>.</li>
+</ul>
+<p>
+If the user selects all vendors in the search help on the selection screen whose sort field starts with
+<span class="qtext400">"ABC"</span> and this applies to the customer numbers 17, 125, and 230 , the tables above are filled as follows:
+</p>
+<p>
+<span class="qtext">zzf_sp</span>
+</p>
+<table border>
+<tr>
+<td><span class="qtext">kunnr</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">17</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">125</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">230</span></td>
+</tr>
+</table><br>
+<p>
+<span class="qtext">sp_fields</span>
+</p>
+<table border>
+<tr>
+<td><span class="qtext">fieldname</span></td>
+<td><span class="qtext">supplied</span></td>
+</tr>
+<tr>
+<td>KUNNR</td>
+<td>X</td>
+</tr>
+</table><br>
+<p>
+<span class="qtext">sp_tables</span>
+</p>
+<table border>
+<tr>
+<td><span class="qtext">tablename</span></td>
+<td><span class="qtext">supplied</span></td>
+</tr>
+<tr>
+<td><span class="qtext400">KNA1</span></td>
+<td><span class="qtext400">X</span></td>
+</tr>
+</table><br>
+<p>
+The subroutine <span class="qtext">put_zzf_sp</span> (in comments) can now, for example, be modified and activated as follows to use the data records from the internal table <span class="qtext">zzf_sp</span>:
+</p>
+<dl><dd>
+<span class="qtext">FORM put_zzf_sp. <br>&nbsp;&nbsp;CASE sp_events(1). <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'X' OR 'M'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM put_kna1_Ssp <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN OTHERS. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM put_kna1. <br>
+&nbsp;&nbsp;ENDCASE. <br>ENDFORM. <br> <br>FORM put_kna1_sp. <br>&nbsp;&nbsp;SELECT * FROM kna1 FOR ALL ENTRIES IN zzf_sp <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE kunnr = zzf_sp_kunnr. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;PUT kna1. <br>&nbsp;&nbsp;ENDSELECT. <br>ENDFORM.</span>
+</dd></dl>
+<p>
+The table <span class="qtext">get_events</span> is used to check whether the application program contains
+a <span class="qtext">GET</span> statement for KNA1 or whether the search help has assigned appropriate
+values for key fields. If this is the case, <span class="qtext">put_kna1_sp</span> is called, which
+executes a <span class="qtext">SELECT</span> loop across KNA1 to read the rows that match the key fields
+in <span class="qtext">zzf_sp</span>. The statement <span class="qtext">PUT kna1</span> is executed in the <span class="qtext">SELECT</span> loop. Another option would be as follows:
+</p>
+<dl><dd>
+<span class="qtext">FORM put_zzf_sp. <br>&nbsp;&nbsp;IF sp_everts(1) NE abap_false <br>&nbsp;&nbsp;&nbsp;&nbsp;CLEAR skunnr. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH skunnr. <br>&nbsp;&nbsp;&nbsp;&nbsp;skunnr-sign = 'I'. <br>&nbsp;&nbsp;&nbsp;&nbsp;skunnr-option = 'EQ'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT zzf_sp. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skunnt-low = zzf_sp-kunnr. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND skunnr TO skunnr. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDIF. <br>
+&nbsp;&nbsp;READ TABLE GET_EVENTS WITH KEY 'KNA1'. <br>&nbsp;&nbsp;IF sy-subrc = 0 AND get_events-kind IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;PERFORM put_kunnr. <br>&nbsp;&nbsp;ENDIF. <br>ENDFORM.</span>
+</dd></dl>
+<p>
+This deletes the selection table <span class="qtext">skunnr</span> for KNA1 and fills it with values
+from <span class="qtext">zzf_sp</span>. The table <span class="qtext">get_events</span> is used to check
+whether the application program contains a <span class="qtext">GET</span> statement for KNA1. If this
+is the case, the subroutine <span class="qtext">put_kunnr</span> is called. Here, the data from KNA1
+is read as specified by the selection table <span class="qtext">skunnr</span> and <span class="qtext">PUT kna1</span> is executed.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_search_help.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+</html>

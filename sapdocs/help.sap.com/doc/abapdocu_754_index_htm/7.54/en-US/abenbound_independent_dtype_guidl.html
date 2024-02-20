@@ -1,0 +1,162 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBOUND_INDEPENDENT_DTYPE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbound_independent_dtype_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Bound and Standalone Data Types">
+<title>
+Bound and Standalone Data Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbound_independent_dtype_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbound_independent_dtype_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Bound and Standalone Data Types
+</span></p>
+<A name="@@ITOC@@ABENBOUND_INDEPENDENT_DTYPE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+A bound data type only exists as an attribute of a data object. It is created when a data object is
+not declared using a reference to a standalone data type that defines all technical attributes, but
+when technical attributes are defined in the statement <span class="qtext">DATA</span> instead. Here
+<span class="qtext">DATA</span> is used as a synonym for all statements that declare data objects. The
+resulting type is an attribute of the declared variable and it is bound to this variable. If this type is needed in several different places, it has to be defined separately for each place where it is used.
+</p>
+<p>
+A standalone data type is declared in the ABAP Dictionary or using the statement <span class="qtext">TYPES</span>
+and defines all technical attributes of a data object with one exception: When table types are defined,
+they can be generic with respect to the keys specified. A standalone generic type can only be used for
+typing but not for data declarations. However, there is one exception: In a <span class="qtext">DATA</span> statement, the standard key is added to the generic standard table type.
+</p>
+<A name="@@ITOC@@ABENBOUND_INDEPENDENT_DTYPE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use standalone data types</span>
+</p>
+<p>
+Use standalone data types instead of constructing bound data types when declaring data objects.
+</p>
+<A name="@@ITOC@@ABENBOUND_INDEPENDENT_DTYPE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Here is a list of reasons that support the declaration of standalone types:
+</p>
+<ul class="disc">
+<li>The declaration of a standalone data type allows multiple data objects (or interface parameters or field symbols) to use a type without the need to always redefine this type.</li>
+</ul>
+<ul class="disc">
+<li>Even if only one data object of this type is required initially, it is very likely that further
+data objects will be added during the course of the development. If the type needs to be adapted later on, you can do this centrally.</li>
+</ul>
+<ul class="disc">
+<li>Declaring a standalone type and using it to declare a data object is nothing more than following the rule for the
+<a href="javascript:call_link('abenseperation_concerns_guidl.html')" class="lnkpurple" title="Guideline">SoC principle</a>.</li>
+</ul>
+<p>
+The data type should always have a specific meaning and a meaningful
+<a href="javascript:call_link('abennaming_guidl.html')" class="lnkpurple" title="Guideline">name</a>. This gives data types a
+clear semantic meaning and makes the program easier to read and understand. Therefore, you should declare
+different data types for technically identical but semantically different data objects. This also increases the probability that a type can be adapted later on without making major program changes.
+</p>
+<p>
+Therefore you should avoid declaring purely technical data types that cannot be associated with specific semantics, because this does not make it easier to read or enhance the program.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A separate <a href="javascript:call_link('abendeclaration_dtypes_const_guidl.html')" class="lnkpurple" title="Guideline">rule</a> specifies where the standalone data types should be declared.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the declaration of two data objects that are supposed to have the same
+data type. However, the technical attributes, length, and number of decimal places are defined as standalone, bound data types in the <span class="qtext">DATA</span> statements in question.
+</p>
+<dl><dd>
+<span class="qtext"><span class="qtext">...</span> <br><span class="qtext">DATA number_1 TYPE p LENGTH 6 DECIMALS 2.</span> <br>
+<span class="qtext">DATA number_2 TYPE p LENGTH 6 DECIMALS 2.</span> <br><span class="qtext">...</span></span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code moves the definition of the technical attributes of the data objects in the
+above example to a separate <span class="qtext">TYPES</span> statement. The standalone data type is only declared once and can then be used multiple times.
+</p>
+<dl><dd>
+<span class="qtext">TYPES number_type TYPE p LENGTH 6 DECIMALS 2. <br><span class="qtext">...</span> <br>
+<span class="qtext">DATA: number_1 TYPE number_type,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number_2 TYPE number_type.</span> <br><span class="qtext">...</span></span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbound_independent_dtype_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

@@ -1,0 +1,330 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_F1_JOINED_DATA_SOURCE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_f1_joined_data_source.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - SELECT, JOIN">
+<title>
+ABAP CDS - SELECT, JOIN - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_f1_joined_data_source.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_f1_joined_data_source.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_entities.html')" class="blue">ABAP CDS - Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_ddl_syntax.html')" class="blue">ABAP CDS - DDL for Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_define_view.html')" class="blue">ABAP CDS - DEFINE VIEW</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_select_statement.html')" class="blue">ABAP CDS - SELECT</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_data_source.html')" class="blue">ABAP CDS - SELECT, data_source</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@JOIN@@!ABAP_CDS_SELECT!@@"></A>
+<A NAME="@@INNER JOIN@@!ABAP_CDS_SELECT!@@"></A>
+<A NAME="@@LEFT OUTER JOIN@@!ABAP_CDS_SELECT!@@"></A>
+<A NAME="@@RIGHT OUTER JOIN@@!ABAP_CDS_SELECT!@@"></A>
+<A NAME="@@TO ONE@@!ABAP_CDS_SELECT_JOIN!@@"></A>
+<A NAME="@@TO MANY@@!ABAP_CDS_SELECT_JOIN!@@"></A>
+<A NAME="@@CROSS JOIN@@!ABAP_CDS_SELECT!@@"></A>
+<A NAME="@@ON@@!ABAP_CDS_SELECT_JOIN!@@"></A>
+<p><span class="h1">
+ABAP CDS - SELECT, JOIN
+</span></p>
+<A name="@@ITOC@@ABENCDS_F1_JOINED_DATA_SOURCE_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">... <i class=bn>{</i> <i class=bn>[</i>INNER<i class=bn>]</i> JOIN <i class=bn>}</i><i
+class=bn>|</i><i class=bn>{</i> LEFT<i class=bn>|</i>RIGHT OUTER <i class=bn>[</i>TO ONE<i class=bn>|</i>MANY<i
+class=bn>]</i> JOIN <i class=bn>}</i><i class=bn>|</i><i class=bn>{</i> CROSS JOIN <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:call_link('abencds_f1_data_source.html')" class="blue">data_source</a> <i class=bn>[</i>ON
+<a href="javascript:call_link('abencds_f1_conditional_expression.html')" class="blue">cond_expr</a><i class=bn>]</i> ...</span> <br><br>
+</p>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+  <span class="qtext400">... TO ONE<i class=bn>|</i>MANY</span>  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Defines a <a href="javascript:call_link('abenjoin_glosry.html')" class="grey" title="Glossary Entry">join</a> between two data sources of a
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a>. The code above is
+part of the syntax of a data source <a href="javascript:call_link('abencds_f1_data_source.html')" class="blue"><span class="qtext400">data_source</span></a>
+and contains the recursive syntax of a data source <a href="javascript:call_link('abencds_f1_data_source.html')" class="blue"><span class="qtext400">
+data_source</span></a>. Two data sources joined using <span class="qtext400">JOIN</span> create a join expression.
+</p>
+<p>
+In a join expression using <span class="qtext400">INNER</span> and <span class="qtext400">OUTER</span>,
+a join condition <a href="javascript:call_link('abencds_f1_conditional_expression.html')" class="blue"><span class="qtext400">cond_expr</span></a> must be specified after <span class="qtext400">ON</span>. Special
+<a href="javascript:call_link('abencds_cond_expr_on_join.html')" class="blue">rules</a> apply when this is specified. A join condition cannot be specified for a join expression using <span class="qtext400">CROSS</span>.
+</p>
+<p>
+Inner joins, outer joins, and cross joins are all possible:
+</p>
+<ul class="disc">
+<li>A join between two data sources using <span class="qtext400">INNER JOIN</span> or just <span class="qtext400">JOIN</span>
+selects all entries of the data sources whose fields meet the <span class="qtext">ON</span> condition.</li>
+</ul>
+<ul class="disc">
+<li>A join between two data sources using <span class="qtext400">LEFT OUTER JOIN</span> selects all
+entries on the left side. A join between two data sources using <span class="qtext400">RIGHT OUTER JOIN</span>
+selects all entries on the right side. Entries that meet the <span class="qtext">ON</span> condition
+have the same content as in the inner join. In entries that do not meet the <span class="qtext">ON</span> condition, the elements on the right or left side have the
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a> that is set to the type-dependent initial value when the CDS view is used in ABAP SQL.</li>
+</ul>
+<ul class="disc">
+<li>When two data sources are joined using <span class="qtext400">CROSS JOIN</span>, their cross product
+is produced. All entries on the left side are combined with all entries on the right side. The number
+of rows in the results set is the number of rows on the left side multiplied by the number of rows on the right side.</li>
+</ul>
+<p>
+Nested join expressions are evaluated in the following order:
+</p>
+<ul class="disc">
+<li>In the case of inner and outer joins, by the arrangement of the <span class="qtext400">ON</span>
+conditions. From left to right, the most adjacent <span class="qtext400">ON</span> conditions are assigned
+to each <span class="qtext400">JOIN</span> and this expression is parenthesized implicitly. These implicit parentheses can be made explicit using actual parentheses, <span class="qtext400">(
+)</span>. This is optional.</li>
+</ul>
+<ul class="disc">
+<li>By default, cross joins are evaluated from left to right. The priority of the evaluation can be influenced by parentheses <span class="qtext400">( )</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>If multiple cross joins are combined, the order of the evaluation is irrelevant. The result is always the same and the number of rows is the product of the number of rows of all involved data sources.</li>
+</ul>
+<ul class="circlem2">
+<li>If cross joins are combined with inner and outer joins, the result can depend on the order of evaluation or the parentheses.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A <span class="qtext400">WHERE</span> condition for a <span class="qtext400">SELECT</span> statement with joins is applied to the results set created using the joins.</li>
+</ul>
+<ul class="disc">
+<li>An inner join or a cross join between two individual data sources is commutative. If the left and right side are switched, the result remains the same.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencds_sap_puffer.html')" class="blue">Buffering</a> is not recommended for a CDS view that contains an outer join.  The results set can contain
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null values</a>, which means
+that ABAP SQL reads can behave differently to direct database reads when the buffer is read, since null values in the buffer are transformed to initial values.</li>
+</ul>
+<ul class="disc">
+<li>The function <a href="javascript:call_link('abencds_f1_coalesce_expression.html')" class="blue"><span class="qtext400">coalesce</span></a> can be used to prevent null values in the results set.</li>
+</ul>
+<ul class="disc">
+<li>A cross join behaves like an inner or outer join whose <span class="qtext">ON</span> condition is
+always true. A cross join with a <span class="qtext">WHERE</span> condition has the same result as an
+inner join with an identical <span class="qtext">ON</span> condition. Unlike the inner join, in a cross
+join all data is read first before the condition is evaluated. In an inner join only data that meets the <span class="qtext">ON</span> condition is read.</li>
+</ul>
+<ul class="disc">
+<li>A cross join should only be used with extreme caution. Since it is not possible to specify an <span class="qtext">
+ON</span> condition, all data of all involved data sources is read. In the case of very large datasets,
+the results set (whose number of rows is always the product of the number of all rows of both data sources) can quickly become very large.</li>
+</ul>
+<ul class="disc">
+<li>On the database, a cross join of two client-specific data sources is defined internally as an inner
+join, whose <span class="qtext">ON</span> condition checks whether the client columns of the left and right side are equal. If one side is not client-specific, the cross join is defined as specified.</li>
+</ul>
+<ul class="disc">
+<li>In nested join expressions, parentheses are recommended for making the code easier to read. In the
+case of inner and outer joins, the parentheses can be specified wherever the <span class="qtext400">ON</span> conditions specify parentheses implicitly.</li>
+</ul>
+<ul class="disc">
+<li>There is no limit on the number of join expressions in a <span class="qtext400">SELECT</span> statement of a CDS view in the DDL, but there is an
+<a href="javascript:call_link('abenatc_glosry.html')" class="grey" title="Glossary Entry">ATC</a> check that produces a message once a specific number of expressions is reached.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following CDS view works in exactly the same way as the classic
+<a href="javascript:call_link('abenddic_database_views.html')" class="blue">database view</a> <span class="lnkgrey">DEMO_SCARR_SPFLI</span>.
+The program <span class="lnkgrey">DEMO_CDS_JOIN</span> uses <span class="qtext">SELECT</span> to access
+the view. Unlike when the classic database view DEMO_SCARR_SPFLI is accessed, no client column is returned
+when the CDS entity DEMO_CDS_SCARR_SPFLI is accessed. The CDS database view DEMO_CDS_JOIN returns the client column too.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_JOIN' <br>@AccessControl.authorizationCheck: #NOT_ALLOWED <br>
+define view demo_cds_scarr_spfli( <br>&nbsp;&nbsp;&nbsp;&nbsp;id, <br>&nbsp;&nbsp;&nbsp;&nbsp;carrier, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;flight, <br>&nbsp;&nbsp;&nbsp;&nbsp;departure, <br>&nbsp;&nbsp;&nbsp;&nbsp;destination <br>
+&nbsp;&nbsp;) <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join scarr on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scarr.carrid = spfli.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key spfli.carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key scarr.carrname, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key spfli.connid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.cityfrom, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.cityto <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following non-parenthesized chaining of join expressions
+</p>
+<dl><dd>
+<span class="qtext400">... from tab1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab3 on tab2.id = tab3.id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on tab1.id = tab2.id ...</span>
+</dd></dl>
+<p>
+is parenthesized implicitly as follows:
+</p>
+<dl><dd>
+<span class="qtext400">... from tab1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( tab2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;join <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab3 on tab2.id = tab3.id ) on tab1.id = tab2.id ...</span>
+</dd></dl>
+<p>
+No elements from <span class="qtext400">tab1</span> can be specified in the inner <span class="qtext400">ON</span> condition.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following view contains a cross join of table <span class="lnkgrey">T000</span> of all clients of
+an AS ABAP with the entries for the message class SABAPDEMOS in the table <span class="lnkgrey">T100</span>.
+The program <span class="lnkgrey">DEMO_CDS_CROSS_JOIN</span> accesses the view. The results set would be very large without this <span class="qtext">WHERE</span> condition.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_CRSJN' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_cross_join <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; t000 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cross join t100 <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t000.mandt, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t000.mtext, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t100.sprsl, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t100.arbgb, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t100.msgnr, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t100.text <br>&nbsp;&nbsp;&nbsp;&nbsp;} <br>&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t100.arbgb = 'SABAPDEMOS'&nbsp;&nbsp;&nbsp;&nbsp;</span> <br><br>
+</dd></dl>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext400">... TO ONE<i class=bn>|</i>MANY</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Specifies the cardinality of a left outer join. This addition is positioned after <span class="qtext400">LEFT
+OUTER</span>, but is not possible after <span class="qtext400">RIGHT OUTER</span>. Only certain specific database systems apply this addition.
+</p>
+<p>
+If the addition <span class="qtext400">TO ONE</span> is specified, any databases that support this addition
+assume that the results set defined by the left outer join matches this cardinality and SQL Optimizer
+attempts to suppress any surplus joins. If the results set does not match the cardinality, the result
+is undefined and may be dependent on the entries in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">
+SELECT</span> list</a>. If the addition <span class="qtext400">TO MANY</span> is specified, no optimization takes place as a rule.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+More information can be found in the documentation of the current database system. The
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>, for
+example, supports the additions <span class="qtext400">TO ONE</span> and <span class="qtext400">TO MANY</span> and their description is part of the
+<a href="https://help.sap.com/viewer/4fe29514fd584807ac9f2a04f6754767/2.0.03/en-US" target="blank" class="blue">HANA-specific SQL</a> documentation.
+<br><br></li>
+<li>
+To avoid undefined and platform-specific behavior, <span class="qtext400">TO ONE</span> or <span class="qtext400">TO MANY</span> can be specified only if the data being read meets the relevant prerequisites.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Incorrect use of <span class="qtext400">TO ONE</span> in CDS views. The data in the database tables
+<span class="lnkgrey">SCARR</span> and <span class="lnkgrey">SPFLI</span> do not have the cardinality
+<span class="qtext400">TO ONE</span> and have the cardinality <span class="qtext400">TO MANY</span>
+instead. On a SAP HANA database, for example, the result is dependent on the <a href="javascript:call_link('abapselect_list.html')" class="blue">
+<span class="qtext">SELECT</span> list</a>. If the left and right side are specified here, no optimization
+takes place. If no columns are specified on the right side (and the aggregate function <a href="javascript:call_link('abencds_f1_aggregate_functions.html')" class="blue">
+<span class="qtext">COUNT(*)</span></a> is used), an optimization takes place. Here, only that data is read that meets the prerequisite cardinality.
+</P>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSWTO1' <br>define view demo_cds_wrong_to_one_1 <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scarr as c <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left outer to one join spfli as p on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrid = p.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrid&nbsp;&nbsp; as carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrname as carrname, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.connid&nbsp;&nbsp; as connid <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSWTO2' <br>define view demo_cds_wrong_to_one_2 <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scarr as c <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left outer to one join spfli as p on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrid = p.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrid&nbsp;&nbsp; as carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrname as carrname <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSWTO3' <br>define view demo_cds_wrong_to_one_3 <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scarr as c <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left outer to one join spfli as p on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.carrid = p.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count(*) as cnt <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<P>
+The program <span class="lnkgrey">DEMO_CDS_WRONG_TO_ONE</span> accesses the CDS views and represents the results.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_f1_joined_data_source.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+</html>

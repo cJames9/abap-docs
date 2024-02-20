@@ -1,0 +1,174 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREAD_BEHAVIOR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenread_behavior.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP EML - READ ENTITIES">
+<title>
+ABAP EML - READ ENTITIES - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenread_behavior.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenread_behavior.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeneml.html')" class="blue">Entity Manipulation Language</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@READ ENTITIES@@!ABAP_STATEMENT_EML!@@"></A>
+<A NAME="@@FROM@@!ABAP_EML_READ!@@"></A>
+<A NAME="@@BY@@!ABAP_EML_READ!@@"></A>
+<A NAME="@@EXECUTE@@!ABAP_EML_READ!@@"></A>
+<A NAME="@@RESULT@@!ABAP_EML_READ!@@"></A>
+<A NAME="@@LINK@@!ABAP_EML_READ!@@"></A>
+<A NAME="@@FAILED@@!ABAP_EML_READ!@@"></A>
+<A NAME="@@REPORTED@@!ABAP_EML_READ!@@"></A>
+<p><span class="h1">
+ABAP EML - READ ENTITIES
+</span></p>
+<A name="@@ITOC@@ABENREAD_BEHAVIOR_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">READ ENTITIES OF root_name <br>&nbsp;&nbsp; ENTITY entity_1_name <br>&nbsp;&nbsp;&nbsp;&nbsp; FROM it_instance <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT it_result <i class=bn>|</i> DATA(it_result) <br>&nbsp;&nbsp;&nbsp;&nbsp; BY \assoc_name FROM it_instance_rba <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT it_result_rba <i class=bn>|</i> DATA(it_result_rba) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LINK&nbsp;&nbsp; it_link_rba <i class=bn>|</i> DATA(it_link_rba) <br>
+&nbsp;&nbsp;&nbsp;&nbsp; EXECUTE action_name FROM it_instance_a <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT it_result_a <i class=bn>|</i> DATA(it_result_a) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LINK&nbsp;&nbsp; it_link_a <i class=bn>|</i> DATA(it_link_a) <br>&nbsp;&nbsp; ENTITY entity_name_2 <br>
+&nbsp;&nbsp; ... <br>&nbsp;&nbsp;<i class=bn>[</i>FAILED&nbsp;&nbsp; it_failed <i class=bn>|</i> DATA(it_failed)<i class=bn>]</i> <br>
+&nbsp;&nbsp;<i class=bn>[</i>REPORTED it_reported <i class=bn>|</i> DATA(it_reported)<i class=bn>]</i>. <br></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The <a href="javascript:call_link('abeneml.html')" class="blue">EML</a> statement <span class="qtext400">READ ENTITIES</span> enables read operations to be made to the
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a>. It can have a long, short, or dynamic form.
+</p>
+<ul class="disc">
+<li>The long form, <span class="qtext400">READ ENTITIES</span>, makes it possible to group multiple operations in multiple entities of a business object.</li>
+</ul>
+<ul class="disc">
+<li>The short form <a href="javascript:call_link('abeneml_read_entity.html')" class="blue"><span class="qtext400">READ ENTITY</span></a> is intended for the special case where only a single entity is operated on.</li>
+</ul>
+<ul class="disc">
+<li>The dynamic form <a href="javascript:call_link('abeneml_read_entities_op.html')" class="blue"><span class="qtext400">READ ENTITIES OPERATIONS</span></a> makes it possible to merge operations in multiple
+<a href="javascript:call_link('abenbusiness_object_glosry.html')" class="grey" title="Glossary Entry">business objects</a> in one statement. There is no dynamic short form.</li>
+</ul>
+<p>
+The following points apply for the syntax of the statement <span class="qtext400">READ ENTITIES</span>:
+</p>
+<ul class="disc">
+<li>The name of the business object (the same as the name of the
+<a href="javascript:call_link('abenroot_entity_glosry.html')" class="grey" title="Glossary Entry">root entity</a>) <span class="qtext400">root_name</span> is specified after <span class="qtext400">OF</span>.</li>
+</ul>
+<ul class="disc">
+<li>This is followed by the list of the operations, grouped by entity (schema): <br><span class="qtext400">&nbsp;&nbsp;&nbsp;&nbsp;ENTITY entity_name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; operation <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>operation ...<i class=bn>]</i></span> <br>
+Grouping operations by entity is not mandatory, since <span class="qtext400">ENTITY entity_name</span>
+can be repeated. The same combination of <span class="qtext400">entity_name</span> and <span class="qtext400">operation</span>, however, cannot occur more than once.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abenbdl_alias.html')" class="blue">alias</a> of the entity should be used as <span class="qtext400">entity_name</span>, if one is defined in the
+<a href="javascript:call_link('abenabap_behavior_definitions.html')" class="blue">behavior definition</a>. The original name of the entity can also be used instead of the alias, but this produces a warning.</li>
+</ul>
+<ul class="disc">
+<li>The simple <span class="qtext400">READ ENTITIES</span> statement does not have its own keyword (such
+as <span class="qtext400">CREATE</span> in <a href="javascript:call_link('abeneml_modify_entities.html')" class="blue"><span class="qtext400">
+MODIFY ENTITIES</span></a>), rather it starts directly with <span class="qtext400">FROM it_instance</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">READ ENTITIES</span> statements always have the addition <span class="qtext400">RESULT</span>, since the result of the read must be specified.</li>
+</ul>
+<ul class="disc">
+<li>Two parameters are bound for each operation (source and target variable); in read-by-association, on the other hand, up to three variables (source and target variable and link) can be bound.</li>
+</ul>
+<ul class="disc">
+<li>Read-by-Association has the following form: <br><span class="qtext400">&nbsp;&nbsp;&nbsp;&nbsp;READ BY \association_name FROM instances <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESULT results <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LINK&nbsp;&nbsp; links</span> <br>
+Here, at least one of the target variables (<span class="qtext400">results</span> or <span class="qtext400">links</span>)
+must be specified. The variable <span class="qtext400">results</span> contains the target instances
+with all fields, whereas the variable <span class="qtext400">links</span> contains only a list of key
+pairs: Source key, target key. Target variables must have the appropriate type (for example, <span class="qtext400">RESULT
+it_result_a</span>) or can be declared inline (for example, <span class="qtext400">RESULT DATA(it_result_a)</span>).</li>
+</ul>
+<p>
+The following applies for the response variables:
+</p>
+<ul class="disc">
+<li>The response variables are structures with n component (one component for each entity of the business object).</li>
+</ul>
+<ul class="disc">
+<li>Up to two variables can be specified to hold response information: <span class="qtext400">FAILED</span>
+and <span class="qtext400">REPORTED</span>. There are no key assignments in the statement <span class="qtext400">READ
+ENTITIES</span>, which is why the response structure <span class="qtext400">MAPPED</span> is not used.</li>
+</ul>
+<ul class="disc">
+<li>The response variables must either have the matching type or be declared inline (for example, <span class="qtext400">
+FAILED DATA(it_failed)</span>). These are the early response types (without the addition <span class="qtext400">LATE</span>). The instances are identified using the keys valid in the interaction phase.</li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abeneml_read_entity.html')" class="blue">ABAP EML - READ ENTITY</a><br>
+<a href="javascript:call_link('abeneml_read_entities_op.html')" class="blue">ABAP EML - READ ENTITIES OPERATIONS</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenread_behavior.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:37 GMT -->
+</html>

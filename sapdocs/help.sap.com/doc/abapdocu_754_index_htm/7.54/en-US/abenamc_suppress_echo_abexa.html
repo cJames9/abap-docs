@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMC_SUPPRESS_ECHO_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamc_suppress_echo_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMC, Suppressing Standalone Messages">
+<title>
+AMC, Suppressing Standalone Messages - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamc_suppress_echo_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamc_suppress_echo_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_channels.html')" class="blue">ABAP Channels</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamc.html')" class="blue">AMC - ABAP Messaging Channels</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamc_abexas.html')" class="blue">AMC Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMC, Suppressing Standalone Messages
+</span></p>
+<p>
+This example demonstrates the suppression of <a href="javascript:call_link('abenamc_glosry.html')" class="grey" title="Glossary Entry">AMC</a> messages to the current ABAP session.
+</p>
+<A name="@@ITOC@@ABENAMC_SUPPRESS_ECHO_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_amc_suppress_echo.<br>
+<br>
+CLASS message_receiver DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if_amc_message_receiver_text.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA text_message TYPE string.<br>
+ENDCLASS.<br>
+<br>
+CLASS message_receiver IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD if_amc_message_receiver_text~receive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text_message = i_message.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS amc_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS amc_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(receiver) = NEW message_receiver( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_amc_channel_manager=&gt;create_message_consumer(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_application_id = 'DEMO_AMC'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_channel_id&nbsp;&nbsp;&nbsp;&nbsp; = '/demo_text'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;start_message_delivery( i_receiver = receiver ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_amc_error INTO DATA(text_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( text_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Check 'Send text message' and toggle 'Suppress echo'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SUBMIT demo_send_amc AND RETURN.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WAIT FOR MESSAGING CHANNELS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNTIL receiver-&gt;text_message IS NOT INITIAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UP TO 1 SECONDS.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF receiver-&gt;text_message IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( receiver-&gt;text_message ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;amc_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENAMC_SUPPRESS_ECHO_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Like in the executable example for <a href="javascript:call_link('abenamc_receive_abexa.html')" class="blue">Receiving Messages</a>,
+a receiver object for the messaging channel <span class="qtext400">/demo_text</span> of the application
+DEMO_AMC from the package SABAPDEMOS is registered. In the example shown here, the text message can be sent by calling the program <span class="lnkgrey">DEMO_SEND_AMC</span> from the example
+<a href="javascript:call_link('abenamc_send_abexa.html')" class="blue">Sending Messages</a> within the same ABAP session.
+</p>
+<p>
+The message is only received if the initial value is transferred during sending to the parameter I_SUPPRESS_ECHO
+of the method CREATE_MESSAGE_PRODUCER. If the <span class="qtext400">Suppress echo</span> checkbox is selected, on the other hand, the message is suppressed.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamc_suppress_echo_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

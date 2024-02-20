@@ -1,0 +1,238 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-610-TABELLEN -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-tabellen.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables in Release 6.10">
+<title>
+Internal Tables in Release 6.10 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-610-tabellen.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-610-tabellen.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-610.html')" class="blue">Changes in Release 6.10</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables in Release 6.10
+</span></p>
+<P>
+In Release 6.10, the following enhancements have been made to internal table functions: <br><br>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Creating a table object </A> <br><br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br>
+2. Checking the convertibility of key fields </A> <br><br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> <br>
+3. Duplicate or overlapping key specifications </A> <br><br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> <br>
+4. Support for accessing attributes </A> <br><br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> <br>5. Table categories for text pools and IN conditions </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> <br>6. Handling overflows in <span class="qtext">COLLECT</span> and <span class="qtext">SUM</span> </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> <br>7. Additions ASSIGNING and REFERENCE INTO </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> <br>8. Case in dynamic components </A> <br><br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> <br>
+9. Combined key specifications with table_line </A> <br><br><A HREF="#!ABAP_MODIFICATION_10@10@" class="blue"> <br>
+10. Establishing the number of rows in an internal table </A> <br><br><A HREF="#!ABAP_MODIFICATION_11@11@" class="blue"> <br>
+11. Optimization when accessing internal tables </A> <br><br><A HREF="#!ABAP_MODIFICATION_12@12@" class="blue"> <br>12. Offset and length specifications for the table definition </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+Creating a table object <br><br><!-- /A -->
+</P>
+<P>
+Any table objects can be created at runtime by using the statement <a href="javascript:call_link('abapcreate_data.html')" class="blue"><span class="qtext">
+CREATE DATA</span></a>. If the table type is known in full, this is respected by the syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+Checking the convertibility of key fields <br><br><!-- /A -->
+</P>
+<P>
+In the case of the statements <a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ TABLE
+itab WITH KEY k1 = v1 .... kn = vn</span></a> and <a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE
+TABLE itab WITH KEY = v1 .... kn = vn</span></a>, the system already checks whether the key values are
+convertible to the component type in the syntax check. This convertibility check is also effective for
+the newer variant <span class="qtext">READ ... WITH TABLE KEY ...</span>. Previously, the runtime error MOVE_NOT_SUPPORTED was triggered if the conversion was not possible. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Duplicate or overlapping key specifications <br><br><!-- /A -->
+</P>
+<P>
+In the case of duplicate or overlapping key specifications, the statement <a href="javascript:call_link('abapread_table.html')" class="blue">
+<span class="qtext">READ TABLE itab WITH KEY k1 = v1 .... kn = vn</span></a> now triggers a syntax error
+instead of a syntax warning. If specified dynamically, it was previously the case that the last key specification was used; now the runtime error DYN_KEY_DUPLICATE is triggered. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Support for Accessing Attributes <br><br><!-- /A -->
+</P>
+<P>
+The addition <span class="qtext">... COMPARING o->attr</span> now makes it possible to access the attributes
+of objects that are components of internal tables, similar to when reading, changing, deleting, or sorting internal tables. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Table Categories for Text Pools and <span class="qtext">IN</span> Conditions <br><br><!-- /A -->
+</P>
+<P>
+Alongside <a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard tables</a>, the
+<a href="javascript:call_link('abaptypes_tabkind.html')" class="blue">tables categories</a> HASHED and SORTED are supported for
+the statements <a href="javascript:call_link('abapread_textpool.html')" class="blue"><span class="qtext">READ</span></a>, <a href="javascript:call_link('abapdelete_textpool.html')" class="blue">
+<span class="qtext">DELETE</span></a>, and <a href="javascript:call_link('abapinsert_textpool.html')" class="blue"><span class="qtext">INSERT
+TEXTPOOL ...</span></a>. The <span class="qtext">IN</span> conditions for <a href="javascript:call_link('abapwhere.html')" class="blue"><span class="qtext">
+SELECT ... WHERE</span></a> and <a href="javascript:call_link('abenlogexp_select_option.html')" class="blue"><span class="qtext">LOOP ... WHERE</span></a> are also no longer dependent on the table category. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+Handling Overflows in <span class="qtext">COLLECT</span> and <span class="qtext">SUM</span> <br><br><!-- /A -->
+</P>
+<P>
+Previously, fields of type <span class="qtext">f</span> were only checked for possible overflows in
+the case of arithmetic additions. When using <a href="javascript:call_link('abapcollect.html')" class="blue"><span class="qtext">COLLECT</span></a>
+and <a href="javascript:call_link('abapsum.html')" class="blue"><span class="qtext">SUM</span></a>, the addition was terminated
+in accordance with IEEE standards and a runtime error was triggered as soon as the overflow limit (Infinity)
+was reached. Now this raises the exception <span class="lnkgrey">CX_SY_ARITHMETIC_OVERFLOW</span>, which can be caught using <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Additions <span class="qtext">ASSIGNING</span> and <span class="qtext">REFERENCE INTO</span> <br><br><!-- /A -->
+</P>
+<P>
+The additions <a href="javascript:call_link('abapread_table_outdesc.html')" class="blue"><span class="qtext">ASSIGNING</span></a>
+and <a href="javascript:call_link('abapread_table_outdesc.html')" class="blue"><span class="qtext">REFERENCE INTO</span></a>
+are now available for the statements <a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ</span></a>,
+<a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>, <a href="javascript:call_link('abapinsert_itab.html')" class="blue">
+<span class="qtext">INSERT</span></a>, <a href="javascript:call_link('abapappend.html')" class="blue"><span class="qtext">APPEND</span></a>,
+<a href="javascript:call_link('abapmodify_itab.html')" class="blue"><span class="qtext">MODIFY</span></a>, and <a href="javascript:call_link('abapcollect.html')" class="blue">
+<span class="qtext">COLLECT</span></a>. Previously, only the addition <span class="qtext">ASSIGNING</span>
+for the keywords <span class="qtext">LOOP</span> and <span class="qtext">READ</span> was available. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Uppercase and lowercase spelling in dynamic components <br><br><!-- /A -->
+</P>
+<P>
+Previously, the field content of a dynamic component always had to written in capitals, for example
+<a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT ... BY ('COMP')</span></a>. Now lowercase spelling is valid in specifications for all internal table commands. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+Combined key specifications with <span class="qtext">table_line</span> <br><br><!-- /A -->
+</P>
+<P>
+Now there are additional key specifications for the
+<a href="javascript:call_link('abenpseudo_component_glosry.html')" class="grey" title="Glossary Entry">pseudo component</a> <span class="qtext">
+table_line</span>. Previously, it was not possible to have a key specified in the form <span class="qtext">READ
+... WITH KEY table_line->attr = ... table_line = ... BINARY SEARCH</span>, for example, where both the value of the attribute ATTR and the value of the reference itself were the key. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_10@10@"></A> <span class="bold">Modification 10</span>
+</span></p>
+<P>
+Establishing the number of rows in an internal table <br><br><!-- /A -->
+</P>
+<P>
+The number of rows in an internal table can be determined using the function <a href="javascript:call_link('abapcompute_arith.html')" class="blue">
+<span class="qtext">LINES</span></a>. For consistency, this function is intended to replace the statement
+<a href="javascript:call_link('abapdescribe_table.html')" class="blue"><span class="qtext">DESCRIBE TABLE</span></a> in the long term, since not all ABAP types can be described using DESCRIBE. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_11@11@"></A> <span class="bold">Modification 11</span>
+</span></p>
+<P>
+Optimization when accessing internal tables <br><br><!-- /A -->
+</P>
+<P>
+For Release 6.10, optimized access to tables of the types SORTED and HASHED has been introduced. For more details, see the section on <a href="javascript:call_link('abenitab_perfo.html')" class="blue">Optimized Key Operations</a>. <br><br>
+</P>
+<P>
+In addition, in the case of assignments between internal tables of the same type, data is now only copied if changes were made to these tables. This
+<a href="javascript:call_link('abentable_sharing_glosry.html')" class="grey" title="Glossary Entry">table sharing</a> has a positive effect on runtime and the memory required. <br>
+ <br>Until now, these optimizations had to be carried out explicitly using field symbols. Now it is possible to work normally with a work area, because no table is copied when reads are performed. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_12@12@"></A> <span class="bold">Modification 12</span>
+</span></p>
+<P>
+Offset and length declarations for the table definition <br><br><!-- /A -->
+</P>
+<P>
+Previously, components of the table key could be specified with offset and length declarations, which resulted in undefined runtime behavior. This is no longer possible and a syntax error is triggered instead.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-tabellen.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

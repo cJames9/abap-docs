@@ -1,0 +1,218 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPRAISE_SHORTDUMP -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapraise_shortdump.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:57 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="RAISE SHORTDUMP">
+<meta name="keywords" content="ABAP, RAISE SHORTDUMP">
+<title>
+RAISE SHORTDUMP - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapraise_shortdump.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapraise_shortdump.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennoncat_exceptions.html')" class="blue">Runtime Error</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@RAISE SHORTDUMP@@!ABAP_STATEMENT!@@"></A>
+<A NAME="@@TYPE@@RAISE SHORTDUMP@@"></A>
+<p><span class="h1">
+RAISE SHORTDUMP <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapraise_shortdump_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">RAISE SHORTDUMP <br>&nbsp;&nbsp;<i class=bn>{</i> <i class=bn>{</i>TYPE cx_class <i class=bn>[</i>
+<a href="javascript:call_link('abapraise_shortdump_message.html')" class="blue">message</a><i class=bn>]</i> <i class=bn>[</i>EXPORTING p1 = a1 p2 = a2 ...<i class=bn>]</i><i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>|</i> oref <i class=bn>}</i>.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement interrupts the execution of the current statement block and raises the
+<a href="javascript:call_link('abenruntime_error_glosry.html')" class="grey" title="Glossary Entry">runtime error</a> RAISE_SHORTDUMP. This performs a
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollback</a>. This runtime error is associated with an
+<a href="javascript:call_link('abenexception_object_glosry.html')" class="grey" title="Glossary Entry">exception object</a> using <span class="qtext">TYPE</span> or <span class="qtext">oref</span>:
+</P>
+<ul class="disc">
+<li>
+If the addition <span class="qtext">TYPE</span> is specified, an exception object of the
+<a href="javascript:call_link('abenexception_class_glosry.html')" class="grey" title="Glossary Entry">exception class</a> <span class="qtext">
+cx_class</span> is created. Every exception class <span class="qtext">cx_class</span> visible at this point can be specified after <span class="qtext">TYPE</span>. The
+<a href="javascript:call_link('abenexception_category_glosry.html')" class="grey" title="Glossary Entry">exception category</a> is ignored.
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The addition <span class="qtext">EXPORTING</span> can be used to assign actual parameters to the
+input parameters of the instance constructor. The syntax and semantics are the same as for the statement <a href="javascript:call_link('abapraise_exception_class.html')" class="blue"><span class="qtext">RAISE EXCEPTION</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>The addition <a href="javascript:call_link('abapraise_shortdump_message.html')" class="blue"><span class="qtext">message</span></a> can be used to associate the exception object with a
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">message</a>.</li>
+</ul>
+<ul class="disc">
+<li>
+If <span class="qtext">oref</span> is specified, no new exception object is created. <span class="qtext">oref</span>
+expects an object reference variable that points to an existing exception object. The static type of
+<span class="qtext">oref</span> must be an exception class (namely a subclass of CX_ROOT or the class itself). <span class="qtext">oref</span> is a
+<a href="javascript:call_link('abengeneral_expr_position_glosry.html')" class="grey" title="Glossary Entry">general expression
+position</a>. In the existing exception object, the internal attributes that describe the location of the exception are applied at the location of the <span class="qtext">RAISE</span> statement.
+<br></li>
+</ul>
+<P>
+The <a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dump</a> of the runtime error contains the name of the exception class and the
+<a href="javascript:call_link('abenexception_text_glosry.html')" class="grey" title="Glossary Entry">exception text</a>. The
+attributes of the exception object can be displayed in the transaction <span class="lnkgrey">ST22</span>.
+Under <span class="italic">Chain of Exception Objects</span>, the long text of the short dump contains the attributes referenced in the attribute PREVIOUS of the exception object.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The statement <span class="qtext">RAISE SHORTDUMP</span> works in roughly the same way as
+<a href="javascript:call_link('abapraise_exception_class.html')" class="blue"></a> used to raise a
+<a href="javascript:call_link('abenclass_based_exception_glosry.html')" class="grey" title="Glossary Entry">class-based exception</a> that does not have a handler. There is no
+<a href="javascript:call_link('abenexceptions_procedures.html')" class="blue">propagation from procedures</a>, however, which removes the risk of violating interfaces and raising further exceptions such as CX_SY_NO_HANDLER. This means that the
+<a href="javascript:call_link('abenexception_category_glosry.html')" class="grey" title="Glossary Entry">exception category</a> of the exception class in question is ignored in <span class="qtext">RAISE SHORTDUMP</span>.
+<br><br></li>
+<li>
+The statement <span class="qtext">RAISE SHORTDUMP</span> does not raise
+<a href="javascript:call_link('abenclass_based_exception_glosry.html')" class="grey" title="Glossary Entry">class-based exception</a>
+that can be caught using <a href="javascript:call_link('abapcatch_try.html')" class="blue"><span class="qtext">CATCH</span></a>. The exception object is used exclusively for the transport of information to the short dump.
+<br><br></li>
+<li>
+The statement <span class="qtext">RAISE SHORTDUMP</span> is an alternative to raising
+<a href="javascript:call_link('abenexit_message_glosry.html')" class="grey" title="Glossary Entry">exit messages</a> (
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">messages</a> of type <span class="qtext400">X</span>).
+The attributes of the exception class are capable of sending more information about an error to the short dump than a message text. More specifically, the attribute PREVIOUS can reference preceding exceptions.
+<br><br></li>
+<li>
+If <span class="qtext">oref</span> is specified, either an exception object instantiated using <a href="javascript:call_link('abenconstructor_expression_new.html')" class="blue">
+<span class="qtext">NEW</span></a> or <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">CREATE
+OBJECT</span></a> can be used or a previously caught exception can be transformed into a runtime error in exception handling.
+<br><br></li>
+<li>
+If a caught exception is transformed into a runtime error, it should be noted that the exception object
+does not remain unmodified and that the information about the position of the exception is changed.
+If the original information is transported to the short dump, a new exception object from the same class
+can be created. The original exception object is then passed to the constructor parameter PREVIOUS of the new object.
+<br><br></li>
+<li>
+The addition <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW SHORTDUMP</span></a> in a
+<a href="javascript:call_link('abenconditional_expressions.html')" class="blue">conditional expression</a> makes it possible to raise a runtime error in an operand position. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Raises a runtime error with an exception object of the exception class <span class="lnkgrey">CX_DEMO_T100</span>.
+The instance constructor is given parameters that define the exception text and fill any variable text parts with values.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+RAISE SHORTDUMP TYPE cx_demo_t100 <br>&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; textid = cx_demo_t100=>demo <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text1&nbsp;&nbsp;= 'I' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text2&nbsp;&nbsp;= 'need' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text3&nbsp;&nbsp;= 'a' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text4&nbsp;&nbsp;= 'break!'.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Like the previous example, but the exception object is created first and not in the statement <span class="qtext">RAISE SHORTDUMP</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(oref) = NEW cx_demo_t100( <br>&nbsp;&nbsp;textid = cx_demo_t100=>demo <br>&nbsp;&nbsp;text1&nbsp;&nbsp;= 'I' <br>
+&nbsp;&nbsp;text2&nbsp;&nbsp;= 'need' <br>&nbsp;&nbsp;text3&nbsp;&nbsp;= 'a' <br>&nbsp;&nbsp;text4&nbsp;&nbsp;= 'break!' ). <br> <br>RAISE SHORTDUMP oref.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Raises a runtime error when an exception is handled. A reference to the preceding exception object of
+the class <span class="qtext">cx_sy_zerodivide</span> is passed to the attribute PREVIOUS of the new
+exception object of the class <span class="qtext">cx_demo</span>. The <span class="italic">chain of exception objects</span> is displayed in the long text of the short dump.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS cx_demo DEFINITION INHERITING FROM cx_static_check. <br>ENDCLASS. <br> <br>CLASS demo DEFINITION. <br>
+&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main RAISING cx_sy_zerodivide. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(num) = 1 / 0. <br>
+&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo=>main( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_zerodivide INTO DATA(oref). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE SHORTDUMP TYPE cx_demo EXPORTING previous = oref. <br>&nbsp;&nbsp;ENDTRY.
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapraise_shortdump_message.html')" class="blue">RAISE SHORTDUMP - message</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapraise_shortdump.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:57 GMT -->
+</html>

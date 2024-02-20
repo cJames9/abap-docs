@@ -1,0 +1,563 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-753-ABAP_SQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-753-abap_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:58 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL in Release 7.53">
+<title>
+ABAP SQL in Release 7.53 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-753-abap_sql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-753-abap_sql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-75.html')" class="blue">Changes in Releases 7.5x</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-753.html')" class="blue">Changes in Release 7.53</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP SQL in Release 7.53 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Open SQL renamed as ABAP SQL </A> <br><br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br>2. Access to hierarchy data </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. Secondary connections </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> 4. Relational expression <span class="qtext">IS INITIAL</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> 5. Date/time functions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> 6. Publishing associations of common table expressions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> 7. Numeric literals in the <span class="qtext">SELECT</span> list </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> 8. Enhanced cast matrix </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> 9. Client handling in subquery of the statement <span class="qtext">INSERT</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_10@10@" class="blue"> 10. Subquery as data source of <span class="qtext">MODIFY</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_11@11@" class="blue"> 11. <span class="qtext">USING CLIENT</span> and session variable <span class="qtext400">client</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_12@12@" class="blue"> 12. Null values in the table buffer </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_13@13@" class="blue"> 13. Restrictions removed </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_14@14@" class="blue"> 14. Weaker check </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_15@15@" class="blue"> 15. New check </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_16@16@" class="blue"> 16. Replacement service in program calls </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_17@17@" class="blue"> 17. <span class="qtext">GROUP BY</span> addition <span class="qtext">GROUPING SETS</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_18@18@" class="blue"> 18. Aggregate function <span class="qtext">GROUPING</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_19@19@" class="blue"> 19. Stricter checks for syntax rules </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">Open SQL Renamed as ABAP SQL</span> <br><br><!-- /A -->
+</P>
+<P>
+The existing name <a href="javascript:call_link('abenopen_sql_old_glosry.html')" class="grey" title="Glossary Entry">Open SQL</a> has been changed to
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>. This renaming reflects
+that some parts of ABAP SQL now only support certain database platforms, specifically SAP HANA database, and hence that it is no longer fully platform-independent. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">Access to Hierarchy Data</span> <br><br><!-- /A -->
+</P>
+<P>
+In queries, both
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abenselect_hierarchy.html')" class="blue">hierarchies</a> and
+<br><br></li>
+<li>
+<a href="javascript:call_link('abenselect_hierarchy_navigators.html')" class="blue">hierarchy navigators</a>
+<br></li>
+</ul>
+<P>
+can be specified as <a href="javascript:call_link('abapselect_data_source.html')" class="blue">data sources</a>. Accessing hierarchy data triggers the
+<a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue">strict mode from Release 7.53</a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">Secondary Connections</span> <br><br><!-- /A -->
+</P>
+<P>
+On an AS ABAP with a <a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> as its
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard database</a>, only those
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connections</a> should be used from the database table <span class="lnkgrey">DBCON</span> whose
+<a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary database</a> is
+also a SAP HANA database. Alongside the <span class="qtext">CONNECTION</span> addition in , this also applies to ABAP SQL and Native SQL (ADBC and <span class="qtext">EXEC SQL</span>).
+</P>
+<P>
+<span class="lnkgrey">SAP HANA Smart Data Access (SDA)</span> should be used instead. In SDA, secondary
+databases are addressed from the SAP HANA database using special qualified names or by using virtual
+tables. If a SAP HANA database is used as a standard AS ABAP database, ABAP programs can use these names
+across the standard connection. This is only possible in AMDP and Native SQL. Database Shared Libraries (DBSL) are no longer required here. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+<span class="bold">Relational Expression <span class="qtext">IS INITIAL</span></span> <br><br><!-- /A -->
+</P>
+<P>
+The relational expression <a href="javascript:call_link('abenwhere_logexp_initial.html')" class="blue"><span class="qtext">IS <i
+class=bn>[</i>NOT<i class=bn>]</i> INITIAL</span></a> can now be used in a condition <span class="lnkgrey"><span class="qtext">sql_cond</span></span> to compare operands with their type-dependent initial value.
+</P>
+<P>
+When used, this expression requires the <a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue"> strict mode from Release 7.53</a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="bold">Date/Time Functions</span> <br><br><!-- /A -->
+</P>
+<P>
+ABAP SQL now supports the following new date/time functions:
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abensql_time_func.html')" class="blue">Time functions</a>
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TIMS_IS_VALID</span></li>
+</ul>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abensql_timestamp_func.html')" class="blue">Time stamp functions</a>
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_IS_VALID</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_CURRENT_UTCTIMESTAMP</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_SECONDS_BETWEEN</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_ADD_SECONDS</span></li>
+</ul>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abensql_date_time_conversions.html')" class="blue">Date/time conversions</a>
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_TO_DATS</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_TO_TIMS</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">TSTMP_TO_DST</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">DATS_TIMS_TO_TSTMP</span></li>
+</ul>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abensql_timezone_func.html')" class="blue">Time zone functions</a>
+<br></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">ABAP_SYSTEM_TIMEZONE</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">ABAP_USER_TIMEZONE</span></li>
+</ul>
+When used, these functions require the <a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue"> strict mode from Release 7.53</a>. <br><br> <br><br>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+<span class="bold">Publishing Associations of Common Table Expressions</span> <br><br><!-- /A -->
+</P>
+<P>
+When <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> are accessed within a
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expression</a>,
+the addition <a href="javascript:call_link('abapwith_associations.html')" class="blue"><span class="qtext">WITH
+ASSOCIATIONS</span></a> of the statement <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> can now be used to publish
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">associations</a> of these views for use in
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expressions</a> of the current <span class="qtext">WITH</span>
+statement. The addition <span class="qtext">REDIRECT TO</span> can also be used to replace the target data source of the published association with a previous CTE or the current CTE.
+</P>
+<P>
+When used, this addition requires the <a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue"> strict mode from Release 7.53</a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+<span class="bold">Number Literals in the <span class="qtext">SELECT</span> List</span> <br><br><!-- /A -->
+</P>
+<P>
+Until now, only those <a href="javascript:call_link('abennumeric_literal_glosry.html')" class="grey" title="Glossary Entry">
+numeric literals</a> whose value matched the value range of the type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">
+<a href="javascript:call_link('abensql_elem.html')" class="blue">INT4</a></a> could be specified as elementary SQL expressions
+in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> of a query. Now numeric literals of up to 31 digits can be specified, which are interpreted as numbers of the type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">DEC</a> if the value range of INT4 is exceeded. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+<span class="bold">Enhanced Cast Matrix</span> <br><br><!-- /A -->
+</P>
+<P>
+A <a href="javascript:call_link('abensql_cast.html')" class="blue">cast expression</a> can now be used to convert the data types INT1, INT2, INT4, and INT8 to DEC. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+<span class="bold">Client Handling in Subquery of the Statement <span class="qtext">INSERT</span></span> <br><br><!-- /A -->
+</P>
+<P>
+The addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING
+CLIENT</span></a> of the statement <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">INSERT</span></a> can now be specified in a
+<a href="javascript:call_link('abapinsert_from_select.html')" class="blue">subquery</a>. This means that the client specified
+for the target table of the insert operation can be different from the client specified for the data source of the subquery.
+</P>
+<P>
+If <span class="qtext">USING CLIENT</span> is not specified in the subquery, the current client ID is now always applied to
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>. Before Release
+7.53, the client ID specified after <span class="qtext">INSERT</span> using <span class="lnkgrey"><span class="qtext">USING CLIENT</span></span> was also used in the subquery.
+</P>
+<P>
+ The <span class="qtext">FROM</span> clause of the subquery can now access the database table or classic
+view filled using the <span class="qtext">INSERT</span> statement. This makes it possible to copy the data from one client to another.
+</P>
+<P>
+In the subquery, using <span class="qtext">USING CLIENT</span> or accessing the database table or classic view filled by the <span class="qtext">INSERT</span> statement enables
+<a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue">strict mode from Release 7.53</a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_10@10@"></A> <span class="bold">Modification 10</span>
+</span></p>
+<P>
+<span class="bold">Subquery as Data Source of <span class="qtext">MODIFY</span></span> <br><br><!-- /A -->
+</P>
+<P>
+In the ABAP SQL write statement <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY</span></a>,
+a parenthesized subquery <a href="javascript:call_link('abapinsert_source.html')" class="blue"><span class="qtext">SELECT subquery_clauses</span></a>
+can now be specified as a data source after <span class="qtext">FROM</span>. The rows of the results
+set of the subquery are modified or inserted in the target table directly on the database. No data transport is required between the database and AS ABAP. When used in <span class="qtext">MODIFY</span>, a subquery demands
+<a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue">strict mode from Release 7.53</a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_11@11@"></A> <span class="bold">Modification 11</span>
+</span></p>
+<P>
+<span class="bold"><span class="qtext">USING CLIENT</span> and Session Variable <span class="qtext400">client</span></span> <br><br><!-- /A -->
+</P>
+<P>
+In an ABAP SQL read in which multiple <a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">queries</a> access client-specific
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> and the client handling method is defined using the annotation <a href="javascript:call_link('abencds_client_handling.html')" class="blue"><span
+ class="qtext400">@ClientHandling.algorithm:#SESSION_VARIABLE</span></a>, the
+<a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">session variable</a> <span class="qtext400">client</span> (which corresponds to the
+<a href="javascript:call_link('abenhana_session_variables.html')" class="blue">ABAP-specific session variable</a> <span class="qtext400">CDS_CLIENT</span>
+on the SAP HANA database) must be set to the same value in all of these queries. The runtime error SAPSQL_DIFFERENT_CLIENT_VALUES
+occurs if <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING CLIENT</span></a> is
+used to specify a different client ID in one of these queries. This situation can occur in the statement
+<a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> or when using <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_12@12@"></A> <span class="bold">Modification 12</span>
+</span></p>
+<P>
+<span class="bold">Null Values in the Table Buffer</span> <br><br><!-- /A -->
+</P>
+<P>
+The <a href="javascript:call_link('abentable_buffer_glosry.html')" class="grey" title="Glossary Entry">table buffer</a> now supports real
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null values</a>. In
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>, null
+values are no longer transformed to type-dependent initial values. When the buffer is accessed, the
+same results are produced as when the database is accessed directly. The corresponding restrictions now no longer apply. The following are some of the aspects affected:
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">Relational expressions</a> with operands that contain null
+values. The result of a comparison of this type is now also unknown when the comparison is made in the buffer (except in the expression <a href="javascript:call_link('abenwhere_logexp_null.html')" class="blue"><span class="qtext">IS <i
+class=bn>[</i>NOT<i class=bn>]</i> NULL</span></a>).
+<br><br></li>
+<li>
+If used, <a href="javascript:call_link('abenwhere_logexp_null.html')" class="blue"><span class="qtext">IS <i class=bn>[</i>NOT<i class=bn>]</i> NULL</span></a> no longer bypasses table buffering.
+<br><br></li>
+<li>
+Accesses to <a href="javascript:call_link('abencds_sap_puffer.html')" class="blue">buffered CDS views</a>. When the buffer is accessed, the same results are now produced as when the database is accessed directly. Null values are often produced by
+<a href="javascript:call_link('abencds_f1_joined_data_source.html')" class="blue">outer joins</a> or in expressions such as
+<a href="javascript:call_link('abencds_f1_case_expression.html')" class="blue">case distinction</a> expressions. The restriction specifying that only those CDS views are buffered whose elements do not contain
+<a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null values</a> no longer applies. <br><br> <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_13@13@"></A> <span class="bold">Modification 13</span>
+</span></p>
+<P>
+<span class="bold">Restrictions Removed</span> <br><br><!-- /A -->
+</P>
+<ul class="disc">
+<li>
+For <a href="javascript:call_link('abenbuffer_expressions.html')" class="blue">certain SQL expressions and functions</a>, an ABAP SQL read statement no longer bypasses
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.
+<br><br></li>
+<li>
+ABAP SQL read statements no longer bypass <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a> in cases where a column is specified on the right side of
+<a href="javascript:call_link('abenwhere_logexp_compare.html')" class="blue">comparisons</a> or of <a href="javascript:call_link('abenwhere_logexp_interval.html')" class="blue"><span class="qtext">BETWEEN</span></a> in a
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">condition</a> that is not required to identify a single
+row or a generic range. The prerequisite for this is that both operands are numeric but do not have
+the type DF16_DEC or DF34_DEC, that both operands are character-like, or that both operands have the type RAW with the same lengths. <br><br> <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_14@14@"></A> <span class="bold">Modification 14</span>
+</span></p>
+<P>
+<span class="bold">Weaker Check</span> <br><br><!-- /A -->
+</P>
+<P>
+ABAP SQL statements that exploit a database property not supported by all database platforms no longer produce a syntax check warning and produce a syntax warning in the
+<a href="javascript:call_link('abenextended_program_check_glosry.html')" class="grey" title="Glossary Entry">extended program checks</a> instead. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_15@15@"></A> <span class="bold">Modification 15</span>
+</span></p>
+<P>
+<span class="bold">New Check</span> <br><br><!-- /A -->
+</P>
+<P>
+If the data of the <a href="javascript:call_link('abapselect_itab.html')" class="blue">internal table</a> needs to be transported to the database in cases where the internal table is used as a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> of the ABAP SQL statement <a href="javascript:call_link('abapselect.html')" class="blue">
+<span class="qtext">SELECT</span></a>, a syntax check warning occurs that can be hidden using the pragma <span class="qtext">##itab_db_select</span>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_16@16@"></A> <span class="bold">Modification 16</span>
+</span></p>
+<P>
+<span class="bold">Replacement Service in Program Calls</span> <br><br><!-- /A -->
+</P>
+<P>
+The method ACTIVATE_REPLACEMENT of the class <a href="javascript:call_link('abencl_osql_replace.html')" class="blue">CL_OSQL_REPLACE</a>
+has the new parameter FLG_SURVIVE_SUBMIT, which now also permits redirections in called programs. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_17@17@"></A> <span class="bold">Modification 17</span>
+</span></p>
+<P>
+<span class="qtext">GROUP BY</span> Addition <span class="qtext">GROUPING SETS</span> <br><br><!-- /A -->
+</P>
+<P>
+In a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement, the <a href="javascript:call_link('abapgroupby_clause.html')" class="blue">
+<span class="qtext">GROUP BY</span></a> addition <a href="javascript:call_link('abapgrouping_sets_clause.html')" class="blue"><span class="qtext">
+GROUPING SETS</span></a> can now be used. The addition <span class="qtext">GROUPING SETS</span> makes
+it possible to group multiple grouping sets under one <span class="qtext">GROUP BY</span> clause. This
+is the same as specifying <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION ALL</span></a>
+with different <span class="qtext">GROUP BY</span> clauses. The addition <span class="qtext">GROUPING
+SETS</span> has an advantage over a <span class="qtext">UNION</span> clause grouping because the <span class="qtext">SELECT</span> clause only needs to be specified once.
+</P>
+<P>
+Using <span class="qtext">GROUPING SETS</span> triggers <a href="javascript:call_link('abenopensql_strict_mode_753.html')" class="blue"> strict mode from Release 7.53</a>. <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_18@18@"></A> <span class="bold">Modification 18</span>
+</span></p>
+<P>
+<span class="bold">Aggregate Function <span class="qtext">GROUPING</span></span> <br><br><!-- /A -->
+</P>
+<P>
+The aggregate function <a href="javascript:call_link('abengrouping_function.html')" class="blue"><span class="qtext">GROUPING</span></a>
+can now be used in a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement. The grouping function <span class="qtext">GROUPING</span> can be used to verify whether a specific column is part of the
+<a href="javascript:call_link('abenaggregate_expression_glosry.html')" class="grey" title="Glossary Entry">aggregation</a>. The
+grouping function can be used only if the <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP
+BY</span></a> clause contains the addition <a href="javascript:call_link('abapgrouping_sets_clause.html')" class="blue"><span class="qtext">GROUPING SETS</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_19@19@"></A> <span class="bold">Modification 19</span>
+</span></p>
+<P>
+<span class="bold">Stricter Checks on Syntax Rules</span> <br><br><!-- /A -->
+</P>
+<P>
+A violation of the following rules now always produces a syntax error. In the
+<a href="javascript:call_link('abenopensql_strict_modes.html')" class="blue">strict modes</a> of the syntax check, these violations
+already produced a syntax error. Outside the strict modes, they produced a syntax check warning and in most cases a runtime error when the program was executed.
+</P>
+<ul class="disc">
+<li>
+When a view is accessed, its key fields must be located together at the start.
+<br><br></li>
+<li>
+The additions <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING
+CLIENT</span></a> and <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> cannot be used when a
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a> is accessed that is associated with a
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS role</a>.
+<br><br></li>
+<li>
+Even when using <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expressions</a>, the addition <a href="javascript:call_link('abapselect_client.html')" class="blue">
+<span class="qtext">CLIENT SPECIFIED</span></a> can only be used for client-specific data sources.
+<br><br></li>
+<li>
+When a <a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">column is specified</a>, the actual names of the components must be used for a database table containing an
+<a href="javascript:call_link('abenddic_include_structure.html')" class="blue">include structure</a>, and not the names of any groups defined in ABAP Dictionary.
+<br><br></li>
+<li>
+An alternative column name of the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span></a>
+list defined using <span class="qtext">AS</span> can have a maximum of 30 characters. Alternative column
+names with more than 30 characters are also not allowed after <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>.
+<br><br></li>
+<li>
+Columns of the types LCHR and LRAW can be read in a query only if they are read together with the associated length fields.
+<br><br></li>
+<li>
+The following applies when using <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR ALL ENTRIES</span></a> in the <span class="qtext">SELECT</span> statement:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The decimal places in the comparisons between columns of a data source and columns of the internal table of type <span class="qtext">p</span> must match.</li>
+</ul>
+<ul class="circlem2">
+<li>All columns of the primary key specified after <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">
+ORDER BY</span></a> using <span class="qtext">PRIMARY KEY</span> must also occur in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span></a> list.</li>
+</ul>
+<ul class="circlem2">
+<li>The pseudo component <span class="qtext">table_line</span> can be specified only for internal tables with an elementary row type.</li>
+</ul>
+<ul class="disc">
+<li>
+A <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a> grouping must
+be applied to columns specified after <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a>
+outside aggregate functions. The same applies to columns specified directly in the <a href="javascript:call_link('abapselect_list.html')" class="blue">
+<span class="qtext">SELECT</span> list</a> when a <span class="qtext">HAVING</span> clause is specified,
+but that are not specified after <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a>.
+<br><br></li>
+<li>
+If a <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> is specified
+as <span class="qtext">*</span>, a <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a>
+clause can only be used together with a <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span> clause</a>.
+<br><br></li>
+<li>
+If an <a href="javascript:call_link('abapselect_list.html')" class="blue">alternative name</a> is used after <a href="javascript:call_link('abaporderby_clause.html')" class="blue">
+<span class="qtext">ORDER BY</span></a>, this name must be unique and cannot be the same name as a column that does not have any alternative names.
+<br><br></li>
+<li>
+A work area <span class="qtext">wa</span> specified in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause has fewer components than explicit columns in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span></a> list.
+<br><br></li>
+<li>
+A column specified explicitly in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span></a> list cannot be
+<a href="javascript:call_link('abenselect_into_conversion.html')" class="blue">assigned</a> to the associated component of a
+structured work area <span class="qtext">wa</span> specified in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause or to a data object <span class="qtext">dobj</span> specified in a parenthesized comma-separated list.
+<br><br></li>
+<li>
+No <a href="javascript:call_link('abencharacter_literal_glosry.html')" class="grey" title="Glossary Entry">character literals</a> or
+<a href="javascript:call_link('abenconstant_glosry.html')" class="grey" title="Glossary Entry">constants</a> can be specified on the right side of
+<a href="javascript:call_link('abenwhere_logexp_like.html')" class="blue">LIKE</a> that are more than twice as long as the left side.
+<br><br></li>
+<li>
+The statements <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE FROM</span></a> or <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY FROM</span></a> are used to access a
+<a href="javascript:call_link('abenprojection_view_glosry.html')" class="grey" title="Glossary Entry">projection view</a> in which all fields are key fields.
+<br><br></li>
+<li>
+A reference that is too general is specified in the statements <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">
+INSERT FROM</span></a>, <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE FROM</span></a>, or <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY FROM</span></a> when a
+<a href="javascript:call_link('abenopen_sql_streaming.html')" class="blue">writer stream</a> is created.
+<br><br></li>
+<li>
+In the statement <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>, a column can occur only on the left side of a single
+<a href="javascript:call_link('abapupdate_set_expression.html')" class="blue">update expression</a>. <br><br> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-753-abap_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:58 GMT -->
+</html>

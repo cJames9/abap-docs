@@ -1,0 +1,148 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXCEPTIONS_PROCEDURES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexceptions_procedures.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Class-Based Exceptions in Procedures">
+<meta name="keywords" content="ABAP, CX_SY_NO_HANDLER, Class-Based Exceptions, Procedure">
+<title>
+Class-Based Exceptions in Procedures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexceptions_procedures.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexceptions_procedures.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions.html')" class="blue">Class-Based Exceptions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions_system_response.html')" class="blue">System Response after a Class-Based Exception</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Class-Based Exceptions in Procedures
+</span></p>
+<p>
+If a class-based exception is not handled in a <a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedure</a>, the system attempts to
+<a href="javascript:call_link('abenexceptions_system_response.html')" class="blue">propagate</a> it to the caller of the procedure.
+The exceptions that can be propagated from a procedure must be declared in its interface. The caller then knows which exceptions to expect from the procedure. Class-based exceptions are divided into three
+<a href="javascript:call_link('abenexception_categories.html')" class="blue">categories</a>, which determine whether the declaration must be explicit and how it is checked.
+</p>
+<p>
+In methods  and subroutines , the addition <span class="qtext">RAISING</span> of the statements <a href="javascript:call_link('abapmethods.html')" class="blue">
+ <span class="qtext">METHODS</span></a> and <a href="javascript:call_link('abapform.html')" class="blue"><span class="qtext">FORM</span></a>
+is used for the declaration. In function modules and methods of global classes, class-based exceptions are declared in the interface by selecting the Exception Class checkbox on the relevant tab page in
+<a href="javascript:call_link('abenclass_builder_glosry.html')" class="grey" title="Glossary Entry">Class Builder</a> or
+<a href="javascript:call_link('abenfunction_builder_glosry.html')" class="grey" title="Glossary Entry">Function Builder</a>. The addition <span class="qtext">RAISING</span> then appears as a
+<a href="javascript:call_link('abenfunction.html')" class="blue">comment</a> of the statement <a href="javascript:call_link('abapfunction.html')" class="blue"><span class="qtext">
+FUNCTION</span></a>. The declaration of an exception class in an interface is polymorphous. It declares all subclasses simultaneously.
+</p>
+<p>
+Declarations using <span class="qtext">RAISING</span> can be used to define whether a
+<a href="javascript:call_link('abenresumable_exception_glosry.html')" class="grey" title="Glossary Entry">resumable exception</a>
+propagated from a procedure remains resumable or not. A resumable exception remains resumable only if
+the addition <span class="qtext">RESUMABLE</span> is declared for every parameter interface it passes
+when propagated. The addition <span class="qtext">RESUMABLE</span> in <span class="qtext">RAISING</span> does not make a non-resumable exception resumable when it is propagated through an interface.
+</p>
+<p>
+Undeclared exceptions cannot leave a procedure and violate the interface if they are not handled within
+the procedure. A violation of the interface raises an exception of the predefined class CX_SY_NO_HANDLER, whose exception object contains a reference to the original exception in the attribute PREVIOUS.
+</p>
+<p>
+The top level of a program into which the exceptions can be propagated consists of processing blocks without local
+<a href="javascript:call_link('abendata_area_glosry.html')" class="grey" title="Glossary Entry">data area</a>s, namely event
+blocks or dialog modules. Here, all exceptions raised at this level must be handled, since otherwise a runtime error occurs.
+</p>
+<p>
+When exceptions are propagated from procedures, the following restrictions apply:
+</p>
+<ul class="disc">
+<li>Exceptions cannot be declared in the definition of a
+<a href="javascript:call_link('abapclass-methods_constructor.html')" class="blue">static constructor</a>. This means that exceptions
+cannot leave the static constructor. It is not normally possible to tell whether the consumer of a class
+is the first consumer and whether or not this consumer needs to handle exceptions propagated by the static constructor.</li>
+</ul>
+<ul class="disc">
+<li>Exceptions cannot be declared in the definition of an
+<a href="javascript:call_link('abenevent_handler_glosry.html')" class="grey" title="Glossary Entry">event handler</a>. This means that no exceptions can be propagated from an event handler (except those of category CX_NO_CHECK). See
+<a href="javascript:call_link('abenexceptions_events.html')" class="blue">Class-Based Exceptions in Event Handlers</a>.</li>
+</ul>
+<p>
+Programs called using <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT ... AND RETURN</span></a>
+or <a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">CALL TRANSACTION</span></a> cannot propagate exceptions to the caller, since exception objects are bound to the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of a program.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When an exception of type CX_SY_NO_HANDLER is raised, this indicates a programming error within
+a procedure, where the programmer forgot to prevent an exception of category CX_DYNAMIC_CHECK or CX_STATIC_CHECK,
+handle it locally, or declare it. When exceptions of type CX_SY_NO_HANDLER are handled, it is therefore
+best not to try to handle the original exception and inform the person responsible for the program instead. In the case of exceptions of type CX_STATIC_CHECK, the syntax check also reports this.</li>
+</ul>
+<ul class="disc">
+<li>If the exception CX_SY_NO_HANDLER is not handled after the interface is violated, the runtime error is raised by the original exception and the associated
+<a href="javascript:call_link('abenshort_dump_glosry.html')" class="grey" title="Glossary Entry">short dump</a> describes this
+exception. This indicates that, primarily, the original exception is to be stopped, handled, or declared
+by the procedure. The short dump is not intended to specify that the exception CX_SY_NO_HANDLER is handled instead.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexceptions_procedures.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+</html>

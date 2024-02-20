@@ -1,0 +1,264 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINSTANCE_OF_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninstance_of_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Predicate Expression IS INSTANCE OF">
+<title>
+Predicate Expression IS INSTANCE OF - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninstance_of_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninstance_of_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogical_expr_func.html')" class="blue">Expressions and Functions for Conditions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp.html')" class="blue">log_exp - Logical Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenpredicate.html')" class="blue">rel_exp - Predicates</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenpredicate_expressions.html')" class="blue">rel_exp - Predicate Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp_instance_of.html')" class="blue">rel_exp - IS INSTANCE OF</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Predicate Expression IS INSTANCE OF
+</span></p>
+<p>
+This example demonstrates the predicate expression <a href="javascript:call_link('abenlogexp_instance_of.html')" class="blue"><span class="qtext">IS INSTANCE OF</span></a>.
+</p>
+<A name="@@ITOC@@ABENINSTANCE_OF_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_is_instance_of.<br>
+<br>
+INTERFACE intf.<br>
+ENDINTERFACE.<br>
+<br>
+CLASS c1 DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf.<br>
+ENDCLASS.<br>
+<br>
+CLASS c2 DEFINITION INHERITING FROM c1.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oref&nbsp;&nbsp;TYPE REF TO object,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iref&nbsp;&nbsp;TYPE REF TO intf,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c1ref TYPE REF TO c1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c2ref TYPE REF TO c2.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;fs&gt; TYPE any.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Reference Variable Not Initial`).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO object`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oref = NEW c1( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT oref IS NOT INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to c1 is not instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT oref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to c1 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT oref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to c1 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oref = NEW c2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT oref IS INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to c2 is instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT oref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to c2 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT oref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to c2 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO intf`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iref = NEW c1( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT iref IS NOT INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to c1 is not instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT iref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to c1 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT iref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to c1 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iref = NEW c2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT iref IS INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to c2 is instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT iref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to c2 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT iref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to c2 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO c1`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;c1ref = NEW c1( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c1ref IS NOT INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to c1 is not instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c1ref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to c1 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c1ref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to c1 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;c1ref = NEW c2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c1ref IS INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to c2 is instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c1ref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to c2 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c1ref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to c2 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO c2`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;c2ref = NEW c2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c2ref IS INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c2ref pointing to c2 is instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c2ref IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c2ref pointing to c2 is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT c2ref IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c2ref pointing to c2 is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `Reference Variable Initial`).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO object`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN oref TO &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS NOT INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to nothing is not instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS NOT INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to nothing is not instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS NOT INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `oref pointing to nothing is not instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO intf`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN iref TO &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS NOT INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to nothing is not instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS NOT INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to nothing is not instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `iref pointing to nothing is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO c1`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN c1ref TO &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to nothing is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS NOT INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to nothing is not instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c1ref pointing to nothing is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `TYPE REF TO c2`).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN c2ref TO &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR &lt;fs&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS INSTANCE OF c1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c2ref pointing to nothing is instance of c1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS INSTANCE OF c2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c2ref pointing to nothing is instance of c2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT &lt;fs&gt; IS INSTANCE OF intf.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( `c2ref pointing to nothing is instance of intf` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENINSTANCE_OF_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+A class <span class="qtext">c1</span> contains the interface <span class="qtext">intf</span> and is
+the superclass of a class <span class="qtext">c2</span>. For reference variables of the static types
+<span class="qtext">object</span>, <span class="qtext">intf</span>, <span class="qtext">c1</span>, and
+<span class="qtext">c2</span>, this example demonstrates the behavior of the predicate expression <a href="javascript:call_link('abenlogexp_instance_of.html')" class="blue">
+<span class="qtext">IS INSTANCE OF</span></a> if these variables point to instances of <span class="qtext">c1</span> or <span class="qtext">c2</span> or are initial.
+</p>
+<p>
+If the object reference variable is non-initial, the predicate expression is always true if a
+<a href="javascript:call_link('abendown_cast_glosry.html')" class="grey" title="Glossary Entry">down cast</a> to the comparison type is possible. If the object reference variable is initial, the predicate expression is true only if an
+<a href="javascript:call_link('abenup_cast_glosry.html')" class="grey" title="Glossary Entry">up cast</a> is possible. This example checks a generically typed field symbol for which this can only be determined at runtime.
+</p>
+<p>
+For an initial reference variable with the static type <span class="qtext">object</span>, the result
+of the expression for all comparison types except for <span class="qtext">object</span> is false. For
+an initial reference variable with the static type <span class="qtext">intf</span>, the result of the expression for all comparison types except for the interface <span class="qtext">intf</span> is itself false.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninstance_of_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

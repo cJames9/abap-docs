@@ -1,0 +1,253 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-610-OBJECTS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-objects.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP Objects in Release 6.10">
+<title>
+ABAP Objects in Release 6.10 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-610-objects.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-610-objects.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-610.html')" class="blue">Changes in Release 6.10</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP Objects in Release 6.10 <br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue">  1. Dynamic Access: Dynamic access to object attributes </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br> 2. <span class="qtext">CALL METHOD</span> optional when calling methods </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> <br> 3. Friends - Friendship between classes </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> <br> 4. New additions for implementing interfaces </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> <br> 5. Pass by parameter in dynamic instantiations </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> <br> 6. OO transactions </A> <br><br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> <br>
+ 7. Enhanced syntax for interfaces </A> <br><br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> <br> 8. Enhanced syntax for event handling </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> <br> 9. Enhanced syntax in the instance constructor of subclasses </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_10@10@" class="blue"> <br> 10. Dynamic access to interface constants </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+Dynamic Access: Dynamic Access to Object Attributes <br><br><!-- /A -->
+</P>
+<P>
+The following variants of the statement <a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue"><span class="qtext">ASSIGN</span></a> make it possible to access the attributes of classes dynamically:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">assign oref->(f) to &lt;fs>.</span>
+<br><br></li>
+<li>
+<span class="qtext">assign iref->(f) to &lt;fs>.</span>
+<br><br></li>
+<li>
+<span class="qtext">assign (f1)=>(f2) to &lt;fs>.</span>
+<br><br></li>
+<li>
+<span class="qtext">assign c=>(f) to &lt;fs>.</span>
+<br><br></li>
+<li>
+<span class="qtext">assign (f)=>f to &lt;fs>.</span>
+<br></li>
+</ul>
+<P>
+The attribute search is first carried out for the static type. If the search was unsuccessful or the attributes are not visible in the context, the system performs a search for the dynamic type. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+ <span class="qtext">CALL METHOD</span> Optional when Calling Methods <br><br><!-- /A -->
+</P>
+<P>
+In static method calls of the form <a href="javascript:call_link('abapcall_method_static.html')" class="blue"><span class="qtext">CALL METHOD meth(
+)</span></a>, the <span class="qtext">CALL METHOD</span> expression is optional. It is sufficient to simply write <span class="qtext">meth( )</span>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Friends  - Friendship Between Classes <br><br><!-- /A -->
+</P>
+<P>
+The <a href="javascript:call_link('abenfriends.html')" class="blue">Friends</a> concept means that a class can offer friendship to other classes or interfaces
+(<span class="qtext">GLOBAL FRIENDS</span> and <span class="qtext">LOCAL FRIENDS</span> are possible here). These
+<a href="javascript:call_link('abenfriend_glosry.html')" class="grey" title="Glossary Entry">friends</a> can then access all
+the components of the provider class, and can always instantiate the class. The <span class="qtext">PROTECTED</span>
+and <span class="qtext">PRIVATE</span> components always become <span class="qtext">PUBLIC</span> for
+friends. Classes offer friendship to other classes or interfaces using the addition <span class="qtext">FRIENDS</span>
+of the statement <a href="javascript:call_link('abapclass.html')" class="blue"><span class="qtext">CLASS ... DEFINITION</span></a>.
+The new concept makes the previous language construction <span class="qtext">DATA TYPE REF TO class %_friend</span> obsolete. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+New Additions for Implementing Interfaces <br><br><!-- /A -->
+</P>
+<P>
+The statement <a href="javascript:call_link('abapinterfaces.html')" class="blue"><span class="qtext">INTERFACES</span></a> has the new additions <span class="qtext">ABSTRACT <i
+class=bn>|</i> FINAL METHODS</span> and <span class="qtext">ALL METHODS ABSTRACT <i class=bn>|</i> FINAL</span>,
+which make it possible to make methods in the implementing class abstract or final. <span class="qtext">DATA VALUES</span> is another new addition. It assigns
+<a href="javascript:call_link('abenstart_value_glosry.html')" class="grey" title="Glossary Entry">start values</a> to interface attributes when implemented in a class. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Pass by Parameter in Dynamic Instantiations <br><br><!-- /A -->
+</P>
+<P>
+Parameters can now be passed and classic exceptions handled in the dynamic variant <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">CREATE OBJECT (class)</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+OO Transactions <br><br><!-- /A -->
+</P>
+<P>
+In <span class="lnkgrey">Transaction Maintenance</span>, you can classify a transaction code as an OO transaction. The transaction code is then associated with a global or local class of a program, either using the transaction service of
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">ABAP - Object Services</a> for persistent objects,
+or using any method. When this type of transaction is called, the system loads the program associated with the class, creates an object for instance methods, and executes the method. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Enhanced Syntax for Interfaces <br><br><!-- /A -->
+</P>
+<P>
+All the component interfaces of a compound interface are handled in the same way in the interface and
+in the implementing class. This means that the components of inner interfaces can be accessed directly using interface references. Previously, this was only possible using class reference variables. <br><br>
+</P>
+<p class="qtextml1">
+<span class="qtext">
+INTERFACE i1. <br>&nbsp;&nbsp;DATA a1. <br>ENDINTERFACE. <br> <br>INTERFACE i2. <br>&nbsp;&nbsp;INTERFACES i1. <br>
+&nbsp;&nbsp;DATA a2 LIKE i1~a1. <br>ENDINTERFACE. <br> <br>DATA iref TYPE REF TO i2. <br> <br>WRITE iref->i1~a1. <br><br>
+</span>
+</p>
+<P>
+In previous releases, this example would have caused a syntax error with the expressions containing
+<span class="qtext">i1~a1</span> and it would have been necessary to use aliases. In Release 6.10, however,
+the interface component selector (~) should only be used outside classes or interfaces in exceptional circumstances. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Enhanced Syntax for Event Handling <br><br><!-- /A -->
+</P>
+<P>
+ In the statement <a href="javascript:call_link('abapset_handler.html')" class="blue"><span class="qtext">SET HANDLER</span></a>,
+the system now checks the precise type of the reference variable that points to a triggering object. The type must be of the same class or subclass as the one specified in the declaration of
+<a href="javascript:call_link('abenevent_handler_glosry.html')" class="grey" title="Glossary Entry">event handlers</a> as <a href="javascript:call_link('abapmethods.html')" class="blue">
+<span class="qtext">METHODS</span></a> after <span class="qtext">FOR EVENT evt OF</span>. This means
+objects of superclasses cannot be registered, even if the event was inherited from a superclass. If
+an interface has been declared after <span class="qtext">FOR EVENT evt OF</span>, the type of the reference
+variable must either be the interface itself, a class/subclass that implements the interface, or another interface that contains the interface as a component. <br>
+ <br>From Release 6.10 onwards, the type of the implicit event parameter <span class="qtext">sender</span>
+(which can be imported by a handler method and passed using <a href="javascript:call_link('abapraise_event.html')" class="blue"><span class="qtext">
+RAISE EVENT</span></a>) is determined using the class/interface specified in the declaration of the
+event handler (after the addition <span class="qtext">FOR EVENT OF</span> of the statement <a href="javascript:call_link('abapmethods.html')" class="blue">
+<span class="qtext">METHODS</span></a>). In previous releases, the type was determined by the class/interface
+where the event was declared using <a href="javascript:call_link('abapevents.html')" class="blue"><span class="qtext">EVENTS</span></a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+Enhanced Syntax in the Instance Constructor of Subclasses <br><br><!-- /A -->
+</P>
+<P>
+In the instance constructor of subclasses, the constructor of the superclass must always be called using <span class="qtext"><i
+class=bn>[</i>CALL METHOD<i class=bn>]</i> super->constructor</span>, even if this superclass was not
+explicitly defined there. Direct subclasses of the root class <span class="qtext">OBJECT</span> are
+the only exception. This means instance constructors can be implemented in superclasses retroactively,
+without invalidating the subclasses. If the superclass constructor is not called, the following program produces a syntax warning in Release 6.10 and higher.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+CLASS c1 DEFINITION INHERITING FROM object. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+ENDCLASS. <br> <br>CLASS c1 IMPLEMENTATION. <br>&nbsp;&nbsp;... <br>ENDCLASS. <br> <br>CLASS c2 DEFINITION INHERITING FROM c1. <br>
+&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS constructor. <br>ENDCLASS. <br> <br>CLASS c2 IMPLEMENTATION. <br>
+&nbsp;&nbsp;METHOD constructor. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;super->constructor( ) <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br><br> <br><br>
+</span>
+</p>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_10@10@"></A> <span class="bold">Modification 10</span>
+</span></p>
+<P>
+Dynamic Access to Interface Constants <br><br><!-- /A -->
+</P>
+<P>
+Interface constants can now be accessed dynamically using <span class="qtext">intf=>const</span>. To
+make this possible, the logic for dynamic <span class="qtext">ASSIGN</span>, dynamic access, and dynamic
+invoke was changed so that global classes are now obscured by local types or interfaces. In previous
+releases, if constants were accessed using <span class="qtext">class=>attr</span>, the system only searched for class names.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-objects.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

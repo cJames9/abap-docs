@@ -1,0 +1,145 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRAISE_MESSAGE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenraise_message_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="IF_T100_DYN_MSG in a Local Exception Class">
+<title>
+IF_T100_DYN_MSG in a Local Exception Class - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenraise_message_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenraise_message_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_texts.html')" class="blue">Text Repositories</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_messages.html')" class="blue">Messages</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmessage_interfaces.html')" class="blue">System Interfaces for Messages</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenif_t100_dyn_msg.html')" class="blue">System Interface IF_T100_DYN_MSG for Messages</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+IF_T100_DYN_MSG in a Local Exception Class
+</span></p>
+<p>
+This example demonstrates how a local exception class is associated with a message
+</p>
+<A name="@@ITOC@@ABENRAISE_MESSAGE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_raise_message.<br>
+<br>
+CLASS cx_dyn_t100 DEFINITION INHERITING FROM cx_dynamic_check.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES if_t100_dyn_msg.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ALIASES msgty FOR if_t100_dyn_msg~msgty.<br>
+ENDCLASS.<br>
+<br>
+CLASS msg_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS meth<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_dyn_t100.<br>
+ENDCLASS.<br>
+<br>
+CLASS msg_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_dyn_t100 INTO DATA(oref).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Caught exception:\n\n| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&quot;{ oref-&gt;get_text( ) }&quot;, Type { oref-&gt;msgty } | ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE oref TYPE 'I' DISPLAY LIKE oref-&gt;msgty.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD meth.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_dyn_t100<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE e888(sabapdemos) WITH 'I' 'am' 'an' 'Exception!'.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;msg_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENRAISE_MESSAGE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example applies the <a href="javascript:call_link('abenmessage_interface_abexa.html')" class="blue">executable example</a>
+for the interface IF_T100_MESSAGE to the interface IF_T100_DYN_MSG directly. The local class <span class="qtext">cx_dyn_t100</span> includes the interface
+<a href="javascript:call_link('abenif_t100_dyn_msg.html')" class="blue">IF_T100_DYN_MSG</a> and the addition <a href="javascript:call_link('abapraise_exception_message.html')" class="blue">
+<span class="qtext">MESSAGE</span></a> of the statement <a href="javascript:call_link('abapraise_exception_class.html')" class="blue"><span class="qtext">
+RAISE EXCEPTION</span></a> is used to raise the exception in the method <span class="qtext">meth</span>.
+</p>
+<p>
+Unlike when using <a href="javascript:call_link('abenif_t100_message.html')" class="blue">IF_T100_MESSAGE</a>, no separate attributes
+for the placeholders of the message and no implementation of the instance constructor are required in
+<span class="qtext">cx_dyn_t100</span>. Furthermore, the message type is passed in an attribute of the exception object when IF_T100_DYN_MSG is used. An alias name is used here.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenraise_message_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

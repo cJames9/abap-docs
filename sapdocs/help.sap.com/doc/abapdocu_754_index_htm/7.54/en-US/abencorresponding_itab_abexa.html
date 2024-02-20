@@ -1,0 +1,280 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCORRESPONDING_ITAB_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencorresponding_itab_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Component Operator for Internal Tables">
+<title>
+Component Operator for Internal Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencorresponding_itab_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencorresponding_itab_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding.html')" class="blue">Assigning Structure Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding_abexas.html')" class="blue">Assigning Components: Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Component Operator for Internal Tables
+</span></p>
+<p>
+This example demonstrates the <a href="javascript:call_link('abenconstructor_expr_corresponding.html')" class="blue">component operator</a> for internal tables.
+</p>
+<A name="@@ITOC@@ABENCORRESPONDING_ITAB_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_corresponding_itab.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c3 TYPE c LENGTH 3,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF iline1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF iline1,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF iline2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF iline2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF line1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 TYPE STANDARD TABLE OF iline1 WITH EMPTY KEY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF line1,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF line2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 TYPE STANDARD TABLE OF iline2 WITH EMPTY KEY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col4 TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF line2.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab1 TYPE STANDARD TABLE OF line1 WITH EMPTY KEY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab2 TYPE STANDARD TABLE OF line2 WITH EMPTY KEY,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out&nbsp;&nbsp; TYPE REF TO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if_demo_output.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill_tables,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_table1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_table2.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fill_tables( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `itab1` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_table1( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `itab2` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_table2( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(base) = itab2.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CORRESPONDING itab2( itab1 )` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab2 = CORRESPONDING #( itab1 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_table2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CORRESPONDING itab2( BASE ( itab2 ) itab1 )` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab2 = CORRESPONDING #( BASE ( base ) itab1 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_table2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CORRESPONDING itab2( DEEP itab1 )` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab2 = CORRESPONDING #( DEEP itab1 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_table2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CORRESPONDING itab2( DEEP BASE ( itab2 ) itab1 )` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab2 = CORRESPONDING #( DEEP BASE ( base ) itab1 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_table2( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD fill_tables.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab1 = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'a11'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 = 'a12'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 = VALUE #( ( col1 = 'a11'&nbsp;&nbsp;col2 = 'a12' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'a21'&nbsp;&nbsp;col2 = 'a22' ) ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'b21'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 = 'b22'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 = VALUE #( ( col1 = 'b11'&nbsp;&nbsp;col2 = 'b12' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'b21'&nbsp;&nbsp;col2 = 'b22' ) ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'c31'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 = 'c32'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 = VALUE #( ( col1 = 'c11'&nbsp;&nbsp;col2 = 'c12' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'c21'&nbsp;&nbsp;col2 = 'c22' ) ) ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab2 = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col2 = 'x11'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 = VALUE #( ( col2 = 'x11'&nbsp;&nbsp;col3 = 'x12' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col2 = 'x21'&nbsp;&nbsp;col3 = 'x22' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col2 = 'x31'&nbsp;&nbsp;col3 = 'x32' ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col4 = 'x12' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col2 = 'y21'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col3 = VALUE #( ( col2 = 'y11'&nbsp;&nbsp;col3 = 'y12' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col2 = 'y21'&nbsp;&nbsp;col3 = 'y22' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col2 = 'y31'&nbsp;&nbsp;col3 = 'y32' ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col4 = 'y22' ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD display_table1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF outl,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1&nbsp;&nbsp;TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2&nbsp;&nbsp;TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col31 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col32 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF outl.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA output LIKE STANDARD TABLE OF outl WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT itab1 ASSIGNING FIELD-SYMBOL(&lt;wa&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col1 = &lt;wa&gt;-col1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col2 = &lt;wa&gt;-col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT &lt;wa&gt;-col3 ASSIGNING FIELD-SYMBOL(&lt;col3&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col31 = &lt;col3&gt;-col1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col32 = &lt;col3&gt;-col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-tabix &gt; 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR outl-col1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR outl-col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND outl TO output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( output ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD display_table2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF outl,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2&nbsp;&nbsp;TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col32 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col33 TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col4&nbsp;&nbsp;TYPE c3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF outl.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA output LIKE STANDARD TABLE OF outl WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT itab2 ASSIGNING FIELD-SYMBOL(&lt;wa&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col2 = &lt;wa&gt;-col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col4 = &lt;wa&gt;-col4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT &lt;wa&gt;-col3 ASSIGNING FIELD-SYMBOL(&lt;col3&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col32 = &lt;col3&gt;-col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outl-col33 = &lt;col3&gt;-col3.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-tabix &gt; 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR outl-col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR outl-col4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND outl TO output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( output ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCORRESPONDING_ITAB_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example uses the same internal tables as the
+<a href="javascript:call_link('abenmove_corresponding_abexa.html')" class="blue">executable example</a> for <span class="qtext">MOVE-CORRESPONDING</span>.
+Here, the source table <span class="qtext">itab1</span> is used as a parameter of a constructor expression
+with the component operator <span class="qtext">CORRESPONDING</span> and the result is assigned to the
+target table <span class="qtext">itab2</span>. The source table <span class="qtext">itab1</span> is
+assigned to the result with the type of <span class="qtext">itab2</span>, both with and without the
+addition <span class="qtext">DEEP</span>. If the addition <span class="qtext">BASE</span> is used, the
+result is given the original value of <span class="qtext">itab2</span> as its start value and otherwise stays initial. The assignment is made exactly as described in the
+<a href="javascript:call_link('abenmove_corresponding_abexa.html')" class="blue">executable example</a> for <span class="qtext">MOVE-CORRESPONDING</span>
+with or without <span class="qtext">EXPANDING NESTED TABLES</span>. The component selector with the
+addition <span class="qtext">BASE</span> has the same effect as using <span class="qtext">MOVE-CORRESPONDING</span>
+with the addition <span class="qtext">KEEPING TARGET LINES</span>. If <span class="qtext">DEEP</span>
+is used the name comparison is made for the components of the substructure <span class="qtext">col3</span>. This is why fewer assignments are made than when omitting <span class="qtext">DEEP</span>.
+</p>
+<p>
+The uninvolved component <span class="qtext">col4</span> keeps its initial value in the new rows in both examples. The result is assigned to the target table <span class="qtext">itab2</span>. Unlike in the
+<a href="javascript:call_link('abencorresponding_struct_abexa.html')" class="blue">executable example</a> for structures, the
+final results for <span class="qtext">MOVE-CORRESPONDING</span> and the component selector <span class="qtext">CORRESPONDING</span> are the same, since assignments are made to initial new rows in both cases.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencorresponding_itab_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

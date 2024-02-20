@@ -1,0 +1,132 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAUTHORITY_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenauthority_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Insufficient Authorization Checks">
+<title>
+Insufficient Authorization Checks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenauthority_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenauthority_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenother_programming_scrty.html')" class="blue">Further Security Risks</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Insufficient Authorization Checks
+</span></p>
+<p>
+Adequate authorization checks are an important part of secure ABAP programming. In many statements, an appropriate authorization check is performed implicitly, for example:
+</p>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">CALL TRANSACTION</span></a>
+(with the addition <a href="javascript:call_link('abapcall_transaction_authority.html')" class="blue"><span class="qtext">WITH
+AUTHORITY-CHECK</span></a>) and in <a href="javascript:call_link('abapleave_to_transaction.html')" class="blue"><span class="qtext">LEAVE TO TRANSACTION</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>When an <a href="javascript:call_link('abenauthorization_group_glosry.html')" class="grey" title="Glossary Entry">authorization
+group</a> is created for the called program in <a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Using the <a href="javascript:call_link('abenfile_interface_authority.html')" class="blue">automatic authorization checks</a> in the
+<a href="javascript:call_link('abenfile_interface_glosry.html')" class="grey" title="Glossary Entry">ABAP file interface</a>.</li>
+</ul>
+<p>
+There are, however, many critical statements where no implicit authorization checks are performed, for example:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abapcall_transaction.html')" class="blue"><span class="qtext">CALL TRANSACTION</span></a>
+without the addition <a href="javascript:call_link('abapcall_transaction_authority.html')" class="blue"><span class="qtext">WITH AUTHORITY-CHECK</span></a> (and if the table
+<a href="javascript:call_link('abapcall_transaction_auth_obs.html')" class="blue">TCDCOUPLES</a> does not contain any appropriate entries).</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapsubmit.html')" class="blue"><span class="qtext">SUBMIT</span></a> for programs without
+<a href="javascript:call_link('abenauthorization_group_glosry.html')" class="grey" title="Glossary Entry">authorization groups</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensql_glosry.html')" class="grey" title="Glossary Entry">SQL</a> reads performed on database tables</li>
+</ul>
+<p>
+Any places in a program that a user can reach without sufficient authorizations and where no implicit
+authorization check takes place must be secured explicitly using the statement <a href="javascript:call_link('abapauthority-check.html')" class="blue"><span class="qtext">AUTHORITY-CHECK</span></a> and the result of the check analyzed carefully.
+</p>
+<p>
+A prerequisite for both implicit and explicit authorization checks is that all components required for the SAP authorization concept, such as
+<a href="javascript:call_link('abenauthorization_glosry.html')" class="grey" title="Glossary Entry">authorizations</a>,
+<a href="javascript:call_link('abenauthorization_object_glosry.html')" class="grey" title="Glossary Entry">authorization objects</a>,
+<a href="javascript:call_link('abenauthorization_profile_glosry.html')" class="grey" title="Glossary Entry">authorization objects</a>, and so on are defined. Care must also be taken to set the
+<a href="javascript:call_link('abencheck_indicator_glosry.html')" class="grey" title="Glossary Entry">check indicator</a> correctly, to enable all required checks to take place.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Checks explicitly whether the current user can create temporary programs. This check could be used to secure the <a href="javascript:call_link('abengeneric_prog_scrty.html')" class="blue">ABAP command injections</a> example.
+</p>
+<dl><dd>
+<span class="qtext">AUTHORITY-CHECK OBJECT 'S_DEVELOP' <br>&nbsp;&nbsp;ID 'DEVCLASS' FIELD '$TMP' <br>&nbsp;&nbsp;ID 'OBJTYPE'&nbsp;&nbsp;FIELD 'PROG' <br>
+&nbsp;&nbsp;ID 'OBJNAME'&nbsp;&nbsp;DUMMY <br>&nbsp;&nbsp;ID 'P_GROUP'&nbsp;&nbsp;DUMMY <br>&nbsp;&nbsp;ID 'ACTVT'&nbsp;&nbsp;&nbsp;&nbsp;FIELD '02'. <br>
+IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDIF.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenauthority_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

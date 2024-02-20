@@ -1,0 +1,190 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENICF_SERVICE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenicf_service_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Calling an HTTP Service">
+<title>
+Calling an HTTP Service - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenicf_service_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenicf_service_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenicf.html')" class="blue">ICF - Internet Communication Framework</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenicf_abexas.html')" class="blue">ICF Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Calling an HTTP Service
+</span></p>
+<p>
+This example demonstrates how an <a href="javascript:call_link('abenicf_glosry.html')" class="grey" title="Glossary Entry">ICF</a> HTTP service is called directly using a Web browser.
+</p>
+<A name="@@ITOC@@ABENICF_SERVICE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_http_service.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS class_constructor.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA icf_node TYPE string.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;IF icf_node IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA carrid TYPE spfli-carrid VALUE 'AA'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( CHANGING field = carrid ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(url) = icf_node &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`?sap-client=` &amp;&amp; sy-mandt &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&amp;sap-language=`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; cl_i18n_languages=&gt;sap1_to_sap2( sy-langu ) &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&amp;carrid=`&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; carrid.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;html&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;body&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Link to HTTP-Service:&lt;br&gt;&lt;br&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;a href=&quot;{ url }&quot; target=&quot;_blank&quot;&gt;{ url }&lt;/a&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;/body&gt;| &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&lt;/html&gt;| ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS path TYPE string VALUE `/sap/bc/abap/demo`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(location) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_http_server=&gt;get_location( application = path ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF location IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icf_node = location &amp;&amp; path.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENICF_SERVICE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Any HTTP service defined in the service transaction <span class="lnkgrey">SICF</span> can be tested
+here. If the URL of the service is known, it can be called from the Internet, for example by entering
+an address in a browser. In this example, a service of this type is called using a generated webpage,
+which contains a link to the URL of the service. The URL is constructed from the host and port of the
+current AS Instance, the path in the service tree, and a form field. The host and port are filled using
+the method CL_HTTP_SERVER=>GET_LOCATION. The form field <span class="qtext400">carrid</span> is filled
+with the content of a field filled previously by user input. When this link is chosen, the browser displays
+the HTML page returned by the service. The content of the form field <span class="qtext400">carrid</span> can be modified in the input field of the browser, to display different data.
+</p>
+<p>
+The called HTTP service is defined as the node <span class="qtext400">/sap/bc/abap/demo</span> in the
+transaction <span class="lnkgrey">SICF</span>. The assigned HTTP request handler is the class <span class="lnkgrey">
+CL_HTTP_EXT_SERVICE_DEMO</span>. If a form field <span class="qtext400">"...&amp;carrid=..."</span>
+is added to the URL of the service, the content of this field is used as a key for selecting associated
+data from the database table SPFLI. This is achieved by the class CL_HTTP_EXT_SERVICE_DEMO implementing
+the interface <span class="lnkgrey">IF_HTTP_EXTENSION</span> and its method HANDLE_REQUEST. This method
+is called by ICF and a reference is passed to a server object that implements the interface <span class="lnkgrey">IF_HTTP_SERVER</span>.
+The attributes REQUEST and RESPONSE of this interface refer to objects, which are implemented by the
+interfaces <span class="lnkgrey">IF_HTTP_REQUEST</span> or <span class="lnkgrey">IF_HTTP_RESPONSE</span>. The REQUEST object is used to read the form field. The RESPONSE object returns the result.
+</p>
+<dl><dd>
+<span class="qtext">METHOD if_http_extension~handle_request. <br> <br>&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @( to_upper( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=&gt;escape_quotes( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; val = escape( val = server-&gt;request-&gt;get_form_field( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = `carrid` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; format = cl_abap_format=&gt;e_xss_ml ) ) ) ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(connections) ##no_text. <br>
+ <br>&nbsp;&nbsp;"cl_demo_output=&gt;get converts ABAP data to HTML and is secure <br>&nbsp;&nbsp;server-&gt;response-&gt;set_cdata( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;data = cl_demo_output=&gt;get( connections ) ). <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+The built-in function <a href="javascript:call_link('abenescape_functions.html')" class="blue"><span class="qtext">escape</span></a> and the method ESCAPE_QUOTES of the class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> are using to prevent
+<a href="javascript:call_link('abenxss_glosry.html')" class="grey" title="Glossary Entry">cross site scripting</a> and
+<a href="javascript:call_link('abensql_injection_glosry.html')" class="grey" title="Glossary Entry">SQL injections</a>. The content
+of the internal table <span class="qtext">connections</span> (filled in accordance with the passed form
+field) is converted to HTML using the class <span class="lnkgrey">CL_DEMO_OUTPUT</span> before it is passed to the RESPONSE object.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The HTTP service must be activated in transaction <span class="lnkgrey">SICF</span> before the example can work.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenicf_service_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

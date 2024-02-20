@@ -1,0 +1,297 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPUNION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapunion.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="UNION">
+<title>
+UNION - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapunion.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapunion.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@UNION@@!ABAP_STATEMENT_OSQL!@@"></A>
+<p><span class="h1">
+UNION <br><br>
+</span></p>
+<p><span class="h2">
+<span class="bold">Syntax Forms</span>
+</span></p>
+<P>
+ <br><span class="bold">UNION in Main Queries</span> <br> <br>1. <span class="qtext"><i class=bn>[</i><a href="javascript:call_link('abapwith.html')" class="blue">WITH ...</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;<a href="javascript:call_link('abapselect.html')" class="blue">SELECT</a> <a href="javascript:call_link('abapunion_clause.html')" class="blue">query_clauses</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;UNION <i class=bn>[</i>ALL<i class=bn>|</i>DISTINCT<i class=bn>]</i> <br>&nbsp;
+&nbsp;&nbsp; <i class=bn>[</i>(<i class=bn>]</i> SELECT <a href="javascript:call_link('abapunion_clause.html')" class="blue">query_clauses</a> <i class=bn>[</i>)<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>UNION <i class=bn>[</i>ALL<i class=bn>|</i>DISTINCT<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;...<i class=bn>]</i> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abaporderby_clause.html')" class="blue">ORDER BY</a> sort_key<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:call_link('abapinto_clause.html')" class="blue">INTO<i class=bn>|</i>APPENDING</a> target <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapselect_additions.html')" class="blue">abap_options</a><i class=bn>]</i>. <br>
+&nbsp;&nbsp;... <br> <br>&nbsp;&nbsp;<i class=bn>[</i>
+<a href="javascript:call_link('abapendselect.html')" class="blue">ENDSELECT</a><i class=bn>|</i><a href="javascript:call_link('abapendwith.html')" class="blue">ENDWITH</a>.<i class=bn>]</i></span> <br>
+ <br> <br>2. <span class="qtext"><a href="javascript:call_link('abapopen_cursor.html')" class="blue">OPEN CURSOR ... FOR</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapwith.html')" class="blue">WITH ...</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT <a href="javascript:call_link('abapunion_clause.html')" class="blue">query_clauses</a> <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;UNION <i class=bn>[</i>ALL<i class=bn>|</i>DISTINCT<i class=bn>]</i> <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>(<i class=bn>]</i> SELECT <a href="javascript:call_link('abapunion_clause.html')" class="blue">query_clauses</a> <i class=bn>[</i>)<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>UNION <i class=bn>[</i>ALL<i class=bn>|</i>DISTINCT<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<i class=bn>]</i> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abaporderby_clause.html')" class="blue">ORDER BY</a> sort_key<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><a href="javascript:call_link('abapselect_additions.html')" class="blue">abap_options</a><i class=bn>]</i>.</span> <br>
+ <br> <br><span class="bold">UNION in subqueries</span> <br> <br>3. <span class="qtext">... ( SELECT <a href="javascript:call_link('abapunion_clause.html')" class="blue">query_clauses</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNION <i class=bn>[</i>ALL<i class=bn>|</i>DISTINCT<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>(<i class=bn>]</i> SELECT
+<a href="javascript:call_link('abapunion_clause.html')" class="blue">query_clauses</a> <i class=bn>[</i>)<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>UNION <i class=bn>[</i>ALL<i class=bn>|</i>DISTINCT<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<i class=bn>]</i> ) ...</span> <br><br>
+</P>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... ALL<i class=bn>|</i>DISTINCT</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The ABAP SQL language element <span class="qtext">UNION</span> joins the result sets of two
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">queries</a>. The rows of the result
+set of the query after <span class="qtext">UNION</span> are inserted into the result set of the query before <span class="qtext">UNION</span>. The syntax forms show where <span class="qtext">UNION</span> can be used:
+</P>
+<ol>
+<li>
+For creating the result set of the <a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">main
+query</a> of a standalone statement, which is introduced using <a href="javascript:call_link('abapwith.html')" class="blue">
+<span class="qtext">WITH</span></a> or <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>. <br>
+<br></li>
+<li>
+For creating the result set of the <a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">
+main query</a> after <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>. <br>
+<br></li>
+<li>
+For creating the results set of a parenthesized <a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subquery</a> in a
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">relational expression</a>, of the definition of a
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expression</a>
+after <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a>, or of an <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">INSERT</span></a> statement. <br>
+<br></li>
+</ol>
+<P>
+In all syntax forms, it is possible to specify the same
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">clauses and additions</a> <a href="javascript:call_link('abapunion_clause.html')" class="blue">
+<span class="qtext">query_clauses</span></a> for <span class="qtext">SELECT</span> statements of queries
+before and after <span class="qtext">UNION</span> for defining result sets. A query on the right side of <span class="qtext">UNION</span> can be enclosed in parentheses <span class="qtext">(
+)</span>. A pair of parentheses can include multiple unions. The queries joined with <span class="qtext">UNION</span> are evaluated from left to right. Specific statements can be prioritized using parentheses.
+</P>
+<P>
+In the case of a standalone <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>
+or <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement and after <span class="qtext">
+OPEN CURSOR</span>, the <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>
+and the <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">abap_options</span></a>
+after the last query or after the position of the last closing bracket are listed and affect the union
+result set. In the case of standalone statements, the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause is to be listed as the last clause and before the additions <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">abap_options</span></a>. The following special features apply here:
+</P>
+<ul class="disc">
+<li>
+<span class="qtext">ORDER BY</span> clause
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The addition <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY PRIMARY KEY</span></a> is not allowed.</li>
+</ul>
+<ul class="circlem2">
+<li>Columns of the union results set specified after <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">
+ORDER BY</span></a> must occur with the same name in all relevant <span class="qtext">SELECT</span> statements. The names must be specified directly and cannot be specified with the
+<a href="javascript:call_link('abentable_comp_selector_glosry.html')" class="grey" title="Glossary Entry">column selector</a> <span class="qtext">~</span> after a column name.</li>
+</ul>
+<ul class="disc">
+<li>
+<span class="qtext">INTO</span> clause
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>If the addition <span class="qtext">CORRESPONDING</span> or an inline declaration <span class="qtext">@DATA(...)</span>
+is used in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause,
+the column names of all results sets defined in the <a href="javascript:call_link('abapunion_clause.html')" class="blue"><span class="qtext">query_clauses</span></a> from left to right must match.</li>
+</ul>
+<ul class="circlem2">
+<li>The union result set is always multirow. If an assignment is made to a non-table-like target are
+(meaning a <span class="qtext">SELECT</span> statement without the addition <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO<i
+class=bn>|</i>APPENDING ... TABLE</span></a>), a loop closed using <a href="javascript:call_link('abapendselect.html')" class="blue"><span class="qtext">
+ENDSELECT</span></a> or <a href="javascript:call_link('abapendwith.html')" class="blue"><span class="qtext">ENDWITH</span></a> is always opened.</li>
+</ul>
+<ul class="disc">
+<li>
+Restricting the Results Set
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The additions <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><span class="qtext">UP TO</span> and <span class="qtext">OFFSET</span></a> are not currently allowed with <span class="qtext">UNION</span>.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Priorities using parentheses are particularly applicable when handling duplicate rows using <span class="qtext">DISTINCT</span>.
+<br><br></li>
+<li>
+When <span class="qtext">UNION</span> is used, ABAP SQL bypasses <a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.
+<br><br></li>
+<li>
+The maximum number of different <span class="qtext400">SELECT</span> statements that can be joined using
+<span class="qtext400">UNION</span> depends on the database system. If this number is exceeded, an exception is raised when the program is executed.
+<br><br></li>
+<li>
+When <span class="qtext">UNION</span> is used, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue">strict mode</a>, which handles the statement
+more strictly than the regular syntax check. More specifically, the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause and the additions <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">abap_options</span></a>
+can be specified at the end of the full <span class="qtext">SELECT</span> statement. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Creates the union of one row from the database table SCARR with multiple rows from the database table
+SPFLI. Those columns that do not exist in the other table are replaced by literals. Here, a <a href="javascript:call_link('abensql_cast.html')" class="blue"><span class="qtext">CAST</span></a> is required for the column CONNID.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrname, <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST( '-' AS CHAR( 4 ) ) AS connid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'-' AS cityfrom, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'-' AS cityto <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' <br>
+&nbsp;&nbsp;UNION <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS '-' AS carrname, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST( connid AS CHAR( 4 ) ) AS connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityfrom, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityto <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' <br>&nbsp;&nbsp; ORDER BY carrname DESCENDING, connid, cityfrom, cityto <br>
+&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<P>
+ <a href="javascript:call_link('abenunion_abexas.html')" class="blue"><span class="qtext">UNION</span> - Examples</a> <br><br>
+</P>
+<A NAME="@@ALL@@UNION@@"></A>
+<A NAME="@@DISTINCT@@UNION@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... ALL<i class=bn>|</i>DISTINCT</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The additions <span class="qtext">ALL</span> and <span class="qtext">DISTINCT</span> specify how duplicate rows are handled. <span class="qtext">DISTINCT</span> is the default here:
+</P>
+<ul class="disc">
+<li>
+If the addition <span class="qtext">ALL</span> is specified, all rows from the results set of the right <span class="qtext">SELECT</span> statement are inserted into the existing results set.
+<br><br></li>
+<li>
+If the addition <span class="qtext">DISTINCT</span> is specified or if neither of the two additions
+is specified, the rows of the results set of the right <span class="qtext">SELECT</span> statement are
+inserted into the existing results set. All duplicate rows are then deleted except for one (including all columns of the results set).
+<br></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The default behavior or the addition <span class="qtext">DISTINCT</span> are always applied to the full
+existing results set. The addition <span class="qtext">DISTINCT</span> also removes any duplicate rows
+produced by the addition <span class="qtext">ALL</span> of preceding <span class="qtext">UNION</span> additions. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Fills the database table DEMO_EXPRESSIONS with one row and creates the union of the table with itself.
+Using the addition <span class="qtext">DISTINCT</span>, the results set contains one row and using the addition <span class="qtext">ALL</span> it contains two rows.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_expressions. <br>INSERT demo_expressions FROM @( VALUE #( id = 'X' num1 = 111 ) ). <br>
+ <br>SELECT id, num1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>&nbsp;&nbsp;UNION DISTINCT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT id, num1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM demo_expressions <br>
+&nbsp;&nbsp;INTO TABLE @DATA(result1). <br> <br>SELECT id, num1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_expressions <br>
+&nbsp;&nbsp;UNION ALL <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT id, num1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM demo_expressions <br>
+&nbsp;&nbsp;INTO TABLE @DATA(result2). <br> <br>ASSERT lines( result1 ) = 1. <br>ASSERT lines( result2 ) = 2. <br><br>
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapunion_clause.html')" class="blue">UNION - query_clauses</a><br>
+<a href="javascript:call_link('abenunion_abexas.html')" class="blue">UNION Examples</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapunion.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:33 GMT -->
+</html>

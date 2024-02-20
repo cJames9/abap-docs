@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_PERSISTENCE_MAPPING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_mapping.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Object-Relational Mapping">
+<title>
+Object-Relational Mapping - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_persistence_mapping.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_persistence_mapping.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_persist.html')" class="blue">Persistence Service</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Object-Relational Mapping
+</span></p>
+<p>
+Technically speaking, all objects in ABAP Objects (including persistent objects managed by the Persistence Service) exist only transiently in the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of
+an ABAP program. Conversely, AS ABAP data exists persistently in the database. The persistence of objects
+is achieved by object-relational mapping between database tables and the attributes of persistent classes.
+The mapping of existing persistent classes is defined using the Mapping Assistant of Class Builder. The support of the Mapping Assistant is stopped and no new mappings should be created.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_MAPPING_1"></A>
+<p><span class="h2">
+Mapping by Business Key
+</span></p>
+<p>
+When business keys are used to map objects, object-oriented programming is applied to available relational
+database tables in existing applications. Class Builder generated a key attribute in the persistent
+class for each field of the primary key of a database table. Mapping by business key involves mapping
+the key attributes to the primary key of an existing database table. At runtime, the Persistence Service
+links each managed object of the persistent class to the table entry whose key field values match the key attributes.
+</p>
+<p>
+The key attributes of a persistent class cannot be modified. There are only GET methods, no SET methods.
+The key attributes form the business key of a persistent class. Thus a business key is a semantic key that is visible externally.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See the persistent class <span class="lnkgrey">CL_SPFLI_PERSISTENT</span>. This class has a persistence
+mapping to columns in the database table SPFLI. The key fields CARRID and CONNID in the table SPFLI are mapped to identically named key attributes in the class. The other columns are linked to value attributes.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_MAPPING_2"></A>
+<p><span class="h2">
+Mapping by Instance-GUID
+</span></p>
+<p>
+To map database tables and objects using instance GUIDs, you must create special tables that have exactly
+one primary key field of the type OS_GUID from the ABAP Dictionary. The Persistence Service uses the key field to address the managed objects internally. The persistent class does not have a corresponding key attribute.
+</p>
+<p>
+The key column of this special table is filled with the instance GUIDs. Each instance GUID is unique
+within a client. At runtime, the Persistence Service identifies each object of the persistent class
+using its instance GUID and assigns it to a single line in the database table accordingly. All remaining fields in the database table can then be mapped to value attributes of the persistent class.
+</p>
+<p>
+Thus the instance GUID is a fixed-length technical key that is externally invisible and that lets you easily access instances, particularly where the objects are closely interlinked.
+</p>
+<p>
+When you map a persistent object by business key, you can get a reference to it by specifying a semantic
+key. However, you cannot do this with objects mapped by instance GUID. The reference must be obtained
+in a different way before the object is first accessed in a program and must then manage itself (in an internal table, for example). Mapping by instance GUID and business key can be used to simplify this process.
+</p>
+<p>
+Mapping solely by instance GUID is best suited to objects that are purely dependent on other objects,
+since you do not have to access them explicitly in the ABAP program. These objects can be saved long-term by saving their object references persistently.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_MAPPING_3"></A>
+<p><span class="h2">
+Mapping by Instance GUID and Business Key
+</span></p>
+<p>
+This type of mapping is a combination of mapping by business key and mapping by instance GUID. The relevant
+tables must have a field of the type OS_GUID from ABAP Dictionary, as well as their application-specific
+primary key. Either special tables must be created or a field of type OS_GUID added to existing tables.
+The system generates a key attribute and thus a business key for each primary key field, just as in
+mapping by business key. The type OS_GUID field acts as an independent key that provides access to the object using an instance GUID. It is advisable to create this field as a unique secondary index.
+</p>
+<p>
+Each table row can thus be uniquely identified either using the instance GUID or a business key. The
+Persistence Service manages the objects of persistent classes (mapped to these database tables) internally, using the instance GUID. However, it also allows them to be addressed using business keys.
+</p>
+<p>
+In an ABAP program, for example, the business key can be used to get a reference to object of this type, which can then be used for further processing.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_MAPPING_4"></A>
+<p><span class="h2">
+Single-Table Mapping
+</span></p>
+<p>
+In the simplest form of mapping, exactly one database table is assigned to one persistent class. This
+is known as single-table mapping. At runtime, the system links one persistent object of the persistent
+class to exactly one entry in this table. Within an internal session, the Persistence Service provides a unique connection between the object and the database.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_MAPPING_5"></A>
+<p><span class="h2">
+Multi-Table Mapping
+</span></p>
+<p>
+In multi-table mapping, multiple database tables are assigned to a persistent class. Then at runtime,
+the system links each persistent object of this class to an entry in each of the tables involved. The key of each of these tables must have the same type.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_MAPPING_6"></A>
+<p><span class="h2">
+Structure Mapping
+</span></p>
+<p>
+In this case, the mapping is performed to ABAP Dictionary structures, rather than to database tables
+or database views. The application developer therefore has to program the type of persistent data storage in the relevant methods of the class agent.
+</p>
+<p>
+A structure (or structures) need to be mapped, for example, if a persistent object is to contain table-like
+attributes. Database tables can only have flat structures, which prevents the object from being mapped to a table in this case. Even if a different form of persistent data storage is to be used (for example, files on the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the AS Instance), structure mapping has to be used.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_mapping.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

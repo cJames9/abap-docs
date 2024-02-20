@@ -1,0 +1,206 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREPLACE_FUNCTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenreplace_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:58 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="replace - Replace Function">
+<meta name="keywords" content="ABAP, Replace Function">
+<title>
+replace - Replace Function - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenreplace_functions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenreplace_functions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_functions.html')" class="blue">String Functions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprocess_functions.html')" class="blue">Processing Functions for Character-Like Arguments</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@replace@@!ABAP_FUNCTION!@@"></A>
+<p><span class="h1">
+replace - Replace Function
+</span></p>
+<A name="@@ITOC@@ABENREPLACE_FUNCTIONS_1"></A>
+<p><span class="h3">
+Syntax Forms
+</span></p>
+<p>
+1. <span class="qtext">... replace( <a href="javascript:call_link('abenstring_functions_val.html')" class="blue">val = text</a> <i class=bn>[</i>
+<a href="javascript:call_link('abenstring_functions_off_len.html')" class="blue">off = off</a><i class=bn>]</i> <i class=bn>[</i><a href="javascript:call_link('abenstring_functions_off_len.html')" class="blue">len = len</a><i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with = new ) ...</span>
+</p>
+<p>
+2. <span class="qtext">... replace( <a href="javascript:call_link('abenstring_functions_val.html')" class="blue">val = text</a> <i class=bn>{</i>
+<a href="javascript:call_link('abenstring_functions_sub.html')" class="blue">sub = substring</a><i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>
+<a href="javascript:call_link('abenstring_functions_regex.html')" class="blue">regex = regex</a><i class=bn>}</i> <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with = new <i class=bn>[</i>
+<a href="javascript:call_link('abenstring_functions_case.html')" class="blue">case = case</a><i class=bn>]</i> <i class=bn>[</i><a href="javascript:call_link('abenstring_functions_occ.html')" class="blue">occ = occ</a><i class=bn>]</i> ) ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This function replaces a substring of <a href="javascript:call_link('abenstring_functions_val.html')" class="blue"><span class="qtext">text</span></a>
+with the character string specified in <span class="qtext">new</span> and returns the changed text.
+</p>
+<p>
+The substring is determined as follows:
+</p>
+<ul class="disc">
+<li>The variant with the arguments <a href="javascript:call_link('abenstring_functions_off_len.html')" class="blue"><span class="qtext">off</span></a>
+and <a href="javascript:call_link('abenstring_functions_off_len.html')" class="blue"><span class="qtext">len</span></a> replaces
+the substring defined by the offset <span class="qtext">off</span> and the length <span class="qtext">len</span>. At least one of these additions must be defined.</li>
+</ul>
+<ul class="disc">
+<li>The variant with the arguments <span class="qtext">sub</span> or <a href="javascript:call_link('abenstring_functions_regex.html')" class="blue">
+<span class="qtext">regex</span></a> scans the <span class="qtext">text</span> for the occurrence specified
+in <a href="javascript:call_link('abenstring_functions_occ.html')" class="blue"><span class="qtext">occ</span></a>
+for a match with the substring specified in <a href="javascript:call_link('abenstring_functions_sub.html')" class="blue"><span class="qtext">substring</span></a> or with a
+<a href="javascript:call_link('abenregex_syntax.html')" class="blue">regular expression</a> specified in <a href="javascript:call_link('abenstring_functions_regex.html')" class="blue">
+<span class="qtext">regex</span></a> and replaces the occurrence. If <span class="qtext">occ</span>
+contains the value 0, all occurrences are replaced. If <span class="qtext">substring</span> is empty,
+an exception from the class CX_SY_STRG_PAR_VAL is raised. The search is case-sensitive by default, but
+this can be overridden using the parameter <span class="qtext">case</span>.  If no substring is found, the unchanged content of <span class="qtext">text</span> is returned.</li>
+</ul>
+<p>
+<span class="qtext">new</span> is a <a href="javascript:call_link('abencharlike_expr_position_glosry.html')" class="grey" title="Glossary Entry">character-like expression position</a>. If they have a fixed length, trailing blanks are ignored.
+</p>
+<p>
+The return code has the type <span class="qtext">string</span> accordingly.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Borderline cases for the variants with the arguments <span class="qtext">off</span> and <span class="qtext">len</span>:</li>
+</ul>
+<ul class="circlem2">
+<li>If only <span class="qtext">off</span> is specified or if the value 0 is specified for <span class="qtext">len</span>,
+<span class="qtext">replace</span> works like <a href="javascript:call_link('abeninsert_functions.html')" class="blue"><span class="qtext">insert</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>If only <span class="qtext">len</span> is specified or if <span class="qtext">off</span> has the value 0, the first segment of the length <span class="qtext">len</span> is replaced.</li>
+</ul>
+<ul class="circlem2">
+<li>If the value of <span class="qtext">off</span> is equal to the length of <span class="qtext">text</span>,
+the value of <span class="qtext">len</span> must be equal to 0 or <span class="qtext">len</span> is
+not specified. The character string <span class="qtext">new</span> is then appended to the end of <span class="qtext">text</span>.</li>
+</ul>
+<ul class="disc">
+<li>If a regular expression is used with <a href="javascript:call_link('abenstring_functions_regex.html')" class="blue"><span class="qtext">regex</span></a>, special
+<a href="javascript:call_link('abenregex_replace.html')" class="blue">replacement models</a> that allow references to particular
+occurrences can be specified in <span class="qtext">new</span>. Note that, in regular replacement texts,
+the associated special characters <span class="qtext">$</span>, <span class="qtext">&amp;</span>, <span class="qtext">
+`</span>, and <span class="qtext">&#x00B4;</span> plus the escape character <span class="qtext">\</span> must be transformed to literal characters using the prefix <span class="qtext">\</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following replacement is <span class="qtext400">"&lt;title>Th&lt;b>i&lt;/b>s &lt;b>i&lt;/b>s the &lt;i>
+T&lt;b>i&lt;/b>tle&lt;/i> &lt;/title>"</span>. In an HTML line, a particular letter is placed in format tags if it is not itself in a tag.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(html) = `&lt;title>This is the &lt;i>Title&lt;/i>&lt;/title>`. <br> <br>DATA(repl)&nbsp;&nbsp; = `i`. <br>
+ <br>html = replace( val&nbsp;&nbsp; = html <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regex = repl &amp;&amp; `(?![^&lt;>]*>)` <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;&nbsp;= `&lt;b>$0&lt;/b>` <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;occ&nbsp;&nbsp; =&nbsp;&nbsp; 0 ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_RANGE_OUT_OF_BOUNDS</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Illegal offset or length specified in <span class="qtext">off</span> and <span class="qtext">len</span>. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">STRING_OFFSET_TOO_LARGE</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_REGEX_TOO_COMPLEX</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> More information: <a href="javascript:call_link('abenregex_exceptions.html')" class="blue">Exceptions in Regular Expressions</a>. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">REGEX_TOO_COMPLEX</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_STRG_PAR_VAL</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Substring in <span class="qtext">sub</span> or regular expression in <span class="qtext">regex</span> is empty. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">STRG_ILLEGAL_PAR</span>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenreplace_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:58 GMT -->
+</html>

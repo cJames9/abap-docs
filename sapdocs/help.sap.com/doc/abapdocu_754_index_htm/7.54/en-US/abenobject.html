@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOBJECT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenobject.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:21 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Objects">
+<meta name="keywords" content="ABAP, Objects">
+<title>
+Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenobject.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenobject.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Objects
+</span></p>
+<p>
+Objects are instances of classes. There can be any number of objects or instances in a class. Each object has a unique identity and its own attributes.
+</p>
+<p>
+By default, all objects have the same priority in the
+<a href="javascript:call_link('abendata_area_glosry.html')" class="grey" title="Glossary Entry">data area</a> of an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>. This means that objects can only be accessed from within an internal session.
+</p>
+<p>
+For cross-transaction objects, <a href="javascript:call_link('abenshared_objects_glosry.html')" class="grey" title="Glossary Entry">shared objects</a> exist that can be accessed by all programs of an AS Instance at the same time.
+</p>
+<p>
+<a href="javascript:call_link('abenobject_services_glosry.html')" class="grey" title="Glossary Entry">Object Services</a> are
+available for handling persistent objects in the database. These associate the attributes of objects with the content of database tables and can execute object-oriented transactions.
+</p>
+<A name="@@ITOC@@ABENOBJECT_1"></A>
+<p><span class="h2">
+Creating Objects
+</span></p>
+<p>
+Before an object can be created, an <a href="javascript:call_link('abenreferences.html')" class="blue">object reference variable</a> is required that can point to the required class: <br>
+</p>
+<ul class="disc">
+<li>Once a class reference variable <span class="qtext">obj</span> is declared for a class <span class="qtext">class</span>,
+an object of that class can be created using the statement <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">
+CREATE OBJECT obj</span></a>. This statement creates an instance of the class <span class="qtext">class</span> and the reference variable <span class="qtext">obj</span> contains a
+<a href="javascript:call_link('abenreferences.html')" class="blue">reference</a> to this object. <br></li>
+</ul>
+<ul class="disc">
+<li>Once a class reference variable <span class="qtext">obj</span> is declared for a superclass of the
+class <span class="qtext">class</span> or an interface reference variable <span class="qtext">obj</span>
+for an interface implemented by the class <span class="qtext">class</span>, the addition <span class="qtext">TYPE
+class</span> of the statement <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">CREATE OBJECT obj</span></a> can be used to create an instance of the class <span class="qtext">class</span>.</li>
+</ul>
+<p>
+The instance operator <a href="javascript:call_link('abenconstructor_expression_new.html')" class="blue"><span class="qtext">NEW</span></a> enables objects to be created in
+<a href="javascript:call_link('abengeneral_expr_position_glosry.html')" class="grey" title="Glossary Entry">general expression positions</a>.
+</p>
+<A name="@@ITOC@@ABENOBJECT_2"></A>
+<p><span class="h2">
+Access to Instance Components
+</span></p>
+<p>
+A program can access the visible instance components of an object only by using references in
+<a href="javascript:call_link('abenreferences.html')" class="blue">reference variables</a>. For the syntax, see <a href="javascript:call_link('abenclass_components_addressing.html')" class="blue">Accessing Components of Classes</a>.
+</p>
+<A name="@@ITOC@@ABENOBJECT_3"></A>
+<p><span class="h2">
+Lifetime of Objects
+</span></p>
+<p>
+An object is kept alive for as long as it is used in the internal session (known as the
+<a href="javascript:call_link('abenheap_glosry.html')" class="grey" title="Glossary Entry">heap</a>). An object is used for as long as at least one
+<a href="javascript:call_link('abenheap_reference_glosry.html')" class="grey" title="Glossary Entry">heap reference</a> points
+to the object, to an instance attribute, or to a part of the instance attribute or as long as at least one method of the object is registered as an
+<a href="javascript:call_link('abenevent_handler_glosry.html')" class="grey" title="Glossary Entry">event handler</a>. Field
+symbols to which an instance attribute or part of an instance attribute is assigned still work in the same way as data references.
+</p>
+<p>
+As soon as an object has no more references and none of its methods is registered as an event handler, it can be deleted by
+<a href="javascript:call_link('abengarbage_collector_glosry.html')" class="grey" title="Glossary Entry">Garbage Collector</a>. This releases the identity of the object to be taken by a new object.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Alongside these regular references, <a href="javascript:call_link('abencl_abap_weak_reference.html')" class="blue">weak references</a> represented by objects exist that do not keep an object alive.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenreferences.html')" class="blue">Object References</a><br>
+<a href="javascript:call_link('abenclass_components_addressing.html')" class="blue">Accessing Class Components</a><br>
+<a href="javascript:call_link('abenclass_attributes_as_key.html')" class="blue">Object References in Internal Tables</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenobject.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:21 GMT -->
+</html>

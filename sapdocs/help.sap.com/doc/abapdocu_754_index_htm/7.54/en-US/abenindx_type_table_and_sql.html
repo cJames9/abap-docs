@@ -1,0 +1,135 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINDX_TYPE_TABLE_AND_SQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenindx_type_table_and_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL access to export tables/import tables">
+<title>
+SQL access to export tables/import tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenindx_type_table_and_sql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenindx_type_table_and_sql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_cluster.html')" class="blue">Data Cluster</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapexport_data_cluster.html')" class="blue">EXPORT</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexport_data_cluster_indx.html')" class="blue">Export/Import Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL access to export tables/import tables
+</span></p>
+<p>
+<a href="javascript:call_link('abenexport_import_table_glosry.html')" class="grey" title="Glossary Entry">Export/import tables</a>
+are relational databases defined in ABAP Dictionary. This means that, in principle, SQL statements can also be used to access export tables/import tables.
+</p>
+<p>
+To use SQL statements on export tables/import tables effectively, the <a href="javascript:call_link('abenexport_data_cluster_indx.html')" class="blue">special structure</a> of these tables must be respected.
+</p>
+<p>
+It is not a good idea to perform reads or writes on the fields that manage the data cluster, such as
+CLUSTD or SRTF2 and CLUSTR. These fields contain the data cluster in an internal format and can only
+be handled correctly using the <span class="qtext">EXPORT TO DATABASE</span> and <span class="qtext">IMPORT FROM DATABASE</span> statements.
+</p>
+<p>
+SQL statements should only be used if the corresponding combination of specific data cluster statements
+would be too inefficient. The SQL statement <span class="qtext">INSERT</span> should never be used on export tables/import tables.
+</p>
+<p>
+ABAP SQL statements can, in certain circumstances, be used for administrative operations on export tables/import tables, for which the data cluster specific statements are not suitable.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An export table/import table can be searched systematically for a particular data cluster using <span class="qtext">SELECT</span>; at the same time, information in the freely definable columns can be evaluated.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following example deletes all data clusters of an area from the export tables/import tables <span class="lnkgrey">
+DEMO_INDX_BLOB</span> and <span class="lnkgrey">DEMO_INDX_TABLE</span>. Each time, all rows of the data cluster are to be deleted.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_indx_blob&nbsp;&nbsp;WHERE relid = '..'. <br> <br>DELETE FROM demo_indx_table WHERE relid = '..'.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following example demonstrates how the name and area of a data cluster can be changed in the database
+tables <span class="lnkgrey">DEMO_INDX_BLOB</span> and <span class="lnkgrey">DEMO_INDX_TABLE</span>
+using <span class="qtext">UPDATE</span>. Solving this problem using the special cluster statements would be considerably more time-consuming.
+</p>
+<dl><dd>
+<span class="qtext">UPDATE demo_indx_blob <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SET&nbsp;&nbsp; relid = @new_relid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id&nbsp;&nbsp;&nbsp;&nbsp;= @new_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE relid = @old_relid AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id&nbsp;&nbsp;&nbsp;&nbsp;= @old_id. <br>
+ <br>UPDATE demo_indx_table <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SET&nbsp;&nbsp; relid = @new_relid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id&nbsp;&nbsp;&nbsp;&nbsp;= @new_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE relid = @old_relid AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id&nbsp;&nbsp;&nbsp;&nbsp;= @old_id.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenindx_type_table_and_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

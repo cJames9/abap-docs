@@ -1,0 +1,292 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEVENTS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenevents_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP Objects, Events">
+<title>
+ABAP Objects, Events - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenevents_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenevents_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_abexas.html')" class="blue">Examples for ABAP Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP Objects, Events
+</span></p>
+<p>
+This example demonstrates how events are raised and handled.
+</p>
+<A name="@@ITOC@@ABENEVENTS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_abap_objects_events NO STANDARD PAGE HEADING.<br>
+<br>
+<span class="blue">************************************************************************</span><br>
+<span class="blue">* Declarations</span><br>
+<span class="blue">************************************************************************</span><br>
+<br>
+INTERFACE vehicle.<br>
+&nbsp;&nbsp;DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max_speed TYPE i.<br>
+&nbsp;&nbsp;EVENTS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;speed_change EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE(id) TYPE i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE(new_speed) TYPE i.<br>
+&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;drive IMPORTING id TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stop&nbsp;&nbsp;IMPORTING id TYPE i.<br>
+ENDINTERFACE.<br>
+<br>
+CLASS ship DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vehicle.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ALIASES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max FOR vehicle~max_speed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ship_speed TYPE i.<br>
+ENDCLASS.<br>
+<br>
+CLASS truck DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vehicle.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ALIASES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max FOR vehicle~max_speed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;truck_speed TYPE i.<br>
+ENDCLASS.<br>
+<br>
+CLASS status DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-EVENTS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button_clicked<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING VALUE(fcode) TYPE sy-ucomm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_action.<br>
+ENDCLASS.<br>
+<br>
+CLASS list DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fcode_handler<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR EVENT button_clicked OF status<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING fcode,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_change<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR EVENT speed_change OF vehicle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_speed,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_output.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF line,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iref&nbsp;&nbsp;TYPE REF TO vehicle,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;speed TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF line.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list TYPE standard TABLE OF line WITH empty key.<br>
+ENDCLASS.<br>
+<br>
+<span class="blue">************************************************************************</span><br>
+<span class="blue">* Implementations</span><br>
+<span class="blue">************************************************************************</span><br>
+<br>
+CLASS ship IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max = 30.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD vehicle~drive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CHECK ship_speed &lt; max.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ship_speed += 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EVENT vehicle~speed_change<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING id = id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_speed = ship_speed.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD vehicle~stop.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CHECK ship_speed &gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ship_speed = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EVENT vehicle~speed_change<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING id = id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_speed = ship_speed.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS truck IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max = 100.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD vehicle~drive.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CHECK truck_speed &lt; max.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;truck_speed += 50.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EVENT vehicle~speed_change<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING id = id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_speed = truck_speed.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD vehicle~stop.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CHECK truck_speed &gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;truck_speed = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EVENT vehicle~speed_change<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING&nbsp;&nbsp;id = id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; new_speed = truck_speed.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS status IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET PF-STATUS 'VEHICLE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE 'Click a button!'.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD user_action.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EVENT button_clicked EXPORTING fcode = sy-ucomm.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS list IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD fcode_handler.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CASE fcode.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CREA_SHIP'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list = VALUE #( BASE list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( iref = NEW ship( ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CREA_TRUCK'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list = VALUE #( BASE list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( iref = NEW truck( ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'DRIVE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHECK sy-lilli &gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list[ sy-lilli ]-iref-&gt;drive( sy-lilli ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'STOP'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT list ASSIGNING FIELD-SYMBOL(&lt;line&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data(id) = sy-tabix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line&gt;-iref-&gt;stop( id ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CANCEL'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list_output( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD list_change.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[ id ]-speed&nbsp;&nbsp;= new_speed.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD list_output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sy-lsind = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET TITLEBAR 'TIT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT list ASSIGNING FIELD-SYMBOL(&lt;line&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF &lt;line&gt;-iref is INSTANCE OF ship.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / icon_ws_ship AS ICON.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF &lt;line&gt;-iref is INSTANCE OF truck.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / icon_ws_truck AS ICON.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE: 'Speed = ', &lt;line&gt;-speed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+<br>
+<span class="blue">************************************************************************</span><br>
+<span class="blue">* Program events</span><br>
+<span class="blue">************************************************************************</span><br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;DATA(list) = NEW list( ).<br>
+&nbsp;&nbsp;SET HANDLER:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list-&gt;fcode_handler,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list-&gt;list_change FOR ALL INSTANCES.<br>
+<br>
+AT USER-COMMAND.<br>
+&nbsp;&nbsp;status=&gt;user_action( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENEVENTS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The user actions on a classic list raise events in ABAP Objects. The list and its data are implemented
+in the class <span class="qtext">list</span>. The class <span class="qtext">status</span> is used to
+process user actions. It raises an event <span class="qtext">button_clicked</span> at <span class="qtext">AT
+USER-COMMAND</span> time. The event is handled in the class <span class="qtext">list</span>. The class
+<span class="qtext">list</span> contains an object of the class <span class="qtext">ship</span> or <span class="qtext">
+truck</span> for each line of the list. Both classes implement the interface <span class="qtext">vehicle</span>.
+If the speed of one of these objects changes, the event <span class="qtext">speed_change</span> is raised. The class <span class="qtext">list</span> responds to this event by modifying the list output.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenevents_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

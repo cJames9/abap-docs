@@ -1,0 +1,175 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNATIVE_SQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennative_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:21 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Native SQL">
+<meta name="keywords" content="ABAP, Native SQL">
+<title>
+Native SQL - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennative_sql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennative_sql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Native SQL
+</span></p>
+<p>
+The term <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> refers to all statements and calls that can be passed to the
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a> of the database interface. By default, the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> is used to access the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a> of the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard AS ABAP database</a>.
+</p>
+<p>
+Native SQL can be passed to the database interface as follows:
+</p>
+<ul class="disc">
+<li>In strings passed to objects in the <a href="javascript:call_link('abenadbc.html')" class="blue">ADBC</a> classes.</li>
+</ul>
+<ul class="disc">
+<li>As statically <a href="javascript:call_link('abennativesql.html')" class="blue">embedded Native SQL statements</a>.</li>
+</ul>
+<p>
+ADBC is recommended. New developments and improvements, such as support for new SQL statements or optimized
+performance using bulk access across internal tables, are now made only for ADBC. The existing static
+embedding of Native SQL statements between <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC
+SQL</span></a> and <a href="javascript:call_link('abapendexec.html')" class="blue"><span class="qtext">ENDEXEC</span></a> is still supported but should no longer be used in new programs.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When using Native SQL, the order of the columns in database tables defined in ABAP Dictionary in the database system does not match the order of the structure definition in ABAP Dictionary. When using
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>, this is handled accordingly in the
+<a href="javascript:call_link('abendatabase_interface_glosry.html')" class="grey" title="Glossary Entry">database interface</a>
+and the order in ABAP Dictionary always applies. When using Native SQL, the order of the columns in the database system must be applied explicitly.</li>
+</ul>
+<ul class="disc">
+<li>Special care must be taken when using Native SQL to pass data from ABAP to the database system and
+back. This applies both when using ABAP data objects as host variables or bound parameters in Native
+SQL statements and when binding ABAP data object to the parameter interface of stored procedures or
+database procedures. Not all built-in ABAP types have matching types in the type system of the database
+system. Although types from the ABAP Dictionary can be mapped to ABAP types and the appropriate conversions can be executed from the ABAP SQL interface when using ABAP SQL, when using Native SQL only matching data types should be
+<a href="javascript:call_link('abennative_sql_type_mapping.html')" class="blue">mapped</a> and conversions should be avoided.
+This is particularly relevant for the ABAP types <span class="qtext">n</span>, <span class="qtext">d</span>, and <span class="qtext">t</span> and decimal floating point numbers.</li>
+</ul>
+<ul class="disc">
+<li>Native SQL does not support <a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client
+handling</a>. When accessing client-specific database tables or views, the required client ID must be selected explicitly. In application programs, only the current client should be used to do this.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">Table buffering</a> is bypassed when using Native SQL.</li>
+</ul>
+<ul class="disc">
+<li>When the <a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database view</a> of a
+<a href="javascript:call_link('abencds_client_handling.html')" class="blue">client-specific</a> CDS view is accessed using Native SQL and the client handling of the view is specified by the annotation <span
+ class="qtext400">@ClientHandling.algorithm:#SESSION_VARIABLE</span>, the
+<a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a> <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">
+<span class="qtext400">$session.client</span></a> is generally evaluated here. Only on
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA databases</a>, is
+an instance of this session variables created as a HANA session variable <a href="javascript:call_link('abenhana_session_variables.html')" class="blue">
+<span class="qtext400">CDS_CLIENT</span></a>. Its current value is used here. On other platforms, there can be unexpected behavior or the program may crash.</li>
+</ul>
+<ul class="disc">
+<li>Alongside their differences in syntax, Native SQL statements can behave in different ways on different platforms (particularly when compared with ABAP SQL). This mainly affects the following:</li>
+</ul>
+<ul class="circlem2">
+<li>Handling of blanks in strings</li>
+</ul>
+<ul class="circlem2">
+<li>Calculation rules and roundings in arithmetic calculations</li>
+</ul>
+<ul class="circlem2">
+<li>Overflow behavior</li>
+</ul>
+<dl><dd>
+More information about the behavior in question can be found in the documentation of the vendor-specific Native SQL.
+</dd></dl>
+<ul class="disc">
+<li>Special care should be taken when using the Native SQL statements <span class="qtext400">SET TRANSACTION</span> to set the transaction behavior of the current
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a>. The default behavior must be reset at the end of the current
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> to avoid unwanted or critical behavior. When the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> is accessed,
+<a href="javascript:call_link('abenhana_set_transaction.html')" class="blue">special methods</a> must be used that reset automatically instead of these Native SQL statements.</li>
+</ul>
+<ul class="disc">
+<li>The examples shown for Native SQL generally work in SAP's own
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>. The documentation about Native SQL in the SAP HANA database can be found under
+<a href="https://help.sap.com/viewer/4fe29514fd584807ac9f2a04f6754767/2.0.03/en-US" target="blank" class="blue">SAP HANA SQL and System Views References</a>.</li>
+</ul>
+<p><span class="h4">
+Programming Guideline
+</span></p>
+<P>
+<a href="javascript:call_link('abendatabase_access_guidl.html')" class="lnkpurple" title="Guideline">Using ABAP SQL</a>
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC - ABAP Database Connectivity</a><br>
+<a href="javascript:call_link('abennativesql.html')" class="blue">EXEC SQL - Embedded Native SQL</a><br>
+<a href="javascript:call_link('abennative_sql_type_mapping.html')" class="blue">Native SQL - Mapping of ABAP Types</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennative_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:21 GMT -->
+</html>

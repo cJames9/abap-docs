@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDATABASE_ACCESS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendatabase_access_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Database Accesses">
+<title>
+Database Accesses - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendatabase_access_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendatabase_access_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_guidl.html')" class="blue">Data Storage</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Database Accesses
+</span></p>
+<A name="@@ITOC@@ABENDATABASE_ACCESS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+In ABAP, data in database tables can be accessed in the following ways:
+</p>
+<ul class="disc">
+<li><span class="bold">ABAP SQL</span> <br>Implemented by ABAP statements,
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a> is a subset of the Structured Query Language (SQL)
+comprising the DML (Data Manipulation Language) part. The ABAP SQL statements use the ABAP SQL interface
+for platform-independent access to those database tables in the <a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> database</a> defined in ABAP Dictionary and having instances created in the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">AMDP</span> <br>The <a href="javascript:call_link('abenamdp.html')" class="blue">AMDP framework</a> is
+used to manage and call ABAP Managed Database Procedures. These are database procedures or database
+procedures implemented as AMDP procedures in an AMDP method or an AMDP class and replicated to the database system from here.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Native SQL</span> <br>Database-specific SQL statements that include both DML
+and DDL (Data Definition Language) statements and which can be passed to the Native SQL interface of the database as follows:</li>
+</ul>
+<ul class="circlem2">
+<li>The methods of <a href="javascript:call_link('abenadbc.html')" class="blue">ADBC</a> make it possible to execute dynamic
+SQL statements on a database system and process the results. ADBC (ABAP Database Connectivity), a class-based API that enables object-oriented access to the Native SQL interface.</li>
+</ul>
+<ul class="circlem2">
+<li>Native SQL statements can be specified in ABAP programs between the statements <a href="javascript:call_link('abapexec.html')" class="blue">
+<span class="qtext">EXEC SQL</span></a> and <a href="javascript:call_link('abapendexec.html')" class="blue"><span class="qtext">ENDEXEC</span></a>.
+Static Native SQL statements of this kind are not checked completely by the syntax check and are forwarded almost unchanged from the Native SQL interface to the database of an AS ABAP.</li>
+</ul>
+<p>
+Alongside access to the ABAP database schema of the standard AS ABAP database, all access types (except for AMDP) also allow access to other databases and other database schemas using additional
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a>.
+</p>
+<A name="@@ITOC@@ABENDATABASE_ACCESS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Using ABAP SQL</span>
+</p>
+<p>
+Use ABAP SQL for general persistence services where possible. Only use AMDP and Native SQL for tasks where ABAP SQL is not suitable.
+</p>
+<A name="@@ITOC@@ABENDATABASE_ACCESS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Only ABAP SQL is guaranteed to be independent of the database platform used. For this reason, ABAP SQL
+does not contain the set of all possible SQL statements in a specific database, but only a subset of
+the DML scope of all database systems supported by AS ABAP. The database tables that can be processed using ABAP SQL can be used in ABAP directly as structured types for the declaration of suitable work areas. Only ABAP SQL supports
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a> of table content in the
+<a href="javascript:call_link('abenuse_shared_memory_guidl.html')" class="lnkpurple" title="Guideline">shared memory</a>.
+</p>
+<p>
+ AMDP and Native SQL should only be used if the task really cannot be solved using ABAP SQL. Services
+that work with AMDP and Native SQL are generally dependent on the database system used, so that they
+cannot be executed in all AS ABAP systems. For platform-independent services, implementations should be provided for all supported databases.
+</p>
+<p>
+If the database is accessed using the Native SQL interface instead of the ABAP SQL interface,
+<a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> or <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a> should be used.
+</p>
+<ul class="disc">
+<li>AMDP, currently only available for a SAP HANA database as the standard AS ABAP database, is recommended for all tasks that swap out code from ABAP programs to this SAP HANA database for performance reasons.</li>
+</ul>
+<ul class="disc">
+<li>ADBC is a modern object-oriented API that is better suited to modern ABAP programming than <a href="javascript:call_link('abapexec.html')" class="blue">
+<span class="qtext">EXEC SQL</span></a>. Enhancements to the Native SQL interface, such as bulk access using internal tables, are now only provided using ADBC. ADBC also enables
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="lnkpurple" title="Guideline">dynamic access</a>;
+Native SQL on the other hand is just static. Newer SQL statements, such as <span class="qtext">WITH</span> for common table expressions (CTEs), are not supported in full by <span class="qtext">EXEC SQL</span>.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The rule dictating that ABAP SQL is to be used for as long as possible applies in particular to
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP</a> too. It is not a good idea to swap out SQL statements to database procedures if these could be implemented using ABAP SQL or
+<a href="javascript:call_link('abencds_glosry.html')" class="grey" title="Glossary Entry">ABAP CDS</a> too. In this case, no
+performance gains can be expected since the ABAP SQL statements are updated to Native SQL by the database
+interface in exactly the same way as they would be written in the database procedure. Using AMDP is
+a good idea only if HANA-specific properties can be exploited by procedure calls or if repeated transports of large amounts of data between the database and the AS ABAP can be bypassed.</li>
+</ul>
+<ul class="disc">
+<li>It is <a href="javascript:call_link('abendatabase_access_recomm.html')" class="blue">not advisable</a> to access ABAP-managed database objects if the access does not take place in ABAP programs.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+See the executable example <a href="javascript:call_link('abenamdp_vs_open_sql_abexa.html')" class="blue">AMDP</a>, Comparison
+with ABAP SQL. Database access not programmed well using ABAP SQL can often be optimized by improved use of ABAP SQL, making it unnecessary to use AMDP in these cases.
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+See the executable example <a href="javascript:call_link('abensql_script_curr_conv_abexa.html')" class="blue">Currency Conversion with SQL Script</a>. In this case, a specific operator of the language
+<a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQL Script</a> is used that is not usually available.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendatabase_access_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

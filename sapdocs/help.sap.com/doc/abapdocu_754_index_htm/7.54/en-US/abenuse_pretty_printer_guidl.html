@@ -1,0 +1,185 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENUSE_PRETTY_PRINTER_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_pretty_printer_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Using Pretty Printer">
+<title>
+Using Pretty Printer - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenuse_pretty_printer_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenuse_pretty_printer_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenformatting_code_guidl.html')" class="blue">Formatting the Source Code</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Using Pretty Printer
+</span></p>
+<A name="@@ITOC@@ABENUSE_PRETTY_PRINTER_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The alignment of ABAP statements in the source code is not defined in the syntax. There should be a
+<a href="javascript:call_link('abenstatement_guidl.html')" class="lnkpurple" title="Guideline">maximum of one statement per line</a>,
+which can be technically indented and wrapped as required. This makes control structures visible. By
+inserting blank lines, related source code sections can be grouped, which makes the code easier to read.
+Note that, in ABAP statements, blanks cannot be added or left out at random. For example, tokens must
+be separated by at least one blank (especially with operands and operators). In a method call, no blanks are permitted between the name of the method and the opening parenthesis.
+</p>
+<p>
+Languages with a C-like syntax (where statement blocks within control structures are delimited by curly
+brackets) provide an inexhaustible source for discussions on how to best make indentations. However,
+for ABAP the solution is obvious: Every introductory statement (such as <span class="qtext">IF</span>)
+has an associated concluding statement (in this case, <span class="qtext">ENDIF</span>). Event blocks
+for ABAP runtime environment events are the only exception here. They are introduced by a statement
+(such as <span class="qtext">START-OF-SELECTION</span>) but are not concluded with the associated concluding statement. Instead, they are concluded with the next event block. However,
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">event blocks</a> should
+only be used in exceptional cases. Introductory and concluding statements are aligned at the same level; the block content is indented.
+</p>
+<p>
+Pretty Printer can modify the indentation of control structures and the capitalization of keywords and names in the source code at any time (even in display mode).
+</p>
+<A name="@@ITOC@@ABENUSE_PRETTY_PRINTER_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use Pretty Printer consistently and universally</span>
+</p>
+<p>
+Use Pretty Printer to format source code consistently. If Pretty Printer cannot format the code as required, manual changes are necessary.
+</p>
+<A name="@@ITOC@@ABENUSE_PRETTY_PRINTER_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+We recommend that the use of Pretty Printer to make indentations required to make the source code easy
+to read. This guarantees that the indentations are consistently based on the logical control structure
+and that the indentation depth is identical for each program. Implementing this type of formatting by hand is prone to errors and not recommended.
+</p>
+<p>
+Even though Pretty Printer can be used to adapt the source code to any other style (using the available
+settings), a consistent and universal style should be selected. The reason for this is that version
+management and the correction workbench are not designed to ignore purely stylistic differences between
+source code versions. Therefore, the following Pretty Printer settings are recommended for consistent source code formatting. These settings cover the expectations and working habits of most ABAP developers:
+</p>
+<ul class="disc">
+<li><span class="bold">Indent statements</span> <br>Absolutely essential for a logical program structure that is clearly visible. A
+<a href="javascript:call_link('abenstatement_guidl.html')" class="lnkpurple" title="Guideline">maximum of one statement per program line</a> is allowed.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Do not insert standard comments</span> <br>The standard comment only contains redundant information and it is not adapted, if the source code is changed.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Uppercase keywords</span> <br>Makes it easier to
+<a href="javascript:call_link('abenlower_upper_case_guidl.html')" class="lnkpurple" title="Guideline">understand the source code</a> in printed form. In this case, syntax color-coding is usually not visible.</li>
+</ul>
+<p>
+The code needs to be edited manually, to ensure the correct use of blank lines between related source
+code blocks. Syntax units, such as classes, methods, control blocks, or semantic units of a program,
+should be separated from one another with one or two blank lines (depending on their size and meaning). However, there should not be more than two blank lines in succession.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+We recommend that the use of the <span class="italic">Keyword Lowercase</span> setting in Pretty Printer,
+for reasons of visual clarity. This is because repository object names and data objects names in the
+ABAP Debugger are displayed in uppercase, in all tools required for ABAP development. With the <span class="italic">
+Keyword Lowercase</span> setting, the source code format matches this display format. For example, reading <span class="qtext">COLUMN</span> columns form a DBTAB database table:
+</p>
+<dl><dd>
+<span class="qtext">select COLUMN1 COLUMN2 ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; from DBTAB <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; into corresponding fields of ITAB <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; where COLUMN = FIELD.</span>
+</dd></dl>
+<p>
+Names in uppercase are also more suitable because many dynamic operand positions in ABAP still require
+uppercase. A good example is an almost static call of function modules. Using the <span class="italic">Keyword Lowercase</span> setting, the call of a function module FUNCTION_MODULE would be as follows:
+</p>
+<dl><dd>
+<span class="qtext">call function 'FUNCTION_MODULE' exporting PARAMETER = FIELD.</span>
+</dd></dl>
+<p>
+However, the <span class="italic">Keyword Lowercase</span> setting was added to Pretty Printer relatively
+late and could not compete against the more common setting <span class="italic">Keyword Uppercase</span>.
+In addition, the ABAP syntax diagrams and sample programs in ABAP documentation, as well as all relevant
+publications, are formatted with the Keyword Uppercase setting. If we recommended the use of the Keyword
+Lowercase setting, this would lead to confusion and would not help the programming guidelines to be universally accepted.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the above example, but without indentations and only with lowercase.
+The highlighted ABAP words (shown in bold here and in color in the ABAP Editor) might not appear in a program printout. This would make the program even less legible.
+</p>
+<dl><dd>
+<span class="qtext">class class definition. <br>public section. <br>methods meth. <br>endclass. <br>class class implementation. <br>
+method meth. <br>data: itab type table of dbtab, <br>wa type dbtab. <br>select * <br>from dbtab <br>into table itab <br>
+where column = ' '. <br>if sy-subrc &lt;> 0. <br>return. <br>endif. <br>loop at itab into wa. <br>... <br>endloop. <br>endmethod. <br>endclass.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_pretty_printer_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

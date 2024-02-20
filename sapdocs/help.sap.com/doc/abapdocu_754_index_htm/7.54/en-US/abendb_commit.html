@@ -1,0 +1,257 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDB_COMMIT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_commit.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Database Commit">
+<meta name="keywords" content="ABAP, Database Commit">
+<title>
+Database Commit - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendb_commit.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendb_commit.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentransaction.html')" class="blue">Data Consistency</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendb_transaction.html')" class="blue">Database LUW</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Database Commit
+</span></p>
+<p>
+In <a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>, database commits are triggered either implicitly or explicitly.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_COMMIT_1" class="blue">Implicit Database Commits</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_COMMIT_2" class="blue">Explicit Database Commits</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_COMMIT_3" class="blue">Database Commit on Secondary Connections</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A database commit closes all opened <a href="javascript:call_link('abendatabase_cursor_glosry.html')" class="grey" title="Glossary Entry">
+database cursors</a>. It is particularly important that database commits are not triggered (in one of
+the ways listed here) in <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>
+loops and after the statement <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>.
+</p>
+<A name="@@ITOC@@ABENDB_COMMIT_1"></A>
+<p><span class="h2">
+Implicit Database Commits
+</span></p>
+<p>
+The implicit database commits in an AS ABAP are caused by the fact that an
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> uses its own
+<a href="javascript:call_link('abenwork_process_glosry.html')" class="grey" title="Glossary Entry">work processes</a> to connect to the database system. A work process can only ever execute a single
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> but cannot
+interfere with the database LUWs belonging to other work processes. Since an ABAP program can be executed
+by different work processes during its runtime, the database LUW for the current work process must be
+completed each time an action takes place that leads to a change of work process. As a result, a database commit is performed implicitly in the following situation:
+</p>
+<ul class="disc">
+<li>Completion of a <a href="javascript:call_link('abendialog_step_glosry.html')" class="grey" title="Glossary Entry">dialog step</a> <br>
+ <br>The program waits for a user action and does not occupy a work process during this time. The next free work process is assigned to the program in the next dialog step.</li>
+</ul>
+<ul class="disc">
+<li>Calling a function module in a <a href="javascript:call_link('abensynchronous_rfc_glosry.html')" class="grey" title="Glossary Entry">synchronous</a> or
+<a href="javascript:call_link('abenasynchronous_rfc_glosry.html')" class="grey" title="Glossary Entry">asynchronous remote function call</a> <br>
+ <br>The current work process passes control to a different work process or system. An exception to this are
+<a href="javascript:call_link('abenupdate_glosry.html')" class="grey" title="Glossary Entry">updates</a>. When updates are running,
+<a href="javascript:call_link('abensrfc_glosry.html')" class="grey" title="Glossary Entry">sRFC</a> and
+<a href="javascript:call_link('abensrfc_glosry.html')" class="grey" title="Glossary Entry">aRFC</a> do not cause work processes to be switched or database commits to be executed.</li>
+</ul>
+<ul class="disc">
+<li>Completion of a function module called in a separate work process using a synchronous remote function call. <br>
+ <br>Usually, a new work process is allocated to the call program. If a new
+<a href="javascript:call_link('abensrfc_glosry.html')" class="grey" title="Glossary Entry">sRFC</a> follows quickly enough, and
+enough free work processes exist, the work process sRFC continues to be used, but an implicit database commit is performed regardless.</li>
+</ul>
+<ul class="disc">
+<li>Execution of the statement <a href="javascript:call_link('abapreceive.html')" class="blue"><span class="qtext">RECEIVE</span></a> in a callback routine specified in an asynchronous RFC <br>
+ <br>To receive data from another AS Instance, the current work process must be interrupted before the callback routine is executed A database commit is performed, except during the update.</li>
+</ul>
+<ul class="disc">
+<li>HTTP/HTTPS/SMTP communication executed using <a href="javascript:call_link('abeninternet_con_fra_glosry.html')" class="grey" title="Glossary Entry">Internet Communication Framework</a> <br>
+ <br>A database commit is executed before each response is sent in an ICF server program or ICF client
+program. An exception to this are updates. This behavior applies regardless of whether the communication is stateless or stateful.</li>
+</ul>
+<ul class="disc">
+<li>Receiving messages from <a href="javascript:call_link('abenabap_messaging_channels_glosry.html')" class="grey" title="Glossary Entry">ABAP messaging channels</a> <br>
+ <br>A database commit is executed while the methods START_MESSAGE_DELIVERY and STOP_MESSAGE_DELIVERY of a consumer object are being executed. <br></li>
+</ul>
+<ul class="disc">
+<li>WebSocket or TCP communication using ABAP Push Channels <br> <br>Each time a message is sent and each time
+<a href="javascript:call_link('abenapc_processing_glosry.html')" class="grey" title="Glossary Entry">APC processing</a> is exited, a database commit is executed. An exception to this are
+<a href="javascript:call_link('abenupdate_glosry.html')" class="grey" title="Glossary Entry">updates</a>.  More specifically,
+the methods BIND_AMC_MESSAGE_CONSUMER and UNBIND_AMC_MESSAGE_CONSUMER (for binding an ABAP messaging channel) produce a database commit. <br></li>
+</ul>
+<ul class="disc">
+<li>Current work process interrupted using the statement <a href="javascript:call_link('abapwait_up_to.html')" class="blue"><span class="qtext">
+WAIT UP TO</span></a>, <a href="javascript:call_link('abapwait_until.html')" class="blue"><span class="qtext">WAIT FOR ASYNCHRONOUS
+TASKS</span></a>, <a href="javascript:call_link('abapwait_amc.html')" class="blue"><span class="qtext">WAIT FOR MESSAGING CHANNELS</span></a>. <br>
+ <br>After the interruption, the program is allocated the next free work process. An exception to this are updates.</li>
+</ul>
+<ul class="disc">
+<li>Sending <a href="javascript:call_link('abenerror_message_glosry.html')" class="grey" title="Glossary Entry">error messages</a>,
+<a href="javascript:call_link('abeninformation_message_glosry.html')" class="grey" title="Glossary Entry">information messages</a>, and <a href="javascript:call_link('abenwarning_glosry.html')" class="grey" title="Glossary Entry">warnings</a>. <br>
+ <br>These messages interrupt the current dialog step (see above).</li>
+</ul>
+<p>
+The implicit database commit takes place on all currently open
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a>
+of the current work process. The situations above cause a work process to be switched while a program
+is running, but it is also possible for entire programs to be executed in a different work process, such as when a program is called in a background work process in
+<a href="javascript:call_link('abenbackround_processing_glosry.html')" class="grey" title="Glossary Entry">background processing</a>. Here, a database commit is also made when the work process is switched.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When an <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> is exited, there is no implicit database commit on the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> and there is no
+<a href="javascript:call_link('abendb_rollback.html')" class="blue">database rollback</a>. This must be programmed explicitly if required.</li>
+</ul>
+<ul class="disc">
+<li>If (in the case of implicit database commits) a
+<a href="javascript:call_link('abenddic_database_tables_gtt.html')" class="blue">global temporary table</a> filled using ABAP
+SQL statements is not emptied by an explicit database commit or database rollback or by the statement
+<a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE FROM</span></a> without <span class="qtext">WHERE</span> condition, the runtime error COMMIT_GTT_ERROR occurs.</li>
+</ul>
+<A name="@@ITOC@@ABENDB_COMMIT_2"></A>
+<p><span class="h2">
+Explicit Database Commits
+</span></p>
+<p>
+Database commits can be triggered explicitly in ABAP programs in the following ways:
+</p>
+<ul class="disc">
+<li>The relevant database-specific <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> statement is used.</li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>, only the method
+<a href="javascript:call_link('abenadbc_transaction.html')" class="blue">COMMIT</a> of the class
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">CL_SQL_CONNECTION</a> can be used to do this. In other
+cases, the database interface does not detect the end of the transaction and might not be able to perform certain actions.</li>
+</ul>
+<ul class="circlem2">
+<li>Any <span class="qtext">COMMIT</span> statement embedded statically between <a href="javascript:call_link('abapexec.html')" class="blue">
+<span class="qtext">EXEC</span></a> and <a href="javascript:call_link('abapendexec.html')" class="blue"><span class="qtext">ENDEXEC</span></a> is detected by the database interface and any required actions performed.</li>
+</ul>
+<ul class="disc">
+<li>Executing the <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>
+statement <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">COMMIT CONNECTION</span></a>. The database commit takes place on the specified
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a>.</li>
+</ul>
+<ul class="disc">
+<li>Calling the function module DB_COMMIT. This function module encapsulates the corresponding Native SQL statement. By default, the database commit is triggered on the
+<a href="javascript:call_link('abapexec_connection.html')" class="blue">connection</a> currently open for <a href="javascript:call_link('abapexec.html')" class="blue">
+<span class="qtext">EXEC SQL</span></a>. The commit is triggered explicitly on the standard connection
+by passing the value of <span class="qtext">abap_true</span> to the input parameter IV_DEFAULT. The
+function module DB_COMMIT raises the event DB_TRANSACTION_FINISHED of the class <span class="lnkgrey">CL_DBI_TRANSACTION_STATE</span>, which is handled by the <span class="lnkgrey">application log</span> framework.</li>
+</ul>
+<ul class="disc">
+<li>Executing the <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>
+statement <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT CONNECTION</span></a>. The database commit takes place on all currently open
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a>. The statement <span class="qtext">COMMIT WORK</span> also closes the current
+<a href="javascript:call_link('abensap_luw.html')" class="blue">SAP LUW</a> and performs the associated actions.</li>
+</ul>
+<p>
+<span class="qtext400">COMMIT</span> statements are not allowed in <a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> methods.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A simple database commit in an ABAP program is generally done using the statement <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue">
+<span class="qtext">COMMIT CONNECTION</span></a> (the standard connection can be specified here using
+<span class="qtext">default</span>). The database LUW can be monitored by the <span class="lnkgrey">application
+log</span> by using the function module <span class="lnkgrey">DB_COMMIT</span>. Apart from the database
+commit itself, using the statement <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a> also has certain other consequences with respect to the
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a>.</li>
+</ul>
+<ul class="disc">
+<li>All the methods specified here for explicit database commits empty
+<a href="javascript:call_link('abenddic_database_tables_gtt.html')" class="blue">global temporary tables</a> and prevent the runtime error COMMIT_GTT_ERROR in the case of implicit database commits.</li>
+</ul>
+<A name="@@ITOC@@ABENDB_COMMIT_3"></A>
+<p><span class="h2">
+Database Commit on Secondary Connections
+</span></p>
+<p>
+Implicit deactivations of a <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> or a
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a> at the end of an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> trigger a database commit in the transaction context of this
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a>. For more information, see
+<a href="javascript:call_link('abenopensql_multiconnect.html')" class="blue">Database Connections</a>.
+</p>
+<p>
+If the internal session is switched on the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a>, there is no database commit and no
+<a href="javascript:call_link('abendb_rollback.html')" class="blue">database rollback</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_commit.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+</html>

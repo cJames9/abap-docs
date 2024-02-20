@@ -1,0 +1,209 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENFOR_CONDITIONAL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfor_conditional.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FOR - Conditional Iteration">
+<title>
+FOR - Conditional Iteration - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenfor_conditional.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenfor_conditional.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeniteration_expressions.html')" class="blue">Iteration Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenfor.html')" class="blue">FOR - Iteration Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@THEN@@FOR@@"></A>
+<A NAME="@@UNTIL@@FOR@@"></A>
+<A NAME="@@WHILE@@FOR@@"></A>
+<p><span class="h1">
+FOR - Conditional Iteration
+</span></p>
+<A name="@@ITOC@@ABENFOR_CONDITIONAL_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext"> ... FOR var = rhs <i class=bn>[</i>THEN expr<i class=bn>]</i> UNTIL<i class=bn>|</i>WHILE
+<a href="javascript:call_link('abenlogexp.html')" class="blue">log_exp</a> <i class=bn>[</i><a href="javascript:call_link('abaplet.html')" class="blue">let_exp</a><i class=bn>]</i> ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This syntax form of an <a href="javascript:call_link('abeniteration_expression_glosry.html')" class="grey" title="Glossary Entry">iteration expression</a> executes a conditional iteration.
+</p>
+<ul class="disc">
+<li>When this syntax is used in a constructor expression with the reduction operator <a href="javascript:call_link('abenconstructor_expression_reduce.html')" class="blue">
+<span class="qtext">REDUCE</span></a>, the reduction result is created in the iteration steps.</li>
+</ul>
+<ul class="disc">
+<li>If this syntax is used in a constructor expression with the instance operator <a href="javascript:call_link('abennew_constructor_params_itab.html')" class="blue">
+<span class="qtext">NEW</span></a> or with the value operator <a href="javascript:call_link('abenvalue_constructor_params_itab.html')" class="blue">
+<span class="qtext">VALUE</span></a> for internal tables, new table rows are created in the iteration steps and added to the tabular result.</li>
+</ul>
+<p>
+The parameters and arguments of the iteration expression must be specified as follows:
+</p>
+<ul class="disc">
+<li>First a local helper variable <span class="qtext">var</span> must be declared as an iteration variable
+and a start value <span class="qtext">rhs</span> with <span class="qtext">=</span> must be assigned
+to this helper variable. The same applies to the namespace and visibility of <span class="qtext">var</span>
+as applies to the helper fields declared in a <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span>
+expression</a>. The syntax of the declaration is exactly the same as in a <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span> expression</a> and it follows the rules that apply here.</li>
+</ul>
+<ul class="disc">
+<li>The next position depends on the data type of the iteration variable <span class="qtext">var</span>:</li>
+</ul>
+<ul class="circlem2">
+<li>If the iteration variable <span class="qtext">var</span> does not have a
+<a href="javascript:call_link('abennumeric_data_type_glosry.html')" class="grey" title="Glossary Entry">numeric data type</a>
+and is not of type <span class="qtext">d</span> or <span class="qtext">t</span>, an expression <span class="qtext">
+expr</span> is specified after <span class="qtext">THEN</span>. The result of this expression can be
+converted into a data type of <span class="qtext">var</span>. The expression is calculated for every iteration and its result is assigned to the iteration variable <span class="qtext">var</span>. This is a
+<a href="javascript:call_link('abengeneral_expr_position_glosry.html')" class="grey" title="Glossary Entry">general expression position</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>If the iteration variable <span class="qtext">var</span> has a
+<a href="javascript:call_link('abennumeric_data_type_glosry.html')" class="grey" title="Glossary Entry">numeric data type</a>,
+or the variable is of type <span class="qtext">d</span> or <span class="qtext">t</span>, <span class="qtext">THEN expr</span> is optional. If <span class="qtext">THEN expr</span> is not specified explicitly, <span class="qtext">THEN var +
+1</span> is added implicitly or the value of the iteration variable is increased by 1 for every iteration.</li>
+</ul>
+<ul class="disc">
+<li>Next a termination condition <span class="qtext">log_exp</span> must be specified after <span class="qtext">UNTIL</span> or <span class="qtext">WHILE</span>. <span class="qtext">log_exp</span> is any
+<a href="javascript:call_link('abenlogical_expression_glosry.html')" class="grey" title="Glossary Entry">logical expression</a> whose operands can be any data objects visible in this place and any calls possible here.</li>
+</ul>
+<ul class="circlem2">
+<li>If the termination condition is specified after <span class="qtext">UNTIL</span>, the logical expression
+<span class="qtext">log_exp</span> is evaluated after every iteration step. If the result of the logical expression is true, the iteration is ended. At least one iteration step is executed.</li>
+</ul>
+<ul class="circlem2">
+<li>If the termination condition is specified after <span class="qtext">WHILE</span>, the logical expression
+<span class="qtext">log_exp</span> is evaluated after every iteration step. If the result of the logical
+expression is false, the iteration is ended. If the result of the logical expression is false even before the first iteration step, no iteration steps are executed.</li>
+</ul>
+<ul class="disc">
+<li>An optional <span class="qtext">LET</span> expression <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">let_exp</span></a>
+can be specified at the end to define local helper fields. The helper fields are used in every iteration step and can be used to construct the result.</li>
+</ul>
+<p>
+The variables declared in <span class="qtext">FOR</span> expressions are local. The local data from
+all outer <span class="qtext">FOR</span> expressions can be used when their values are defined. The
+iteration variable and helper variables can be used after the <span class="qtext">FOR</span> expression, either in additional subexpressions or to construct the result.
+</p>
+<p>
+The system field <span class="qtext">sy-index</span> is not set by a <span class="qtext">FOR</span> expression.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Usually the expression <span class="qtext">expr</span> (after <span class="qtext">THEN</span>) and
+the termination condition <span class="qtext">log_exp</span> (after <span class="qtext">UNTIL</span>
+or <span class="qtext">WHILE</span>) depend on the iteration variable <span class="qtext">var</span>,
+but this not mandatory. The value of the iteration variable or the termination condition can also be determined in other ways. Status changes, for example, can be queried using method calls.</li>
+</ul>
+<ul class="disc">
+<li>Usually a termination condition after <span class="qtext">UNTIL</span> is preferable to a termination
+condition after <span class="qtext">WHILE</span> in all cases where the termination condition does not have to be checked before the first iteration step.</li>
+</ul>
+<ul class="disc">
+<li>In many cases, iteration expressions for conditional iterations can replace <a href="javascript:call_link('abapdo.html')" class="blue">
+<span class="qtext">DO</span></a> and <a href="javascript:call_link('abapwhile.html')" class="blue"><span class="qtext">WHILE</span></a> loops that construct values and internal tables.</li>
+</ul>
+<ul class="disc">
+<li>Multiple sequential <span class="qtext">FOR</span> expressions with different variants (including the
+<a href="javascript:call_link('abenfor_itab.html')" class="blue">tabular iterations</a>) can be specified in a constructor expression. These expressions then work in the same way as nested loops.</li>
+</ul>
+<ul class="disc">
+<li>A maximum runtime can be configured using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameters</a> <span
+ class="lnkgrey">rdisp/scheduler/prio_low/max_runtime</span>, <span class="lnkgrey">rdisp/scheduler/prio_normal/max_runtime</span>,
+and <span class="lnkgrey">rdisp/scheduler/prio_high/max_runtime</span>. If this runtime is exceeded
+because the termination condition does not occur in time, the program is exited by the runtime environment. The profile parameter <span class="lnkgrey">rdisp/max_wprun_time</span>, on the other hand, is obsolete.</li>
+</ul>
+<ul class="disc">
+<li>Unlike in a <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span> expression</a>, a local field symbol cannot be declared instead of the iteration variable <span class="qtext">var</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The example creates a string from the numbers 0 to 9.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;REDUCE string( INIT s = `` <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FOR&nbsp;&nbsp;i = 1 UNTIL i > 10 <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NEXT s = s &amp;&amp; |{ i - 1 }| ) ).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<p>
+<a href="javascript:call_link('abeniteration_expressions_abexas.html')" class="blue">Examples of Iteration Expressions</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfor_conditional.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:07 GMT -->
+</html>

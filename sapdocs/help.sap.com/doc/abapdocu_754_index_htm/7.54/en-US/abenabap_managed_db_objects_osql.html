@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_MANAGED_DB_OBJECTS_OSQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_managed_db_objects_osql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL Access to ABAP-Managed Database Objects">
+<title>
+ABAP SQL Access to ABAP-Managed Database Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_managed_db_objects_osql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_managed_db_objects_osql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_managed_db_objects.html')" class="blue">ABAP-Managed Database Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_managed_db_objects_access.html')" class="blue">Access to ABAP-Managed Database Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP SQL Access to ABAP-Managed Database Objects
+</span></p>
+<p>
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> includes a set of
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL statements</a> for use in ABAP programs. The database is accessed using the
+<a href="javascript:call_link('abenopen_sql_interface_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL interface</a> of the
+<a href="javascript:call_link('abendatabase_interface_glosry.html')" class="grey" title="Glossary Entry">database interface</a>, which transforms the ABAP SQL statements into platform-specific SQL.
+</p>
+<p>
+ABAP SQL can be used to access <a href="javascript:call_link('abenabap_managed_db_object_glosry.html')" class="grey" title="Glossary Entry">ABAP-managed database objects</a> as follows:
+</p>
+<ul class="disc">
+<li>Reads and writes on <a href="javascript:call_link('abenddic_database_tables.html')" class="blue">database tables</a> and
+<a href="javascript:call_link('abenddic_database_views.html')" class="blue">classic database views</a> defined in ABAP Dictionary. Writes on database views are only possible with restrictions.</li>
+</ul>
+<ul class="disc">
+<li>Reads on the database objects of CDS views, CDS table functions, and CDS hierarchies. When a CDS table function is accessed, the associated
+<a href="javascript:call_link('abenamdp_table_function_glosry.html')" class="grey" title="Glossary Entry">AMDP table function</a> is called internally and its result is provided as the results set of the ABAP SQL statement.</li>
+</ul>
+<p>
+The most important ABAP SQL features are as follows:
+</p>
+<ul class="disc">
+<li>ABAP SQL is to a great extent platform-independent</li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL is based on the data types defined in ABAP Dictionary and any enhancements made to them:</li>
+</ul>
+<ul class="circlem2">
+<li>ABAP SQL respects the order of fields defined in ABAP Dictionary, since this can differ from the order in the database.</li>
+</ul>
+<ul class="circlem2">
+<li>ABAP SQL checks the compatibility of <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a> with the associated dictionary types or database types.</li>
+</ul>
+<ul class="circlem2">
+<li>ABAP SQL enables conversions to be made between ABAP types and platform-specific data types in accordance with uniform ABAP-specific rules.</li>
+</ul>
+<ul class="circlem2">
+<li>ABAP SQL has its own <a href="javascript:call_link('abenopen_sql_null_values.html')" class="blue">handler</a> for <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null values</a>.</li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL supports the following ABAP Dictionary and ABAP CDS functions:</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">Implicit client handling</a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abensap_puffering.html')" class="blue">Table buffering</a></li>
+</ul>
+<ul class="circlem2">
+<li>Evaluating <a href="javascript:call_link('abencds_authorizations.html')" class="blue">CDS access control</a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenddic_structures_enh_cat.html')" class="blue">Enhancement categories</a> are respected</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenddic_database_tables_protocol.html')" class="blue">Logging of database tables</a></li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL uses the name of a <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a> to access the entity and respects all relevant attributes. Access to
+<a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database views</a> is
+<a href="javascript:call_link('abenopen_sql_cds_obsolete.html')" class="blue">obsolete</a> and forbidden in <a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue"> strict mode from Release 7.50</a>.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">Implicit client handling</a> is applied in accordance with how client dependency is defined using the relevant annotations in the
+<a href="javascript:call_link('abenddl_source_code_glosry.html')" class="grey" title="Glossary Entry">DDL source code</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS roles</a> mapped to the CDS entity are evaluated.</li>
+</ul>
+<ul class="circlem2">
+<li>The key fields defined in the CDS entity are respected.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenopen_sql_parameters.html')" class="blue">Actual parameters</a> can be associated with the input parameters of a CDS entity in uniform syntax.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abencds_path_expression_glosry.html')" class="grey" title="Glossary Entry">SQL path expressions</a> can be specified for
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>When ABAP SQL is used to access a <a href="javascript:call_link('abencds_hierarchy_glosry.html')" class="grey" title="Glossary Entry">CDS hierarchy</a>, the additional
+<a href="javascript:call_link('abenhierarchy_column_glosry.html')" class="grey" title="Glossary Entry">hierarchy columns</a> can also be read.</li>
+</ul>
+<ul class="circlem2">
+<li>All <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue">session variables</a> are set correctly
+on all platforms when ABAP SQL is used to access a CDS view. More specifically, the addition <a href="javascript:call_link('abapselect_client.html')" class="blue">
+<span class="qtext">USING CLIENT</span></a> modifies the session variable <span class="qtext400">client</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>When ABAP SQL is used to access a <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a>, the access is transformed to the associated
+<a href="javascript:call_link('abenamdp_table_function_glosry.html')" class="grey" title="Glossary Entry">AMDP table function</a>.</li>
+</ul>
+<ul class="disc">
+<li>Database objects specified statically in ABAP SQL are recorded in the where-used list in ABAP tools.
+Each time an ABAP-managed database object is modified it is advisable to record it in the where-used list. In this way, any consequences of modifying the object can be checked.</li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL enables dynamic tokens to be specified that are evaluated at runtime of an ABAP program.</li>
+</ul>
+<ul class="disc">
+<li>DDL statements are not included in the scope of ABAP SQL. The respective ABAP-managed database objects cannot be modified in ABAP SQL and no other database objects can be created or modified.</li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL does not support <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connections</a> or
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a>.</li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL respects the <a href="javascript:call_link('abendependency_rule_glosry.html')" class="grey" title="Glossary Entry">dependency rules</a> defined for a database.</li>
+</ul>
+<ul class="disc">
+<li>ABAP SQL respects <a href="javascript:call_link('abendata_aging_glosry.html')" class="grey" title="Glossary Entry">data aging</a> by default.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Some of the semantic attributes defined in ABAP Dictionary or ABAP CDS, such as foreign key relationships or reference fields, are ignored in ABAP SQL and are respected only by classic
+<a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">Dynpros</a>,
+<a href="javascript:call_link('abenweb_dynpro_glosry.html')" class="grey" title="Glossary Entry">Web Dynpros</a>, and some other frameworks. This applies in particular to the evaluation of
+<a href="javascript:call_link('abencomponent_annotation_glosry.html')" class="grey" title="Glossary Entry">framework-specific annotations</a> in ABAP CDS as well.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_managed_db_objects_osql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+</html>

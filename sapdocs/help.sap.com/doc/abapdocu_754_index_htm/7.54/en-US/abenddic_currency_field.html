@@ -1,0 +1,235 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_CURRENCY_FIELD -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_currency_field.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Currency Fields">
+<meta name="keywords" content="ABAP, Currency Fields">
+<title>
+Currency Fields - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_currency_field.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_currency_field.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_intro.html')" class="blue">Built-In Data Types in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_prop.html')" class="blue">Attributes of the Predefined Dictionary Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_builtin_types_special.html')" class="blue">Special Dictionary Types</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Currency Fields
+</span></p>
+<p>
+A currency field is a component of a structure, database table, or view defined in ABAP Dictionary of type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">CURR</a> and used to record an amount in a specific
+currency. The amount is specified as a whole number in the smallest unit of the currency. A currency
+field must be associated with a currency key of a structure, database table, or view that specifies
+the currency and the number of decimal places. A currency key is a component of a structure, database table, or view defined in ABAP Dictionary, has the type CUKY, and can contain a
+<a href="javascript:call_link('abencurrency_id_glosry.html')" class="grey" title="Glossary Entry">currency ID</a> from the database table <span class="lnkgrey">TCURC</span>.
+</p>
+<p>
+By default, the number of decimal places for a currency is always two. Currencies with a different number
+of decimal places must also be entered in the table <span class="lnkgrey">TCURX</span>, where the number of decimal places can be defined explicitly.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CURRENCY_FIELD_1" class="blue">Handling in ABAP Dictionary</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CURRENCY_FIELD_2" class="blue">Handling in Dynpros</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_CURRENCY_FIELD_3" class="blue">Handling in ABAP Programs</A></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Currencies are handled as specified by the data saved in the database tables TCUR... of the package
+<span class="lnkgrey">SFIB</span>. The exchange rates and other settings can be edited in transaction <span class="lnkgrey">OB08</span>.</li>
+</ul>
+<ul class="disc">
+<li>Currency fields are defined as elements of <a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a> using
+<a href="javascript:call_link('abencds_f1_element_annotation.html')" class="blue">semantics annotations</a>.</li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_CURRENCY_FIELD_1"></A>
+<p><span class="h2">
+Handling in ABAP Dictionary
+</span></p>
+<p>
+A data element of data type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">CURR</a> is handled as a field of data type
+<a href="javascript:call_link('abenddic_builtin_types_int_pack.html')" class="blue">DEC</a> and is stored in database tables in the
+<a href="javascript:call_link('abenbcd_glosry.html')" class="grey" title="Glossary Entry">BCD</a> format. When creating a data element or a structure component of the data type CURR in an ABAP Dictionary
+<a href="javascript:call_link('abenddic_tools.html')" class="blue">tool</a>, a number of decimal places other than zero must be defined. The standard value is two fractional digits.
+</p>
+<p>
+For every structure component of data type CURR, a component of the same structure or of a different structure, database table, or view must be specified when editing the individual component as a
+<a href="javascript:call_link('abenddic_structures_sema.html')" class="blue">reference field</a> with the data type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">CUKY</a>. This field is the
+<a href="javascript:call_link('abencurrency_key_glosry.html')" class="grey" title="Glossary Entry">currency key</a> that defines the actual currency. From a technical perspective, the data type CUKY is handled like a type CHAR with length 5.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The number of decimal places for the currency defined by the currency key of type CUKY only determines
+the formatting and checking of a currency field on a dynpro. In principal, it is independent of the
+number given for the currency field of type CURR. The default value of two decimal places for currency
+fields in ABAP Dictionary is chosen because most of the currencies in the database table TCURC have
+two decimal places and are not entered in the database table TCURX. It is not advisable to use any other value, since in this case any unforeseen operations with currency keys in ABAP programs are largely ignored.</li>
+</ul>
+<ul class="disc">
+<li>The conversion function <a href="javascript:call_link('abencds_f1_conversion_functions.html')" class="blue"><span class="qtext400">CURRENCY_CONVERSION</span></a> in
+<a href="javascript:call_link('abenabap_cds_glosry.html')" class="grey" title="Glossary Entry">ABAP CDS</a> also assumes two
+decimal places for currency fields. If the function for currency fields is used with other amounts of decimal places, unexpected behaviour may arise.</li>
+</ul>
+<ul class="disc">
+<li>As in <a href="javascript:call_link('abenddic_builtin_types_int_pack.html')" class="blue">general packed numbers</a>, the number of places in type CURR should be odd.</li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_CURRENCY_FIELD_2"></A>
+<p><span class="h2">
+Handling in Dynpros
+</span></p>
+<p>
+For the display of an input/output field of type CURR on a
+<a href="javascript:call_link('abendynpro_glosry.html')" class="grey" title="Glossary Entry">dynpro</a>, the content is displayed as character-like content and in accordance with a type-dependent mask, as for all
+<a href="javascript:call_link('abendynpro_field_glosry.html')" class="grey" title="Glossary Entry">dynpro fields</a>. Here, the
+positioning of the decimal point for a currency field of type CURR on a dynpro is completely independent
+of the number of decimal places specified by the data element in ABAP Dictionary (greater than or equal to one, the default value is two). The number of decimal places on a dynpro is defined as follows:
+</p>
+<ul class="disc">
+<li>When displaying a dynpro field of type CURR, the reference field for the currency key is searched for in the global data of the current ABAP program. The content of this field must be a valid
+<a href="javascript:call_link('abencurrency_id_glosry.html')" class="grey" title="Glossary Entry">currency ID</a> from the database
+table TCURC. If the reference field is not found or there is no entry in the database table TCURX with
+the content of the field, the currency field is displayed with two fractional digits by default. <br> <br>
+The reference field is either defined in the relevant structure in ABAP Dictionary or was defined using Screen Painter for the attributes of the dynpro field. It does not have to be present on the dynpro itself.</li>
+</ul>
+<ul class="disc">
+<li>If the currency ID for the reference field is found in the database table TCURX, the currency field is displayed with the decimal places specified there. This also applies to initial reference fields.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A dynpro therefore only uses the string of digits of a currency field from the ABAP program (or a
+<a href="javascript:call_link('abenconversion_routine_glosry.html')" class="grey" title="Glossary Entry">conversion routine</a>
+in between) or just sends this string. Any information about currency keys and decimal places is not
+passed automatically. It must be ensured that the reference field for PBO is filled with the appropriate
+value. For PAI, the correct currency key plays a part in the automatic format check. Especially on dynpros
+in which currency fields are displayed in differing currencies, it must be ensured that the reference
+field is transported before the currency by using the statements <a href="javascript:call_link('dynpchain.html')" class="blue">
+<span class="qtext">CHAIN</span></a> and <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">FIELD</span></a>.
+</p>
+<A name="@@ITOC@@ABENDDIC_CURRENCY_FIELD_3"></A>
+<p><span class="h2">
+Handling in ABAP Programs
+</span></p>
+<p>
+The ABAP type that corresponds to the CURR data type is <span class="qtext">p</span>. An ABAP data object
+declared with reference to a dictionary type of type CURR has the number of decimal places defined there
+(greater than or equal to one and the default is two). These decimal places are respected for all operations
+and calculations, as for all packed numbers. The only exceptions are the programs for which the program
+property <a href="javascript:call_link('abenfixed_point_arithmetic_glosry.html')" class="grey" title="Glossary Entry"><span class="italic">fixed point arithmetic</span></a> was not set.
+</p>
+<p>
+To work correctly with a currency field, all digits in the number must be recorded as currency amounts
+in the smallest possible currency units, regardless of the number of decimal places. This occurs automatically
+sometimes, for example, if <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">CURRENCY</span></a>
+is used after <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE [TO]</span></a> or the formatting option <a
+ href="javascript:call_link('abapcompute_string_format_options.html')" class="blue"><span class="qtext">CURRENCY</span></a> in an
+<a href="javascript:call_link('abenstring_templates_expressions.html')" class="blue">embedded expression</a> of a
+<a href="javascript:call_link('abenstring_templates.html')" class="blue">character string template</a>. For other operations, the following restrictions apply:
+</p>
+<ul class="disc">
+<li>Comparison, addition, subtraction, and division of two currency fields with the same number of fractional digits are not critical.</li>
+</ul>
+<ul class="disc">
+<li>Multiplication with and division by a non-currency-dependent number is not critical.</li>
+</ul>
+<ul class="disc">
+<li>All other operations are critical, for example:</li>
+</ul>
+<ul class="circlem2">
+<li>Multiplication of two currency fields.</li>
+</ul>
+<ul class="circlem2">
+<li>Operations between two fields with different currencies that include assignments.</li>
+</ul>
+<ul class="circlem2">
+<li>Assignments of non-currency-dependent numbers to currency fields.</li>
+</ul>
+<p>
+Accurate results should not be expected when performing critical operations if the number of decimal places in the program does not match the number in the currency.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>For currencies, one of the data types for <a href="javascript:call_link('abenddic_decimal_floating_point.html')" class="blue">decimal
+floating point numbers</a> is recommended rather than the data type CURR. The currency-compliant formatting is supported on dynpros by <span class="italic">output styles</span> and by style-compatible formatting in ABAP programs. See the
+<a href="javascript:call_link('abenwrite_style_abexa.html')" class="blue">executable example</a>.</li>
+</ul>
+<ul class="disc">
+<li>The methods CONVERT_CURR_TO_DECFLOAT and CONVERT_DECFLOAT_TO_CURR of the system class
+<a href="javascript:call_link('abencl_abap_decfloat_doc.html')" class="blue">CL_ABAP_DECFLOAT</a> convert currency amounts to decimal floating point numbers (and back) as specified by a currency key.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_currency_field.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+</html>

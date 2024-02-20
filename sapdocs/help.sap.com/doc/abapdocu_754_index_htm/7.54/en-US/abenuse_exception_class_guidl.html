@@ -1,0 +1,158 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENUSE_EXCEPTION_CLASS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_exception_class_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Using Exception Classes">
+<title>
+Using Exception Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenuse_exception_class_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenuse_exception_class_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="blue">Error Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Using Exception Classes
+</span></p>
+<A name="@@ITOC@@ABENUSE_EXCEPTION_CLASS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The concept of freely definable exception classes involves being able to create an exception class that
+adequately describes the exception situation in question. The description consists both of the name
+of the exception class, the associated exception texts, and their documentation. You can divide an exception
+class into multiple subexceptions by creating multiple exception texts. Subclasses of exception classes can be used to make the information even more specific.
+</p>
+<A name="@@ITOC@@ABENUSE_EXCEPTION_CLASS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only use suitable exception classes</span>
+</p>
+<p>
+When describing an error situation, only use exception classes with the correct category and name, the
+appropriate attributes and texts, and which contain the correct documentation. Do not reuse inappropriate exception classes.
+</p>
+<A name="@@ITOC@@ABENUSE_EXCEPTION_CLASS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Reusing existing exception classes with the wrong content removes all benefits of freely definable exception
+classes. The new exception object cannot describe the exception situation adequately. It also makes
+it very difficult to maintain and analyze the code. In particular, you run a great risk of handling
+the exception incorrectly. This is because a caller layer higher up in the hierarchy never expects the exceptions it handles to be raised by a situation with the wrong semantics.
+</p>
+<p>
+The following procedure is recommended for raising correct exceptions, where you must take care that the right
+<a href="javascript:call_link('abenexception_category_guidl.html')" class="lnkpurple" title="Guideline">exception category</a> is used:
+</p>
+<ol>
+<li>
+Search for an existing exception class that is released for use in the current concept (and as part of the package concept) and which matches that error situation exactly.
+</li>
+<li>
+Make an existing, almost ideal exception class more specific by passing on and/or adding new exception texts.
+</li>
+<li>
+Create an new ideal exception class, possibly as a part of a predefined inheritance hierarchy.
+</li>
+</ol>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the incorrect use of the system class <span class="qtext">cx_sy_arithmetic_overflow</span>
+(which exists in every system) for an application-specific exception situation. This system exception should usually only be raised by the ABAP runtime environment when an arithmetic calculation takes place.
+</p>
+<dl><dd>
+<span class="qtext">CLASS warehouse DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS calculate_storage_capacity <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING&nbsp;&nbsp; cx_sy_arithmetic_error. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS warehouse IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD calculate_storage_capacity. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_sy_arithmetic_overflow. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows how an application-specific exception class is used that has been created especially for the situation and whose name reflects the topic.
+</p>
+<dl><dd>
+<span class="qtext">CLASS cx_warehouse_out_of_capacity DEFINITION <br>&nbsp;&nbsp;INHERITING FROM cx_static_check. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS warehouse DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS calculate_storage_capacity <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_warehouse_out_of_capacity. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS warehouse IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD calculate_storage_capacity. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_warehouse_out_of_capacity. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_exception_class_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

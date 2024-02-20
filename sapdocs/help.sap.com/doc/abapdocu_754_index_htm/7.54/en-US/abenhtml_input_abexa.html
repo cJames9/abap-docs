@@ -1,0 +1,187 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHTML_INPUT_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhtml_input_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Input in HTML File">
+<title>
+Dynpros, Input in HTML File - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhtml_input_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhtml_input_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_screen.html')" class="blue">Screen and Screen Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenscreen_elements_abexas.html')" class="blue">Screen Elements - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Input in HTML File
+</span></p>
+<p>
+This example demonstrates how input in a HTML file can be processed.
+</p>
+<A name="@@ITOC@@ABENHTML_INPUT_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_html_input.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS handle_sapevent<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR EVENT sapevent<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OF cl_abap_browser<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING action<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query_table.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA error_list TYPE cl_abap_browser=&gt;html_table.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET HANDLER handle_sapevent.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(html_str) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `&lt;html&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&lt;head&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;content-type&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content=&quot;text/html; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charset=utf-8&quot;&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function sendInput(form) `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ fname=form.name;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document[fname].submit();} `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function InputKeyDown(form) {`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(event.keyCode == 13) {`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fname=form.name;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document[fname].submit();} }`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&lt;/head&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&lt;body&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&lt;form name=&quot;INPUT&quot; accept-charset=&quot;utf-8&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method=&quot;post&quot; action=&quot;SAPEVENT:INPUT&quot;&gt; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=&quot;text&quot; id=&quot;in1&quot; name=&quot;field1&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size=30 maxlength=30 title=&quot;&quot; value=&quot;aaa&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onKeyDown=&quot;InputKeyDown(this.form);&quot;&gt;&lt;br&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=&quot;text&quot; id=&quot;in2&quot; name=&quot;field2&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size=30 maxlength=30 title=&quot;&quot; value=&quot;bbb&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onKeyDown=&quot;InputKeyDown(this.form);&quot;&gt;&lt;br&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=&quot;text&quot; id=&quot;in3&quot; name=&quot;field3&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size=30 maxlength=30 title=&quot;&quot; value=&quot;ccc&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onKeyDown=&quot;InputKeyDown(this.form);&quot;&gt;&lt;br&gt;&lt;br&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp; &lt;button id=&quot;enterButton&quot; type=&quot;button&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; title=&quot;Enter&quot; onClick=&quot;sendInput(INPUT);&quot; `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onKeypress=&quot;if(event.keycode=13) `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sendInput(INPUT);&quot;&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enter&lt;/button&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&nbsp;&nbsp;&lt;/body&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; `&lt;/html&gt;`.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=&gt;show_html(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html_string = html_str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'Input Demo'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; html_errors = error_list ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF error_list IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Error in HTML' TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD handle_sapevent.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output_stream=&gt;open( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET HANDLER cl_demo_output_html=&gt;handle_output FOR out.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( iv_name = 'ACTION'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ia_value = action ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_data( iv_name = 'QUERY_TABLE' ia_value = query_table ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;close( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENHTML_INPUT_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example creates a HTML file containing multiple input fields, a pushbutton, and JavaScript functions
+for handling the input. The form <span class="qtext400">INPUT</span> uses <span class="qtext400">method="post"</span>
+to send the input data. The HTML control in CFW uses the parameter QUERY_TABLE of the event SAPEVENT
+to pass this data to its handler. The class <span class="lnkgrey">CL_ABAP_BROWSER</span> (a wrapper for the class CL_GUI_HTML_VIEWER also passes this parameter and the user input can be used in the ABAP program.
+</p>
+<p>
+Also see the corresponding executable example for <a href="javascript:call_link('abenicf_post_service_abexa.html')" class="blue">ICF</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhtml_input_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+</html>

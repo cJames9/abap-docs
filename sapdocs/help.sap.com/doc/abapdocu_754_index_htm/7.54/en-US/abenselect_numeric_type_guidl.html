@@ -1,0 +1,232 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSELECT_NUMERIC_TYPE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_numeric_type_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Selecting the Numeric Type">
+<title>
+Selecting the Numeric Type - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenselect_numeric_type_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenselect_numeric_type_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenassignment_access_guidl.html')" class="blue">Assignments, Calculations, and Other Types of Data Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Selecting the Numeric Type
+</span></p>
+<A name="@@ITOC@@ABENSELECT_NUMERIC_TYPE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Multiple numeric types with various properties and value ranges are available in ABAP, which can be used for storing numbers and for calculations:
+</p>
+<ul class="disc">
+<li>Signed 4-byte integer numbers (type <span class="qtext">i</span>) and 8-byte integer numbers (type
+<span class="qtext">int8</span>) (1-byte and 2-byte-integers with the internal types <span class="qtext">b</span>
+and <span class="qtext">s</span> are also available.) However, these data objects cannot be created based on a built-in ABAP type. Instead, the built-in ABAP Dictionary types INT1 and INT2 are required.</li>
+</ul>
+<ul class="disc">
+<li>Packed numbers in BCD format (binary coded decimals, type <span class="qtext">p</span>)</li>
+</ul>
+<ul class="disc">
+<li>Binary floating point numbers (type <span class="qtext">f</span>)</li>
+</ul>
+<ul class="disc">
+<li>Decimal floating point numbers (types <span class="qtext">decfloat16</span>, <span class="qtext">decfloat34</span>)</li>
+</ul>
+<p>
+The decimal floating point numbers meet the requirements for highly exact processing of decimal numbers
+in a large value ranges, where the data types <span class="qtext">p</span> and <span class="qtext">f</span> only cover a single aspect each.
+</p>
+<A name="@@ITOC@@ABENSELECT_NUMERIC_TYPE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Choose suitable numeric types for numbers and calculations</span>
+</p>
+<p>
+Choose a numeric type to suit the values to be represented to achieve the highest possible speed and accuracy. Here is a general rule of thumb:
+</p>
+<ul class="disc">
+<li><span class="qtext">i</span> and <span class="qtext">int8</span> for integers</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">p</span> for fixed point numbers</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">decfloat16</span> or <span class="qtext">decfloat34</span> for floating point numbers</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">f</span> in exceptional cases only</li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_NUMERIC_TYPE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The calculation speed and accuracy are generally contradictory requirements and depend on the data type
+of the objects to be processed. Therefore, when choosing the numeric type, both these two requirements must be weighed up. These considerations must also include the value range to be represented:
+</p>
+<ul class="disc">
+<li>If the values to be mapped are integers, type <span class="qtext">i</span> or <span class="qtext">int8</span>
+must usually be used. This guarantees the highest possible calculation speed. Examples of these integers
+include counters, indexes, offsets and time intervals. If the values to be mapped exceed the value range
+of type <span class="qtext">int8</span> or <span class="qtext">i</span>, you can use type <span class="qtext">p</span>
+without decimal places instead. The calculation speed is slower, but decimal places are still represented accurately (except for rounding errors). If this value range is still not sufficient, a floating point type
+(<span class="qtext">decfloat16</span> and <span class="qtext">decfloat34</span>) can be used instead.</li>
+</ul>
+<ul class="disc">
+<li>If non-integer values that have a fixed number of decimal places are to be represented, the type
+<span class="qtext">p</span> can be used. However, calculations with type <span class="qtext">p</span>
+are executed in the ABAP kernel and not by the hardware. Examples of non-integer values include lengths, weights, or monetary amounts. If this value range is still not sufficient, a decimal floating point type
+(<span class="qtext">decfloat16</span> and <span class="qtext">decfloat34</span>) can be used instead.
+The binary floating point type <span class="qtext">f</span> is less suitable because it cannot represent
+all decimal fractions. This is a further impediment for calculation accuracy (in addition to the unavoidable rounding errors).</li>
+</ul>
+<ul class="disc">
+<li>For non-integer values with a variable number of decimal places or a large value range, the decimal
+floating point types <span class="qtext">decfloat16</span> or <span class="qtext">decfloat34</span>
+should be used. Decfloat34 has a greater number of places and a greater value range. However, this also leads to increased memory consumption.</li>
+</ul>
+<p>
+Thanks to the hardware support available on all platforms, binary floating point type <span class="qtext">f</span>
+allows fast calculations. However, it is inferior to the new decimal floating point types due to the following reasons:
+</p>
+<ul class="disc">
+<li>Type <span class="qtext">f</span> can only accurately represent fractions with the power of two
+in the denominator (1/2, 1/4, 1/8, etc.) and totals. Other values are rounded according to this representation.
+This rounding process does not correspond to the decimal rounding process (and  usually does not meet
+the expectations of the developer or user). For example, the value 0.815 is approximated internally
+as 8.1499999999999995E-01. This means when the value is rounded to two decimal places, 0.81 is returned instead of the expected value 0.82.</li>
+</ul>
+<ul class="disc">
+<li>Very large numbers can no longer be represented exactly (working in line with IEEE 754) if the difference
+between the largest and smallest exponent is greater than 52 (in the total of powers of two). For example, 1E+23 is represented as 9.9999999999999992E+22.s</li>
+</ul>
+<ul class="disc">
+<li>A number of type <span class="qtext">f</span> cannot be rounded to a specific number of decimal places, if the result needs to be assigned to another number of type <span class="qtext">f</span>.</li>
+</ul>
+<ul class="disc">
+<li>Divisions by powers of 10, which often occur when converting metric units, for example, are not exact. 8.0500000000000005E-01 is returned for 805/1000, for example.</li>
+</ul>
+<ul class="disc">
+<li>Simple calculations often produce unexpected results. 123456.15 - 123455 returns 1,1499999999941792, for example.</li>
+</ul>
+<ul class="disc">
+<li>The conversion of binary floating point numbers to other number formats is not clearly defined in
+line with IEEE 754. Consequently, when data is stored in the database, the rounding behavior depends on the platform and how numbers of type <span class="qtext">f</span> are represented in the database.</li>
+</ul>
+<ul class="disc">
+<li>The decimal floating point types <span class="qtext">decfloat16</span> and <span class="qtext">decfloat34</span>
+do not have these problems. Both have a greater value range than type <span class="qtext">f</span>,
+and <span class="qtext">decfloat34</span> has 34 places instead of 16 places. However, the following restrictions apply:</li>
+</ul>
+<ul class="circlem2">
+<li>Currently, calculations with decimal floating point types are generally even slower than calculations
+with the type <span class="qtext">f</span> (the speed is comparable to calculations with the type <span class="qtext">
+p</span>). Until now, only IBM's Power6 architecture provided hardware support for floating point calculations
+of this type in accordance with IEEE-754-2008. On other platforms, calculations with decimal floating
+point numbers have to be performed on the software side in the ABAP kernel, in a similar way to calculations with the type <span class="qtext">p</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Decimal floating point types are not yet supported by associated data types on all database platforms.
+As an interim solution, ABAP Dictionary provides a set of built-in data types DF16_..., DF34_..., based
+on existing types (DEC and RAW). In most cases, the benefits of the decimal floating point types compensate
+for the current slow calculation speed. However, it might still be necessary to use type <span class="qtext">f</span>
+if there are stringent requirements for performance and less stringent requirements for calculation
+accuracy. Remember that the speed advantage currently possible for calculations with <span class="qtext">f</span>,
+may be outweighed by the fact that conversions from <span class="qtext">f</span> to other numeric types are relatively slow.</li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_NUMERIC_TYPE_GUIDL_4"></A>
+<p><span class="h2">
+Note
+</span></p>
+<p>
+For programs that are currently created with decimal floating point types, the performance is increased
+as soon as the processor architecture supports decimal floating point calculations and the ABAP runtime
+environment starts using this hardware support. Calculations with decimal floating point numbers then become faster than calculations with packed numbers.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows a declaration of a binary floating point number. The start value 0.815 is assigned. The true start value, however, is 8.1499999999999995E-01.
+</p>
+<dl><dd>
+<span class="qtext">DATA number TYPE f VALUE '0.815'.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows a declaration of a decimal floating point number. The start value 0.815 is assigned. The true start value is actually 8.15E-01.
+</p>
+<dl><dd>
+<span class="qtext">DATA number TYPE decfloat34 VALUE '0.815'</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_numeric_type_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

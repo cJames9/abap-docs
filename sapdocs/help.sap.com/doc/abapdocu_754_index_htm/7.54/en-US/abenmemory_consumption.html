@@ -1,0 +1,144 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMEMORY_CONSUMPTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_consumption.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Memory Management of Deep Objects">
+<meta name="keywords" content="ABAP, Deep Data Objects, Dynamic Data Objects, Memory Management of Deep Data Objects">
+<title>
+Memory Management of Deep Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmemory_consumption.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmemory_consumption.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">Types and Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_objects.html')" class="blue">Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Memory Management of Deep Objects
+</span></p>
+<p>
+All data types whose data object content represents the actual work data are referred to in ABAP as "flat". The
+<a href="javascript:call_link('abenelementary_data_type_glosry.html')" class="grey" title="Glossary Entry">elementary data types</a>
+of a fixed length are flat, as are structures with solely flat components. The memory requirements of flat data objects are defined statically by the data type. Flat data objects are always
+<a href="javascript:call_link('abenstatic_data_object_glosry.html')" class="grey" title="Glossary Entry">static data objects</a>.
+</p>
+<p>
+On the other hand, data types where the contents of the data objects are
+<a href="javascript:call_link('abenreference_glosry.html')" class="grey" title="Glossary Entry">references</a> (which, in turn, reference work data in another memory area) are referred to as "deep". Deep refers to types of
+<a href="javascript:call_link('abendata_reference_variable_glosry.html')" class="grey" title="Glossary Entry">data reference variables</a> and
+<a href="javascript:call_link('abenobject_refer_variable_glosry.html')" class="grey" title="Glossary Entry">object reference variables</a> as well as to types of
+<a href="javascript:call_link('abenstring_glosry.html')" class="grey" title="Glossary Entry">strings</a>,
+<a href="javascript:call_link('abeninternal_table_glosry.html')" class="grey" title="Glossary Entry">internal tables</a>, and
+<a href="javascript:call_link('abenboxed_component_glosry.html')" class="grey" title="Glossary Entry">boxed components</a>. Strings and internal tables are
+<a href="javascript:call_link('abendynamic_data_object_glosry.html')" class="grey" title="Glossary Entry">dynamic data objects</a>
+whose memory requirements can change at program runtime and are managed internally using references.
+Reference variables are static data objects since their actual size is defined, whereas the size of
+the explicitly referenced objects is dynamic. Boxed components are between these two extremes since
+their memory requirements are not defined when the program is started in the internal session, but they can still be handled like static data objects with a fixed length. Structures are referred to as deep, regardless of their
+<a href="javascript:call_link('abennested_structure_glosry.html')" class="grey" title="Glossary Entry">nesting</a> attributes, if they contain at least one deep component.
+</p>
+<p>
+When using deep data objects, working memory is requested at program runtime. In the case of reference variables, this is the memory for management information and the objects created (instances of classes and
+<a href="javascript:call_link('abenanonymous_data_object_glosry.html')" class="grey" title="Glossary Entry">anonymous data objects</a>).
+In the case of dynamic data objects (strings, internal tables) and boxed components, this is the memory
+for administration information and for the data objects themselves. Objects referenced by reference
+variables can themselves, in turn, be dynamic (that is, they are strings or internal tables or contain strings or internal tables).
+</p>
+<p>
+The requested memory must be available in the <a href="javascript:call_link('abenroll_area_glosry.html')" class="grey" title="Glossary Entry">session memory</a> of the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, since otherwise runtime errors occur.
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenmemory_consumption_1.html')" class="blue">Memory Requirements for Deep Data Objects</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenmemory_consumption_2.html')" class="blue">Maximum Size of Dynamic Data Objects</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenmemory_consumption_3.html')" class="blue">Sharing Between Dynamic Data Objects</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenmemory_consumption_4.html')" class="blue">Complex Data Objects with Deep Components</a></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The available session memory is defined using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameters</a>
+described under <span class="lnkgrey">Session Memory</span>. It is also possible to define a percentage of the available memory as a limit, over which a
+<a href="javascript:call_link('abenruntime_warning_glosry.html')" class="grey" title="Glossary Entry">runtime warning</a> occurs.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenmemory_consumption_1.html')" class="blue">Memory Requirement for Deep Data Objects</a><br>
+<a href="javascript:call_link('abenmemory_consumption_2.html')" class="blue">Maximum Size of Dynamic Data Objects</a><br>
+<a href="javascript:call_link('abenmemory_consumption_3.html')" class="blue">Sharing Between Dynamic Data Objects</a><br>
+<a href="javascript:call_link('abenmemory_consumption_4.html')" class="blue">Complex Data Objects with Deep Components</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenmemory_usage_abexa.html')" class="blue">Deep Data Objects, Memory Consumption</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmemory_consumption.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+</html>

@@ -1,0 +1,114 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEND_PROCESSING_BLOCKS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenend_processing_blocks.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:17 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Regular Exiting of a Processing Block">
+<meta name="keywords" content="ABAP, End Processing Block Normally">
+<title>
+Regular Exiting of a Processing Block - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenend_processing_blocks.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenend_processing_blocks.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_execution.html')" class="blue">Calling and leaving program units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenleave_program_units.html')" class="blue">Exiting Program Units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenleave_processing_blocks.html')" class="blue">Exiting Processing Blocks</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Regular Exiting of a Processing Block
+</span></p>
+<p>
+A processing block is exited in a regular when reaching its end. For processing blocks that are concluded
+using an <span class="qtext">END</span> statement, this is the end. Event blocks that are not concluded explicitly with a statement have an implicit conclusion after their last statement.
+</p>
+<p>
+Depending on the processing block exited, the runtime environment behaves as follows:
+</p>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedures</a>, the program returns to after the point where they were called. The output parameters for which
+<a href="javascript:call_link('abenpass_by_value_glosry.html')" class="grey" title="Glossary Entry">pass by values</a> are defined are passed to the bound actual parameters.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abendialog_module_glosry.html')" class="grey" title="Glossary Entry">dialog modules</a>, the program returns to after the point in the
+<a href="javascript:call_link('abendynpro_flow_logic_glosry.html')" class="grey" title="Glossary Entry">dynpro flow logic</a> where they were called.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenevent_block_glosry.html')" class="grey" title="Glossary Entry">event blocks</a>, the
+control is given back to the runtime environment and the current process of the runtime environment continues with the program execution.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Output before, during, and after execution of a procedure.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( `In procedure` ). <br>
+&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;cl_demo_output=>write( `Before procedure` ). <br>&nbsp;&nbsp;demo=>main( ). <br>&nbsp;&nbsp;cl_demo_output=>display( `After procedure` ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenend_processing_blocks.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:17 GMT -->
+</html>

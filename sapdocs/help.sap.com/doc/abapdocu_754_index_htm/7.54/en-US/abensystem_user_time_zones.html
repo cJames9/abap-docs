@@ -1,0 +1,191 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSYSTEM_USER_TIME_ZONES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensystem_user_time_zones.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="System Time Zone and User Time Zone">
+<title>
+System Time Zone and User Time Zone - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensystem_user_time_zones.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensystem_user_time_zones.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendate_time_processing.html')" class="blue">Date and Time Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendate_time_oview.html')" class="blue">Date, Time, Time Stamp, and Time Zones</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+System Time Zone and User Time Zone
+</span></p>
+<p>
+Two <a href="javascript:call_link('abentime_zone_glosry.html')" class="grey" title="Glossary Entry">time zones</a> are preconfigured in AS ABAP, the
+<a href="javascript:call_link('abensystem_time_zone_glosry.html')" class="grey" title="Glossary Entry">system time zone</a> and the <a href="javascript:call_link('abenuser_time_zone_glosry.html')" class="grey" title="Glossary Entry">user time zone</a>.
+</p>
+<ul class="disc">
+<li>The system time zone is the client-specific time zone of the
+<a href="javascript:call_link('abensystem_time_glosry.html')" class="grey" title="Glossary Entry">system time</a> and the
+<a href="javascript:call_link('abensystem_date_glosry.html')" class="grey" title="Glossary Entry">system date</a> and cannot
+be changed while the system is running. It is contained in the column TZONESYS in the client-specific database table <span class="lnkgrey">TTZCU</span>.</li>
+</ul>
+<ul class="disc">
+<li>The user time zone is a client-specific time zone that can be defined for the
+<a href="javascript:call_link('abenuser_time_glosry.html')" class="grey" title="Glossary Entry">user time</a> and
+<a href="javascript:call_link('abenuser_date_glosry.html')" class="grey" title="Glossary Entry">user date</a> of each individual user in the
+<a href="javascript:call_link('abenuser_master_record_glosry.html')" class="grey" title="Glossary Entry">user master record</a>. It is contained in the system field <span class="qtext">sy-zonlo</span>.</li>
+</ul>
+<p>
+ Both time zones are displayed in transaction <span class="lnkgrey">SU01</span> on the <span class="italic">Fixed
+Values</span> tab, however only the user time zone can be changed here. This requires a new logon to
+take effect. If no user time zone is defined in the user master record, or the specified time zone is
+invalid or inactive, the default value from the column TZONEDEF in the database table <span class="lnkgrey">TTZCU</span>
+is used. If it is invalid or inactive, the system field <span class="qtext">sy-zonlo</span> is filled with blanks.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The current client's system time zone can be read using function module <span class="lnkgrey">GET_SYSTEM_TIMEZONE</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Determines the date and time in the system time zone from a time stamp.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(ts) = utclong_current( ). <br> <br>SELECT SINGLE tzonesys <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM ttzcu <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(tzone). <br> <br>CONVERT UTCLONG ts <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATE DATA(date) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TIME DATA(time) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME ZONE tzone.
+</span>
+</p>
+<A name="@@ITOC@@ABENSYSTEM_USER_TIME_ZONES_1"></A>
+<p><span class="h2">
+System Time and System Date
+</span></p>
+<p>
+The system time and the system date are the local time and local date in AS ABAP in the system time zone. They are produced by regular synchronizations between the clock of the
+<a href="javascript:call_link('abenabap_runtime_envir_glosry.html')" class="grey" title="Glossary Entry">ABAP runtime server</a>
+and the clock of the database server. During the synchronization process, the ABAP runtime environment clock is set to the database server clock. Since this happens on all
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instances</a> in
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>, the ABAP runtime
+environment clock is synchronized with the clocks on all other AS Instances and with the database system clock, and therefore shows the system time and system date of the entire AS ABAP.
+</p>
+<p>
+The <a href="javascript:call_link('abentime_system_fields.html')" class="blue">character-like system fields</a> <span class="qtext">sy-uzeit</span>
+and <span class="qtext">sy-datum</span> are provided with the system time and system date at certain times.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+From a technical perspective, the ABAP runtime environment clock is synchronized with the database server clock on request. If a time is required (for example, to populate
+<a href="javascript:call_link('abentime_system_fields.html')" class="blue">system fields for date and time</a>), the system checks
+whether the last synchronization was performed during the specified interval. If this is not the case, synchronization is performed.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Creates a time stamp from the system date and system time.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA tz TYPE timezone. <br>CALL FUNCTION 'GET_SYSTEM_TIMEZONE' <br>&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;timezone = tz. <br>
+ <br>CONVERT DATE sy-datum TIME sy-uzeit <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO TIME STAMP DATA(ts) TIME ZONE tz.
+</span>
+</p>
+<A name="@@ITOC@@ABENSYSTEM_USER_TIME_ZONES_2"></A>
+<p><span class="h2">
+User Time and User Date
+</span></p>
+<p>
+The user time and the user date are the local time and local date of the current user, calculated from the system time and the user time zone. The
+<a href="javascript:call_link('abentime_system_fields.html')" class="blue">character-like system fields</a> <span class="qtext">sy-timlo</span>
+and <span class="qtext">sy-datlo</span> are provided with the user time and user date at certain times.
+If <span class="qtext">sy-zonlo</span> is initial, <span class="qtext">sy-timlo</span> and <span class="qtext">sy-datlo</span>
+are given the same values as <span class="qtext">sy-uzeit</span> and <span class="qtext">sy-datum</span>, the system time and system date.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+To get the local time and local date from a <a href="javascript:call_link('abenutc_timestamp_glosry.html')" class="grey" title="Glossary Entry">
+UTC time stamp</a> created using <a href="javascript:call_link('abapget_time-stamp.html')" class="blue"><span class="qtext">GET
+TIME STAMP</span></a>, the content of the system field <span class="qtext">sy-zonlo</span> can be passed
+to the statement <a href="javascript:call_link('abapconvert_time-stamp.html')" class="blue"><span class="qtext">CONVERT TIME
+STAMP</span></a>. An initial value for the time zone is set in <span class="qtext">CONVERT TIME STAMP</span>, but set implicitly to <span class="qtext400">"UTC"</span> and not to the system time zone.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Determines a local date and a local time from a time stamp.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+GET TIME STAMP FIELD DATA(ts). <br> <br>CONVERT TIME STAMP ts TIME ZONE sy-zonlo <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO DATE DATA(date) TIME DATA(time).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensystem_user_time_zones.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+</html>

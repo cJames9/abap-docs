@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENADBC_QUERY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadbc_query.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADBC - Queries">
+<title>
+ADBC - Queries - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenadbc_query.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenadbc_query.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennative_sql.html')" class="blue">Native SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC - ABAP Database Connectivity</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencl_sql_statement.html')" class="blue">ADBC - CL_SQL_STATEMENT</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ADBC - Queries
+</span></p>
+<p>
+Queries can be executed using the following instance method from class <span class="lnkgrey">CL_SQL_STATEMENT</span>:
+</p>
+<ul class="disc">
+<li>EXECUTE_QUERY</li>
+</ul>
+<p>
+The method has a mandatory input parameter STATEMENT of type <span class="qtext">string</span> that must be passed to a <span class="qtext400">SELECT</span> statement with correct syntax. As with
+<a href="javascript:call_link('abenadbc_ddl_dml.html')" class="blue">DML statements</a>, the method SET_PARAM can be used to bind ABAP data objects to place holders <span class="qtext">?</span>.
+</p>
+<p>
+As the result of a query, a reference to an object of the class <span class="lnkgrey">CL_SQL_RESULT_SET</span>
+is returned in the return value RESULT_SET. The methods of this object allow access to the results set
+of the query. To preserve the results set beyond the end of a database LUW, the input parameter HOLD_CURSOR of the EXECUTE_QUERY method can be filled with "X".
+</p>
+<p>
+The class CL_SQL_RESULT_SET of the result object provides the following instance methods for reading the results sets into ABAP data objects:
+</p>
+<ul class="disc">
+<li>SET_PARAM, NEXT, and CLOSE <br> <br>These methods provide access to individual rows and columns
+of the results set. Using SET_PARAM, compatible ABAP data objects must be assigned to the columns from
+left to right by passing corresponding data references for each column to the method. NEXT is used to
+address the rows of the results set one after another. The return value is 1 if the row can be addressed
+and 0 if not.  Reads are closed using CLOSE. If the parameter binding between two calls of NEXT is to be modified, the method CLEAR_PARAMETERS must be called first.</li>
+</ul>
+<ul class="disc">
+<li>SET_PARAM_STRUCT, NEXT, and CLOSE <br> <br>These methods provide access to individual rows of the
+results set. SET_PARAM_STRUCT must be used to assign a fully compatible ABAP structure to the rows of
+the results set by passing corresponding data references to the method. An internal table that specifies
+the names and order of the columns to be read can be passed to the parameter CORRESPONDING_FIELDS. For the remaining methods, the same applies as to SET_PARAM.</li>
+</ul>
+<ul class="disc">
+<li>SET_PARAM_TABLE, NEXT_PACKAGE, and CLOSE <br> <br>These methods provide access to multiple rows
+of the results set. SET_PARAM_TABLE must be used to assign a fully compatibly structured internal table
+to the rows of the results set by passing a corresponding data reference to the method. As with SET_PARAM_STRUCT,
+a CORRESPONDING_FIELDS parameter is used to specify which columns are to be transported. Here, NEXT_PACKAGE
+is used instead of NEXT. It reads at most the number of rows that are passed to the input parameter
+UPTO. If no value is passed to UPTO, all the rows are read. In each call of NEXT_PACKAGE, the rows read
+are appended to the internal table without deleting the previous contents and the number of rows read
+is returned in the return value ROWS_RET. The same applies when changing parameter bindings and to CLOSE as to SET_PARAM.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A data reference to an indicator variable with the built-in type INT2 from ABAP Dictionary can be
+passed to the optional input parameter IND_REF of the method SET_PARAM. Here, the value -1 can be used to display whether a zero value existed on the database.</li>
+</ul>
+<ul class="disc">
+<li>For security reasons, it is better to define the parameters of a query using the placeholder <span class="qtext">?</span> rather than chaining dynamic content. This is also a way of preventing
+<a href="javascript:call_link('abensql_injection_glosry.html')" class="grey" title="Glossary Entry">SQL injections</a>. If the
+statement only contains static content from the program and dynamic content from outside the program is possible only in operand positions (using placeholders), the statement cannot be modified from outside.</li>
+</ul>
+<ul class="disc">
+<li>In assignments between fields in database tables and ABAP data objects, a
+<a href="javascript:call_link('abennative_sql_type_mapping.html')" class="blue">mapping</a> takes place between the ABAP types
+and the database types. The ABAP types must match the database types. If they do not match, conversions must be made in the Native SQL interface. These conversions are platform-dependent and can raise exceptions.</li>
+</ul>
+<ul class="disc">
+<li>The method EXECUTE_QUERY can also be used to call
+<a href="javascript:call_link('abenstored_procedure_glosry.html')" class="grey" title="Glossary Entry">stored procedures</a>.
+In databases that meet the requirements, internal tables, for example, can then be bound to the results set. This is not possible with the method
+<a href="javascript:call_link('abenadbc_procedure.html')" class="blue">EXECUTE PROCEDURE</a> (see the example under this method).</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses ADBC to read rows sequentially from a database table filled previously using ABAP SQL to a work area.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_update. <br>INSERT demo_update FROM TABLE @( <br>&nbsp;&nbsp;VALUE #( ( id = 'X' col1 =&nbsp;&nbsp;1 col2 =&nbsp;&nbsp;2 col3 =&nbsp;&nbsp;3 col4 =&nbsp;&nbsp;4 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( id = 'Y' col1 = 5 col2 = 6 col3 = 7 col4 = 8 ) ) ). <br>
+ <br>DATA result TYPE demo_update. <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(query) = NEW cl_sql_statement( )->execute_query( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `SELECT client, id, col1, col2, col3, col4 ` &amp;&amp; <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_update ` &amp;&amp; <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE client = '` &amp;&amp; sy-mandt &amp;&amp; `' `&nbsp;&nbsp;). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;query->set_param_struct( struct_ref = REF #( result ) ). <br>&nbsp;&nbsp;&nbsp;&nbsp;WHILE query->next( ) > 0. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( result ). <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDWHILE. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;query->close( ). <br>&nbsp;&nbsp;CATCH cx_sql_exception INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>ENDTRY. <br> <br>cl_demo_output=>display( ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses ADBC to read rows from to a database table filled previously with ABAP SQL to an internal table.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_update. <br>INSERT demo_update FROM TABLE @( <br>&nbsp;&nbsp;VALUE #( ( id = 'X' col1 =&nbsp;&nbsp;1 col2 =&nbsp;&nbsp;2 col3 =&nbsp;&nbsp;3 col4 =&nbsp;&nbsp;4 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( id = 'Y' col1 = 5 col2 = 6 col3 = 7 col4 = 8 ) ) ). <br>
+ <br>DATA result TYPE TABLE OF demo_update WITH EMPTY KEY. <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(query) = NEW cl_sql_statement( )->execute_query( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `SELECT client, id, col1, col2, col3, col4 ` &amp;&amp; <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_update ` &amp;&amp; <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE client = '` &amp;&amp; sy-mandt &amp;&amp; `' `&nbsp;&nbsp;). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;query->set_param_table( itab_ref = REF #( result ) ). <br>&nbsp;&nbsp;&nbsp;&nbsp;query->next_package( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;query->close( ). <br>&nbsp;&nbsp;CATCH cx_sql_exception INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>ENDTRY. <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenadbc_query_abexa.html')" class="blue">ADBC, Query</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenadbc_dml_ddl_abexa.html')" class="blue">ADBC, DDL, and DML</a>,
+<a href="javascript:call_link('abenadbc_dml_ddl_binding_abexa.html')" class="blue">ADBC, Parameter Binding</a>, <a href="javascript:call_link('abenadbc_dml_ddl_bulk_abexa.html')" class="blue">ADBC, Bulk Access</a></li>
+</ul>
+<p><span class="h4">
+Further Example
+</span></p>
+<p>
+The program <span class="lnkgrey">ADBC_QUERY</span> allows interactive queries that are executed using ADBC to be entered.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadbc_query.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

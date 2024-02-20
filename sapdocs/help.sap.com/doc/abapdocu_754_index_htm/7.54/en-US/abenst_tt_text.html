@@ -1,0 +1,179 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_TEXT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_text.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:text, Literal Text">
+<meta name="keywords" content="ABAP, Simple Transformations, text">
+<title>
+ST - tt:text, Literal Text - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_text.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_text.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_literals.html')" class="blue">ST - Literal Template Content</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@text@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:text, Literal Text
+</span></p>
+<A name="@@ITOC@@ABENST_TT_TEXT_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">...>literal&lt;...</span>
+</p>
+<p>
+<span class="qtext400">...>&lt;tt:text>literal&lt;/tt:text>&lt;...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Here, <span class="qtext400">literal</span> stands for literal text. Each piece of content of a template that is not an element (in other words, not positioned between <span class="qtext400">&lt;
+></span>), is literal text. This includes line breaks and blanks that are combined under the term whitespace.
+</p>
+<p>
+The first line above shows unmarked literal text. In ST programs, literal text can also be marked using
+the ST command <span class="qtext400">tt:text</span>, indicated in the second line. The difference between
+these variants is that an unmarked literal text <span class="qtext400">literal</span> is ignored in serializations and deserializations if it contains nothing but blanks. A marked text is never ignored.
+</p>
+<A name="@@ITOC@@ABENST_TT_TEXT_2"></A>
+<p><span class="h3">
+Serializing Literal Text
+</span></p>
+<p>
+If a literal text is respected, all its characters are written to the target XML data. This includes any whitespace. No characters are written if a text is ignored.
+</p>
+<A name="@@ITOC@@ABENST_TT_TEXT_3"></A>
+<p><span class="h3">
+Deserializing Literal Text
+</span></p>
+<p>
+The literal text of the XML source document is compared character by character (including blanks and
+line breaks) to the ST program and consumed. This means that at every position in the inbound stream at which there is literal text, the same text must appear in the ST program and must also be considered there.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Literal texts with other characters (except whitespace) should be used sparingly; always identified
+with <span class="qtext400">tt:text</span>, and should not span multiple lines because line breaks and
+indents are potential sources of errors in deserializations. Use unflagged texts only to format the
+ST program with line breaks and blanks (indents). To avoid problems in deserializations of literal texts, they can be skipped using <a href="javascript:call_link('abenst_tt_skip.html')" class="blue"><span class="qtext400">tt:skip</span></a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following ST program contains four elements, <span class="qtext400">X1</span> to <span class="qtext400">X4</span>, with literal text.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1> a b c &lt;/X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2>&lt;tt:text> d e f &lt;/tt:text>&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X3>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/X3> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X4>&lt;tt:text>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tt:text>&lt;/X4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The result of a serialization is as follows, with the blanks in <span class="qtext400">X3</span> being ignored:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;X0>&lt;X1> a b c &lt;/X1>&lt;X2> d e f &lt;/X2>&lt;X3/>&lt;X4> &lt;/X4>&lt;/X0></span>
+</dd></dl>
+<p>
+This XML data can itself be deserialized again by the above ST program. The ST program below raises
+the exception CX_ST_MATCH_ELEMENT, because no blanks exist in the ST program for the blanks in the inbound stream within <span class="qtext400">X4</span>, due to the missing <span class="qtext400">tt:text</span> marking.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1>a b c&lt;/X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2>&lt;tt:text>d e f&lt;/tt:text>&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X3>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/X3> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X4>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/X4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The ST program below cannot deserialize the XML data either, because it expects line breaks in <span class="qtext400">X1</span> and more blanks due to the indent.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a b c <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2>&lt;tt:text>d e f&lt;/tt:text>&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X3>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/X3> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X4>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/X4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The ST program below can deserialize the XML data; all elements are skipped using <a href="javascript:call_link('abenst_tt_skip.html')" class="blue"><span class="qtext400">tt:skip</span></a>.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:template> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;X0> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X1>&lt;tt:skip />&lt;/X1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X2>&lt;tt:skip />&lt;/X2> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X3>&lt;tt:skip />&lt;/X3> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;X4>&lt;tt:skip />&lt;/X4> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X0> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_text.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:07 GMT -->
+</html>

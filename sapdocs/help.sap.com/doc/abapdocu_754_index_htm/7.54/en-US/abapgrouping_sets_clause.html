@@ -1,0 +1,217 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPGROUPING_SETS_CLAUSE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapgrouping_sets_clause.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - GROUP BY, grouping_sets">
+<meta name="keywords" content="ABAP, Grouping Sets">
+<title>
+SELECT - GROUP BY, grouping_sets - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapgrouping_sets_clause.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapgrouping_sets_clause.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">SELECT clauses</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapgroupby_clause.html')" class="blue">SELECT - GROUP BY</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@GROUPING SETS@@SELECT@@"></A>
+<p><span class="h1">
+SELECT - GROUP BY, grouping_sets <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapselect_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... GROUPING SETS ( ( <i class=bn>{</i> <i class=bn>}</i> <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i>
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp1</a>, <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp2</a>, ... <i class=bn>}</i> ), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( <i class=bn>{</i> <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp1</a>, <a href="javascript:call_link('abapsql_expr.html')" class="blue">sql_exp2</a>, ... <i class=bn>}</i> ), ... ) ...</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+<span class="qtext">GROUPING SETS</span> is an addition of the <span class="qtext">GROUP BY</span> clause
+used to define multiple grouping sets under a <span class="qtext">GROUP BY</span> clause. The grouping sets are aggregated separately and grouped in a results set.
+</P>
+<P>
+The <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a> addition <span class="qtext">
+GROUPING SETS</span> consists of a comma-separated list of grouping sets encloses in parentheses. Each grouping set is itself parenthesized and is specified as follows:
+</P>
+<ul class="disc">
+<li>
+<span class="bold">As an empty grouping set <span class="qtext">( )</span></span> <br>An empty grouping set represents an
+<a href="javascript:call_link('abenaggregate_expression_glosry.html')" class="grey" title="Glossary Entry">aggregation</a> across the entire
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a>. It is used, for example, to calculate a <a href="javascript:call_link('abapselect_aggregate.html')" class="blue">total sum</a>- <br><br>
+<br></li>
+<li>
+<span class="bold">As a comma-separated list <span class="qtext">( sql_exp1, sql_exp2, ... )</span></span> <br>
+A comma-separated list consisting of SQL expressions <span class="qtext">sql_exp1, sql_exp2, ...</span> that defines the set of expressions to aggregate.
+<br></li>
+</ul>
+<P>
+Each grouping is viewed as a separate <span class="qtext">GROUP BY</span> list and is evaluated as a list of this type. Here, the
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> <span class="qtext">sql_exp1, sql_exp2, ...</span> outside of the grouping set are also respected. The following two examples demonstrate this:
+</P>
+<P>
+<span class="qtext">GROUP BY sql_exp1, GROUPING SETS( ( sql_exp2 ), ( sql_exp3, sql_exp4 ) )</span>
+</P>
+<P>
+<span class="qtext">GROUP BY GROUPING SETS( ( sql_exp1, sql_exp2 ), (sql_exp1, sql_exp3, sql_exp4 ) )</span>
+</P>
+<P>
+The results of the two <span class="qtext">GROUP BY</span> clauses are equivalent and are the same as
+two <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statements joined using
+<a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION ALL</span></a>. The following two <span class="qtext">GROUP BY</span> lists are used here:
+</P>
+<ol>
+<li>
+<span class="qtext">sql_exp1, sql_exp2</span>
+<br></li>
+<li>
+<span class="qtext">sql_exp1, sql_exp3, sql_exp4</span>
+<br></li>
+</ol>
+<P>
+The addition <span class="qtext">GROUPING SETS</span> has an advantage over a <span class="qtext">UNION</span>
+clause grouping because the <span class="qtext">SELECT</span> clause only needs to be specified once.
+It is also potentially easier for the database to optimize a statement with the addition <span class="qtext">GROUPING SETS</span> than its <span class="qtext">UNION</span> equivalent.
+</P>
+<p><span class="h4">
+<span class="bold">Rules</span>
+</span></p>
+<ul class="disc">
+<li>
+All columns used in the addition <span class="qtext">GROUPING SETS</span> must be specified in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a>.
+<br><br></li>
+<li>
+The expressions specified in <span class="qtext">GROUPING SETS</span> cannot have the <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">data type</a> LCHR, LRAW, RAWSTRING, STRING, or GEOM_EWKB.
+<br><br></li>
+<li>
+The result rows, plus the SQL expressions, can be in any order in the comma-separated list and the order
+does not affect the result of the aggregation. If the results of the aggregation need to be sorted in
+a specific way, an <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a>
+clause must be specified. The <span class="qtext">ORDER BY</span> addition <span class="qtext">PRIMARY KEY</span> is allowed.
+<br><br></li>
+<li>
+The expressions that are part of the aggregation contain the null values as placeholders in the corresponding results.
+<br></li>
+</ul>
+<p><span class="h4">
+<span class="bold">Tips</span>
+</span></p>
+<P>
+The grouping function <a href="javascript:call_link('abengrouping_function.html')" class="blue"><span class="qtext">GROUPING</span></a> can be used to verify whether a specific column in the results set was aggregated or not.
+</P>
+<p><span class="h4">Notes</span></p>
+<ul class="disc">
+<li>
+If the <span class="qtext">GROUP BY</span> addition <span class="qtext">GROUPING SETS</span> is used, the statement <span class="qtext">SELECT</span> bypasses
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a>.
+<br><br></li>
+<li>
+If the addition <span class="qtext">GROUPING SETS</span> is used, the syntax check is performed in a strict mode, which handles the <span class="qtext">SELECT</span> statement more strictly than the regular syntax check.
+<br><br></li>
+<li>
+Grouping sets are not supported by all databases. In an ABAP program, it is possible to use the method USE_FEATURES of the class
+<a href="javascript:call_link('abencl_abap_dbfeatures.html')" class="blue">CL_ABAP_DBFEATURES</a> to check whether the current database system or a database system accessed using a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a>
+supports access to grouping sets. This requires the constant GROUPING_SETS of the class to be passed to the method in an internal table.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+For Lufthansa flights, the following example calculates the sum of the maximum available seats with
+respect to the plane type (column <span class="qtext">planetype</span>) and the connection (column <span class="qtext">connid</span>) Two grouping sets are defined, which contain either the plane type or the connection.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+SELECT FROM sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;planetype, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUM( seatsmax ) AS sum_seatsmax <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = 'LH' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY GROUPING SETS ( ( carrid, planetype ), <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( carrid, connid ), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( ) ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY connid, planetype <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result_grouping_sets). <br> <br> cl_demo_output=>display( result_grouping_sets ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+See <a href="javascript:call_link('abenselect_grouping_sets_abexa.html')" class="blue"><span class="qtext">SELECT</span>, Grouping Sets</a>
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapgrouping_sets_clause.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:51 GMT -->
+</html>

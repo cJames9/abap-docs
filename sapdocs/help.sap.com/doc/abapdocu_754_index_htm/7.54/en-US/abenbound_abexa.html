@@ -1,0 +1,127 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBOUND_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbound_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Predicate Expression IS NOT BOUND">
+<title>
+Predicate Expression IS NOT BOUND - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbound_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbound_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogical_expr_func.html')" class="blue">Expressions and Functions for Conditions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp.html')" class="blue">log_exp - Logical Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenpredicate.html')" class="blue">rel_exp - Predicates</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenpredicate_expressions.html')" class="blue">rel_exp - Predicate Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp_bound.html')" class="blue">rel_exp - IS BOUND</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Predicate Expression IS NOT BOUND
+</span></p>
+<p>
+This example demonstrates the predicate expression <a href="javascript:call_link('abenlogexp_bound.html')" class="blue"><span class="qtext">IS NOT BOUND</span></a>.
+</p>
+<A name="@@ITOC@@ABENBOUND_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_is_not_bound.<br>
+<br>
+CLASS cls DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA dref TYPE REF TO i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS cls IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA number TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dref = REF #( number ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;cls=&gt;main( ).<br>
+&nbsp;&nbsp;IF cls=&gt;dref IS NOT INITIAL AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp; cls=&gt;dref IS NOT BOUND.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'stack reference is not initial but not bound' ).<br>
+&nbsp;&nbsp;ENDIF.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENBOUND_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The static attribute <span class="qtext">dref</span> of a class is assigned a reference to a local data object in a method. This
+<a href="javascript:call_link('abenstack_reference_glosry.html')" class="grey" title="Glossary Entry">stack reference</a> is
+invalid once the method is exited. Therefore, both predicate expressions <span class="qtext">IS NOT INITIAL</span> and <span class="qtext">IS NOT BOUND</span> are true for <span class="qtext">dref</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbound_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

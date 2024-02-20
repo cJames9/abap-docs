@@ -1,0 +1,989 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOPENSQL_MULTICONNECT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopensql_multiconnect.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Database Connections">
+<meta name="keywords" content="ABAP, Database Connections, Secondary Connection, Service Connection, Standard Connection">
+<title>
+Database Connections - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenopensql_multiconnect.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenopensql_multiconnect.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Database Connections
+</span></p>
+<p>
+An <a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> uses database connections to access databases. A database connection defines the address of the database system (database host), the
+<a href="javascript:call_link('abendatabase_user_glosry.html')" class="grey" title="Glossary Entry">database user</a>, and hence the associated
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schema</a> that is accessed. The
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> and
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> statements of an ABAP program and the
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> Framework use a database connection of the current
+<a href="javascript:call_link('abenwork_process_glosry.html')" class="grey" title="Glossary Entry">work process</a> to access a database. By default, the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> is used to access the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a> of the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard AS ABAP database</a>. By opening a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a>, it is also possible to access databases or database schemas other than the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard
+database</a>. This makes possible a number of options, for example, data can be passed to and committed in other databases or in other database schemas. The
+<a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary database</a> does not need to be part of an AS ABAP here, but it does need to be supported by SAP. Connections called
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a> can also be used to access the standard database.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_1" class="blue">Possible Database Connections</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_2" class="blue">Standard Connection</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_3" class="blue">Secondary Connections</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_4" class="blue">Service Connections to the Standard Database</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_5" class="blue">Management of Database Connections</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_6" class="blue">Opening and Closing Secondary Connections and Service Connections</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_7" class="blue">Active and Inactive Secondary Connections and Service Connections</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_8" class="blue">Secondary Connections and Service Connections in the Internal Session</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_9" class="blue">Displaying Secondary Connections and Service Connections</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_10" class="blue">Database Access Using Secondary Connections and Service Connections</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_11" class="blue">ABAP SQL</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_12" class="blue">Native SQL - ADBC</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_13" class="blue">Native SQL - EXEC SQL</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_14" class="blue">AMDP</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_15" class="blue">Interaction of ABAP SQL, Native SQL, and AMDP</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOPENSQL_MULTICONNECT_16" class="blue">Database Connections and Transactions</A></li>
+</ul>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_1"></A>
+<p><span class="h2">
+Possible Database Connections
+</span></p>
+<p>
+When ABAP SQL, Native SQL, or AMDP is used in an ABAP program, the
+<a href="javascript:call_link('abendatabase_interface_glosry.html')" class="grey" title="Glossary Entry">database interface</a> uses a
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a> of the current
+<a href="javascript:call_link('abenwork_process_glosry.html')" class="grey" title="Glossary Entry">work process</a> to access
+a database. Every work process always has a standard connection to the standard database. In addition,
+secondary connections to other databases or database schemas can be defined. Service connections can also still be opened to the standard database.
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_2"></A>
+<p><span class="h3">
+Standard Connection
+</span></p>
+<p>
+Each AS ABAP work process always has a standard connection to the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard database</a> and this connection cannot be closed. It is shared by all
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal sessions</a>. If the standard connection is used, the work process acts as a
+<a href="javascript:call_link('abendatabase_user_glosry.html')" class="grey" title="Glossary Entry">database user</a> assigned to the
+<a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a>.
+</p>
+<ul class="disc">
+<li>By default, <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>,
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a>, and
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> all use the standard connection to access the ABAP database schema of the standard AS ABAP database.</li>
+</ul>
+<ul class="disc">
+<li>In all places where a database connection can be specified explicitly in ABAP, the standard connection can also be specified using the predefined name <span class="qtext400">DEFAULT</span>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies the standard connection explicitly in ABAP SQL. It would not be necessary to specify the connection
+in the statements <span class="qtext">DELETE</span> and <span class="qtext">INSERT</span>. The statement
+<a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">COMMIT CONNECTION</span></a>, however, makes an explicit
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> possible on the standard connection.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_update CONNECTION default. <br>INSERT demo_update CONNECTION default <br>&nbsp;&nbsp;FROM @( VALUE #( id = 'X'&nbsp;&nbsp;col1 = 1 col2 = 2 col3 = 3 col4 = 4 ) ). <br>COMMIT CONNECTION default.
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_3"></A>
+<p><span class="h3">
+Secondary Connections
+</span></p>
+<p>
+A secondary connection is a database connection to a
+<a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary database</a> defined
+by an entry in the database table <span class="lnkgrey">DBCON</span>. The table key CON_NAME of the
+table DBCON is the name (in uppercase letters) of the secondary connection under which it can be specified explicitly in ABAP. The remaining columns describe the properties of the secondary connection, such as the
+<a href="javascript:call_link('abendatabase_system_glosry.html')" class="grey" title="Glossary Entry">database system</a>, the
+<a href="javascript:call_link('abendatabase_user_glosry.html')" class="grey" title="Glossary Entry">database user</a>, and the physical address.
+</p>
+<p>
+Entries in the database table DBCON are created and modified using the central
+<a href="javascript:call_link('abendba_cockpit_glosry.html')" class="grey" title="Glossary Entry">DBA Cockpit</a> tool. If the
+DBA Cockpit tool is not available in a system for some reason, transaction <span class="lnkgrey">DBCO</span>
+can be used instead (but this requires some expertise). DBCON should not be accessed in any other way. More specifically, the table DBCON cannot be displayed using the
+<a href="javascript:call_link('abendata_browser_glosry.html')" class="grey" title="Glossary Entry">Data Browser</a> tool.
+</p>
+<p>
+The <a href="javascript:call_link('abendatabase_user_name_glosry.html')" class="grey" title="Glossary Entry">database user name</a> of the
+<a href="javascript:call_link('abendatabase_user_glosry.html')" class="grey" title="Glossary Entry">database user</a> used to
+log on the database connection connection to the database system is part of the definition of a secondary connection in the table DBCON. An ABAP SQL statement that uses a secondary connection accesses only that
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schema</a> that is assigned to this user.
+</p>
+<p>
+A secondary connection must be specified explicitly before it can be used in
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> or
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a>. If possible, the
+secondary connection is opened for the current work process or an existing inactive secondary connection with the same name is reused. Secondary connections cannot be used in
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a>.
+</p>
+<p>
+Secondary connections between an AS ABAP that has a SAP HANA database as its standard database and other
+non-SAP HANA secondary databases are now obsolete. <span class="lnkgrey">SAP HANA Smart Data Access
+(SDA)</span> should be used instead. In SDA, secondary databases are addressed from the SAP HANA database
+using special qualified names or by using virtual tables. If a SAP HANA database is used as a standard
+AS ABAP database, ABAP programs can use these names across the standard connection. This is only possible using AMDP and Native SQL, since no qualified names can be specified in ABAP SQL.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Secondary connections can address any number of
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schemas</a> in the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard database</a> or databases other than the standard database as
+<a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary databases</a>. An AS ABAP can, for example, access the SAP HANA database of an independently operated SAP HANA appliance.</li>
+</ul>
+<ul class="disc">
+<li>One prerequisite for a <a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary
+database</a> is that it must be a database system supported by SAP. Only this system has software for ABAP SQL and Native SQL access (as a shared library).</li>
+</ul>
+<ul class="disc">
+<li>If the <a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary database</a>
+is a database system other than the standard database of the current AS ABAP, the Database Shared Library
+(DBSL) provided for this database by SAP and client software provided by the database vendor must be
+installed here in front of the access through a secondary connection from the table DBCON. Information
+about creating the DBCON entry and installing the additional software is described in the standard SAP Notes for every supported database system.</li>
+</ul>
+<ul class="disc">
+<li>Once all reads on secondary database (except SAP HANA databases) have been replaced by <span class="lnkgrey">SDA</span>, Shared Libraries (SBSL) are no longer required.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses a secondary connection in ABAP SQL. The connection can be entered and a check is made to see whether
+it exists in the database table <span class="lnkgrey">DBCON</span>. If no secondary connection exists in ABAP SQL, the non-handleable exception DBSQL_UNKNOWN_CONNECTION is raised.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA conn TYPE dbcon-con_name. <br>cl_demo_input=>request( CHANGING field = conn ). <br> <br>SELECT SINGLE @abap_true <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM dbcon <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE con_name = @conn <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(dbtype). <br>IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;cl_demo_output=>display( 'Connection not in DBCON' ). <br>
+&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>DELETE FROM demo_update CONNECTION (conn). <br>INSERT demo_update CONNECTION (conn) <br>
+&nbsp;&nbsp;FROM @( VALUE #( id = 'X'&nbsp;&nbsp;col1 = 1 col2 = 2 col3 = 3 col4 = 4 ) ). <br>COMMIT CONNECTION (conn).
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_4"></A>
+<p><span class="h3">
+Service Connections to the Standard Database
+</span></p>
+<p>
+A service connection is a database connection defined by specifying its name in an ABAP program. The
+name of a service connection is <span class="qtext400">R/3*name</span> and consists of the prefix <span class="qtext400">
+R/3*</span> (in uppercase letters) and a definable case-sensitive <span class="qtext400">name</span> that can have between 1 and 26 alphanumeric characters.
+</p>
+<p>
+A service connection is always a database connection to the standard database and inherits all settings from the standard connection automatically.
+</p>
+<p>
+When a service connection is requested in <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>,
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a>, or
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a>, it is opened for the current work process (if possible) or an existing inactive service connection with the same name is reused.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The definable <span class="qtext400">name</span> is not associated with the entries in the database
+table DBCON and is used only to identify a service connection. Hence, specifying a database connection
+from the database table DBCON for <span class="qtext400">name</span> does not mean that this database connection is used.</li>
+</ul>
+<ul class="disc">
+<li>Service connections to the SAP standard database are useful for performing operations in a
+<a href="javascript:call_link('abendb_transaction.html')" class="blue">database LUW</a>, which does not depend on the LUW of the standard connection. It should be noted that the current
+<a href="javascript:call_link('abendb_isolation.html')" class="blue">isolation level</a> is responsible for determining whether
+a read from a database LUW can access data modified in a different database LUW, before this data is committed using a database commit.</li>
+</ul>
+<ul class="disc">
+<li>Like secondary connections, service connections add to the number of open connections of the current work process. There can be a maximum of 16 open connections, including the standard connection itself.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses a service connection called <span class="qtext400">R/3*service_conn</span> in ABAP SQL.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DELETE FROM demo_update CONNECTION R/3*service_conn. <br>INSERT demo_update CONNECTION R/3*service_conn <br>
+&nbsp;&nbsp;FROM @( VALUE #( id = 'X'&nbsp;&nbsp;col1 = 1 col2 = 2 col3 = 3 col4 = 4 ) ). <br>COMMIT CONNECTION R/3*service_conn.
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_5"></A>
+<p><span class="h2">
+Management of Database Connections
+</span></p>
+<p>
+Database connections are managed by the ABAP runtime environment This is done at the
+<a href="javascript:call_link('abenwork_process_glosry.html')" class="grey" title="Glossary Entry">work process</a> level and the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> level. Each time an AS ABAP is started, a
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> is opened for every
+<a href="javascript:call_link('abenwork_process_glosry.html')" class="grey" title="Glossary Entry">work process</a> and this connection cannot be closed. Alongside the standard connection, 15 further
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connections</a> or
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a>
+can be opened for each work process. A maximum of 16 database connections can be open for each work
+process. On certain databases, it may not be possible to reach this number. If more than 16 database connections are opened, the runtime error <span class="qtext">DBSQL_NO_MORE_CONNECTION</span> occurs.
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_6"></A>
+<p><span class="h3">
+Opening and Closing Secondary Connections and Service Connections
+</span></p>
+<p>
+ABAP SQL and Native SQL can request secondary connections or service connections. AMDP can only request service connections. A secondary connection or a service connection is requested as follows:
+</p>
+<ul class="disc">
+<li>Implicitly in ABAP SQL by specifying the name of the connection after the addition <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">CONNECTION</span></a></li>
+</ul>
+<ul class="disc">
+<li>Explicitly and implicitly in Native SQL using one of the following:</li>
+</ul>
+<ul class="circlem2">
+<li>The methods <a href="javascript:call_link('abencl_sql_connection.html')" class="blue">GET_ABAP_CONNECTION</a> and
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">GET_CONNECTION</a> of the ADBC class <span class="lnkgrey">CL_SQL_CONNECTION</span></li>
+</ul>
+<ul class="circlem2">
+<li>The statement <a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">CONNECT TO</span></a> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a></li>
+</ul>
+<ul class="disc">
+<li>The input parameter <a href="javascript:call_link('abenamdp_db_connections.html')" class="blue">CONNECTION</a> of
+<a href="javascript:call_link('abenamdp_procedure_method_glosry.html')" class="grey" title="Glossary Entry">AMDP procedure implementations</a> (for service connections only)</li>
+</ul>
+<p>
+If no inactive database connection can be activated after the specified name, it is opened for the current work process and activated for the current internal session.
+</p>
+<p>
+A secondary connection or service connection is closed explicitly in Native SQL using the following:
+</p>
+<ul class="disc">
+<li>The method <a href="javascript:call_link('abencl_sql_connection.html')" class="blue">CLOSE</a> of the ADBC class <span class="lnkgrey">CL_SQL_CONNECTION</span></li>
+</ul>
+<ul class="disc">
+<li>The statement <a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">DISCONNECT</span></a> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a></li>
+</ul>
+<p>
+If closed explicitly in Native SQL, all database changes in the current database LUW of the connection that were not yet <a href="javascript:call_link('abendb_commit.html')" class="blue">committed on the database</a> are discarded.
+</p>
+<p>
+ABAP SQL does not have a statement that closes a database connection explicitly. Any secondary connection
+or service connection that is inactive for a specific period of time (approximately 15 minutes by default) is closed by the ABAP runtime environment implicitly.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Generally speaking, database connections should only be closed implicitly by the ABAP runtime environment.
+Database connections should only be closed explicitly if it can be guaranteed that they are not required for some time in the current process, since it takes a significant amount of resources to recover a connection.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Opens three service connections with ABAP SQL, ADBC, and after <span class="qtext">EXEC SQL</span>.
+The connection opened using ABAP SQL is closed again using Native SQL, which requires its name to be specified in uppercase letters.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNECTION r/3*demo1. <br> <br>DATA(con) = cl_sql_connection=>get_abap_connection( `R/3*Demo2` ). <br>
+ <br>EXEC SQL. <br>&nbsp;&nbsp;CONNECT TO 'R/3*Demo3' <br>ENDEXEC. <br> <br>EXEC SQL. <br>&nbsp;&nbsp;DISCONNECT 'R/3*DEMO1' <br>ENDEXEC.
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_7"></A>
+<p><span class="h3">
+Active and Inactive Secondary Connections and Service Connections
+</span></p>
+<p>
+An open secondary connection or service connection can be active or inactive. Once opened in ABAP SQL,
+Native SQL, or AMDP, a database connection is active and can be used by ABAP SQL, Native SQL, or AMDP.
+The secondary connection or service connection becomes inactive as soon as the current database LUW on this connection is ended. This can occur as follows:
+</p>
+<ul class="disc">
+<li>Using the statements <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">COMMIT
+CONNECTION</span></a> or <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">ROLLBACK CONNECTION</span></a> for this connection.</li>
+</ul>
+<ul class="disc">
+<li>Using the Native SQL statements <span class="qtext">COMMIT WORK</span> or <span class="qtext">ROLLBACK
+WORK</span> after <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a> for this connection</li>
+</ul>
+<ul class="disc">
+<li>Using the methods <a href="javascript:call_link('abenadbc_transaction.html')" class="blue">COMMIT</a> and
+<a href="javascript:call_link('abenadbc_transaction.html')" class="blue">ROLLBACK</a> of the ADBC class <span class="lnkgrey">CL_SQL_CONNECTION</span> for this connection</li>
+</ul>
+<ul class="disc">
+<li>Using the statements <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT
+WORK</span></a> and <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a> for all connections</li>
+</ul>
+<ul class="disc">
+<li>In an implicit <a href="javascript:call_link('abendb_commit.html')" class="blue">database commit</a> or <a href="javascript:call_link('abendb_rollback.html')" class="blue">database rollback</a> for all connections</li>
+</ul>
+<ul class="disc">
+<li>When closing the internal session in which the connection was opened (here a <span class="qtext">COMMIT CONNECTION</span> is executed for the connection implicitly)</li>
+</ul>
+<p>
+An inactive open secondary connection or service connection is reused by the ABAP runtime environment
+if it needs to be reopened for its work process. Once activated in an internal session, a secondary
+connection or service connection can be reused here regardless of whether it is active or inactive.
+When an inactive connection is reused, it is activated implicitly and a new database LUW is opened. In this case, it is not necessary to open it again explicitly in Native SQL either.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When a database connection is closed explicitly in Native SQL it is actually closed and not just set to inactive. The next request must then reopen the connection for the current work process.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Requests a service connection <span class="qtext400">R/3*DEMO</span> using ADBC and uses it for an SQL
+statement. The statement <span class="qtext">COMMIT CONNECTION</span> ends the database LUW of the connection
+and sets it from active to inactive. The connection can be shared and the connection name does not contain
+any lowercase letters, which means it is reused by being specified in the ABAP SQL statement <span class="qtext">INSERT</span>.
+The connection is reactivated here and a new database LUW is started. A further <span class="qtext">COMMIT CONNECTION</span> statement ends this LUW and deactivates the connection.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(conn) = CONV dbcon-con_name( `R/3*DEMO` ). <br> <br>NEW cl_sql_statement( con_ref = cl_sql_connection=>get_abap_connection( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;con_name = conn ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)->execute_update( `DELETE FROM demo_update` ). <br>
+COMMIT CONNECTION (conn). <br> <br>INSERT demo_update CONNECTION (conn) <br>&nbsp;&nbsp;FROM @( VALUE #( id = 'X'&nbsp;&nbsp;col1 = 1 col2 = 2 col3 = 3 col4 = 4 ) ). <br>COMMIT CONNECTION (conn).
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_8"></A>
+<p><span class="h3">
+Secondary Connections and Service Connections in the Internal Session
+</span></p>
+<p>
+Active open secondary connections or service connections can only be used within the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> in
+which they are opened. An active open secondary connection or service connection can be shared by ABAP
+SQL, Native SQL, and AMDP within an internal session. In Native SQL or AMDP, the open connections cannot have any lowercase letters in the name and in ADBC, dedicated open connections must be made available.
+</p>
+<p>
+When the internal session is closed, any changes made using the connections are committed and the connections
+are set to inactive. When an ABAP program is called that contains a return to the called program (using
+<span class="qtext">SUBMIT AND RETURN</span> or <span class="qtext">CALL TRANSACTION</span>), the states
+of any secondary connections or service connections opened here are preserved as active or inactive.
+They are not, however, passed to the called program. If a secondary connection or service connection with the same name is requested here, a further connection of the same type is opened.
+</p>
+<p>
+Any secondary connection or service connection that is made inactive within an internal session by its
+database LUW being ended can be reused in the same session without being requested explicitly, not just in ABAP SQL, but also in Native SQL or AMDP.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An ABAP SQL statement requests a service connection <span class="qtext400">R/3*DEMO</span> and then
+calls a further program. The called program requests a service connection with the same name. After
+this, two service connections with the same name are open and active for the current work process, up
+until the end of the internal session of the called program. When a return is made from the called is
+exited, its service connection is deactivated, just as the service connection of the calling program is deactivated when it is exited. No database commit was made before the call, which means that the
+<a href="javascript:call_link('abendb_isolation.html')" class="blue">isolation level</a> of the database determines whether the change made in the caller is visible in the called program.
+</p>
+<p>
+<span class="bold">Calling Program</span>
+</p>
+<dl><dd>
+<span class="qtext">DELETE FROM demo_update CONNECTION r/3*demo. <br> <br>SUBMIT ... AND RETURN.</span>
+</dd></dl>
+<p>
+<span class="bold">Called Program</span>
+</p>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_update <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNECTION r/3*demo.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_9"></A>
+<p><span class="h3">
+Displaying Secondary Connections and Service Connections
+</span></p>
+<p>
+The program <span class="lnkgrey">DBCONINFO</span> shows all database connection of all work processes
+in the current AS ABAP. The name <span class="qtext400">R/3</span> in the column <span class="qtext400">ConName</span>
+identifies the standard connection. Other names indicate the secondary connections and service connections.
+The column <span class="qtext400">ConState</span> shows the states <span class="qtext400">ACTIVE</span>,
+<span class="qtext400">INACTIVE</span>, and <span class="qtext400">DISCONNECTED</span>. The column <span class="qtext400">
+Hdl</span> indicates whether a connection is a secondary connection or a service connection. Identically named secondary and service connections can occur for the following reasons:
+</p>
+<ul class="disc">
+<li>Identically named connections are opened in called programs</li>
+</ul>
+<ul class="disc">
+<li>Connections are opened using the method GET_CONNECTION of the class CL_SQL_CONNECTION in ADBC, where the value <span class="qtext">abap_false</span> is used for the parameter SHARABLE</li>
+</ul>
+<ul class="disc">
+<li>Connections are opened using <span class="qtext">CONNECT TO</span> after <span class="qtext">EXEC SQL</span>, where <span class="qtext">AS</span> is used to specify an explicit name</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The program <span class="lnkgrey">DBCONINFO</span> can be used to scan the examples shown in this section while they are being executed step by step in ABAP Debugger.
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_10"></A>
+<p><span class="h2">
+Database Access Using Secondary Connections and Service Connections
+</span></p>
+<p>
+Secondary connections and service connections are opened and used in different ways in ABAP SQL, Native
+SQL, and AMDP. A secondary or service connection active for an internal session can be shared by ABAP
+SQL, Native SQL, or AMDP. Connections used by ABAP SQL, however, cannot have any lowercase letters in their names and ADBC can reserve connections for itself exclusively.
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_11"></A>
+<p><span class="h3">
+ABAP SQL
+</span></p>
+<p>
+The following additions can be used to use a database connection other than the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> in ABAP SQL:
+</p>
+<ul class="disc">
+<li>The addition <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">CONNECTION</span></a> for read statements</li>
+</ul>
+<ul class="disc">
+<li>The identical addition <span class="lnkgrey"><span class="qtext">CONNECTION</span></span> for write statements</li>
+</ul>
+<p>
+If cases where the addition <span class="qtext">CONNECTION</span> is specified using the name of a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> from the database table <span class="lnkgrey">DBCON</span> or using the name of a
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a> in an ABAP SQL statement, the following applies:
+</p>
+<ul class="disc">
+<li>If the specified connection is not yet active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>,
+it is either opened and given the state active or an open inactive connection is reused and given the state active (if a connection exists for the current work process). When the connection is activated, a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> is opened for it and this can be used by ABAP SQL, Native SQL, or AMDP.</li>
+</ul>
+<ul class="disc">
+<li>If the specified connection is already active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, the ABAP SQL statement uses this connection and works in its
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. The connection can be activated using ABAP SQL, Native SQL, or AMDP.</li>
+</ul>
+<p>
+When a <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> is used, an ABAP SQL statement only accesses the
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schema</a> assigned to the
+<a href="javascript:call_link('abendatabase_user_name_glosry.html')" class="grey" title="Glossary Entry">database user name</a> associated with the secondary connection. ABAP SQL can only access database tables and views that are defined in
+<a href="javascript:call_link('abenabap_dictionary_glosry.html')" class="grey" title="Glossary Entry">ABAP Dictionary</a> in the current AS ABAP, which means that every database table or view accessed using a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a>
+must exist and be active as a database or view with the same name and matching structure in ABAP Dictionary in the current AS ABAP, regardless of the
+<a href="javascript:call_link('abensecondary_db_glosry.html')" class="grey" title="Glossary Entry">secondary database</a> and database schema. For the database tables or views of the secondary database, ABAP SQL assumes that their
+<a href="javascript:call_link('abenddic_database_tables_tab_type.html')" class="blue">table category</a> and type information
+matches the local definition exactly. This prerequisite is essential, for example, for the correct interpretation
+of the database contents and, if necessary, their conversion with respect to the ABAP types of the target
+fields. If this prerequisite is not met, wrong data or runtime errors can be caused by reads or writes
+(depending on the database system in question). Because the ABAP runtime environment cannot ensure the
+consistency of the type descriptions in the local and remote databases, the consistency must be guaranteed by the relevant application program.
+</p>
+<p>
+The name of a <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> or
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a>
+specified after <span class="qtext">CONNECTION</span> is transformed into uppercase letters internally.
+This must be respected when Native SQL accesses the connection explicitly. Conversely, an ABAP SQL statement
+can reuse database connections active in Native SQL or AMDP only if their names do not contain any lowercase letters.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The type of a database object specified in an ABAP SQL statement using the addition <span class="qtext">CONNECTION</span>
+does not necessarily need to match the type of the database object with the same name in the secondary
+database. For example, a view with the same name in the secondary database can be accessed by specifying a database table (or a database table by specifying a view) if they have the same structure.</li>
+</ul>
+<ul class="disc">
+<li>If a database table specified using the addition <span class="qtext">CONNECTION</span> in an ABAP SQL statement is a
+<a href="javascript:call_link('abenglobal_temporary_table_glosry.html')" class="grey" title="Glossary Entry">global temporary
+table (GTT)</a>, it is handled like a GTT, even if it is a regular transparent table in the secondary
+database. Conversely, there is no special handling in ABAP SQL if the database is a GTT on the secondary database only.</li>
+</ul>
+<ul class="disc">
+<li>The prerequisite that an identically named database object with a suitable structure must exist in ABAP Dictionary in the current system for views accessed using a secondary connection is particularly important for
+<a href="javascript:call_link('abenexternal_view_glosry.html')" class="grey" title="Glossary Entry">external views</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies a database connection in ABAP SQL.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(conn) = CONV dbcon-con_name( `...` ). <br> <br>DELETE FROM demo_update CONNECTION (conn).
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_12"></A>
+<p><span class="h3">
+Native SQL - ADBC
+</span></p>
+<p>
+To use a database connection other than the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> in
+<a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>, the static method
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">GET_ABAP_CONNECTION</a> of the class <span class="lnkgrey">CL_SQL_CONNECTION</span>
+can be used. The return value of the method is a reference to a connection object that can be passed to other ADBC objects. Using the input parameter CON_NAME, the method can be passed the name of a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> from the database table <span class="lnkgrey">DBCON</span> or a
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a>. These names are case-sensitive. The activated connection can be used in ABAP SQL, Native SQL, and AMDP. A further method,
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">GET_CONNECTION</a>, works in a similar way to GET_ABAP_CONNECTION
+but has an additional input parameter, SHARABLE, which defines how any active secondary connections
+and service connections are reused. If <span class="qtext">abap_true</span> is passed to SHARABLE, GET_CONNECTION works in exactly the same way as GET_ABAP_CONNECTION.
+</p>
+<ul class="disc">
+<li>GET_ABAP_CONNECTION or GET_CONNECTION with <span class="qtext">abap_true</span> passed to SHARABLE:</li>
+</ul>
+<ul class="circlem2">
+<li>If the connection passed to CON_NAME is not yet active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>,
+it is either opened and given the state active or an open inactive connection is reused and given the state active (if a connection exists for the current work process). When the connection is activated, a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> is opened for it.</li>
+</ul>
+<ul class="circlem2">
+<li>If the connection passed to CON_NAME is already active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, this connection and its
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> are used. The connection can be activated using ABAP SQL, Native SQL, or AMDP.</li>
+</ul>
+<ul class="disc">
+<li>GET_CONNECTION with <span class="qtext">abap_false</span> passed to SHARABLE (default):</li>
+</ul>
+<dl><dd>
+A new connection is always activated for the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> by
+opening a new connection or activated an inactive connection of the current work process. No existing
+active connection of the name passed to CON_NAME is used. A connection activated like this can only be used exclusively using the returned connection object in ADBC.
+</dd></dl>
+<p>
+Once executed, GET_CONNECTION gets a reference to a connection object. The connection object represents
+the connection activated or reused using GET_CONNECTION in ADBC and can be passed to the instance constructors
+of the classes <span class="lnkgrey">CL_SQL_STATEMENT</span> and <span class="lnkgrey">CL_SQL_PREPARED_STATEMENT</span>. The SQL statements of these classes are then executed on this connection in its database LUW.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li><span class="qtext">abap_false</span> can be used for the parameter SHARABLE of the method GET_CONNECTION
+to specify the use of a database connection and its database LUW explicitly. Database connections that are activated differently are usually available to all accesses in ABAP SQL and Native SQL.</li>
+</ul>
+<ul class="disc">
+<li>If <span class="qtext">abap_false</span> is passed to the parameter SHARABLE of the method GET_CONNECTION,
+multiple database connections with the same name can be activated and used within a single internal
+session. These are indicated in the output of the program <span class="lnkgrey">DBCONINFO</span> by the different values in the column <span class="qtext400">Hdl</span>.</li>
+</ul>
+<ul class="disc">
+<li>When opening exclusive connections for connection objects, the maximum number of connections for
+each work process must not be exceeded. Exclusive connection should be closed explicitly once they are no longer needed and if there are a large number of connection objects.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies a database connection in ADBC.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(conn) = CONV dbcon-con_name( `...` ). <br> <br>NEW cl_sql_statement( con_ref = cl_sql_connection=>get_abap_connection( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;con_name = conn ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )->execute_update( `DELETE FROM demo_update` ).
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_13"></A>
+<p><span class="h3">
+Native SQL - EXEC SQL
+</span></p>
+<p>
+The following special statements can be used to implement a database connection other than the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a>
+in Native SQL embedded between <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a> and <a href="javascript:call_link('abapendexec.html')" class="blue"><span class="qtext">ENDEXEC</span></a>
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">CONNECT TO</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">SET CONNECTION</span></a></li>
+</ul>
+<p>
+The statement <a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">CONNECT TO</span></a> can be used to activate a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> or a
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a>.
+Here, the addition <span class="qtext">AS</span> can be used to open the same connection more than once under different names. The entries made here are case-sensitive.
+</p>
+<ul class="disc">
+<li>If no name is specified using <span class="qtext">AS</span>, the following applies:</li>
+</ul>
+<ul class="circlem2">
+<li>If the connection specified after <span class="qtext">CONNECT TO</span> is not yet active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>,
+it is either opened and given the state active or an open inactive connection is reused and given the state active (if a connection exists for the current work process). When the connection is activated, a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> is opened for it and this can be used by ABAP SQL, Native SQL, and AMDP.</li>
+</ul>
+<ul class="circlem2">
+<li>If the connection specified after <span class="qtext">CON_NAME</span> is already active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, this connection and its
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> are reused. The connection can be activated using ABAP SQL, Native SQL, or AMDP.</li>
+</ul>
+<ul class="disc">
+<li>If a name is specified using <span class="qtext">AS</span>, the following applies:</li>
+</ul>
+<ul class="circlem2">
+<li>If the connection specified after <span class="qtext">CONNECT TO</span> is not yet active under this name in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>,
+it is either opened and given the state active or an open inactive connection is reused and given the state active (if a connection exists for the current work process). When the connection is activated, a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> is opened
+for it. A connection with a name defined using <span class="qtext">AS</span> is only used by Native
+SQL embedded between <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a> and
+<a href="javascript:call_link('abapendexec.html')" class="blue"><span class="qtext">ENDEXEC</span></a>. ABAP SQL and other kinds of Native SQL or AMDP do not use this type of connection.</li>
+</ul>
+<ul class="circlem2">
+<li>If the connection specified after <span class="qtext">CON_NAME</span> is already active under this name in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, this connection and its
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> are reused. The connection can only have been activated using <span class="qtext">CONNECT TO</span>.</li>
+</ul>
+<p>
+After the statement <span class="qtext">CONNECT TO</span>, all subsequent Native SQL statements embedded
+between <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a> and <a href="javascript:call_link('abapendexec.html')" class="blue">
+<span class="qtext">ENDEXEC</span></a> in the current internal session use the connection activated
+or reused using <span class="qtext">CONNECT TO</span>. The statement <a href="javascript:call_link('abapexec_connection.html')" class="blue">
+<span class="qtext">SET CONNECTION</span></a> can be used to redirect to the previously activated connection
+of the current internal session. Here, a name defined with <span class="qtext">AS</span> must be specified using this connection. More specifically, the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a>
+can be activated by specifying <span class="qtext">DEFAULT</span>. The statement <span class="qtext">SET CONNECTION</span> is ignored by the database LUWs of the connections in question.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When a name is specified after <span class="qtext">AS</span> in the statement <span class="qtext">CONNECT
+TO</span>, multiple database connections with the same original name can be activated and used in the
+same internal session. These are indicated in the output of the program <span class="lnkgrey">DBCONINFO</span> by the different values in the column <span class="qtext400">Hdl</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies a database connection after <span class="qtext">EXEC SQL</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(conn) = CONV dbcon-con_name( `...` ). <br> <br>EXEC SQL. <br>&nbsp;&nbsp;CONNECT TO :conn <br>ENDEXEC. <br> <br>EXEC SQL. <br>&nbsp;&nbsp;DELETE FROM demo_update <br>ENDEXEC.
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_14"></A>
+<p><span class="h3">
+AMDP
+</span></p>
+<p>
+To use a database connection other than the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> to execute an
+<a href="javascript:call_link('abenamdp_procedure_method_glosry.html')" class="grey" title="Glossary Entry">AMDP procedure implementation</a>, the names of
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a> can be passed to the input parameter
+<a href="javascript:call_link('abenamdp_db_connections.html')" class="blue">CONNECTION</a> of the associated
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP method</a>. The names are case-sensitive here.
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">Secondary connections</a> cannot be used.
+</p>
+<ul class="disc">
+<li>If the passed connection is not yet active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>,
+it is either opened and given the state active or an open inactive connection is reused and given the state active (if a connection exists for the current work process). When the connection is activated, a
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> is opened for it and this can be used by ABAP SQL, Native SQL, and AMDP.</li>
+</ul>
+<ul class="disc">
+<li>If the specified connection is already active in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, the procedure implementation is called using this connection and works in its
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. The connection can be activated using ABAP SQL, Native SQL, or AMDP.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The service connections that can be used by AMDP are also connections that can be used by ABAP SQL, Native SQL, and AMDP, as long as the appropriate conditions are met.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies a database connection in AMDP.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(conn) = CONV dbcon-con_name( `R/3*...` ). <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_demo_amdp_connection( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)->get_scarr( EXPORTING <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connection = conn <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clnt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = sy-mandt <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carriers = DATA(result) ). <br>
+&nbsp;&nbsp;CATCH cx_amdp_error INTO DATA(amdp_error). <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br> ENDTRY.
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_15"></A>
+<p><span class="h3">
+Interaction of ABAP SQL, Native SQL, and AMDP
+</span></p>
+<p>
+A secondary connection or service connection active within an internal session is shared by ABAP SQL, Native SQL, and AMDP with the following exceptions:
+</p>
+<ul class="disc">
+<li>A connection activated using ADBC that uses the value <span class="qtext">abap_false</span> for
+the parameter SHARABLE of the method GET_CONNECTION of the class CL_SQL_CONNECTION can only be used exclusively using the associated connection object.</li>
+</ul>
+<ul class="disc">
+<li>A connection activated after <span class="qtext">EXEC SQL</span> with <span class="qtext">CONNECT
+TO</span> using a name specified after <span class="qtext">AS</span> can only be used between <span class="qtext">EXEC</span> and <span class="qtext">ENDEXEC</span>.</li>
+</ul>
+<ul class="disc">
+<li>AMDP can only use service connections.</li>
+</ul>
+<p>
+Shared connections are activated as follows:
+</p>
+<ul class="disc">
+<li>By using the <span class="qtext">CONNECTION</span> addition of ABAP SQL statements to activate the connection</li>
+</ul>
+<ul class="disc">
+<li>By using either the method GET_ABAP_CONNECTION of the ADBC class CL_SQL_CONNECTION or the method
+GET_CONNECTION to activate the connection. The value <span class="qtext">abap_true</span> is used for the parameter SHARABLE here.</li>
+</ul>
+<ul class="disc">
+<li>By passing the name to the input parameter CONNECTION of an AMDP method to activate the connection.</li>
+</ul>
+<ul class="disc">
+<li>By using the statement <span class="qtext">CONNECT TO</span> after <span class="qtext">EXEC SQL</span> to activate the connection, without specifying a name after <span class="qtext">AS</span>.</li>
+</ul>
+<p>
+When a shared connection is activated, it is reused whenever the same internal session is used subsequently in ABAP SQL, Native SQL, and AMDP, regardless of how it is activated.
+</p>
+<p>
+Shared connections can be closed using Native SQL, as shown above. The connection can then no longer
+be used. When a closed connection is specified in ABAP SQL, it is opened again implicitly. If a closed connection is reused in Native SQL or AMDP an exception is raised.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When sharing database connections, it should be noted that the name of a database connection is always
+converted to uppercase letters in ABAP SQL. In Native SQL and AMDP, on the other hand, the name is case-sensitive.
+To access a database connection activated in ABAP SQL in Native SQL or AMDP, the connection must be
+specified in uppercase letters. Conversely, an ABAP SQL statement cannot use a database connection activated using Native SQL AMDP if its name contains lowercase letters. This mainly affects
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connections</a>
+and names defined using the addition <span class="qtext">AS</span> of the statement <a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">CONNECT TO</span></a>.
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">Secondary connections</a>,
+on the other hand, must be specified in uppercase letters in Native SQL too (in accordance with their spelling in the table DBCON).
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Uses a shared service connection in ADBC and ABAP SQL. The modifying statements are executed in a database
+LUW. If the name of the service connection were to contain lowercase letters or if the method GET_CONNECTION
+with the value <span class="qtext">abap_false</span> were used for the parameter SHARABLE in ADBC, separate
+connections with two different database LUWs would be produced. Accessing the same database table would then usually cause a lock situation.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(conn) = CONV dbcon-con_name( `R/3*DEMO` ). <br> <br>NEW cl_sql_statement( con_ref = cl_sql_connection=>get_abap_connection( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;con_name = conn ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )->execute_update( `DELETE FROM demo_update` ). <br>
+ <br>INSERT demo_update CONNECTION (conn) <br>&nbsp;&nbsp;FROM @( VALUE #( id = 'X'&nbsp;&nbsp;col1 = 1 col2 = 2 col3 = 3 col4 = 4 ) ).
+</span>
+</p>
+<A name="@@ITOC@@ABENOPENSQL_MULTICONNECT_16"></A>
+<p><span class="h2">
+Database Connections and Transactions
+</span></p>
+<p>
+Every active database connection creates a separate transaction context or is associated with its own
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. This means
+that database changes on one connection can be committed or rolled back independently of changes on
+other database connections. In this way, for example, log data can be saved and committed on a secondary connection without modifying the database LUW of the standard connection.
+</p>
+<p>
+Database changes can be committed or rolled back as follows for database connections:
+</p>
+<ul class="disc">
+<li>The statements <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">COMMIT
+CONNECTION</span></a> and <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">ROLLBACK CONNECTION</span></a> trigger targeted
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commits</a>s or
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollback</a>s on specific connections.</li>
+</ul>
+<ul class="disc">
+<li>In ADBC, the instance methods <a href="javascript:call_link('abenadbc_transaction.html')" class="blue">COMMIT</a> and
+<a href="javascript:call_link('abenadbc_transaction.html')" class="blue">ROLLBACK</a> of the class <span class="lnkgrey">CL_SQL_CONNECTION</span> trigger
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commits</a> or
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollbacks</a> for the connection of the current connection object.</li>
+</ul>
+<ul class="disc">
+<li>In static Native SQL, the statements <span class="qtext">COMMIT WORK</span> and <span class="qtext">ROLLBACK WORK</span> after <span class="qtext">EXEC SQL</span> trigger
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commits</a> or
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollbacks</a> for the current connection.</li>
+</ul>
+<ul class="disc">
+<li>When a database connection is made inactive implicitly at the end of an internal session, a <a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> is triggered.</li>
+</ul>
+<ul class="disc">
+<li>When a database connection is closed explicitly in Native SQL, a <a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollback</a> is triggered.</li>
+</ul>
+<p>
+The statements <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT
+WORK</span></a> and <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a> work similarly, as do the implicit
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commits</a> and <a href="javascript:call_link('abendb_rollback.html')" class="blue">database rollbacks</a>, which are applied to all active connections.
+</p>
+<p>
+A secondary connection or service connection is always given the state inactive when its database changes
+are committed or rolled back. A connection made inactive in this way can, however, continue to be used
+in the same internal session without being opened explicitly, not just in ABAP SQL, but also in Native
+SQL or AMDP. The first time an inactive secondary connection or service connection previously active in the current internal session is reused, it is made active again and a new database LUW is opened.
+</p>
+<p><span class="h4">
+Warning
+</span></p>
+<p>
+Extreme care must be taken when using SQL <span class="qtext400">SET TRANSACTION</span> statements to
+set the transaction behavior of the current database connection. The transaction behavior set using
+these statements is preserved across the full current database LUW, which can cause unexpected or critical
+situations when the database connection is reused. The default behavior of the transactions must be restored before the end of the database LUW. When the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> is accessed, special methods must be called for
+<a href="javascript:call_link('abenhana_set_transaction.html')" class="blue">setting the transaction behavior</a> instead of
+using the SQL <span class="qtext400">SET TRANSACTION</span> statements directly. In this case, the default
+transaction behavior is restored automatically at the end of the database LUW. No automatic resets can currently be performed for other database platforms.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>All ABAP SQL, Native SQL, and AMDP reads made on a shared active database connection in an internal session are applied in the same database LUW.</li>
+</ul>
+<ul class="disc">
+<li>The static Native SQL statement <a href="javascript:call_link('abapexec_connection.html')" class="blue"><span class="qtext">SET CONNECTION</span></a> is ignored by the database LUWs of the connections in question.</li>
+</ul>
+<ul class="disc">
+<li>Secondary connections and service connections in an internal session cannot be used in called programs,
+which means that a called program always activates its own connection and hence its own database LUW, even if the same connection name is used.</li>
+</ul>
+<ul class="disc">
+<li>Secondary connections, and more specifically service connections, can be used to implement independent
+database LUWs on a secondary database or on the standard database. Care must be taken to avoid lock situations here.</li>
+</ul>
+<ul class="disc">
+<li>Working with multiple database connections, namely independent database LUWs, can produce lock situations
+in which only one work process is involved: a program changes a database row on the first connection
+and tries to change the same row on a second connection. This results in the program waiting for the
+lock of the first database LUW, without this first LUW ever being able to continue. This situation can
+only be resolved by ending the work process. This is done automatically for dialog processes, but must
+be done manually for background jobs. It is therefore not advisable to change the same table within the a single program using multiple database connections.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+If the statement <span class="qtext">COMMIT CONNECTION default</span> were not used, the following program
+section would produce a lock situation. This because the standard connection (ABAP SQL here) and a service
+connection (Native SQL here) would be used in independent database LUWs to access the same row of a database table.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+INSERT demo_update FROM @( VALUE #( id = 'X' ) ). <br>DELETE FROM demo_update. <br>COMMIT CONNECTION default. <br>
+ <br>DATA conn TYPE dbcon-con_name VALUE 'R/3*DEMO'. <br>EXEC SQL. <br>&nbsp;&nbsp;CONNECT TO :conn <br>
+ENDEXEC. <br>EXEC SQL. <br>&nbsp;&nbsp;INSERT INTO demo_update VALUES( :sy-mandt, 'X', 1, 2, 3, 4 ) <br>ENDEXEC. <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopensql_multiconnect.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+</html>

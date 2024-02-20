@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_VALUE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_value_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Simple Transformation, tt:value">
+<title>
+Simple Transformation, tt:value - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_value_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_value_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_abap_values.html')" class="blue">ST - Transformation of ABAP Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_tt_value_elementary.html')" class="blue">ST - tt:value, Elementary Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Simple Transformation, tt:value
+</span></p>
+<p>
+Serializes and deserializes elementary data objects
+</p>
+<A name="@@ITOC@@ABENST_VALUE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_st_value.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: dat TYPE d,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tim TYPE t,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts&nbsp;&nbsp;TYPE utclong,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tsp TYPE xsddatetime_z.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dat = sy-datlo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tim = sy-timlo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONVERT DATE dat<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME tim<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME ZONE ``<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO UTCLONG ts.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tsp = cl_abap_tstmp=&gt;utclong2tstmp_short( ts ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_st_value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= dat<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= tim<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datetime1 = ts<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datetime2 = tsp<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML DATA(xml).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_xml( xml ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENST_VALUE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The transformation in question, <span class="lnkgrey">DEMO_ST_VALUE</span>, shows the mapping of elementary ABAP data types for date, time, and time stamp to XML and back.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;?sap.transform simple?&gt; <br>&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"&gt; <br>
+&nbsp;&nbsp;&lt;tt:root name="DATE"/&gt; <br>&nbsp;&nbsp;&lt;tt:root name="TIME"/&gt; <br>&nbsp;&nbsp;&lt;tt:root name="DATETIME1"/&gt; <br>
+&nbsp;&nbsp;&lt;tt:root name="DATETIME2"/&gt; <br>&nbsp;&nbsp;&lt;tt:template&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;Date_and_Time&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Date&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="DATE"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Date&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Time&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="TIME"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Time&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;DateTime1&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="DATETIME1"/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/DateTime1&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;DateTime2&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="DATETIME2"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/DateTime2&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Date_and_Time&gt; <br>&nbsp;&nbsp;&lt;/tt:template&gt; <br>&lt;/tt:transform&gt;</span>
+</dd></dl>
+<p>
+Note that <span class="qtext">tsp</span> is defined with the special type XSDDATETIME_Z from ABAP Dictionary.
+This type ensures that a special mapping is used for time stamps in packed numbers. This happens by default for the built-in time stamp type <span class="qtext">utclong</span>.
+</p>
+<p>
+The transformation is <a href="javascript:call_link('abenst_symmetry.html')" class="blue">symmetrical</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_value_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:38 GMT -->
+</html>

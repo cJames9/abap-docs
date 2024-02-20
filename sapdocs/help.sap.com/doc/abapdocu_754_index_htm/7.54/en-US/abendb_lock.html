@@ -1,0 +1,247 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDB_LOCK -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_lock.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Database Locks">
+<meta name="keywords" content="ABAP, Database Locks">
+<title>
+Database Locks - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendb_lock.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendb_lock.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentransaction.html')" class="blue">Data Consistency</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Database Locks
+</span></p>
+<p>
+Any database permitting simultaneous access to multiple transactions requires database locks to manage and synchronize access. The tasks of this mechanism are to: This mechanism can be used to <br><br>
+</p>
+<ul class="disc">
+<li>protect data objects currently being changed or read by a transaction from being changed by other transactions at the same time</li>
+</ul>
+<ul class="disc">
+<li>protect a transaction from reading data objects that have not yet been committed by another transaction</li>
+</ul>
+<p>
+The following sections are a short discussion of the properties of database locks:
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_LOCK_1" class="blue">Setting Locks</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_LOCK_2" class="blue">Locked Objects</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_LOCK_3" class="blue">Lock Mode</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_LOCK_4" class="blue">Lock Duration</A></li>
+</ul>
+<A name="@@ITOC@@ABENDB_LOCK_1"></A>
+<p><span class="h2">
+Setting Locks
+</span></p>
+<p>
+Database systems do not usually provide commands for explicitly setting locks. Database locks are set
+<span class="bold">implicitly</span> each time data on the database is accessed. In ABAP, databases are accessed in the following ways:
+</p>
+<ul class="disc">
+<li>Using one of the <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>
+statements <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>, <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue">
+<span class="qtext">INSERT</span></a>, <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>,
+<a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY</span></a>, or <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Using a <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> statement.</li>
+</ul>
+<ul class="disc">
+<li>Calling <a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP methods</a>.</li>
+</ul>
+<ul class="disc">
+<li>Using other statements that access the database, such as <a href="javascript:call_link('abapimport_data_cluster.html')" class="blue"><span class="qtext">
+IMPORT</span></a> and <a href="javascript:call_link('abapexport_data_cluster.html')" class="blue"><span class="qtext">EXPORT</span></a> <span class="qtext">FROM</span> and <span class="qtext">TO</span> <span class="qtext">DATABASE</span>.</li>
+</ul>
+<p>
+
+</p>
+<A name="@@ITOC@@ABENDB_LOCK_2"></A>
+<p><span class="h2">
+Locked Objects
+</span></p>
+<p>
+Database systems set <span class="bold">physical</span> locks: All rows affected by a database call
+are locked. In the case of <span class="qtext">SELECT</span>, these are the selected entries. In the
+case of <span class="qtext">UPDATE</span>, <span class="qtext">DELETE</span>, <span class="qtext">INSERT</span>, and <span class="qtext">MODIFY</span>, these are rows to be changed, deleted, or inserted.
+</p>
+<p>
+The following call <br><br>
+</p>
+<dl><dd>
+<span class="qtext">SELECT SINGLE FOR UPDATE * FROM sflight <br>&nbsp;&nbsp;WHERE <br>&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp; = 'LH'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp; = '0400'&nbsp;&nbsp;&nbsp;&nbsp; AND <br>&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp; = '19960516' <br>&nbsp;&nbsp;INTO ... .</span>
+</dd></dl>
+<p>
+for example, locks the entry in table <span class="lnkgrey">SFLIGHT</span> for Lufthansa flight 0400 on May 16, 1996.
+</p>
+<p>
+It is not always the table row that is locked. Tables, data pages, and index pages can also be locked, for example. The units locked depend on the database system being used and the action being carried out.
+</p>
+<A name="@@ITOC@@ABENDB_LOCK_3"></A>
+<p><span class="h2">
+Lock Mode
+</span></p>
+<p>
+In principle, one type of lock is enough to control competing data access. However, to allow a larger
+number of transactions to run in parallel, database systems use a range of lock types. These can vary from system to system, but the following two examples outline sufficiently how locks work: <br><br>
+</p>
+<ul class="disc">
+<li>Shared lock <br>Shared locks allow the system to set other shared locks, but prevent other transactions from setting exclusive locks for the objects in question. <br></li>
+</ul>
+<ul class="disc">
+<li>Exclusive lock <br>Exclusive locks do not allow other transactions to set any locks for the objects in question.</li>
+</ul>
+<p>
+Exclusive locks are set by the ABAP SQL statements <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">
+SELECT SINGLE FOR UPDATE</span></a>, <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">INSERT</span></a>,
+<a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>, <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue">
+<span class="qtext">MODIFY</span></a>, and <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE</span></a>, the corresponding Native SQL statements or platform-specific statements in
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP methods</a>, plus <a href="javascript:call_link('abapexport_data_cluster_medium.html')" class="blue"><span class="qtext">EXPORT TO DATABASE</span></a>.
+</p>
+<p>
+The current <a href="javascript:call_link('abendb_isolation.html')" class="blue">isolation level</a> specifies whether the SQL command <span class="qtext">SELECT</span> sets a shared lock.
+</p>
+<ul class="disc">
+<li>The following settings are possible in all databases except the SAP HANA database and Oracle databases:</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abendb_isolation.html')" class="blue"><span class="qtext400">Uncommitted reads</span></a>
+(the default setting) do not attempt to set shared locks. Data is also read that is not protected by an exclusive lock and not yet committed using a
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a>.</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abendb_isolation.html')" class="blue"><span class="qtext400">Committed reads</span></a> (which
+can be configured using the function module DB_SET_ISOLATION_LEVEL) set a shared lock during the read and then remove it again. This is possible only when exclusive locks do not exist, which can entail wait times.</li>
+</ul>
+<ul class="disc">
+<li>The SAP HANA database and Oracle databases do not set shared locks, but also only read data committed by a <a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a>.</li>
+</ul>
+<p>
+If a transaction cannot lock an object because it is already locked by another transaction, it waits until the other transaction has released the lock. This can produce a <span class="bold">deadlock</span>. A
+<a href="javascript:call_link('abendeadlock_glosry.html')" class="grey" title="Glossary Entry">deadlock</a> occurs, for example, when two transactions are waiting for a lock held by the other.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+A booking needs to be made in a flight reservation system for Lufthansa flight 0400 on May 16, 1996.
+This is possible only if there are enough free seats. To prevent two bookings from being made at the
+same time and avoid overbooking, the entry in the database table <span class="lnkgrey">SFLIGHT</span>
+for this flight must be locked to prevent it from being changed by other transactions. This ensures
+that the query to determine the number of free seats in the SEATSOCC field can be carried out, the flight
+can be booked, and the SEATSOCC field can be updated by other transactions. The following program excerpt shows a solution for this problem: <br><br>
+</p>
+<dl><dd>
+<span class="qtext">DATA sflight_wa TYPE sflight, sbook_wa type sbook. <br> <br>SELECT SINGLE FOR UPDATE * <br>
+&nbsp;&nbsp;FROM sflight <br>&nbsp;&nbsp;WHERE <br>&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp; = 'LH'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp; = '0400'&nbsp;&nbsp;&nbsp;&nbsp; AND <br>&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp; = '19960516' <br>
+&nbsp;&nbsp;INTO @sflight_wa. <br>IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;MESSAGE e... <br>ENDIF. <br> <br>
+IF sflight_wa-seatsocc &lt; sflight_wa-seatsmax. <br>&nbsp;&nbsp;sbook_wa-carrid = 'LH'. <br>&nbsp;&nbsp;sbook_wa-connid = '0400'. <br>
+&nbsp;&nbsp;sbook_wa-fldate = '19960516'. <br>&nbsp;&nbsp;... <br>&nbsp;&nbsp;INSERT sbook FROM sbook_wa. <br>
+&nbsp;&nbsp;IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE e... <br>&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;UPDATE sflight <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc = seatsocc + 1 <br>&nbsp;&nbsp;&nbsp;&nbsp;WHERE <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp; = 'LH'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp; = '0400'&nbsp;&nbsp;&nbsp;&nbsp; AND <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp; = '19960516'. <br>
+ELSE. <br>&nbsp;&nbsp;MESSAGE e... <br>ENDIF. <br> <br>COMMIT WORK.</span>
+</dd></dl>
+<p>
+The table row selected by <span class="qtext">SELECT SINGLE FOR UPDATE</span> and inserted by <span class="qtext">INSERT</span> is locked until the end of the
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. This prevents
+the flight from being overbooked and inconsistencies from occurring between tables SFLIGHT and SBOOK in the event of a database rollback after an error.
+</p>
+<A name="@@ITOC@@ABENDB_LOCK_4"></A>
+<p><span class="h2">
+Lock Duration
+</span></p>
+<p>
+Database systems do not usually provide commands for explicitly releasing locks. All database locks are released no later than the next
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> or
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">rollback</a>. Shared
+locks usually have an even shorter lifetime. Sometimes, this causes problems for transactions that involve multiple dialog steps:
+</p>
+<p>
+After the user has selected a flight in the above example, he or she usually performs further dialog
+steps to enter additional data for the reservation. Here, the flight reservation is added in a different
+database LUW than the original selection of the flight. Database locking does not prevent another transaction
+from booking this flight in the meantime, which can mean that the scheduled booking may have to be canceled after all.
+</p>
+<p>
+From the point of view of the user, this solution is very inconvenient. To avoid this scenario, a flight reservation system must use the
+<a href="javascript:call_link('abensap_lock_glosry.html')" class="grey" title="Glossary Entry">SAP locking mechanism</a> to lock the flight for the entire duration of the transaction.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_lock.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:16 GMT -->
+</html>

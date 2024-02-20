@@ -1,0 +1,715 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_F1_UNION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_f1_union.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:33 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - SELECT, UNION">
+<title>
+ABAP CDS - SELECT, UNION - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_f1_union.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_f1_union.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_entities.html')" class="blue">ABAP CDS - Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_ddl_syntax.html')" class="blue">ABAP CDS - DDL for Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_define_view.html')" class="blue">ABAP CDS - DEFINE VIEW</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_select_statement.html')" class="blue">ABAP CDS - SELECT</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_select_clauses.html')" class="blue">ABAP CDS - SELECT, clauses</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@UNION@@!ABAP_CDS_SELECT!@@"></A>
+<A NAME="@@ALL@@!ABAP_CDS_SELECT!@@"></A>
+<p><span class="h1">
+ABAP CDS - SELECT, UNION
+</span></p>
+<A name="@@ITOC@@ABENCDS_F1_UNION_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">... UNION <i class=bn>[</i>ALL<i class=bn>]</i> <a href="javascript:call_link('abencds_f1_select_statement.html')" class="blue">select_statement</a> ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Creates the union of rows in the results sets of two <a href="javascript:call_link('abencds_f1_select_statement.html')" class="blue"><span class="qtext400">SELECT</span> statements</a> of a
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a>. This can only happen
+if the results sets have the same number of elements and have a compatible data type in each position
+(pair by pair). The data types DF16_..., DF34_..., LCHR,LRAW,STRING, RAWSTRING, and GEOM_EWKB are not
+supported. A union results set can itself be the left side of a further union. If the addition <span class="qtext400">
+ALL</span> is not specified, all duplicate entries are removed from the results set. They are not removed
+if <span class="qtext400">ALL</span> is specified. The properties of the elements of the merged results set are determined as follows:
+</p>
+<ul class="disc">
+<li>Element names</li>
+</ul>
+<ul class="circlem2">
+<li>If an explicit <a href="javascript:call_link('abencds_f1_name_list.html')" class="blue">name list</a> is specified, this list determines the names of the elements</li>
+</ul>
+<ul class="circlem2">
+<li>If no explicit <a href="javascript:call_link('abencds_f1_name_list.html')" class="blue">name list</a> is specified, the direct
+element names or the alternative element names defined using <span class="qtext400">AS</span> must match
+for each column in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span> lists</a> of all <span class="qtext400">SELECT</span> statements and are used.</li>
+</ul>
+<ul class="disc">
+<li>Key elements</li>
+</ul>
+<dl><dd>
+The definition of the key elements is taken from the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span> list</a> of the first <span class="qtext400">SELECT</span> statement.
+</dd></dl>
+<ul class="disc">
+<li>Element annotations</li>
+</ul>
+<dl><dd>
+<a href="javascript:call_link('abencds_f1_element_annotations.html')" class="blue">Element annotations</a> are applied only from
+the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span> list</a> of the first <span class="qtext400">SELECT</span> statement.
+</dd></dl>
+<ul class="disc">
+<li>Data type</li>
+</ul>
+<ul class="circlem2">
+<li>The data type of each element of the CDS entity is the dictionary type of the element from the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue">
+<span class="qtext400">SELECT</span> list</a> of the first <span class="qtext400">SELECT</span> statement.</li>
+</ul>
+<ul class="circlem2">
+<li>The data type used to create the union set on the database is a data type whose value range covers the data types of the associated columns of all results sets involved.</li>
+</ul>
+<p>
+The following table shows which data types can be merged with which data types of the following <span class="qtext400">
+SELECT</span> statements in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span>
+list</a> of the first <span class="qtext400">SELECT</span> statement using <span class="qtext400">UNION</span>.
+</p>
+<table border>
+<tr>
+<td><span class="bold">First/following</span></td>
+<td><span class="bold">INT1</span></td>
+<td><span class="bold">INT2</span></td>
+<td><span class="bold">INT4</span></td>
+<td><span class="bold">INT8</span></td>
+<td><span class="bold">DEC</span></td>
+<td><span class="bold">CURR</span></td>
+<td><span class="bold">QUAN</span></td>
+<td><span class="bold">FLTP</span></td>
+<td><span class="bold">CHAR</span></td>
+<td><span class="bold">SSTRING</span></td>
+<td><span class="bold">NUMC</span></td>
+<td><span class="bold">DATS</span></td>
+<td><span class="bold">TIMS</span></td>
+<td><span class="bold">ACCP</span></td>
+<td><span class="bold">CLNT</span></td>
+<td><span class="bold">LANG</span></td>
+<td><span class="bold">UNIT</span></td>
+<td><span class="bold">CUKY</span></td>
+<td><span class="bold">RAW</span></td>
+</tr>
+<tr>
+<td><span class="bold">INT1</span></td>
+<td>x</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">INT2</span></td>
+<td>x</td>
+<td>x</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">INT4</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">INT8</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DEC</span></td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CURR</span></td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">QUAN</span></td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">FLTP</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>w</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CHAR</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>w</td>
+<td>w</td>
+<td>l</td>
+<td>w</td>
+<td>w</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">SSTRING</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>w</td>
+<td>w</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">NUMC</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>w</td>
+<td>-</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>l</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DATS</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>w</td>
+<td>-</td>
+<td>l</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">TIMS</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>w</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">ACCP</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CLNT</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">LANG</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">UNIT</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CUKY</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>l</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">RAW</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+</tr>
+</table><br>
+<p>
+There are no further restrictions to note in combinations using "x". The following rules apply to the other combinations:
+</p>
+<ul class="disc">
+<li>In combinations with "w", the length or the value range of the data type in the first <span class="qtext400">SELECT</span>
+must be long enough for all following <span class="qtext400">SELECT</span> lists. If this is not the case, a syntax check warning is raised.</li>
+</ul>
+<ul class="disc">
+<li>In combinations using "l", the lengths of the data types must match exactly.</li>
+</ul>
+<p>
+If the length or value range of the first element does not cover the following elements in combinations
+with "w", the value returned by the database can be too great for the data type of the element of the CDS entity. It is still possible to activate the view here, but the content may be truncated or exceptions may be raised in ABAP SQL
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">queries</a> if a type reference is applied to the entity. This is due to the
+<a href="javascript:call_link('abenselect_into_conversion.html')" class="blue">assignment rules</a> of the <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO</span></a> clause. Assignments to ABAP data objects with a sufficiently large value range, on the other hand, do not cause problems.
+</p>
+<p>
+A CDS view in which union sets are formed with <span class="qtext400">UNION</span> can expose
+<a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS associations</a>. A
+CDS association must be defined and exposed in the same way in all <span class="qtext400">SELECT</span>
+statements joined with <span class="qtext400">UNION</span>. That is, CDS associations that are published
+in the respective <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span>
+lists</a> must appear in all <span class="qtext400">SELECT</span> statements joined with <span class="qtext400">UNION</span> and the following requirements must be met:
+</p>
+<ul class="disc">
+<li>They have the same name.</li>
+</ul>
+<ul class="disc">
+<li>They have the same cardinality.</li>
+</ul>
+<ul class="disc">
+<li>They must be published at the same position in the <a href="javascript:call_link('abencds_f1_select_list.html')" class="blue"><span class="qtext400">SELECT</span> list</a> using a
+<a href="javascript:call_link('abencds_f1_path_expression.html')" class="blue">path expression</a>.</li>
+</ul>
+<ul class="disc">
+<li>They must have the same <span class="qtext">ON</span> conditions, that is:</li>
+</ul>
+<ul class="circlem2">
+<li>The conditions must relate to the same fields in the source and target data source and express the same logic for these fields.</li>
+</ul>
+<ul class="circlem2">
+<li>The fields of the source data source that are listed in conditions must be at identical respective positions in the <span class="qtext400">SELECT</span> list.</li>
+</ul>
+<p>
+These rules also apply if a CDS association is defined in a data source of a <span class="qtext400">SELECT</span>
+statement and is exposed by the current statement. From outside, the CDS associations with the same
+name that are published in the individual <span class="qtext400">SELECT</span> lists act like a CDS
+association published by the union set. There are no restrictions on CDS associations that are not published in the <span class="qtext400">SELECT</span> lists.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Union sets can be a good way of transforming non-standardized database tables into a standardized view of the data.</li>
+</ul>
+<ul class="disc">
+<li>If the length of the value range of an element from the <span class="qtext400">SELECT</span> list
+of the first <span class="qtext400">SELECT</span> statement does not cover the associated elements of
+the following <span class="qtext400">SELECT</span> statements, it is advisable to define an appropriate
+type with a suitable <a href="javascript:call_link('abencds_f1_cast_expression.html')" class="blue"><span class="qtext400">CAST</span></a> expression.</li>
+</ul>
+<ul class="disc">
+<li>The maximum number of different <span class="qtext400">SELECT</span> statements that can be joined
+using <span class="qtext400">UNION</span> depends on the database system. If this number is exceeded, the CDS view cannot be activated.</li>
+</ul>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+Union set without name list. The element names of the <span class="qtext400">SELECT</span> lists must match.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: '...' <br>define view ... as <br>&nbsp;&nbsp;select <br>
+&nbsp;&nbsp;&nbsp;&nbsp;from demo_join1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ a as c1, b as c2, c as c3, d as c4 } <br>
+&nbsp;&nbsp;&nbsp;&nbsp;union <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from demo_join2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ d as c1, e as c2, f as c3, g as c4 }</span>
+</dd></dl>
+<p>
+Union set with name list. The element names of the <span class="qtext400">SELECT</span> lists do not need to match.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: '...' <br>define view ... ( c1, c2, c3, c4 ) as <br>&nbsp;&nbsp;select <br>
+&nbsp;&nbsp;&nbsp;&nbsp;from demo_join1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ a, b, c, d } <br>&nbsp;&nbsp;&nbsp;&nbsp;union <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from demo_join2 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ d, e, f, g }</span>
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following CDS view creates the union of the results sets of two <span class="qtext400">SELECT</span>
+statements. The element <span class="qtext400">col1</span> in the first <span class="qtext400">SELECT</span>
+list has the type INT4, whereas the associated element <span class="qtext400">col1</span> in the second
+<span class="qtext400">SELECT</span> list has the type INT8. This is why a syntax check warning is raised.
+In the case of the second element, <span class="qtext400">col2</span>, the example demonstrates how
+the warning can be bypassed using a <a href="javascript:call_link('abencds_f1_cast_expression.html')" class="blue"><span class="qtext400">CAST</span></a> to the type INT8.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSUNIONTYPE' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view Demo_Cds_Union_Element_Type( <br>&nbsp;&nbsp;&nbsp;&nbsp;id, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;col2 <br>&nbsp;&nbsp;) <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_expressions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as col1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cast( num1 as abap.int8 ) as col2 <br>&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+union all select from <br>&nbsp;&nbsp;demo_expressions <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numlong1 as col1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numlong1 as col2 <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<p>
+The program <span class="lnkgrey">DEMO_CDS_UNION_ELEMENT_TYPE</span> uses <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> to access the view four times:
+</p>
+<ul class="disc">
+<li>The first access writes directly to an internal table with the row type of the CDS entity. The access
+works because the value of the element <span class="qtext400">col1</span> matches the value range of the data type <span class="qtext">i</span>.</li>
+</ul>
+<ul class="disc">
+<li>The second access is the same as the first but one value in the element <span class="qtext400">col1</span>
+is outside the value range of the data type <span class="qtext">i</span> of the first column of the internal table <span class="qtext">result2</span>. This is why an exception is raised.</li>
+</ul>
+<ul class="disc">
+<li>In the third access, the exception is prevented since the data type of the first column of the results
+set (and hence the data type of the internal table <span class="qtext">result3</span>) is transformed
+to <span class="qtext">int8</span> using a <a href="javascript:call_link('abensql_cast.html')" class="blue"><span class="qtext">CAST</span></a> in ABAP SQL.</li>
+</ul>
+<ul class="disc">
+<li>In the fourth access, the exception is prevented due to an appropriate declaration of the data type of the first column of the internal table <span class="qtext">result4</span>.</li>
+</ul>
+<p>
+The recommended method in all cases, however, is to handle the second element using a <a href="javascript:call_link('abencds_f1_cast_expression.html')" class="blue"><span class="qtext400">CAST</span></a> in the CDS view.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_f1_union.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:33 GMT -->
+</html>

@@ -1,0 +1,311 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENWRITE_CUTOFF_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwrite_cutoff_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="WRITE TO, Cutoff Behavior">
+<title>
+WRITE TO, Cutoff Behavior - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenwrite_cutoff_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenwrite_cutoff_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_statements.html')" class="blue">Statements for Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapwrite_to.html')" class="blue">WRITE - TO</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenwrite_cutoffs.html')" class="blue">WRITE - Cutoff Behavior</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+WRITE TO, Cutoff Behavior
+</span></p>
+<p>
+This example demonstrates the <a href="javascript:call_link('abenwrite_cutoffs.html')" class="blue">cutoff behavior</a> of the
+statement <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a> for all elementary data types.
+</p>
+<A name="@@ITOC@@ABENWRITE_CUTOFF_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_write_cutoffs LINE-SIZE 54 NO STANDARD PAGE HEADING.<br>
+<br>
+PARAMETERS xdezp&nbsp;&nbsp;TYPE t005x-xdezp DEFAULT ' '<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS LISTBOX VISIBLE LENGTH 40.<br>
+<br>
+PARAMETERS datfm&nbsp;&nbsp;TYPE t005x-datfm DEFAULT '1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS LISTBOX VISIBLE LENGTH 40.<br>
+<br>
+PARAMETERS timefm TYPE t005x-timefm DEFAULT '0'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS LISTBOX VISIBLE LENGTH 40.<br>
+<br>
+SELECTION-SCREEN SKIP.<br>
+<br>
+PARAMETERS length TYPE n LENGTH 2 DEFAULT '40'.<br>
+<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE int1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE int2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE int8,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE p DECIMALS 2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decfloat16 TYPE decfloat16,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decfloat34 TYPE decfloat34,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE f.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;&nbsp;&nbsp;&nbsp; TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE n LENGTH 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE d,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE t.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE x LENGTH 10,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xstring&nbsp;&nbsp;&nbsp;&nbsp;TYPE xstring.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;utclong&nbsp;&nbsp;&nbsp;&nbsp;TYPE utclong.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timestamp&nbsp;&nbsp;TYPE timestamp,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timestampl TYPE timestampl.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;names TYPE STANDARD TABLE OF string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setup,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;create_data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;teardown,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check_system,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING name&nbsp;&nbsp; TYPE string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len&nbsp;&nbsp;&nbsp;&nbsp;TYPE i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output TYPE c.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: dref TYPE REF TO data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name TYPE string.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;output&gt; TYPE data.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;len = length.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF len &lt; 1 OR len &gt; 40.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE 'Length must be between 1 and 40!' COLOR COL_TOTAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setup( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;create_data( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE DATA dref TYPE c LENGTH len.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN dref-&gt;* TO &lt;output&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT names INTO name.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE name.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 't'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE t TO &lt;output&gt; ENVIRONMENT TIME FORMAT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'TIMESTAMP'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE timestamp TO &lt;output&gt; TIME ZONE sy-zonlo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'TIMESTAMPL'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE timestampl TO &lt;output&gt; TIME ZONE sy-zonlo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN OTHERS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE (name) TO &lt;output&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display( name&nbsp;&nbsp; = name len = len<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output = &lt;output&gt; ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_root.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display( name = name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; len&nbsp;&nbsp;= len output = '!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;teardown( ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD setup.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: t005x_wa TYPE t005x,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ans&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;check_system( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT SINGLE land<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM t005x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE land = '@$@'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@t005x_wa-land).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'POPUP_TO_CONFIRM'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titlebar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'Confirmation'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_question&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'Delete existing'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' entry with key'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' @$@ in T005X?'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_button_1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'Yes'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_button_2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'No'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_cancel_button = ' '<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;answer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ans.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF ans = 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;teardown( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Execution not possible' TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t005x_wa-land = '@$@'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t005x_wa-xdezp = xdezp.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t005x_wa-datfm = datfm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t005x_wa-timefm = timefm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT t005x FROM @t005x_wa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;COMMIT WORK.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET COUNTRY '@$@'.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD create_data.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 123.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= -12345.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 1234567890.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = -1234567890123456789.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= '-1234567.89'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;decfloat16 = '-12345678.90123456'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;decfloat34 = '12345678.90123456789012345678901234'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= '-1234.5678901234567'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'abcdefghijklmnopqrst'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;&nbsp;&nbsp;&nbsp; = 'abcdefghijklmnopqrst'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= '12345678901234567890'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= '20101129'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= '193545'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= '00112233445566778899'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xstring&nbsp;&nbsp;&nbsp;&nbsp;= '00112233445566778899'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;utclong&nbsp;&nbsp;&nbsp;&nbsp;= '2010-11-29T19:35:45,1234567'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timestamp&nbsp;&nbsp;= '20101129193545'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timestampl = '20101129193545.1234567'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;names = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `b` ) ( `s` ) ( `i` ) ( `int8` ) ( `p` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `decfloat16` ) ( `decfloat34` ) ( `f` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `c` ) ( `string` ) ( `n` ) ( `d` ) ( `t` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `x` ) ( `xstring` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `utclong` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `TIMESTAMP` ) ( `TIMESTAMPL` ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD teardown.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM t005x WHERE land = '@$@'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;COMMIT WORK.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD check_system.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF cl_abap_demo_services=&gt;is_production_system( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'This demo cannot be executed in a production system'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD display.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;&nbsp;col&nbsp;&nbsp;TYPE i VALUE 2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fill TYPE c LENGTH 40,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fill_len TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF output = '!'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col = 6.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fill_len = 41 - len.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE: AT /(12) name&nbsp;&nbsp;&nbsp;&nbsp;COLOR COL_HEADING NO-GAP,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ' COLOR COL_POSITIVE NO-GAP,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AT (len) output COLOR = col NO-GAP,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AT (fill_len) fill COLOR COL_POSITIVE.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENWRITE_CUTOFF_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The class <span class="qtext">demo</span> contains an attribute for every
+<a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">predefined ABAP type</a> and for
+<a href="javascript:call_link('abentime_stamps_packed.html')" class="blue">time stamps in packed numbers</a>. These attributes
+are filled with example values and assigned to a data object by <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a>. The length of this data object can be chosen on the selection screen.
+</p>
+<p>
+The <a href="javascript:call_link('abencountry_formats.html')" class="blue">country-specific formats</a> for numbers, dates,
+and times set by <a href="javascript:call_link('abapset_country.html')" class="blue"><span class="qtext">SET COUNTRY</span></a> can also be specified on the selection screen. This example demonstrates these formats as well.
+</p>
+<p>
+The output list shows the result of the formatting for each data type. If an exception is raised, the character "!" is highlighted in a different color.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwrite_cutoff_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+</html>

@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_SXML_LIB_PARSE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_sxml_lib_parse.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sXML Library - Parsing">
+<title>
+sXML Library - Parsing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_sxml_lib_parse.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_sxml_lib_parse.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sxml_lib.html')" class="blue">sXML Library</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CL_SXML_STRING_READER@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_SXML_TABLE_READER@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_SXML_DATASET_READER@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_SXML_HTTP_READER@@!ABAP_CLASS!@@"></A>
+<A NAME="@@CL_SXML_XOP_READER@@!ABAP_CLASS!@@"></A>
+<p><span class="h1">
+sXML Library - Parsing
+</span></p>
+<p>
+XML data can be read using sXML Library or simply have its <span class="lnkgrey">syntax checked</span> by being associated with an XML reader and its methods. A reader like this is "validating", meaning that invalid XML data raises an
+<a href="javascript:call_link('abenabap_sxml_lib_exceptions.html')" class="blue">exception</a>. It interprets the XML data as a hierarchical tree-like structure where each token is represented by a node assigned uniquely to a subnode (see
+<a href="http://www.w3.org/TR/xml-infoset/" target="blank" class="blue">W3C Information Set</a>). An element with a literal value, for example, is interpreted as follows:
+</p>
+<dl><dd>
+<span class="qtext400">| <br>|--CO_NT_ELEMENT_OPEN <br>|&nbsp;&nbsp;&nbsp;&nbsp;| <br>|&nbsp;&nbsp;&nbsp;&nbsp;|--CO_NT_VALUE <br>| <br>|--CO_NT_ELEMENT_CLOSE</span>
+</dd></dl>
+<p>
+The value is a subnode of the node that represents an opened element. The names of the nodes here are
+the same as the constants of the interface <span class="lnkgrey">IF_SXML_READER</span> that describe
+the type of a node. The attributes of an element have a special task. They are assigned as a list to
+the node with the type CO_NT_ELEMENT_OPEN and can be reached using special methods when the parser is paused on the opened element.
+</p>
+<p>
+The <a href="javascript:call_link('abenabap_sxml_lib_reader.html')" class="blue">classes and interfaces</a> in sXML Library available
+for parsing XML data are organized so that there are separate XML reader classes for different requirements.
+These classes inherit from the abstract superclass <span class="lnkgrey">CL_SXML_READER</span>. The
+abstract superclass contains implementations of functions required by all readers and includes the interface
+<span class="lnkgrey">IF_SXML_READER</span>, which contains the components shared by all readers. This
+interface enables all readers to be accessed in the same way. If special components need to be accessed that are not declared in the interface, a down cast must be used on the class in question.
+</p>
+<p>
+The specialized reader classes are:
+</p>
+<ul class="disc">
+<li><span class="lnkgrey">CL_SXML_STRING_READER</span></li>
+</ul>
+<dl><dd>
+Readers in this class parse XML data in a byte string.
+</dd></dl>
+<ul class="disc">
+<li><span class="lnkgrey">CL_SXML_TABLE_READER</span></li>
+</ul>
+<dl><dd>
+Readers in this class parse XML data in an internal table with a flat byte-like row type.
+</dd></dl>
+<ul class="disc">
+<li><span class="lnkgrey">CL_SXML_DATASET_READER</span></li>
+</ul>
+<dl><dd>
+Readers in this class parse XML data in a file on the <a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the current AS Instance.
+</dd></dl>
+<ul class="disc">
+<li><span class="lnkgrey">CL_SXML_HTTP_READER</span></li>
+</ul>
+<dl><dd>
+Readers of this class parse XML data from an HTTP service in <a href="javascript:call_link('abenicf_glosry.html')" class="grey" title="Glossary Entry">ICF</a>.
+</dd></dl>
+<ul class="disc">
+<li><span class="lnkgrey">CL_SXML_XOP_READER</span></li>
+</ul>
+<dl><dd>
+Readers in this class parse XML data saved in <a href="javascript:call_link('abenxop_glosry.html')" class="grey" title="Glossary Entry">XOP</a> format.
+</dd></dl>
+<p>
+The XML data pending parsing is passed to the factory method CREATE of each reader. Readers detect the
+<a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">format</a> and the character format of the data themselves. Except for the XOP reader, readers support all
+<a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">formats</a> except XOP. The XOP reader supports
+the XOP format only. Instructions on standardization and handling empty space can be passed to the factory method if permitted by the format.
+</p>
+<p>
+The methods of the interface IF_SXML_READER enable serial parsing of the passed XML data. There are two basic ways to do this:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenabap_sxml_lib_parse_iterative.html')" class="blue">Token-based parsing</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenabap_sxml_lib_parse_oo.html')" class="blue">Object-based parsing</a></li>
+</ul>
+<p>
+A reader cannot be used more than once for the same XML data or for other data. The reading position
+of a reader is controlled while parsing using its methods. The actions permitted by a reader are specified
+by its current reading position. For example, a reader located at the end of the parsed XML data can
+no longer be used as an XML source of the statement <span class="qtext">CALL TRANSFORMATION</span>. No method exists that can restore the reader to its initial state. A new reader is created instead.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The parser in sXML Library is a more strict validator than the parser in
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>. A namespace prefix must be declared in the same element or in a superelement. Preceding declarations in a parallel element are interpreted as errors.</li>
+</ul>
+<ul class="disc">
+<li>An XML reader in sXML Library can be specified as an XML source of the statement <a href="javascript:call_link('abapcall_transformation.html')" class="blue">
+<span class="qtext">CALL TRANSFORMATION</span></a>. This enables transformations to be performed for all sources supported by sXML readers in all supported
+<a href="javascript:call_link('abenabap_sxml_lib_formats.html')" class="blue">formats</a>. In particular, this makes it possible for
+<a href="javascript:call_link('abenabap_json.html')" class="blue">JSON data</a> to also be consumed directly by ABAP data objects.</li>
+</ul>
+<ul class="disc">
+<li>The method SKIP_NODE, which can be used in both token-based and object-oriented parsing, offers
+various simple ways of checking the validity of a subtree or tree or of copying a tree to a writer (which changes its format).</li>
+</ul>
+<ul class="disc">
+<li>If the content of elements or attributes contain the notations <span class="qtext400">&amp;lt;</span>,
+<span class="qtext400">&amp;gt;</span>, <span class="qtext400">&amp;amp;</span>, <span class="qtext400">&amp;quot;</span>, or <span class="qtext400">&amp;apos;</span>, they are transformed automatically to the corresponding
+<a href="javascript:call_link('abenxml_oview.html')" class="blue">characters</a> when parsed.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensxml_trafo_from_reader_abexa.html')" class="blue">Transformation from XML Reader</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenabap_sxml_lib_parse_iterative.html')" class="blue">sXML Library - Token-Based Parsing</a><br>
+<a href="javascript:call_link('abenabap_sxml_lib_parse_oo.html')" class="blue">sXML Library - Object-Oriented Parsing</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_sxml_lib_parse.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+</html>

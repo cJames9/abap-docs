@@ -1,0 +1,197 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENFOR_IN_ITAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfor_in_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FOR ... IN itab">
+<title>
+FOR ... IN itab - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenfor_in_itab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenfor_in_itab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_expr_func.html')" class="blue">Expressions and Functions for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenfor_itab.html')" class="blue">FOR - Table Iterations</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+FOR ... IN itab
+</span></p>
+<A name="@@ITOC@@ABENFOR_IN_ITAB_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... FOR wa<i class=bn>|</i>&lt;fs> IN itab <i class=bn>[</i>INDEX INTO idx<i class=bn>]</i> <i class=bn>[</i>
+<a href="javascript:call_link('abenfor_cond.html')" class="blue">cond</a><i class=bn>]</i> <i class=bn>[</i><a href="javascript:call_link('abaplet.html')" class="blue">let_exp</a><i class=bn>]</i>&nbsp;&nbsp;...</span> <br><br>
+</p>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... INDEX INTO idx</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This variant of an <a href="javascript:call_link('abeniteration_expression_glosry.html')" class="grey" title="Glossary Entry">iteration expression</a> for
+<a href="javascript:call_link('abentable_iteration_glosry.html')" class="grey" title="Glossary Entry">table iterations</a> using
+<a href="javascript:call_link('abenfor_itab.html')" class="blue"><span class="qtext">FOR</span></a> evaluates an internal table <span class="qtext">itab</span> sequentially, like a
+<a href="javascript:call_link('abaploop_at_itab.html')" class="blue">row variant</a> of a <a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue"><span class="qtext">LOOP</span></a>. <span class="qtext">itab</span> is a
+<a href="javascript:call_link('abenfunctional_position_glosry.html')" class="grey" title="Glossary Entry">functional operand
+position</a>. As in <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>,
+the order of the rows read is determined by the table category or a key specified in <a href="javascript:call_link('abenfor_cond.html')" class="blue"><span class="qtext">cond</span></a>.
+</p>
+<p>
+With <a href="javascript:call_link('abenfor_cond.html')" class="blue"><span class="qtext">cond1</span></a> you can set conditions
+for the evaluation.  For each read row, the result is either assigned to a local work area <span class="qtext">wa1</span>
+or to a field symbol <span class="qtext">&lt;fs></span>. The work area or the field symbol is declared
+implicitly with the row type of the internal table and bound locally to the <span class="qtext">FOR</span>
+expression as a subexpression of the full constructor expression. The same applies to the namespace
+and visibility as to the helper fields declared in <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span>
+expressions</a>. After the <span class="qtext">FOR</span> expression, the work area or the field symbol can either be used in further subexpressions or to construct the result of a
+<a href="javascript:call_link('abentable_comprehension_glosry.html')" class="grey" title="Glossary Entry">table comprehension</a> or <a href="javascript:call_link('abentable_reduction_glosry.html')" class="grey" title="Glossary Entry">table reduction</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Instead of using directly specified internal tables <span class="qtext">itab</span>, this variant of <span class="qtext">FOR</span> expressions can also be created using
+<a href="javascript:call_link('abenmesh_for.html')" class="blue">mesh paths</a>, where <span class="qtext">FOR</span> expressions from both categories can be used together in the same constructor expression.</li>
+</ul>
+<ul class="disc">
+<li>Changes to the content of the internal table specified after <span class="qtext">IN</span> within
+the <span class="qtext">FOR</span> expression can only be made using method calls. Deleting or replacing the table in full always produces a runtime error.</li>
+</ul>
+<ul class="disc">
+<li>As in <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>, there is no addition for reversing the order in which the rows are read. A conditional iteration must be used instead (see the
+<a href="javascript:call_link('abeninverse_itab_for_abexa.html')" class="blue">executable example</a>). <br><br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Constructs an internal table <span class="qtext">flights</span> in a table iteration with <span class="qtext">FOR</span>
+with the value operator<a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue"><span class="qtext">VALUE</span></a>
+(<a href="javascript:call_link('abentable_comprehension_glosry.html')" class="grey" title="Glossary Entry">table comprehension</a>).
+The rows of the internal table merge the content of two existing internal tables <span class="qtext">scarr_tab</span> and <span class="qtext">spfli_tab</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT carrid, carrname <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(scarr_tab). <br>
+ <br>SELECT carrid, connid, cityfrom, cityto <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid, cityfrom, cityto <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(spfli_tab). <br> <br>TYPES: <br>&nbsp;&nbsp;BEGIN OF flight, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;carrier&nbsp;&nbsp;&nbsp;&nbsp; TYPE scarr-carrname, <br>&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE spfli-connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;departure&nbsp;&nbsp; TYPE spfli-cityfrom, <br>&nbsp;&nbsp;&nbsp;&nbsp;destination TYPE spfli-cityto, <br>
+&nbsp;&nbsp;END OF flight, <br>&nbsp;&nbsp;flights TYPE TABLE OF flight WITH EMPTY KEY. <br> <br>DATA(flights) = <br>
+&nbsp;&nbsp;VALUE flights( FOR &lt;fs> IN spfli_tab <br>&nbsp;&nbsp;&nbsp;&nbsp;( carrier&nbsp;&nbsp;&nbsp;&nbsp; = VALUE #( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scarr_tab[ carrid = &lt;fs>-carrid ]-carrname <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFAULT '???' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= &lt;fs>-connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;departure&nbsp;&nbsp; = &lt;fs>-cityfrom <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination = &lt;fs>-cityto ) ). <br> <br>cl_demo_output=>display( flights ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abentable_comprehensions_abexas.html')" class="blue">Examples of Table Comprehensions</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abentable_reductions_abexas.html')" class="blue">Examples of Table Reductions</a> <br><br></li>
+</ul>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... INDEX INTO idx</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+For each row of the associated <span class="qtext">FOR</span> expression, this addition sets the helper
+variable <span class="qtext">idx</span> to the value to which the system field <span class="qtext">sy-tabix</span>
+would be set in a corresponding <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>.
+The helper variable <span class="qtext">idx</span> is declared implicitly with the type <span class="qtext">i</span>
+and bound locally to the <span class="qtext">FOR</span> expression as a subexpression of the full constructor
+expression. The same applies to the namespace and visibility as to the helper fields declared in <a href="javascript:call_link('abaplet.html')" class="blue"><span class="qtext">LET</span> expressions</a>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Constructs an internal table <span class="qtext">carriers</span> from an existing internal table <span class="qtext">scarr_tab</span>. The first column is provided with the row index of the existing table.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT carrid, carrname <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(scarr_tab). <br>
+ <br>TYPES: <br>&nbsp;&nbsp;columns LIKE LINE OF scarr_tab, <br>&nbsp;&nbsp;BEGIN OF carrier, <br>&nbsp;&nbsp;&nbsp;&nbsp;no TYPE i. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE TYPE columns. <br>TYPES: <br>&nbsp;&nbsp;END OF carrier, <br>&nbsp;&nbsp;carriers TYPE TABLE OF carrier WITH EMPTY KEY. <br>
+ <br>DATA(carriers) = <br>&nbsp;&nbsp;VALUE carriers( FOR wa IN scarr_tab INDEX INTO i <br>&nbsp;&nbsp;&nbsp;&nbsp;( no = i carrid = wa-carrid carrname = wa-carrname ) ). <br> <br>cl_demo_output=>display( carriers ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfor_in_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:47 GMT -->
+</html>

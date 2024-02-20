@@ -1,0 +1,171 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXIT_PROCEDURE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexit_procedure_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exiting Procedures">
+<title>
+Exiting Procedures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexit_procedure_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexit_procedure_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exiting Procedures
+</span></p>
+<A name="@@ITOC@@ABENEXIT_PROCEDURE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+You can exit procedures in the usual way using the <span class="qtext">END...</span> statement or by using one of the following statements:
+</p>
+<ul class="disc">
+<li><span class="qtext">RETURN</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">EXIT</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">CHECK log_exp</span></li>
+</ul>
+<p>
+These statements end a procedure properly, that is, the system passes output parameters for which passing
+by value is specified and returns values to the assigned actual parameters. In addition, you can terminate the processing of a procedure as follows, without supplying the actual parameters with values:
+</p>
+<ul class="disc">
+<li>Calling another unit (program, dynpro) without returning to the procedure</li>
+</ul>
+<ul class="disc">
+<li>Triggering an exception or sending a dialog message if an <a href="javascript:call_link('abenerror_handling_guidl.html')" class="lnkpurple" title="Guideline">error occurs</a></li>
+</ul>
+<A name="@@ITOC@@ABENEXIT_PROCEDURE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only use <span class="qtext">RETURN</span> to exit procedures</span>
+</p>
+<p>
+Use the statement <span class="qtext">RETURN</span> to properly exit a procedure (method, see rule
+<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">no implementations in function modules and subroutines</a>) early.
+</p>
+<A name="@@ITOC@@ABENEXIT_PROCEDURE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The statement <span class="qtext">RETURN</span> is used to exit procedures and always has this result.
+The behavior of the <span class="qtext">EXIT</span> and <span class="qtext">CHECK</span> statements
+(conditional exit), in contrast, is context- dependent: Within a loop, only the loop is exited; outside
+a loop, the surrounding procedure is exited. This ambiguity limits the legibility of source code. Therefore,
+<span class="qtext">EXIT</span> and <span class="qtext">CHECK</span> should only be used to exit loops,
+and <span class="qtext">RETURN</span> only to exit procedures. Only <span class="qtext">RETURN</span> enables you to exit a procedure in a loop context.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+As well as the statements <span class="qtext">RETURN</span>, <span class="qtext">EXIT</span>, and <span class="qtext">
+CHECK</span> specified here, the statements <span class="qtext">REJECT</span> and <span class="qtext">STOP</span> can be used to exit special
+<a href="javascript:call_link('abendial_mod_event_block_guidl.html')" class="lnkpurple" title="Guideline">event blocks</a>. Conversely,
+<span class="qtext">RETURN</span>, <span class="qtext">EXIT</span>, and <span class="qtext">CHECK</span>
+can also exit processing blocks other than procedures. In both cases, you must consider the particular
+behavior of the ABAP runtime environment regarding the exited processing block. Because other processing blocks are only supposed to contain one method call according to the rules
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">use ABAP Objects</a> and
+<a href="javascript:call_link('abendial_mod_event_block_guidl.html')" class="lnkpurple" title="Guideline">no implementations in dialog modules and event blocks</a>, these cases should no longer occur in new programs.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+An exception to the rule to only use <span class="qtext">RETURN</span> to exit procedures are <span class="qtext">
+CHECK</span> statements that are located at the beginning of a procedure and that check the prerequisites
+for the execution of the procedure there. Using the <span class="qtext">CHECK</span> statement in such
+a way does not impair the legibility and is thus allowed. However, this exception does not apply to other positions within a procedure and outside loops.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows how a method is left early with a <span class="qtext">CHECK</span> statement,
+whose meaning cannot be identified by simply looking at it. You have to know that <span class="qtext">CHECK</span>
+exits the procedure if the following logical expression is wrong, which is why a double negation is necessary here.
+</p>
+<dl><dd>
+<span class="qtext">METHOD some_method. <br>&nbsp;&nbsp; ... <br>&nbsp;&nbsp; CHECK is_finished = abap_false. <br>&nbsp;&nbsp; ... <br>ENDMETHOD.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code corrects and simplifies the above example by implementing a conditional exit with an <span class="qtext">IF</span> control structure that is easy to read.
+</p>
+<dl><dd>
+<span class="qtext">METHOD some_method. <br>&nbsp;&nbsp; ... <br>&nbsp;&nbsp; IF is_finished = abap_true. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>&nbsp;&nbsp; ENDIF. <br>&nbsp;&nbsp; ... <br>ENDMETHOD.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexit_procedure_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

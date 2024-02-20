@@ -1,0 +1,180 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOCAL_TYPE_GLOB_CLASS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlocal_type_glob_class_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Local Types for Global Classes">
+<title>
+Local Types for Global Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlocal_type_glob_class_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlocal_type_glob_class_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenobj_oriented_guidl.html')" class="blue">Object-Oriented Programming</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Local Types for Global Classes
+</span></p>
+<A name="@@ITOC@@ABENLOCAL_TYPE_GLOB_CLASS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Within class pools, as in virtually any other ABAP program, data types, local interfaces, and local
+classes can be defined to ensure a better structure of the implementation of the global class. From
+a technical point of view, these optional declaration parts, together with the declaration part of the global class, form the global declaration part of the
+<a href="javascript:call_link('abenglobal_declar_guidl.html')" class="lnkpurple" title="Guideline">class pool</a>.
+</p>
+<p>
+These local declarations in a class pool are invisible outside the class pool, which means they can only be used as followed:
+</p>
+<ul class="disc">
+<li>In the private visibility section (<span class="qtext">PRIVATE SECTION</span>) of the declarations in the global class</li>
+</ul>
+<ul class="disc">
+<li>Within the method implementations in the global class</li>
+</ul>
+<p>
+These two usage types have different technical visibility requirements because friends of a global class
+have access to its private visibility section. Local type declarations that are used in the <span class="qtext">PRIVATE
+SECTION</span> must therefore be accessible for any possible friends of the class, whereas those type declarations that are only used within the method implementations are completely meaningless for other classes.
+</p>
+<p>
+In general, local classes consist of the declaration part and the associated method implementations.
+These are invisible to the friends of the global class and have thus technically the same visibility requirements as local type declarations that are only used within the implementation.
+</p>
+<p>
+Local data types, interfaces, and classes within a class pool are saved in dedicated include programs. The following two areas are distinguished:
+</p>
+<ul class="disc">
+<li><span class="italic">Class-relevant local definitions</span></li>
+</ul>
+<ul class="disc">
+<li><span class="italic">Local definitions/implementations</span></li>
+</ul>
+<p>
+These areas match the different technical visibility requirements. The internal names of the include
+programs end with <span class="qtext400">CCDEF</span> or <span class="qtext400">CCIMP</span>, which is why they are also known as CCDEF or CCIMP includes.
+</p>
+<A name="@@ITOC@@ABENLOCAL_TYPE_GLOB_CLASS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Position local declarations appropriately</span>
+</p>
+<p>
+Position the local declarations of a class pool at appropriate positions depending on the requirements.
+Types that are only used within the implementation of the global class need to be in a different position than types that are also addressed in the <span class="qtext">PRIVATE SECTION</span> of the global class.
+</p>
+<A name="@@ITOC@@ABENLOCAL_TYPE_GLOB_CLASS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+From the perspective of a class pool, all local type definitions and the associated implementations
+of local classes can be saved in the <span class="italic">Class-Relevant Local Definitions</span> area.
+However, such an approach is disadvantageous from the dependency management perspective. Dependent classes
+(subclasses and friends of the global class) only have to be invalidated for changes to the local type
+declarations of a class pool that are used in the <span class="qtext">PRIVATE SECTION</span> of the
+global class. But technically speaking, this invalidation occurs for all changes in the <span class="italic">Class-Relevant
+Local Definitions</span> area (the CCDEF include). For this reason, the additional area <span class="italic">Local
+Definitions/Implementations</span> (the CCIMP include) exists, which is intended for local type declarations
+that are only used within the class implementation of the global class, and for the implementation part of local classes. If this area is changed, dependent classes are not invalidated.
+</p>
+<p>
+To prevent unnecessary new generations of other classes that are based on unwanted technical dependencies,
+the class-local types must be defined in the class pool at the appropriate positions after changes have been made to the global class:
+</p>
+<ul class="disc">
+<li>All types used only within the method implementations of the global class should be declared under
+<span class="italic">Local Definitions/Implementations</span> (CCIMP include). The local classes should be implemented here as well.</li>
+</ul>
+<ul class="disc">
+<li>Only those types that can also be referenced in the <span class="qtext">PRIVATE SECTION</span> should be defined under <span class="italic">Class-Relevant Local Definitions</span> (CCDEF include).</li>
+</ul>
+<p>
+Declarations and implementations of a local class are only supposed to be distributed across the areas
+<span class="italic">Local Definitions/Implementations</span> and <span class="italic">Class-Relevant
+Local Definitions</span> if they are to be referenced in the <span class="qtext">PRIVATE SECTION</span>.
+However, if the local class is only used within the implementation of the global class, both the declaration
+and the implementation are to be carried out in the <span class="italic">Local Definitions/Implementations</span>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The rule specified here specializes the general rule
+<a href="javascript:call_link('abenglobal_declar_guidl.html')" class="lnkpurple" title="Guideline">implement global declarations
+centrally</a> with respect to class pools. They are especially oriented toward the external call of
+methods of their respective global class and are therefore particularly integrated within a dependency network. For this reason, the rule just mentioned cannot apply to its full extent.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+<a href="javascript:call_link('abentest_class_glosry.html')" class="grey" title="Glossary Entry">Test classes</a> should only be created in <a href="javascript:call_link('abentest_include_glosry.html')" class="grey" title="Glossary Entry">test includes</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlocal_type_glob_class_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

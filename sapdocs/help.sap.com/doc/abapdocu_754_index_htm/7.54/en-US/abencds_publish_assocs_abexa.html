@@ -1,0 +1,312 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_PUBLISH_ASSOCS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_publish_assocs_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:29 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - Publishing CDS Associations">
+<title>
+ABAP CDS - Publishing CDS Associations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_publish_assocs_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_publish_assocs_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_entities.html')" class="blue">ABAP CDS - Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_ddl_syntax.html')" class="blue">ABAP CDS - DDL for Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_define_view.html')" class="blue">ABAP CDS - DEFINE VIEW</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_select_statement.html')" class="blue">ABAP CDS - SELECT</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_select_list.html')" class="blue">ABAP CDS - SELECT, select_list</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_select_list_entry.html')" class="blue">ABAP CDS - SELECT, element</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_f1_select_list_association.html')" class="blue">ABAP CDS - SELECT, association</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP CDS - Publishing CDS Associations
+</span></p>
+<p>
+This example demonstrates how CDS associations are <a href="javascript:call_link('abencds_f1_select_list_association.html')" class="blue">published</a> in the <span class="qtext400">SELECT</span> list of a CDS view.
+</p>
+<A name="@@ITOC@@ABENCDS_PUBLISH_ASSOCS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_cds_publish_associations.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Using published association in FROM clause<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_1\_demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Explicit join<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_join2~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_publish_assoc_1~d = demo_join2~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1e).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result1 = result1e.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result1 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Using published association in FROM clause<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_1a\_demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1a).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Explicit join<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_join2~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_1a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_publish_assoc_1a~d = demo_join2~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1ae).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result1a = result1ae.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result1a ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Using propagated association in FROM clause<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_2\_demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Explicit join<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_join2~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_publish_assoc_2~d = demo_join2~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2e).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result2 = result2e.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result2 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Using propagated association in FROM clause<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_2a\_demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2a).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Explicit join<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_join2~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_2a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_publish_assoc_2a~d = demo_join2~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2ae).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result2a = result2ae.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result2a ).<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Using propagated association in FROM clause<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_3\_demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result3).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Explicit join<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_join2~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_publish_assoc_3~d = demo_join2~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result3e).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result3 = result3e.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result3 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Using propagated association in FROM clause<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_3a\_demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result3a).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Explicit join<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_join2~*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_publish_assoc_3a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN demo_join2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_publish_assoc_3a~d = demo_join2~d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result3ae).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result3a = result3ae.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( result3a ).<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_join1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_join1 FROM TABLE @( VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a1' b = 'b1' c = 'c1' d = 'uu' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a2' b = 'b2' c = 'c2' d = 'uu' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a3' b = 'b3' c = 'c3' d = 'vv' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a4' b = 'b4' c = 'c4' d = 'ww' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( a = 'a5' b = 'b5' c = 'c5' d = 'xx' ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM demo_join2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_join2 FROM TABLE @( VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( d = 'uu' e = 'e1' f = 'f1' g = 'g1'&nbsp;&nbsp;h = 'h1' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( d = 'ww' e = 'e2' f = 'f2' g = 'g2'&nbsp;&nbsp;h = 'h2' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( d = 'xx' e = 'e3' f = 'f3' g = 'g3'&nbsp;&nbsp;h = 'h3' ) ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCDS_PUBLISH_ASSOCS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+It also demonstrates how <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS
+associations</a> are accessed that are published in their <span class="qtext400">SELECT</span> list
+using CDS views. For each view, a use of the published CDS association as a data source of a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement in a
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expression</a> is shown. As a comparison, the explicit join expression that produces the same result is shown.
+</p>
+<ul class="disc">
+<li>The following CDS view publishes its CDS association <span class="qtext400">_demo_join2</span>,
+which associates its data source <span class="qtext400">demo_join1</span> with the database table <span class="qtext400">
+demo_join1</span>. The field <span class="qtext400">d</span> used in the <span class="qtext400">ON</span> condition of the source data source must also be an element of the <span class="qtext400">SELECT</span> list.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSPUBASSO1' <br>define view demo_cds_publish_assoc_1 <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_join1 <br>&nbsp;&nbsp;&nbsp;&nbsp;association to demo_join2 as _demo_join2 on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_demo_join2.d = demo_join1.d <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_demo_join2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_join1.d <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<dl><dd>
+When the CDS association <span class="qtext">demo_cds_publish_assoc_1\_demo_join2</span> is accessed, the subsequent access creates an instance of the explicitly used inner join and produces its result.
+</dd></dl>
+<ul class="disc">
+<li>The following CDS view matches the preceding view, but has an additional <span class="qtext400">WHERE</span> condition.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSPUBASSO1A' <br>define view demo_cds_publish_assoc_1a <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_join1 <br>&nbsp;&nbsp;&nbsp;&nbsp;association to demo_join2 as _demo_join2 on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_demo_join2.d = demo_join1.d <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_demo_join2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_join1.d <br>&nbsp;&nbsp;&nbsp;&nbsp;} <br>&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d = 'ww'</span>
+</dd></dl>
+<dl><dd>
+When the CDS association <span class="qtext">demo_cds_publish_assoc_1a\_demo_join2</span> is accessed,
+the results set of the left side of the join is restricted by the <span class="qtext400">WHERE</span> condition in the source data source of the path expression.
+</dd></dl>
+<ul class="disc">
+<li>The following CDS view accesses the view <span class="qtext400">demo_cds_publish_assoc_1</span> above. It does not have its own CDS association, but it does publish the CDS association of its data source <span
+ class="qtext400">demo_cds_publish_assoc_1._demo_join2</span>. Here, the field <span class="qtext400">demo_cds_publish_assoc_1.d</span>
+of the source data source used in the <span class="qtext400">ON</span> condition must again be part of the <span class="qtext400">SELECT</span> list.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSPUBASSO2' <br>define view demo_cds_publish_assoc_2 <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1 <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1._demo_join2, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1.d <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<dl><dd>
+When the CDS association <span class="qtext">demo_cds_publish_assoc_2\_demo_join2</span> is accessed,
+the subsequent access creates an instance of the explicitly used inner join and produces its result.
+The view <span class="qtext400">demo_cds_publish_assoc_2</span> is not subject to any further restrictions,
+which means the result is the same as when <span class="qtext">demo_cds_publish_assoc_1\_demo_join2</span> is accessed.
+</dd></dl>
+<ul class="disc">
+<li>The following CDS view matches the preceding view, but has an additional <span class="qtext400">WHERE</span> condition.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSPUBASSO2A' <br>define view demo_cds_publish_assoc_2a <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1 <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1._demo_join2, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1.d <br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br>&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d = 'xx'</span>
+</dd></dl>
+<dl><dd>
+When the CDS association <span class="qtext">demo_cds_publish_assoc_2a\_demo_join2</span> is accessed,
+the results set of the left side of the join is restricted by the <span class="qtext400">WHERE</span>
+condition in the source data source of the path expression. This is different from accessing <span class="qtext">demo_cds_publish_assoc_1a\_demo_join2</span>.
+The CDS association defined in <span class="qtext400">demo_cds_publish_assoc_1a</span> is published,
+but the source data source is <span class="qtext400">demo_cds_publish_assoc_2a</span> with a different <span class="qtext400">WHERE</span> condition.
+</dd></dl>
+<ul class="disc">
+<li>The following CDS view accesses the view <span class="qtext400">demo_cds_publish_assoc_1a</span> above. It does not have its own CDS association, but it does publish the CDS association of its data source <span
+ class="qtext400">demo_cds_publish_assoc_1a._demo_join2</span>.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSPUBASSO3' <br>define view demo_cds_publish_assoc_3 <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1a <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1a._demo_join2, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1a.d <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<dl><dd>
+When the CDS association <span class="qtext">demo_cds_publish_assoc_3\_demo_join2</span> is accessed,
+the subsequent access creates an instance of the explicitly used inner join and produces its result.
+The view <span class="qtext400">demo_cds_publish_assoc_3</span> is not subject to any further restrictions,
+which means the result is the same as when <span class="qtext">demo_cds_publish_assoc_1a\_demo_join2</span> is accessed.
+</dd></dl>
+<ul class="disc">
+<li>The following CDS view matches the preceding view, but has an additional <span class="qtext400">WHERE</span> condition.</li>
+</ul>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMOCDSPUBASSO3A' <br>define view demo_cds_publish_assoc_3A <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1a <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1a._demo_join2, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_publish_assoc_1a.d <br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br>&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d = 'xx'</span>
+</dd></dl>
+<dl><dd>
+When the CDS association <span class="qtext">demo_cds_publish_assoc_3a\_demo_join2</span> is accessed,
+the results set of the left side of the join is restricted by the <span class="qtext400">WHERE</span>
+condition in the source data source of the path expression. The disjoint <span class="qtext400">WHERE</span>
+condition in <span class="qtext400">demo_cds_publish_assoc_1a</span> means that no matching rows are found, however, and the results set of the left side of the join is empty.
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_publish_assocs_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

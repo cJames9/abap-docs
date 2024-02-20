@@ -1,0 +1,269 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_REPLACEMENT_OBJECTS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_replacement_objects.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Replacement Objects">
+<meta name="keywords" content="ABAP, ABAP Dictionary, Replacement Objects">
+<title>
+Replacement Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_replacement_objects.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_replacement_objects.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Replacement Objects
+</span></p>
+<p>
+A <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> can be assigned to a
+<a href="javascript:call_link('abentransparent_table_glosry.html')" class="grey" title="Glossary Entry">transparent</a>
+<a href="javascript:call_link('abenddic_database_tables.html')" class="blue">database table</a> and classic
+<a href="javascript:call_link('abenddic_database_views.html')" class="blue">database view</a> in ABAP Dictionary as a replacement object using the name of its
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a>. A prerequisite
+is that the structure type defined by the CDS view matches the structure of the database table or classic view as follows:
+</p>
+<ul class="disc">
+<li>The number of components must match.</li>
+</ul>
+<ul class="disc">
+<li>It must be possible to assign a component of the CDS view to each component of the database table or classic view:</li>
+</ul>
+<ul class="circlem2">
+<li>A <a href="javascript:call_link('abenclient_column_glosry.html')" class="grey" title="Glossary Entry">client column</a> is assigned regardless of its name.</li>
+</ul>
+<ul class="circlem2">
+<li>For all other components of the database table, an identically named element of the CDS view must exist.</li>
+</ul>
+<dl><dd>
+The order of the components in the database table and the CDS view does not need to match.
+</dd></dl>
+<ul class="disc">
+<li>The technical type properties <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in data type</a>, length, and number of decimal places must match for all assigned components.</li>
+</ul>
+<ul class="disc">
+<li>The CDS view cannot have any input parameters.</li>
+</ul>
+<ul class="disc">
+<li>It is not possible to have both a replacement object defined and table buffering switched on for a database view whose maintenance status is modifiable.</li>
+</ul>
+<p>
+If a database table or a classic view is accessed and a replacement object is assigned to the table or view in the following cases, the replacement object is evaluated instead of the database table or classic view:
+</p>
+<ul class="disc">
+<li>When used as a <a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> of a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement in
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>. This also applies to
+<a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subqueries</a> in any ABAP SQL
+statement and to the statements <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">
+OPEN CURSOR</span></a> and <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>. This bypasses any
+<a href="javascript:call_link('abensap_puffering.html')" class="blue">table buffering</a> defined for the database table or the classic view.</li>
+</ul>
+<ul class="disc">
+<li>When a <a href="javascript:call_link('abenforeign_key_dependency_glosry.html')" class="grey" title="Glossary Entry">foreign key relationship</a> is checked for Web Dynpros or dynpros.</li>
+</ul>
+<p>
+All other access types are still performed on the database table or classic view, such as:
+</p>
+<ul class="disc">
+<li>Writes in ABAP SQL</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">Writes</a> in ABAP SQL</li>
+</ul>
+<ul class="circlem2">
+<li>Use of the addition <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">SINGLE
+FOR UPDATE</span></a> in the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a></li>
+</ul>
+<dl><dd>
+Writes of this type produce a syntax check warning.
+</dd></dl>
+<ul class="disc">
+<li>Use in other database objects, such as:</li>
+</ul>
+<ul class="circlem2">
+<li>Use as a data source of a view defined on the database</li>
+</ul>
+<ul class="circlem2">
+<li>Access from database procedures or database functions</li>
+</ul>
+<dl><dd>
+Here it is not important how the database object was created, which means that, in addition to native views, the views defined for
+<a href="javascript:call_link('abenclassical_view_glosry.html')" class="grey" title="Glossary Entry">classic</a>
+<a href="javascript:call_link('abendatabase_view_glosry.html')" class="grey" title="Glossary Entry">database views</a> in ABAP Dictionary or for
+<a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> on the database also do not access the replacement object. A similar principle applies to
+<a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> and
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">AMDP functions</a>. Even if ABAP SQL is used to access a classic database view in ABAP Dictionary, a CDS view, or a
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a>
+comprising database tables with replacement objects, no redirection is performed. In these cases, the
+replacement object must be accessed directly. For classic database views, a replacement object can be created that performs this task without the need to modify the programs.
+</dd></dl>
+<ul class="disc">
+<li>Access types other than with ABAP SQL, for example:</li>
+</ul>
+<ul class="circlem2">
+<li>Access with <a href="javascript:call_link('abapimport_data_cluster.html')" class="blue"><span class="qtext">IMPORT</span></a>
+<span class="qtext">FROM</span> <a href="javascript:call_link('abapimport_medium.html')" class="blue"><span class="qtext">DATABASE</span></a>
+or <a href="javascript:call_link('abapexport_data_cluster.html')" class="blue"><span class="qtext">EXPORT</span></a> <span class="qtext">TO</span>
+<a href="javascript:call_link('abapexport_data_cluster_medium.html')" class="blue"><span class="qtext">DATABASE</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Access using <a href="javascript:call_link('abennative_sql.html')" class="blue">Native SQL</a>
+(<a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>, <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a>), and
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a>.</li>
+</ul>
+<p>
+When a replacement object is defined for a database table for a classic database view, the system checks
+whether the specified CDS view meets the prerequisites. If a CDS view used as a replacement object is
+changed later and the prerequisites are no longer met, a runtime error <span class="qtext">DBSQL_REDIRECT_INCONSISTENCY</span> occurs when an ABAP SQL read is performed on the database table or on the database view.
+</p>
+<p>
+No replacement objects can be defined for <a href="javascript:call_link('abenglobal_temporary_table_glosry.html')" class="grey" title="Glossary Entry">
+global temporary tables</a>. In customer systems, replacement objects can only be defined for self-defined database views and not for database tables.
+</p>
+<p>
+If there is a diversion to a CDS view for which one or more
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS roles</a> are defined as part of the
+<a href="javascript:call_link('abencds_access_control_glosry.html')" class="grey" title="Glossary Entry">CDS access control,</a> the associated access conditions are not evaluated when the replacement object is accessed.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Extreme care should be taken when specifying a replacement object for a database table or a database view. Incorrect usage can cause inconsistencies.</li>
+</ul>
+<ul class="disc">
+<li>Replacement objects are mainly intended for existing aggregate tables. These are database tables,
+which contain aggregated data from other tables. Instead of aggregating data in an ABAP program and
+writing data to an aggregate table, which can be exclusively accessed by reads in programs, the aggregation
+can be performed for every read using the CDS view. This prevents redundant data from being stored.
+In addition, aggregation on the database can improve performance if it is necessary to read large volumes
+of data for aggregation in ABAP. Replacement objects can make this possible without invalidating the programs.</li>
+</ul>
+<ul class="disc">
+<li>A prerequisite for assigning a replacement object to an existing database table or database view
+is that the CDS view returns the expected data and that, apart from aggregation, only ABAP SQL reads are performed on the aggregate table.</li>
+</ul>
+<ul class="disc">
+<li>Once a replacement object is defined, no further writes should be performed on an aggregate table. These writes produce a syntax check warning and are scheduled to be disallowed in an upcoming release.</li>
+</ul>
+<ul class="disc">
+<li>Make sure that, apart from the use of ABAP SQL, no other type of access is performed on an aggregate
+table with a replacement object. More specifically, CDS views used as a replacement object are not allowed to access the replaced object, because the content is usually no longer updated.</li>
+</ul>
+<ul class="disc">
+<li>It is not advisable to transport table content for which a replacement object is defined. This content is scheduled to no longer be transported in an upcoming release.</li>
+</ul>
+<ul class="disc">
+<li>Table buffering should be deactivated for an aggregate table for which a replacement object is defined to prevent buffer invalidations.</li>
+</ul>
+<ul class="disc">
+<li>In customer systems, it may be useful to define a replacement object for a self-defined classic
+database view, if a replacement object was defined for one of their basis tables at SAP. In this case, the replacement object of the view must access the replacement object of the basis table.</li>
+</ul>
+<ul class="disc">
+<li>If a database table or a classical view , which a replacement object is defined for, is
+<a href="javascript:call_link('abenddic_enhancements.html')" class="blue">extended</a> in a follow-on system, the assigned CDS
+view must also be extended accordingly with <a href="javascript:call_link('abencds_f1_extend_view.html')" class="blue"><span class="qtext400">EXTEND VIEW</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>The classic <a href="javascript:call_link('abenprojection_view_glosry.html')" class="grey" title="Glossary Entry">projection view</a>,
+<a href="javascript:call_link('abenmaintenance_view_glosry.html')" class="grey" title="Glossary Entry">maintenance views</a>, and
+<a href="javascript:call_link('abenhelp_view_glosry.html')" class="grey" title="Glossary Entry">help views</a> are not defined
+on the database. Access to their basis tables is carried out on AS ABAP by using ABAP SQL. If a basis table has a replacement object, its reads are redirected as required.</li>
+</ul>
+<ul class="disc">
+<li>Frameworks that use ABAP SQL, such as <a href="javascript:call_link('abendata_browser_glosry.html')" class="grey" title="Glossary Entry">
+Data Browser</a>, automatically access replacement objects if these objects are defined for a database table or a database view. Frameworks that use Native SQL or AMDP, such as
+<a href="javascript:call_link('abensadl_glosry.html')" class="grey" title="Glossary Entry">SADL</a>, have to make sure that they access a replacement object rather than the database table or the database view.</li>
+</ul>
+<ul class="disc">
+<li>Wherever possible, any programs that directly accessed aggregate tables or views with aggregate
+tables as basis tables should be modified so that they directly access the CDS views that are used as
+replacement objects. However, this cannot usually be done by simply replacing the data source in the relevant <span class="qtext">SELECT</span> statements. This is because a
+<a href="javascript:call_link('abencds_client_handling.html')" class="blue">client-specific CDS view</a> does not have a client column and therefore the used target objects no longer match. Furthermore, if a CDS view is accessed directly, the
+<a href="javascript:call_link('abencds_role_glosry.html')" class="grey" title="Glossary Entry">CDS roles</a> defined for it also have an effect.</li>
+</ul>
+<ul class="disc">
+<li>Replacement objects cannot be defined for the following:</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenddic_projection_views.html')" class="blue">Projection Views</a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenddic_maintenance_views.html')" class="blue">Maintenance Views</a></li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abenddic_help_views.html')" class="blue">Help Views</a></li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenddic_replacement_object_abexa.html')" class="blue">Replacement Object for Database Table</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenddic_replacement_object_abexa.html')" class="blue">Replacement Object for Database Table</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_replacement_objects.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:10 GMT -->
+</html>

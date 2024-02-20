@@ -1,0 +1,530 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPROGRAM_GENERATION_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprogram_generation_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Program Generation">
+<title>
+Program Generation - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenprogram_generation_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenprogram_generation_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogram_editing.html')" class="blue">program editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_dynamic.html')" class="blue">Dynamic Program Editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_generic_program.html')" class="blue">ABAP Source Code</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Program Generation
+</span></p>
+<p>
+This example demonstrates how a program is generated using <span class="qtext">GENERATE SUBROUTINE POOL</span>.
+</p>
+<A name="@@ITOC@@ABENPROGRAM_GENERATION_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_generic_program.<br>
+<br>
+CLASS display DEFINITION FINAL.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES: txt_line TYPE c LENGTH 72,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE STANDARD TABLE OF txt_line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH DEFAULT KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read_only TYPE abap_bool READ-ONLY VALUE abap_true.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill_abap_editor&nbsp;&nbsp; IMPORTING editor TYPE REF TO cl_gui_abapedit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text TYPE&nbsp;&nbsp;txt,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read_abap_editor&nbsp;&nbsp; IMPORTING editor TYPE REF TO cl_gui_abapedit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING text TYPE txt.<br>
+<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prepare_editors,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;create_abap_editor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING parent_container TYPE REF TO cl_gui_custom_container<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(editor)&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cl_gui_abapedit.<br>
+<br>
+ENDCLASS.<br>
+<br>
+CLASS program DEFINITION FINAL.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;execute IMPORTING check_only TYPE abap_bool DEFAULT abap_false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build_source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(rc) TYPE sy-subrc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check_declarations&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(rc) TYPE sy-subrc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check_implementation&nbsp;&nbsp;RETURNING VALUE(rc) TYPE sy-subrc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check_syntax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(rc) TYPE sy-subrc.<br>
+<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source TYPE display=&gt;txt.<br>
+<br>
+ENDCLASS.<br>
+<br>
+DATA:<br>
+&nbsp;&nbsp;g_links&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE TABLE OF tline,<br>
+&nbsp;&nbsp;g_ok_code&nbsp;&nbsp;&nbsp;&nbsp;TYPE sy-ucomm.<br>
+<br>
+DATA:<br>
+&nbsp;&nbsp;g_editor1&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cl_gui_abapedit,<br>
+&nbsp;&nbsp;g_editor2&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cl_gui_abapedit.<br>
+<br>
+DATA:<br>
+&nbsp;&nbsp;g_declarations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE display=&gt;txt,<br>
+&nbsp;&nbsp;g_implementation&nbsp;&nbsp;&nbsp;&nbsp;TYPE display=&gt;txt.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;display=&gt;main( ).<br>
+<br>
+CLASS program IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD execute.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA program TYPE progname.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA class TYPE string.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF check_declarations( )&nbsp;&nbsp; &lt;&gt; 0 OR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; check_implementation( ) &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF build_source( ) &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF check_only = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-sok TYPE 'S'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(source_name) = 'SOURCE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;source&gt; TYPE STANDARD TABLE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN (source_name) TO &lt;source&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GENERATE SUBROUTINE POOL &lt;source&gt; NAME program.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_generate_subpool_full.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-srf TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;class = `\PROGRAM=` &amp;&amp; program &amp;&amp; `\CLASS=DEMO`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL METHOD (class)=&gt;main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_root INTO DATA(exc) ##CATCH_ALL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE exc-&gt;get_text( ) TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD build_source.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA idx TYPE sy-tabix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA subrc TYPE sy-subrc.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ REPORT 'DEMO_GENERIC_TEMPLATE' INTO source.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_read_src_line_too_long.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subrc = 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF subrc = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIND '* declarations' IN TABLE source MATCH LINE idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE source INDEX idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT LINES OF g_declarations INTO source INDEX idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF subrc = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIND '* implementation' IN TABLE source MATCH LINE idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE source INDEX idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT LINES OF g_implementation INTO source INDEX idx.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-wtl TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = check_syntax( ).<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD check_declarations.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: code LIKE source,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mess TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lin&nbsp;&nbsp;TYPE i ##needed,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wrd&nbsp;&nbsp;TYPE string ##needed,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;warnings TYPE&nbsp;&nbsp;STANDARD TABLE OF rslinlmsg.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Normal syntax check to get typos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;code = VALUE #( ( 'PROGRAM.' ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND LINES OF g_declarations TO code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SYNTAX-CHECK FOR code MESSAGE mess LINE lin WORD wrd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'MSG' TABLE warnings<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PROGRAM sy-repid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF rc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE mess TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF warnings IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(warning) = warnings[ 1 ].<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE warning-message TYPE 'I' DISPLAY LIKE 'W'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Restrict to declarative statements<br>
+&nbsp;&nbsp;&nbsp;&nbsp;code = VALUE #( ( 'PROGRAM.' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'CLASS class DEFINITION.' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'PUBLIC SECTION.' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'ENDCLASS.' ) ) ##no_text.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT LINES OF g_declarations INTO code INDEX lines( code ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SYNTAX-CHECK FOR code MESSAGE mess LINE lin WORD wrd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'MSG' TABLE warnings<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PROGRAM 'DEMO_GENERIC_TEMPLATE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF rc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-dcl TYPE 'S' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF warnings IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;warning = warnings[ 1 ].<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE warning-message TYPE 'I' DISPLAY LIKE 'W'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD check_implementation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Only a very limited set of statements is allowed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA black_list TYPE cl_demo_secure_abap_code=&gt;string_table.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA white_list TYPE cl_demo_secure_abap_code=&gt;string_table.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Blacklist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;black_list = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `-&gt;` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `=&gt;` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `DATA(` ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Whitelist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;white_list = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `FIELD-SYMBOLS`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `CHECK`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `EXIT`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `RETURN`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `DO`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ENDDO`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `WHILE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ENDWHILE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `CASE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `WHEN`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ENDCASE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `IF`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ELSEIF`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ELSE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ENDIF`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `MOVE-CORRESPONDING`&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ASSIGN`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `UNASSIGN`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `CLEAR`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `FREE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `FIND`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `REPLACE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `APPEND`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `INSERT`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `MODIFY`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `DELETE`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `COLLECT`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `READ`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `LOOP`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `ENDLOOP`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `SORT`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = cl_demo_secure_abap_code=&gt;check(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source_code&nbsp;&nbsp;= g_implementation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;black_list&nbsp;&nbsp; = black_list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;white_list&nbsp;&nbsp; = white_list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;declarations = g_declarations ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF rc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-exe TYPE 'S' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD check_syntax.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: mess TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lin&nbsp;&nbsp;TYPE i ##needed,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wrd&nbsp;&nbsp;TYPE string ##needed,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;warnings TYPE&nbsp;&nbsp;STANDARD TABLE OF rslinlmsg.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Syntax check for implementations with declarations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SYNTAX-CHECK FOR source MESSAGE mess LINE lin WORD wrd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'MSG' TABLE warnings<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PROGRAM 'DEMO_GENERIC_TEMPLATE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF rc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE mess TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF warnings IS NOT INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(warning) = warnings[ 1 ].<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE warning-message TYPE 'I' DISPLAY LIKE 'W'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS display IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Security checks<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Not allowed in production systems<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF cl_abap_demo_services=&gt;is_production_system( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-prs TYPE 'S' DISPLAY LIKE 'W'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Only users who are allowed to use the ABAP Editor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'AUTHORITY_CHECK_TCODE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcode&nbsp;&nbsp;= 'SE38'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok&nbsp;&nbsp;&nbsp;&nbsp; = 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not_ok = 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS = 3.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Only users who are allowed to create and run $TMP programs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt; 2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AUTHORITY-CHECK OBJECT 'S_DEVELOP'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'DEVCLASS' FIELD '$TMP'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'OBJTYPE'&nbsp;&nbsp;FIELD 'PROG'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'OBJNAME'&nbsp;&nbsp;DUMMY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'P_GROUP'&nbsp;&nbsp;DUMMY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'ACTVT'&nbsp;&nbsp;&nbsp;&nbsp;FIELD '02'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc =&nbsp;&nbsp;0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read_only = abap_false.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-aut TYPE 'S' DISPLAY LIKE 'E'.<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD main.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;prepare_editors( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL SCREEN 100.<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD prepare_editors.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container1 TYPE REF TO cl_gui_custom_container,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container2 TYPE REF TO cl_gui_custom_container.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;g_declarations = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'DATA text TYPE string VALUE `Hello, I''m generic!`.' ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##no_text.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;g_implementation = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 'cl_demo_output' &amp;&amp; '=&gt;display_text( text ).' ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##no_text.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT container1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name = 'CUSTOM_CONTAINER1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;g_editor1 = display=&gt;create_abap_editor( container1 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT container2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name = 'CUSTOM_CONTAINER2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;g_editor2 = display=&gt;create_abap_editor( container2 ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD create_abap_editor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT editor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent = parent_container.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;editor-&gt;set_toolbar_mode( 0 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;editor-&gt;set_statusbar_mode( 0 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF read_only = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;editor-&gt;set_readonly_mode( 1 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;editor-&gt;set_readonly_mode( 0 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD fill_abap_editor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;editor-&gt;set_text( text ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD read_abap_editor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;editor-&gt;get_text( IMPORTING table = text ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+ENDCLASS.<br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'STATUS_100'.<br>
+&nbsp;&nbsp;SET TITLEBAR&nbsp;&nbsp;'TITLE_100'.<br>
+&nbsp;&nbsp;display=&gt;fill_abap_editor( editor = g_editor1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text&nbsp;&nbsp; = g_declarations ).<br>
+&nbsp;&nbsp;display=&gt;fill_abap_editor( editor = g_editor2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text&nbsp;&nbsp; = g_implementation ).<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel_0100 INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100.<br>
+&nbsp;&nbsp;IF g_ok_code = 'INFO'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL FUNCTION 'HELP_OBJECT_SHOW'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dokclass = 'RE'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doklangu = sy-langu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dokname&nbsp;&nbsp;= 'DEMO_GENERIC_PROGRAM'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TABLES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links&nbsp;&nbsp;&nbsp;&nbsp;= g_links.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR g_ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;IF display=&gt;read_only = abap_true.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE text-aut TYPE 'S' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR g_ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;display=&gt;read_abap_editor( EXPORTING editor = g_editor1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING text&nbsp;&nbsp; = g_declarations ).<br>
+&nbsp;&nbsp;display=&gt;read_abap_editor( EXPORTING editor = g_editor2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING text&nbsp;&nbsp; = g_implementation ).<br>
+&nbsp;&nbsp;CASE g_ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'EXECUTE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program=&gt;execute( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CHECK'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program=&gt;execute( check_only = abap_true ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CLEAR'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR: g_declarations,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; g_implementation.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+&nbsp;&nbsp;CLEAR g_ok_code.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENPROGRAM_GENERATION_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The program permits declaration statements to be entered in a declaration part and operational statements
+to be entered in an implementation part. These entries are inserted consecutively into a method of a
+pattern program, which is imported into an internal table using the statement <a href="javascript:call_link('abapread_report.html')" class="blue">
+<span class="qtext">READ REPORT</span></a>. When <span class="italic">Execute</span> is selected, the
+program is generated using <a href="javascript:call_link('abapgenerate_subroutine_pool.html')" class="blue"><span class="qtext">GENERATE
+SUBROUTINE POOL</span></a> and the method is called. Before this happens, the syntax is checked using <a href="javascript:call_link('abapsyntax-check_for_itab.html')" class="blue"> <span class="qtext">SYNTAX-CHECK</span></a>.
+</p>
+<p>
+The ability to enter source code for a generic program presents the greatest potential security risk. The following measures have been taken to avoid abuse of this program:
+</p>
+<ul class="disc">
+<li>The static constructor of the class <span class="qtext">display</span> checks whether the program
+is executed in a production system (a system with production clients). Source code cannot be entered in these systems and no function codes are accepted apart from the display of documentation.</li>
+</ul>
+<ul class="disc">
+<li>The static constructor of the class <span class="qtext">display</span> checks whether the current
+user has authorization for ABAP Editor in the current system and development authorization for modifying
+and executing temporary programs. Only these users can enter source code and execute programs, since all actions possible here are also possible in the development environment.</li>
+</ul>
+<ul class="disc">
+<li>Since developers in particular are tempted to test the vulnerability of their test programs, the available statements are restricted as follows:</li>
+</ul>
+<ul class="circlem2">
+<li>Only declarative statements can be entered in the declaration part. This is checked using the same
+syntax check as for the declaration part of a class. This check is made in the method <span class="qtext">check_declarations</span> of the class <span class="qtext">program</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Only those statements entered in a white list are valid in the implementation part. A black list
+prevents the use of other classes or objects (except for the output class <span class="lnkgrey">CL_DEMO_OUTPUT</span>).
+This check is made in the method <span class="qtext">check_implementation</span> of the class <span class="qtext">
+program</span>, with the method CHECK of the class CL_DEMO_SECURE_ABAP_CODE being called. If the statements
+<span class="qtext">INSERT</span>, <span class="qtext">MODIFY</span>, or <span class="qtext">DELETE</span>
+are used, the addressed table must be declared in the declaration part. This prevents writes from being performed on database tables.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If, despite these measures, it is still possible to generate and execute potentially dangerous code
+with this program without manipulating the program flow or the program data in the debugger, inform the component BC-ABA-LA immediately.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenprogram_generation_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

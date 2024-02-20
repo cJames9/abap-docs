@@ -1,0 +1,642 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPSORT_ITAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapsort_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SORT itab">
+<meta name="keywords" content="ABAP, SORT itab">
+<title>
+SORT itab - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapsort_itab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapsort_itab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@SORT itab@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+SORT itab <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapsort_itab_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">SORT itab <i class=bn>[</i>STABLE<i class=bn>]</i> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>{</i> <i class=bn>{</i> <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>AS TEXT<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>BY <i class=bn>{</i>
+<a href="javascript:call_link('abenitab_components.html')" class="blue">comp1</a> <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i> <i class=bn>[</i>AS TEXT<i class=bn>]</i><i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>{</i>
+<a href="javascript:call_link('abenitab_components.html')" class="blue">comp2</a> <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i> <i class=bn>[</i>AS TEXT<i class=bn>]</i><i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <i class=bn>]</i> <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> <i class=bn>[</i>BY (otab)<i class=bn>]</i> <i class=bn>}</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> <i class=bn>[</i>BY expr<i class=bn>]</i> <i class=bn>}</i> <i class=bn>}</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... STABLE</span> </A> <br><br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... ASCENDING<i
+class=bn>|</i>DESCENDING</span> </A> <br><br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">... AS TEXT</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_4@4@" class="blue"> 4. <span class="qtext">... BY compi <i class=bn>[</i>ASCENDING<i
+class=bn>|</i>DESCENDING<i class=bn>]</i> <i class=bn>[</i>AS TEXT<i class=bn>]</i></span> </A> <br><br>
+<A HREF="#!ABAP_ADDITION_5@5@" class="blue"> 5. <span class="qtext">... BY (otab)</span> </A> <br><br><A HREF="#!ABAP_ADDITION_6@6@" class="blue"> 6. <span class="qtext">... BY expr</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement sorts an internal table <span class="qtext">itab</span> by the size of its components. Here, default sizes are compared using the general
+<a href="javascript:call_link('abenlogexp_rules.html')" class="blue">comparison rules</a>, that is:
+</P>
+<ul class="disc">
+<li>
+Numeric and byte-like components are sorted by their values.
+<br><br></li>
+<li>
+Character-like components are sorted by default by their binary representation
+(<a href="javascript:call_link('abencodepage_glosry.html')" class="grey" title="Glossary Entry">code page</a>). Textual sorting of character-like components can be performed using the addition <span class="qtext">AS TEXT</span>.
+<br><br></li>
+<li>
+The sizes of other component types are compared using the corresponding rules for
+<a href="javascript:call_link('abenlogexp_rules_operands_ref.html')" class="blue">reference variables</a>,
+<a href="javascript:call_link('abenlogexp_rules_operands_struc.html')" class="blue">structures</a>, and <a href="javascript:call_link('abenlogexp_rules_operands_itab.html')" class="blue">internal tables</a>.
+<br></li>
+</ul>
+<P>
+If no explicit sort key is entered using the addition <span class="qtext">BY</span>, the internal table <span class="qtext">itab</span> is sorted by the
+<a href="javascript:call_link('abenprimary_table_key_glosry.html')" class="grey" title="Glossary Entry">primary table key</a>. The priority of the sort is based on the order in which the
+<a href="javascript:call_link('abaptypes_keydef.html')" class="blue">key fields</a> are specified in the table definition. In
+<a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard
+keys</a>, the sort is prioritized according to the order of the key fields in the row type of the table. If the primary table key of a standard table is
+<a href="javascript:call_link('abenitab_empty_key.html')" class="blue">empty</a>, no sort takes place. If this is known statically, the syntax check produces a warning.
+</P>
+<P>
+Sorting is unstable by default, which means that the relative order of rows that do not have different
+sort keys is not preserved when they are sorted. The order can be different depending on the platform or when sorted multiple times. The addition <span class="qtext">STABLE</span> can be used for stable sorting.
+</P>
+<P>
+<span class="qtext">itab</span> expects a <a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard table</a> or a
+<a href="javascript:call_link('abenhashed_table_glosry.html')" class="grey" title="Glossary Entry">hashed table</a>.
+</P>
+<ul class="disc">
+<li>
+In standard tables, the <a href="javascript:call_link('abenprimary_table_index_glosry.html')" class="grey" title="Glossary Entry">primary table index</a> is applied in accordance with the sort order
+<br><br></li>
+<li>
+In hashed tables, the internal order is modified. This internal order was defined either by inserting rows in the internal table or by a previous sort using the statement <span class="qtext">SORT</span>.
+<br></li>
+</ul>
+<P>
+In both table categories, <span class="qtext">SORT</span> specifies the order in which a subsequent
+<a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a> runs without the addition <span class="qtext">USING KEY</span>.
+</P>
+<P>
+Sorted tables cannot be sorted using <span class="qtext">SORT</span> and applying the statement <span class="qtext">SORT</span> to
+<a href="javascript:call_link('abensorted_table_glosry.html')" class="grey" title="Glossary Entry">sorted tables</a> is prohibited
+by the syntax. If the system only detects that a sorted table is to be sorted at runtime, a non-handleable exception is raised if this action could modify the existing sorting. The latter occurs in the following cases:
+</P>
+<ul class="disc">
+<li>
+if the addition <span class="qtext">BY</span> is used to specify a different sort key as the initial part of the table key.
+<br><br></li>
+<li>
+if the addition <span class="qtext">DESCENDING</span> is used.
+<br><br></li>
+<li>
+if the addition <span class="qtext">AS TEXT</span> is used.
+<br><br></li>
+<li>
+if an attribute of an object is specified as a component in the addition <span class="qtext">BY</span>.
+<br></li>
+</ul>
+<P>
+Otherwise, the statement <span class="qtext">SORT</span> is ignored for sorted tables. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+It is best to specify an explicit sort key behind <span class="qtext">BY</span>, if possible. An implicit sort behind the
+<a href="javascript:call_link('abentable_key_glosry.html')" class="grey" title="Glossary Entry">primary table key</a> (which can itself, in standard tables, be defined implicitly as a
+<a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard key</a>) makes a program difficult to understand and possibly unpredictable. <br>
+<br></li>
+<li>
+When using the primary table key, note that this key can be the <a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard key</a>, which can also have unexpected consequences:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>If the row type is structured, the table is sorted by all character-like and byte-like components.</li>
+</ul>
+<ul class="circlem2">
+<li>The standard key of a standard table can be <a href="javascript:call_link('abenitab_empty_key.html')" class="blue">empty</a>. <br></li>
+</ul>
+<ul class="disc">
+<li>
+Secondary table keys cannot be specified as sort keys. <br>
+<br></li>
+<li>
+<span class="qtext">SORT</span>s are ignored by the assignment of rows to a <a href="javascript:call_link('abensecondary_table_index_glosry.html')" class="grey" title="Glossary Entry">secondary table index</a>. <br>
+<br></li>
+<li>
+The addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP BY</span></a>
+of the statement <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP AT itab</span></a>
+or of a <a href="javascript:call_link('abenfor_groups_of.html')" class="blue"><span class="qtext">FOR</span> expression</a> also
+has the additions <span class="qtext">ASCENDING</span> and <span class="qtext">DESCENDING</span> for
+sorting groups. These can be used to expand the statement <span class="qtext">SORT</span> if its sort criteria are not sufficient (see the
+<a href="javascript:call_link('abenloop_group_by_sort_abexa.html')" class="blue">executable example</a>). <br>
+<br></li>
+<li>
+It is possible to sort columns with <a href="javascript:call_link('abenreference_type_glosry.html')" class="grey" title="Glossary Entry">
+reference types</a> but doing this is questionable. Here it is important to note that no comparison
+rule is defined for non-initial invalid references. An internal table can only be sorted by valid or initial references. A non-initial, invalid reference leads to a runtime error if it is involved in sorting. <br>
+<br></li>
+<li>
+The system class <span class="lnkgrey">CL_ABAP_ITAB_UTILITIES</span> contains method VIRTUAL_SORT, which can be used to virtually sort a set of internal tables. See also the executable
+<a href="javascript:call_link('abenvirtual_sort_abexas.html')" class="blue">examples</a> listed below. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Simplest form of the statement <span class="qtext">SORT</span> for internal tables. The hash table <span class="qtext">
+carriers</span> is sorted by its primary key (in other words, sorted by column <span class="qtext">carrid</span>).
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA carriers TYPE HASHED TABLE OF scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH UNIQUE KEY carrid. <br>
+ <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @carriers. <br> <br>SORT carriers. <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abensort_stable_abexa.html')" class="blue">Sorting Internal Tables</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abensort_itab_sec_key_abexa.html')" class="blue">Sorting Internal Tables with Secondary Keys</a> <br><br></li>
+</ul>
+<A NAME="@@STABLE@@SORT itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... STABLE</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+<span class="qtext">STABLE</span> is used to perform stable sorts, which means that the relative order
+of rows (an order that does not change in the sort key) remains unchanged in the sort. If the addition <span class="qtext">STABLE</span> is not specified, the order is not stable:
+</P>
+<ul class="disc">
+<li>
+The order can depend on the platform.
+<br><br></li>
+<li>
+Multiple sorting of a table using the same sort key can produce a different order each time the table is sorted. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Produces a stable sort of the internal table <span class="qtext">flights</span> by columns <span class="qtext">cityfrom</span>
+<span class="qtext">cityto</span>, whereby the order within this sorting with respect to <span class="qtext">carrid</span> and <span class="qtext">connid</span> is preserved.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT carrid, connid, cityfrom, cityto <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(flights). <br> <br>SORT flights STABLE BY cityfrom cityto. <br><br>
+</span>
+</p>
+<A NAME="@@ASCENDING@@SORT itab@@"></A>
+<A NAME="@@DESCENDING@@SORT itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... ASCENDING<i class=bn>|</i>DESCENDING</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">ASCENDING</span> or <span class="qtext">DESCENDING</span> can be used
+to specify the sort direction explicitly as ascending or descending. If neither of the additions is
+specified, the table is sorted in ascending order. This sort direction can be overwritten after the addition <span class="qtext">BY</span> for components specified individually here. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The internal table <span class="qtext">itab</span> is sorted by its primary key (in other words, by
+its rows). Next, <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">LOOP AT GROUP BY</span></a> can be used for grouping and determine the number of rows per group.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE TABLE OF i WITH NON-UNIQUE KEY table_line. <br> <br>DATA(rnd) = cl_abap_random_int=>create( seed = + sy-uzeit <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;&nbsp;= 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max&nbsp;&nbsp;= 10 ). <br>
+ <br>itab = VALUE #( FOR i = 1 UNTIL i > 100 ( rnd->get_next( ) ) ). <br> <br>SORT itab DESCENDING. <br>
+ <br>LOOP AT itab ASSIGNING FIELD-SYMBOL(&lt;fs>) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY ( key = &lt;fs> size = GROUP SIZE ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASSIGNING FIELD-SYMBOL(&lt;key>). <br>
+&nbsp;&nbsp;cl_demo_output=>write( |{ &lt;key>-key WIDTH = 4 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }{ &lt;key>-size }| ). <br>ENDLOOP. <br>cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<A NAME="@@AS TEXT@@SORT itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... AS TEXT</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">AS TEXT</span> specifies that
+<a href="javascript:call_link('abentextlike_data_type_glosry.html')" class="grey" title="Glossary Entry">text-like</a> components are sorted in accordance with the
+<a href="javascript:call_link('abenlocale_glosry.html')" class="grey" title="Glossary Entry">locale</a> of the current
+<a href="javascript:call_link('abentext_environment_glosry.html')" class="grey" title="Glossary Entry">text environment</a>.
+If <span class="qtext">AS TEXT</span> is not specified, text-like components are sorted according to
+the encoding in the code page of the current text environment. This can be overwritten after the addition <span class="qtext">BY</span> for the components specified individually here. The text environment is set when an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> is
+opened or by using the statement <a href="javascript:call_link('abapset_locale.html')" class="blue"><span class="qtext">SET LOCALE</span></a>. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+ The result of sorting without the addition <span class="qtext">AS TEXT</span> depends on the operating system of the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the current
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instance</a>. Although
+the sequence of individual letters that belong to the activated language remains the same across different
+operating systems, there are differences in terms of the characters that do not belong to the alphabet
+of the activated language. Even if only the letters from the alphabet of the activated language are
+used, some slight differences occur when sorting complete words. Furthermore, the order of uppercase and lowercase letters is specific to the operating system.
+<br><br></li>
+<li>
+The use of the addition <span class="qtext">AS TEXT</span> usually renders the statement <a href="javascript:call_link('abapconvert_text.html')" class="blue">
+<span class="qtext">CONVERT TEXT</span></a> superfluous in the context of internal tables.
+<br><br></li>
+<li>
+A sort without the addition <span class="qtext">AS TEXT</span> is considerably faster than a sort that
+does use this addition. If it is certain that both sorts produce the same order, the addition <span class="qtext">AS TEXT</span> is not necessary. This can be the case if, for example, text-like components contain characters from the
+<a href="javascript:call_link('abenascii_glosry.html')" class="grey" title="Glossary Entry">ASCII</a> character set only and only lowercase or uppercase letters. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Sorts a <a href="javascript:call_link('abenhashed_table_glosry.html')" class="grey" title="Glossary Entry">hashed table</a> <span class="qtext">text_tab</span> by the order in the code page and in accordance with the locale of the current
+<a href="javascript:call_link('abentext_environment.html')" class="blue">text environment</a>. If a western European text environment
+is configured, the sorts produce the orders Miller, Moller, Muller, M&#x00F6;ller and Miller, Moller, M&#x00F6;ller, Muller respectively (also see the
+<a href="javascript:call_link('abenset_locale_abexa.html')" class="blue">executable example</a> for <span class="qtext">SET LOCALE</span>).
+</P>
+<p class="qtextml1">
+<span class="qtext">
+CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main. <br>
+&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA text_tab TYPE HASHED TABLE OF string <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY table_line. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;text_tab = VALUE #( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `Muller` ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `M&#x00F6;ller` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `Moller` ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `Miller` ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT text_tab. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write_data( text_tab ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SORT text_tab AS TEXT. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display_data( text_tab ). <br>
+&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;demo=>main( ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abensort_text_abexa.html')" class="blue">Sorting Internal Tables Alphabetically</a> <br><br>
+</p>
+<A NAME="@@BY@@SORT itab@@"></A>
+<A NAME="@@ASCENDING@@SORT BY - itab@@"></A>
+<A NAME="@@DESCENDING@@SORT BY - itab@@"></A>
+<A NAME="@@AS TEXT@@SORT BY - itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_4@4@"></A> <span class="bold">Addition 4</span>
+</span></p>
+<P>
+<span class="qtext">... BY compi <i class=bn>[</i>ASCENDING<i class=bn>|</i>DESCENDING<i class=bn>]</i> <i class=bn>[</i>AS TEXT<i class=bn>]</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">BY compi</span> does not sort the table by the
+<a href="javascript:call_link('abaptypes_keydef.html')" class="blue">primary table key</a>, but by the components <span class="qtext">comp1 comp2...</span> specified after it instead. The components are specified as described under
+<a href="javascript:call_link('abenitab_components.html')" class="blue">Specifying Components</a>. If all components are specified
+using <span class="qtext">name</span> variables and these variables contain only blanks, no sort takes
+place. The priority of the sort depends on the order in which the components <span class="qtext">comp1
+comp2 ...</span> are specified from left to right. The specified components can also be duplicated or can overlap. The specified components can have any data type. The relevant
+<a href="javascript:call_link('abenlogexp_rules.html')" class="blue">comparison rules</a> apply to the evaluation.
+</P>
+<P>
+If neither of the additions <span class="qtext">ASCENDING</span> or <span class="qtext">DESCENDING</span>
+are specified after <span class="qtext">compi</span>, the sort direction specified by addition 2 is
+used. If one of the additions <span class="qtext">ASCENDING</span> or <span class="qtext">DESCENDING</span> is specified, it overwrites the default for this component.
+</P>
+<P>
+If the addition <span class="qtext">AS TEXT</span> is not specified after a text-like component <span class="qtext">
+compi</span>, the instructions defined by addition 3 are used. If the addition <span class="qtext">AS
+TEXT</span> is specified after a text-like component, it overwrites the default for this component.
+In non-text-like components, <span class="qtext">AS TEXT</span> cannot be specified, unless a structured
+component is specified. In structured components, <span class="qtext">AS TEXT</span> only affects text-like components. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+If the row type of the internal table is not known statically, the components can only be specified dynamically and not directly.
+<br><br></li>
+<li>
+Instead of individual dynamic components, an internal table can be specified directly as <span class="qtext">otab</span>
+or as the result of an expression <span class="qtext">expr</span> as a dynamic sort key (see additions
+5 and 6). Using a table like this has the advantage that any exceptions are handleable. When specifying
+the table, the number of components of the sort key is also dynamic. In contrast, when individual dynamic
+components are used, a character-like data object must be specified for any required component, which is ignored if it only contains blank characters. <br>
+<br></li>
+<li>
+An <a href="javascript:call_link('abapsort_itab_obsolete.html')" class="blue">obsolete variant</a> allows field symbols to also be specified for the components outside of classes, for standard tables. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Sorts the internal table <span class="qtext">itab</span> in ascending order by column <span class="qtext">col1</span> and in descending order by column <span class="qtext">col2</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF line, <br>&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE c LENGTH 1, <br>&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE i, <br>
+&nbsp;&nbsp;END OF line. <br> <br>DATA itab TYPE STANDARD TABLE OF line WITH EMPTY KEY. <br> <br>itab = VALUE #( ( col1 = 'A' col2 = 6 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'B' col2 = 4 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'B' col2 = 7 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'C' col2 = 1 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'C' col2 = 3 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'B' col2 = 9 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'A' col2 = 2 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'A' col2 = 5 ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( col1 = 'C' col2 = 8 ) ). <br>
+ <br>SORT itab BY col1 ASCENDING col2 DESCENDING. <br> <br>cl_demo_output=>display( itab ). <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_5@5@"></A> <span class="bold">Addition 5</span>
+</span></p>
+<P>
+<span class="qtext">... BY (otab)</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">BY (otab)</span> does not sort the table by the
+<a href="javascript:call_link('abaptypes_keydef.html')" class="blue">primary table key</a>, but by the component specified dynamically
+in the internal table <span class="qtext">otab</span> instead. Each row of the table <span class="qtext">otab</span>
+defines a component of the sort key. The priority of the sort is based on the order of the rows in <span class="qtext">otab</span>. If the table <span class="qtext">otab</span> is initial, the table is not sorted.
+</P>
+<P>
+For <span class="qtext">otab</span>, a standard table of the table type <span class="lnkgrey">ABAP_SORTORDER_TAB</span>
+from ABAP Dictionary must be specified. The row type of this table is the dictionary structure <span class="lnkgrey">ABAP_SORTORDER</span> with the following components:
+</P>
+<ul class="disc">
+<li>
+NAME of the type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">SSTRING</a> <br> <br>for specifying
+a component of the sort key. The component is specified in the form <span class="qtext400">"comp_name[+off(len)]"</span>,
+where <span class="qtext400">"comp_name"</span> must be the name of a component in <span class="qtext">itab</span> (uppercase characters). The component name may contain
+<a href="javascript:call_link('abenoffset_length.html')" class="blue">offsets and lengths</a>, structure component selectors, and component selectors for assigning structured data objects and attributes in classes or objects. <br>
+<br></li>
+<li>
+DESCENDING of the type CHAR with length 1 <br> <br>for specifying the sort direction for the current
+component. If DESCENDING is initial, the sort is performed in ascending order. If DESCENDING has the value <span class="qtext400">"X"</span>, the table is sorted in descending order. <br>
+<br></li>
+<li>
+ASTEXT of the type CHAR with length 1 <br> <br>for the text sorting of the current component. If ASTEXT
+has the value "X", the sort is performed as with the addition <span class="qtext">AS TEXT</span>. This
+is only possible for character-like components. If ASTEXT is initial, character-like components are sorted in accordance with their binary representation.
+<br></li>
+</ul>
+<P>
+If a column of <span class="qtext">otab</span> has invalid content (that is, if NAME contains the name
+of a component that does not exist or an incorrect offset/length or if DESCENDING and ASTEXT do not
+contain <span class="qtext400">"X"</span> or the initial value), this raises a handleable exception of the class CX_SY_DYN_TABLE_ILL_COMP_VAL. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The addition <span class="qtext">BY (otab)</span> cannot be combined with <span class="qtext">BY compi</span>. <br>
+<br></li>
+<li>
+When using the addition <span class="qtext">BY (otab)</span>, it is not possible to use <span class="qtext">DESCENDING</span>
+or <span class="qtext">AS TEXT</span> to specify a descending sort direction or textual sorting for all components. <br>
+<br></li>
+<li>
+If a single parenthesized data object <span class="qtext">(dobj)</span> is specified after the addition <span class="qtext">BY</span>, its data type decides whether its content is used to specify a
+<a href="javascript:call_link('abenitab_components.html')" class="blue">single dynamic component</a> or multiple components. In either case, no sort takes place if <span class="qtext">dobj</span> is initial. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Imports a database table into a dynamic internal table dynamically and sorts its content dynamically. The name of the database table and the names of the columns (by which the table sorted) can be entered.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA dbtab TYPE c LENGTH 30 VALUE 'spfli'. <br>cl_demo_input=>add_field( CHANGING field = dbtab ). <br>DATA columns TYPE string VALUE `cityfrom, cityto`. <br>
+cl_demo_input=>request( CHANGING field = columns ). <br>dbtab = condense( to_upper( dbtab ) ). <br> <br>
+DATA dref&nbsp;&nbsp;TYPE REF TO data. <br>FIELD-SYMBOLS &lt;itab> TYPE STANDARD TABLE. <br> <br>TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE DATA dref TYPE STANDARD TABLE OF (dbtab). <br>&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN dref->* TO &lt;itab>. <br>
+&nbsp;&nbsp;CATCH cx_sy_create_data_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( 'Wrong data type!' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDTRY. <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (dbtab) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @&lt;itab>. <br>
+&nbsp;&nbsp;CATCH cx_sy_dynamic_osql_semantics. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( 'Wrong database table!' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDTRY. <br> <br>SPLIT columns AT `,` INTO TABLE DATA(column_tab). <br>
+DATA(order) = VALUE abap_sortorder_tab( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR wa IN column_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( name = condense( to_upper( wa ) ) ) ). <br>
+ <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;SORT &lt;itab> BY (order). <br>&nbsp;&nbsp;CATCH cx_sy_dyn_table_ill_comp_val. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display(&nbsp;&nbsp;'Wrong column name!' ). <br>&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDTRY. <br> <br>cl_demo_output=>display( &lt;itab> ). <br><br>
+</span>
+</p>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_6@6@"></A> <span class="bold">Addition 6</span>
+</span></p>
+<P>
+<span class="qtext">... BY expr</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">BY expr</span> can be used to specify an expression or a functional
+method call <span class="qtext">expr</span> whose result is an internal table with the same type and content as in the preceding addition <span class="qtext">BY (otab)</span>. <span class="qtext">expr</span> is a
+<a href="javascript:call_link('abengeneral_expr_position_glosry.html')" class="grey" title="Glossary Entry">general expression position</a>. The behavior is the same as when specifying a parenthesized internal table directly.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+Parentheses cannot be placed around <span class="qtext">expr</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The above example for specifying <span class="qtext">BY (otab)</span> can be written in a shorter form
+as shown below. Instead of specifying the unnecessary internal table <span class="qtext">order</span>,
+it is possible to specify the tabular value (constructed using the value operator <a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue"><span class="qtext">VALUE</span></a>) of the required content).
+</p>
+<dl><dd>
+<span class="qtext">... <br> <br>SPLIT columns AT `,` INTO TABLE DATA(column_tab). <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;SORT &lt;itab> BY VALUE #( FOR wa IN column_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( name = condense( to_upper( wa ) ) ) ). <br>
+&nbsp;&nbsp;CATCH cx_sy_dyn_table_ill_comp_val. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display(&nbsp;&nbsp;'Wrong column name!' ). <br>&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDTRY. <br> <br>...</span> <br><br>
+</dd></dl>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abensort_itab_exp_abexa.html')" class="blue">Sorting Internal Tables Dynamically</a>. <br><br>
+</P>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_DYN_TABLE_ILL_LINE_TYPE</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> The table <span class="qtext">otab</span> has an invalid row type. <br><span class="italic">Runtime error:</span> <span class="qtext">DYN_TABLE_ILL_LINE_TYPE</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_DYN_TABLE_ILL_COMP_VAL</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> A column of the table <span class="qtext">otab</span> contains an invalid value. <br><span class="italic">Runtime error:</span> <span class="qtext">DYN_TABLE_ILL_COMP_VAL</span>
+<br></li>
+</ul>
+<P>
+<span class="bold">Non-Handleable Exceptions</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> A sort criterion specified dynamically in the form <span class="qtext">(name)</span>
+with the explicit addition <span class="qtext">AS TEXT</span> is not text-like. <br><span class="italic">Runtime error:</span> <span class="qtext">SORT_AS_TEXT_BAD_DYN_TYPE</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> A field symbol used as a dynamic sort criterion with an explicit addition <span class="qtext">AS TEXT</span> is not text-like. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">SORT_AS_TEXT_BAD_FS_TYPE</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> A field symbol used as a dynamic sort criterion does not point to the header line of the internal table to be sorted. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">SORT_ITAB_FIELD_INVALID</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> For a table of the type <span class="qtext">SORTED TABLE</span>, the sort key does not match a beginning piece of the table key. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">SORT_SORT_ILL_KEY_ORDER</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The additions <span class="qtext">DESCENDING</span> and <span class="qtext">AS
+TEXT</span> are not allowed for tables of the type <span class="qtext">SORTED TABLE</span>. <br><span class="italic">Runtime error:</span> <span class="qtext">SORT_SORT_ILLEGAL</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> Sorting method is not external (E) or internal (I) <br><span class="italic">Runtime error:</span> <span class="qtext">SORT_ILLEGAL_MODE</span> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abensort_stable_abexa.html')" class="blue">Sorting Internal Tables</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abensort_itab_sec_key_abexa.html')" class="blue">Sorting Internal Tables with Secondary Keys</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abensort_text_abexa.html')" class="blue">Sorting Internal Tables Alphabetically</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abensort_itab_exp_abexa.html')" class="blue">Sorting Internal Tables Dynamically</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapsort_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:35 GMT -->
+</html>

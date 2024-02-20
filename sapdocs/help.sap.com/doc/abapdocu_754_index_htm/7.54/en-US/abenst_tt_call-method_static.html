@@ -1,0 +1,251 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_CALL-METHOD_STATIC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_call-method_static.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:call-method, Call Static Methods">
+<meta name="keywords" content="ABAP, Simple Transformations, call-method">
+<title>
+ST - tt:call-method, Call Static Methods - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_call-method_static.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_call-method_static.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_abap_objects.html')" class="blue">ST - Access to ABAP Objects from ST</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@call-method@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:call-method, Call Static Methods
+</span></p>
+<A name="@@ITOC@@ABENST_TT_CALL-METHOD_STATIC_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:call-method class="class" <i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>name="meth" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>writer = "writer_para"<i class=bn>]</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>reader = "reader_para"<i class=bn>]</i> <br>
+&nbsp;&nbsp;<i class=bn>[</i>&lt;tt:with-parameter <i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>name="para1" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ref="node1"<i class=bn>|</i>val="val1"<i class=bn>|</i>var="var1"<i class=bn>]</i> /> <br>
+&nbsp;&nbsp; &lt;tt:with-parameter <i class=bn>[</i>s-<i class=bn>|</i>d-<i class=bn>]</i>name="para2" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ref="node2"<i class=bn>|</i>val="val2"<i class=bn>|</i>var="var2"<i class=bn>]</i> /> <br>&nbsp;&nbsp; ...<i class=bn>]</i> <br>&lt;/tt:call-method></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Using this variant of the statement <span class="qtext400">tt:call-method</span>, it is possible to
+call a static method of a global ABAP Objects class in an ST program as follows: <span class="qtext400">class</span>
+can be used to specify a class from the class library and <span class="qtext400">meth</span> can be
+used to specify a visible method of this class. This is not case-sensitive. The method is called for
+both serializations and deserializations when <span class="qtext400">name</span> is declared; it is
+called for serializations only when <span class="qtext400">s-name</span> is declared and for deserializations only when <span class="qtext400">d-name</span> is declared.
+</p>
+<p>
+The interface parameters <span class="qtext400">para1</span>, <span class="qtext400">para2</span>, &#x2026;
+of the called method can or must be bound to actual parameters, using the ST command <span class="qtext400">tt:with-parameter</span>.
+The attribute <span class="qtext400">name</span> specifies the name of a formal parameter. An actual
+parameter is bound to this attribute only in serializations (if <span class="qtext400">s-name</span>
+is specified) and only in deserializations (if <span class="qtext400">d-name</span> is specified). In
+certain cases, this allows a single method to be used for both directions. As actual parameters, <span class="qtext400">
+ref</span> can be used to specify data roots, <span class="qtext400">var</span> to specify variables or parameters, and <span class="qtext400">val</span> to specify
+<a href="javascript:call_link('abenst_abap_representation.html')" class="blue">values</a>. Depending on the category of formal
+parameter, the values of the specified actual parameters are either passed in the call or used when the called method ends.
+</p>
+<p>
+When actual parameters are used, read-only access to data roots is possible only in serializations,
+which is why they can only be passed to input parameters of the method. In the reverse case (deserializations),
+only writes can be performed on data roots, which is why they can be used only by output parameters or return codes.
+</p>
+<p>
+The type of an actual parameter must match the typing of the interface parameter. The type of a data
+root, which can itself be typed in the statement <a href="javascript:call_link('abenst_tt_root.html')" class="blue"><span class="qtext400">tt:root</span></a>,
+is determined by the type of the bound ABAP data object. Parameters and variables do not have a static
+type, unless the addition <span class="qtext400">ref-type</span> of the statements <a href="javascript:call_link('abenst_tt_parameter.html')" class="blue">
+<span class="qtext400">tt:parameter</span></a> or <a href="javascript:call_link('abenst_tt_variable.html')" class="blue"><span class="qtext400">
+tt:variable</span></a> defines them as reference variables. Data reference variables defined in this way can be bound to interface parameters of the same type.
+</p>
+<p>
+When a method is called, control passes from the ST processor to the ABAP processor of the ABAP runtime
+environment. There are no restrictions on which statements can be executed in the method. If <span class="qtext">ENDMETHOD</span>
+or <span class="qtext">RETURN</span> is used to exit a method correctly, control passes to the ST processor
+again and the ST program resumes after <span class="qtext400">tt:call-method</span>. Otherwise, control does not pass back to the ST program:
+</p>
+<ul class="disc">
+<li>If a statement such as <span class="qtext">LEAVE PROGRAM</span>, <span class="qtext">SUBMIT</span>
+without the addition <span class="qtext">AND RETURN</span>, or <span class="qtext">LEAVE TO TRANSACTION</span> is used to exit the method, the program responds as if the method were called from an ABAP program; that is, the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal mode</a> is deleted, together with the ST program.</li>
+</ul>
+<ul class="disc">
+<li>If the method is terminated by a class-based exception, and the exception is propagated from the
+method, the statement <a href="javascript:call_link('abapcall_transformation.html')" class="blue"><span class="qtext">CALL TRANSFORMATION</span></a>
+is terminated with the handleable exception CX_ST_CALL_METHOD_ERROR. The EXCEPTION_NAME attribute of the exception object is then given the name of the original exception.</li>
+</ul>
+<ul class="disc">
+<li>Non-class-based exceptions cannot be handled. A method terminated using a non-class-based exception always causes a runtime error.</li>
+</ul>
+<p>
+If ABAP data objects are modified in the called method, and these data objects are bound to data roots
+of the calling ST program, these modifications take effect immediately in the ST program. The following
+restriction applies: If a method is called within a <a href="javascript:call_link('abenst_tt_loop.html')" class="blue"><span class="qtext400">
+tt:loop loop</span></a>, serialization within the method (and within further nested <span class="qtext400">tt:loop</span>
+loops) only permits read-only access to the current internal table or its components. Deserialization within the method does not allow any access. Otherwise, a runtime error occurs.
+</p>
+<p>
+Using the optional attributes <span class="qtext400">writer</span> and <span class="qtext400">reader</span>,
+the input parameters <span class="qtext400">writer_para</span> or <span class="qtext400">reader_para</span>
+of the called method can be specified. These parameters must have the references types <span class="lnkgrey">IF_SXML_WRITER</span>
+or <span class="lnkgrey">IF_SXML_READER</span>. If <span class="qtext400">s-name</span> is specified,
+only <span class="qtext400">writer</span> can be specified. If <span class="qtext400">d-name</span>
+is specified, only <span class="qtext400">reader</span> can be specified. If <span class="qtext400">name</span>
+is specified, both attributes can be specified. <span class="qtext400">writer</span> is used for serialization
+and <span class="qtext400">reader</span> is used for deserialization. These attributes can be used to pass a reference to the <a href="javascript:call_link('abenxml_reader_glosry.html')" class="grey" title="Glossary Entry">
+<a href="javascript:call_link('abenxml_writer_glosry.html')" class="grey" title="Glossary Entry">XML</a> writer</a> or the
+<a href="javascript:call_link('abenxml_reader_glosry.html')" class="grey" title="Glossary Entry">XML reader</a> (created by <span class="qtext">
+CALL TRANSFORMATION</span>) to called method. In the method, the relevant interface can be used to access the reader or writer.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+If variables or parameters are bound to the interface parameters of called methods, note that these variables or parameters can be serialized or deserialized only if they contain elementary values.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following transformation exists as DEMO_ST_WITH_METHOD_CALL in AS ABAP. In a serialization in a
+<span class="qtext400">tt:loop</span> loop, it uses the data root <span class="qtext400">SCARR_TAB</span>
+to call the static method GET_FLIGHTS of the global class <span class="lnkgrey">CL_DEMO_CALL_FROM_ST</span>.
+This passes the component <span class="qtext">carrid</span> of the internal table <span class="qtext">scarr_tab</span> to the input parameter of the method.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="SCARR_TAB"/> <br>&nbsp;&nbsp;&lt;tt:root name="SPFLI_TAB"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Flights> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:loop ref=".SCARR_TAB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Flights> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="Carrier" value-ref="CARRNAME"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:call-method class="CL_DEMO_CALL_FROM_ST" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s-name="GET_FLIGHTS"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:with-parameter name="CARRID" ref="carrid"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:call-method> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:loop ref=".SPFLI_TAB"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Connection> <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="ID" value-ref="CONNID"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;From> <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="CITYFROM"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/From> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;To> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:value ref="CITYTO"/> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/To> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Connection> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:loop> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Flights> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tt:loop> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Flights> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+The simple transformation can be called in a different method MAIN of the same class DEMO_ST_WITH_METHOD_CALL as follows:
+</p>
+<dl><dd>
+<span class="qtext">METHOD main. <br>&nbsp;&nbsp;DATA:&nbsp;&nbsp;scarr_tab TYPE SORTED TABLE OF scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH UNIQUE KEY carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xml_string TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; exc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE REF TO cx_st_call_method_error. <br>
+&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @scarr_tab. <br>
+&nbsp;&nbsp;IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_st_with_method_call <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE scarr_tab = scarr_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli_tab = spfli_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML xml_string. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_st_call_method_error INTO exc. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE exc TYPE 'I' DISPLAY LIKE 'E'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>
+&nbsp;&nbsp;ENDTRY. <br>&nbsp;&nbsp;cl_abap_browser=>show_xml( EXPORTING xml_string = xml_string ). <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+The internal tables <span class="qtext">scarr_tab</span> and <span class="qtext">spfli_tab</span> are
+both static attributes of the class. <span class="qtext">scarr_tab</span> is filled and passed to the
+transformation data root with the same name; <span class="qtext">spfli_tab</span>, however, remains
+empty and is filled in a different way (in the method GET_SPFLI called from the simple transformation) in each loop, in accordance with the parameter <span class="qtext">carrid</span>.
+</p>
+<p>
+The method MAIN is bound to the transaction code <span class="lnkgrey">DEMO_ST_METHOD_CALL</span> and produces the following result:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;FlightList> <br>&nbsp;&nbsp;&lt;Flights Carrier="American Airlines"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;Connection ID="0017"> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;From>NEW YORK&lt;/From> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;To>SAN FRANCISCO&lt;/To> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Connection> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;Connection ID="0064"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;From>SAN FRANCISCO&lt;/From> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;To>NEW YORK&lt;/To> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Connection> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Connection ID="0555"> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;From>ROME&lt;/From> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;To>FRANKFURT&lt;/To> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Connection> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&lt;/Flights> <br>&nbsp;&nbsp;&lt;Flights Carrier="Air Berlin"> <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&lt;/Flights> <br>&lt;/FlightList></span>
+</dd></dl>
+<p>
+The program above uses the binding of the attribute <span class="qtext">spfli_tab</span> to the simple
+transformation, and write access to this attribute in the called method, to enable write access to data nodes during serialization within the ST program.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_call-method_static.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:38 GMT -->
+</html>

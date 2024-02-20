@@ -1,0 +1,191 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENADMIN_COSTS_DYN_MEM_OBJ_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadmin_costs_dyn_mem_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Administration Costs of Dynamic Memory Objects">
+<title>
+Administration Costs of Dynamic Memory Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenadmin_costs_dyn_mem_obj_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenadmin_costs_dyn_mem_obj_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="blue">Dynamic Programming Techniques</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Administration Costs of Dynamic Memory Objects
+</span></p>
+<A name="@@ITOC@@ABENADMIN_COSTS_DYN_MEM_OBJ_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Dynamic memory objects provide flexibility, but this comes at a price. The administration of these objects
+incurs internal costs, which are reflected in increased memory consumption, and in the worst case possibly far too high.
+</p>
+<p>
+The total memory requirements of a dynamic memory object comprise the requirements of the objects themselves
+and the requirements of the administration data. The administration data consists of the reference,
+with a fixed size of 8 bytes, and a header that contains the address of the data itself and additional
+administration information. The reference initially points to a header and not directly to the object. The size of the header is itself dynamic and depends on the category of memory object as follows:
+</p>
+<ul class="disc">
+<li><span class="italic">String header</span>s of strings whose length is less than approximately 30
+characters or 60 bytes require between 10 and 40 bytes approximately, depending on the string length. For longer strings, the header requires approximately 50 bytes, regardless of the string length.</li>
+</ul>
+<ul class="disc">
+<li><span class="italic">Table headers</span> require approximately 150 bytes (in 32 bit architecture) or approximately 200 bytes (in 64 bit architecture).</li>
+</ul>
+<ul class="disc">
+<li><span class="italic">Object header</span>s of anonymous data objects and instances of classes require approximately 30 bytes, regardless of the object.</li>
+</ul>
+<p>
+The headers are created when dynamic data objects are provided with content or when objects are created.
+When a dynamic data object (a string or internal table) is initialized, only the content itself is deleted,
+while the header is retained to be used again. Only the statement <span class="qtext">FREE</span> deletes
+(some) table headers that are too big. When it deletes an object, Garbage Collector also deletes the object header.
+</p>
+<p>
+For internal tables, in addition to the administration data (mostly independent of the number of rows)
+in the header, extra memory is required for each row, for example, for index or hash management. This
+memory is not created in the table header. Instead it is created in parallel to the table body. Depending
+on the table category, every table has at least one primary index (standard tables, sorted tables) or hash management (hashed tables). The costs are:
+</p>
+<ul class="disc">
+<li>6 bytes on average per each table row for the primary index.</li>
+</ul>
+<ul class="disc">
+<li>18 bytes per table row on average, provided that the table is not accessed using the <span class="qtext">DELETE</span>
+or <span class="qtext">SORT</span> statements. If one of these access types occurs, an average of 30 bytes is required per table row.</li>
+</ul>
+<p>
+With each additional secondary table key, the <a href="javascript:call_link('abensecondary_key_guidl.html')" class="lnkpurple" title="Guideline">
+memory</a> requirement increases by the memory needed for secondary key management (secondary index or secondary hash management).
+</p>
+<A name="@@ITOC@@ABENADMIN_COSTS_DYN_MEM_OBJ_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Consider the ratio of administration and application data</span>
+</p>
+<p>
+When using dynamically managed memory objects, it should remembered that memory is required for administration
+purposes, in addition to memory for the actual data. The size of the administrative memory should be relatively small compared to the application data.
+</p>
+<A name="@@ITOC@@ABENADMIN_COSTS_DYN_MEM_OBJ_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Memory management of dynamic memory objects is generally invisible for developers and cannot be controlled
+by developers. However, it is important to consider administration costs during the design and development
+phases, to ensure that the costs do not become disproportionately high compared to the actual data content.
+For internal tables, for example, the administration data consists of a part that is mainly independent
+of the number of rows and a part for each row. Consequently, tables with only a few rows and tables
+with very narrow rows are unfavorable. A sorted table of integers, for instance, always uses more memory
+for its administrative information than for the actual application data. Hashed tables require even more administration for each row.
+</p>
+<p>
+In addition, the <span class="italic">fill level</span> of complex data objects assumes a significant
+role. If the application data is only stored in a small number of large memory objects, the administrative
+part usually does not play a role. However, if complex data objects (structures, internal tables) have
+a lot of deep components, care must be taken: For example, a disproportionate amount of memory space
+is lost for tables with a lot of relatively small strings or for nested tables containing relatively small tables. We distinguish the following three cases:
+</p>
+<ul class="disc">
+<li><span class="bold">Complex data objects with a sparse fill level</span> <br>These data objects contain a lot of deep components and most of them are initial.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Complex data objects with a duplicative fill level</span> <br>These data objects
+contain a lot of deep components and most of them point to the same application data by means of a reference variable or sharing.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Complex data objects with a low fill level</span> <br>These data objects contain
+a lot of deep components that refer to different objects, strings, or internal tables, which only contain a small amount of application data or are empty.</li>
+</ul>
+<p>
+Deep data objects with a fill level that is sparse or duplicative can usually be used without problems.
+But for complex data objects with a low fill level, a disparity between administration data and application data can easily occur. ABAP is inappropriate for large-scale use of data objects with a low fill level.
+</p>
+<p>
+At a low dataset level, class wrapping can be considered as an alternative to internal tables. This
+is because the extra costs for objects are comparatively low and objects can be completely deleted from the memory (unlike dynamic data objects). This is an exception to the rule that
+<a href="javascript:call_link('abenuse_dyn_data_object_guidl.html')" class="lnkpurple" title="Guideline">dynamic data objects</a> should be used wherever possible.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Besides the ratio of administration data to application data, the ratio of the
+<a href="javascript:call_link('abeninitial_memory_requ_guidl.html')" class="lnkpurple" title="Guideline">memory allocated</a> for application data and the memory actually used is also interesting for internal tables.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The executable example <a href="javascript:call_link('abenmemory_usage_abexa.html')" class="blue">DEMO_MEMORY_USAGE</a> demonstrates the administration costs of deep components with low data content.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenadmin_costs_dyn_mem_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

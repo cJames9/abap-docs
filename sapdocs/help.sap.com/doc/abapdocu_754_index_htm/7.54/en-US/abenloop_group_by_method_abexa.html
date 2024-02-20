@@ -1,0 +1,203 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOOP_GROUP_BY_METHOD_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenloop_group_by_method_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables, Grouping with LOOP Using a Method">
+<title>
+Internal Tables, Grouping with LOOP Using a Method - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenloop_group_by_method_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenloop_group_by_method_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue">LOOP AT itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue">LOOP AT itab - GROUP BY</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenloop_group_by_abexas.html')" class="blue">Examples of Grouping with LOOP</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables, Grouping with LOOP Using a Method
+</span></p>
+<p>
+This example demonstrates the construction of the <a href="javascript:call_link('abengroup_key_glosry.html')" class="grey" title="Glossary Entry">group key</a> using the assignment of return values.
+</p>
+<A name="@@ITOC@@ABENLOOP_GROUP_BY_METHOD_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_loop_group_by_method.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class_constructor.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights&nbsp;&nbsp;TYPE TABLE OF spfli&nbsp;&nbsp;&nbsp;&nbsp;WITH EMPTY KEY,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airports TYPE TABLE OF sairport WITH EMPTY KEY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_time_zone IMPORTING id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE sairport-id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(time_zone) TYPE sairport-time_zone.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA members LIKE flights.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT flights INTO DATA(wa)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY ( tz_from = get_time_zone( wa-airpfrom )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tz_to&nbsp;&nbsp; = get_time_zone( wa-airpto )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size = GROUP SIZE index = GROUP INDEX )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASSIGNING FIELD-SYMBOL(&lt;group&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( name = `Group key`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = &lt;group&gt; ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR members.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT GROUP &lt;group&gt; ASSIGNING FIELD-SYMBOL(&lt;member&gt;).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;members = VALUE #( BASE members ( &lt;member&gt; ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( members )-&gt;line( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD class_constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM spfli&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE flights.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM sairport INTO TABLE airports.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD get_time_zone.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;time_zone = airports[ id = id ]-time_zone.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLOOP_GROUP_BY_METHOD_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+<a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue">Grouping</a> of an internal table <span class="qtext">flights</span> with
+<a href="javascript:call_link('abaploop_at_itab_group_by_binding.html')" class="blue">group key binding</a>. The
+<a href="javascript:call_link('abengroup_key_glosry.html')" class="grey" title="Glossary Entry">group key</a> of the
+<a href="javascript:call_link('abengroup_loop_glosry.html')" class="grey" title="Glossary Entry">group loop</a> is constructed
+as a structure. The return values of the function method <span class="qtext">get_time_zone</span> are
+assigned to the components <span class="qtext">tz_from</span> and <span class="qtext">tz_to</span>.
+The values of the columns <span class="qtext">airpfrom</span> or <span class="qtext">airpto</span> are
+passed to the input parameter of the method. This creates groups of rows that have the same combinations of time zones for the departure and destination airport.
+</p>
+<p>
+In the simple case shown here, the table expression from the method could of course also be specified directly:
+</p>
+<dl><dd>
+<span class="qtext">LOOP AT flights INTO DATA(wa) <br>&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY ( tz_from = airports[ id = wa-airpfrom ]-time_zone <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tz_to&nbsp;&nbsp; = airports[ id = wa-airpto&nbsp;&nbsp; ]-time_zone ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp; ASSIGNING FIELD-SYMBOL(&lt;group>).</span>
+</dd></dl>
+<p>
+Furthermore, the components <span class="qtext">size</span> and <span class="qtext">index</span> are
+created for the special language elements <span class="qtext">GROUP SIZE</span> or <span class="qtext">GROUP INDEX</span> to determine the size and index of each group.
+</p>
+<p>
+The group key, bound to a field symbol <span class="qtext">&lt;group></span>, and the additional components are produced in the group loop. In a
+<a href="javascript:call_link('abenmember_loop_glosry.html')" class="grey" title="Glossary Entry">member loop</a>, the rows of each group are placed in an internal table <span class="qtext">members</span> using the
+<a href="javascript:call_link('abenvalue_operator_glosry.html')" class="grey" title="Glossary Entry">value operator</a> with
+the addition <a href="javascript:call_link('abenvalue_constructor_params_itab.html')" class="blue"><span class="qtext">BASE</span></a>. These rows are then also displayed.
+</p>
+<p>
+<span class="qtext">members</span> could also be filled by evaluating a table comprehension using <a href="javascript:call_link('abenfor_in_group.html')" class="blue"><span class="qtext">FOR ... IN GROUP</span></a>, instead of in a
+<a href="javascript:call_link('abenmember_loop_glosry.html')" class="grey" title="Glossary Entry">member loop</a> <a href="javascript:call_link('abaploop_at_group.html')" class="blue"><span class="qtext">LOOP AT GROUP</span></a>:
+</p>
+<dl><dd>
+<span class="qtext">members = VALUE #( FOR &lt;member> IN GROUP &lt;group> ( &lt;member> ) ).</span>
+</dd></dl>
+<p>
+The executable example for <a href="javascript:call_link('abenfor_group_by_method_abexa.html')" class="blue">grouping with <span class="qtext">FOR</span></a> demonstrates how the entire group loop can be implemented using expressions.
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenloop_group_by_method_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

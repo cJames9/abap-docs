@@ -1,0 +1,431 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPAT_ITAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapat_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AT - Group Level Processing">
+<meta name="keywords" content="ABAP, AT - itab">
+<title>
+AT - Group Level Processing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapat_itab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapat_itab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab_variants.html')" class="blue">LOOP AT itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaploop_at_itab.html')" class="blue">LOOP AT itab - Basic Form</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@AT - itab@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+AT - Group Level Processing <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapat_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext"><a href="javascript:call_link('abaploop_at_itab.html')" class="blue">LOOP AT itab</a>
+<a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue">result</a> <i class=bn>[</i><a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue">cond</a><i class=bn>]</i>.</span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>[</i>AT FIRST.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; ...</span> <br>
+<span class="qtext">&nbsp;&nbsp; ENDAT.<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;
+&nbsp;<i class=bn>[</i>AT NEW <a href="javascript:call_link('abenitab_components.html')" class="blue">comp1</a>.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; ENDAT.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; <i class=bn>[</i>AT NEW <a href="javascript:call_link('abenitab_components.html')" class="blue">comp2</a>.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENDAT.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>...<i class=bn>]</i><i class=bn>]</i><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i> ... <i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i><i class=bn>[</i><i class=bn>[</i>...<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AT END OF <a href="javascript:call_link('abenitab_components.html')" class="blue">comp2</a>.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENDAT.<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; AT END OF <a href="javascript:call_link('abenitab_components.html')" class="blue">comp1</a>.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; ENDAT.<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;<i class=bn>[</i>AT LAST.</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp; ...</span> <br>
+<span class="qtext">&nbsp;&nbsp;ENDAT.<i class=bn>]</i></span> <br><span class="qtext">ENDLOOP.</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">...&nbsp;&nbsp;FIRST</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... <i class=bn>{</i>NEW<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>END OF<i class=bn>}</i> compi</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">...&nbsp;&nbsp;LAST</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The statement block of a <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>
+without the addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP BY</span></a> can contain control structures for
+<a href="javascript:call_link('abencontrol_level_processin_glosry.html')" class="grey" title="Glossary Entry">group level processing</a>.
+The corresponding control statement is <span class="qtext">AT</span>. The statements <span class="qtext">AT</span> and <span class="qtext">ENDAT</span> define statement blocks that are executed at
+<a href="javascript:call_link('abencontrol_break_glosry.html')" class="grey" title="Glossary Entry">group breaks</a>, that is in the transition of a
+<a href="javascript:call_link('abencontrol_level_glosry.html')" class="grey" title="Glossary Entry">group level</a> to another
+group level. The additions of the statements <span class="qtext">AT</span> define the criteria for a
+group break and hence the group levels. Group breaks between group levels are a result of the row structure
+and the processing order in which the <span class="qtext">LOOP</span> reads the rows of the internal
+table. Within the statement blocks, the statement <a href="javascript:call_link('abapsum.html')" class="blue"><span class="qtext">SUM</span></a> can be specified to total the numeric components of a group level.
+</P>
+<P>
+Apart from the special variants <span class="qtext">AT FIRST</span> and <span class="qtext">AT LAST</span>,
+group levels are defined using the variants <span class="qtext">AT NEW</span> <span class="qtext">AT
+END OF</span> and the sequence of rows (in accordance with the processing order of the loop) in the
+internal table. These are the rows that have the same content in a group key defined in their initial
+parts. Here, all rows of the internal table are respected without evaluating any restricting conditions <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">cond</span></a>.
+</P>
+<P>
+It is possible, from a syntax point of view, to arrange <span class="qtext">AT</span> control structures
+in any order and to nest them, however effective group level processing is usually only achieved by
+the arrangement above. Here, the control structures are specified in accordance with the arrangement of the components in the group key and are not nested.
+</P>
+<P>
+The statement blocks within the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control
+structures are listed if an appropriate group break is made in the current table line. Statements in
+the <span class="qtext">LOOP</span>-<span class="qtext">ENDLOOP</span> control structure that are not
+executed within an <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure
+are executed in each pass of the loop. If a table row with a group break is not read due to a restricting
+condition <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">cond</span></a>, the statement block in question is not executed.
+</P>
+<P>
+The following rules must be followed for effective group level processing:
+</P>
+<ul class="disc">
+<li>
+A table key specified in <span class="qtext">LOOP</span> in <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">
+cond</span></a> must be chosen so that it produces the required processing order of the imported rows. <br>
+<br></li>
+<li>
+No restricting condition <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">cond</span></a>
+should be specified. If a condition like this is specified, it should select consecutive row groups (including the first row in the group) where the group break takes place. <br>
+<br></li>
+<li>
+The internal table cannot be modified within the <span class="qtext">LOOP</span> loop. <br>
+<br></li>
+<li>
+A work area <span class="qtext">wa</span> specified in the <span class="qtext">LOOP</span> statement after the addition <span class="qtext">INTO</span> must be
+<a href="javascript:call_link('abencompatible_glosry.html')" class="grey" title="Glossary Entry">compatible</a> with the row type of the table. <br>
+<br></li>
+<li>
+A field symbol <span class="qtext">&lt;fs></span> specified in the statement <span class="qtext">LOOP</span> after the addition <span class="qtext">ASSIGNING</span> must be typed with the row type of the table. <br>
+<br></li>
+<li>
+The content of a work area <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">wa</span></a>
+specified in the statement <a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue"><span class="qtext">LOOP</span></a> after the addition <span class="qtext">INTO</span> cannot be modified.
+<br></li>
+</ul>
+<P>
+If the addition <a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue"><span class="qtext">INTO wa</span></a>
+is used in the statement <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>,
+the content of <span class="qtext">wa</span> is overwritten (depending on the respective group level)
+when the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure is entered,
+and is reset to the content of the current row when the control structure is exited. When the additions
+<a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue"><span class="qtext">ASSIGNING</span></a> and <a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue">
+<span class="qtext">REFERENCE INTO</span></a> are used, the referenced table rows are not modified when entering and exiting the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The most common case is when the internal table is sorted exactly by the order of the components of
+its row type, by the first component first, then the second component, and so on. In this case, group
+level processing can also be expressed using a grouping with the addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP BY</span></a>.
+<br><br></li>
+<li>
+If possible, the use of the addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP
+BY</span></a> is recommended, since the grouping is not determined by the structure of the rows and the processing order in this case.
+<br><br></li>
+<li>
+Group level processing with the statement <span class="qtext">AT</span> is not possible in <span class="qtext">LOOP</span>s
+across row groups with the addition <a href="javascript:call_link('abaploop_at_itab_group_by.html')" class="blue"><span class="qtext">GROUP
+BY</span></a>, including member loops using <a href="javascript:call_link('abaploop_at_group.html')" class="blue"><span class="qtext">LOOP AT GROUP</span></a>.
+<br><br></li>
+<li>
+The group level processing described here can produce unexpected results when a restricting condition
+<a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue"><span class="qtext">cond</span></a> is used, which means that extended syntax check messages can occur. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<P>
+<a href="javascript:call_link('abenat_itab_abexas.html')" class="blue">Group Level Processing</a> <br><br>
+</P>
+<A NAME="@@FIRST@@AT - itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... FIRST</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The group level is defined by the first row of the internal table. The group break takes place when
+this row is read. In the group level <span class="qtext">AT FIRST</span>, the current group key does not contain any components.
+</P>
+<P>
+If the addition <a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue"><span class="qtext">INTO wa</span></a>
+is used in the statement <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>,
+all character-like components of the work area <span class="qtext">wa</span> are filled with "*" when
+the control structure <span class="qtext">AT FIRST</span> is entered and all other components are set
+to their initial value. In the case of an elementary row type, this applies to the whole work area.
+When the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure is exited, the content of the current table row is reassigned to the work area <span class="qtext">wa</span>.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+If the first row of the internal table is not read due to a restricting condition <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue">
+<span class="qtext">cond</span></a>, the statement block of the control structure <span class="qtext">AT FIRST</span> is not executed. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Displays a header and the first row of an internal table at the group level <span class="qtext">AT FIRST</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE SORTED TABLE OF scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY carrid. <br>
+ <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE itab. <br>
+ <br>DATA(out) = cl_demo_output=>new( ). <br>LOOP AT itab ASSIGNING FIELD-SYMBOL(&lt;fs>). <br>&nbsp;&nbsp;AT FIRST. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;out->next_section( 'First' ). <br>&nbsp;&nbsp;&nbsp;&nbsp;out->write( &lt;fs> ). <br>&nbsp;&nbsp;ENDAT. <br>ENDLOOP. <br>out->display( ). <br><br>
+</span>
+</p>
+<A NAME="@@NEW@@AT - itab@@"></A>
+<A NAME="@@END OF@@AT -itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>{</i>NEW<i class=bn>}</i><i class=bn>|</i><i class=bn>{</i>END OF<i class=bn>}</i> compi</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Group levels are defined by the beginning or end of a group of rows with the same content in the component
+<span class="qtext">compi</span> (where <span class="qtext">i</span> = <span class="qtext">1</span>,
+<span class="qtext">2</span>, and so on) and in the components on the left of <span class="qtext">compi</span>.
+The content of these components determines the group key. The group breaks take place when the content
+of the component <span class="qtext">compi</span> or another component on the left of <span class="qtext">compi</span> changes.
+</P>
+<P>
+The <span class="qtext">compi</span> components can be specified as described in
+<a href="javascript:call_link('abenitab_components.html')" class="blue">Specification of Components</a>, with the limitation that access to data objects using references is not possible here. The following is therefore not possible:
+</P>
+<ul class="disc">
+<li>
+Specifying data objects using data references
+<br><br></li>
+<li>
+Specifying attributes of objects using object references
+<br></li>
+</ul>
+<P>
+Otherwise, the specified components can have any data type. The relevant
+<a href="javascript:call_link('abenlogexp_rules.html')" class="blue">comparison rules</a> apply to the evaluation. In the case of an elementary row type, only <span class="qtext">table_line</span> can be specified as the group key.
+</P>
+<P>
+If the addition <a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue"><span class="qtext">INTO wa</span></a>
+is used in the statement <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>,
+the content of <span class="qtext">wa</span> is modified as follows when the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure is entered:
+</P>
+<ul class="disc">
+<li>
+The components of the current group key remain unchanged.
+<br><br></li>
+<li>
+All components with a character-like <a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> data type on the right of the current control key are set to the character "*" in every place.
+<br><br></li>
+<li>
+All the other components to the right of the current group key are set to their <a href="javascript:call_link('abeninitial_value_glosry.html')" class="grey" title="Glossary Entry">initial value</a>.
+<br></li>
+</ul>
+<P>
+In the case of an elementary row type, the whole work area corresponds to the current group key and
+does not change. When the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure
+is exited, the content of the current table row is reassigned to the work area <span class="qtext">wa</span>. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Group levels defined in this way consist of the contiguous rows of the internal table that have the same content in an initial part.
+<br><br></li>
+<li>
+If the first or last row of a row group is not read due to a restricting condition <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue">
+<span class="qtext">cond</span></a>, the statement block of the control structure <span class="qtext">AT NEW</span> or <span class="qtext">AT END OF</span> is not executed.
+<br><br></li>
+<li>
+An <a href="javascript:call_link('abapat_itab_obsolete.html')" class="blue">obsolete variant</a> allows field symbols to also be specified, outside of classes <span class="qtext">compi</span>. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Displays the <span class="qtext">carrid</span> column as a header for the chained content of the associated flight numbers.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE SORTED TABLE OF spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY carrid connid. <br>
+ <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE itab. <br>
+ <br>DATA connids TYPE string. <br>DATA(out) = cl_demo_output=>new( ). <br>LOOP AT itab ASSIGNING FIELD-SYMBOL(&lt;fs>). <br>
+&nbsp;&nbsp;AT NEW carrid. <br>&nbsp;&nbsp;&nbsp;&nbsp;out->next_section( &lt;fs>-carrid ). <br>&nbsp;&nbsp;ENDAT. <br>
+&nbsp;&nbsp;connids = connids &amp;&amp; ` ` &amp;&amp; &lt;fs>-connid. <br>&nbsp;&nbsp;AT END OF carrid. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;out->write( connids ). <br>&nbsp;&nbsp;&nbsp;&nbsp;CLEAR connids. <br>&nbsp;&nbsp;ENDAT. <br>ENDLOOP. <br>out->display( ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The first row of the first row group is not read due to the addition <span class="qtext">FROM
+2</span>, which means the associated statement block after <span class="qtext">AT NEW table_line</span> is not executed. The program therefore produces a message from the extended program check.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE TABLE OF string WITH EMPTY KEY. <br> <br>itab = VALUE #( ( `AA` ) ( `AA` ) ( `AA` ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( `BB` ) ( `BB` ) ( `BB` ) ). <br>
+ <br>DATA(out) = cl_demo_output=>new( ). <br>LOOP AT itab ASSIGNING FIELD-SYMBOL(&lt;fs>) FROM 2. <br>&nbsp;&nbsp;AT NEW table_line. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;out->write( &lt;fs> ). <br>&nbsp;&nbsp;ENDAT. <br>ENDLOOP. <br>out->display( ). <br><br>
+</span>
+</p>
+<A NAME="@@LAST@@AT - itab@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... LAST</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The group level is defined by the last row of the internal table. The group break takes place when this
+row is read. In the group level <span class="qtext">AT LAST</span>, the current group key does not contain any components.
+</P>
+<P>
+If the addition <a href="javascript:call_link('abaploop_at_itab_result.html')" class="blue"><span class="qtext">INTO wa</span></a>
+is used in the statement <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>,
+all character-like components of the work area <span class="qtext">wa</span> are filled with "*" when
+the control structure <span class="qtext">AT LAST</span> is entered and all other components are set
+to their initial value. In the case of an elementary row type, this applies to the whole work area.
+When the <span class="qtext">AT</span>-<span class="qtext">ENDAT</span> control structure is exited, the content of the current table row is reassigned to the work area <span class="qtext">wa</span>.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+If the last row of the internal table is not read due to a restricting condition <a href="javascript:call_link('abaploop_at_itab_cond.html')" class="blue">
+<span class="qtext">cond</span></a>, the statement block of the control structure <span class="qtext">AT LAST</span> is not executed. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Displays cumulated content during the processing of the last row.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA itab TYPE SORTED TABLE OF scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY carrid. <br>
+ <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE itab. <br>
+ <br>DATA carrids TYPE string. <br>LOOP AT itab ASSIGNING FIELD-SYMBOL(&lt;fs>). <br>&nbsp;&nbsp;carrids = carrids &amp;&amp; ` ` &amp;&amp; &lt;fs>-carrid. <br>
+&nbsp;&nbsp;AT LAST. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( carrids ). <br>&nbsp;&nbsp;ENDAT. <br>ENDLOOP. <br><br>
+</span>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Non-Handleable Exceptions</span> <br>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Invalid substring access when the group break criterion is specified dynamically. <br><span class="italic">Runtime error:</span> <span class="qtext">AT_BAD_PARTIAL_FIELD_ACCESS</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The group break criterion is specified dynamically using the field symbol and the field symbol does not point to the <span class="qtext">LOOP</span> output range. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">AT_ITAB_FIELD_INVALID</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> The group break criterion is specified dynamically using <span class="qtext">(name)</span>
+and the <span class="qtext">name</span> field does not contain a valid substring name. <br><span class="italic">Runtime error:</span> <span class="qtext">ITAB_ILLEGAL_COMPONENT</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> Overflow of totals with <span class="qtext">SUM</span>. <br><span class="italic">Runtime error:</span> <span class="qtext">SUM_OVERFLOW</span> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapsum.html')" class="blue">SUM</a><br>
+<a href="javascript:call_link('abapendat.html')" class="blue">ENDAT</a><br>
+<a href="javascript:call_link('abenat_itab_abexas.html')" class="blue">Examples of Control Level Processing</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapat_itab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:35 GMT -->
+</html>

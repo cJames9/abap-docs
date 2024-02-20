@@ -1,0 +1,170 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRPM_HANDLING_MESSAGES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrpm_handling_messages.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Example - Handling of Messages">
+<title>
+Example - Handling of Messages - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrpm_handling_messages.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrpm_handling_messages.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_implementations.html')" class="blue">Behavior Implementations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">Handler Class</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Example - Handling of Messages
+</span></p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+For the sake of readability, the methods for handling the messages are implemented in the separate class
+<span class="qtext400">zcl_messages</span>. These methods are used to handle the messages in the methods of the handler class.
+</p>
+<p>
+Messages that come from the legacy business logic must be assigned to the messages of the business object
+<span class="qtext400">Travel</span>. This is implemented in the method <span class="qtext400">map_travel_message</span>.
+</p>
+<dl><dd>
+<span class="qtext400">CLASS zcl_messages DEFINITION <br>&nbsp;&nbsp;PUBLIC <br>&nbsp;&nbsp;FINAL <br>&nbsp;&nbsp;CREATE PUBLIC. <br>
+&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts_travel_control_map TYPE STRUCTURE FOR UPDATE /DMO/I_Travel, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tt_travel_reported&nbsp;&nbsp;&nbsp;&nbsp;TYPE TABLE FOR REPORTED&nbsp;&nbsp; /DMO/I_Travel, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tt_travel_failed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE TABLE FOR FAILED&nbsp;&nbsp;&nbsp;&nbsp; /DMO/I_Travel. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handle_messages <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;iv_cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE abp_behv_cid&nbsp;&nbsp; OPTIONAL <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id TYPE /dmo/travel_id OPTIONAL <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_messages&nbsp;&nbsp;TYPE /dmo/if_flight_legacy=>tt_message <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE tt_travel_failed <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reported&nbsp;&nbsp;&nbsp;&nbsp; TYPE tt_travel_reported, <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map_travel_message <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE string OPTIONAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_travel_id&nbsp;&nbsp;&nbsp;&nbsp; TYPE /dmo/travel_id OPTIONAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE LINE OF <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/dmo/if_flight_legacy=>tt_message <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(rs_report) TYPE LINE OF tt_travel_reported, <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map_travel_control <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE ts_travel_control_map <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(rs_travelx) TYPE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /dmo/if_flight_legacy=>ts_travel_inx. <br>
+ <br>&nbsp;&nbsp;PROTECTED SECTION. <br>&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_message <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE symsgid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;&nbsp;&nbsp;&nbsp; TYPE symsgno <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;severity&nbsp;&nbsp; TYPE if_abap_behv_message=>t_severity <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE simple OPTIONAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE simple OPTIONAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE simple OPTIONAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE simple OPTIONAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING VALUE(obj) TYPE REF TO if_abap_behv_message. <br>ENDCLASS.</span> <br><br>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">CLASS zcl_messages IMPLEMENTATION. <br> <br>&nbsp;&nbsp;METHOD handle_messages. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT it_messages INTO DATA(ls_message) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE msgty = 'E' OR msgty = 'A'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT VALUE #( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = iv_cid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; travel_id&nbsp;&nbsp;&nbsp;&nbsp;= iv_travel_id ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE failed. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT map_travel_message( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iv_travel_id = iv_travel_id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is_message&nbsp;&nbsp; = ls_message ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE reported. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>
+&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD map_travel_control. <br>&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-travel_id&nbsp;&nbsp;&nbsp;&nbsp; = is_travel-travel_id. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-agency_id&nbsp;&nbsp;&nbsp;&nbsp; = xsdbool( <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;is_travel-%control-agency_id&nbsp;&nbsp;&nbsp;&nbsp; = cl_abap_behv=>flag_changed ). <br>&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-customer_id&nbsp;&nbsp; = xsdbool( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-customer_id&nbsp;&nbsp; = cl_abap_behv=>flag_changed ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-begin_date&nbsp;&nbsp;&nbsp;&nbsp;= xsdbool( <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;is_travel-%control-begin_date&nbsp;&nbsp;&nbsp;&nbsp;= cl_abap_behv=>flag_changed ). <br>&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-end_date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= xsdbool( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-end_date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= cl_abap_behv=>flag_changed ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-booking_fee&nbsp;&nbsp; = xsdbool( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-booking_fee&nbsp;&nbsp; = cl_abap_behv=>flag_changed ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-total_price&nbsp;&nbsp; = xsdbool( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-total_price&nbsp;&nbsp; = cl_abap_behv=>flag_changed ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-currency_code = xsdbool( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-currency_code = cl_abap_behv=>flag_changed ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-description&nbsp;&nbsp; = xsdbool( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-description&nbsp;&nbsp; = cl_abap_behv=>flag_changed ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_travelx-status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= xsdbool( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_travel-%control-status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= cl_abap_behv=>flag_changed ). <br>
+ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD map_travel_message. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(lo) = new_message( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = is_message-msgid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;&nbsp; = is_message-msgno <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;severity = if_abap_behv_message=>severity-error <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = is_message-msgv1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = is_message-msgv2 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = is_message-msgv3 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = is_message-msgv4 ). <br>&nbsp;&nbsp;&nbsp;&nbsp;rs_report-%cid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= iv_cid. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;rs_report-travel_id = iv_travel_id. <br>&nbsp;&nbsp;&nbsp;&nbsp;rs_report-%msg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= lo. <br>
+&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD new_message. <br>&nbsp;&nbsp;&nbsp;&nbsp;obj = NEW lcl_abap_behv_msg( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textid = VALUE #( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgid = id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgno = number <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr1 = COND #( WHEN v1 IS NOT INITIAL <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN 'IF_T100_DYN_MSG~MSGV1' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr2 = COND #( WHEN v2 IS NOT INITIAL <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN 'IF_T100_DYN_MSG~MSGV2' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr3 = COND #( WHEN v3 IS NOT INITIAL <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN 'IF_T100_DYN_MSG~MSGV3' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr4 = COND #( WHEN v4 IS NOT INITIAL <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN 'IF_T100_DYN_MSG~MSGV4' )) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgty = SWITCH #( severity <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;WHEN if_abap_behv_message=>severity-error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN 'E' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN if_abap_behv_message=>severity-warning&nbsp;&nbsp;&nbsp;&nbsp; THEN 'W' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN if_abap_behv_message=>severity-information THEN 'I' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN if_abap_behv_message=>severity-success&nbsp;&nbsp;&nbsp;&nbsp; THEN 'S' ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgv1 = |{ v1 }| <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgv2 = |{ v2 }| <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgv3 = |{ v3 }| <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msgv4 = |{ v4 }| ). <br>&nbsp;&nbsp;&nbsp;&nbsp;obj->m_severity = severity. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrpm_handling_messages.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

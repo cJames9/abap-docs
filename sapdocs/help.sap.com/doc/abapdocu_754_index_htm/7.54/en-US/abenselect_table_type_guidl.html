@@ -1,0 +1,177 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSELECT_TABLE_TYPE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_table_type_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Selecting the Table Category">
+<title>
+Selecting the Table Category - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenselect_table_type_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenselect_table_type_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_guidl.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Selecting the Table Category
+</span></p>
+<A name="@@ITOC@@ABENSELECT_TABLE_TYPE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The table category specifies the internal administration for an internal table and the primary access type:
+</p>
+<ul class="disc">
+<li>Standard tables that are managed with a primary table index. When inserting or deleting table rows, only the table index is reorganized, but not the remaining table rows. If rows are only appended
+(<span class="qtext">APPEND</span>) at the end or deleted, no reorganization of the table index is required. However, access using the primary key is not optimized. It triggers a linear search across all rows.</li>
+</ul>
+<ul class="disc">
+<li>Sorted tables are also managed using their primary table index, which is always available in the
+memory, sorted according to the primary table key. This means that the table index must usually be reorganized
+each time a table row is inserted or deleted. When accessing using the primary key, the search is performed
+in binary format, causing the time required for the search to be merely logarithmically dependent on the number of rows.</li>
+</ul>
+<ul class="disc">
+<li>Hashed tables are based on distributed memory management. They are therefore optimized for access
+using the primary table key and attain a constant access time, regardless of the number of rows. In
+return, the distributed memory management requires additional memory space and does not allow for non-unique primary table keys. There is no primary table index, and a respective index access is not possible.</li>
+</ul>
+<p>
+Standard tables and sorted tables can be summarized under the term <span class="italic">index tables</span>.
+An index access is always the fastest way to access table entries. The prerequisite for an index access
+is that the value for the index specification has been determined in advance. This usually requires
+a previous key access, for example, using <span class="qtext">READ</span> <span class="qtext">TABLE</span>, where the <span class="qtext">sy-tabix</span> system field is set.
+</p>
+<A name="@@ITOC@@ABENSELECT_TABLE_TYPE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use a suitable table category</span>
+</p>
+<p>
+Select the table category according to the primary requirements. As a rule of thumb, if the tables are large, the following selection criteria apply:
+</p>
+<ul class="disc">
+<li>Mainly index accesses: standard tables</li>
+</ul>
+<ul class="disc">
+<li>Index accesses and key accesses: sorted tables</li>
+</ul>
+<ul class="disc">
+<li>Only key accesses: hashed tables</li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_TABLE_TYPE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Particularly for tables with a lot of rows, you have to select the appropriate table category carefully. The following recommendations are mainly derived from the processing speed requirements:
+</p>
+<ul class="disc">
+<li><span class="bold">Standard Tables</span> <br>This table category can always be used if the primary
+access types are sequential processing or index access. You should fill standard tables by appending
+rows using <span class="qtext">APPEND</span> and implement the other accesses using an index specification
+(the addition <span class="qtext">INDEX</span> of the respective statements). Ideally, the filling process
+is decoupled from other accesses. After explicit sorting has taken place, you can also use an optimized
+key access (free key) using <span class="qtext">BINARY SEARCH</span>, which enables you to identify an entry point for sequential processing
+(<span class="qtext">LOOP</span>), for example. However, due to the linear search, large standard tables
+(more than 100 rows) are not the appropriate table category, if the primary access type for an internal table is through key accesses.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Sorted Tables</span> <br>This table category is useful if both a fast key access
+and an index access are necessary, and if the rows are supposed to be sorted when the table is filled.
+In addition, sorted tables are also suited for partially sequential access in a <span class="qtext">LOOP</span>
+loop, where the first part of the table key is specified in the <span class="qtext">WHERE</span> condition.
+Finally, sorted tables with an ambiguous key are the only alternative to hashed tables if no unique key can be defined.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Hashed Tables</span> <br>This table category is useful if key accesses are the central operation for table entries, if the tables are large, and if a unique key can be defined.</li>
+</ul>
+<p>
+In addition to the processing speed, memory requirements can also play an important role. If this is supposed to be optimized according to
+<a href="javascript:call_link('abenadmin_costs_dyn_mem_obj_guidl.html')" class="lnkpurple" title="Guideline">Consider the Ratio
+of Administration and Application Data</a>, you must also take into account the administration costs of the table categories.
+</p>
+<ul class="disc">
+<li>Standard tables and sorted tables (<span class="italic">index tables</span>) that are managed using a table index, incur the least
+<a href="javascript:call_link('abenadmin_costs_dyn_mem_obj_guidl.html')" class="lnkpurple" title="Guideline">administration costs</a>
+(6 bytes for each row on average). As long as the logical order in the table index corresponds to the
+physical order in the table body, a standard table does not incur any row-related administration costs. This is the case if you always append rows after the last row or delete only the last row.</li>
+</ul>
+<ul class="disc">
+<li>Hashed tables require considerably more space for their
+<a href="javascript:call_link('abenadmin_costs_dyn_mem_obj_guidl.html')" class="lnkpurple" title="Guideline">administration data</a> than index tables (18 or 30 bytes for each row on average).</li>
+</ul>
+<p>
+Depending on the length of the key and the number of rows in an internal table, access using a sorted
+key can be as fast as or even faster than using a hashed table. In cases like this, and if the memory space is critical, you should work with a sorted table instead of a hashed table.
+</p>
+<p>
+If you use <a href="javascript:call_link('abensecondary_key_guidl.html')" class="lnkpurple" title="Guideline">secondary keys</a>,
+the rules mentioned here may be qualified to a certain degree, as the overall costs need to be considered in this case.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_table_type_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

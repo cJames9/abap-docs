@@ -1,0 +1,131 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXCEPTIONS_PRE_610 -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexceptions_pre_610.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exceptions Before Class-Based Exceptions">
+<title>
+Exceptions Before Class-Based Exceptions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexceptions_pre_610.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexceptions_pre_610.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exceptions Before Class-Based Exceptions
+</span></p>
+<p>
+Exceptions are <a href="javascript:call_link('abenexceptions.html')" class="blue">class-based</a>. Before the introduction of exception classes, there were the following types of exceptions:
+</p>
+<ul class="disc">
+<li>Exception situations detected by the system (and whose causes could be handled effectively by the program) raised
+<a href="javascript:call_link('abensystem-exceptions.html')" class="blue">catchable runtime errors</a> that could be handled
+by the statement <a href="javascript:call_link('abapcatch_sys.html')" class="blue"><span class="qtext">CATCH SYSTEM-EXCEPTIONS</span></a>.
+Catchable runtime errors are now obsolete. Each catchable runtime error is assigned an exception class
+instead, which is handled in a <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY</span> block</a>.
+Conversely, not all predefined class-based exceptions are assigned to a catchable runtime error. No
+new catchable runtime errors are created and existing runtime errors that are to be made handleable are no longer transformed to catchable runtime errors. Instead, exception classes are assigned to them.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenexceptions_non_class.html')" class="blue">Self-defined handleable exceptions</a> were allowed only in the interfaces of function modules and methods. These types of exceptions can be raised within the
+<a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedure</a> by the statement
+<a href="javascript:call_link('abapraise_exception.html')" class="blue"><span class="qtext">RAISE</span></a> or <a href="javascript:call_link('abapmessage_raising.html')" class="blue">
+<span class="qtext">MESSAGE RAISING</span></a> as soon as an exception situation is detected. The caller
+of the procedure can use the addition <span class="qtext">EXCEPTIONS</span> of the statement <a href="javascript:call_link('abapcall_function.html')" class="blue">
+<span class="qtext">CALL FUNCTION</span></a> or <a href="javascript:call_link('abapcall_method_static_short.html')" class="blue"><span class="qtext">meth( ...
+)</span></a> to assign return codes for the system field <span class="qtext">sy-subrc</span> to the
+exceptions the caller wants to handle and evaluate them after the call. However, this is not true exception handling in the sense of reacting to an event.</li>
+</ul>
+<A name="@@ITOC@@ABENEXCEPTIONS_PRE_610_1"></A>
+<p><span class="h2">
+Interaction of the Exception Concepts
+</span></p>
+<p>
+The class-based exceptions replace and enhance the previous concepts in full. Class-based exceptions
+can be raised and handled in all ABAP contexts (programs, processing blocks). In particular, all previously
+catchable runtime errors can be handled as class-based exceptions, with the previous exception groups
+being mapped to shared superclasses. For reasons of downward-compatibility, the catchable runtime errors
+and the non-class-based exceptions defined in the interfaces of methods and function modules have not been abolished, but their use has been restricted as follows:
+</p>
+<ul class="disc">
+<li>Within a <a href="javascript:call_link('abenprocessing_block_glosry.html')" class="grey" title="Glossary Entry">processing block</a>, only one kind of exception can be raised.</li>
+</ul>
+<ul class="disc">
+<li>Within a procedure interface, the declaration of class-based exceptions and the definition of non-class-based exceptions exclude one another.</li>
+</ul>
+<ul class="disc">
+<li>Within a processing block, catchable runtime errors cannot be caught using <a href="javascript:call_link('abapcatch_sys.html')" class="blue">
+<span class="qtext">CATCH SYSTEM-EXCEPTIONS</span></a> if class-based exceptions are handled there in
+<a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY</span></a> blocks or are raised using <a href="javascript:call_link('abapraise_exception.html')" class="blue">
+<span class="qtext">RAISE EXCEPTION</span></a> or the addition <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW</span></a> in a
+<a href="javascript:call_link('abenconditional_expressions.html')" class="blue">conditional expression</a>. Instead, catchable runtime errors must be caught when handling the associated class-based exception.</li>
+</ul>
+<p>
+For reasons of interoperability, class-based exceptions can be handled within a processing block and return codes of function modules and methods evaluated there using non-class-based exceptions.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenexceptions_non_class.html')" class="blue">Non-Class-Based Exceptions</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexceptions_pre_610.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+</html>

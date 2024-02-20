@@ -1,0 +1,196 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMACROS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmacros_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Macros">
+<title>
+Macros - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmacros_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmacros_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Macros
+</span></p>
+<A name="@@ITOC@@ABENMACROS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+A <a href="javascript:call_link('abenabap_macros.html')" class="blue">macro</a> is a summary of a statement list for internal
+reuse within a program between <a href="javascript:call_link('abapdefine.html')" class="blue"><span class="qtext">DEFINE</span></a>
+and <a href="javascript:call_link('abapend-of-definition.html')" class="blue"><span class="qtext">END-OF-DEFINITION</span></a>.
+The statement list is included in another position in the program by specifying the macro name. A macro
+can contain up to nine placeholders, <span class="qtext">&amp;1</span> to <span class="qtext">&amp;9</span>,
+in place of ABAP words and operands (or parts of operands). These placeholders must be replaced by fixed words when the macro is included.
+</p>
+<A name="@@ITOC@@ABENMACROS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only use macros in exceptional cases.</span>
+</p>
+<p>
+We recommend that procedures (<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">methods</a>) or expressions with appropriate operators are used instead of macros.
+</p>
+<A name="@@ITOC@@ABENMACROS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Macros are often used as callable units, instead of real procedures. This is rarely a good idea however.
+Macros do not have a real context, and cannot be executed in steps in ABAP Debugger. This makes it practically
+impossible to look for errors in programs that use large or complex macros. For these reasons, a macro cannot be viewed as a worthy replacement for a genuine procedure.
+</p>
+<p>
+In addition, in the past macros were not just used to replace procedures, they were also used to perform recurrent declarations of structured data. Today, macros are, of course, avoided and
+<a href="javascript:call_link('abenbound_independent_dtype_guidl.html')" class="lnkpurple" title="Guideline">standalone types</a> are used instead.
+</p>
+<p>
+Nowadays, expressions can be used instead of macros in many cases. One example is using the value operator
+<a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue"><span class="qtext">VALUE</span></a> to
+fill internal tables, which makes it unnecessary to use macros (which mostly contain the statement <span class="qtext">APPEND</span>.
+</p>
+<p>
+In certain cases, however, the use of macros could be justified, as long as the statement patterns are
+simple and recurring. Here, a macro can be seen as a design-time generation tool. The following (good)
+example shows how a macro can be used in this way. In a situation like this, a macro may be preferable to a procedure for the following reasons:
+</p>
+<ul class="disc">
+<li>The statement list in the macro is clear and simple enough that it does not matter that it cannot be debugged.</li>
+</ul>
+<ul class="disc">
+<li>The syntax check performs static checks on the correctness of the statements. When using the dynamic language methods required in a procedure, any errors (in this case, incorrect names) would not be detected until runtime.
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="lnkpurple" title="Guideline">Dynamic access</a> would also be more time-consuming.</li>
+</ul>
+<ul class="disc">
+<li>Unlike listing all statements separately, using these macros makes the source code clearer, particularly
+if the statement list is repeated frequently. There is a lower risk of trivial typing errors being made,
+since there is no need to create and edit a large volume of similar source code. It is easier to make subsequent changes to the logic.</li>
+</ul>
+<p>
+This means that, in certain cases, using macros can improve the correctness and maintainability of source
+code. Macros that contain non-trivial control structures, however, always present a maintenance problem
+because they cannot run in steps in ABAP Debugger. For this reason, use macros very sparingly and only if they contain no more than a few lines. Errors in macros are almost impossible to analyze.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+As well as existing in the source code of a program, macros can also be saved as cross-program macros in type groups. However, no new macros should be defined in type groups.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code is an example where a macro is an unsuitable replacement for a genuine procedure.
+In this case, the macro could only be used once and in a single context, since the work area <span class="qtext">wa</span>
+can only be declared once there. In this example, a procedure with dynamic components would be a better idea.
+</p>
+<dl><dd>
+<span class="qtext">DEFINE get_data. <br>&nbsp;&nbsp;DATA wa TYPE &amp;1. <br>&nbsp;&nbsp;SELECT SINGLE * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM &amp;1 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE &amp;2 = @&amp;3 AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;4 = @&amp;5 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @wa. <br>END-OF-DEFINITION.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">get_data spfli carrid 'LH' connid '0400'.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows an example where using a macro could be a good idea. Here, a few simple
+statement lists (assignments enclosed in <span class="qtext">IF</span>) are to be repeated often. The
+names of the operands are also very regular. This function could also be implemented using other means
+(such as a procedure) by using dynamic means to access the variables or by expanding every <span class="qtext">IF</span>
+block. In this particular case, however, using a small macro makes the program far easier to understand and edit.
+</p>
+<dl><dd>
+<span class="qtext">TYPES: BEGIN OF value_and_flag, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value TYPE string, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flag TYPE c LENGTH 1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF value_and_flag.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">TYPES: BEGIN OF structure, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; component_up TYPE value_and_flag, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; component_down TYPE value_and_flag, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; component_top TYPE value_and_flag, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF structure.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA struct TYPE structure.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DEFINE macro_set_value_if_flag_is_set. <br>&nbsp;&nbsp; IF struct-component_&amp;1-flag = abap_true. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct-component_&amp;1-value = &amp;2. <br>&nbsp;&nbsp; ENDIF. <br>END-OF-DEFINITION.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">macro_set_value_if_flag_is_set up 'ABC'. <br>macro_set_value_if_flag_is_set down 'IJK'. <br>... <br>macro_set_value_if_flag_is_set top 'XYZ'. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmacros_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

@@ -1,0 +1,212 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONVERSION_EXITS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_exits.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Conversion Routines">
+<meta name="keywords" content="ABAP, Conversion Routines">
+<title>
+Conversion Routines - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconversion_exits.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconversion_exits.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CONVERSION_EXIT_...@@!ABAP_FUMO@@"></A>
+<p><span class="h1">
+Conversion Routines
+</span></p>
+<p>
+A conversion routine (also known as a conversion exit) uses a self-written implementation to override
+standard conversions (where values are passed from an ABAP data object to a dynpro field or from a dynpro
+field to an ABAP data object and in the formatting of data using the statements <a href="javascript:call_link('abapwrite-.html')" class="blue">
+<span class="qtext">WRITE</span></a> and <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a>).
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_EXITS_1" class="blue">Properties of Conversion Routines</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_EXITS_2" class="blue">Executing Conversion Routines</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_EXITS_3" class="blue">Function Modules for Conversion Routines</A></li>
+</ul>
+<A name="@@ITOC@@ABENCONVERSION_EXITS_1"></A>
+<p><span class="h2">
+Properties of Conversion Routines
+</span></p>
+<p>
+A conversion routine has a five-character name, CNVRT, used to
+</p>
+<ul class="disc">
+<li>Enter the routine as a semantic attribute of a
+<a href="javascript:call_link('abendomain_glosry.html')" class="grey" title="Glossary Entry">domain</a> in <a href="javascript:call_link('abenabap_dictionary_glosry.html')" class="grey" title="Glossary Entry">ABAP Dictionary</a>.</li>
+</ul>
+<ul class="disc">
+<li>Assign the routine directly to a dynpro field in <a href="javascript:call_link('abenscreen_painter_glosry.html')" class="grey" title="Glossary Entry">Screen Painter</a>.</li>
+</ul>
+<ul class="disc">
+<li>Specify the routine using the addition <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">USING EDIT MASK</span></a> of the <span class="qtext">WRITE</span> statement.</li>
+</ul>
+<p>
+From a technical perspective, a conversion routine consists of two
+<a href="javascript:call_link('abenfunction_module_glosry.html')" class="grey" title="Glossary Entry">function modules</a>.  The function modules are associated with the conversion routine using a naming convention:
+</p>
+<ul class="disc">
+<li>A function module called CONVERSION_EXIT_CNVRT_INPUT performs the conversion from the display format to the ABAP representation, if CNVRT is the five-character name of the conversion routine.</li>
+</ul>
+<ul class="disc">
+<li>A function module called CONVERSION_EXIT_CNVRT_OUTPUT performs the conversion from the ABAP representation to the display format, if CNVRT is the five-character name of the conversion routine.</li>
+</ul>
+<A name="@@ITOC@@ABENCONVERSION_EXITS_2"></A>
+<p><span class="h2">
+Executing Conversion Routines
+</span></p>
+<p>
+Conversion routines are executed as follows:
+</p>
+<ul class="disc">
+<li>If a <a href="javascript:call_link('abendynpro_field_glosry.html')" class="grey" title="Glossary Entry">dynpro field</a>
+is defined using a reference to a domain with a conversion routine or if a conversion routine is assigned
+to the field directly in its attributes, the INPUT function module is executed automatically when entries
+made in the associated screen field are passed to ABAP and the OUTPUT function module is executed automatically when ABAP output is passed to the screen field. In each case, the converted content is used.</li>
+</ul>
+<ul class="disc">
+<li>If an <a href="javascript:call_link('abendata_object_glosry.html')" class="grey" title="Glossary Entry">ABAP data object</a>
+is declared with reference to a domain with a conversion routine, the OUTPUT function module is executed
+by default when formatting the content using <a href="javascript:call_link('abapwrite-.html')" class="blue"><span class="qtext">WRITE</span></a>
+or <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a> and the converted
+content is produced or assigned. The default behavior can be overridden using the addition <a href="javascript:call_link('abapwrite_to_options.html')" class="blue"><span class="qtext">USING <i
+class=bn>[</i>NO<i class=bn>]</i> EDIT MASK</span></a>.</li>
+</ul>
+<p>
+The function modules can of course be called and tested in the usual way.
+</p>
+<A name="@@ITOC@@ABENCONVERSION_EXITS_3"></A>
+<p><span class="h2">
+Function Modules for Conversion Routines
+</span></p>
+<p>
+As well as the naming conventions, the function modules must meet the following requirements:
+</p>
+<ul class="disc">
+<li>Both function modules must be implemented in the same <a href="javascript:call_link('abenfunction_group_glosry.html')" class="grey" title="Glossary Entry">function group</a> and this group cannot contain further function modules.</li>
+</ul>
+<ul class="disc">
+<li>Both functions must have the following mandatory parameters:</li>
+</ul>
+<ul class="circlem2">
+<li>The input parameter INPUT for the value being converted</li>
+</ul>
+<ul class="circlem2">
+<li>The output parameter OUTPUT for the converted value</li>
+</ul>
+<dl><dd>
+In the INPUT conversion, the parameter INPUT must be generic, and in the OUTPUT conversion, the parameter
+OUTPUT must be generic. This is because the type of the assigned dynpro field or ABAP field can change depending on how it is used.
+</dd></dl>
+<ul class="disc">
+<li>An optional input parameter with the predefined name REFVAL can be created. When a dynpro field of the type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">CURR</a> or
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">QUAN</a> is converted, this parameter is given the value of a an associated reference field of the type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">CUKY</a> or
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">UNIT</a> automatically If <a href="javascript:call_link('abapwrite_to_options.html')" class="blue">
+<span class="qtext">WRITE USING EDIT MASK</span></a> is used, the input parameter REFVAL is not filled.</li>
+</ul>
+<ul class="disc">
+<li>Other optional input parameters can also be used, but are not filled automatically.</li>
+</ul>
+<ul class="disc">
+<li>Statements that interrupt the program flow or terminate an
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a> cannot be executed in the function modules. In OUTPUT conversions, only
+<a href="javascript:call_link('abentermination_message_glosry.html')" class="grey" title="Glossary Entry">termination messages</a> are valid. In INPUT conversions,
+<a href="javascript:call_link('abentermination_message_glosry.html')" class="grey" title="Glossary Entry">termination messages</a>,
+<a href="javascript:call_link('abenerror_message_glosry.html')" class="grey" title="Glossary Entry">error messages</a>, and (less useful)
+<a href="javascript:call_link('abenstatus_message_glosry.html')" class="grey" title="Glossary Entry">status message</a> can all be sent. Error messages produce in an error dialog.</li>
+</ul>
+<ul class="disc">
+<li>Describe the effects of the conversion in the documentation.</li>
+</ul>
+<p>
+Any exceptions raised in conversion routines always terminate the program. Conversion routines can only be debugged using the two-process debugger.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>OUTPUT conversions needs to display very good performance, since an OUTPUT function modules can be called very often in list output.</li>
+</ul>
+<ul class="disc">
+<li>Conversion routines are subject to the <a href="javascript:call_link('abenintern_extern_proc_call_guidl.html')" class="lnkpurple" title="Guideline">rule</a> that no external subroutines can be called, since in this case their assigned to a
+<a href="javascript:call_link('abenprogram_group_glosry.html')" class="grey" title="Glossary Entry">program group</a> cannot be identified.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The function modules <span class="lnkgrey">CONVERSION_EXIT_SDURA_INPUT</span> and <span class="lnkgrey">CONVERSION_EXIT_SDURA_OUTPUT</span>
+of the conversion routine SDURA. In its output, this conversion routine transforms seconds to minutes or minutes to hours, and in its input minutes to seconds or hours to minutes.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_exits.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:43 GMT -->
+</html>

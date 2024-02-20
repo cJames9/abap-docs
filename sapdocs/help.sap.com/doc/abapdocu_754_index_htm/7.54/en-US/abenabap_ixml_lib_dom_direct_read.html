@@ -1,0 +1,306 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_IXML_LIB_DOM_DIRECT_READ -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_dom_direct_read.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="iXML Library - Direct Reads">
+<title>
+iXML Library - Direct Reads - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_ixml_lib_dom_direct_read.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_ixml_lib_dom_direct_read.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib_dom_access.html')" class="blue">iXML Library - Access to DOM</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib_dom_access_read.html')" class="blue">iXML Library - DOM Reads</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+iXML Library - Direct Reads
+</span></p>
+<p>
+Direct reads can be used to create references to the node objects in DOM. These references can then
+be used to access methods and to get the properties of the nodes. Here, any node can be used as the starting point for access to its subnodes.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_1" class="blue">Access by Root Element</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_2" class="blue">Access to Subnodes</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_3" class="blue">Access to adjacent subnodes</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_4" class="blue">Access using node lists</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_5" class="blue">Access Using Element Names</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_6" class="blue">Access to Attributes</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_7" class="blue">Attribute access using lists</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_8" class="blue">Short forms for attribute access</A></li>
+</ul>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_1"></A>
+<p><span class="h2">
+Access by Root Element
+</span></p>
+<p>
+The root element in DOM, which represents the represented XML data, can be used as the initial node.
+The root element of an existing XML document that points to a reference variable <span class="qtext">document</span> can be accessed as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(element) = document->get_root_element( ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">element</span> is then <span class="lnkgrey">IF_IXML_ELEMENT</span>
+and points to the node object of the root element. The subnodes are now accessed from this node object.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_2"></A>
+<p><span class="h2">
+Access to Subnodes
+</span></p>
+<p>
+There are two basic methods of accessing subnodes:
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_3"></A>
+<p><span class="h3">
+Access to adjacent subnodes
+</span></p>
+<p>
+The method GET_FIRST_CHILD of the interface <span class="lnkgrey">IF_IXML_ELEMENT</span> gets the first subnode for an element:
+</p>
+<dl><dd>
+<span class="qtext">DATA(child) = element->get_first_child( ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">child</span> is then <span class="lnkgrey">IF_IXML_NODE</span>
+and it points to the node object of the first subnode. If there are no subnodes, <span class="qtext">child</span> is initial.
+</p>
+<p>
+The method GET_NEXT of the interface <span class="lnkgrey">IF_IXML_NODE</span> gets the next adjacent node and can be used to get all subnodes in sequence:
+</p>
+<dl><dd>
+<span class="qtext">DATA(next_child) = child->get_next( ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">next_child</span> is also <span class="lnkgrey">IF_IXML_NODE</span>. If no adjacent node is found, <span class="qtext">child_next</span> is initial.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenixml_child_nodes_abexa.html')" class="blue">Iteration Using Subnodes</a>
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_4"></A>
+<p><span class="h3">
+Access using node lists
+</span></p>
+<p>
+The method GET_CHILDREN of the interface <span class="lnkgrey">IF_IXML_ELEMENT</span> gets a list of all subnodes for an element:
+</p>
+<dl><dd>
+<span class="qtext">DATA(children) = element->get_children( ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">children</span> is then <span class="lnkgrey">IF_IXML_NODE_LIST</span>
+and points to an object containing an indexed list of subnodes. These subnodes can be accessed as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(child) = nodes->get_item( index )</span>.
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">child</span> is then <span class="lnkgrey">IF_IXML_NODE</span>
+and it points to the subnode specified by the number <span class="qtext">index</span> (the count begins at zero).
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In sequential access to adjacent nodes, access to the node list is also optimized.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenixml_node_list_abexa.html')" class="blue">Access using node lists</a>
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_5"></A>
+<p><span class="h2">
+Access Using Element Names
+</span></p>
+<p>
+If the name is known of an element of an existing XML document pointed to by a reference variable <span class="qtext">document</span>, the following search for the element is possible:
+</p>
+<dl><dd>
+<span class="qtext">DATA(element) = document->find_from_name_ns( name = ... ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">element</span> is then <span class="lnkgrey">IF_IXML_ELEMENT</span>
+and it points to the node object that represents the element in question. If the element is not found,
+<span class="qtext">element</span> is initial. The optional parameter DEPTH of the method FIND_FROM_NAME_NS enables the search depth to be restricted.
+</p>
+<p>
+A further method of the document interface can be used to collect all elements of a name. This method also enables the search depth to be restricted:
+</p>
+<dl><dd>
+<span class="qtext">DATA(elements) = document->get_elements_by_tag_name_ns( name = ... ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">elements</span> is then <span class="lnkgrey">IF_IXML_NODE_COLLECTION</span>
+and points to an object containing an indexed list of the found elements. These subnodes can be accessed as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(node) = item->get_item( index ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">node</span> is then <span class="lnkgrey">IF_IXML_NODE</span>
+and it points to the node specified by the number <span class="qtext">index</span> (the count begins at zero).
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenixml_node_names_abexa.html')" class="blue">Access Using Names</a>
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_6"></A>
+<p><span class="h2">
+Access to Attributes
+</span></p>
+<p>
+There are various methods for accessing the attributes of elements in DOM.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_7"></A>
+<p><span class="h3">
+Attribute access using lists
+</span></p>
+<p>
+A reference variable <span class="qtext">node</span> with the type <span class="lnkgrey">IF_IXML_NODE</span>, which points to a node object, can be used to create a list of the attributes of the node as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(attributes) = node->get_attributes( ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">attributes</span> is then <span class="lnkgrey">IF_IXML_NAMED_NODE_MAP</span>
+and points to an object containing an indexed list of the attributes. These attributes can be accessed as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(attribute) = attributes->get_item( index ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">attribute</span> is then <span class="lnkgrey">IF_IXML_ATTRIBUTE</span>
+and it points to the object specified by the number <span class="qtext">index</span> (the count begins at zero).
+</p>
+<p>
+Instead of the index, the lists of attributes can also be read using the attribute name:
+</p>
+<dl><dd>
+<span class="qtext">DATA(attribute) = attributes->get_named_item_ns( name = ... ).</span>
+</dd></dl>
+<p>
+<span class="qtext">attribute</span> then points to the object of attribute specified by the name or is initial.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_DOM_DIRECT_READ_8"></A>
+<p><span class="h3">
+Short forms for attribute access
+</span></p>
+<p>
+Instead of first creating a list of the attributes, they can also be read directly from an element,
+using their names. A reference variable <span class="qtext">element</span> with the type <span class="lnkgrey">IF_IXML_ELEMENT</span>, which points to an element, can be used to read an attribute as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(attribute) = element->get_attribute_node_ns( name = ... )</span>.
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">attribute</span> is then <span class="lnkgrey">IF_IXML_ATTRIBUTE</span> and it points to the object of the attribute specified by the name or is initial.
+</p>
+<p>
+It is also possible to write only the value of the attribute to a text string directly:
+</p>
+<dl><dd>
+<span class="qtext">DATA(value) = element->get_attribute_ns( name = ... ).</span>
+</dd></dl>
+<p>
+The type of <span class="qtext">value</span> is then <span class="qtext">string</span> and contains the value of the attribute or is initial.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Before the short forms with reference variables with the type IF_IXML_NODE can be executed, a down cast must be performed to the type IF_IXML_ELEMENT, because these methods are only located in this interface.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenixml_attributes_abexa.html')" class="blue">Access to Attributes</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_dom_direct_read.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

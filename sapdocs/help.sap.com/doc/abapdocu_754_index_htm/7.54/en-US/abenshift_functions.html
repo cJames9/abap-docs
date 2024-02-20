@@ -1,0 +1,186 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSHIFT_FUNCTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshift_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:59 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="shift_left, shift_right - Shift Functions">
+<meta name="keywords" content="ABAP, Shift Functions">
+<title>
+shift_left, shift_right - Shift Functions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenshift_functions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenshift_functions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_functions.html')" class="blue">String Functions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprocess_functions.html')" class="blue">Processing Functions for Character-Like Arguments</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@shift_left@@!ABAP_FUNCTION!@@"></A>
+<A NAME="@@shift_right@@!ABAP_FUNCTION!@@"></A>
+<p><span class="h1">
+shift_left, shift_right - Shift Functions
+</span></p>
+<p>
+The shift functions shift the content of a character-like argument.
+</p>
+<A name="@@ITOC@@ABENSHIFT_FUNCTIONS_1"></A>
+<p><span class="h3">
+Syntax Forms
+</span></p>
+<p>
+1. <span class="qtext">... shift_left( <a href="javascript:call_link('abenstring_functions_val.html')" class="blue"><i class=bn>[</i>val =<i class=bn>]</i> text</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+class=bn>[</i>places = places<i class=bn>]</i><i class=bn>|</i><i class=bn>[</i>circular = places<i class=bn>]</i><i class=bn>|</i><i class=bn>[</i>
+<a href="javascript:call_link('abenstring_functions_sub.html')" class="blue">sub = substring</a><i class=bn>]</i> ) ...</span>
+</p>
+<p>
+2. <span class="qtext">... shift_right( <a href="javascript:call_link('abenstring_functions_val.html')" class="blue"><i class=bn>[</i>val =<i class=bn>]</i> text</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i
+class=bn>[</i>places = places<i class=bn>]</i><i class=bn>|</i><i class=bn>[</i>circular = places<i class=bn>]</i><i class=bn>|</i><i class=bn>[</i>
+<a href="javascript:call_link('abenstring_functions_sub.html')" class="blue">sub = substring</a><i class=bn>]</i> ) ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+The functions <span class="qtext">shift_left</span> and <span class="qtext">shift_right</span> shift
+the character string <a href="javascript:call_link('abenstring_functions_val.html')" class="blue"><span class="qtext">text</span></a> to the left or to the right and return the result. The shift depends on the parameter pass as follows:
+</p>
+<ul class="disc">
+<li>If the argument <span class="qtext">places</span> is given a number value, this many characters
+are removed on the left or right of the character string and the length of the character string is reduced
+accordingly. If the value of <span class="qtext">places</span> is negative or longer than the character string, an exception of the class CX_SY_RANGE_OUT_OF_BOUNDS is raised.</li>
+</ul>
+<ul class="disc">
+<li>If the argument <span class="qtext">circular</span> is given a number value, the functions work like <span class="qtext">places</span>, but insert the substring again at the end or start of the character string.</li>
+</ul>
+<ul class="disc">
+<li>If the argument <span class="qtext">sub</span> is given a character string in <a href="javascript:call_link('abenstring_functions_sub.html')" class="blue">
+<span class="qtext">substring</span></a>, all substrings in the character string from <span class="qtext">text</span>
+are removed on the left or right that match the content of <span class="qtext">substring</span>. If
+no substrings are found or if <span class="qtext">substring</span> is given an empty string, the character string remains unchanged.</li>
+</ul>
+<ul class="disc">
+<li>If none of the arguments <span class="qtext">places</span>, <span class="qtext">circular</span>,
+or <span class="qtext">sub</span> are specified, the functions work as if the <span class="qtext">sub</span>
+argument has been passed a blank character. All blank characters to the left or right are removed. In this case, an explicit <span class="qtext">val</span> can also be omitted.</li>
+</ul>
+<p>
+<span class="qtext">places</span> and <span class="qtext">circular</span> are
+<a href="javascript:call_link('abennumerical_expr_position_glosry.html')" class="grey" title="Glossary Entry">numeric expression positions</a> of type <span class="qtext">i</span>.
+</p>
+<p>
+The return code has the type <span class="qtext">string</span> accordingly.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When <span class="qtext">places</span> is specified, the function <span class="qtext">shift_right</span>
+behaves differently from the statement <span class="qtext">SHIFT</span> with the additions <span class="qtext">RIGHT</span>
+and <span class="qtext">PLACES</span>. The function <span class="qtext">shift_right</span> reduces the
+length of the string, but the statement <span class="qtext">SHIFT</span> makes the string longer or keeps it the same length.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following program line
+</p>
+<dl><dd>
+<span class="qtext">txt = shift_right( txt ).</span>
+</dd></dl>
+<p>
+has the same meaning as
+</p>
+<dl><dd>
+<span class="qtext">txt = shift_right( val = txt sub = ` ` ).</span>
+</dd></dl>
+<p>
+and removes the trailing blanks from a string <span class="qtext">txt</span>.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenstring_function_shift_abexa.html')" class="blue">String Functions, <span class="qtext">shift</span> and <span class="qtext">substring</span></a> <br><br>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_RANGE_OUT_OF_BOUNDS</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Invalid value in <span class="qtext">places</span>. <br><span class="italic">Runtime
+error:</span> <span class="qtext">STRING_LENGTH_TOO_LARGE</span> or <span class="qtext">STRING_LENGTH_NEGATIVE</span>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshift_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:59 GMT -->
+</html>

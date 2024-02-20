@@ -1,0 +1,183 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXTENDED_PROGRAM_CHECK_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenextended_program_check_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Extended Program Check">
+<meta name="keywords" content="ABAP, Extended Program Check">
+<title>
+Extended Program Check - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenextended_program_check_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenextended_program_check_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_specific_rules_guidl.html')" class="blue">ABAP-Specific Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencheck_correctness_guidl.html')" class="blue">Checks for Correctness</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Extended Program Check
+</span></p>
+<A name="@@ITOC@@ABENEXTENDED_PROGRAM_CHECK_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+You can call the <span class="lnkgrey">extended program check</span> for activated programs either from
+ABAP Workbench or by using transaction <span class="lnkgrey">SLIN</span>. It performs static checks
+that are too complex for the normal syntax check. Both individual and multiple subtests can be performed, or an ATC-relevant check that includes important subtests.
+</p>
+<p>
+The extended program check displays errors, warnings and messages. The ATC-relevant check reports errors and warnings that are particularly critical. These checks are also performed in program checks in
+<a href="javascript:call_link('abenabap_test_cockpit_glosry.html')" class="grey" title="Glossary Entry">ABAP Test Cockpit (ATC)</a>.
+The classification of individual results (error, warning or message) depends on whether an ATC-relevant
+check is performed or explicitly selected individual checks. The extended program check also displays the errors and warnings of the syntax check.
+</p>
+<p>
+In the initial screen of the extended program check, a programming guidelines check can also be selected. This checks whether certain rules presented in this book (that can be verified statically) have been adhered to.
+</p>
+<p>
+The messages from the extended program check, which are inapplicable in some special cases, can be hidden
+using pragmas. Before the introduction of pragmas, it was not possible to hide messages raised by a normal syntax check.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The extended program check also covers <span class="lnkgrey">security checks</span> used to test ABAP programs for all potential
+<a href="javascript:call_link('abenabap_security.html')" class="blue">security risks</a>. In customer systems, these checks are subject to a special licensing procedure.
+</p>
+<p>
+
+</p>
+<A name="@@ITOC@@ABENEXTENDED_PROGRAM_CHECK_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use the extended program check</span>
+</p>
+<p>
+Use the extended program check and take the results seriously. Message are not allowed to appear when the ATC-relevant checks are performed for a completed program.
+</p>
+<A name="@@ITOC@@ABENEXTENDED_PROGRAM_CHECK_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The errors, warnings and messages output by the extended program check are just as important as the syntax errors and syntax warnings from the
+<a href="javascript:call_link('abensyntax_check_guidl.html')" class="lnkpurple" title="Guideline">syntax check</a>. For example,
+an error reported by the extended program check can indicate that a program will definitely lead to
+a runtime error when it is executed. Warnings and messages usually indicate a questionable use of language elements, which is likely to cause unexpected program behavior.
+</p>
+<p>
+In rare cases, when a result reported by the extended program check is not justified, this must be documented
+using an appropriate pragma (the relevant pragma is indicated in the message). This means that the system
+suppresses the message of the extended program check. Ideally, in less obvious situations, an additional comment should be used to describe why the message is not applicable.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The extended program check provides useful help for writing ABAP programs in the correct way. Using
+unspecific pseudo comments or pragmas can undo the positive effect of the extended program check. In particular, the following statement should never be used:
+</p>
+<dl><dd>
+<span class="qtext">SET EXTENDED CHECK OFF.</span>
+</dd></dl>
+<p>
+This statement suppresses all messages of the extended program check for an entire source code section.
+</p>
+<p>
+If the ABAP program is submitted to a code review, the results of the extended program check should be used to evaluate the quality.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+If the following source code is checked using the extended program check, a warning appears. It indicates a particularly questionable query of the content of the
+<a href="javascript:call_link('abenreturn_value_guidl.html')" class="lnkpurple" title="Guideline">return value</a> <span class="qtext">sy-subrc</span>.
+</p>
+<dl><dd>
+<span class="qtext">ASSIGN field TO &lt;fs>. <br> <br>IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;... <br>ENDIF.</span>
+</dd></dl>
+<p>
+The program section shows a typical error in a program with correct syntax. The developer wrongly assumes
+that the static form of the <span class="qtext">ASSIGN</span> statement sets the <span class="qtext">sy-subrc</span>
+system field, which is not the case. The developer wrongly believes that he has secured his program.
+An incorrect program behavior occurs if <span class="qtext">sy-subrc</span> has a value that is not
+zero, due to previous statements. Therefore, the main advantage of the extended program check is that
+the system does not just examine individual statements for correct syntax, but it also examines entire program sections for semantic errors.
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows the corrected version of the above example. The predicate expression
+<span class="qtext">IS ASSIGNED</span> is used (as recommended in the documentation) instead of <span class="qtext">sy-subrc</span>. The message from the extended program check could also be hidden using a pragma
+(<span class="qtext">##subrc_read</span>), but this is not recommended in this case because the extended program check indicates a real problem.
+</p>
+<dl><dd>
+<span class="qtext">ASSIGN field TO &lt;fs>. <br> <br>IF &lt;fs> IS ASSIGNED. <br>&nbsp;&nbsp;... <br>ENDIF.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenextended_program_check_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+</html>

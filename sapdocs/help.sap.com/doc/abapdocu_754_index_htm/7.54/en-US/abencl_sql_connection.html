@@ -1,0 +1,165 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCL_SQL_CONNECTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_sql_connection.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADBC - CL_SQL_CONNECTION">
+<meta name="keywords" content="ABAP, ADBC, CL_SQL_CONNECTION">
+<title>
+ADBC - CL_SQL_CONNECTION - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencl_sql_connection.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencl_sql_connection.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennative_sql.html')" class="blue">Native SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC - ABAP Database Connectivity</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@CL_SQL_CONNECTION@@!ABAP_CLASS!@@"></A>
+<p><span class="h1">
+ADBC - CL_SQL_CONNECTION
+</span></p>
+<p>
+The SQL statements that are represented by objects of the
+<a href="javascript:call_link('abencl_sql_statement.html')" class="blue">CL_SQL_STATEMENT</a> and
+<a href="javascript:call_link('abencl_sql_prepared_statement.html')" class="blue">CL_SQL_PREPARED_STATEMENT</a> classes work by default with the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard AS ABAP database</a>. The following class can be used to enable additional
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a> or to make settings for database connections (including the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a>):
+</p>
+<ul class="disc">
+<li><span class="lnkgrey">CL_SQL_CONNECTION</span></li>
+</ul>
+<p>
+The following can be passed to the method GET_ABAP_CONNECTION of this class:
+</p>
+<ul class="disc">
+<li>The value <span class="qtext400">DEFAULT</span> for the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> of the current work process.</li>
+</ul>
+<ul class="disc">
+<li>The name of a <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> from the column CON_NAME of the database table <span class="lnkgrey">DBCON</span>.</li>
+</ul>
+<ul class="disc">
+<li>The name of a <a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a> prefixed with <span class="qtext400">R/3*</span>.</li>
+</ul>
+<p>
+All of these instances are case-sensitive. The method attempts to activate or reuse the corresponding
+connection and, if successful, creates an instance of CL_SQL_CONNECTION as a connection object and returns the corresponding reference.
+</p>
+<p>
+A further method, GET_CONNECTION, has the additional parameter SHARABLE, which can be used to share a secondary connection or service connection with ABAP SQL, Native SQL, and AMDP.
+</p>
+<ul class="disc">
+<li>If the value <span class="qtext">abap_true</span> is passed to the parameter, GET_CONNECTION works like GET_ABAP_CONNECTION and the connection is shared.</li>
+</ul>
+<ul class="disc">
+<li>If the value <span class="qtext">abap_false</span> (default) is passed to the parameter, the secondary connection or service connection can be used exclusively by using the connection object.</li>
+</ul>
+<p>
+References to instances of CL_SQL_CONNECTION can be passed to the parameter CON_REF of the instance
+constructor of CL_SQL_STATEMENT or CL_SQL_PREPARED_STATEMENT. Instances created in this way execute their SQL statements on the database connection represented by the instance of CL_SQL_CONNECTION.
+</p>
+<p>
+The instance method CLOSE of CL_SQL_CONNECTION closes the current secondary connection or service connection. This rolls back all database changes not yet committed using a
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commit</a>. The instance can no longer be used after
+this and statements that are already associated with the connection become invalid. CLOSE is ignored in instances that represent the standard connection.
+</p>
+<p>
+To handle <a href="javascript:call_link('abenadbc_transaction.html')" class="blue">database LUWs</a> using ADBC, the class CL_SQL_CONNECTION contains the methods COMMIT and ROLLBACK, which raise a
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> or
+<a href="javascript:call_link('abendatabase_rollback_glosry.html')" class="grey" title="Glossary Entry">database rollback</a> respectively. Furthermore, CL_SQL_CONNECTION contains methods for
+<a href="javascript:call_link('abenhana_set_transaction.html')" class="blue">setting the transaction behavior</a> of the current database connection. When an
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> is
+accessed, these methods must be used instead of the corresponding SQL <span class="qtext400">SET TRANSACTION</span> statements.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>To create a connection object for the <a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">
+standard connection</a>, an instance of CL_SQL_CONNECTION can be created directly using <span class="qtext">CREATE
+OBJECT</span> or the instance operator <span class="qtext">NEW</span> instead of calling the method GET_ABAP_CONNECTION with the value <span class="qtext400">DEFAULT</span>.</li>
+</ul>
+<ul class="disc">
+<li>Detailed information about database connections can be found <a href="javascript:call_link('abenopensql_multiconnect.html')" class="blue">here</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Specifies a service connection to the standard database for a prepared statement.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(con) = cl_sql_connection=>get_abap_connection( `R/3*my_conn` ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(sql) = NEW cl_sql_prepared_statement( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statement = `INSERT INTO demo_update VALUES( ?, ?, ?, ?, ?, ? )` <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;con_ref&nbsp;&nbsp; = con ). <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;sql->close( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;con->close( ). <br>&nbsp;&nbsp;CATCH cx_sql_exception INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>ENDTRY.
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenadbc_transaction.html')" class="blue">ADBC - Database LUWs</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_sql_connection.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+</html>

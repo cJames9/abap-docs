@@ -1,0 +1,213 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXPORT_DATA_CLUSTER_INDX -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexport_data_cluster_indx.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Export/Import Tables">
+<title>
+Export/Import Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexport_data_cluster_indx.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexport_data_cluster_indx.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_cluster.html')" class="blue">Data Cluster</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapexport_data_cluster.html')" class="blue">EXPORT</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Export/Import Tables
+</span></p>
+<p>
+When storing <a href="javascript:call_link('abendata_cluster_glosry.html')" class="grey" title="Glossary Entry">data clusters</a> in database tables and application buffers of the
+<a href="javascript:call_link('abenshared_memory_glosry.html')" class="grey" title="Glossary Entry">shared memory</a>, database tables with one of the following structures must be specified: These database tables are known as
+<a href="javascript:call_link('abenexport_import_table_glosry.html')" class="grey" title="Glossary Entry">export/import tables</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENEXPORT_DATA_CLUSTER_INDX_1" class="blue">Structure for Data Clusters in One Row</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENEXPORT_DATA_CLUSTER_INDX_2" class="blue">Structure for Data Clusters in Multiple Rows</A></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The structure for data clusters in a single row is the newer variant and is recommended for new database tables.</li>
+</ul>
+<ul class="disc">
+<li>Status information about the actual data cluster, such as date, user, or language, can be saved in custom fields.</li>
+</ul>
+<ul class="disc">
+<li>Notes about how to edit <a href="javascript:call_link('abenexport_import_table_glosry.html')" class="grey" title="Glossary Entry">export/import tables</a> using SQL can be found under
+<a href="javascript:call_link('abenindx_type_table_and_sql.html')" class="blue">SQL Access to Export/Import Tables</a>.</li>
+</ul>
+<A name="@@ITOC@@ABENEXPORT_DATA_CLUSTER_INDX_1"></A>
+<p><span class="h2">
+Structure for Data Clusters in One Row
+</span></p>
+<p>
+In export/import table structures like this, the data cluster is saved in a single row in a column CLUSTD of the type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">RAWSTRING</a>
+(<a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOB</a>).
+</p>
+<ul class="disc">
+<li>If the data objects are saved as client-specific objects, the first field must be a key field with
+the name MANDT of type CLNT for the client. This component does not apply if objects are saved as cross-client objects.</li>
+</ul>
+<ul class="disc">
+<li>The next field must be a key field with the name RELID of type CHAR and with length 2. The area saved here is specified as <span class="qtext">ar</span>.</li>
+</ul>
+<ul class="disc">
+<li>This must be followed by at least one key field of type CHAR with any name. The identifier specified
+in <span class="qtext">id</span> in the length of the key field is saved here. If more than one key
+field is defined, the identifier is divided among them according to the respective length of the key
+fields. If the total length of the key fields is not sufficient for the identifier, it is truncated on the right side.</li>
+</ul>
+<ul class="disc">
+<li>Any number of fields with any name and type can follow, which are filled with values by specifying
+<span class="qtext">FROM wa</span>. The addition <span class="qtext">TO wa</span> of the statement <span class="qtext">IMPORT</span> reads these fields again.</li>
+</ul>
+<ul class="disc">
+<li>The final field must be called CLUSTD and associated with the data element <span class="lnkgrey">INDX_CLUST_BLOB</span> with the dictionary type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">RAWSTRING</a>. This column is given the actual data cluster.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The total length of all <a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> (meaning the total length of MANDT, RELID, the key fields for the ID, and SRTF2) is limited to 900 bytes, like every AS ABAP
+<a href="javascript:call_link('abenddic_database_tables.html')" class="blue">database</a> defined in ABAP Dictionary. If the table content is transported by specifying a key, a limit of 120 bytes is required here too.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The database table <span class="lnkgrey">DEMO_INDX_BLOB</span> is an example of how data clusters are saved in a single row.
+</p>
+<A name="@@ITOC@@ABENEXPORT_DATA_CLUSTER_INDX_2"></A>
+<p><span class="h2">
+Structure for Data Clusters in Multiple Rows
+</span></p>
+<p>
+In export/import table structures like this, the data cluster is saved in a column CLUSTD of the type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">LRAW</a> and can span multiple rows. The structure needs the additional columns SRTF2 and CLUSTR to manage this repository.
+</p>
+<ul class="disc">
+<li>The structure starts with the same key fields as in the structure above for data clusters in a single row.</li>
+</ul>
+<ul class="disc">
+<li>The next field must be a further key field with the name SRTF2 of type INT4. It contains the row
+numbers of the data cluster saved in the field CLUSTD. This cluster can span multiple rows and is filled
+automatically by the system. If more rows are required than allowed by the value range of SRFT2, a non-handleable exception is raised.</li>
+</ul>
+<ul class="disc">
+<li>Any number of fields with custom names and types can follow. The same applies to these fields as to the structure above for data clusters in a single row.</li>
+</ul>
+<ul class="disc">
+<li>The last two components must be called CLUSTR and CLUSTD and have the types
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">INT2</a> and
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">LRAW</a> of any length. The current length of the
+field CLUSTD of each row is saved in CLUSTR, while CLUSTD contains the actual data cluster (which can span multiple rows).</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>When a data cluster is split across multiple rows, the associated administration data must be saved for each row. In each row, the content of the custom fields are saved redundantly.</li>
+</ul>
+<ul class="disc">
+<li>The additional key field SRTF2 is part of the total length of all
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a>. When table content is transported
+by specifying a key, the key field SRTF2 does not usually need to be specified since only transports of all rows in a data cluster are feasible.</li>
+</ul>
+<ul class="disc">
+<li>A database table <span class="lnkgrey">INDX</span>, delivered by SAP, has the layout for a data
+cluster in multiple rows and can be used as a template for creating custom database tables or for test purposes. In production programs, however, it is strongly recommended that separate
+<a href="javascript:call_link('abenexport_import_table_glosry.html')" class="grey" title="Glossary Entry">export/import tables</a> are used:</li>
+</ul>
+<ul class="circlem2">
+<li>When data is saved in the table INDX, data is at risk of being overwritten or deleted by other programs.</li>
+</ul>
+<ul class="circlem2">
+<li>The custom fields between SRTF2 and CLUSTR do not usually match their own application.</li>
+</ul>
+<ul class="circlem2">
+<li>The table INDX has the <a href="javascript:call_link('abenddic_database_tables_delivery.html')" class="blue">delivery class</a>
+<span class="qtext400">A</span> and is client-specific. The delivery class <span class="qtext400">L</span>
+may be better suited for saving temporary data. If the data needs to be cross-client data, the table used should not contain a client column. This prevents redundant data from being saved.</li>
+</ul>
+<ul class="circlem2">
+<li>New export/import tables should be created using a <a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOB</a> column CLUSTD.</li>
+</ul>
+<ul class="disc">
+<li>Old export/import tables can also occur, however, where the column SRTF2 has the data type INT1 or INT2. In these tables, a data cluster cannot cover more rows than allowed by the value range of these types.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The database table <span class="lnkgrey">DEMO_INDX_TABLE</span> is an example of how data clusters are saved in multiple rows.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenindx_type_table_and_sql.html')" class="blue">SQL access to export tables/import tables</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexport_data_cluster_indx.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

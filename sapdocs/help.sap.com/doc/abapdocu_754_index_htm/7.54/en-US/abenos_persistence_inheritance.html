@@ -1,0 +1,149 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_PERSISTENCE_INHERITANCE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_inheritance.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inheritance of Persistent Classes">
+<title>
+Inheritance of Persistent Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_persistence_inheritance.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_persistence_inheritance.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_persist.html')" class="blue">Persistence Service</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inheritance of Persistent Classes
+</span></p>
+<p>
+Persistent classes can have subclasses. These subclasses are also persistent classes, in that they inherit
+the persistence mapping of the superclass to the database table or tables. The persistence mapping of
+the superclass is defined in the subclass. If not, the general polymorphic principle of inheritance, in which the consumer handles subclasses in the same way as superclasses, is violated.
+</p>
+<p>
+The mapping information and attributes of all superclasses are included in the class agents of a persistent subclass. There are two different methods for passing on mappings.
+</p>
+<ul class="disc">
+<li>Vertical mapping</li>
+</ul>
+<dl><dd>
+In the subclass, the persistent attributes that were defined in the subclass are mapped to separate
+tables, database views, or structures. The general rule for multiple table mapping applies: The keys
+for the additional tables, database views, or structures must be the same as the keys for the superclass
+tables, database views, or structures. The key fields are therefore mapped in the superclass and the
+subclass. Thus additional attributes and their associated GET and SET methods are added to the subclass,
+without affecting the attributes and methods of the superclass. In the superclass, all persistent attributes must be mapped.
+</dd></dl>
+<dl><dd>
+A special case of vertical mapping exists when the persistent attributes that were additionally defined
+in the subclass are mapped to the same tables, database views, or structures as the superclass attributes.
+To find out the class to which a table entry belongs, a special field of the type OS_GUID must exist in one of the tables, database views, or structures and be used as a type identifier.
+</dd></dl>
+<ul class="disc">
+<li>Horizontal mapping</li>
+</ul>
+<dl><dd>
+If a persistent superclass is abstract, persistent attributes can be defined there without using concrete
+mappings. In every direct subclass, a mapping must be defined for the persistent attributes of the superclass.
+The subclasses can be mapped to different tables, database views, or structures. The system does not check whether the subclasses are mapped to different tables or structures.
+</dd></dl>
+<p><span class="h4">
+ Caution
+</span></p>
+<p>
+The class agents of persistent classes that are in an inheritance relationship are not in a corresponding
+inheritance relationship. The same principle applies that a class agent only manages the objects of
+the corresponding classes and the subclass objects. As a result, private attributes of non-final persistent
+classes are not completely protected from reads or writes. Information that is to be protected must not be stored in private attributes of non-final persistent classes.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_INHERITANCE_1"></A>
+<p><span class="h2">
+Polymorphism in the Class Agent Methods
+</span></p>
+<p>
+The methods DELETE_PERSISTENT, REFRESH_PERSISTENT, and RELEASE of the interface <span class="lnkgrey">IF_OS_FACTORY</span>
+of the class agent behave polymorphically; this means that, for a specified managed object, these methods
+can also be called in the class agent of a (non-abstract) superclass of this object. At runtime, the
+passed reference can be used to define the type of the managed object and call the relevant class agent of the subclass.
+</p>
+<p>
+If an additional type field (type identifier) exists in one of the tables, database views, or structures
+that is mapped to the root class of the inheritance hierarchy, the methods GET_PERSISTENT, DELETE_PERSISTENT
+plus GET_PERSISTENT_BY_KEY and GET_PERSISTENT_BY_OID of the interface <span class="lnkgrey">IF_OS_CA_PERSISTENCY</span>
+of the class agent behave polymorphically. This means that the agent of a (non-abstract) persistent
+class can also be used to use the key to read (business key or GUID) or delete (business key) a persistent
+object that belongs to a persistent subclass of the classes managed by this class agent. This is done
+by delegation to the class agent of the subclass, which can be determined at runtime using the information in the type identifier.
+</p>
+<p>
+Specifying an additional type identifier ensures that the (business) key is unique in the entire inheritance
+hierarchy. It is therefore not possible to create a managed object with the same key as a managed object of another subclass, another superclass, or the subclasses of this superclass.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_inheritance.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

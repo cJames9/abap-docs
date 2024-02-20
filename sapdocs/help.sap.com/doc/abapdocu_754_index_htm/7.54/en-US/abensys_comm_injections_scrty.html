@@ -1,0 +1,201 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSYS_COMM_INJECTIONS_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensys_comm_injections_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="System Command Injections">
+<title>
+System Command Injections - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensys_comm_injections_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensys_comm_injections_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_programming_scrty.html')" class="blue">Security Risks Caused by Input from Outside</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+System Command Injections
+</span></p>
+<p>
+A <a href="javascript:call_link('abensyst_comm_injection_glosry.html')" class="grey" title="Glossary Entry">system command injection</a>
+is a attack method that can result from insufficiently secure input from outside. A system command injection forwards malicious
+<a href="javascript:call_link('abenabap_system_commands.html')" class="blue">operating system statements</a>, which enter a program
+from an external source, to the operating system. In ABAP, this can occur when the following programming techniques are used:
+</p>
+<ul class="disc">
+<li>In the application layer</li>
+</ul>
+<ul class="circlem2">
+<li>Input forwarded from an external source to the parameters of the function modules used to call operating system statements using the
+<a href="javascript:call_link('abenabap_system_commands_appl_sxpg.html')" class="blue">SXPG framework</a></li>
+</ul>
+<ul class="circlem2">
+<li>When the addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a>
+of the statement <a href="javascript:call_link('abapopen_dataset.html')" class="blue"><span class="qtext">OPEN DATASET</span></a> is used and some or all of the specified operating system statement originates from outside the program.</li>
+</ul>
+<ul class="circlem2">
+<li>Using the internal statement <a href="javascript:call_link('abapcall-.html')" class="blue"><span class="qtext">CALL</span></a>
+for the special system function SYSTEM if part of the specified operating system statement or some or all of its parameters come from outside the program.</li>
+</ul>
+<ul class="disc">
+<li>In the presentation layer</li>
+</ul>
+<ul class="circlem2">
+<li>Input forwarded from an external source to the parameters of the method, the class, or the function module .</li>
+</ul>
+<p>
+The <a href="javascript:call_link('abenabap_system_commands_appl_sxpg.html')" class="blue">SXPG framework</a> is the only recommended method for executing operating system statements from the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+current AS Instance in ABAP. Here, only predefined logical command names can be passed to function modules
+in the function group SXPG, so enabling a certain amount of independence from the operating system in
+question. These predefined logical command names comprise a whitelist, preventing both unwanted operating
+system statements from being executed and also direct system command injections. When the statement
+is called, authorization checks and other checks take place. If further parameters can be passed to the function modules, they can be checked for unwanted code relatively easily.
+</p>
+<p>
+The two other ways of executing operating system statements from the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+current AS Instance are not at all secure (even with no external input) and should be avoided in ABAP
+programs. Calls of the SYSTEM function using internal statements should be especially avoided and can and should be deactivated using the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a>
+<span class="lnkgrey">rdisp/call_system</span>. External statements or parts of external statements
+should never be passed to the operating system without being checked first. Checking and filtering user
+input when using <span class="qtext">FILTER</span> or <span class="qtext">CALL 'SYSTEM'</span> is, however, particularly difficult, since all possible operating systems and code pages must be covered.
+</p>
+<p>
+In principle, all input from outside must be checked if passed to the parameters of SXPG framework function
+modules and to parameters of the method or function module used to execute operating system statements on the presentation server. This prevents unwanted effects from operating system statements.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, the operating system statement <span class="qtext400">ping</span> of the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+current AS Instance is executed for a database server using the unwanted system function SYSTEM. If
+this function has been deactivated (using the profile parameter rdisp/call_system), a runtime error
+occurs. The number of <span class="qtext400">"pings"</span> and the database server can be set externally. The program can be manipulated by two attacks:
+</p>
+<ul class="disc">
+<li>The number of <span class="qtext400">"pings"</span> is unlimited, which means that <span class="italic">"Denial of Service" attack</span> can take place.</li>
+</ul>
+<ul class="disc">
+<li>The input field DBSERVER for the database server, whose default is the current database server,
+is at risk from system command injections. If, for example, the string <span class="qtext400">; ls -l
+/etc</span> is appended to the name of the database server in a Unix operating system, the operating
+system statement <span class="qtext400">ls</span> is executed after the <span class="qtext400">"pings"</span> and the content of the directory <span class="qtext400">/etc</span> is produced.</li>
+</ul>
+<p class="qtextml1">
+<span class="qtext">
+TYPES char255 TYPE c LENGTH 255. <br> <br>DATA dbserver TYPE char255. <br>CALL 'C_SAPGPARAM' ID 'NAME'&nbsp;&nbsp;FIELD 'SAPDBHOST' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'VALUE' FIELD&nbsp;&nbsp;dbserver. <br>
+ <br>DATA pings TYPE i VALUE 1. <br>cl_demo_input=>add_field( CHANGING field = pings ). <br>cl_demo_input=>add_field( CHANGING field = dbserver ). <br>
+cl_demo_input=>request( ). <br> <br>IF dbserver IS INITIAL. <br>&nbsp;&nbsp;cl_demo_output=>display( 'DBSERVER must not be initial ...' ). <br>
+&nbsp;&nbsp;RETURN. <br>ENDIF. <br> <br>DATA command TYPE char255. <br>command = |ping -c{ COND i( WHEN pings &lt;= 1&nbsp;&nbsp;THEN 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE pings ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} { dbserver }|. <br>
+ <br>DATA result&nbsp;&nbsp;TYPE TABLE OF char255 WITH EMPTY KEY. <br>CALL 'SYSTEM' ID 'COMMAND' FIELD command <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID 'TAB'&nbsp;&nbsp;&nbsp;&nbsp; FIELD result. <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, the unwanted use of the system function SYSTEM is replaced by calling
+the function module <span class="lnkgrey">SXPG_CALL_SYSTEM</span> for the logical command name <span class="qtext400">PING</span> predefined by SAP. The function module call only shows some of the possible exceptions.
+</p>
+<ul class="disc">
+<li><span class="italic">"Denial of Service" attacks</span> are prevented by limiting the number of <span class="qtext400">"pings"</span> to a maximum of 10.</li>
+</ul>
+<ul class="disc">
+<li>The system command injections shown above are not possible, since the
+<a href="javascript:call_link('abenabap_system_commands_appl_sxpg.html')" class="blue">SXPG framework</a> input is detected as invalid parameter passing to <span class="qtext400">ping</span>.</li>
+</ul>
+<p class="qtextml1">
+<span class="qtext">
+DATA dbserver TYPE c LENGTH 255. <br>CALL 'C_SAPGPARAM' ID 'NAME'&nbsp;&nbsp;FIELD 'SAPDBHOST' <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'VALUE' FIELD&nbsp;&nbsp;dbserver. <br>
+ <br>DATA pings TYPE i VALUE 1. <br>cl_demo_input=>add_field( CHANGING field = pings ). <br>cl_demo_input=>add_field( CHANGING field = dbserver ). <br>
+cl_demo_input=>request( ). <br> <br>DATA parameters TYPE sxpgcolist-parameters. <br>parameters = |-c{ COND i( WHEN pings &lt;= 1&nbsp;&nbsp;THEN 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN pings >= 10 THEN 10 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE pings ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} { dbserver }|. <br>
+ <br>DATA result TYPE TABLE OF btcxpm WITH EMPTY KEY. <br>CALL FUNCTION 'SXPG_CALL_SYSTEM' <br>&nbsp;&nbsp;EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;commandname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'PING' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;additional_parameters = parameters <br>&nbsp;&nbsp;TABLES <br>&nbsp;&nbsp;&nbsp;&nbsp;exec_protocol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = result <br>
+&nbsp;&nbsp;EXCEPTIONS <br>&nbsp;&nbsp;&nbsp;&nbsp;no_permission&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;command_not_found&nbsp;&nbsp;&nbsp;&nbsp; = 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;security_risk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 3 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 4. <br>
+ <br>IF sy-subrc = 0. <br>&nbsp;&nbsp;cl_demo_output=>display( result ). <br>ELSE. <br>&nbsp;&nbsp;cl_demo_output=>display( |Error, return code { sy-subrc }| ). <br>ENDIF.
+</span>
+</p>
+<p>
+The example above can itself be improved by using a self-defined logical command name instead of the
+predefined logical command name <span class="qtext400">PING</span>. For each operating system used,
+this command name gives the <span class="qtext400">ping</span> statement a specific path, such as <span class="qtext400">
+/bin/ping</span> for Linux or <span class="qtext400">c:\Windows\System32\ping.exe</span> for MS Windows.
+This calls the specified statement precisely and any attacker is unable to smuggle a statement with
+the same name (but with the wrong function) into a directory in front of the required target directory in the environment variable for the path.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensys_comm_injections_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

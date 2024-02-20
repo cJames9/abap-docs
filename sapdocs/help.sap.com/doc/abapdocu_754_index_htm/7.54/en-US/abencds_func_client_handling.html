@@ -1,0 +1,226 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_FUNC_CLIENT_HANDLING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_func_client_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:42 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - Client Handling in CDS Table Functions">
+<title>
+ABAP CDS - Client Handling in CDS Table Functions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_func_client_handling.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_func_client_handling.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_entities.html')" class="blue">ABAP CDS - Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_table_functions.html')" class="blue">ABAP CDS - Table Functions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP CDS - Client Handling in CDS Table Functions
+</span></p>
+<p>
+The <a href="javascript:call_link('abencds_annotation_glosry.html')" class="grey" title="Glossary Entry">CDS
+annotation</a> <a href="javascript:call_link('abencds_f1_function_annotations.html')" class="blue"><span class="qtext400">@ClientHandling.type</span></a> can be used to switch
+<a href="javascript:call_link('abenclient_dependence_glosry.html')" class="grey" title="Glossary Entry">client dependency</a> on and off for a CDS table function in ABAP CDS.
+</p>
+<ul class="disc">
+<li>The value <span class="qtext400">#CLIENT_DEPENDENT</span> switches client dependency on.</li>
+</ul>
+<ul class="disc">
+<li>The value <span class="qtext400">#CLIENT_INDEPENDENT</span> switches client dependency off.</li>
+</ul>
+<p>
+Client dependency is switched on by default. The client dependency of a CDS table function has the following consequences for the CDS entity and the associated AMDP function implementation:
+</p>
+<ul class="disc">
+<li>Client-Specific CDS Table Function</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abencds_f1_return_list.html')" class="blue">element list</a> of a client-specific CDS
+table function must have an explicit client field with the built-in dictionary type CLNT as its first
+element. The client field is a column of the tabular return value of the associated AMDP function implementation and is not a component of the structured data type represented by the CDS entity.</li>
+</ul>
+<ul class="circlem2">
+<li>When a client-specific CDS table function is accessed using <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">
+SELECT</span></a> without the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">
+CLIENT SPECIFIED</span></a>, only those rows are selected implicitly from the results set of the function
+that contain the ID of the current client or the client specified in the addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING CLIENT</span></a> in the client field.</li>
+</ul>
+<ul class="circlem2">
+<li>A CDS table function is always implemented in the associated
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP method</a> in platform-specific
+SQL. The implementation must ensure that all required data is made available. Particularly in the <span class="qtext400">ON</span> conditions of joins, client columns must be used correctly.</li>
+</ul>
+<ul class="circlem2">
+<li>For performance reasons, it is best to restrict the results set of the function to the required
+clients at the implementation stage. This usually involves passing the client ID in question to an input
+parameter of the function. Here, it is advisable to use an input parameter of the dictionary type CLNT,
+which needs to be annotated with the annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue"><span class="qtext400">
+@Environment.systemField</span></a> and the predefined value <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue">
+<span class="qtext400">#CLIENT</span></a>. In this case, <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> passes the correct client ID implicitly.</li>
+</ul>
+<ul class="circlem2">
+<li>Note that if the <a href="javascript:call_link('abenhana_session_variables.html')" class="blue">ABAP-specific
+session variables</a> <span class="qtext400">CLIENT</span> and <span class="qtext400">CDS_CLIENT</span> are accessed in the implementation of a
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a>,
+the addition <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING CLIENT</span></a>
+of the ABAP SQL statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>
+only acts on the session variable<span class="qtext400">CDS_CLIENT</span>. If the AMDP function is used in an AMDP method called from ABAP, there is no equivalent for <span class="qtext">USING CLIENT</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>If the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT
+SPECIFIED</span></a> is specified, the column is added to the results set and is filled with the associated
+client ID for each row. Before this column can be used in the <span class="qtext">SELECT</span> statement,
+a name must be assigned to it after the addition <span class="qtext">CLIENT SPECIFIED</span>. If the
+name is not defined, no addressing is possible in a clause and no inline declarations can be made using
+<a href="javascript:call_link('abapselect_into_target.html')" class="blue"><span class="qtext">@DATA(...)</span></a> after <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO</span></a>. The defined name is also used in the case of <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO CORRESPONDING</span></a>. If no name is defined, the client column is not transported.</li>
+</ul>
+<ul class="disc">
+<li>Cross-Client CDS Table Function</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abencds_f1_return_list.html')" class="blue">element list</a> of a cross-client CDS table
+function does not need to have an explicit client field with the built-in dictionary type CLNT. If the
+first element has the type CLNT, it does not function as a client field. Instead, it is a column of
+the tabular return value of the associated AMDP function implementation and also a regular component of the structured data type represented by the CDS entity.</li>
+</ul>
+<ul class="circlem2">
+<li>When a cross-client CDS table function is accessed using <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">
+SELECT</span></a>, an element of the type CLNT does not have a special meaning and is handled like any other element.</li>
+</ul>
+<ul class="circlem2">
+<li>The annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue"><span class="qtext400">@Environment.systemField:
+#CLIENT</span></a> cannot be used in the parameter list of a cross-client CDS table function.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>CDS table functions for application data should usually be client-specific.</li>
+</ul>
+<ul class="disc">
+<li>The annotation <a href="javascript:call_link('abencds_f1_function_annotations.html')" class="blue"><span class="qtext400">@ClientHandling.type</span></a>
+with the values <span class="qtext400">#CLIENT_DEPENDENT</span> and <span class="qtext400">#CLIENT_INDEPENDENT</span>
+replaces the annotation <a href="javascript:call_link('abencds_func_client_handling_obs.html')" class="blue"><span class="qtext400">@ClientDependent</span></a>
+with the values <span class="qtext400">true</span> and <span class="qtext400">false</span> and should be used instead of this annotation.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following client-specific CDS table function reads the
+<a href="javascript:call_link('abenhana_session_variables.html')" class="blue">ABAP-specific session variables</a> <span class="qtext400">CLIENT</span>
+and <span class="qtext400">CDS_CLIENT</span>. The first element <span class="qtext400">mandt</span>
+of the element list is the client field. The other two elements return the read values. An input parameter
+<span class="qtext400">clnt</span> with the built-in dictionary type CLNT transfers the client ID and, as prescribed, is given the annotation <span class="qtext400">@Environment.systemField:#CLIENT</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@ClientHandling.type: #CLIENT_DEPENDENT <br>@AccessControl.authorizationCheck:#NOT_ALLOWED&nbsp;&nbsp;<br>
+define table function DEMO_CDS_GET_CLIENT_VARIABLES <br>&nbsp;&nbsp;with parameters <br>&nbsp;&nbsp;&nbsp;&nbsp;@Environment.systemField : #CLIENT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;clnt : syst_mandt <br>&nbsp;&nbsp;returns <br>&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;mandt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mandt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;client&nbsp;&nbsp;&nbsp;&nbsp; :mandt; <br>&nbsp;&nbsp;&nbsp;&nbsp;cds_client :mandt; <br>
+&nbsp;&nbsp;} <br>&nbsp;&nbsp;implemented by method <br>&nbsp;&nbsp;&nbsp;&nbsp;CL_DEMO_AMDP_CLIENT_VARIABLES=&gt;GET;</span>
+</dd></dl>
+<p>
+The AMDP function implementation is as follows:
+</p>
+<dl><dd>
+<span class="qtext">METHOD get BY DATABASE FUNCTION FOR HDB <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LANGUAGE SQLSCRIPT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OPTIONS READ-ONLY. <br>
+&nbsp;&nbsp;declare client_tab table( mandt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"$ABAP.type( mandt )", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client&nbsp;&nbsp;&nbsp;&nbsp; "$ABAP.type( mandt )", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cds_client "$ABAP.type( mandt )" ); <br> <br>
+&nbsp;&nbsp;client_tab.mandt[1] := clnt; <br>&nbsp;&nbsp;client_tab.client[1] := session_context('CLIENT'); <br>
+&nbsp;&nbsp;client_tab.cds_client[1] := session_context('CDS_CLIENT'); <br> <br>&nbsp;&nbsp;RETURN :client_tab; <br>ENDMETHOD.</span>
+</dd></dl>
+<p>
+The first row of a local table <span class="qtext">client_tab</span> with the type of the tabular return
+value is supplied with the session variables. The client field is set to the value of the input parameter
+<span class="qtext">clnt</span> and the table is returned. The program <span class="lnkgrey">DEMO_AMDP_CLIENT_VARIABLES</span>
+accesses the CDS table function using <span class="qtext">SELECT</span> and the addition <span class="qtext">USING
+CLIENT</span>, and attempts to use a client ID other than that of the current client in the table <span class="lnkgrey">
+T000</span>. The client ID specified with <span class="qtext">USING CLIENT</span> is passed implicitly
+to the input parameter <span class="qtext400">clnt</span> and fills the client field of the return value with this ID, so that it is respected by
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>. If a client ID
+other than that of the current client is used, the values of the session variables <span class="qtext400">CLIENT</span> and <span class="qtext400">CDS_CLIENT</span> are different.
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abencds_func_client_dep_abexa.html')" class="blue">Client-Specific CDS Table Functions</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abencds_func_client_indep_abexa.html')" class="blue">Cross-Client CDS Table Functions</a></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abencds_func_client_handling_obs.html')" class="blue">ABAP CDS - Obsolete Client Handling in Table Functions</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencds_func_client_dep_abexa.html')" class="blue">Client-Specific CDS Table Functions</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencds_func_client_indep_abexa.html')" class="blue">Cross-Client CDS Table Functions</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_func_client_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:42 GMT -->
+</html>

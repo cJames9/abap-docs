@@ -1,0 +1,150 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMDP_CLIENT_HANDLING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_client_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP - Client Handling">
+<title>
+AMDP - Client Handling - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamdp_client_handling.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamdp_client_handling.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP - ABAP Managed Database Procedures</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMDP - Client Handling
+</span></p>
+<p>
+AMDP does not support <a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a>.
+When accessing client-specific database tables or views in an AMDP method, the required client ID must
+be selected explicitly. Therefore, the parameter interface of an AMDP method must usually contain an
+input parameter for the client ID, and this must be used in a <span class="qtext400">WHERE</span> condition. Exceptions to this rule are explained in the note below.
+</p>
+<p>
+
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Using an input parameter for the client ID is particularly advisable for
+<a href="javascript:call_link('abenamdp_function_methods.html')" class="blue">AMDP function implementations</a> of
+<a href="javascript:call_link('abencds_func_client_handling.html')" class="blue">client-specific CDS table functions</a>. In
+ABAP SQL reads, only the data of the current client or clients specified using <a href="javascript:call_link('abapselect_client.html')" class="blue">
+<span class="qtext">USING CLIENT</span></a> in the results set is respected by default. Selecting this
+precise data in the function implementation is recommended both for performance reasons and for making sure that the correct data is read.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenamdp_hdb_sqlscript.html')" class="blue">SQLScript</a> implementations, the built-in function <a
+ href="https://help.sap.com/viewer/4fe29514fd584807ac9f2a04f6754767/2.0.03/en-US" target="blank" class="blue"><span class="qtext400">SESSION_CONTEXT</span></a> can be used to access the
+<a href="javascript:call_link('abenhana_session_variables.html')" class="blue">ABAP-specific session variables</a> <span class="qtext400">CLIENT</span>
+and <span class="qtext400">CDS_CLIENT</span> of the SAP HANA database too. In a call from ABAP, these variables contain a client ID:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">CLIENT</span> always contains the nominal value of the ABAP system field <a href="javascript:call_link('abensystem_fields.html')" class="blue"><span class="qtext">sy-mandt</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">CDS_CLIENT</span> contains the same value as <span class="qtext400">CLIENT</span>
+by default, but can be modified during the execution of an ABAP SQL statement by the addition <a href="javascript:call_link('abapselect_client.html')" class="blue">
+<span class="qtext">USING CLIENT</span></a> and in an AMDP method call from ABAP by the addition <a href="javascript:call_link('abapmethods_amdp_options.html')" class="blue"><span class="qtext">AMDP OPTIONS CDS SESSION CLIENT</span></a>.</li>
+</ul>
+<dl><dd>
+Access of this type should be used only if it is verifiable that an AMDP method is called only from
+ABAP and accesses exactly the data of this client ID. In other cases, the result is undefined. Therefore,
+it is usually recommended to use an input parameter to pass the required client ID to AMDP functions and use it as an access condition.
+</dd></dl>
+<ul class="disc">
+<li>An exception to this rule is when reading <a href="javascript:call_link('abencds_database_view_glosry.html')" class="grey" title="Glossary Entry">CDS database views</a> of
+<a href="javascript:call_link('abencds_client_handling.html')" class="blue">client-specific</a> CDS views whose client handling is defined by the annotation <a href="javascript:call_link('abencds_client_handling.html')" class="blue"><span
+ class="qtext400">@ClientHandling.algorithm:#SESSION_VARIABLE</span></a>. A database view of this type usually evaluates the
+<a href="javascript:call_link('abensession_variable_glosry.html')" class="grey" title="Glossary Entry">session variable</a> of
+the database that is mapped to the CDS session variable <a href="javascript:call_link('abencds_f1_session_variable.html')" class="blue"><span class="qtext400">
+$session.client</span></a>. In a SAP HANA database this is the HANA session variable <a href="javascript:call_link('abenhana_session_variables.html')" class="blue">
+<span class="qtext400">CDS_CLIENT</span></a>. If, in the implementation of an AMDP method, a <span class="qtext400">WHERE</span>
+condition selects a client ID other than that contained in the session variable <span class="qtext400">CDS_CLIENT</span>,
+the results set is empty in this case. For this reason, when a CDS database view of this type is accessed
+in the implementation of an AMDP method, no <span class="qtext400">WHERE</span> condition can be used
+for the client ID and the session variable must be set to the value in question instead. The addition
+<a href="javascript:call_link('abapmethods_amdp_options.html')" class="blue"><span class="qtext">AMDP OPTIONS CDS SESSION CLIENT</span></a>
+can be used for this purpose in the declaration of the method with <a href="javascript:call_link('abapmethods.html')" class="blue"><span class="qtext">
+METHODS</span></a> OR <a href="javascript:call_link('abapmethods.html')" class="blue"><span class="qtext">CLASS-METHODS</span></a>.
+Without this addition, a syntax error occurs when a CDS database view of this type is accessed. However, this is only significant for general
+<a href="javascript:call_link('abenamdp_procedure_method_glosry.html')" class="grey" title="Glossary Entry">AMDP procedure implementations</a>, which are called in the same way as normal methods in ABAP. In an
+<a href="javascript:call_link('abenamdp_function_method_glosry.html')" class="grey" title="Glossary Entry">AMDP function implementation</a> that is used as a
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a>
+in the ABAP SQL statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>,
+the session variable can be set with the addition <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">USING
+CLIENT</span></a>. See the example for the option <a href="javascript:call_link('abapmethods_amdp_options.html')" class="blue"><span class="qtext">SESSION CLIENT</span></a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The executable example of how to <a href="javascript:call_link('abenamdp_abexa.html')" class="blue">implement an SQLScript procedure</a>
+demonstrates explicit client handling using an input parameter and using the ABAP-specific session variable <span class="qtext400">CLIENT</span>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_client_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

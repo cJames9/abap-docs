@@ -1,0 +1,139 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-71-PROGRAM_LOAD -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-program_load.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Lazy Loading of Programs in Release 7.0, EhP2">
+<title>
+Lazy Loading of Programs in Release 7.0, EhP2 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-71-program_load.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-71-program_load.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-70_ehps.html')" class="blue">Changes in Release 7.0 and its EhPs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-71.html')" class="blue">Changes in Release 7.0, EhP2</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Lazy Loading of Programs in Release 7.0, EhP2 <br><br>
+</span></p>
+<P>
+When compiling an ABAP program before Release 7.0, EhP2, all associated include programs were loaded
+when first accessing a global class, a global interface, or a type group. These includes contain declarations of the corresponding class, interface, or type pool which can be used globally.
+</P>
+<P>
+From Release 7.0, EhP2, these include programs are not loaded until an element declared in them is actually
+required. For example, a class <span class="qtext">class</span> is no longer loaded when a <span class="qtext">TYPE
+REF TO class</span> type reference is made, but when a component of the class is accessed or the class itself.
+</P>
+<P>
+This internal optimization of ABAP Compiler has the following additional consequences: <br><br>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1.The statement <span class="qtext">TYPE-POOLS</span> is obsolete </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2.The addition <span class="qtext">LOAD</span> for <span class="qtext">CLASS</span> and <span class="qtext">INTERFACE</span> is obsolete </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">The statement <span class="qtext">TYPE-POOLS</span> is obsolete</span> <br><br><!-- /A -->
+</P>
+<P>
+The statement <a href="javascript:call_link('abaptype-pools.html')" class="blue"><span class="qtext">TYPE POOLS</span></a> is
+no longer required for the use of a data type, a constant, or a macro from a type group. The elements
+of a type group can now be addressed in the same way as all other objects in ABAP Dictionary without previously loading the type group.
+</P>
+<P>
+<span class="qtext">TYPE POOLS</span> statements are ignored by ABAP Compiler from Release 7.0, EhP2, and can be deleted.
+</P>
+<P>
+In list processing in particular, the include programs &lt;LIST>, &lt;SYMBOL>, &lt;ICON>, &lt;LINE>, and &lt;COLOR>
+ are no longer needed, since they only contain <span class="qtext">TYPE-POOLS</span> statements. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">The addition <span class="qtext">LOAD</span> for <span class="qtext">CLASS</span> and <span class="qtext">INTERFACE</span> is obsolete</span> <br><br><!-- /A -->
+</P>
+<P>
+The now rarely used statements
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abapclass_interface_load.html')" class="blue"><span class="qtext">CLASS ... DEFINITION LOAD.</span></a>
+<br><br></li>
+<li>
+<a href="javascript:call_link('abapclass_interface_load.html')" class="blue"><span class="qtext">INTERFACE ... LOAD.</span></a>
+<br></li>
+</ul>
+<P>
+are no longer required
+</P>
+<P>
+From Release 7.0, EhP2 these statements are ignored by ABAP Compiler and can be deleted.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-program_load.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

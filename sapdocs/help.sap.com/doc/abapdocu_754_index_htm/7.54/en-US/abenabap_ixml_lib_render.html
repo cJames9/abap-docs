@@ -1,0 +1,202 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_IXML_LIB_RENDER -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_render.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="iXML Library - Render">
+<title>
+iXML Library - Render - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_ixml_lib_render.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_ixml_lib_render.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+iXML Library - Render
+</span></p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_RENDER_1" class="blue">Rendering a Full XML Document</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_RENDER_2" class="blue">Rendering Individual Nodes</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENABAP_IXML_LIB_RENDER_3" class="blue">Token Renderers</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When data is rendered as character-like XML data, this data is prefixed by the byte order mark (BOM) that is required by the XML standard.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_RENDER_1"></A>
+<p><span class="h2">
+Rendering a Full XML Document
+</span></p>
+<p>
+An XML document in DOM representation is rendered using an XML renderer, created as follows using the iXML factory:
+</p>
+<dl><dd>
+<span class="qtext">DATA(ixml)&nbsp;&nbsp;= cl_ixml=>create( ). <br> <br>... <br> <br>DATA(renderer) = ixml->create_renderer( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ostream&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; document&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ... ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">renderer</span> is then the interface
+<span class="lnkgrey">IF_IXML_RENDERER</span>. A separate renderer is needed for each XML document. The renderer requires the following input parameters:
+</p>
+<ul class="disc">
+<li>The output stream <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue"><span class="qtext">ostream</span></a> that is the target of the rendering.</li>
+</ul>
+<ul class="disc">
+<li>The XML document <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue"><span class="qtext">document</span></a> that is rendered.</li>
+</ul>
+<p>
+A renderer created in this way can be used to render the full XML document as follows:
+</p>
+<dl><dd>
+<span class="qtext">renderer->render( ).</span>
+</dd></dl>
+<p>
+The rendered document is added to the data sink of the output stream.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When the full document is rendered, the data sink of the output stream should usually be initial at the start. Otherwise, all the XML data is appended to existing content.
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_RENDER_2"></A>
+<p><span class="h2">
+Rendering Individual Nodes
+</span></p>
+<p>
+The interface <span class="lnkgrey">IF_IXML_NODE</span> also contains a method, RENDER, that permits only parts of an XML document to be rendered:
+</p>
+<dl><dd>
+<span class="qtext">node->render( ostream = ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recursive = abap_true|abap_false ).</span>
+</dd></dl>
+<p>
+The subtree is rendered whose initial node is pointed to by the reference variable <span class="qtext">node</span>.
+<span class="qtext">recursive</span> is used to specify whether the subnodes are respected or not. The rendered subtree is added to the data sink of the output stream.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Using rendering of subtrees, XML data in the data sink of the output stream can be constructed from various parts.</li>
+</ul>
+<ul class="disc">
+<li>Sequential rendering using events (as in <a href="javascript:call_link('abenabap_ixml_lib_parse_event.html')" class="blue">sequential parsing</a>) is not available.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenixml_render_abexa.html')" class="blue">iXML Library - Render</a>
+</p>
+<A name="@@ITOC@@ABENABAP_IXML_LIB_RENDER_3"></A>
+<p><span class="h2">
+Token Renderers
+</span></p>
+<p>
+Instead of using CREATE_RENDERER to create a renderer for an XML document in DOM representation, a token renderer can be created as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(ixml)&nbsp;&nbsp;= cl_ixml=>create( ). <br> <br>... <br> <br>DATA(token_renderer) = ixml->create_token_renderer( ostream = ... ).</span>
+</dd></dl>
+<p>
+The static type of the reference variable <span class="qtext">token_renderer</span> is then the interface
+<span class="lnkgrey">IF_IXML_TOKEN_RENDERER</span>. A token renderer only needs an output stream as
+an input parameter, but not an XML document in DOM representation. Instead, an internal table <span class="qtext">node_infos</span> can be rendered as follows:
+</p>
+<dl><dd>
+<span class="qtext">token_renderer->render( node_infos )</span>.
+</dd></dl>
+<p>
+The table <span class="qtext">node_infos</span> must have table type <span class="lnkgrey">SIXMLDOM</span>
+with row type <span class="lnkgrey">SIXMLNODE</span> and contain all required information for constructing
+XML data. Each row in the internal table describes a token of the XML data. The meaning of the columns is described using the counter type CO_NI_ of the interface  <span class="lnkgrey">IF_IXML_TOKEN_PARSER</span>
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+An input table for the method RENDERER of the interface IF_IXML_TOKEN_RENDERER can be created separately or be created from XML data using a
+<a href="javascript:call_link('abenabap_ixml_lib_parse_token.html')" class="blue">token parser</a> and modified later.
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenixml_parse_render_token_abexa.html')" class="blue">Token Parsers and Renderers, Iterative</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenixml_parse_render_tk_tab_abexa.html')" class="blue">Token Parsers and Renderers, Table</a>.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_render.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

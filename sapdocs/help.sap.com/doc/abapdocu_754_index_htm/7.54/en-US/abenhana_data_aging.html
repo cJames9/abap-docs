@@ -1,0 +1,163 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHANA_DATA_AGING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhana_data_aging.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Data Aging in SAP HANA">
+<title>
+Data Aging in SAP HANA - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhana_data_aging.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhana_data_aging.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_hana.html')" class="blue">ABAP and SAP HANA</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Data Aging in SAP HANA
+</span></p>
+<p>
+The data aging concept makes it possible to distinguish between current ("HOT") data and old ("COLD") data within
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> tables. Application programmers define which data is current or old in a special
+<a href="javascript:call_link('abentemperature_column_glosry.html')" class="grey" title="Glossary Entry">temperature column</a>
+in the database table with the mandatory name _DATAAGING. The entries in this column partition the data
+in the database table and make it possible to archive obsolete data in a transparent way for application
+programmers. Only the data from the current partition is held in the working memory of the SAP HANA
+database. Partitions with old data, on the other hand, remain in persistent memory. This partitioning is performed in tasks called data aging runs.
+</p>
+<p>
+By default, AS ABAP respects data aging by instructing the database interface to read only current data when a database table on the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> is
+accessed implicitly, and to not read any old data. This also applies to access using AMDP. The way data aging is handled can be modified as follows:
+</p>
+<ul class="disc">
+<li>The profile parameter <span class="lnkgrey">abap/data_aging</span> enables and disables data aging.</li>
+</ul>
+<ul class="disc">
+<li>The enabling of data aging for <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> and
+<a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS
+table functions</a> can be overridden for ABAP SQL access using the annotation <a href="javascript:call_link('abencds_f1_view_entity_annotations.html')" class="blue"><span
+ class="qtext400">@DataAging.noAgingRestriction:true</span></a>. If a CDS entity with this annotation is accessed using ABAP SQL, all data is read.</li>
+</ul>
+<ul class="disc">
+<li>The classes <span class="lnkgrey">CL_ABAP_SESSION_TEMPERATURE</span> and <span class="lnkgrey">CL_ABAP_STACK_TEMPERATURE</span>
+can be used to override the current temperature of specific contexts in the current ABAP program and the database interface reads the data with this temperature if data aging is enabled.</li>
+</ul>
+<p>
+If tables are not accessed using the AS ABAP database interface, such as when using <a href="javascript:call_link('abenabap_managed_db_objects_nsql.html')" class="blue">non-ABAP-managed Native SQL</a>, data aging is not respected.
+</p>
+<p>
+If database tables have a _DATAAGING column (and hence the data aging concept applies) and data is accessed
+that does not have the current temperature, it is usually the case that all partitions must first be loaded into the main memory of the SAP HANA database. This can have a negative affect on performance.
+<a href="javascript:call_link('abenhana_data_aging_druls.html')" class="blue">Dependency rules</a> can be used to optimize access in such a way that only the required partitions are loaded.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Current and old data can be handled implicitly only on
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA databases</a>. On
+other databases, the database interface always reads all data. The value <span class="qtext400">false</span>
+for the annotation <span class="qtext400">@DataAging.noAgingRestriction</span> of a CDS entity is ignored here.</li>
+</ul>
+<ul class="disc">
+<li>From a technical perspective, the database interface appends the addition <span class="qtext400">WITH RANGE_RESTRICTION('CURRENT');</span> to every SQL statement, including calls of
+<a href="javascript:call_link('abenamdp_procedure_glosry.html')" class="grey" title="Glossary Entry">AMDP procedures</a> and
+<a href="javascript:call_link('abenamdp_function_glosry.html')" class="grey" title="Glossary Entry">functions</a>. For this reason,
+Native SQL statements should not be ended with a semicolon <span class="qtext400">;</span> when using <a href="javascript:call_link('abapexec.html')" class="blue"><span class="qtext">EXEC SQL</span></a> or
+<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC</a> for the SAP HANA database.</li>
+</ul>
+<ul class="disc">
+<li>Generally speaking, only current data is of interest for transactional applications, whereas analytical applications require access to old data too.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The database table <span class="lnkgrey">DAAG_SFLIGHT</span> has a _DATAAGING column, which means that
+the data aging concept applies on a SAP HANA database. A data aging run partitions the data and only
+data where the _DATAAGING column contains the value '00000000&#x2019; is loaded into the working memory
+of the database. The database interface selects only this data by default. This is why the results set
+of the first <span class="qtext">SELECT</span> statement is empty. The method SET_TEMPERATURE of the class CL_ABAP_SESSION_TEMPERATURE sets the temperature of the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> so
+that data from the whole of the past year is respected. If data like this exists, the results set of
+the second <span class="qtext">SELECT</span> statement is not empty. For this to happen, data from additional partitions must be loaded into the working memory.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM daag_sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE _dataaging &lt;> '00000000' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1). <br>cl_demo_output=>write( result1 ). <br>
+ <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_session_temperature=>get_session_control( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)->set_temperature( im_temperature = CONV d( sy-datlo - 363 ) ). <br>
+&nbsp;&nbsp;CATCH cx_abap_session_temperature INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>ENDTRY. <br> <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM daag_sflight <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE _dataaging &lt;> '00000000' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2). <br>cl_demo_output=>display( result2 ).
+</span>
+</p>
+<p>
+This example is for demonstration purposes only. ABAP programs should never access the temperature column explicitly or read it.
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenhana_data_aging_druls.html')" class="blue">Dependency Rules for Optimization of Access to Old Data</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhana_data_aging.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

@@ -1,0 +1,134 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENHANA_SET_TRANSACTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhana_set_transaction.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Setting Transaction Behavior for SAP HANA">
+<title>
+Setting Transaction Behavior for SAP HANA - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenhana_set_transaction.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenhana_set_transaction.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_hana.html')" class="blue">ABAP and SAP HANA</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Setting Transaction Behavior for SAP HANA
+</span></p>
+<p>
+<a href="https://help.sap.com/viewer/4fe29514fd584807ac9f2a04f6754767/2.0.03/en-US" target="blank" class="blue">HANA-specific SQL</a> contains the following statements for setting transaction behavior:
+</p>
+<ul class="disc">
+<li><span class="qtext400">SET TRANSACTION AUTOCOMMIT DDL</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">SET TRANSACTION ISOLATION LEVEL</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">SET TRANSACTION LOCK WAIT TIMEOUT</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">SET TRANSACTION READ ONLY<i class=bn>|</i>WRITE</span></li>
+</ul>
+<p>
+These statements modify the transaction behavior of the current
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a>. They cannot be used directly by AS ABAP when accessing the SAP Hana database using
+<a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a>
+(<a href="javascript:call_link('abenadbc.html')" class="blue">ADBC</a>, <a href="javascript:call_link('abennativesql.html')" class="blue"><span class="qtext">EXEC
+SQL</span></a>). This is because transaction behavior defined for the current database connection using these settings is persisted beyond its current
+<a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>. If the database connection is then reused in ABAP SQL, Native SQL, or AMDP (see
+<a href="javascript:call_link('abenopensql_multiconnect.html')" class="blue">Database Connections</a>), unexpected or critical
+situations can arise. The following methods of the class <span class="lnkgrey">CL_SQL_CONNECTION</span> should be used instead:
+</p>
+<ul class="disc">
+<li>AUTOCOMMIT_DDL for <span class="qtext400">SET TRANSACTION AUTOCOMMIT DDL</span></li>
+</ul>
+<ul class="disc">
+<li>SET_ISOLATION_LEVEL for <span class="qtext400">SET TRANSACTION ISOLATION LEVEL</span></li>
+</ul>
+<ul class="disc">
+<li>SET_LOCK_WAIT_TIMEOUT for <span class="qtext400">SET TRANSACTION LOCK WAIT TIMEOUT</span></li>
+</ul>
+<ul class="disc">
+<li>There is no current method available for <span class="qtext400">SET TRANSACTION READ ONLY<i class=bn>|</i>WRITE</span></li>
+</ul>
+<p>
+These methods are wrappers for the SQL statements. The HANA-specific part (Client Library) of the
+<a href="javascript:call_link('abennative_sql_interface_glosry.html')" class="grey" title="Glossary Entry">Native SQL interface</a>
+registers any calls of these methods and resets the transaction behavior of the current database connection to the default behavior at the end of the current database LUW.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQLScript</a> (and hence also in the corresponding
+<a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP methods</a>), the SQL
+<span class="qtext400">SET TRANSACTION</span> statements for setting transaction behavior are not allowed in the syntax.</li>
+</ul>
+<ul class="disc">
+<li>Currently, there are no automatic resets of the transaction behavior after method calls on any other database platforms.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenhana_set_transaction.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

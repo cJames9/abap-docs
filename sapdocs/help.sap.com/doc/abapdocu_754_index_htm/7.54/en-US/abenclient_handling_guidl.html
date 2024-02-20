@@ -1,0 +1,156 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCLIENT_HANDLING_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenclient_handling_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Client Handling">
+<title>
+Client Handling - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenclient_handling_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenclient_handling_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_guidl.html')" class="blue">Data Storage</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Client Handling
+</span></p>
+<A name="@@ITOC@@ABENCLIENT_HANDLING_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+A client indicates a data area in an AS ABAP database that contains independent application data. The
+application data of different clients use the same database tables, but are flagged with a three-figure client ID within these tables.
+</p>
+<p>
+When logging on to AS ABAP, this client ID must be entered. This selects the client whose data is processed by the user session. The current client is entered in the system field <span class="qtext">sy-mandt</span>.
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> statements work
+with implicit client handling, where the data of the current client is accessed by default. This is
+specified by passing an implicit condition for the current client to <span class="qtext">WHERE</span>
+conditions, and ignoring clients specified in modifying statements in work areas. Implicit client handling
+in ABAP SQL can be switched to one more different clients by using the addition <a href="javascript:call_link('abapselect_client.html')" class="blue">
+<span class="qtext">USING</span></a> in queries or the additions <a href="javascript:call_link('abapiumd_client.html')" class="blue"><span class="qtext">
+USING</span></a> or <a href="javascript:call_link('abapiumd_client.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> in write statements.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> and
+<a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">ADBC</a> do not apply implicit client
+handling. The client in question does not need to be selected explicitly when Native SQL or AMDP is used to access client-specific database tables or views.</li>
+</ul>
+<A name="@@ITOC@@ABENCLIENT_HANDLING_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Do not access the data of other clients</span>
+</p>
+<p>
+In the persistency services of business applications, access the data of the current client only.
+</p>
+<A name="@@ITOC@@ABENCLIENT_HANDLING_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Each client within the AS ABAP is to be viewed as a self-contained unit. The additions <span class="qtext">USING
+CLIENT</span> and <span class="qtext">CLIENT SPECIFIED</span> should not be used in ABAP SQL statements of business applications. When Native SQL or AMDP is used, only the current client should be selected.
+</p>
+<p>
+The system field <span class="qtext">sy-mandt</span> does not generally need to be evaluated, unless
+Native SQL or AMDP is used to access client-specific database tables or views. The client ID is then needed to select the data of the current client explicitly.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Cross-client database tables (tables without client ID) are usually system tables. This means that cross-client access to these tables is also reserved for system programs.</li>
+</ul>
+<ul class="disc">
+<li>The addition <span class="qtext">CLIENT SPECIFIED</span> is fully
+<a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue">obsolete</a> in queries and partially <a href="javascript:call_link('abapud_client_obsolete.html')" class="blue">obsolete</a> in write statements.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code demonstrates ABAP SQL access on application data where implicit client handling is switched to a different client.
+</p>
+<dl><dd>
+<span class="qtext">SELECT SINGLE ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr USING '...' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO ...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code demonstrates the recommended use of ABAP SQL where implicit client handling accesses the current client by default.
+</p>
+<dl><dd>
+<span class="qtext">SELECT SINGLE ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO ...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenclient_handling_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

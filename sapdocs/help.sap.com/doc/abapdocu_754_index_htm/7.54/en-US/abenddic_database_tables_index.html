@@ -1,0 +1,303 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDDIC_DATABASE_TABLES_INDEX -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_database_tables_index.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Indexes in Database Tables">
+<meta name="keywords" content="ABAP, Full Text Index, Database Tables, Index, Database Tables, Indexes, Database Tables, Primary Index, Database Tables, Secondary Index, Database Tables">
+<title>
+Indexes in Database Tables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenddic_database_tables_index.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenddic_database_tables_index.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_classical_objects.html')" class="blue">Classic Objects in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_database_tables.html')" class="blue">Database Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_database_tables_sema.html')" class="blue">Semantic Attributes of Database Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_database_tables_semasspec.html')" class="blue">Table-Specific Semantic Attributes of Database Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Indexes in Database Tables
+</span></p>
+<p>
+An index in a database table helps to speed up the selection of rows. An index is a sorted copy of selected
+database table fields. An additional field contains a pointer to the actual table rows. Sorting enables faster access to the rows in the table, for example in binary searches. A database table has at least one
+<a href="javascript:call_link('abenprimary_index_glosry.html')" class="grey" title="Glossary Entry">primary index</a> defined by its key fields. It can also have one or more optional
+<a href="javascript:call_link('abensecondary_index_glosry.html')" class="grey" title="Glossary Entry">secondary indexes</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_DATABASE_TABLES_INDEX_1" class="blue">Primary Index</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_DATABASE_TABLES_INDEX_2" class="blue">Secondary Indexes</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDDIC_DATABASE_TABLES_INDEX_3" class="blue">Full Text Index</A></li>
+</ul>
+<A name="@@ITOC@@ABENDDIC_DATABASE_TABLES_INDEX_1"></A>
+<p><span class="h2">
+Primary Index
+</span></p>
+<p>
+The primary index is a unique index constructed from the
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">key fields</a> of the primary key. It is always
+created automatically in AS ABAP. A maximum of one record exists in the table for each combination of
+index fields. If the primary index cannot be used to identify the results set, for example because no
+field from the primary index was selected, the table is scanned in full or an attempt is made to use a suitable secondary index (if one exists).
+</p>
+<A name="@@ITOC@@ABENDDIC_DATABASE_TABLES_INDEX_2"></A>
+<p><span class="h2">
+Secondary Indexes
+</span></p>
+<p>
+Alongside the primary index defined using the primary key, both unique and non-unique secondary indexes
+can be created for a database table. Creating secondary indexes usually improves the performance of database reads that evaluate the indexes of the database.
+</p>
+<p>
+The secondary indexes of a database table consist of a series of table fields and are identified by
+an alphanumeric index ID with a maximum of three characters (letters or digits). The ID <span class="qtext400">0</span> is reserved for the primary index. Table fields with the built-in data types
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">STRING</a>,
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">RAWSTRING</a>, and GEOM_EWKB must not be index fields. It is recommended that table fields with the data type
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">FLTP</a> are not index fields.
+</p>
+<p>
+The secondary indexes defined for a database table are created when the table itself is created in the
+database system. Furthermore, new secondary indexes can be added later in the same system. When further
+secondary indexes are added in other systems without making modifications, they are created as extension indexes. The following are recommended as namespaces for indexes added at a later time:
+</p>
+<ul class="disc">
+<li>The IDs of indexes added to delivered tables by customers start with "Y" or "Z".</li>
+</ul>
+<ul class="disc">
+<li>The IDs of indexes added to delivered tables by partners start with "J". There can be conflicts between the index names of different partners in follow-on systems.</li>
+</ul>
+<ul class="disc">
+<li>The IDs of indexes added to other tables can have any names, but cannot start with "Y", "Z", or "J".</li>
+</ul>
+<p>
+The name of an index on the database usually has the form <span class="qtext400">DBTAB~ID</span>, where
+<span class="qtext400">DBTAB</span> is the name of the database table and <span class="qtext400">ID</span> is the three-character ID. Other names can occur, however, and blanks can be padded using underscores.
+</p>
+<p>
+Unlike the primary index, a secondary index does not have to be unique. In the case of unique indexes,
+the database table cannot contain multiple rows with the same values in the index fields. Any attempts
+to insert a row like this cancel processing in the database and raise an appropriate exception in ABAP. A unique index of a client-specific table must always contain the client field.
+</p>
+<p>
+When the database is accessed, the optimizer of the database system checks whether a suitable index
+exists and uses it if appropriate. The index selected depends on the platform, which means it is possible in ABAP Dictionary to define to which database systems a non-unique secondary index is applied or not:
+</p>
+<ul class="disc">
+<li>Index in all database systems</li>
+</ul>
+<dl><dd>
+The index is created on every database.
+</dd></dl>
+<ul class="disc">
+<li>In selected database systems</li>
+</ul>
+<dl><dd>
+The database systems can be defined using a selection list or an exclusion list with up to four entries each.
+</dd></dl>
+<ul class="disc">
+<li>No database index</li>
+</ul>
+<dl><dd>
+The index is not created on any database. This setting makes it possible to delete existing secondary indexes from the database.
+</dd></dl>
+<p>
+These settings are ignored by the evaluation of the secondary index in the
+<a href="javascript:call_link('abentable_buffer_glosry.html')" class="grey" title="Glossary Entry">table buffer</a>. Secondary indexes defined in ABAP Dictionary are always evaluated if the
+<a href="javascript:call_link('abenbuffer_kind.html')" class="blue">buffering type</a> is set accordingly.
+</p>
+<p>
+Unique secondary indexes are always created and can then no longer be deleted from the database. The
+<a href="javascript:call_link('abensql_trace_glosry.html')" class="grey" title="Glossary Entry">SQL Trace</a> function in the
+<a href="javascript:call_link('abenperformance_trace_glosry.html')" class="grey" title="Glossary Entry">Performance Trace</a>
+tool (transaction <span class="lnkgrey">ST05</span>) can be used to determine which index is being used by the database system to access data.
+</p>
+<p>
+The value of an index for selecting data from a table depends on how well the data set selectable using
+the index represents the final set selected. Only those fields are useful in an index that make a significant
+restriction on the results set of a selection. If an index is constructed from multiple fields, it can
+also be used if only a few of these fields are specified in a selection condition. Here, the order of
+the fields in the index is an important factor in how quickly they can be accessed. The first fields
+must be those filled with constant values in a large number of selections. In selections, an index is
+useful only up until the first field not specified in the selection condition. Alternatively, an index
+field is generally used only when all index fields located in front of it are specified in the selection condition. The speed at which a field is accessed is not affected by whether or not an index is defined as unique.
+</p>
+<p>
+Creating secondary indexes is beneficial in the following cases:
+</p>
+<ul class="disc">
+<li>If table entries are to be selected based on fields that are not contained in an index, and the response times are very slow, a suitable secondary index should be created.</li>
+</ul>
+<ul class="disc">
+<li>The field or fields of a secondary index are so selective that each index entry corresponds to a maximum of 5% of the total number of table entries.</li>
+</ul>
+<ul class="disc">
+<li>The database table is accessed mainly to read entries. When accessing a table to modify entries, each additional index must also be updated.</li>
+</ul>
+<ul class="disc">
+<li>If only those fields are read that also exist in the index, the data does not need to be accessed
+a second time after the index access. If only a very small number of fields are selected, there can be significant efficiency gains if these fields are included in an index in their entirety.</li>
+</ul>
+<p>
+Secondary indexes can also place a load on the system, since they need to be adjusted each time the
+table content is modified. Each additional index slows down the insertion of rows in the table. Tables
+where new rows are often created should only have a small number of indexes. Too many indexes can also
+cause the database system optimizer to select the wrong index. To prevent this, the indexes in a table must be as disjoint as possible (meaning that they share as few fields as possible).
+</p>
+<p>
+An index should only consist of a few fields; as a rule, no more than four. This is because the index has to be updated each time its fields are updated in a database operation. Fields that are suitable for indexes are:
+</p>
+<ul class="disc">
+<li>Fields that are selected often and that have a high level of selectivity. The most selective fields should be placed at the beginning of the index.</li>
+</ul>
+<ul class="disc">
+<li>A field should not be included in an index if its value is initial for most of the table entries.</li>
+</ul>
+<ul class="disc">
+<li>If more than one index is used for a database table, they should not overlap.</li>
+</ul>
+<p>
+No more than five indexes should be created for any one table because
+</p>
+<ul class="disc">
+<li>Each index produces additional update costs.</li>
+</ul>
+<ul class="disc">
+<li>The amount of data increases.</li>
+</ul>
+<ul class="disc">
+<li>The optimizer of the database system is given too many selection options and becomes more error-prone.</li>
+</ul>
+<p>
+An index can only support search criteria which describe the search value positively, such as <span class="qtext">
+=</span> or <span class="qtext">LIKE</span>. The response times of conditions including <span class="qtext">&lt;></span>,
+for example, are not improved by an index. The optimizer generally stops if the condition contains an
+<span class="qtext">OR</span>. In other words, it does not evaluate the fields checked by <span class="qtext">OR</span>
+when selecting and applying the index. An exception to this are <span class="qtext">OR</span> relationships
+standing on their own. Therefore, conditions containing an <span class="qtext">OR</span> join for one of the indexed fields should be reformulated if necessary.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The zero value in some database systems is ignored by the indexes, meaning that no index can be used when selecting by zero values.</li>
+</ul>
+<ul class="disc">
+<li>If absolutely necessary, <a href="javascript:call_link('abendatabase_hint_glosry.html')" class="grey" title="Glossary Entry">database
+hints</a> can be specified in ABAP SQL using the addition <a href="javascript:call_link('abenosql_db_hints.html')" class="blue"><span class="qtext">%_HINTS</span></a> to adjust the database system optimizer when selecting a secondary index.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The optimizer stops working when it encounters <span class="qtext">OR</span> in the following <span class="qtext">SELECT</span> statement:
+</p>
+<dl><dd>
+<span class="qtext">SELECT * FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( CITYFROM = 'FRANKFURT' OR&nbsp;&nbsp;cityfrom = 'NEW YORK' ).</span>
+</dd></dl>
+<p>
+When replaced by the equivalent statement (below), the entire condition can be optimized with respect to the existing indexes:
+</p>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE ( carrid = 'LH' AND cityfrom = 'FRANKFURT' ) OR <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( carrid = 'LH' AND cityfrom = 'NEW YORK' ).</span>
+</dd></dl>
+<A name="@@ITOC@@ABENDDIC_DATABASE_TABLES_INDEX_3"></A>
+<p><span class="h2">
+Full Text Index
+</span></p>
+<p>
+The <a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>
+supports a full text index as a secondary table index. A full text index is created as an additional
+invisible column on the database. The content of the column created for a full text index is saved to this additional column with appropriate formatting and is evaluated when the relevant data is accessed.
+</p>
+<p>
+The following conditions apply:
+</p>
+<ul class="disc">
+<li>A full text index can only be created for the SAP HANA database and for tables with the <a href="javascript:call_link('abenddic_database_tables_storage.html')" class="blue">storage type</a> column store.</li>
+</ul>
+<ul class="disc">
+<li>A full text index can only be created for precisely one column in a database table whose <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in data type</a> is CHAR, SHORTSTRING, STRING, or RAWSTRING.</li>
+</ul>
+<ul class="disc">
+<li>The database table must have a column for the <a href="javascript:call_link('abentext_language_glosry.html')" class="grey" title="Glossary Entry">text language</a>.</li>
+</ul>
+<p>
+A full text index is always non-unique. Accesses that make use of the full text index are based on the SQL language element <span class="qtext400">WHERE CONTAINS ...</span>. This is not yet supported by
+<a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>.
+<a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> or <a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> has to be used instead.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+For more information about the full text index, see the <a href="https://help.sap.com/viewer/4505d0bdaf4948449b7f7379d24d0f0d/2.0.03/en-US" target="blank" class="blue"> SAP HANA Developer Guide</a>. <br><br>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenddic_database_tables_index.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+</html>

@@ -1,0 +1,142 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_IXML_LIB_PARSE_DOM -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_parse_dom.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="iXML Library - Complete Parse to DOM">
+<title>
+iXML Library - Complete Parse to DOM - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_ixml_lib_parse_dom.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_ixml_lib_parse_dom.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_libs.html')" class="blue">Class Libraries for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib.html')" class="blue">iXML Library</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_ixml_lib_parse.html')" class="blue">iXML Library - Parsing</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+iXML Library - Complete Parse to DOM
+</span></p>
+<p>
+To parse XML data to a DOM representation in a single action, a dedicated <a href="javascript:call_link('abenabap_ixml_lib_parse.html')" class="blue">parser</a> is used as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA(rc) = parser->parse( ).</span>
+</dd></dl>
+<p>
+Here, <span class="qtext">parser</span> is a reference variable that points to the parser. The parser
+checks whether the XML data of the input stream <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue"><span class="qtext">
+istream</span></a> is correct and creates a DOM representation of this file in the memory. The return
+value of the method PARSE has the type <span class="qtext">i</span> and uses values to produce the result that match the following constants from the type group <span class="lnkgrey">IXML</span>:
+</p>
+<ul class="disc">
+<li><span class="qtext">ixml_mr_parser_ok</span> <br>The parsed XML data does not have any errors. Parsing was successful and all XML data is available in the saved XML document.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">ixml_mr_parser_error</span> <br>The parsed XML data has errors. Although the parser created a valid DOM from the XML file with the errors, it does not usually contain all the XML data. These errors can be
+<a href="javascript:call_link('abenabap_ixml_lib_parse_error.html')" class="blue">analyzed</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">ixml_mr_parser_fatal_error</span> <br>The XML data could not be parsed at all. This error does not usually occur any more.</li>
+</ul>
+<p>
+If the parsing is successful, the XML document <a href="javascript:call_link('abenabap_ixml_lib_input_output.html')" class="blue"><span class="qtext">document</span></a> associated with the parser can be used to
+<a href="javascript:call_link('abenabap_ixml_lib_dom_access.html')" class="blue">access the DOM</a> saved in the memory.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If an XML element has multiple attributes with the same name, only one of these attributes is passed
+to DOM, which is given the value of the last identically named attribute (see example program <span class="lnkgrey">DEMO_XML_ATTRIBUTES</span>).</li>
+</ul>
+<ul class="disc">
+<li>An alternative for complete parsing of XML data to the DOM representation is to call the
+<a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity
+transformation</a> ID with <a href="javascript:call_link('abapcall_transformation.html')" class="blue"><span class="qtext">CALL TRANSFORMATION</span></a>. See the executable example
+<a href="javascript:call_link('abenixml_dom_abexa.html')" class="blue">DOM Representation</a>. No streams and factories need to be created explicitly here.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Creates a parser for an input stream for a text string and parses it to an XML document.
+</p>
+<dl><dd>
+<span class="qtext">DATA(ixml)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = cl_ixml=>create( ). <br>
+DATA(stream_factory) = ixml->create_stream_factory( ). <br> <br>DATA(istream)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= stream_factory->create_istream_string( <br>
+&nbsp;&nbsp;`&lt;?xml version="1.0"?>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; <br>
+&nbsp;&nbsp;`&nbsp;&nbsp;&lt;text>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; <br>
+&nbsp;&nbsp;`&nbsp;&nbsp;&nbsp;&nbsp;Mer lasse de DOM in K&#x00F6;lle` &amp;&amp; <br>&nbsp;&nbsp;`&nbsp;&nbsp;&lt;/text>` ). <br>
+ <br>DATA(document)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ixml->create_document( ). <br>DATA(parser) = ixml->create_parser( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stream_factory = stream_factory <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; istream&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= istream <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; document&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = document ). <br> <br>
+DATA(rc) = parser->parse( ). <br> <br>IF rc &lt;> ixml_mr_parser_ok. <br>&nbsp;&nbsp;... "Error handling <br>&nbsp;&nbsp;RETURN. <br>ENDIF.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_ixml_lib_parse_dom.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:54 GMT -->
+</html>

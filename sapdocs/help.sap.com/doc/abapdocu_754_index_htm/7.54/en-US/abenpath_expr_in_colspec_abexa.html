@@ -1,0 +1,233 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPATH_EXPR_IN_COLSPEC_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpath_expr_in_colspec_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Path Expressions, Use in the SELECT List">
+<title>
+Path Expressions, Use in the SELECT List - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenpath_expr_in_colspec_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenpath_expr_in_colspec_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">ABAP SQL - SQL path expressions sql_path</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Path Expressions, Use in the SELECT List
+</span></p>
+<p>
+This example demonstrates <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expressions</a> in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> in ABAP SQL.
+</p>
+<A name="@@ITOC@@ABENPATH_EXPR_IN_COLSPEC_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_cds_association_path.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA carrid TYPE scarr-carrid VALUE 'AA'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( CHANGING field = carrid ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Path expressions in Open SQL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT scarr~carrname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \_spfli-connid AS connid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \_spfli\_sflight-fldate AS fldate,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \_spfli\_sairport-name AS name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_assoc_scarr AS scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE scarr~carrid = @carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrname, connid, fldate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Joins in Open SQL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT demo_cds_assoc_scarr~carrname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; demo_cds_assoc_spfli~connid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sflight~fldate AS fldate,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sairport~name&nbsp;&nbsp;AS name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_assoc_scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LEFT OUTER JOIN demo_cds_assoc_spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON demo_cds_assoc_spfli~carrid =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_scarr~carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LEFT OUTER JOIN sflight<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON sflight~carrid = demo_cds_assoc_spfli~carrid AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sflight~connid = demo_cds_assoc_spfli~connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LEFT OUTER JOIN sairport<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON sairport~id = demo_cds_assoc_spfli~airpfrom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE demo_cds_assoc_scarr~carrid = @carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY demo_cds_assoc_scarr~carrname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_spfli~connid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result1 = result2.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Path expressions in CDS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_use_assocs( p_carrid = @carrid )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrname, connid, fldate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result3).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result1 = result3.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Joins in CDS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_outer_joins( p_carrid = @carrid )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrname, connid, fldate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result4).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT result1 = result4.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( result1 ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENPATH_EXPR_IN_COLSPEC_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The first <span class="qtext">SELECT</span> statement accesses the <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> <span class="qtext400">demo_cds_assoc_scarr</span>:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ASC_CAR' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_assoc_scarr <br>&nbsp;&nbsp;as select from scarr <br>&nbsp;&nbsp;association to demo_cds_assoc_spfli as _spfli on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;scarr.carrid = _spfli.carrid <br>&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;_spfli, <br>&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;carrname <br>&nbsp;&nbsp;}</span>
+</dd></dl>
+<p>
+This view publishes its <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS
+association</a> <span class="qtext400">_spfli</span> in its <span class="qtext400">SELECT</span> list.
+The CDS association <span class="qtext400">_spfli</span> uses the view <span class="qtext400">demo_cds_assoc_spfli</span> as a target data source:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_ASC_SPF' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_assoc_spfli <br>&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;association&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to sflight&nbsp;&nbsp;as _sflight&nbsp;&nbsp;on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.carrid = _sflight.carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and spfli.connid = _sflight.connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;association [1..1] to sairport as _sairport on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli.airpfrom = _sairport.id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_sflight, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_sairport, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airpfrom <br>&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+</dd></dl>
+<p>
+This view publishes its <a href="javascript:call_link('abencds_association_glosry.html')" class="grey" title="Glossary Entry">CDS
+associations</a> <span class="qtext400">_sflight</span> and <span class="qtext400">_sairport</span>
+in its <span class="qtext400">SELECT</span> list, making it possible to specify them in path expressions
+after <span class="qtext400">_spfli</span>. These CDS associations use database tables as data sources and always close a path expression.
+</p>
+<p>
+The <span class="qtext">SELECT</span> statement contains three path expressions in its <span class="qtext">SELECT</span>
+list alongside a column specified as an elementary column. The first association contains only the CDS
+association <span class="qtext400">_spfli</span> of the CDS view <span class="qtext400">demo_cds_assoc_scarr</span>
+specified after <span class="qtext">FROM</span>. The CDS associations of the data source of the root element are added to the other two path expressions.
+</p>
+<p>
+The second <span class="qtext">SELECT</span> statement demonstrates which joins need to be created in ABAP SQL to achieve the same result. This is guaranteed by an assertion.
+</p>
+<p>
+The third <span class="qtext">SELECT</span> statement accesses the CDS view <span class="qtext400">demo_cds_use_assocs</span>:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_USE_ASC' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_use_assocs <br> with parameters <br> p_carrid :s_carrid <br> as select from <br> demo_cds_assoc_scarr as scarr <br>
+ { <br> scarr.carrname, <br> scarr._spfli.connid, <br> scarr._spfli._sflight.fldate, <br> scarr._spfli._sairport.name <br> } <br> where <br> scarr.carrid = :p_carrid&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<p>
+This view shows how the same paths specified in the <span class="qtext400">SELECT</span> statement of the view in
+<a href="javascript:call_link('abencds_f1_path_expression.html')" class="blue">CDS DDL syntax</a> and also achieves the same result.
+</p>
+<p>
+Finally, a fourth <span class="qtext">SELECT</span> statement accesses the CDS view <span class="qtext400">demo_cds_outer_joins</span>:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_OUTJOIN' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+define view demo_cds_outer_joins <br>&nbsp;&nbsp;with parameters <br>&nbsp;&nbsp;&nbsp;&nbsp;p_carrid :s_carrid <br>
+&nbsp;&nbsp;as select from <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left outer join demo_cds_assoc_spfli on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_spfli.carrid = demo_cds_assoc_scarr.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left outer join sflight on <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sflight.carrid = demo_cds_assoc_spfli.carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and sflight.connid = demo_cds_assoc_spfli.connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left outer join sairport on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sairport.id = demo_cds_assoc_spfli.airpfrom <br>&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_scarr.carrname as carrname, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_spfli.connid&nbsp;&nbsp; as connid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sflight.fldate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as fldate, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sairport.name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br>&nbsp;&nbsp;&nbsp;&nbsp;where <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo_cds_assoc_scarr.carrid = :p_carrid</span>
+</dd></dl>
+<p>
+In this view, the same result is again achieved using joins.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpath_expr_in_colspec_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

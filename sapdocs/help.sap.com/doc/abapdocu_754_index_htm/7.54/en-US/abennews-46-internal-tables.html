@@ -1,0 +1,284 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-46-INTERNAL-TABLES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-46-internal-tables.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:02 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables in Release 4.6A">
+<title>
+Internal Tables in Release 4.6A - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-46-internal-tables.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-46-internal-tables.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-4.html')" class="blue">Changes in Releases 4.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-46a.html')" class="blue">Changes in Release 4.6A</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables in Release 4.6A <br><br>
+</span></p>
+<P>
+In Release 4.6A, the following new features have been introduced in internal tables: <br><br>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue">  1. New keys specified in unstructured internal tables </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue">  2. References as table keys </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue">  3. Strings as table keys </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue">  4. Key definition for tables in <span class="qtext">ABAP Dictionary</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue">  5. Keys of unstructured tables </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue">  6. Changes to the internal structure </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue">  7. Sorting without sort key specified </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue">  8. Access to read-only tables </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue">  9. Index ranges in table extensions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_10@10@" class="blue"> 10. <span class="qtext">IS REQUESTED</span> with <span class="qtext">TABLES</span> parameter </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_11@11@" class="blue"> 11. Tables as attributes of objects </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_12@12@" class="blue"> 12. References as row type </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_13@13@" class="blue"> 13. Multiple identical keys specified </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+New keys specified in unstructured internal tables <br><br><!-- /A -->
+</P>
+<P>
+If the row type of an internal table does not have a structure, the
+<a href="javascript:call_link('abenpseudo_component_glosry.html')" class="grey" title="Glossary Entry">pseudo component</a> <span class="qtext">
+table_line</span> can be used to specify or address the entire table row as the key. The previous form <span class="qtext">TABLE LINE</span> is now obsolete. If a
+<a href="javascript:call_link('abaptypes_struc.html')" class="blue">structure</a> contains a component called <span class="qtext">table_line</span>, this produces a warning in the syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+References as table keys <br><br><!-- /A -->
+</P>
+<P>
+References are now allowed as the key of an internal table. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Strings as table keys <br><br><!-- /A -->
+</P>
+<P>
+<a href="javascript:call_link('abenstring.html')" class="blue"><span class="qtext">Strings</span></a> are now allowed as the key of an internal table. This applies to all categories of tables. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Key definition for tables in <span class="qtext">ABAP Dictionary</span> <br><br><!-- /A -->
+</P>
+<P>
+It is now possible to specify the table key explicitly for internal tables defined in ABAP Dictionary. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Default key of unstructured tables <br><br><!-- /A -->
+</P>
+<P>
+The default key of an internal table without a row structure always consists of the whole row. An exception are tables of tables for which an empty key is defined. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+Changes to the internal structure <br><br><!-- /A -->
+</P>
+<P>
+Previously, internal tables were represented at runtime using a structure 256 bytes long. This has now
+been replaced by a reference that is only 8 bytes long. This means that structures that contain tables
+as components or tables that include other tables can now be save much more efficiently. This is because
+tables without content now need only 8 bytes instead of 256 bytes. The benefits are particularly clear
+in thinly populated structures. Furthermore, the header of a filled table now only requires approximately half of the 256 bytes previously required (the actual figure depends on the platform). <br><br>
+</P>
+<P>
+In ABAP Dictionary, all structures containing a field of length 256 bytes intended to include a table header must be modified accordingly. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Sorting without sort key specified <br><br><!-- /A -->
+</P>
+<P>
+Sorting an internal table with type <a href="javascript:call_link('abaptypes_tabkind.html')" class="blue"><span class="qtext">STANDARD</span></a>
+or <a href="javascript:call_link('abaptypes_tabkind.html')" class="blue"><span class="qtext">HASHED</span></a> using the statement
+<a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT</span></a> now returns a correct result, even if the sort key is not specified in the addition <span class="qtext">BY</span>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Access to read-only tables <br><br><br><!-- /A -->
+</P>
+<P>
+If the statements <a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE</span></a>,
+<a href="javascript:call_link('abapinsert_itab.html')" class="blue"><span class="qtext">INSERT</span></a>, and <a href="javascript:call_link('abapmodify_itab.html')" class="blue">
+<span class="qtext">MODIFY</span></a> are applied to read-only tables (for example, <span class="qtext">IMPORTING-REFERENCE</span>
+parameters in function modules or <span class="qtext">READ-ONLY</span> attributes of classes), the system returns a syntax error. This error used to produce a runtime error. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+Index ranges in table extensions <br><br><!-- /A -->
+</P>
+<P>
+The statements <a href="javascript:call_link('abapinsert_itab.html')" class="blue"><span class="qtext">INSERT LINES OF itab ...</span></a> and <a href="javascript:call_link('abapappend.html')" class="blue"><span class="qtext">APPEND LINES OF
+&nbsp;itab ...</span></a> return syntax errors if the source table has the type <span class="qtext">HASHED</span>
+or <span class="qtext">ANY</span> and the additions <span class="qtext">FROM</span> and <span class="qtext">TO</span> are used to specify an index range. This error used to produce a runtime error. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_10@10@"></A> <span class="bold">Modification 10</span>
+</span></p>
+<P>
+<span class="qtext">IS REQUESTED</span> with <span class="qtext">TABLES</span> parameter <br><br><!-- /A -->
+</P>
+<P>
+If the relational operator <a href="javascript:call_link('abenlogexp_requested.html')" class="blue"><span class="qtext">IS REQUESTED</span></a>
+is used with <a href="javascript:call_link('abenfunction.html')" class="blue"><span class="qtext">TABLES</span></a> parameters in update modules, the syntax check produces a
+<a href="javascript:call_link('abenwarning_glosry.html')" class="grey" title="Glossary Entry">warning</a>. These parameters are always supplied. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_11@11@"></A> <span class="bold">Modification 11</span>
+</span></p>
+<P>
+Tables as attributes of objects <br><br><!-- /A -->
+</P>
+<P>
+The statements <a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a>, <a href="javascript:call_link('abapread_table.html')" class="blue">
+<span class="qtext">READ</span></a>, <a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT</span></a>,
+<a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE</span></a>, and <a href="javascript:call_link('abapmodify_itab.html')" class="blue">
+<span class="qtext">MODIFY</span></a> now support access to the attributes of objects as the keys of internal tables. <br><br>
+</P>
+<P>
+If the row type of an internal table contains object reference variables from
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects</a> as components <span class="qtext">comp</span>,
+the attributes <span class="qtext">attr</span> of the object to which the reference points can be used as key values when reading, sorting, and changing the table. This is possible in the following statements: <br><br>
+</P>
+<P>
+<span class="qtext">LOOP AT itab ... WHERE comp->attr ...</span>
+</P>
+<P>
+<span class="qtext">READ TABLE itab ... WITH <i class=bn>[</i>TABLE<i class=bn>]</i> KEY comp->attr = ...</span>
+</P>
+<P>
+<span class="qtext">SORT itab BY comp->attr ...</span>
+</P>
+<P>
+<span class="qtext">DELETE itab WHERE comp->attr ...</span>
+</P>
+<P>
+<span class="qtext">MODIFY itab ... TRANSPORTING ... WHERE comp->attr ...</span> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_12@12@"></A> <span class="bold">Modification 12</span>
+</span></p>
+<P>
+References as row type <br><br><!-- /A -->
+</P>
+<P>
+In the declarative statements <a href="javascript:call_link('abapdata_itab.html')" class="blue"><span class="qtext">DATA</span></a>,
+<a href="javascript:call_link('abapstatics.html')" class="blue"><span class="qtext">STATICS</span></a>, and <a href="javascript:call_link('abaptypes_itab.html')" class="blue">
+<span class="qtext">TYPES</span></a>, object references and data references can be used as the row type of an internal table. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_13@13@"></A> <span class="bold">Modification 13</span>
+</span></p>
+<P>
+Multiple identical keys specified <br><br><!-- /A -->
+</P>
+<P>
+Identical keys specified more than once in the statement <a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ</span></a> produce a
+<a href="javascript:call_link('abenwarning_glosry.html')" class="grey" title="Glossary Entry">warning</a>.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-46-internal-tables.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:02 GMT -->
+</html>

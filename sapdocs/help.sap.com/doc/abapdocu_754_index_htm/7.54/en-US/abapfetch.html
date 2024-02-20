@@ -1,0 +1,216 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPFETCH -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapfetch.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:34 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FETCH">
+<title>
+FETCH - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapfetch.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapfetch.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapopen_cursor.html')" class="blue">OPEN CURSOR</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@FETCH@@!ABAP_STATEMENT_OSQL!@@"></A>
+<A NAME="@@INTO@@FETCH@@"></A>
+<A NAME="@@APPENDING@@FETCH@@"></A>
+<A NAME="@@NEXT CURSOR@@FETCH@@"></A>
+<p><span class="h1">
+FETCH <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapfetch_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">FETCH NEXT CURSOR dbcur <a href="javascript:call_link('abapinto_clause.html')" class="blue">INTO<i class=bn>|</i>APPENDING ...</a>.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> statement <span class="qtext">
+FETCH</span> extracts the requested rows (using the addition <span class="qtext">INTO</span> or <span class="qtext">APPENDING</span>) from the results set of the
+<a href="javascript:call_link('abendatabase_cursor_glosry.html')" class="grey" title="Glossary Entry">database cursor</a> (associated
+with the cursor variable <span class="qtext">dbcur</span>) from the current cursor position and assigns these rows to the data objects specified in the results set.
+</P>
+<P>
+The cursor variable <span class="qtext">dbcur</span> must be a
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a> declared by the special predefined
+data type <span class="qtext">cursor</span>, which was opened with the statement <a href="javascript:call_link('abapopen_cursor.html')" class="blue">
+<span class="qtext">OPEN CURSOR</span></a>, or to which an opened cursor was assigned. Otherwise, a handleable exception of the class CX_SY_OPEN_SQL_DB is raised.
+</P>
+<P>
+The syntax and meaning of the addition <span class="qtext">INTO</span> or <span class="qtext">APPENDING</span> are the same as the identically named
+<a href="javascript:call_link('abapinto_clause.html')" class="blue">additions</a> of the <span class="qtext">SELECT</span> statement,
+with the exception that no inline declarations can be made there without the addition <a href="javascript:call_link('abapselect_into_target.html')" class="blue"><span class="qtext">NEW</span></a> and no
+<a href="javascript:call_link('abenselect_into_lob_handles.html')" class="blue">LOB handles</a> can be created.
+</P>
+<P>
+If non-table-like data objects are specified after <span class="qtext">INTO</span>, one row is extracted.
+If an internal table is specified after <span class="qtext">INTO</span> or <span class="qtext">APPENDING</span>,
+either all rows are extracted, or as many as specified in the addition <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">PACKAGE SIZE</span></a>.
+</P>
+<P>
+The statement <span class="qtext">FETCH</span> moves the position of the database cursor (which is associated
+with <span class="qtext">dbcur</span>) by the amount of extracted rows to the next row to be extracted.
+If the last row of the results set was extracted in a <span class="qtext">FETCH</span> statement, each subsequent <span class="qtext">FETCH</span> statement in which <br>
+<span class="qtext">dbcur</span> is associated with the same database cursor sets <span class="qtext">sy-subrc</span>
+to 4, without affecting the data objects specified after <span class="qtext">INTO</span> or <span class="qtext">APPENDING</span>. <br><br>
+</P>
+<P>
+<span class="bold">System Fields</span> <br><br>The statement <span class="qtext">FETCH</span> sets the values of the system fields <span class="qtext">sy-subrc</span> and <span class="qtext">sy-dbcnt</span>. <br><br>
+</P>
+<table border>
+<tr>
+<td><span class="qtext"><span class="bold">sy-subrc</span></span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td>0</td>
+<td>At least one row was extracted from the results set.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>No row was extracted.</td>
+</tr>
+</table><br>
+<P>
+After every row extraction, the statement <span class="qtext">FETCH</span> sets <span class="qtext">sy-dbcnt</span>
+to the amount of rows extracted so far from the relevant results set. If an overflow occurs because
+the number or rows is greater than 2,147,483,647, <span class="qtext">sy-dbcnt</span> is set to -1. If no row can be extracted, <span class="qtext">sy-dbcnt</span> is set to 0. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Consecutive <span class="qtext">FETCH</span> statements that access the same results set can have the
+different additions <span class="qtext">INTO</span> or <span class="qtext">APPENDING</span>: If specified,
+work areas can be combined with any internal tables specified and various combinations of <span class="qtext">PACKAGE
+SIZE</span> can be specified too. In doing so, the addition <span class="qtext">CORRESPONDING FIELDS</span>
+is either not listed at all in any of the <span class="qtext">FETCH</span> statements involved, or has
+to be specified in every statement. Moreover, the data types of all work areas <span class="qtext">wa</span>
+involved or the row types of the internal tables <span class="qtext">itab</span> must be identical.
+A parenthesized list of data objects after <span class="qtext">INTO</span> cannot be specified together
+with work areas or internal tables, but every involved <span class="qtext">FETCH</span> statement must contain a list of this type. <br>
+<br></li>
+<li>
+It depends on the database system whether the database cursor in the database is closed implicitly after
+the extraction of the final row of the results set or not. For this reason, it is always better to use
+the <a href="javascript:call_link('abapclose_cursor.html')" class="blue"><span class="qtext">CLOSE CURSOR</span></a> statement explicitly. <br>
+<br></li>
+<li>
+If a <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a> is defined as a
+<a href="javascript:call_link('abenddic_replacement_objects.html')" class="blue">replacement object</a> for a database table or database view specified as a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> of the <span class="qtext">SELECT</span>
+statement of <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>,
+the statement <span class="qtext">FETCH</span> accesses the CDS view and not the database table or the database view. <br>
+<br></li>
+<li>
+Host variables without the escape character <span class="qtext">@</span> are
+<a href="javascript:call_link('abenopen_sql_hostvar_obsolete.html')" class="blue">obsolete</a>. The escape character <span class="qtext">@</span> must be specified in the
+<a href="javascript:call_link('abenopensql_strict_modes.html')" class="blue">strict modes</a> of the syntax check from Release 7.40, SP05.
+<br><br></li>
+<li>
+If a statement <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a> is checked in accordance with the rules for
+<a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue">strict mode</a> from Release 7.50, this also
+applies to every statement <span class="qtext">FETCH</span> that accesses the open database cursor. Conversely, a strict syntax check mode in the statement <span class="qtext">FETCH</span> from
+<a href="javascript:call_link('abenopensql_strict_mode_754.html')" class="blue">Release 7.54</a> triggered by the use of <span class="qtext">
+NEW</span> in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause
+also applies the strict mode to the associated statement <span class="qtext">OPEN CURSOR</span>. If
+the rules specified by <span class="qtext">FETCH</span> in <span class="qtext">OPEN CURSOR</span> are broken, an exception of the class CX_SY_DYNAMIC_OSQL_SEMANTICS is raised. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Reading of data from the database table <span class="lnkgrey">SPFLI</span> in packets of varying size using two parallel cursors. The packet size is determined by the first cursor using the
+<a href="javascript:call_link('abenaggregate_expression_glosry.html')" class="grey" title="Glossary Entry">aggregation function</a><span class="qtext">count( *
+)</span> and using the second cursor for access. Variable control of the addition <span class="qtext">PACKAGE SIZE</span> is not possible within a single <span class="qtext">SELECT</span> statement.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+OPEN CURSOR @DATA(dbcur1) FOR <br>&nbsp;&nbsp;SELECT carrid, COUNT(*) AS count <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid. <br>
+ <br>OPEN CURSOR @DATA(dbcur2) FOR <br>&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid. <br> <br>DATA: BEGIN OF counter, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid TYPE spfli-carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;&nbsp;TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF counter, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spfli_tab TYPE TABLE OF spfli. <br>DO. <br>&nbsp;&nbsp;FETCH NEXT CURSOR @dbcur1 INTO @counter. <br>
+&nbsp;&nbsp;IF sy-subrc &lt;> 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;EXIT. <br>&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;cl_demo_output=>next_section( |{ counter-carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}, { counter-count }| ). <br>&nbsp;&nbsp;FETCH NEXT CURSOR @dbcur2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE @spfli_tab PACKAGE SIZE @counter-count. <br>&nbsp;&nbsp;cl_demo_output=>write( spfli_tab ). <br>
+ENDDO. <br> <br>CLOSE CURSOR: @dbcur1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@dbcur2. <br> <br>cl_demo_output=>display( ). <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapfetch.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:34 GMT -->
+</html>

@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOPEN_SQL_PARAMETERS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopen_sql_parameters.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:29 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL - SQL parameter passing sql_para">
+<title>
+ABAP SQL - SQL parameter passing sql_para - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenopen_sql_parameters.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenopen_sql_parameters.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@( )@@SELECT parameters@@"></A>
+<p><span class="h1">
+ABAP SQL - SQL parameter passing sql_para
+</span></p>
+<A name="@@ITOC@@ABENOPEN_SQL_PARAMETERS_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... ( pname1 = act1, pname2 = act2, ... ) ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Specifies actual parameters <span class="qtext">act1</span>, <span class="qtext">act2</span>, ... for
+input parameters <a href="javascript:call_link('abencds_f1_param.html')" class="blue"><span class="qtext">pname1</span></a>, <a href="javascript:call_link('abencds_f1_param.html')" class="blue"><span class="qtext">pname2</span></a>, ... of a
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a> in a parenthesized
+comma-separated list. Parameters can be passed to non-abstract CDS entities in the following positions in ABAP SQL statements:
+</p>
+<ul class="disc">
+<li>After a CDS entity as the <a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> of the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a> of a
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a>.</li>
+</ul>
+<ul class="disc">
+<li>After the CDS associations of a <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expression</a> in the
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> of the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a> and in the
+<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">specified columns</a> of a <a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a>.</li>
+</ul>
+<p>
+If a CDS entity has <a href="javascript:call_link('abencds_f1_param.html')" class="blue">input parameters</a> as the data source <a href="javascript:call_link('abapselect_data_source.html')" class="blue"><span class="qtext">data_source</span></a> of a
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a> or <a href="javascript:call_link('abencds_f1_association.html')" class="blue"><span class="qtext400">target</span></a> of a CDS association specified in a
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expression</a>, a matching actual parameter must be passed to each input parameter as follows:
+</p>
+<ul class="disc">
+<li>If an input parameter does not have an annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue">
+<span class="qtext400">@Environment.systemField</span></a>, an explicit actual parameter must be specified.</li>
+</ul>
+<ul class="disc">
+<li>If an input parameter has an annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue"><span class="qtext400">
+@Environment.systemField</span></a> with one of the predefined values <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue">
+<span class="qtext400">#SYSTEM_...</span></a>, an explicit actual parameter does not need to be specified.
+If no actual parameter is specified, ABAP SQL passes the nominal value of the system field assigned
+using the annotation implicitly. Here, only the date and time are taken from the system fields <span class="qtext">
+sy-datum</span> and <span class="qtext">sy-uzeit</span> and the language and user name are taken from secure sources.</li>
+</ul>
+<ul class="disc">
+<li>If an input parameter has an annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue"><span class="qtext400">
+@Environment.systemField</span></a> with the predefined value <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue">
+<span class="qtext400">#CLIENT</span></a>, an explicit actual parameter must not be specified. Instead, ABAP SQL passes the ID of the current
+<a href="javascript:call_link('abenclient_glosry.html')" class="grey" title="Glossary Entry">client</a>
+or a client specified using <a href="javascript:call_link('abapselect_client.html')" class="blue"><span class="qtext">USING CLIENT</span></a> implicitly.</li>
+</ul>
+<p>
+Literals, <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a>, or
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expressions</a> can be specified as actual
+parameters. The name of a host variable must be prefixed with the escape character <span class="qtext">@</span>. The data type of the parameter must be convertible into the
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in data type</a> in ABAP Dictionary; the built-in data type is specified by the
+<a href="javascript:call_link('abencds_typing.html')" class="blue">typing</a> of the parameter. The content of the actual parameter must match the data type of the input parameter in accordance with the rules for a
+<a href="javascript:call_link('abenlossless_assignment_glosry.html')" class="grey" title="Glossary Entry">lossless assignment</a>.
+</p>
+<p>
+In the following cases, the parentheses <span class="qtext">( )</span> after the name of a CDS entity can be empty or omitted:
+</p>
+<ul class="disc">
+<li>The function is a <a href="javascript:call_link('abencds_table_function_glosry.html')" class="grey" title="Glossary Entry">CDS table function</a> without input parameters.</li>
+</ul>
+<ul class="disc">
+<li>The view is a <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS view</a>
+with input parameters that are all filled implicitly using the annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue"><span class="qtext400">@Environment.systemField</span></a>.</li>
+</ul>
+<p>
+Parentheses cannot be specified in CDS views without input parameters or in any classic dictionary objects.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>There are currently no optional input parameters for CDS entities and no real replacement values
+for input parameters. The annotation <a href="javascript:call_link('abencds_f1_parameter_annotations.html')" class="blue"><span class="qtext400">
+@Environment.systemField</span></a> bypasses this gap for some environment values by providing the caller with the non-optional parameters implicitly.</li>
+</ul>
+<ul class="disc">
+<li>Currently, a <a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expression</a> in a
+<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">specified column</a> in a
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a> cannot contain any CDS associations for entities with input parameters.</li>
+</ul>
+<ul class="disc">
+<li>When parameters are passed to a entity with parameters, the syntax check is performed in
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode from 7.40 SP08</a>. If a host expression is specified as an actual parameter, the syntax check is performed in
+<a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue">strict mode from Release 7.50</a>. If a
+<a href="javascript:call_link('abenopen_sql_path.html')" class="blue">path expression</a> is also used, or a parameter is passed in a path expression, the syntax check is performed in
+<a href="javascript:call_link('abenopensql_strict_mode_752.html')" class="blue">strict mode from Release 7.52</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Passes a time zone to the input parameter <span class="qtext400">tz</span> of the CDS view <span class="qtext400">demo_cds_assoc_sairport_tz</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA timezone TYPE s_tzone VALUE 'UTC+1'. <br>cl_demo_input=>request( CHANGING field = timezone ). <br> <br>
+SELECT id <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_assoc_sairport_tz( tz = @timezone ) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result). <br> <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abenselect_cds_para_abexa.html')" class="blue"><span class="qtext">SELECT</span>, CDS View with Input Parameters</a>
+</P>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenselect_cds_para_abexa.html')" class="blue">ABAP SQL, Parameter Passing to a CDS View</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopen_sql_parameters.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:29 GMT -->
+</html>

@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPDEMAND -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapdemand.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="DEMAND">
+<title>
+DEMAND - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapdemand.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapdemand.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencontext.html')" class="blue">Contexts (Obsolete)</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@DEMAND@@!ABAP_STATEMENT_OBS!@@"></A>
+<A NAME="@@FROM CONTEXT@@DEMAND (obsolete)@@"></A>
+<p><span class="h1">
+DEMAND <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapdemand_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Obsolete Syntax</span>
+</span></p>
+<P>
+<span class="qtext">DEMAND val1 = f1 val2 = f2 ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM CONTEXT context_ref <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>MESSAGES INTO itab<i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Addition:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ONE_ADD@1@" class="blue"> <span class="qtext">... MESSAGES INTO itab</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement assigns the values of derived fields <span class="qtext">val1 val2 ...</span> of a
+<a href="javascript:call_link('abencontext_glosry.html')" class="grey" title="Glossary Entry">context</a> instance to the data
+objects <span class="qtext">f1 f2 ...</span>. <span class="qtext">context_ref</span> expects a data
+object that points to a context instance (see <a href="javascript:call_link('abapcontexts.html')" class="blue"><span class="qtext">CONTEXTS</span></a>).
+The names of derived fields of the corresponding context can be specified for <span class="qtext">val1
+val2 ...</span>. <span class="qtext">f1 f2 ...</span> expects data objects whose data type conforms with the corresponding context field <span class="qtext">val1 val2 ...</span>.
+</P>
+<P>
+If the context instance contains valid derived values for the current key, these are assigned directly. Otherwise, the cross-transaction
+<a href="javascript:call_link('abencontext_buffer.html')" class="blue">buffer</a> of the context is searched for the corresponding
+data record, which is then passed to the context instance and from there to the data objects <span class="qtext">f1
+f2 ...</span>. Only if no corresponding data is found here, are the values in the modules of the context derived and placed in the buffer, the context instance, and the data objects <span class="qtext">f1 f2 ...</span>.
+</P>
+<P>
+If not all required values can be derived since not enough key fields are known, processing is stopped, the derived values are initialized, and the module sends the
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">message</a> specified in the context for this purpose. <br><br>
+</P>
+<P>
+<span class="bold">System Fields</span>
+</P>
+<table border>
+<tr>
+<td><span class="qtext"><span class="bold">sy-subrc</span></span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td>0 (means:</td>
+<td>The addition <span class="qtext">MESSAGES</span> is not specified or the internal table specified after <span class="qtext">MESSAGES</span> is empty</td>
+</tr>
+<tr>
+<td>Not 0</td>
+<td>The internal table specified after <span class="qtext">MESSAGES</span> contains messages.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The structured type <span class="qtext">context_t_con</span>, created using <span class="qtext">CONTEXTS</span>, can be used to create suitable fields. <br><br>
+</P>
+<A NAME="@@MESSAGES INTO@@DEMAND (obsolete)@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ONE_ADD@1@"></A> <span class="bold">Addition</span>
+</span></p>
+<P>
+<span class="qtext">... MESSAGES INTO itab</span> <!-- /A -->  <br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">MESSAGES</span> is used for handling any messages sent by the modules
+of a context. If the addition <span class="qtext">MESSAGES</span> is not specified, each message is sent in accordance with its definition in the context, as described under
+<a href="javascript:call_link('abenabap_messages.html')" class="blue">Messages</a>. If the addition <span class="qtext">MESSAGES</span>
+is specified, the messages are not sent; instead, for each message, a row is appended to the internal
+table <span class="qtext">itab</span>, which is specified after <span class="qtext">INTO</span>. The
+row type of the internal table must refer to the structure <span class="lnkgrey">SYMSG</span> in ABAP
+Dictionary. The columns <span class="qtext">msgty</span>, <span class="qtext">msgid</span>, <span class="qtext">msgno</span>,
+and <span class="qtext">msgv1</span> to <span class="qtext">msgv4</span> contain the message type, message
+class, message number, and content of any placeholders. The internal table <span class="qtext">itab</span> is initialized at the start of the statement <span class="qtext">DEMAND</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Creates an instance of the context <span class="qtext">demo_travel</span>, fills the key fields, and requests the derived values.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+CONTEXTS demo_travel. <br> <br>PARAMETERS: p_carrid TYPE context_t_demo_travel-carrid, <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_connid TYPE context_t_demo_travel-connid. <br> <br>
+DATA: context_ref TYPE context_demo_travel, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields TYPE context_t_demo_travel. <br>
+ <br>SUPPLY carrid = p_carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connid = p_connid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO CONTEXT context_ref. <br>
+ <br>DEMAND cityfrom = fields-cityfrom <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cityto&nbsp;&nbsp; = fields-cityto <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fltime&nbsp;&nbsp; = fields-fltime <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM CONTEXT context_ref. <br>
+ <br>cl_demo_output=>display_text( |{ fields-cityfrom } { <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fields-cityto&nbsp;&nbsp; } { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fields-fltime&nbsp;&nbsp; }| ). <br><br> <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapdemand.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:45 GMT -->
+</html>

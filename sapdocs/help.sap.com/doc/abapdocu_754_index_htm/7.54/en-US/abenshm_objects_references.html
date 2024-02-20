@@ -1,0 +1,133 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSHM_OBJECTS_REFERENCES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshm_objects_references.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Shared Objects - References">
+<title>
+Shared Objects - References - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenshm_objects_references.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenshm_objects_references.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_shared_objects.html')" class="blue">Shared Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenshm_objects.html')" class="blue">Shared Objects - Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Shared Objects - References
+</span></p>
+<p>
+Objects in area instance versions are instances of classes or anonymous data objects and thus can only really be addressed using
+<a href="javascript:call_link('abenheap_reference_glosry.html')" class="grey" title="Glossary Entry">heap references</a>.
+</p>
+<A name="@@ITOC@@ABENSHM_OBJECTS_REFERENCES_1"></A>
+<p><span class="h2">
+Access to Shared Objects
+</span></p>
+<p>
+To use a reference of this type to perform reads or writes on objects in area instances of the shared memory from an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>, a suitable
+<a href="javascript:call_link('abenarea_lock_glosry.html')" class="grey" title="Glossary Entry">area lock</a> must be set by binding an
+<a href="javascript:call_link('abenarea_handle_glosry.html')" class="grey" title="Glossary Entry">area handle</a> to an area instance version. The
+<a href="javascript:call_link('abenroot_object_glosry.html')" class="grey" title="Glossary Entry">root object</a>, that can reference additional objects, is used for the initial access to the objects in an area instance version.
+</p>
+<p>
+Objects of the area instance version can be used in the internal session and references can be made
+from the area instance version to objects in the session (but only if an area handle exists for an area
+instance version in the session). The references can be used as usual for lifetime of an area lock,
+with the restriction that the type of lock determines whether or not the referenced objects of the area
+instance version can be modified. If a read or write is performed on the content of an object in the area instance version despite there being no associated lock, a runtime error occurs.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The static methods <a href="javascript:call_link('abenshm_cl_abap_memory_area.html')" class="blue">GET_HANDLE_BY_OREF</a>,
+<a href="javascript:call_link('abenshm_cl_abap_memory_area.html')" class="blue">GET_HANDLE_BY_DREF</a>, and
+<a href="javascript:call_link('abenshm_cl_abap_memory_area.html')" class="blue">GET_HANDLE_BY_DATA</a> can be used to get a reference to the area handle of an object. The corresponding return value is of general type
+<a href="javascript:call_link('abenshm_cl_abap_memory_area.html')" class="blue">CL_ABAP_MEMORY_AREA</a>, which is why this kind of reference is generally only suitable for
+<a href="javascript:call_link('abenshm_objects_create_object.html')" class="blue">creating objects</a>.
+</p>
+<A name="@@ITOC@@ABENSHM_OBJECTS_REFERENCES_2"></A>
+<p><span class="h2">
+Completed Area Instance Versions
+</span></p>
+<p>
+Area instances that are not bound to any area handles are self-contained. If the lock is released using the method
+<a href="javascript:call_link('abenshm_cl_shm_area.html')" class="blue">DETACH_COMMIT</a> of the area handle after writes, no references from an area instance version are allowed to point to anything external. After the method
+<a href="javascript:call_link('abenshm_cl_shm_area.html')" class="blue">DETACH_COMMIT</a>, any external references that reference
+objects of the area instance version can no longer be used to access these objects. The shared objects within a completed area instance version can be associated using object references and data references.
+</p>
+<p>
+A special restriction applies to data references in completed area instance versions: the
+<a href="javascript:call_link('abendynamic_type_glosry.html')" class="grey" title="Glossary Entry">dynamic type</a> of these
+references must be a known type when a program is loaded in an internal session. The data types that
+cannot be used to create anonymous data objects as shared objects are specified under the addition <a href="javascript:call_link('abapcreate_data_area_handle.html')" class="blue">
+<span class="qtext">AREA HANDLE</span></a> of the statement <span class="qtext">CREATE DATA</span>.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshm_objects_references.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:44 GMT -->
+</html>

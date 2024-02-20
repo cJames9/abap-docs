@@ -1,0 +1,148 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLIFETIME_AND_VISIBILITY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlifetime_and_visibility.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:29 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Validity and Visibility">
+<meta name="keywords" content="ABAP, Validity, Visibility">
+<title>
+Validity and Visibility - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlifetime_and_visibility.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlifetime_and_visibility.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_objects_oview.html')" class="blue">Types and Objects - Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Validity and Visibility
+</span></p>
+<p>
+The context of a declarative statement in the source code of a program determines the validity and visibility
+of the declared component. In ABAP programs, there are three contexts in which data types and data objects can be declared:
+</p>
+<ul class="disc">
+<li><span class="bold">Locally in procedures</span> <br> <br>Local data in
+<a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedures</a> is valid while
+a procedure is being executed. It is created when the procedure is called, and deleted when the procedure is exited. In addition to their local data and formal parameters, procedures also 'see' the global data of the
+<a href="javascript:call_link('abenframe_program_glosry.html')" class="grey" title="Glossary Entry">master program</a>. Methods also 'see' the components of their class.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">As components of classes</span> <br> <br>
+<a href="javascript:call_link('abenstatic_attribute_glosry.html')" class="grey" title="Glossary Entry">Static attributes</a> of classes exist for as long as the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of
+the ABAP program exists. Instance attributes of classes are related to the lifetime of objects. They are created when an object is instantiated and deleted along with the object by the
+<a href="javascript:call_link('abengarbage_collector_glosry.html')" class="grey" title="Glossary Entry">garbage collector</a>. Classes also see the global data of the master program.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Globally in the master program</span> <br> <br>Global program data exists as
+long as the internal session of the ABAP program exists. The data is created when the program is loaded
+in the internal session, and deleted from the internal session when the program is removed. An ABAP program normally only sees its own global data (with the exception of
+<a href="javascript:call_link('abeninterface_work_area_glosry.html')" class="grey" title="Glossary Entry">interface work areas</a>). <br><br></li>
+</ul>
+<p>
+All contexts see the cross-program type definitions in ABAP Dictionary and the type definitions and
+data declarations in the public visibility sections of global classes. Local declarations, however,
+obscure global declarations with the same name. In statements in which it is possible to specify a data type, a class, or an interface dynamically, the obscuring of a global type by a local type can be canceled by specifying an
+<a href="javascript:call_link('abenabsolute_typename_glosry.html')" class="grey" title="Glossary Entry">absolute type name</a>.
+</p>
+<p>
+In addition to context-dependent visibility, the position of the declaration in the source code also
+plays a role. In a statement of an ABAP program, only previous declarations are visible, regardless
+of the context. To enable the order in the program to match the context-dependent visibility, all global declarations of a program should be specified at the start of the source code, before the first
+<a href="javascript:call_link('abenprocessing_block_glosry.html')" class="grey" title="Glossary Entry">processing block</a>,
+and all local declarations should be specified directly after the introduction of a procedure. Viewed
+like this, the definition of an interface and the declaration part of a class are both global declarations.
+It must be ensured that reference variables that reference a class are not declared until after the class has been declared. The implementation part, on the other hand, is one of the processing blocks.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>All data declared in the declaration part of an ABAP program is global to the program. With the
+exception of the event blocks <span class="qtext">AT SELECTION-SCREEN</span>, all data declared within
+event blocks and dialog modules is also global to the program. The data declared in the above event
+blocks is local to these event blocks. Data that is declared between discrete processing blocks is also global to the program.</li>
+</ul>
+<ul class="disc">
+<li>The <a href="javascript:call_link('abensystem_fields.html')" class="blue">ABAP system fields</a> and the obsolete structure
+<a href="javascript:call_link('abenscreen_structure_obsolete.html')" class="blue"><span class="qtext">screen</span></a> are outside the contexts specified above and are obscured by global program data objects with the same names.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Declares a program-global field <span class="qtext">g_field</span>, an instance attribute <span class="qtext">attr</span>
+of a class, and a local field <span class="qtext">field</span> of a method. Reference is made to the outer declarations in the inner declarations.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA g_field TYPE string VALUE 'global field'. <br> <br>CLASS cls DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA attr LIKE g_field VALUE 'instance attribute'. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS meth. <br>
+ENDCLASS. <br> <br>CLASS cls IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD meth. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA field LIKE attr VALUE 'local field'. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlifetime_and_visibility.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:29 GMT -->
+</html>

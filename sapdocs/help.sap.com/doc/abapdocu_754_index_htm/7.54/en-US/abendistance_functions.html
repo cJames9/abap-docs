@@ -1,0 +1,149 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDISTANCE_FUNCTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendistance_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="distance - Distance Function">
+<meta name="keywords" content="ABAP, Similarity Function">
+<title>
+distance - Distance Function - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendistance_functions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendistance_functions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_functions.html')" class="blue">String Functions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendescriptive_functions.html')" class="blue">Description Functions for Character-Like Arguments</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@distance@@!ABAP_FUNCTION!@@"></A>
+<p><span class="h1">
+distance - Distance Function
+</span></p>
+<A name="@@ITOC@@ABENDISTANCE_FUNCTIONS_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... distance( <a href="javascript:call_link('abenstring_functions_val.html')" class="blue">val1 = text1</a>
+<a href="javascript:call_link('abenstring_functions_val.html')" class="blue">val2 = text2</a> <i class=bn>[</i>max = max<i class=bn>]</i> ) ...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This function returns the Levenshtein distance between two strings <a href="javascript:call_link('abenstring_functions_val.html')" class="blue">
+<span class="qtext">text1</span></a> and <a href="javascript:call_link('abenstring_functions_val.html')" class="blue"><span class="qtext">text2</span></a>.
+This distance is the minimum number of insert, delete, and replace operations required to change one
+string to another and hence reflects the similarity of the two strings. The return value has the type <span class="qtext">i</span>.
+</p>
+<p>
+<span class="qtext">max</span> can be used to declare a positive value other than 0; the calculation
+of the Levenshtein distance is canceled if the distance is greater than <span class="qtext">max</span>. The value of <span class="qtext">max</span> is returned instead. <span class="qtext">max</span> is a
+<a href="javascript:call_link('abennumerical_expr_position_glosry.html')" class="grey" title="Glossary Entry">numeric expression
+position</a> of the type <span class="qtext">i</span>. If the value of <span class="qtext">max</span>
+is less than or equal to 0, an exception of the class CX_SY_STRG_PAR_VAL is raised. If <span class="qtext">max</span> is not specified, the calculation is not terminated
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The complexity of the function increases in line with the product of the lengths of the two strings. The calculation time can be limited by declaring <span class="qtext">max</span>.</li>
+</ul>
+<ul class="disc">
+<li>One typical application of this function is to find a word in a word set that is most similar to a word entered in a search.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following function calls is 0, 1, and 3.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(result1) = distance( val1 = `abcdefg` val2 = `abcdefg` ). <br>DATA(result2) = distance( val1 = `abcdefg` val2 = `abcXefg` ). <br>DATA(result3) = distance( val1 = `abcdefg` val2 = `aXcdXXg` ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenstring_function_distance_abexa.html')" class="blue"> String Functions, <span class="qtext">distance</span></a> <br><br>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_STRG_PAR_VAL</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Value in <span class="qtext">max</span> is less than or equal to 0. <br><span class="italic">Runtime error:</span> <span class="qtext">STRG_ILLEGAL_PAR</span>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendistance_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:46 GMT -->
+</html>

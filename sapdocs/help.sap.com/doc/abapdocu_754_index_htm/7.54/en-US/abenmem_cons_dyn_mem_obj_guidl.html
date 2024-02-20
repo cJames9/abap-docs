@@ -1,0 +1,211 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMEM_CONS_DYN_MEM_OBJ_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmem_cons_dyn_mem_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Memory Consumption of Dynamic Memory Objects">
+<title>
+Memory Consumption of Dynamic Memory Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmem_cons_dyn_mem_obj_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmem_cons_dyn_mem_obj_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="blue">Dynamic Programming Techniques</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Memory Consumption of Dynamic Memory Objects
+</span></p>
+<A name="@@ITOC@@ABENMEM_CONS_DYN_MEM_OBJ_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+In dynamic objects, the actual data is addressed using a reference. This means that dynamic memory objects are always deep objects. Possible dynamic memory objects are:
+</p>
+<ul class="disc">
+<li>Table bodies of internal tables addressed using internal table references</li>
+</ul>
+<ul class="disc">
+<li>Text strings or byte strings addressed using internal string references</li>
+</ul>
+<ul class="disc">
+<li>Anonymous data objects created using <span class="qtext">CREATE DATA</span> and addressed using data references in data reference variables</li>
+</ul>
+<ul class="disc">
+<li>Instances of classes created using <span class="qtext">CREATE OBJECT</span> and addressed using object references in object reference variables</li>
+</ul>
+<p>
+The maximum total size and number of all dynamically managed memory objects in an
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> are defined in principle by the maximum amount of memory that this session can request to execute programs.
+</p>
+<p>
+Alongside the available memory on the current AS Instance, there are two further technical limits that can restrict the size of individual dynamic memory objects:
+</p>
+<ul class="disc">
+<li>The upper limit is 2&#x00B3;&#x00B9;-1 for the size of a string in bytes (in the character representation
+<a href="javascript:call_link('abenucs2_glosry.html')" class="grey" title="Glossary Entry">UCS-2</a> used by the ABAP programming language, every character in a string occupies 2 bytes) and the number of rows in an internal table.</li>
+</ul>
+<ul class="disc">
+<li>The memory for the content of a string and for hash management of an internal hashed table must
+be provided as one piece. Therefore, the <span class="qtext">ztta/max_ memreq_mb</span> profile parameter
+is relevant for these two memory object types. It defines the maximum amount of memory that can be requested
+as one piece. A maximum size for strings and a limitation on the number of rows in hashed tables can
+be directly derived from this amount. This limitation does not depend on the width of table rows. Only
+the hash management (and not the table content) must be provided as one piece in the memory. The current
+limitation is the highest power of two, which is less than or equal to an eighth of the value specified
+by the profile parameter. For example, if the profile parameter specifies 250MB, a hashed table can contain approximately 16 million rows.</li>
+</ul>
+<p>
+Any attempt to exceed these limits produces a runtime error and the termination of the program.
+</p>
+<A name="@@ITOC@@ABENMEM_CONS_DYN_MEM_OBJ_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Avoid memory bottlenecks</span>
+</p>
+<p>
+When using dynamic memory objects, ensure that the program is not terminated due to a lack of memory.
+</p>
+<A name="@@ITOC@@ABENMEM_CONS_DYN_MEM_OBJ_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Memory limits are fixed limitations that cannot be deactivated with programming. To avoid memory bottlenecks, we recommend that you account for:
+</p>
+<ul class="disc">
+<li>The limits of the available physical memory when developing a program</li>
+</ul>
+<ul class="disc">
+<li>The specified technical limits for strings and hashed tables</li>
+</ul>
+<p>
+The only way to prevent memory limits from being exceeded is to use programming to restrict the data
+loaded into the memory. This applies to processing large data sets and also to object creation. The
+latter can produce memory bottlenecks if overly large objects or too many small objects are created. <span class="italic">Memory leaks</span> (unused, unreleased memory) can also cause memory problems.
+</p>
+<p>
+<span class="bold">Editing Large Data Sets</span> <br>You need to process large data sets that are stored
+in a persistent repository as one piece, but the sets do not fit into the available memory. In this
+case, you must import and process these data sets, either in packages or sequentially. A common language
+element here is the <span class="qtext">PACKAGE SIZE</span> addition. You can this addition when importing
+large data sets to internal tables with the ABAP SQL statement <span class="qtext">SELECT</span>. Memory-saving
+processing of large strings (Large Object, LOB) in database tables is also possible. Locators enable
+you to access substrings of strings in database tables. Streaming allows a sequential and gradual transfer of data into the memory. Both concepts were predominantly introduced in ABAP to avoid memory bottlenecks.
+</p>
+<p>
+<span class="bold">Releasing Memory</span> <br>The main advantage of dynamically managed memory is that
+it can be released again. Use this option to delete data and objects no longer required, to avoid memory leaks and possible memory bottlenecks:
+</p>
+<ul class="disc">
+<li>You can delete strings using the <span class="qtext">CLEAR</span> statement.</li>
+</ul>
+<ul class="disc">
+<li>You can use <span class="qtext">CLEAR</span> or <span class="qtext">FREE</span> to delete internal
+tables. <span class="qtext">FREE</span> releases the entire memory space occupied by rows, whereas the initial memory requirement of the table remains reserved if <span class="qtext">CLEAR</span> is used. An appropriate size for the
+<a href="javascript:call_link('abeninitial_memory_requ_guidl.html')" class="lnkpurple" title="Guideline">initial memory requirement</a>
+is usually defined by the ABAP runtime environment itself. However, it can also be predefined using the <span class="qtext">INITIAL SIZE</span> addition.</li>
+</ul>
+<ul class="disc">
+<li>Anonymous data objects and instances of classes are deleted by the Garbage Collector, after <span class="italic">
+all</span> reference variables that refer to these objects have been initialized. Here, you must ensure
+that all references are actually identified during initialization. This is not always straightforward,
+particularly in the case of complex object networks. To analyze memory problems and detect memory leaks,
+you can use Memory Inspector and the ABAP Debugger memory analysis. You can display memory consumption rankings for all dynamically managed memory objects.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Note that statically managed data objects can also involve unnecessary memory consumption. For example,
+large flat structures with unused or initial components, whose initial values require a lot of memory
+space. Here, strings that only contain blanks occupy 2 bytes for each blank. The situation can become
+particularly critical if these structures are combined with dynamic techniques (if they are used as
+internal table rows, for example). Consequently, boxed components were introduced. They support initial
+value sharing for initial substructures, which means that the initial value of a substructure is created
+only once in memory. For structures with substructures that have a sparse fill level, this can reduce memory consumption and copy costs significantly.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+In the following source code, all the data in a very large database table is imported into an internal table. Here there is an obvious risk of memory bottlenecks.
+</p>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM very_large_table <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE ...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+In the following source code, the <span class="qtext">PACKAGE SIZE</span> addition is used. This restricts the maximum size of the internal table to a secure level.
+</p>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM very_large_table <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE ... PACKAGE SIZE 1000. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENDSELECT.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmem_cons_dyn_mem_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

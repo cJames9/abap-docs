@@ -1,0 +1,153 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMACRO_INCLUDE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmacro_include.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inserting Macros">
+<meta name="keywords" content="ABAP, Include Macros">
+<title>
+Inserting Macros - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmacro_include.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmacro_include.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_program_layout.html')" class="blue">Program Layout</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_modularization.html')" class="blue">Modularization Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_includes.html')" class="blue">Source Code Modules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_macros.html')" class="blue">Macros</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inserting Macros
+</span></p>
+<A name="@@ITOC@@ABENMACRO_INCLUDE_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">macro <i class=bn>[</i>p1 p2 ... <i class=bn>]</i>.</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+If a macro is executed as the first word in an ABAP statement instead of a valid
+<a href="javascript:call_link('abenabap_keyword_glosry.html')" class="grey" title="Glossary Entry">ABAP keyword</a>, its content is included at this position in the source code.
+</p>
+<p>
+To ensure that the program has correct syntax, the included macro must only contain full ABAP statements
+(except <a href="javascript:call_link('abapdefine.html')" class="blue"><span class="qtext">DEFINE</span></a> and <a href="javascript:call_link('abapend-of-definition.html')" class="blue">
+<span class="qtext">END-OF-DEFINITION</span></a>) and introductory program statements. These statements
+create a source code section that is included in the current source code. The statements of a macro are not bound to the limits of processing blocks here.
+</p>
+<p>
+Suitable ABAP words or operands <span class="qtext">p1</span>,
+ <span class="qtext">p2</span>,  ... must be passed to all of the placeholders of the macro. The specified
+operands <span class="qtext">p1</span>, <span class="qtext">p2</span>, replace the placeholders sequentially. The characters are converted to uppercase (except for the content of character literals).
+</p>
+<p>
+ABAP Compiler searches for a macro specified in an ABAP program as follows:
+</p>
+<ol>
+<li>
+In the preceding source code of the same <a href="javascript:call_link('abencompilation_unit_glosry.html')" class="grey" title="Glossary Entry">compilation unit</a>. <br><br>
+</li>
+<li>
+In the <a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type groups</a> that can be used for the program. Local macros of the program obscure macros of the same name in type groups. <br><br>
+</li>
+<li>
+In the table TRMAC. Macros in the table TRMAC usually follow different name conventions to those in type groups and therefore nothing should be obscured.
+</li>
+</ol>
+<p>
+A macro can insert other macros but not itself.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In global classes, macros are defined in a dedicated include program and can be found in this program.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In this example, the two macros <span class="qtext">operation</span> and <span class="qtext">output</span>
+are defined. <span class="qtext">output</span> is nested in <span class="qtext">operation</span>. <span class="qtext">
+operation</span> is called three times with different parameters. Note how the placeholders <span class="qtext">&amp;1</span>, <span class="qtext">&amp;2</span>, ... are replaced in the macros.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: result TYPE i, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n1&nbsp;&nbsp;&nbsp;&nbsp; TYPE i VALUE 5, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n2&nbsp;&nbsp;&nbsp;&nbsp; TYPE i VALUE 6. <br> <br>DEFINE operation. <br>
+&nbsp;&nbsp;result = &amp;1 &amp;2 &amp;3. <br>&nbsp;&nbsp;output&nbsp;&nbsp; &amp;1 &amp;2 &amp;3 result. <br>
+END-OF-DEFINITION. <br> <br>DEFINE output. <br>&nbsp;&nbsp;write: / 'The result of &amp;1 &amp;2 &amp;3 is', &amp;4. <br>END-OF-DEFINITION. <br> <br>operation 4 + 3. <br>operation 2 ** 7. <br>operation n2 - n1.
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenmacro_abexa.html')" class="blue">Macros</a> <br><br>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmacro_include.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

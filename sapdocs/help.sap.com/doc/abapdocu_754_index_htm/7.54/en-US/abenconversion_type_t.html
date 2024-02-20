@@ -1,0 +1,258 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONVERSION_TYPE_T -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_type_t.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Source Field Type t">
+<title>
+Source Field Type t - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconversion_type_t.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconversion_type_t.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_rules.html')" class="blue">Assignment and Conversion Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">Conversion Rules for Elementary Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendate_time_source_fields.html')" class="blue">Date fields, time fields, and time stamp fields as source fields</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Source Field Type t
+</span></p>
+<p>
+The conversion rules are designed in such a way that, when data objects of time type <a href="javascript:call_link('abenbuiltin_types_date_time.html')" class="blue">
+<span class="qtext">t</span></a> are assigned to character-like data objects, they behave like character-like
+data objects. When assigned to numeric data objects, they behave as numeric data objects. The latter
+is used as the basis for calculating time in arithmetic expressions. If the content of data objects
+of type <span class="qtext">t</span> are time entries in the format <span class="qtext400">"hhmmss"</span>, and the values only correspond to valid times of day
+(<span class="qtext400">hh</span> is between 00 and 23, <span class="qtext400">mm</span> and <span class="qtext400">ss</span>
+are between 00 and 59), the value assigned to a numeric data object corresponds to the number of seconds since midnight.
+</p>
+<p>
+Although the conversion rules actually permit the assignment of time fields that contain invalid data, this is not recommended.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_TYPE_T_1" class="blue">Numeric Target Fields</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_TYPE_T_2" class="blue">Character-Like Target Fields</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_TYPE_T_3" class="blue">Byte-Like Target Fields</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONVERSION_TYPE_T_4" class="blue">Date/Time Fields as Target Fields</A></li>
+</ul>
+<A name="@@ITOC@@ABENCONVERSION_TYPE_T_1"></A>
+<p><span class="h2">
+Numeric Target Fields
+</span></p>
+<table border>
+<tr>
+<td><span class="bold">Target</span></td>
+<td><span class="bold">Conversion</span></td>
+</tr>
+<tr>
+<td><span class="qtext">i</span>, <span class="qtext">int8</span>, (<span class="qtext">b</span>, <span class="qtext">s</span>)</td>
+<td>If the source field contains only digits, the content is interpreted as a time entry in the format
+<span class="qtext400">"hhmmss"</span> from which the value hh*3600+mm*60+ss is calculated, which is
+then converted into the internal representation of the relevant integer number. If the source field does not only contain digits, the target field is given the value 0. If the
+<a href="javascript:call_link('abenvalue_range_glosry.html')" class="grey" title="Glossary Entry">value range</a> of the internal
+data types <span class="qtext">b</span> and <span class="qtext">s</span> is not sufficient, a treatable exception CX_SY_CONVERSION_OVERFLOW is raised.</td>
+</tr>
+<tr>
+<td><span class="qtext">p</span></td>
+<td>If the source field contains only digits, the content is interpreted as a time entry in the format
+<span class="qtext400">"hhmmss"</span> from which the value hh*3600+mm*60+ss is calculated, which is
+then converted into the internal representation of a packed number. If the value range of the target
+field is too small, a treatable exception CX_SY_CONVERSION_OVERFLOW is raised. If the source does not contain only digits, the target field receives the value 0.</td>
+</tr>
+<tr>
+<td><span class="qtext">decfloat16</span>, <span class="qtext">decfloat34</span></td>
+<td>If the source field contains only digits, the content is interpreted as a time entry in the format
+<span class="qtext400">"hhmmss"</span> from which the value hh*3600+mm*60+ss is calculated, which is then converted into the internal representation of a decimal floating point number with
+<a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> of 0. If the source does not contain only digits, the target field is given the value 0.</td>
+</tr>
+<tr>
+<td><span class="qtext">f</span></td>
+<td>If the source field contains only digits, the content is interpreted as a time entry in the format
+<span class="qtext400">"hhmmss"</span> from which the value hh*3600+mm*60+ss is calculated, which is
+then converted into the internal representation of a binary floating point number. If the source does not contain only digits, the target field is given the value 0.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following conversion has the value <span class="qtext400">66656</span>. This is the number of seconds of the specified time since midnight.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA tim TYPE t VALUE '183056'. <br> <br>DATA(result) = CONV i( tim ). <br><br>
+</span>
+</p>
+<A name="@@ITOC@@ABENCONVERSION_TYPE_T_2"></A>
+<p><span class="h2">
+Character-Like Target Fields
+</span></p>
+<table border>
+<tr>
+<td><span class="bold">Target</span></td>
+<td><span class="bold">Conversion</span></td>
+</tr>
+<tr>
+<td><span class="qtext">c</span></td>
+<td>Content is handled in the same way as a <a href="javascript:call_link('abenconversion_type_c.html')" class="blue">source field of type <span class="qtext">c</span></a></td>
+</tr>
+<tr>
+<td><span class="qtext">n</span></td>
+<td>The characters in the source field are inserted in the target field, left-aligned. Trailing blanks
+in the source field are transferred. If the target field is longer than the source field, it is filled out to the right with the character "0". If the target field is shorter, it is truncated from the right.</td>
+</tr>
+<tr>
+<td><span class="qtext">string</span></td>
+<td>Content is handled in the same way as a <a href="javascript:call_link('abenconversion_type_c.html')" class="blue">source field of type <span class="qtext">c</span></a></td>
+</tr>
+</table><br>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The string produced by the conversion is <span class="qtext400">18</span>. Four characters <span class="qtext400">3056</span> are cut off on the right.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA tim TYPE t VALUE '183056'. <br> <br>TYPES n2 TYPE n LENGTH 2. <br>DATA(result) = CONV n2( tim ). <br><br>
+</span>
+</p>
+<A name="@@ITOC@@ABENCONVERSION_TYPE_T_3"></A>
+<p><span class="h2">
+Byte-Like Target Fields
+</span></p>
+<table border>
+<tr>
+<td><span class="bold">Target</span></td>
+<td><span class="bold">Conversion</span></td>
+</tr>
+<tr>
+<td><span class="qtext">x</span></td>
+<td>The content of the source field is converted first to data type <span class="qtext">i</span> (see
+above) and then to type <span class="qtext">x</span> (see <a href="javascript:call_link('abenconversion_type_ibs.html')" class="blue">conversion table for source field type <span class="qtext">i</span>, <span class="qtext">int8</span>,
+(<span class="qtext">b</span>, <span class="qtext">s</span>)</a>).</td>
+</tr>
+<tr>
+<td><span class="qtext">xstring</span></td>
+<td>The content of the source field is converted first to data type <span class="qtext">i</span> (see
+above) and then to type <span class="qtext">xstring</span> (see <a href="javascript:call_link('abenconversion_type_ibs.html')" class="blue">conversion table for source field type <span class="qtext">i</span>, <span class="qtext">int8</span>,
+(<span class="qtext">b</span>, <span class="qtext">s</span>)</a>).</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The byte chain produced by the conversion is <span class="qtext400">010460</span>. This is the integer 66655 or the number of seconds since midnight.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA tim TYPE t VALUE '183056'. <br> <br>DATA(result) = CONV xstring( tim ). <br><br>
+</span>
+</p>
+<A name="@@ITOC@@ABENCONVERSION_TYPE_T_4"></A>
+<p><span class="h2">
+Date/Time Fields as Target Fields
+</span></p>
+<table border>
+<tr>
+<td><span class="bold">&#x200E;Target</span></td>
+<td><span class="bold">Conversion</span></td>
+</tr>
+<tr>
+<td><span class="qtext">d</span></td>
+<td>Not supported. Produces a syntax error or runtime error.</td>
+</tr>
+<tr>
+<td><span class="qtext">t</span></td>
+<td>The content of the source field is transferred unconverted.</td>
+</tr>
+<tr>
+<td><span class="qtext">utclong</span></td>
+<td>Not supported. Produces a syntax error or raises the exception <span class="lnkgrey">CX_SY_CONVERSION_NOT_SUPPORTED</span>.</td>
+</tr>
+</table><br>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The conversion of <span class="qtext">t</span> to <span class="qtext">d</span> (not known statically) is not supported and produces the runtime error MOVE_NOT_SUPPORTED.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+FIELD-SYMBOLS &lt;fs> TYPE data. <br> <br>ASSIGN sy-uzeit TO &lt;fs>. <br>DATA(result) = CONV d( &lt;fs> ).
+</span>
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_type_t.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

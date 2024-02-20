@@ -1,0 +1,254 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCALL_TRAFO_UPPER_LOWER_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencall_trafo_upper_lower_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Transformation of XML Element Names">
+<title>
+Transformation of XML Element Names - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencall_trafo_upper_lower_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencall_trafo_upper_lower_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcall_transformation.html')" class="blue">CALL TRANSFORMATION</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_transformation_abexas.html')" class="blue">CALL TRANSFORMATION - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Transformation of XML Element Names
+</span></p>
+<p>
+This example demonstrates the transformation of letters in XML element names.
+</p>
+<A name="@@ITOC@@ABENCALL_TRAFO_UPPER_LOWER_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_trafo_upper_lower.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: BEGIN OF simple_struc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int_col1 TYPE i VALUE 111,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int_col2 TYPE i VALUE 222,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF simple_struc.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `Serialization` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE simple_struc = simple_struc<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML DATA(asxml).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `ID`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_xml( asxml ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_id_upper_lower<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS mode = 'LO'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE simple_struc = simple_struc<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML DATA(xml_lower).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `DEMO_ID_UPPER_LOWER`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_xml( xml_lower ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_id_from_to_mixed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS mode = 'TO'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE simple_struc = simple_struc<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT XML DATA(xml_camel).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `DEMO_ID_FROM_TO_MIXED`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_xml( xml_camel ).<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;end_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( `Deserialization` ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE XML xml_lower<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT simple_struc = simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section( `ID for XML_LOWER`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( simple_struc ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE XML xml_camel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT simple_struc = simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `ID for XML_CAMEL`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( simple_struc ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_id_upper_lower<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE XML xml_lower<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT simple_struc = simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `DEMO_ID_UPPER_LOWER for XML_LOWER`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( simple_struc ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL TRANSFORMATION demo_id_from_to_mixed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOURCE XML xml_camel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT simple_struc = simple_struc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( `DEMO_ID_FROM_TO_MIXED for XML_CAMEL`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( simple_struc ).<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCALL_TRAFO_UPPER_LOWER_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+In deserializations of XML data to ABAP data, the XML elements in question must generally be written
+in uppercase letters to be identified. This example shows ways of transforming elements written in other ways using self-written XSL transformations.
+</p>
+<ul class="disc">
+<li>A structure, <span class="qtext">simple_struc</span>, is serialized using various XSL transformations.</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> ID creates
+<a href="javascript:call_link('abenasxml_glosry.html')" class="grey" title="Glossary Entry">asXML</a> with XML element names in uppercase letters.</li>
+</ul>
+<ul class="circlem2">
+<li>The self-written XSL transformation <span class="lnkgrey">DEMO_ID_UPPER_LOWER</span> transforms the XML element names created by the serialization to lowercase letters, if the correct parameter passing is used.</li>
+</ul>
+<ul class="circlem2">
+<li>The self-written XSL transformation <span class="lnkgrey">DEMO_ID_FROM_TO_MIXED</span> transforms
+the XML element names created by the serialization to Mixed Case Style (also known as Camel Case Style),
+if the correct parameter passing is used. To do this, an ABAP method is called from the transformation
+and this method itself calls the built-in function <a href="javascript:call_link('abencase_functions.html')" class="blue"><span class="qtext">to_mixed</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Deserializations of the transformed asXML data with the <a href="javascript:call_link('abenid_trafo_glosry.html')" class="grey" title="Glossary Entry">identity transformation</a> ID do not find the structure or the components.</li>
+</ul>
+<ul class="disc">
+<li>Deserializations of the transformed asXML data with the self-written XSL transformations, on the other hand, are successful.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="lnkgrey">DEMO_ID_UPPER_LOWER</span> also transforms lowercase letters to uppercase letters.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="lnkgrey">DEMO_ID_FROM_TO_MIXED</span> also calls a method for <a href="javascript:call_link('abencase_functions.html')" class="blue">
+<span class="qtext">to_mixed</span></a>. This simple example transformations is not, however, symmetrical in all cases.</li>
+</ul>
+<p>
+Instead of transformations, parsers and renderers can be used, as demonstrated in the executable example for
+<a href="javascript:call_link('abenabap_json_names_to_upper_abexa.html')" class="blue">JSON</a>. The serial processing used here can be useful when dealing with large volumes of data.
+</p>
+<p>
+The transformations used are as follows:
+</p>
+<p>
+<span class="bold">DEMO_ID_UPPER_LOWER</span>
+</p>
+<dl><dd>
+<span class="qtext400">&lt;xsl:transform version="1.0" <br>&nbsp;&nbsp;xmlns:xsl="http://www.w3.org/1999/XSL/Transform" <br>
+&nbsp;&nbsp;xmlns:sap="http://www.sap.com/sapxsl" <br>&nbsp;&nbsp;xmlns:asx="http://www.sap.com/abapxml"&gt; <br>
+ <br>&nbsp;&nbsp;&lt;xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'"/&gt; <br>&nbsp;&nbsp;&lt;xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/&gt; <br>
+ <br>&lt;xsl:param name="MODE" select="'UP'"/&gt; <br> <br>&lt;xsl:template match="*"&gt; <br>&nbsp;&nbsp;&lt;xsl:element name="{sap:if($MODE='LO', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate(name(),$uppercase, $smallcase ), <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate(name(),$smallcase, $uppercase ))}"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:copy-of select="@*"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:apply-templates select="node()"/&gt; <br>
+&nbsp;&nbsp;&lt;/xsl:element&gt; <br>&lt;/xsl:template&gt; <br> <br>&lt;xsl:template match="asx:*"&gt; <br>
+&nbsp;&nbsp;&lt;xsl:copy&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:copy-of select="@*"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:apply-templates select="node()"/&gt; <br>
+&nbsp;&nbsp;&lt;/xsl:copy&gt; <br>&lt;/xsl:template&gt; <br> <br>&lt;xsl:template match="text() | processing-instruction() | comment()"&gt; <br>
+&nbsp;&nbsp;&lt;xsl:copy/&gt; <br>&lt;/xsl:template&gt; <br> <br>&lt;/xsl:transform&gt;</span>
+</dd></dl>
+<p>
+<span class="bold">DEMO_ID_FROM_TO_MIXED</span>
+</p>
+<dl><dd>
+<span class="qtext400">&lt;xsl:transform version="1.0" <br>&nbsp;&nbsp;xmlns:xsl="http://www.w3.org/1999/XSL/Transform" <br>
+&nbsp;&nbsp;xmlns:sap="http://www.sap.com/sapxsl" <br>&nbsp;&nbsp;xmlns:asx="http://www.sap.com/abapxml" <br>
+&nbsp;&nbsp;xmlns:f="FCT" exclude-result-prefixes="f"&gt; <br> <br>&lt;sap:external-function name="f:toCC" kind="class" <br>
+ class="CL_DEMO_XSLT_FROM_TO_MIXED" method="TO_CAMEL_CASE"&gt; <br>&nbsp;&nbsp;&lt;sap:argument param="IN"&nbsp;&nbsp;type="string"/&gt; <br>
+&nbsp;&nbsp;&lt;sap:result&nbsp;&nbsp; param="OUT" type="string"/&gt; <br>&lt;/sap:external-function&gt; <br>
+ <br>&lt;sap:external-function name="f:fromCC" kind="class" <br> class="CL_DEMO_XSLT_FROM_TO_MIXED" method="FROM_CAMEL_CASE"&gt; <br>
+&nbsp;&nbsp;&lt;sap:argument param="IN"&nbsp;&nbsp;type="string"/&gt; <br>&nbsp;&nbsp;&lt;sap:result&nbsp;&nbsp; param="OUT" type="string"/&gt; <br>
+&lt;/sap:external-function&gt; <br> <br>&lt;xsl:param name="MODE" select="'FROM'"/&gt; <br> <br> <br>&lt;xsl:template match="*"&gt; <br>
+&nbsp;&nbsp;&lt;xsl:element name="{sap:if($MODE='TO', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f:toCC(name()), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f:fromCC(name()))}"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:copy-of select="@*"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:apply-templates select="node()"/&gt; <br>
+&nbsp;&nbsp;&lt;/xsl:element&gt; <br>&lt;/xsl:template&gt; <br> <br>&lt;xsl:template match="asx:*"&gt; <br>
+&nbsp;&nbsp;&lt;xsl:copy&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:copy-of select="@*"/&gt; <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:apply-templates select="node()"/&gt; <br>
+&nbsp;&nbsp;&lt;/xsl:copy&gt; <br>&lt;/xsl:template&gt; <br> <br>&lt;xsl:template match="text() | processing-instruction() | comment()"&gt; <br>
+&nbsp;&nbsp;&lt;xsl:copy/&gt; <br>&lt;/xsl:template&gt; <br> <br>&lt;/xsl:transform&gt;</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencall_trafo_upper_lower_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:40 GMT -->
+</html>

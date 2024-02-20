@@ -1,0 +1,228 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENAMDP_PROCEDURE_METHODS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_procedure_methods.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="AMDP - Procedure Implementations">
+<meta name="keywords" content="ABAP, AMDP Procedure Definitions">
+<title>
+AMDP - Procedure Implementations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenamdp_procedure_methods.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenamdp_procedure_methods.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP - ABAP Managed Database Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenamdp_methods.html')" class="blue">AMDP - Methods</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+AMDP - Procedure Implementations
+</span></p>
+<p>
+An AMDP procedure implementation is an AMDP method for implementing a
+<a href="javascript:call_link('abendatabase_procedure_glosry.html')" class="grey" title="Glossary Entry">database procedure</a>. It is declared in an
+<a href="javascript:call_link('abenamdp_classes.html')" class="blue">AMDP class</a> like a regular
+<a href="javascript:call_link('abenstatic_method_glosry.html')" class="grey" title="Glossary Entry">static method</a> or
+<a href="javascript:call_link('abeninstance_method_glosry.html')" class="grey" title="Glossary Entry">instance method</a> in any
+<a href="javascript:call_link('abenvisibility_section_glosry.html')" class="grey" title="Glossary Entry">visibility section</a>. An AMDP procedure implementation cannot be identified as an AMDP method in the declaration part of the class.
+</p>
+<p>
+An AMDP function implementation is indicated as an AMDP method in the implementation part of the class
+using the addition <a href="javascript:call_link('abapmethod_by_db_proc.html')" class="blue"><span class="qtext">BY DATABASE
+FUNCTION</span></a> of the statement <span class="qtext">METHOD</span>. At the same time, the database
+system where the method is used and the programming language of the database system used to implement
+the method are also defined. The database objects of the current database schema accessed in the AMDP
+method must be declared using an addition <a href="javascript:call_link('abapmethod_by_db_proc.html')" class="blue"><span class="qtext">USING</span></a>.
+If possible, the syntax check is performed on the basis of this information. When database tables defined
+in ABAP Dictionary are accessed (and the access is known statically), the AMDP framework makes sure
+that the order of the fields defined in the dictionary is respected (this may be different from the order on the database).
+</p>
+<p>
+The following restrictions apply, however, with respect to the <a href="javascript:call_link('abenparameter_interface_glosry.html')" class="grey" title="Glossary Entry">parameter interface</a> of an AMDP procedure implementation:
+</p>
+<ul class="disc">
+<li>The typing of the parameters cannot be <a href="javascript:call_link('abengeneric_typing_glosry.html')" class="grey" title="Glossary Entry">generic</a>. Only
+<a href="javascript:call_link('abenelementary_data_type_glosry.html')" class="grey" title="Glossary Entry">elementary data types</a> and
+<a href="javascript:call_link('abentable_type_glosry.html')" class="grey" title="Glossary Entry">table types</a> with a structured row type can be used. The row type of a tabular type can only contain elementary data types as components</li>
+</ul>
+<ul class="disc">
+<li>A parameter cannot have an <a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">enumerated type</a> and cannot have a component with an enumerated type.</li>
+</ul>
+<ul class="disc">
+<li>A parameter cannot be typed with a data type that references one of the obsolete built-in data types
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">DF16_SCL</a> or <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">DF34_SCL</a> in ABAP Dictionary.</li>
+</ul>
+<ul class="disc">
+<li>The parameters must be declared using <a href="javascript:call_link('abapmethods_parameters.html')" class="blue"><span class="qtext">VALUE</span></a> for
+<a href="javascript:call_link('abenpass_by_value_glosry.html')" class="grey" title="Glossary Entry">pass by value</a>.
+<a href="javascript:call_link('abenpass_by_reference_glosry.html')" class="grey" title="Glossary Entry">Pass by reference</a> is not permitted.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenreturn_value_glosry.html')" class="grey" title="Glossary Entry">Return
+values</a> cannot be declared using <a href="javascript:call_link('abapmethods_functional.html')" class="blue"><span class="qtext">RETURNING</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Only <a href="javascript:call_link('abeninput_parameter_glosry.html')" class="grey" title="Glossary Entry">input parameters</a> can be flagged as optional parameters.</li>
+</ul>
+<ul class="circlem2">
+<li>Each elementary optional input parameter must have a replacement parameter declared using <a href="javascript:call_link('abapmethods_parameters.html')" class="blue">
+<span class="qtext">DEFAULT</span></a>. Only literals or constants can be specified as replacement parameters.</li>
+</ul>
+<ul class="circlem2">
+<li>Unlike in <a href="javascript:call_link('abapmethods_parameters.html')" class="blue">regular methods</a>, a literal specified
+as a replacement parameter must be convertible to the data type of the input parameter. If not, a syntax error occurs.</li>
+</ul>
+<ul class="circlem2">
+<li>Input parameters of the types <span class="qtext">string</span>,
+ <span class="qtext">xstring</span>, <span class="qtext">decfloat16</span>, and <span class="qtext">decfloat34</span> cannot have replacement parameters and hence cannot be optional.</li>
+</ul>
+<ul class="circlem2">
+<li>An optional tabular input parameter cannot have any replacement parameters and must be made optional instead using <a href="javascript:call_link('abapmethods_parameters.html')" class="blue"><span class="qtext">OPTIONAL</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>Parameter names:</li>
+</ul>
+<ul class="circlem2">
+<li>Parameter names cannot start with the characters "%_".</li>
+</ul>
+<ul class="circlem2">
+<li>The parameter name <span class="qtext">connection</span> can only be used for an input parameter
+of type <span class="lnkgrey">DBCON_NAME</span>, if the name of the database connection can be passed to the input parameter.</li>
+</ul>
+<ul class="circlem2">
+<li>The parameter name <span class="qtext">client</span> is reserved for future enhancements.</li>
+</ul>
+<ul class="circlem2">
+<li>The parameter name <span class="qtext">endmethod</span> is not permitted.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapmethods_general.html')" class="blue"><span class="qtext">RAISING</span></a> can be used to specify the the exceptions specified under
+<a href="javascript:call_link('abenamdp_exceptions.html')" class="blue">AMDP -Exception Classes</a> to handle these classes for
+a call. Other exceptions cannot be handled. No non-class-based exceptions can be created using the addition <a href="javascript:call_link('abapmethods_general.html')" class="blue"><span class="qtext">EXCEPTIONS</span></a>.</li>
+</ul>
+<p>
+The following restrictions apply to method implementation:
+</p>
+<ul class="disc">
+<li>An AMDP method must not be empty.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenddl_glosry.html')" class="grey" title="Glossary Entry">DDL</a> statements are not permitted for creating, changing or deleting database objects.</li>
+</ul>
+<ul class="disc">
+<li>No statements are allowed that are only possible in database tables and not in views, such as <span class="qtext400">TRUNCATE TABLE</span> or <span class="qtext400">LOCK TABLE</span>.</li>
+</ul>
+<ul class="disc">
+<li>Local temporary database objects cannot be accessed.</li>
+</ul>
+<ul class="disc">
+<li>Executing transactional statements is not permitted. In particular, no
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commits</a> and
+<a href="javascript:call_link('abendb_rollback.html')" class="blue"> database rollbacks</a> using <span class="qtext400">COMMIT</span> and <span class="qtext400">ROLLBACK</span> statements are allowed. This also applies to called procedures.
+<a href="javascript:call_link('abenluw_glosry.html')" class="grey" title="Glossary Entry">LUWs</a> should always be handled in the ABAP program, to ensure data consistency between procedures.</li>
+</ul>
+<ul class="disc">
+<li>Writes cannot be performed on database tables where
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a> is switched on, since SQLScript accesses are ignored by buffer synchronizations.</li>
+</ul>
+<ul class="disc">
+<li>AMDP methods do not have any <a href="javascript:call_link('abenimplicit_enh_points.html')" class="blue">implicit enhancement options</a>.</li>
+</ul>
+<p>
+Further restrictions may apply depending on the programming language of the database system and these are discussed in the corresponding sections:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenamdp_hdb_sqlscript.html')" class="blue">SQL Script for the SAP HANA Database</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenamdp_hdb_l_internal.html')" class="blue">L for the SAP HANA Database</a> (used internally at SAP only)</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>It is strongly recommended that only the character set 7-bit-ASCII is used when implementing an AMDP method.</li>
+</ul>
+<ul class="disc">
+<li>The use of dynamic programming techniques is strongly discouraged, even if supposedly permitted by the programming language of the database system.</li>
+</ul>
+<ul class="circlem2">
+<li>The existence of other database objects cannot be checked or guaranteed when they are accessed dynamically. This is particularly relevant when other AMDP methods are called.</li>
+</ul>
+<ul class="circlem2">
+<li>When database tables in ABAP Dictionary are accessed dynamically, the AMDP framework cannot respect
+the order of the fields defined here and the order of fields on the database (which might be different)
+is used instead. This can produce the wrong values when making assignments to ABAP data objects declared with respect to ABAP Dictionary.</li>
+</ul>
+<ul class="circlem2">
+<li>In dynamic accesses, it is not possible to prevent writes from being performed on database tables with activated table buffering and this can cause inconsistencies in buffer synchronizations.</li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic accesses can be the cause of <a href="javascript:call_link('abensql_inj_amdp_scrty.html')" class="blue">SQL injections</a> related to input from outside.</li>
+</ul>
+<ul class="disc">
+<li>When passed to an actual parameter, a <a href="javascript:call_link('abennull_value_glosry.html')" class="grey" title="Glossary Entry">null value</a> is passed to its type-dependent initial value.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenamdp_procedure_methods.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

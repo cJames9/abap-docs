@@ -1,0 +1,415 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENARITH_TYPE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenarith_type.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="arith_exp - Calculation Type and Calculation Rules">
+<meta name="keywords" content="ABAP, Calculation Rules, Calculation Type">
+<title>
+arith_exp - Calculation Type and Calculation Rules - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenarith_type.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenarith_type.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencompute_expressions.html')" class="blue">Numeric Calculations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcompute_arith.html')" class="blue">arith_exp - Arithmetic Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+arith_exp - Calculation Type and Calculation Rules
+</span></p>
+<p>
+An arithmetic expression is assigned a calculation type that specifies the calculation rules for the
+expression. The calculation type is determined at program runtime from those data types involved that can be identified. The calculation type only needs to be determined statically if the target field is an
+<a href="javascript:call_link('abeninline_declaration_glosry.html')" class="grey" title="Glossary Entry">inline declaration</a>, where generically type operands are included using a
+<a href="javascript:call_link('abenstandard_type_glosry.html')" class="grey" title="Glossary Entry">standard type</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENARITH_TYPE_1" class="blue">Determining the Calculation Type</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENARITH_TYPE_2" class="blue">Calculation Rules for Calculation Type</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENARITH_TYPE_3" class="blue">Handling the Result</A></li>
+</ul>
+<A name="@@ITOC@@ABENARITH_TYPE_1"></A>
+<p><span class="h2">
+Determining the Calculation Type
+</span></p>
+<p>
+The calculation type corresponds to one of the numeric data types <span class="qtext">i</span>, <span class="qtext">
+int8</span>, <span class="qtext">p</span>, <span class="qtext">f</span>, or <span class="qtext">decfloat34</span>. It is determined according to the following hierarchy, and in this order of priority:
+</p>
+<ol>
+<li>
+If one of the data types in question is <span class="qtext">decfloat16</span> or <span class="qtext">decfloat34</span>, the calculation type is <span class="qtext">decfloat34</span>. <br><br>
+</li>
+<li>
+If one of the data types in question is <span class="qtext">f</span> or if the operator <span class="qtext">**</span> is used, the calculation type is <span class="qtext">f</span>. <br><br>
+</li>
+<li>
+If one of the data types in question is <span class="qtext">p</span>, the calculation type is <span class="qtext">p</span>. <br><br>
+</li>
+<li>
+If one of the data types in question is <span class="qtext">int8</span>, the calculation type is <span class="qtext">int8</span>. <br><br>
+</li>
+<li>
+If one of the data types in question is <span class="qtext">i</span>, (<span class="qtext">b</span> or <span class="qtext">s</span>), the calculation type is <span class="qtext">i</span>.
+</li>
+</ol>
+<p>
+The data type that has the largest <a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue">value range</a> therefore determines the calculation type. An exception to this is that each
+<a href="javascript:call_link('abendecfloat_glosry.html')" class="grey" title="Glossary Entry">decimal floating point number</a>
+produces the calculation type <span class="qtext">decfloat34</span>, and that using the operator <span class="qtext">**</span> is handled like a data type of type <span class="qtext">f</span>. <br><br>
+</p>
+<p>
+Involved data types include:
+</p>
+<ul class="disc">
+<li>The right side of an <a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a> in arithmetic expressions:</li>
+</ul>
+<ul class="circlem2">
+<li>If it is not an inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>,
+the data types of all operands of the full arithmetic expressions, and the data type of the result field <span class="qtext">result</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>If <span class="qtext">result</span> is an inline declaration, the calculation type derived from
+the data types of the arithmetic expression determines the data type of the declared variable. Here,
+a calculation type <span class="qtext">p</span> always produces the data type <span class="qtext">p</span> with length 8 and no decimal places.</li>
+</ul>
+<ul class="disc">
+<li>as the operand of a <a href="javascript:call_link('abenrelational_expression_glosry.html')" class="grey" title="Glossary Entry">
+relational expression</a> in an arithmetic expression, the data types of all operands of the entire
+relational expression. The approach taken does not involve first determining the calculation type of each arithmetic expression in question and then deriving the
+<a href="javascript:call_link('abencomparison_type_glosry.html')" class="grey" title="Glossary Entry">comparison type</a>. All
+operands of the relational expression are used to determine the calculation type (which is also the comparison type) regardless of the arithmetic expressions they belong to.</li>
+</ul>
+<ul class="disc">
+<li>in an arithmetic expression after the statement <a href="javascript:call_link('abapcase.html')" class="blue"><span class="qtext">CASE</span></a>,
+the operands of the arithmetic expression, ignoring the operands specified after <span class="qtext">WHEN</span>.</li>
+</ul>
+<ul class="disc">
+<li>as <a href="javascript:call_link('abentyping_arith_expr.html')" class="blue">actual parameters</a> for
+<a href="javascript:call_link('abeninput_parameter_glosry.html')" class="grey" title="Glossary Entry">input parameters</a> of
+<a href="javascript:call_link('abenmethod_glosry.html')" class="grey" title="Glossary Entry">methods</a> in an arithmetic expression, the data types of all operands of the whole arithmetic expression and the
+<a href="javascript:call_link('abentyping_glosry.html')" class="grey" title="Glossary Entry">typing</a> of the formal parameter,
+provided that it is fully typed. If the formal parameter is typed generically, then only the operands of the expression are evaluated.</li>
+</ul>
+<ul class="disc">
+<li>as <a href="javascript:call_link('abentyping_arith_expr.html')" class="blue">actual parameters</a> for
+<a href="javascript:call_link('abeninput_parameter_glosry.html')" class="grey" title="Glossary Entry">input parameters</a> of
+<a href="javascript:call_link('abenfunction_module_glosry.html')" class="grey" title="Glossary Entry">function modules</a>, the data types of all operands of the entire arithmetic expression. The typing of the formal parameter is ignored.</li>
+</ul>
+<ul class="disc">
+<li>as an argument of a built-in function in an arithmetic expression, the data types of all operands of the entire arithmetic expression and the type of the input parameter, if determined in full. An overloaded
+<a href="javascript:call_link('abenmathematical_functions.html')" class="blue">numeric function</a> containing an arithmetic
+expression as an argument, on the other hand, operates like an arithmetic operator and is handled in its position like an arithmetic expression.</li>
+</ul>
+<ul class="disc">
+<li>as an <a href="javascript:call_link('abenembedded_expression_glosry.html')" class="grey" title="Glossary Entry">embedded expression</a> in a
+<a href="javascript:call_link('abenstring_template_glosry.html')" class="grey" title="Glossary Entry">string template</a> in an arithmetic expression, only the operands of the expression are evaluated.</li>
+</ul>
+<ul class="disc">
+<li>as an argument in a <a href="javascript:call_link('abenconstructor_expression_glosry.html')" class="grey" title="Glossary Entry">constructor expression</a> in an arithmetic expression, the calculation type is determined as in an
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a>. The left side of the assignment is
+either the result of the constructor expression with the type <a href="javascript:call_link('abenconstructor_expressions.html')" class="blue">
+<span class="qtext">type</span></a> specified in front of the parentheses or a structure component.</li>
+</ul>
+<p>
+For operands with complete numeric data types, this data type is used. Operands with other data types are handled as follows:
+</p>
+<ul class="disc">
+<li><span class="qtext">d</span> and <span class="qtext">t</span> as <span class="qtext">i</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">c</span>, <span class="qtext">n</span>, and <span class="qtext">string</span> as <span class="qtext">p</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">x</span> and <span class="qtext">xstring</span> as <span class="qtext">i</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">utclong</span> is not allowed</li>
+</ul>
+<p>
+In the case of operands not specified as data objects, the type is determined as follows:
+</p>
+<ul class="disc">
+<li>In the case of operands specified as non-overloaded <a href="javascript:call_link('abenpredefined_function_glosry.html')" class="grey" title="Glossary Entry">integrated functions</a>, the data type of the return value applies.</li>
+</ul>
+<ul class="disc">
+<li>Operands belonging to overloaded <a href="javascript:call_link('abennumerical_functions.html')" class="blue">general numeric
+functions</a>, and to the overloaded power function <a href="javascript:call_link('abenpower_function.html')" class="blue"><span class="qtext">ipow</span></a>, are used to determine the calculation type.</li>
+</ul>
+<ul class="disc">
+<li>When a <a href="javascript:call_link('abenfloating_point_functions.html')" class="blue">floating point function</a> is used, the calculation type is either <span class="qtext">decfloat34</span> or <span class="qtext">f</span>.</li>
+</ul>
+<ul class="disc">
+<li>In the case of operands specified as <a href="javascript:call_link('abapcall_method_functional.html')" class="blue">functional method calls</a>, the data type of the return value applies.</li>
+</ul>
+<ul class="disc">
+<li>In the case of operands specified as <a href="javascript:call_link('abenconstructor_expressions.html')" class="blue">constructor
+expressions</a>, the data type specified by <span class="qtext">type</span> here applies. The arithmetic
+expression itself, however, does not determine the type of the constructor expression. If constructor
+expressions are used as operands of arithmetic expressions, the <span class="qtext">#</span> character
+can only be specified for the data type of the constructor expression if the type can be determined from the constructor expression itself.</li>
+</ul>
+<ul class="disc">
+<li>In the case of operands specified as <a href="javascript:call_link('abentable_expression_glosry.html')" class="grey" title="Glossary Entry">table expressions</a>, the data type of the result applies.</li>
+</ul>
+<ul class="disc">
+<li>If operands are specified as generically typed field symbols or formal parameters and an existing variable is used as the target field of an
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a>, these operands (together with the data type) contribute to the calculation type assigned to them at runtime.</li>
+</ul>
+<ul class="disc">
+<li>If operands are specified as generically typed field symbols or formal parameters and an inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a> is used as the target field of an
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a>, the generic types contribute to the statically known calculation type (used to determine the data type of the declaration) as follows.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">any</span>, <span class="qtext">data</span>, <span class="qtext">simple</span>,
+<span class="qtext">numeric</span>, and <span class="qtext">decfloat</span> like <span class="qtext">decfloat34</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">csequence</span>, <span class="qtext">clike</span>, <span class="qtext">c</span>,
+<span class="qtext">n</span>, and <span class="qtext">p</span> and <span class="qtext">p</span>. If
+there is no involved type with a greater priority, type <span class="qtext">p</span> with length 8 without decimal places is used for the declaration.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">xsequence</span> and <span class="qtext">x</span> like <span class="qtext">i</span></li>
+</ul>
+<dl><dd>
+The calculation type determined at runtime from all operands (including the target field) always matches the data type of the variable declared inline, because this is always the data type with the greatest value range.
+</dd></dl>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The way a calculation type is identified before the calculation and respecting all operands including the result field (as the right side of an
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a> or as an actual parameter in the case
+of an arithmetic expression) is a special ABAP feature that differs considerably from the way in which
+other programming languages perform calculations. To avoid unnecessary conversions, all operands and one result field should have the same numeric data type.</li>
+</ul>
+<ul class="disc">
+<li>In the case of arithmetic expressions used as operands of
+<a href="javascript:call_link('abenrelational_expression_glosry.html')" class="grey" title="Glossary Entry">relational expressions</a> in
+<a href="javascript:call_link('abenlogical_expression_glosry.html')" class="grey" title="Glossary Entry">logical expressions</a> joined using
+<a href="javascript:call_link('abenboolean_operator_glosry.html')" class="grey" title="Glossary Entry">Boolean operators</a>,
+the rule above only ever applies to the relational expression in question. The calculation type is not
+determined while skipping the Boolean operators <span class="qtext">AND</span>, <span class="qtext">OR</span>, or <span class="qtext">EQUIV</span>.</li>
+</ul>
+<ul class="disc">
+<li>If the calculation type is <span class="qtext">f</span>, the accuracy is only approximately 15 places
+and integers are only represented accurately up to an absolute value of 2**53 (that is, 9,007,199,254,740,992).
+Other subtotals are rounded. This is especially important when using the operator <span class="qtext">**</span>,
+which can produce the calculation type <span class="qtext">f</span> if no decimal floating point number is involved.</li>
+</ul>
+<ul class="disc">
+<li>To stop the operator <span class="qtext">**</span> producing the calculation type <span class="qtext">f</span>,
+the built-in function <a href="javascript:call_link('abenpower_function.html')" class="blue"><span class="qtext">ipow</span></a> can be used for integer exponents. Here, the calculation type is determined by the argument.</li>
+</ul>
+<ul class="disc">
+<li>The time stamp type <span class="qtext">utclong</span> cannot be converted implicitly to a numeric type, and therefore cannot be specified directly as an operand of an arithmetic expression.</li>
+</ul>
+<ul class="disc">
+<li>The conversion operator <a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue"><span class="qtext">CONV</span></a>
+can be used to convert parts of arithmetic expressions to other types and hence modify the calculation type.</li>
+</ul>
+<ul class="disc">
+<li>A calculation type <span class="qtext">p</span> in
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a>s to an inline declaration can produce
+the data type <span class="qtext">p</span> with length 8 and no decimal places and this can produce
+unexpected results and raise exceptions. It is best to either avoid inline declarations when using the
+calculation type <span class="qtext">p</span> or to determine the data type by applying the conversion
+operator <a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue"><span class="qtext">CONV</span></a> to the arithmetic expression.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The calculation type of the following arithmetic expression is <span class="qtext">f</span>. Accordingly, for the inline declaration, a data object of the type <span class="qtext">f</span> is declared.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(result) = 2 ** 10. <br> <br>DESCRIBE FIELD result TYPE DATA(t). <br>cl_demo_output=>display( |{ result } of type { t }| ).
+</span>
+</p>
+<A name="@@ITOC@@ABENARITH_TYPE_2"></A>
+<p><span class="h2">
+Calculation Rules for Calculation Type
+</span></p>
+<p>
+Before the calculation is made, all operands (where this is required) are converted to the calculation type, in accordance with the
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">conversion rules for elementary data types</a>.
+</p>
+<p>
+The calculation type determines the calculation method and the calculation accuracy:
+</p>
+<ul class="disc">
+<li><span class="bold">Calculation types</span> <span class="qtext">i</span> and <span class="qtext">int8</span> <br>
+The arithmetic expression is calculated using integer arithmetic, in which each subtotal that is not an integer (after a division) is rounded commercially to the nearest integer. Each subtotal must fall within the
+<a href="javascript:call_link('abenbuiltin_types_numeric.html')" class="blue">value range</a> of the data type <span class="qtext">i</span>
+or <span class="qtext">int8</span>, otherwise the handleable exception CX_SY_ARITHMETIC_OVERFLOW is raised. <br></li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Calculation type</span> <span class="qtext">p</span> <br>Fixed point arithmetic The arithmetic expression is calculated to an internal accuracy of 31
+<a href="javascript:call_link('abenplace_glosry.html')" class="grey" title="Glossary Entry">places</a> and using a special decimal
+floating point arithmetic for subtotals. During the calculation, the decimal point for numbers of type
+<span class="qtext">p</span> is not fixed. If an overflow occurs because an subtotal is greater than
+10^31 - 1, the whole expression is recalculated to an internal accuracy of 63 places, or a maximum value
+of 10^63 -1 for subtotals. If another overflow occurs, this triggers the treatable exception CX_SY_ARITHMETIC_OVERFLOW.
+An overflow always occurs if the level of accuracy is not sufficient for all integral digits before the decimal separator. Surplus
+<a href="javascript:call_link('abenfractional_portion_glosry.html')" class="grey" title="Glossary Entry">decimal places</a> do not raise an exception, but are rounded commercially to the nearest whole number for each subtotal. <br></li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Calculation type</span> <span class="qtext">f</span> <br>The arithmetic expression is calculated using the binary floating point arithmetic of the current platform. Each subtotal must fall within the
+<a href="javascript:call_link('abenbuiltin_types_numeric.html')" class="blue">value range</a> of the data type <span class="qtext">f</span>,
+otherwise the handleable exception CX_SY_ARITHMETIC_OVERFLOW is raised. Since the decimal places of
+a floating point number are represented internally using a dual fraction, there is not an exact equivalent
+for every number that can be represented in the decimal system. This can produce rounding errors in the subtotals.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Calculation type</span> <span class="qtext">decfloat34</span> <br>The arithmetic
+expression is calculated with decimal floating point arithmetic according to norm IEEE-754-2008, where (as for all calculation types) division by 0 does not result in an exception if the dividend is 0. Each subtotal must fall within the
+<a href="javascript:call_link('abenbuiltin_types_numeric.html')" class="blue">value range</a> of the data type <span class="qtext">decfloat34</span>,
+otherwise the handleable exception CX_SY_ARITHMETIC_OVERFLOW is raised. Subtotals are rounded commercially to the nearest whole number. The
+<a href="javascript:call_link('abenscale_glosry.html')" class="grey" title="Glossary Entry">scaling</a> of each subtotal is defined
+such that the smallest possible exponent is selected if the result is not precise, and the following procedure is used to determine the scaling if the result is precise:</li>
+</ul>
+<ul class="circlem2">
+<li>For addition and subtraction, the exponent of the result is the smaller of the exponents of the two operands.</li>
+</ul>
+<ul class="circlem2">
+<li>For multiplication, the exponent of the result is the sum of the exponents of the two operands.</li>
+</ul>
+<ul class="circlem2">
+<li>For division, the exponent of the result is the difference between the exponents of the dividend and of the divisor.</li>
+</ul>
+<ul class="circlem2">
+<li>If the <span class="qtext">sqrt</span> function is used, the exponent is the integer part of half of the exponent of the operand.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Commercial rounding of subtotals in the calculation types <span class="qtext">i</span>, <span class="qtext">int8</span>,
+<span class="qtext">p</span>, and <span class="qtext">decfloat34</span> is a characteristic that distinguishes
+ABAP greatly from other programming languages where the decimal places are usually cut off rather than
+rounded. This can produce different results, in particular in divisions with the calculation types <span class="qtext">i</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the second arithmetic expression is 0. The calculation type is <span class="qtext">i</span> and the subtotals of each division are rounded to 0. The result of the second arithmetic expression is <span
+ class="qtext400">0.9999999999999999999999999999999999</span>. The calculation type <span class="qtext">decfloat34</span>
+and the subtotals <span class="qtext400">0.3333333333333333333333333333333333</span> are not rounded.
+The outer conversion operator <a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue"><span class="qtext">CONV</span></a> creates the integer 1 from this data.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(result1) =&nbsp;&nbsp;1 / 3 + 1 / 3 + 1 / 3. <br>DATA(result2) =&nbsp;&nbsp;CONV i( CONV decfloat34( 1 / 3 + 1 / 3 + 1 / 3 ) ). <br> <br>cl_demo_output=>display( |{ result1 }, { result2 }| ).
+</span>
+</p>
+<A name="@@ITOC@@ABENARITH_TYPE_3"></A>
+<p><span class="h2">
+Handling the Result
+</span></p>
+<p>
+After the calculation is performed, the result of the arithmetic expression is handled as follows:
+</p>
+<ul class="disc">
+<li>In the case of an arithmetic expression as the right side of an
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a> statement, the result is converted to the data type of the result field if the calculation type is different.</li>
+</ul>
+<ul class="disc">
+<li>With an arithmetic expression on the right side of an
+<a href="javascript:call_link('abenequals_arith_expr.html')" class="blue">assignment</a> to an inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue">
+<span class="qtext">DATA(var)</span></a>, the statically identifiable calculation type of variable <span class="qtext">var</span>, whereby generically typed field symbols and formal parameters are included with the
+<a href="javascript:call_link('abenstandard_type_glosry.html')" class="grey" title="Glossary Entry">standard type</a> described
+above. In the case of the calculation type <span class="qtext">p</span>, the data type of the declared variable is always <span class="qtext">p</span> with the length 8 without decimal places.</li>
+</ul>
+<ul class="disc">
+<li>In the case of an arithmetic expression as an operand of a relational expression, no conversion takes place, since the calculation type and the comparison type are identical.</li>
+</ul>
+<ul class="disc">
+<li>In the case of an arithmetic expression used as an actual parameter for input values of methods,
+and if the formal parameter is fully typed, the result is converted into the formal parameter type in
+the static method call and passed. If the formal parameter is generically typed, it takes on the calculation
+type; in the case of calculation type <span class="qtext">p</span>, the number of decimal places is determined based on the accuracy required in the calculation.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calculation type <span class="qtext">f</span> of the following arithmetic expression is
+<a href="javascript:call_link('abenconversion_type_f.html')" class="blue">converted</a> to <span class="qtext">string</span>, whereby the value is prepared in
+<a href="javascript:call_link('abenscientific_notation_glosry.html')" class="grey" title="Glossary Entry">scientific notation</a>.
+After the assignment, the text string contains the character string <span class="qtext400">1.0240000000000000E+03</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA&nbsp;&nbsp;result TYPE string. <br> <br>result = 2 ** 10. <br>cl_demo_output=>display( result ).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenarith_type.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

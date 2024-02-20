@@ -1,0 +1,124 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSPECIFIC_DERIVED_TYPES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenspecific_derived_types.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:08 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Specific Derived Types">
+<title>
+Specific Derived Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenspecific_derived_types.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenspecific_derived_types.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrpm_derived_types.html')" class="blue">Derived Types</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@TYPE LINE OF@@!ABAP_DERIVED_TYPES!@@"></A>
+<A NAME="@@TYPE STRUCTURE FOR@@!ABAP_DERIVED_TYPES!@@"></A>
+<p><span class="h1">
+Specific Derived Types
+</span></p>
+<A name="@@ITOC@@ABENSPECIFIC_DERIVED_TYPES_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">TYPES type_for_update TYPE TABLE FOR UPDATE CDS_entity_name. <br> <br>TYPES type_for_id
+&nbsp;&nbsp;&nbsp; TYPE LINE OF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type_for_update-%key. <br>
+ <br>TYPES type_for_data&nbsp;&nbsp; TYPE LINE OF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type_for_update-%data. <br>
+ <br>TYPES type_for_row&nbsp;&nbsp;&nbsp;&nbsp;TYPE STRUCTURE FOR&nbsp;&nbsp;&nbsp;&nbsp;type_for_update. <br></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Alongside derived parameter types (the types of the
+<a href="javascript:call_link('abenrpm_input_parameters.html')" class="blue">input parameter</a> and
+<a href="javascript:call_link('abenrpm_export_parameters.html')" class="blue">output parameter</a>), certain derived data types can also be defined for the ID fields and data fields.
+</p>
+<p>
+Using <span class="qtext400">TYPE STRUCTURE FOR</span> it is possible to directly get the row type of a derived table type. This way, the two-stage solution using <span class="qtext400">LINE OF</span> can be avoided.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following example, the data from the ABAP flight data reference scenario (or flight data scenario
+for short) is used. It represents a legacy business logic that can be used to create and edit flight
+bookings. The root entity <span class="qtext400">Travel</span> represents the business object for managing flight trips. The underlying data model and the behavior of the root entity <span class="qtext400">Travel</span> are described in
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>.
+</p>
+<dl><dd>
+<span class="qtext400">CLASS lcl_handler DEFINITION <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INHERITING FROM cl_abap_behavior_handler. <br>
+&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tt_travel_update&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE TABLE FOR UPDATE&nbsp;&nbsp;travel <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts_travel_update_id&nbsp;&nbsp;&nbsp;&nbsp;TYPE LINE OF&nbsp;&nbsp; tt_travel_update-%key <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts_travel_update_data&nbsp;&nbsp;TYPE LINE OF&nbsp;&nbsp; tt_travel_update-%data <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tt_travel_update_row&nbsp;&nbsp; TYPE STRUCTURE FOR&nbsp;&nbsp; tt_travel_update. <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDCLASS. <br></span>
+</dd></dl>
+<br>
+<br>
+<br>
+<span class="trans"
+>
+<br>This translation does not reflect the current version of the documentation.<br>
+</span><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenspecific_derived_types.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:08 GMT -->
+</html>

@@ -1,0 +1,149 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSHM_AREA_CONSTRUCTOR_CLASS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshm_area_constructor_class.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Shared Objects - Area Constructor Class">
+<meta name="keywords" content="ABAP, Area Constructor, Area Constructor Class">
+<title>
+Shared Objects - Area Constructor Class - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenshm_area_constructor_class.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenshm_area_constructor_class.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_shared_objects.html')" class="blue">Shared Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenshm_classes.html')" class="blue">Shared Objects - Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenshm_if_shm_build_instance.html')" class="blue">Shared Objects - IF_SHM_BUILD_INSTANCE</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Shared Objects - Area Constructor Class
+</span></p>
+<p>
+An area constructor class is a global class with a freely definable name that implements the interface
+<a href="javascript:call_link('abenshm_if_shm_build_instance.html')" class="blue">IF_SHM_BUILD_INSTANCE</a>. An area constructor can be implemented in the interface method BUILD.
+</p>
+<p>
+An area constructor class can be <a href="javascript:call_link('abenshm_area_dynamic_properties.html')" class="blue">assigned</a> to an
+<a href="javascript:call_link('abenshm_areas.html')" class="blue">area</a> in transaction <span class="lnkgrey">SHMA</span>.
+This is always necessary if the area is built automatically by calling the area constructor, that is if the components BUILD_KIND and REFRESH_TIME of the structure PROPERTIES of the class
+<a href="javascript:call_link('abenshm_cl_shm_area.html')" class="blue">CL_SHM_AREA</a> are filled accordingly.
+If an area is not built automatically, an area constructor class can be specified for the explicit area constructor call using the method BUILD of the
+<a href="javascript:call_link('abenshm_area_class.html')" class="blue">area class</a>.
+</p>
+<A name="@@ITOC@@ABENSHM_AREA_CONSTRUCTOR_CLASS_1"></A>
+<p><span class="h2">
+Structure of an Area Constructor
+</span></p>
+<p>
+The following structure is recommended for the area constructor implemented in the interface method BUILD:
+</p>
+<ol>
+<li>
+First, the area constructor has to use the method ATTACH_FOR_WRITE to create an area handle with an
+exclusive lock for the area instance passed in the parameter INST_NAME. The automatic area constructor
+is also not able to ensure that the exclusive lock can be set, which means that all exceptions have
+to be caught and forwarded to the caller of the constructor by raising the interface exception CX_SHM_BUILD_FAILED.
+This should pass the original exception to the parameter PREVIOUS of the constructor of CX_SHM_BUILD_FAILED. <br>
+</li>
+<li>
+As is the case whenever a new area instance version is created, a root object also has to be defined in the area constructor using the method SET_ROOT. <br>
+</li>
+<li>
+The area instance version can then be built, which means that objects are stored in the shared memory. <br>
+</li>
+<li>
+The new area handle has to be released again using the method DETACH_COMMIT. If an exception is raised, it is usually caused by a programming error and should not be handled in the area constructor. <br>
+</li>
+<li>
+If the area constructor was called automatically, a database commit has to be triggered when a transactional area is built.
+</li>
+</ol>
+<p>
+In an area constructor, no statements can be used that exit the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> (such
+as <span class="qtext">SUBMIT</span>, <span class="qtext">CALL TRANSACTION</span>, <span class="qtext">CALL SCREEN</span>, <span class="qtext">MESSAGE</span> for message types "W", "I", "E", and so on).
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following implementation can be used as a template for new implementations.
+</p>
+<dl><dd>
+<span class="qtext">CLASS area_constructor IMPLEMENTATION. <br> <br>&nbsp;&nbsp;METHOD if_shm_build_instance~build. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_handle TYPE REF TO area, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_data&nbsp;&nbsp; TYPE REF TO area_root_class, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_except TYPE REF TO cx_root. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_handle = cl_my_area=>attach_for_write( inst_name ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_shm_error INTO my_except. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_shm_build_failed <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING previous = my_except. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY. <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT my_data AREA HANDLE my_handle. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;my_handle->set_root( my_data ). <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;... " code to build the area instance <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;my_handle->detach_commit( ). <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;IF invocation_mode = cl_shm_area=>invocation_mode_auto_build. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMIT CONNECTION default. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br> <br>&nbsp;&nbsp;ENDMETHOD. <br> <br>ENDCLASS.</span>
+</dd></dl>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenshm_area_constructor_class.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

@@ -1,0 +1,174 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCOMPUTE_BIT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcompute_bit.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="bit_exp - Bit Expressions">
+<meta name="keywords" content="ABAP, Binary Calculations, Bit Expression, Bit Expressions">
+<title>
+bit_exp - Bit Expressions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapcompute_bit.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapcompute_bit.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenbyte_processing_expr_func.html')" class="blue">Expressions and Functions for Byte String Processing</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+bit_exp - Bit Expressions <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abenbit_exp_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>[</i><a href="javascript:call_link('abenbit_operators.html')" class="blue">BIT-NOT</a><i class=bn>]</i> operand1 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><i class=bn>{</i><a href="javascript:call_link('abenbit_operators.html')" class="blue">BIT-AND<i class=bn>|</i>BIT-OR<i class=bn>|</i>BIT-XOR</a><i class=bn>}</i> <i class=bn>[</i>
+<a href="javascript:call_link('abenbit_operators.html')" class="blue">BIT-NOT</a><i class=bn>]</i> operand2 <br>&nbsp;&nbsp;&nbsp;&nbsp;<i
+class=bn>[</i><i class=bn>{</i><a href="javascript:call_link('abenbit_operators.html')" class="blue">BIT-AND<i class=bn>|</i>BIT-OR<i class=bn>|</i>BIT-XOR</a><i class=bn>}</i> <i class=bn>[</i>
+<a href="javascript:call_link('abenbit_operators.html')" class="blue">BIT-NOT</a><i class=bn>]</i> operand3 <br>&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;<i class=bn>]</i><i class=bn>]</i> ...</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+A bit expression formulates a binary calculation. The operands must be byte-like (type <span class="qtext">x</span> or <span class="qtext">xstring</span>). The result of a bit expression is a byte chain in the
+<a href="javascript:call_link('abenbitexp_length.html')" class="blue">calculation length</a> assigned to the bit expression.
+During assignment to an inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>,
+the byte chain is handled as a byte string of data type <span class="qtext">xstring</span>, and when passing a generic typed formal parameter it is handled as a byte field of data type <span class="qtext">x</span>.
+</P>
+<P>
+In a bit expression <span class="qtext">bit_exp</span>, an operand <span class="qtext">operand1</span> can be joined with one or more operands <span class="qtext">operand2</span>, <span class="qtext">operand3</span>, and so on using
+<a href="javascript:call_link('abenbit_operators.html')" class="blue">bit operators</a> <span class="qtext">BIT-AND</span>, <span class="qtext">BIT-OR</span>, or <span class="qtext">BIT-XOR</span>;
+<a href="javascript:call_link('abenbit_brackets.html')" class="blue">Brackets</a> are possible. Bit expressions can occur in the reading positions of
+<a href="javascript:call_link('abenexpression_positions.html')" class="blue">certain statements</a>, in particular on the right side of an
+<a href="javascript:call_link('abenequals_bit_expr.html')" class="blue">assignment</a> with the <a href="javascript:call_link('abenequals_operator.html')" class="blue">assignment operator <span class="qtext">=</span></a>.
+</P>
+<P>
+The operand positions <span class="qtext">operand</span> are
+<a href="javascript:call_link('abengeneral_expr_position_glosry.html')" class="grey" title="Glossary Entry">general expression positions</a>, which means byte-like data objects,
+<a href="javascript:call_link('abenfunctional_method_glosry.html')" class="grey" title="Glossary Entry">functional methods</a>
+with byte-like return codes, or bracketed bit expressions can be specified. The bit operators <span class="qtext">
+BIT-AND</span>, <span class="qtext">BIT-OR</span>, and <span class="qtext">BIT-XOR</span> join two adjacent
+operands. When the expression is evaluated, a byte-like value is calculated and associated with the
+next adjacent operand. The priority of the join depends on the operators that are used; if use functional methods are used, the same applies as described for
+<a href="javascript:call_link('abapcompute_arith.html')" class="blue">arithmetic expressions</a>.
+</P>
+<P>
+The <a href="javascript:call_link('abenbit_operators.html')" class="blue">bit operator</a> <span class="qtext">BIT-NOT</span>
+can be specified one or more times before an operand to negate the value of the operand. If <span class="qtext">BIT-NOT</span>
+is specified an even number of times, the operand remains unchanged. An odd number of uses negates the operand.
+</P>
+<P>
+If <a href="javascript:call_link('abenfunctional_method_glosry.html')" class="grey" title="Glossary Entry">functional methods</a>
+are specified as operands, they are specified from left to right and from inside to outside before the
+remainder of the expression is evaluated. The return values are buffered to be used in the corresponding operand positions.
+</P>
+<P>
+If <a href="javascript:call_link('abenconstructor_expressions.html')" class="blue">constructor expressions</a> are specified
+as operands of bit expressions, their data type is not determined by the bit expression. The <span class="qtext">#</span>
+character can be specified for the data type of the constructor expression only if the type can be determined from the constructor expression itself. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Bit sequences are an efficient way of mapping set operations. If a set contains n elements, the existence
+of an element i in n can be represented by a 1 at the position of i in a byte-like field. The statement
+<a href="javascript:call_link('abapset_bit.html')" class="blue"><span class="qtext">SET BIT</span></a>, among others, can be
+used to add an element to the set. The operators <span class="qtext">BIT-AND</span>, <span class="qtext">BIT-OR</span>,
+and <span class="qtext">BIT-XOR</span> can then be used to calculate the intersection, the union, and the symmetric difference of different sets.
+</P>
+<P>
+In the following example, the attributes of person groups are mapped in the fields <span class="qtext">p1</span>,
+<span class="qtext">p2</span>, <span class="qtext">p3</span> of the type <span class="qtext">x</span>.
+The bit operator <span class="qtext">BIT-AND</span> is then used to determine which attributes are shared by all people. The result shows that only the eighth attribute is shared.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;p1&nbsp;&nbsp;TYPE x LENGTH 1 VALUE '5B',&nbsp;&nbsp;&nbsp;&nbsp; "01011011 <br>&nbsp;&nbsp;p2&nbsp;&nbsp;TYPE x LENGTH 1 VALUE '13',&nbsp;&nbsp;&nbsp;&nbsp; "00010011 <br>
+&nbsp;&nbsp;p3&nbsp;&nbsp;TYPE x LENGTH 1 VALUE 'A5'.&nbsp;&nbsp;&nbsp;&nbsp; "10100101 <br> <br>DATA(res) = p1 BIT-AND p2 BIT-AND p3. "00000001 <br><br>
+</span>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Non-Handleable Exceptions</span> <br><br>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> An operand or the result field is not of type <span class="qtext">x</span>. <br><span class="italic">Runtime error:</span> <span class="qtext">BITS_WRONG_TYPE</span> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenbit_operators.html')" class="blue">bit_exp - Bit operators</a><br>
+<a href="javascript:call_link('abenbit_brackets.html')" class="blue">bit_exp - ( )</a><br>
+<a href="javascript:call_link('abenbitexp_length.html')" class="blue">bit_exp - Calculation Length</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abendata_bit_abexa.html')" class="blue">Set Operations with Bit Sequences</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcompute_bit.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:14 GMT -->
+</html>

@@ -1,0 +1,305 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYNPRO_FLOW_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_flow_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Dynpros, Dynpro Sequences">
+<title>
+Dynpros, Dynpro Sequences - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendynpro_flow_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendynpro_flow_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros.html')" class="blue">General Dynpros</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpros_processing.html')" class="blue">Dynpro Flow and Dynpro Sequences</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Dynpros, Dynpro Sequences
+</span></p>
+<p>
+This example demonstrates how dynpro sequences behave.
+</p>
+<A name="@@ITOC@@ABENDYNPRO_FLOW_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+PROGRAM sapmdemo_screen_flow MESSAGE-ID demo_flight.<br>
+<br>
+TABLES: spfli,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sairport,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scarr.<br>
+<br>
+DATA: ok_code&nbsp;&nbsp; TYPE c LENGTH 4,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rcode&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 5,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;old_spfli TYPE spfli.<br>
+<br>
+<span class="blue">* PBO</span><br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'TD0100'.<br>
+&nbsp;&nbsp;SET TITLEBAR '100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE status_0200 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'TD0200'.<br>
+&nbsp;&nbsp;SET TITLEBAR '100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE status_0210 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'POPUP'.<br>
+&nbsp;&nbsp;SET TITLEBAR 'POP'.<br>
+ENDMODULE.<br>
+<br>
+<span class="blue">* PAI</span><br>
+<br>
+MODULE user_command_0100 INPUT.<br>
+&nbsp;&nbsp;CASE ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN space.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT SINGLE *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp;spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= @spfli-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp; connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= @spfli-connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO&nbsp;&nbsp;@spfli.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc NE 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE e005 WITH spfli-carrid spfli-connid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;old_spfli = spfli.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CANC'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'EXIT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'BACK'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0200 INPUT.<br>
+&nbsp;&nbsp;CASE ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SAVE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UPDATE spfli.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE s001 WITH spfli-carrid spfli-connid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE a002 WITH spfli-carrid spfli-connid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'EXIT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM safety_check USING rcode.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF rcode = 'EXIT'. SET SCREEN 0. LEAVE SCREEN. ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'BACK'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM safety_check USING rcode.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF rcode = 'EXIT'. SET SCREEN 100. LEAVE SCREEN. ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'DELE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE w011.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @spfli-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND connid = @spfli-connid.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE check_fr_airport INPUT.<br>
+&nbsp;&nbsp;SELECT SINGLE *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp;sairport<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = @spfli-airpfrom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO&nbsp;&nbsp;@sairport.<br>
+&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE e003 WITH spfli-airpfrom.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE check_to_airport INPUT.<br>
+&nbsp;&nbsp;SELECT SINGLE *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp;sairport<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = @spfli-airpto<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO&nbsp;&nbsp;@sairport.<br>
+&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE e004 WITH spfli-airpto.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE exit_0100 INPUT.<br>
+&nbsp;&nbsp;CASE ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CANC'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'EXIT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'BACK'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE exit_0200 INPUT.<br>
+&nbsp;&nbsp;CASE ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CANC'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET SCREEN 100. LEAVE SCREEN.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0210 INPUT.<br>
+&nbsp;&nbsp;CASE ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SAVE'. SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'EXIT'. SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CANC'. SET SCREEN 0. LEAVE SCREEN.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDMODULE.<br>
+<br>
+MODULE read_text_0100 INPUT.<br>
+&nbsp;&nbsp;SELECT SINGLE *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @spfli-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @scarr.<br>
+ENDMODULE.<br>
+<br>
+<span class="blue">* Subroutine</span><br>
+<br>
+FORM safety_check USING rcode.<br>
+&nbsp;&nbsp;LOCAL ok_code.<br>
+&nbsp;&nbsp;rcode = 'EXIT'.<br>
+&nbsp;&nbsp;CHECK spfli NE old_spfli.<br>
+&nbsp;&nbsp;CLEAR ok_code.<br>
+&nbsp;&nbsp;CALL SCREEN 210 STARTING AT 10 5.<br>
+&nbsp;&nbsp;CASE ok_code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SAVE'. UPDATE spfli.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'EXIT'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'CANC'. CLEAR spfli.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+ENDFORM.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDYNPRO_FLOW_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The transaction DEMO_SCREEN_FLOW uses three dynpros. The dynpros 100 and 200 form a sequence. Dynpro 210 is a modal dialog box and is only called under special circumstances.
+</p>
+<ul class="disc">
+<li>Dynpro 100: The user enters flight data, chooses <span class="italic">Continue</span> to request a detailed display of this data, or ends the transaction.</li>
+</ul>
+<ul class="disc">
+<li>Dynpro 200: The system displays complete details about the flight, in input fields. The user types over the display to enter the changes.</li>
+</ul>
+<ul class="disc">
+<li>Dynpro 210: The modal dialog box appears only if the user attempts to quit dynpro 200 by choosing Back or Exit without saving the values modified. It enables the user to save changes or cancel the operation.</li>
+</ul>
+<p>
+This transaction is a good example of how a dynpro sequence is implemented. A closer look at dynpro
+200 shows how the modal dialog box is called. When processing the BACK or EXIT function codes, the PAI
+module must check if the flight data has been changed since it was last displayed or saved. If this
+is the case, dynpro 210 is called as a modal dialog box. The following parts of the flow logic of dynpro 200 are as follows:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE exit_0200 AT EXIT-COMMAND. <br>&nbsp;&nbsp;... <br>&nbsp;&nbsp;MODULE user_command_0200.</span>
+</dd></dl>
+<p>
+The system calls two dialog modules at the PAI event. The user interface of transaction DEMO_SCREEN_FLOW
+offers the functions <span class="italic">Back</span>, <span class="italic">Exit</span>, and <span class="italic">Cancel</span>
+as return commands. On the screen of dynpro 200, the user should only be able to leave the screen directly
+to dynpro 100 using <span class="italic">Cancel</span>. The function code is processed in the module
+<span class="qtext">exit_200</span>. The next dynpro is set dynamically to 100, and dynpro 200 is terminated
+immediately using <span class="qtext">LEAVE SCREEN</span>. All other function codes for screen 200 are processed in module <span class="qtext">user_command_200</span>:
+</p>
+<ul class="disc">
+<li>The <span class="italic">Save</span> function triggers a database update.</li>
+</ul>
+<ul class="disc">
+<li>The <span class="italic">Exit</span> and <span class="italic">Back</span> functions call the subroutine
+<span class="qtext">safety_check</span>. This subroutine checks to see whether there is unsaved data on the screen, and, if required, calls dynpro 210.</li>
+</ul>
+<p>
+If the <span class="italic">Exit</span> function is chosen (function code EXIT), the user leaves the transaction completely since the dynpro sequence is ended dynamically using <span class="qtext">SET SCREEN
+0</span>. If the user chooses <span class="italic">Back</span> (function code BACK), the next dynpro is changed dynamically to 100 using <span class="qtext">SET SCREEN 100</span>.
+</p>
+<p>
+The subroutine <span class="qtext">safety_check</span> first compares the current values of the dynpro
+fields with the values saved. If the values match, no save is needed, and the routine terminates. If
+the values differ, <span class="qtext">safety_check</span> calls the modal dialog box of dynpro 210.
+This asks the user if he or she wants to save, and returns the answer to the field <span class="qtext">ok_code</span>.
+The static next dynpro for dynpro 210 is 210. However, the processing logic (module <span class="qtext">user_command_210</span>) always sets the next dynpro dynamically to 0, which returns control to the subroutine.
+</p>
+<p>
+The following figure summarizes the flow of the dynpro sequences in the example:
+</p>
+<p>
+
+</p>
+<span class="border1"><img src="abdoc_dynpro_seq.gif" width="00604" height="00378" alt="Figure"></span>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendynpro_flow_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:33 GMT -->
+</html>

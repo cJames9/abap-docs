@@ -1,0 +1,141 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_XSLT_ASXML_FRAGMENT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_xslt_asxml_fragment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="asXML - Mapping of XML Fragments">
+<title>
+asXML - Mapping of XML Fragments - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_xslt_asxml_fragment.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_xslt_asxml_fragment.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xslt_asxml.html')" class="blue">asXML - Canonical XML Representation</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+asXML - Mapping of XML Fragments
+</span></p>
+<p>
+asXML allows whole XML fragments (elements together with their subelements) to be mapped that exist
+in ABAP in XML format and that are the content of data objects or of parts of data objects (such as
+structure components or table rows). The data objects must have the type <span class="qtext">xstring</span> and be declared with reference to the
+<a href="javascript:call_link('abendomain_glosry.html')" class="grey" title="Glossary Entry">domain</a> XSDANY.
+</p>
+<ul class="disc">
+<li>When serialized, a data object of this type (or part of a data object) must contain the
+<a href="javascript:call_link('abenutf8_glosry.html')" class="grey" title="Glossary Entry">UTF-8</a> representation of a complete
+XML fragment. The content of the root element of the XML fragment is passed unmodified to the XML element
+for which the data object was created. If the name of the XML element is not the same as the name of
+the root element of the XML fragment, the fragment name is used as the content of an attribute <span class="qtext400">
+asx:root</span> that is assigned to the XML element. No attribute is created if the names are the same.</li>
+</ul>
+<ul class="disc">
+<li>When deserialized, an XML element that contains the attribute <span class="qtext400">asx:root</span>
+must be assigned to a data object (or part of a data object) of this type. An XML fragment is created
+in the data object that has the content of the attribute as a root element and whose content is inherited
+unmodified from the XML element. If the attribute <span class="qtext400">asx:root</span> does not exist, the root element is given the name of the XML element.</li>
+</ul>
+<p>
+The following restrictions apply:
+</p>
+<ul class="disc">
+<li>XML fragments whose elements do not contain attributes cannot be deserialized.</li>
+</ul>
+<ul class="disc">
+<li>XML fragments whose root element is in the standard namespace cannot be serialized or deserialized.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>An XML fragment that exists in a data object of type <span class="qtext">xstring</span> and that
+is not declared with reference to the domain XSDANY is formatted as the XML schema type <span class="qtext400">xsd:base64Binary</span> in accordance with the rules for
+<a href="javascript:call_link('abenabap_xslt_asxml_elementary.html')" class="blue">mapping elementary data types</a>.</li>
+</ul>
+<ul class="disc">
+<li>An XML element that contains the attribute <span class="qtext400">asx:root</span> cannot be deserialized to data objects that are not declared with reference to the domain XSDANY.</li>
+</ul>
+<ul class="disc">
+<li>The handling of XML fragments in the statement <a href="javascript:call_link('abenst_tt_value_elementary.html')" class="blue"><span class="qtext400">tt:value</span></a> is supported in
+<a href="javascript:call_link('abenabap_st.html')" class="blue">simple transformations</a>, but not in the statements <a href="javascript:call_link('abenst_tt_write.html')" class="blue">
+<span class="qtext400">tt:write</span></a> or <a href="javascript:call_link('abenst_tt_read.html')" class="blue"><span class="qtext400">tt:read</span></a>.
+In <span class="qtext400">tt:value</span>, the mapping rule for XML fragments can be modified using
+certain values for the attribute <a href="javascript:call_link('abenst_option_xsdany.html')" class="blue"><span class="qtext400">option</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>XML fragments in byte strings with reference to the domain XSDANY are not supported in <a href="javascript:call_link('abenabap_json_trafos.html')" class="blue">transformations for JSON</a>.</li>
+</ul>
+<p>
+
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenasxml_fragments_abexa.html')" class="blue">asXML, Mapping of XML Fragments</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_xslt_asxml_fragment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:55 GMT -->
+</html>

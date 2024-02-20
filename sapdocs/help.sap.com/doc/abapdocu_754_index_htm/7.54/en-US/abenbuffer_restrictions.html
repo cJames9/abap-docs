@@ -1,0 +1,207 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBUFFER_RESTRICTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbuffer_restrictions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Table Buffering - Restrictions">
+<title>
+Table Buffering - Restrictions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbuffer_restrictions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbuffer_restrictions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_oview.html')" class="blue">ABAP SQL - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensap_puffering.html')" class="blue">ABAP SQL - Table Buffering</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Table Buffering - Restrictions
+</span></p>
+<p>
+Only <a href="javascript:call_link('abentransparent_table_glosry.html')" class="grey" title="Glossary Entry">transparent tables</a> can be buffered.
+<a href="javascript:call_link('abenglobal_temporary_table_glosry.html')" class="grey" title="Glossary Entry">Global temporary
+tables</a> cannot be buffered. There is no special restriction on the key length of the table when buffering, which means that keys in buffered tables can be up to
+<a href="javascript:call_link('abenddic_database_tables_key.html')" class="blue">900 bytes</a> long. The table buffer is not used on principle in the case of database reads using
+<a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> and <a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a>.
+</p>
+<p>
+Any <a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a> access the data in the database table directly and entail
+<a href="javascript:call_link('abenbuffer_synchro.html')" class="blue">asynchronous buffer synchronization</a>. After the invalidation
+of an entry in the buffer using a write statement, the next five reads that should have accessed the
+entry bypass the buffer of the current AS Instance by default. The next read performed on the changed
+entry reloads it into the buffer and removes the invalidation. The number of reads that bypass the buffer before the reload is specified in the
+<a href="javascript:call_link('abenprofile_parameter_glosry.html')" class="grey" title="Glossary Entry">profile parameter</a> zcsa/sync_reload_c.
+</p>
+<p>
+The fact that certain operations can only be performed on the database and not in the table buffer produces the further restrictions for reads listed below. If these restrictions are not respected,
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">read ABAP SQL statements</a> bypass the
+<a href="javascript:call_link('abentable_buffer_glosry.html')" class="grey" title="Glossary Entry">table buffer</a> implicitly and access the database tables or views directly.
+</p>
+<ul class="disc">
+<li>The following reads always bypass the table buffer:</li>
+</ul>
+<ul class="circlem2">
+<li>Use of <a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">subqueries</a>, more specifically the statement <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP SQL language element <a href="javascript:call_link('abapgrouping_sets_clause.html')" class="blue"> <span class="qtext">GROUPING SETS</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP SQL language element <a href="javascript:call_link('abapunion.html')" class="blue"><span class="qtext">UNION</span></a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Reads on a database table  or database view  for which a <a href="javascript:call_link('abenddic_replacement_objects.html')" class="blue">replacement object</a> is defined.</li>
+</ul>
+<ul class="circlem2">
+<li>Reads using a <a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database
+connection</a> specified explicitly using the addition <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">CONNECTION</span></a>. This also applies when the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> is specified explicitly.</li>
+</ul>
+<ul class="circlem2">
+<li>Reads redirected using the class <a href="javascript:call_link('abencl_osql_replace.html')" class="blue">CL_OSQL_REPLACE</a> during a unit test.</li>
+</ul>
+<ul class="circlem2">
+<li>Reads on a <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS</a> view that does not meet the <a href="javascript:call_link('abencds_sap_puffer.html')" class="blue">prerequisites</a> for buffering.</li>
+</ul>
+<ul class="disc">
+<li>The following applies in a <a href="javascript:call_link('abenmainquery_glosry.html')" class="grey" title="Glossary Entry">main query</a>:</li>
+</ul>
+<ul class="circlem2">
+<li>No <a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a> can be used in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span></a> list.</li>
+</ul>
+<ul class="circlem2">
+<li>Only <a href="javascript:call_link('abenbuffer_expressions.html')" class="blue">specific SQL expressions</a> can be used.</li>
+</ul>
+<ul class="circlem2">
+<li>The additions <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">DISTINCT</span></a>
+and <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">FOR UPDATE</span></a> cannot be used.</li>
+</ul>
+<ul class="circlem2">
+<li>No <a href="javascript:call_link('abapselect_join.html')" class="blue"><span class="qtext">JOIN</span></a> expressions can be specified.</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a> clause
+cannot be used. This also excludes the <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a> clause.</li>
+</ul>
+<ul class="circlem2">
+<li>The <a href="javascript:call_link('abaporderby_clause.html')" class="blue"><span class="qtext">ORDER BY</span></a> clause
+cannot be used in cases where single columns are specified as sort keys and these columns are not a
+left-aligned subset of the primary key (in the correct order) or if the addition <span class="qtext">DESCENDING</span> is specified in a column.</li>
+</ul>
+<ul class="circlem2">
+<li>The obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> can be specified to disable
+<a href="javascript:call_link('abenopen_sql_client_handling.html')" class="blue">implicit client handling</a> in client-specific data sources only if their client column is specified in a <span class="qtext">WHERE</span> condition.</li>
+</ul>
+<ul class="disc">
+<li>Restrictions on the <a href="javascript:call_link('abenasql_cond.html')" class="blue">SQL condition</a> in the <span class="qtext">WHERE</span> clause:</li>
+</ul>
+<ul class="circlem2">
+<li>When a table or view with single record buffering is accessed, all key fields of the primary key must be specified using equality conditions joined using <span class="qtext">AND</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>When a generically buffered area is accessed, it must be specified in full using equality conditions joined using <span class="qtext">AND</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>Only <a href="javascript:call_link('abenbuffer_expressions.html')" class="blue">specific SQL expressions</a> can be used on the left side of a relational expression.</li>
+</ul>
+<ul class="circlem2">
+<li>Only <a href="javascript:call_link('abenhost_variable_glosry.html')" class="grey" title="Glossary Entry">host variables</a> or
+<a href="javascript:call_link('abenhost_expression_glosry.html')" class="grey" title="Glossary Entry">host expressions</a> can
+be used on the right side of a relational expression used to identify a single record or a generically buffered area. In any other relational expressions of a condition, columns too can be specified in
+<a href="javascript:call_link('abenwhere_logexp_compare.html')" class="blue">comparisons</a> or when <a href="javascript:call_link('abenwhere_logexp_interval.html')" class="blue">
+<span class="qtext">BETWEEN</span></a> is used. This applies in cases where neither (numeric) operand
+has the type DF16_DEC or DF34_DEC, both operands are character-like, or both operands have the type RAW with the same length.</li>
+</ul>
+<ul class="circlem2">
+<li>No column can be <a href="javascript:call_link('abenwhere_logexp_compare.html')" class="blue">compared</a> with another column in a data source specified after <span class="qtext">FROM</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>If <a href="javascript:call_link('abenwhere_logexp_itab.html')" class="blue"><span class="qtext">FOR ALL ENTRIES</span></a>
+is used when accessing a table or view with generic buffering, the generic area must be specified exactly and multiple generic areas cannot be joined using <span class="qtext">OR</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>The variant of the operator <span class="qtext">IN</span> with an <a href="javascript:call_link('abenwhere_logexp_list_in.html')" class="blue">operand list</a> on the left side cannot be used.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>For performance reasons, the fact that the table buffer is bypassed when these restrictions are not met should always be remembered when accessing buffered database tables or views.</li>
+</ul>
+<ul class="disc">
+<li>To bypass the table buffer in the statement <span class="qtext">SELECT</span> explicitly, the addition
+<a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">BYPASSING BUFFER</span></a> should always be used. It is not enough to rely on the implicit behavior itself.</li>
+</ul>
+<ul class="disc">
+<li>In cases where an <a href="javascript:call_link('abapselect_itab.html')" class="blue">internal table</a> is used as a
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> of a
+<a href="javascript:call_link('abenquery_glosry.html')" class="grey" title="Glossary Entry">query</a>, the read restrictions
+also determine whether the table can be evaluated on the AS ABAP or whether its content needs to be transported to the database.</li>
+</ul>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbuffer_restrictions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:50 GMT -->
+</html>

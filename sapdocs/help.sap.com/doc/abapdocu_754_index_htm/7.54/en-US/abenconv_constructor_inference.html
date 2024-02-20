@@ -1,0 +1,178 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONV_CONSTRUCTOR_INFERENCE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconv_constructor_inference.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CONV - Type Inference for Actual Parameters">
+<title>
+CONV - Type Inference for Actual Parameters - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconv_constructor_inference.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconv_constructor_inference.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue">CONV - Conversion Operator</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CONV - Type Inference for Actual Parameters
+</span></p>
+<p>
+If a constructor expression
+</p>
+<p>
+<span class="qtext"><a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue">CONV</a> #( <i class=bn>[</i><a href="javascript:call_link('abaplet.html')" class="blue">let_exp</a><i class=bn>]</i> dobj )</span>
+</p>
+<p>
+is passed to generically typed formal parameters as an actual parameter using the character <span class="qtext">#</span>
+as a symbol for the operand type, the following type inference is performed for the character <span class="qtext">#</span>:
+</p>
+<ul class="disc">
+<li>If the data type of the argument <span class="qtext">dobj</span> is known and matches the generic type of the formal parameter, nothing is converted and the type of the argument is used instead.</li>
+</ul>
+<ul class="disc">
+<li>If the data type of the argument <span class="qtext">dobj</span> is known and is elementary, types are derived from it as follows for formal parameter types with generic lengths:</li>
+</ul>
+<ul class="circlem2">
+<li>Generic type <span class="qtext">c</span> <br> <br><span class="qtext">c</span> with the length
+of the argument in arguments of the types <span class="qtext">n</span>, <span class="qtext">d</span>, and <span class="qtext">t</span>; <span class="qtext">c</span> of the predefined
+<a href="javascript:call_link('abenwrite_output_length.html')" class="blue">output length</a> of the argument in all other argument
+types except strings; no type is derived in arguments of the types <span class="qtext">string</span> and <span class="qtext">xtring</span></li>
+</ul>
+<ul class="circlem2">
+<li>Generic type <span class="qtext">n</span> <br> <br><span class="qtext">n</span> with the length
+of the argument in arguments of the types <span class="qtext">n</span>, <span class="qtext">d</span>, and <span class="qtext">t</span> and <span class="qtext">n</span> with the length of a
+<a href="javascript:call_link('abenconversion_elementary.html')" class="blue">conversion</a> of the argument to <span class="qtext">n</span>
+in all other argument types except numeric types with decimal places and strings; no type is derived
+in arguments of the types <span class="qtext">decfloat16</span>, <span class="qtext">decfloat34</span>,
+<span class="qtext">f</span>, and <span class="qtext">p</span> with decimal places plus <span class="qtext">string</span> and <span class="qtext">xtring</span></li>
+</ul>
+<ul class="circlem2">
+<li>Generic type <span class="qtext">x</span> <br> <br><span class="qtext">x</span> with half the length
+(rounded up) of the argument in arguments of the type <span class="qtext">c</span>; <span class="qtext">x</span>
+with the length 4 in all other argument types except strings; no type is derived in arguments of the types <span class="qtext">string</span> and <span class="qtext">xtring</span></li>
+</ul>
+<ul class="circlem2">
+<li>Generic type <span class="qtext">p</span> <br> <br><span class="qtext">p</span> without decimal
+places with the length 16 in arguments of the types <span class="qtext">decfloat16</span>, <span class="qtext">decfloat34</span>,
+<span class="qtext">f</span>, <span class="qtext">string</span>, or <span class="qtext">c</span> and
+<span class="qtext">n</span> with lengths greater than 15; <span class="qtext">p</span> without decimal places with the length 8 in all other argument types</li>
+</ul>
+<ul class="disc">
+<li>In other cases, the type is derived from the generic type of the formal parameter as follows:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">csequence</span> and <span class="qtext">clike</span> produce <span class="qtext">string</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">xsequence</span> produces <span class="qtext">xstring</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">numeric</span> and <span class="qtext">decfloat</span> produce <span class="qtext">decfloat34</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">p</span> produces <span class="qtext">p</span> with the length 8 without decimal places</li>
+</ul>
+<ul class="circlem2">
+<li>Standard table type with generic primary table key produces a standard table with a <a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard key</a></li>
+</ul>
+<p>
+Other combinations of generic formal parameter types and arguments cannot be made more concrete in any
+meaningful way and produce a syntax error (with the exception of table types that are explicitly generic with respect to their secondary table keys).
+</p>
+<p>
+Syntax warnings that can be hidden using pragmas also indicate any redundant conversions produced by the rules above.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+ Rules apply when deriving the type in cases where <span class="qtext">#</span> is specified for actual
+parameters that can be passed to generically typed formal parameters. These rules prevent syntax errors
+in programs that call a procedure and the procedure makes the full typing of a formal parameter type more general by switching to a generic type.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The operator <span class="qtext">CONV</span> generates a result of type <span class="qtext">decfloat34</span>
+in this case. The generic parameter <span class="qtext">p</span> has this type during the execution
+of the method. This is shown by the value "e" returned by <a href="javascript:call_link('abapdescribe_field.html')" class="blue"><span class="qtext">DESCRIBE FIELD</span></a>. The method call leads to a corresponding syntax warning.
+</p>
+<dl><dd>
+<span class="qtext">CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main IMPORTING p TYPE numeric. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;DESCRIBE FIELD p TYPE DATA(t). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( |{ p } of type { t }| ). <br>&nbsp;&nbsp;ENDMETHOD. <br>
+ENDCLASS. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;FIELD-SYMBOLS &lt;fs> TYPE any. <br>&nbsp;&nbsp;ASSIGN 100 TO &lt;fs>. <br> <br>&nbsp;&nbsp;demo=>main( CONV #( &lt;fs> ) ).</span>
+</dd></dl>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenconv_type_inference_abexa.html')" class="blue">Conversion Operator, Type Inference</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenconv_type_inference_abexa.html')" class="blue">Conversion Operator, Type Inference</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconv_constructor_inference.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

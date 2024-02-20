@@ -1,0 +1,150 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCREATE_REFERENCE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencreate_reference_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Creating Reference Variables">
+<title>
+Creating Reference Variables - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencreate_reference_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencreate_reference_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencreate_objects.html')" class="blue">Creating Objects and Values</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcreate_data.html')" class="blue">CREATE DATA</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcreate_data_reference.html')" class="blue">CREATE DATA - REF TO</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Creating Reference Variables
+</span></p>
+<p>
+This example demonstrates how reference variables are created.
+</p>
+<A name="@@ITOC@@ABENCREATE_REFERENCE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_create_reference.<br>
+<br>
+INTERFACE intf.<br>
+&nbsp;&nbsp;CONSTANTS attr TYPE string VALUE `Interface constant`.<br>
+ENDINTERFACE.<br>
+<br>
+CLASS cls DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES intf.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA intf_name TYPE string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA cls_name&nbsp;&nbsp;TYPE string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA dref TYPE REF TO data.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;ref&gt;&nbsp;&nbsp;TYPE any.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS &lt;attr&gt; TYPE any.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;intf_name = '\PROGRAM=DEMO_CREATE_REFERENCE\INTERFACE=INTF'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE DATA dref TYPE REF TO (intf_name).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN dref-&gt;* TO &lt;ref&gt;.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cls_name = '\PROGRAM=DEMO_CREATE_REFERENCE\CLASS=CLS'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT &lt;ref&gt; TYPE (cls_name).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN ('&lt;REF&gt;-&gt;ATTR') TO &lt;attr&gt;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display_data( &lt;attr&gt; ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCREATE_REFERENCE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Creates an interface reference variable dynamically. The <a href="javascript:call_link('abenabsolute_typename_glosry.html')" class="grey" title="Glossary Entry">absolute type name</a> is used for the name of the local interface.
+</p>
+<p>
+The reference variable is assigned to a field symbol <span class="qtext">&lt;ref></span> using dereferencing. According to the
+<a href="javascript:call_link('abentyping_check_general.html')" class="blue">general typing rules</a>, the field symbol must either be typed in full generically or typed with reference to the interface <span class="qtext">intf</span>.
+</p>
+<p>
+The dynamically created reference variable is used to create and address an object of a class. Since
+this field symbol is fully generic, only the display variant of the <a href="javascript:call_link('abapassign_mem_area_dynamic_dobj.html')" class="blue">dynamic <span class="qtext">ASSIGN</span></a> (and not a special
+<a href="javascript:call_link('abapassign_mem_area_dynamic_access.html')" class="blue">dynamic access</a>) can be used to access the interface attribute.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencreate_reference_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

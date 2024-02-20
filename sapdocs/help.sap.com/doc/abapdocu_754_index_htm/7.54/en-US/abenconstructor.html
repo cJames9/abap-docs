@@ -1,0 +1,170 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONSTRUCTOR -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconstructor.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Constructors of Classes">
+<meta name="keywords" content="ABAP, Constructors">
+<title>
+Constructors of Classes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconstructor.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconstructor.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses.html')" class="blue">Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclass_components.html')" class="blue">Components of Classes</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Constructors of Classes
+</span></p>
+<p>
+Constructors are special methods that produce a defined initial state for objects and classes. The state of an object is determined by its
+<a href="javascript:call_link('abeninstance_attribute_glosry.html')" class="grey" title="Glossary Entry">instance attributes</a> and
+<a href="javascript:call_link('abenstatic_attribute_glosry.html')" class="grey" title="Glossary Entry">static attributes</a>.
+Content can be assigned to attributes using the addition <span class="qtext">VALUE</span> of the statement
+<span class="qtext">DATA</span>. Constructors are necessary when you want to set the initial state of an object dynamically.
+</p>
+<p>
+Like normal methods, there are two types of constructor: instance constructors and static constructors.
+</p>
+<p>
+Special rules apply to constructors in inheritance. These rules are not described in this document, but can be found <a href="javascript:call_link('abeninheritance_constructors.html')" class="blue">here</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONSTRUCTOR_1" class="blue">Instance Constructors</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENCONSTRUCTOR_2" class="blue">Static Constructors</A></li>
+</ul>
+<A name="@@ITOC@@ABENCONSTRUCTOR_1"></A>
+<p><span class="h2">
+Instance Constructors
+</span></p>
+<p>
+Each class has one instance constructor. This is a predefined instance method of the class called <span class="qtext">
+constructor</span>. To use the instance constructor, the method <span class="qtext">constructor</span>
+must be declared in a visibility section of the class using the <a href="javascript:call_link('abapmethods_constructor.html')" class="blue">
+<span class="qtext">METHODS</span></a> statement, and implemented in the implementation part. In global
+classes, the instance constructor can be declared in the public visibility area only, for technical
+reasons. In local classes, the visibility section in which the instance constructor can be declared
+must be more general or equal to the instantiability defined by the addition <a href="javascript:call_link('abapclass_options.html')" class="blue">
+<span class="qtext">CREATE</span></a> of the statement <a href="javascript:call_link('abapclass.html')" class="blue"><span class="qtext">CLASS</span></a>.
+Here, the most specialized area is recommended. Unless it is explicitly declared, the instance constructor is an implicit method, which inherits and accesses the interface from the instance constructor in the superclass.
+</p>
+<p>
+Instance constructors are called once for each instance. They are called automatically, immediately
+after an instance is created using the statement <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">
+CREATE OBJECT</span></a>. It is not possible to call an instance constructor directly using the <a href="javascript:call_link('abapcall_method_static_short.html')" class="blue"><span class="qtext">constructor( ...
+)</span></a> (but see <a href="javascript:call_link('abapcall_method_meth_super.html')" class="blue"><span class="qtext">super->constructor( ... )</span></a> in the inheritance).
+</p>
+<p>
+An instance constructor can contain an interface with <span class="qtext">IMPORTING</span> parameters
+and exceptions. The interface is defined using the same syntax as for regular methods in the statement
+<a href="javascript:call_link('abapmethods.html')" class="blue"><span class="qtext">METHODS</span></a>. The fact that there are
+no exporting parameters shows that constructors only exist to define the state of an object and have
+no other function. The additions <span class="qtext">EXPORTING</span> and <span class="qtext">EXCEPTIONS</span>
+of the statement <a href="javascript:call_link('abapcreate_object.html')" class="blue"><span class="qtext">CREATE OBJECT</span></a> are used to pass actual parameters and handle classical exceptions.
+</p>
+<A name="@@ITOC@@ABENCONSTRUCTOR_2"></A>
+<p><span class="h2">
+Static Constructors
+</span></p>
+<p>
+Each class has a single static constructor. This is a predefined public
+<a href="javascript:call_link('abenstatic_method_glosry.html')" class="grey" title="Glossary Entry">static method</a> of the
+<span class="qtext">class_constructor</span> class. To use the static constructor, the static method
+<span class="qtext">class_constructor</span> must be declared in the public section of the declaration
+part of the class using the statement <a href="javascript:call_link('abapclass-methods_constructor.html')" class="blue"><span class="qtext">
+CLASS-METHODS</span></a> and implemented in the implementation part. The static constructor has no interface parameters and cannot raise exceptions. Unless you implement it explicitly, it is merely an empty method.
+</p>
+<p>
+The static constructor is called once for each class and
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a>.
+The static constructor of a class <span class="qtext">class</span> is called automatically before the
+class is accessed for the first time. The class is accessed when an instance of the class is created
+or a component of the class is used (with the exception of types and constants). It is not necessary to execute the static constructor to access a type or a constant of the class.
+</p>
+<p>
+The static constructor is always called immediately before the class is accessed, with one exception: if the class is accessed for the first time to address a static variable, the static constructor is executed at the beginning of the
+<a href="javascript:call_link('abenprocessing_block_glosry.html')" class="grey" title="Glossary Entry">processing block</a> (dialog module, event block, or procedure) in which the class is accessed.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The point at which the static constructor is called has not yet been finalized. We can currently ensure only that it will be called before the class is accessed for the first time.</li>
+</ul>
+<ul class="disc">
+<li>A static constructor can call static methods of its class. A method of this type must be implemented accordingly and cannot just rely on the static constructor being executed in full.</li>
+</ul>
+<ul class="disc">
+<li>The execution sequence of static constructors is dependent on the program flow. Static constructors must be implemented so that they can be executed in any sequence.</li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenconstructor_visibility.html')" class="blue">Visibility of Instance Constructors</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconstructor.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:15 GMT -->
+</html>

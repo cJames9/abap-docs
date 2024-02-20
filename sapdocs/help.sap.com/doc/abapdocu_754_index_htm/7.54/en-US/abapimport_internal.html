@@ -1,0 +1,163 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPIMPORT_INTERNAL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapimport_internal.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="IMPORT - Internal Additions">
+<title>
+IMPORT - Internal Additions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapimport_internal.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapimport_internal.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_cluster.html')" class="blue">Data Cluster</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapimport_data_cluster.html')" class="blue">IMPORT</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+IMPORT - Internal Additions
+</span></p>
+<p><span class="h1">
+Internal Additions
+</span></p>
+<P>
+<span class="bold">These additions are for internal use only. <br>Do not use them in application programs.</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... FROM LOGFILE ID key</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... USING subr<i class=bn>[</i>(prog)<i class=bn>]</i></span> </A> <br><br>
+</P>
+<A NAME="@@FROM LOGFILE ID key@@IMPORT cluster - internal@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... FROM LOGFILE ID key</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Imports data objects from update data records. <span class="qtext">key</span> expects the update key
+that was assigned by the system (with sequential request number). If the update key specified does not exist in the database table VBDATA, the runtime error IMPORT_UNEXPECTED_END_OF_DATA occurs. <br><br>
+</P>
+<A NAME="@@USING@@IMPORT cluster - internal@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... USING subr<i class=bn>[</i>(prog)<i class=bn>]</i></span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition can be specified for <a href="javascript:call_link('abapimport_medium.html')" class="blue"><span class="qtext">IMPORT
+FROM DATABASE</span></a> if a table work area <span class="qtext">dbtab</span> is declared for the relevant
+database table using <a href="javascript:call_link('abaptables.html')" class="blue"><span class="qtext">TABLES</span></a>. The
+addition <span class="qtext">TO wa</span> is not permitted. The data is not imported from the database
+table. Instead, the subroutine <span class="qtext">subr</span> is called. In the subroutine, the first
+row of a data cluster must be provided in the table work area <span class="qtext">dbtab</span> as it
+would be read from the database. The subroutine is then called automatically as often as required until
+a complete data cluster has been imported. The table work area <span class="qtext">dbtab</span> has
+to be filled accordingly in every call. If no correct data cluster is provided, the behavior is undefined
+and exceptions may be raised. If the addition <span class="qtext">USING subr</span> is used, the return
+code <span class="qtext">sy-subrc</span> is set to the value 0 or 4. It is set to the value 4 if it has a value other than 0 when the subroutine is exited.
+</P>
+<P>
+The subroutine must either be defined in the same program or in a program, <span class="qtext">prog</span>, specified explicitly. Its name must be prefixed with the name of the database table
+(<span class="qtext400">"dbtab"</span>). The subroutine must have a <span class="qtext">USING</span> parameter of type <span class="qtext">any</span>, which is currently not supplied. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+<span class="qtext">FROM DATABASE ... USING</span> is not intended for external use; instead, <span class="qtext">TO INTERNAL TABLE</span> is used.
+<br><br></li>
+<li>
+Specifying an external program <span class="qtext">prog</span> is the same as the obsolete variant of <a href="javascript:call_link('abapperform_obsolete.html')" class="blue"><span class="qtext">PERFORM</span></a>. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Exports a data cluster into an internal table instead of a database table. After that, imports from the internal table
+</P>
+<p class="qtextml1">
+<span class="qtext">
+TABLES demo_indx_table. <br> <br>DATA demo_indx_tab TYPE TABLE OF demo_indx_table. <br> <br>SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(sflight_tab). <br>
+ <br>EXPORT sflight_tab TO DATABASE demo_indx_table(fl) ID 'FLIGHTS' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USING demo_indx_table_export. <br>
+ <br>... <br> <br>demo_indx_table-srtf2 = 0. <br>IMPORT sflight_tab FROM DATABASE demo_indx_table(fl) ID 'FLIGHTS' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USING demo_indx_table_import. <br> <br>... <br> <br>FORM demo_indx_table_export USING foo. <br>
+&nbsp;&nbsp;APPEND demo_indx_table TO demo_indx_tab. <br>ENDFORM. <br> <br>FORM demo_indx_table_import USING foo. <br>
+&nbsp;&nbsp;demo_indx_table = demo_indx_tab[ srtf2 = demo_indx_table-srtf2 ]. <br>&nbsp;&nbsp;demo_indx_table-srtf2 += 1. <br>ENDFORM.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapimport_internal.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:50 GMT -->
+</html>

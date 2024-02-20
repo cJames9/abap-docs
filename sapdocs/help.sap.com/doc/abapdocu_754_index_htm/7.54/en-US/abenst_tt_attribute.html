@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_ATTRIBUTE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_attribute.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:attribute, Non-Literal Attributes">
+<meta name="keywords" content="ABAP, Simple Transformations, attribute">
+<title>
+ST - tt:attribute, Non-Literal Attributes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_attribute.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_attribute.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@attribute@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:attribute, Non-Literal Attributes
+</span></p>
+<A name="@@ITOC@@ABENST_TT_ATTRIBUTE_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:attribute name="attr" <i class=bn>[</i>ref="node"<i class=bn>]</i>> <br>&nbsp;&nbsp;... <br>&lt;/tt:attribute></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+You define the non-literal attributes of an ST program using the statement <span class="qtext400">tt:attribute</span>.
+A non-literal attribute is assigned to an attribute of an XML element of the XML data. In serializations,
+the content of the non-literal attribute sets the value of the attribute in the XML data; in deserializations, the value of the attribute in the XML data is read and processed.
+</p>
+<p>
+You can specify this statement one or more times within a literal XML element before its subelements.
+Each statement defines a non-literal attribute of the current XML element with the name <span class="qtext400">attr</span> specified in <span class="qtext400">name</span>. The optional attribute <span class="qtext400">ref</span> sets the
+<a href="javascript:call_link('abenst_tt_ref.html')" class="blue">current node</a> <span class="qtext400">node</span> for the context of the non-literal attribute <span class="qtext400">attr</span>.
+</p>
+<A name="@@ITOC@@ABENST_TT_ATTRIBUTE_2"></A>
+<p><span class="h3">
+Serializing Non-Literal Attributes
+</span></p>
+<p>
+During serialization, the name <span class="qtext400">attr</span> of the attribute is written together
+with <span class="qtext400">=&#x201D;</span> or <span class="qtext400">=&#x2019;</span> into the definition
+of the current XML element. After that, the content of <span class="qtext400">tt:attribute</span> is
+serialized and the result is written after <span class="qtext400">attr="</span> or <span class="qtext400">attr='</span>
+. The result of the serialization must not be structured, which means that it must not contain subelements. Finally, the attribute is completed with <span class="qtext400">"</span> or <span class="qtext400">'</span>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In valid XML data, the names of the attributes of an XML element must be unique. For performance reasons,
+this is not checked in serializations of non-literal attributes; the application developers themselves are responsible.
+</p>
+<A name="@@ITOC@@ABENST_TT_ATTRIBUTE_3"></A>
+<p><span class="h3">
+Deserializing Non-Literal Attributes
+</span></p>
+<p>
+In deserializations, the name of the attribute is compared to the attributes of the current XML element
+in the source XML data. The order of the attributes is not relevant. The deserialization fails if the
+attribute does not exist in the inbound stream. After that, the value of the attribute is deserialized
+according to the content of <span class="qtext400">tt:attribute</span> and the closing character is
+compared. The deserialization fails if not the entire content of the attribute is deserialized. Surplus attributes of the inbound stream are ignored.
+</p>
+<A name="@@ITOC@@ABENST_TT_ATTRIBUTE_4"></A>
+<p><span class="h2">
+Special Form of Non-Literal Attributes
+</span></p>
+<A name="@@ITOC@@ABENST_TT_ATTRIBUTE_5"></A>
+<p><span class="h3">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">&lt;tt:attribute name="attr" value-ref="node" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>[</i>map=...<i class=bn>]</i> /></span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This special form of non-literal attributes combines the <span class="qtext400">tt:value</span> command with the general syntax shown above.
+</p>
+<p>
+This special form is a short form of:
+</p>
+<p>
+<span class="qtext400">&lt;tt:attribute name="attr"> <br>&nbsp;&nbsp;&lt;tt:value ref="node" <i class=bn>[</i>map=...<i class=bn>]</i> /> <br>&lt;/tt:attribute></span>
+</p>
+<p>
+This allows the simple formulation of the frequent situation where an elementary value is expressed as the content of an attribute.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the ST program below, the values of the data roots <span class="qtext400">ROOT1</span> and <span class="qtext400">
+ROOT2</span> are serialized as values of the attributes <span class="qtext400">attr1</span> and <span class="qtext400">attr2</span> of element <span class="qtext400">X</span> or are deserialized from them, respectively.
+</p>
+<dl><dd>
+<span class="qtext400">&lt;tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT1"/> <br>&nbsp;&nbsp;&lt;tt:root name="ROOT2"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;X> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="attr1" value-ref="ROOT1" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="attr2" value-ref="ROOT2" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Y>...&lt;/Y> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+If the values <span class="qtext400">"Text1"</span> and <span class="qtext400">"Text2"</span> are passed to <span class="qtext400">ROOT1</span> and <span class="qtext400">ROOT2</span>, the result of a serialization is:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;X attr1="Text1" attr2="Text2"> <br>&nbsp;&nbsp;&lt;Y>...&lt;/Y> <br>&lt;/X></span>
+</dd></dl>
+<p>
+To deserialize the above result again, you can use the ST program below, even though the sequence of the attributes is different.
+</p>
+<dl><dd>
+<span class="qtext400">tt:transform <br>&nbsp;&nbsp;xmlns:tt="http://www.sap.com/transformation-templates"> <br>
+&nbsp;&nbsp;&lt;tt:root name="ROOT1"/> <br>&nbsp;&nbsp;&lt;tt:root name="ROOT2"/> <br>&nbsp;&nbsp;&lt;tt:template> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;X> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="attr2" value-ref="ROOT2" /> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:attribute name="attr1" value-ref="ROOT1" /> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Y>...&lt;/Y> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/X> <br>&nbsp;&nbsp;&lt;/tt:template> <br>&lt;/tt:transform></span>
+</dd></dl>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_attribute.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:36 GMT -->
+</html>

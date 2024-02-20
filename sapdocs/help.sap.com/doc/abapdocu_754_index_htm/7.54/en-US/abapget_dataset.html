@@ -1,0 +1,355 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPGET_DATASET -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapget_dataset.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="GET DATASET">
+<meta name="keywords" content="ABAP, GET DATASET">
+<title>
+GET DATASET - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapget_dataset.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapget_dataset.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_files.html')" class="blue">ABAP File Interface</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenfile_interface_statements.html')" class="blue">Statements for the ABAP File Interface</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@GET DATASET@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+GET DATASET <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapget_dataset_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">GET DATASET dset <i class=bn>[</i>POSITION pos<i class=bn>]</i> <i class=bn>[</i>ATTRIBUTES attr<i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... POSITION pos</span> </A> <br><br><A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... ATTRIBUTES attr</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">POSITION</span> is used by this statement to determine the current
+position of the file pointer in the file specified in <span class="qtext">dset</span> and the addition <span class="qtext">ATTRIBUTES</span> is used to get additional file attributes.
+</P>
+<P>
+<span class="qtext">dset</span> expects a character-like data object containing the
+<a href="javascript:call_link('abenphysical_filename_glosry.html')" class="grey" title="Glossary Entry">physical name</a> of
+the file. The file must already be open, otherwise a handleable exception of the class CX_SY_FILE_OPEN_MODE is raised. <br><br>
+</P>
+<P>
+<span class="bold">Return Value</span><br>
+</P>
+<P>
+The statement <span class="qtext">GET DATASET</span> always sets <span class="qtext">sy-subrc</span> to the value 0 or raises an exception. <br><br>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+If no additions are specified, the statement can be used to determine whether or not the file is open with the aid of a <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY</span></a> control structure. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The statement <span class="qtext">GET DATASET</span> raises an exception if the file is not yet open.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(dset) = 'test.dat'. <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;GET DATASET dset. <br>&nbsp;&nbsp;CATCH cx_sy_file_open_mode. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>ENDTRY. <br><br>
+</span>
+</p>
+<A NAME="@@POSITION@@GET DATASET@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... POSITION pos</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition assigns the current position of the file pointer to the data object <span class="qtext">pos</span>. The following can be specified for <span class="qtext">pos</span>:
+</P>
+<ul class="disc">
+<li>
+An existing variable of the data type <span class="qtext">i</span> or a variable to which the type <span class="qtext">i</span> can be converted.
+<br><br></li>
+<li>
+An inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>, where a variable of type <span class="qtext">i</span> is declared.
+<br></li>
+</ul>
+<P>
+The position is specified in bytes; the start of the file corresponds to position 0.
+</P>
+<P>
+The addition <span class="qtext">POSITION</span> cannot be specified for files that have been opened
+with the addition <a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a> of the statement <span class="qtext">OPEN DATASET</span>. This raises a handleable exception. <br><br>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+For file sizes greater than 2 GB, a data object <span class="qtext">pos</span> of data type <span class="qtext">i</span> is not sufficient for recording all the possible positions of the file pointer. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+After the first literal is saved, the position of the file pointer is assigned to the variable <span class="qtext">pos</span>, which is then used to position the file pointer before the read.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: file TYPE string VALUE 'test.dat', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text TYPE string. <br> <br>
+OPEN DATASET file FOR OUTPUT IN TEXT MODE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENCODING DEFAULT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH SMART LINEFEED. <br>
+TRANSFER '1234567890' TO file. <br>GET DATASET file POSITION DATA(pos). <br>TRANSFER 'ABCDEFGHIJ' TO file. <br>
+CLOSE DATASET file. <br> <br>OPEN DATASET file FOR INPUT IN TEXT MODE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENCODING DEFAULT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH SMART LINEFEED <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT POSITION pos. <br>
+READ DATASET file INTO text. <br>CLOSE DATASET file. <br><br>
+</span>
+</p>
+<A NAME="@@ATTRIBUTES@@GET DATASET@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... ATTRIBUTES attr</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition passes the attributes used to open the file (using the statement <span class="qtext">OPEN
+DATASET</span>) to the data object <span class="qtext">attr</span>. The following can be specified for <span class="qtext">attr</span>:
+</P>
+<ul class="disc">
+<li>
+An existing variable of the data type <span class="qtext">dset_attributes</span> from the <a href="javascript:call_link('abentype_group_1_glosry.html')" class="grey" title="Glossary Entry">type group</a> <span class="lnkgrey">DSET</span>.
+<br><br></li>
+<li>
+An inline declaration <a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a>, where a variable of type <span class="qtext">dset_attributes</span> is declared.
+<br></li>
+</ul>
+<P>
+The data type is defined in the type group as follows:
+</P>
+<P>
+<span class="qtext">dset_attributes</span> is a structured type with two substructures: <span class="qtext">fixed</span>
+and <span class="qtext">changeable</span>. The components of the substructure <span class="qtext">fixed</span>
+record attributes of the file that cannot be changed using the statement <a href="javascript:call_link('abapset_dataset.html')" class="blue"><span class="qtext">SET DATASET</span></a> (see <span class="bold"><span class="italic">Table
+1</span></span>). The components of the substructure <span class="qtext">changeable</span> record attributes
+of the file that can be changed using the statement <span class="qtext">SET DATASET</span> (see <span class="bold"><span class="italic">Table 2</span></span>).
+</P>
+<P>
+<span class="bold"><span class="italic">Table 1</span></span>
+</P>
+<table border>
+<tr>
+<td><span class="bold">Component</span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td><span class="qtext">indicator</span></td>
+<td>Structure whose components <span class="qtext">mode</span>, <span class="qtext">access_type</span>,
+<span class="qtext">encoding</span>, <span class="qtext">filter</span>, and <span class="qtext">linefeed</span>
+in <span class="qtext">attr</span> contain the value <span class="qtext400">"X"</span> if the identically named components of the structure <span class="qtext">fixed</span> are significant for the current file.</td>
+</tr>
+<tr>
+<td><span class="qtext">mode</span></td>
+<td>Storage mode. Possible values in <span class="qtext">attr</span> are <span class="qtext400">"T"</span>, <span class="qtext400">"LT"</span>, <span class="qtext400">"B"</span>, and <span class="qtext400">"LB"</span> for
+<a href="javascript:call_link('abentext_file_glosry.html')" class="grey" title="Glossary Entry">text files</a>,
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> text files,
+<a href="javascript:call_link('abenbinary_file_glosry.html')" class="grey" title="Glossary Entry">binary files</a>, and
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> binary files. The
+associated addition of the statement <span class="qtext">OPEN DATASET</span> is <a href="javascript:call_link('abapopen_dataset_mode.html')" class="blue"><span class="qtext">IN mode</span></a>.</td>
+</tr>
+<tr>
+<td><span class="qtext">access_type</span></td>
+<td>Access mode. Possible values in <span class="qtext">attr</span> are <span class="qtext400">"I"</span>,
+<span class="qtext400">"O"</span>, <span class="qtext400">"A"</span>, and <span class="qtext400">"U"</span>
+for files that were opened for reading, writing, appending, and editing. The associated addition of
+the statement <span class="qtext">OPEN DATASET</span> is <a href="javascript:call_link('abapopen_dataset_access.html')" class="blue"><span class="qtext">FOR access</span></a>.</td>
+</tr>
+<tr>
+<td><span class="qtext">encoding</span></td>
+<td>Character format. Possible values in <span class="qtext">attr</span> are <span class="qtext400">"NON-UNICODE"</span>
+and <span class="qtext400">"UTF-8"</span>. The associated addition of the statement <span class="qtext">OPEN DATASET</span> is <a href="javascript:call_link('abapopen_dataset_mode.html')" class="blue"><span class="qtext">ENCODING <i
+class=bn>{</i> DEFAULT <i class=bn>|</i> UTF-8 <i class=bn>|</i> NON-UNICODE <i class=bn>}</i></span></a>.</td>
+</tr>
+<tr>
+<td><span class="qtext">filter</span></td>
+<td>In <span class="qtext">attr</span>, contains the filter command if the file was opened with the
+<a href="javascript:call_link('abapopen_dataset_os_addition.html')" class="blue"><span class="qtext">FILTER</span></a> addition of the statement <span class="qtext">OPEN DATASET</span>.</td>
+</tr>
+<tr>
+<td><span class="qtext">linefeed</span></td>
+<td>Contains the <a href="javascript:call_link('abapopen_dataset_linefeed.html')" class="blue">end-of-line marking</a> used when accessing a
+<a href="javascript:call_link('abentext_file_glosry.html')" class="grey" title="Glossary Entry">text file</a> or <a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> text file.</td>
+</tr>
+</table><br>
+<P>
+<span class="bold"><span class="italic">Table 2</span></span>
+</P>
+<table border>
+<tr>
+<td><span class="bold">Component</span></td>
+<td><span class="bold">Meaning</span></td>
+</tr>
+<tr>
+<td><span class="qtext">indicator</span></td>
+<td>Structure whose components <span class="qtext">repl_char</span>, <span class="qtext">conv_errors</span>,
+<span class="qtext">code_page</span>, <span class="qtext">endian</span>, and <span class="qtext">linefeed_mode</span>
+contain the value <span class="qtext400">"X"</span> in <span class="qtext">attr</span> if the identically named components of the structure <span class="qtext">changeable</span> are significant for the current file.</td>
+</tr>
+<tr>
+<td><span class="qtext">repl_char</span></td>
+<td>After the file is opened, this component contains the replacement character in <span class="qtext">attr</span>
+that was specified using the addition <a href="javascript:call_link('abapopen_dataset_error_handling.html')" class="blue"><span class="qtext">REPLACEMENT CHARACTER</span></a> of the statement <span class="qtext">OPEN DATASET</span>.</td>
+</tr>
+<tr>
+<td><span class="qtext">conv_errors</span></td>
+<td>After the file is opened, this component contains the value <span class="qtext400">"I"</span> in
+<span class="qtext">attr</span> if it was opened using the addition <a href="javascript:call_link('abapopen_dataset_error_handling.html')" class="blue">
+<span class="qtext">IGNORING CONVERSION ERRORS</span></a> of the statement <span class="qtext">OPEN DATASET</span>, otherwise it contains the value <span class="qtext400">"R"</span>.</td>
+</tr>
+<tr>
+<td><span class="qtext">code_page</span></td>
+<td>After the file is opened, this component contains the
+<a href="javascript:call_link('abencodepage_glosry.html')" class="grey" title="Glossary Entry">code page</a> in <span class="qtext">attr</span>
+that was specified using the addition <a href="javascript:call_link('abapopen_dataset_mode.html')" class="blue"><span class="qtext">CODE
+PAGE</span></a> of the statement <span class="qtext">OPEN DATASET</span>. If no addition is used, the content of <span class="qtext">attr</span> is initial.</td>
+</tr>
+<tr>
+<td><span class="qtext">endian</span></td>
+<td>After the file is opened, this component contains the value <span class="qtext400">"B"</span> in
+<span class="qtext">attr</span> if the addition <a href="javascript:call_link('abapopen_dataset_mode.html')" class="blue"><span class="qtext">
+BIG ENDIAN</span></a> of the statement <span class="qtext">OPEN DATASET</span> was used or <span class="qtext400">"L"</span>
+if the addition <a href="javascript:call_link('abapopen_dataset_mode.html')" class="blue"><span class="qtext">LITTLE ENDIAN</span></a> was used. If no addition is used, the content of <span class="qtext">attr</span> is initial.</td>
+</tr>
+<tr>
+<td><span class="qtext">linefeed_mode</span></td>
+<td>After the file is opened, this component contains one of the values <span class="qtext400">"N"</span>,
+<span class="qtext400">"S"</span>, <span class="qtext400">"U"</span>, or <span class="qtext400">"W"</span>
+in <span class="qtext">attr</span> if the corresponding addition <a href="javascript:call_link('abapopen_dataset_linefeed.html')" class="blue"><span class="qtext">WITH NATIVE<i
+class=bn>|</i>SMART<i class=bn>|</i>UNIX<i class=bn>|</i>WINDOWS LINEFEED</span></a> of the statement
+<span class="qtext">OPEN DATASET</span> was used. If none of the additions is used, the content in <span class="qtext">attr</span> is initial.</td>
+</tr>
+</table><br>
+<P>
+For some of the components, constants are defined in the type group <span class="lnkgrey">DSET</span> as comparison values. <br><br>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The determinable attributes do not represent the attributes of the file in the operating system, but the attributes with and by which the file is opened and handled in ABAP. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+In this example, the system first checks whether the file <span class="qtext">test.dat</span> was opened
+using the <span class="qtext">FILTER</span> addition. If not (and only if not), the current file position is determined using <span class="qtext">GET DATASET</span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: dset TYPE string VALUE 'test.dat', <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos TYPE i. <br> <br>OPEN DATASET dset FOR INPUT IN BINARY MODE <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILTER 'uncompress'. <br>
+ <br>... <br> <br>GET DATASET dset ATTRIBUTES DATA(attr). <br>IF attr-fixed-indicator-filter &lt;> 'X'. <br>
+&nbsp;&nbsp;GET DATASET dset POSITION pos. <br>ELSE. <br>&nbsp;&nbsp;... <br>ENDIF. <br> <br>CLOSE DATASET dset. <br><br>
+</span>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<ul class="disc">
+<li>
+<span class="lnkgrey">CX_SY_FILE_OPEN_MODE</span> The file is not open.
+<br><br></li>
+<li>
+<span class="lnkgrey">CX_SY_FILE_POSITION</span> The file could not be read because an invalid status exists or the type of file does not permit position specification.
+<br><br></li>
+<li>
+<span class="lnkgrey">CX_SY_CONVERSION_OVERFLOW</span> The variable <span class="qtext">pos</span> was assigned a type that is too small to include the current position. <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapget_dataset.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:36 GMT -->
+</html>

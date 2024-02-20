@@ -1,0 +1,204 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDATABASE_PROCEDURE_PROXY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendatabase_procedure_proxy.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Database Procedure Proxy">
+<title>
+Database Procedure Proxy - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendatabase_procedure_proxy.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendatabase_procedure_proxy.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_hana.html')" class="blue">ABAP and SAP HANA</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensap_hana_access.html')" class="blue">Access to Objects in SAP HANA XS</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensap_hana_access_xsc.html')" class="blue">Access to SAP HANA XSC Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_script.html')" class="blue">Database Procedure Proxies for SQLScript Procedures in the SAP HANA Repository</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Database Procedure Proxy
+</span></p>
+<p>
+For each standalone <a href="javascript:call_link('abensql_script_procedure_glosry.html')" class="grey" title="Glossary Entry">SQL Script procedure</a> in the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>, database procedure proxies can be created as
+<a href="javascript:call_link('abenrepository_object_glosry.html')" class="grey" title="Glossary Entry">repository objects</a> in
+<a href="javascript:call_link('abenabap_dictionary_glosry.html')" class="grey" title="Glossary Entry">ABAP Dictionary</a>. This
+makes it possible to address the database procedure in the statement <a href="javascript:call_link('abapcall_database_procedure.html')" class="blue">
+<span class="qtext">CALL DATABASE PROCEDURE</span></a>. A database procedure proxy can be created as follows:
+</p>
+<ul class="disc">
+<li>Using a tool in the ABAP perspective of the <a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools</a>. The SQLScript procedure must exist in the
+<a href="javascript:call_link('abensap_hana_repository_glosry.html')" class="grey" title="Glossary Entry">SAP HANA Repository</a>.</li>
+</ul>
+<ul class="disc">
+<li>Using an API in the database procedure proxy library. This makes it possible to create and delete database procedure proxies for SQLScript procedures from any
+<a href="javascript:call_link('abendatabase_schema_glosry.html')" class="grey" title="Glossary Entry">database schemas</a>. The
+API is based on objects from the class <span class="lnkgrey">CL_DBPROC_PROXY</span>, accessed using
+the interface <span class="lnkgrey">IF_DBPROC_PROXY_PUBLIC_API</span>. A API of this type is created
+using the factory method GET_PROXY_PUBLIC_API from the factory class <span class="lnkgrey">CL_DBPROC_PROXY_FACTORY</span>.
+A further factory method, GET_PROXY_QUERY_API, makes it possible to create another API, which is used to get information about SQL Script procedures and database procedure proxies.</li>
+</ul>
+<p>
+The database procedure proxy defines the mapping between the database types of the parameter interface
+of the SQLScript procedure and ABAP data types. The following table lists the currently supported HANA-specific data types and indicates which ABAP Dictionary types they are mapped to by default.
+</p>
+<table border>
+<tr>
+<td><span class="bold">HANA Type</span></td>
+<td><span class="bold">Meaning</span></td>
+<td><span class="bold">Type in ABAP Dictionary</span></td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>2-byte integer</td>
+<td>INT2</td>
+</tr>
+<tr>
+<td>INTEGER</td>
+<td>4-byte integer</td>
+<td>INT4</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8-byte integer</td>
+<td>INT8</td>
+</tr>
+<tr>
+<td>DECIMAL</td>
+<td>Packed number</td>
+<td>DEC</td>
+</tr>
+<tr>
+<td>SMALLDECIMAL</td>
+<td>Packed number</td>
+<td>DEC</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>Binary floating point number</td>
+<td>FLTP</td>
+</tr>
+<tr>
+<td>NVARCHAR</td>
+<td>Unicode character string</td>
+<td>CHAR</td>
+</tr>
+<tr>
+<td>VARBINARY</td>
+<td>Byte string</td>
+<td>RAW</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>Byte string</td>
+<td>RAWSTRING</td>
+</tr>
+<tr>
+<td>NCLOB</td>
+<td>Unicode character string</td>
+<td>STRING</td>
+</tr>
+</table><br>
+<p>
+The default mapping can be overwritten, but this also modifies the parameter names. A
+<a href="javascript:call_link('abendatabase_proc_intf_glosry.html')" class="grey" title="Glossary Entry">database procedure interface</a> is generated for each database procedure proxy. Appropriate ABAP types are declared in this interface.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>More specifically, database procedure proxies can be created for
+<a href="javascript:call_link('abenxsc_glosry.html')" class="grey" title="Glossary Entry">SAP HANA XSC</a> SQLScript procedures in the SAP HANA Repository. No database procedure proxies can be used, on the other hand, for SQLScript procedures in
+<a href="javascript:call_link('abenxsa_glosry.html')" class="grey" title="Glossary Entry">SAP HANA XSA</a>. Alternative methods such as
+<a href="javascript:call_link('abenamdp.html')" class="blue">AMDP</a> or <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a> must be used instead.</li>
+</ul>
+<ul class="disc">
+<li>In exceptional cases, the API of the database procedure proxy library can be used to access SQLScript
+procedures that are not managed in the SAP HANA Repository. The interfaces and classes from the database
+procedure proxy library are documented in Class Builder. They are accessed most easily from the factory class <span class="lnkgrey">CL_DBPROC_PROXY_FACTORY</span>.</li>
+</ul>
+<ul class="disc">
+<li>If, when mapping parameter types between database types and ABAP types, a reference is made for
+the latter to data types of ABAP Dictionary and the dictionary type in question is modified at a later
+time, the database procedure proxy cannot be generated automatically. This can cause database inconsistencies. In cases like this, the database procedure proxy must be generated again explicitly.</li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenamdp.html')" class="blue">ABAP Managed Database Procedures</a> (AMDP) do not need any database procedure proxies and can be used whenever SQL Script procedures are created only for calls from ABAP and the
+<a href="javascript:call_link('abenstandard_db_glosry.html')" class="grey" title="Glossary Entry">standard database</a> of the
+current AS ABAP is an SAP HANA database. Any SQL Script procedure can be called from AMDP, which means they can replace database procedure proxies (except when a
+<a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> is needed to access an SAP HANA database).</li>
+</ul>
+<ul class="disc">
+<li>It is possible to create database procedure proxies for database procedures managed by <a href="javascript:call_link('abenamdp.html')" class="blue">AMDP</a>, but this is not a good idea.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+The example <a href="javascript:call_link('abencall_db_procedure_abexa.html')" class="blue">Database Procedure Call</a> uses a database procedure proxy created in the program to call a database procedure from the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> created using <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendatabase_procedure_proxy.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

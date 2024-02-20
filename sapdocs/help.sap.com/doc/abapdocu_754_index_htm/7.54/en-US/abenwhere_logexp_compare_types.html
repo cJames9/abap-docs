@@ -1,0 +1,1062 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENWHERE_LOGEXP_COMPARE_TYPES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwhere_logexp_compare_types.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="sql_cond - Comparable Types">
+<title>
+sql_cond - Comparable Types - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenwhere_logexp_compare_types.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenwhere_logexp_compare_types.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_operands.html')" class="blue">ABAP SQL - Operands and Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenasql_cond.html')" class="blue">ABAP SQL - SQL Conditions sql_cond</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">sql_cond - rel_exp for Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenwhere_logexp_compare.html')" class="blue">sql_cond - Relational Operators</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+sql_cond - Comparable Types
+</span></p>
+<p>
+The following table shows which <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">built-in data types</a> in ABAP Dictionary can be compared with each other. The table applies to the following:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenwhere_logexp_compare.html')" class="blue">Comparisons</a> of a <a href="javascript:call_link('abapwhere.html')" class="blue">
+<span class="qtext">WHERE</span></a> condition or <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a> condition in which SQL expressions are specified on the left side
+(<span class="qtext400">lhs</span>) and columns are specified on the right side (<span class="qtext400">rhs</span>).</li>
+</ul>
+<ul class="disc">
+<li>Comparisons of an <a href="javascript:call_link('abapselect_join.html')" class="blue"><span class="qtext">ON</span></a> condition.</li>
+</ul>
+<ul class="disc">
+<li>Comparisons in <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">expressions</a>.</li>
+</ul>
+<p>
+Invalid comparisons produce a syntax error  in <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">conditions of an expression</a> and in the
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode from Release 7.40SP08</a> .
+In other cases, a syntax warning is produced. The result of invalid comparisons is determined by the database system and is not platform-independent.
+</p>
+<table border>
+<tr>
+<td><span class="bold">lhs/rhs</span></td>
+<td><span class="bold">INT1</span></td>
+<td><span class="bold">INT2</span></td>
+<td><span class="bold">INT4</span></td>
+<td><span class="bold">INT8</span></td>
+<td><span class="bold">DEC</span></td>
+<td><span class="bold">CURR</span></td>
+<td><span class="bold">QUAN</span></td>
+<td><span class="bold">DECFLOAT16</span></td>
+<td><span class="bold">DF16_DEC</span></td>
+<td><span class="bold">DF16_RAW</span></td>
+<td><span class="bold">DECFLOAT34</span></td>
+<td><span class="bold">DF34_DEC</span></td>
+<td><span class="bold">DF34_RAW</span></td>
+<td><span class="bold">FLTP</span></td>
+<td><span class="bold">CHAR</span></td>
+<td><span class="bold">SSTRING</span></td>
+<td><span class="bold">NUMC</span></td>
+<td><span class="bold">CLNT</span></td>
+<td><span class="bold">LANG</span></td>
+<td><span class="bold">DATS</span></td>
+<td><span class="bold">TIMS</span></td>
+<td><span class="bold">ACCP</span></td>
+<td><span class="bold">UNIT</span></td>
+<td><span class="bold">CUKY</span></td>
+<td><span class="bold">DATN</span></td>
+<td><span class="bold">TIMN</span></td>
+<td><span class="bold">UTCLONG</span></td>
+<td><span class="bold">RAW</span></td>
+</tr>
+<tr>
+<td><span class="bold">INT1</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">INT2</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">INT4</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">INT8</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DEC</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CURR</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">QUAN</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DECFLOAT16</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DF16_DEC</span></td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>z</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DF16_RAW</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DECFLOAT34</span></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>x</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DF34_DEC</span></td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>z</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DF34_RAW</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">FLTP</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CHAR</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">SSTRING</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">NUMC</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CLNT</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">LANG</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DATS</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>e</td>
+<td>e</td>
+<td>x</td>
+<td>e</td>
+<td>-</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">TIMS</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>e</td>
+<td>e</td>
+<td>e</td>
+<td>x</td>
+<td>-</td>
+<td>e</td>
+<td>e</td>
+<td>-</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">ACCP</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">UNIT</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">CUKY</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>e</td>
+<td>e</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">DATN</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">TIMN</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>y</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>x</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">UTCLONG</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>=</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="bold">RAW</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>l, y</td>
+</tr>
+</table><br>
+<ul class="disc">
+<li>There are no restrictions for combinations using "x".</li>
+</ul>
+<ul class="disc">
+<li>Combinations with "y" cannot be used in <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">conditions in an expression</a>.</li>
+</ul>
+<ul class="disc">
+<li>In combinations with "z", the lengths and decimal places must match in the compared columns or expressions in <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">conditions in an expression</a>.</li>
+</ul>
+<ul class="disc">
+<li>Combinations with "e" can only be used in <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">conditions in an expression</a> and cannot be used in
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">conditions for a statement</a>.</li>
+</ul>
+<ul class="disc">
+<li>In combinations with "l", the lengths of the compared columns or expressions must match.</li>
+</ul>
+<ul class="disc">
+<li>In <a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">conditions in an expression</a>, combinations with "=" can only be compared for equality.</li>
+</ul>
+<p>
+The comparability of dictionary types is significant for comparisons with
+<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">columns</a> or
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a> on the right side or for
+<a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">comparisons in SQL expressions</a>. This applies more specifically to
+<a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literals</a>,
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a>, and
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expressions</a> when handled as
+<a href="javascript:call_link('abensql_elem.html')" class="blue">elementary SQL expressions</a>. These elements are mapped to a dictionary type and comparability is identified for the dictionary type in question.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The table does not show the <a href="javascript:call_link('abenddic_obsolete_types.html')" class="blue">obsolete types</a> DF16_SCL and DF34_SCL, which cannot be compared in
+<a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">conditions in an expression</a> and (like DF16_RAW and DF34_RAW) can otherwise only be compared with themselves.</li>
+</ul>
+<ul class="disc">
+<li>Any <a href="javascript:call_link('abenabap_sql_host_literals.html')" class="blue">literals</a>,
+<a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variables</a>, and
+<a href="javascript:call_link('abenopen_sql_host_expressions.html')" class="blue">host expressions</a> that are not handled as
+<a href="javascript:call_link('abensql_elem.html')" class="blue">elementary SQL expressions</a> are usually converted to the
+matching dictionary type instead of being mapped to a dictionary type. For example, it may be possible to compare a host variable as the right side of a
+<a href="javascript:call_link('abenwhere_logexp.html')" class="blue">relational expression</a> for statements with more dictionary types than in a
+<a href="javascript:call_link('abenosql_expr_logexp.html')" class="blue">relational expression for SQL expressions</a>.</li>
+</ul>
+<ul class="disc">
+<li>In the following cases, the syntax check is performed in a <a href="javascript:call_link('abenopensql_strict_mode_750.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check.</li>
+</ul>
+<ul class="circlem2">
+<li>SQL expressions of the types DF16_DEC or DF34_DEC are compared with other numeric types except with themselves.</li>
+</ul>
+<ul class="circlem2">
+<li>SQL expressions of the type SSTRING are compared with types other than themselves in a <a href="javascript:call_link('abensql_case.html')" class="blue"><span class="qtext">CASE</span> expression</a>.</li>
+</ul>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenwhere_logexp_compare_types.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+</html>

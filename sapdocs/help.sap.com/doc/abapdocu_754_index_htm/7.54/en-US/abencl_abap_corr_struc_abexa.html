@@ -1,0 +1,224 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCL_ABAP_CORR_STRUC_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_abap_corr_struc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CL_ABAP_CORRESPONDING for Nested Structures">
+<title>
+CL_ABAP_CORRESPONDING for Nested Structures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencl_abap_corr_struc_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencl_abap_corr_struc_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding.html')" class="blue">Assigning Structure Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencorresponding_abexas.html')" class="blue">Assigning Components: Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CL_ABAP_CORRESPONDING for Nested Structures
+</span></p>
+<p>
+This example demonstrates the system class <a href="javascript:call_link('abencl_abap_corresponding.html')" class="blue">CL_ABAP_CORRESPONDING</a> for nested structures.
+</p>
+<A name="@@ITOC@@ABENCL_ABAP_CORR_STRUC_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_corresponding_class_str.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF struct1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a1 TYPE string VALUE 'a1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a2 TYPE string VALUE 'a2',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a3 TYPE string VALUE 'a3',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a4 TYPE string VALUE 'a4',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a5 TYPE string VALUE 'a5',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF asub1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1_a1 TYPE string VALUE 's1_a1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1_a2 TYPE string VALUE 's1_a2',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1_a3 TYPE string VALUE 's1_a3',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF asub2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2_a1 TYPE string VALUE 's2_a1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2_a2 TYPE string VALUE 's2_a2',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2_a3 TYPE string VALUE 's2_a3',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF asub2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF asub1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF struct1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF struct2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b1 TYPE string VALUE 'b1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b2 TYPE string VALUE 'b2',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b3 TYPE string VALUE 'b3',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a4 TYPE string VALUE 'b4',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a5 TYPE string VALUE 'b5',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF bsub1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1_b1 TYPE string VALUE 's1_b1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1_b2 TYPE string VALUE 's1_b2',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1_b3 TYPE string VALUE 's1_b3',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF bsub2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2_b1 TYPE string VALUE 's2_b1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2_b2 TYPE string VALUE 's2_b2',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2_b3 TYPE string VALUE 's2_b3',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF bsub2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF bsub1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF struct2.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(mapping_tab) = VALUE cl_abap_corresponding=&gt;mapping_table(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 1 srcname = 'a1' dstname = 'b3' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 1 srcname = 'a3' dstname = 'b1' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 2 srcname = 'a5' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 0 kind = 1 srcname = 'asub1' dstname = 'bsub1' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 1 kind = 1 srcname = 's1_a1' dstname = 's1_b3' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 1 kind = 1 srcname = 's1_a3' dstname = 's1_b1' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 1 kind = 1 srcname = 'asub2' dstname = 'bsub2' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 2 kind = 1 srcname = 's2_a1' dstname = 's2_b3' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;( level = 2 kind = 1 srcname = 's2_a3' dstname = 's2_b1' ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_corresponding=&gt;create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= struct1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = struct2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mapping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = mapping_tab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;execute( EXPORTING source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= struct1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;destination = struct2 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-b1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-b2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-b3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-a4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-a5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-bsub1-s1_b1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-bsub1-s1_b2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-bsub1-s1_b3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-bsub1-bsub2-s2_b1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-bsub1-bsub2-s2_b2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( struct2-bsub1-bsub2-s2_b3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCL_ABAP_CORR_STRUC_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The components of the structure <span class="qtext">struct1</span> are assigned to the structure <span class="qtext">struct2</span> using the system class
+<a href="javascript:call_link('abencl_abap_corresponding.html')" class="blue">CL_ABAP_CORRESPONDING</a>.
+</p>
+<ul class="disc">
+<li>At the top level:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">a1</span> is mapped to <span class="qtext">b3</span> and <span class="qtext">a3</span> is mapped to <span class="qtext">b1</span>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">a2</span> to <span class="qtext">b2</span> are ignored, since their names do not match and <span class="qtext">b2</span> keeps their value.</li>
+</ul>
+<ul class="circlem2">
+<li>The component <span class="qtext">a4</span> appears in both structures and is assigned using matching names.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">a5</span> also appears in both structures but is excluded explicitly by the mapping type.</li>
+</ul>
+<ul class="circlem2">
+<li>The substructure <span class="qtext">asub1</span> is mapped to the substructure <span class="qtext">bsub1</span>.</li>
+</ul>
+<ul class="disc">
+<li>At the level of the first substructure:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">s1_a1</span> is mapped to <span class="qtext">s1_b3</span> and <span class="qtext">s1_a3</span> is mapped to <span class="qtext">s1_b1</span>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">s1_a2</span> to <span class="qtext">s1_b2</span> are ignored, since their names do not match and <span class="qtext">s1_b2</span> keeps their value.</li>
+</ul>
+<ul class="circlem2">
+<li>The substructure <span class="qtext">asub2</span> is mapped to the substructure <span class="qtext">bsub2</span>.</li>
+</ul>
+<ul class="disc">
+<li>At the level of the second substructure:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">s2_a1</span> is mapped to <span class="qtext">s2_b3</span> and <span class="qtext">s2_a3</span> is mapped to <span class="qtext">s2_b1</span>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext">s2_a2</span> to <span class="qtext">s2_b2</span> are ignored, since their names do not match and <span class="qtext">s2_b2</span> keeps their value.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencl_abap_corr_struc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

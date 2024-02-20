@@ -1,0 +1,195 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENMESSAGE_INTERFACE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmessage_interface_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="IF_T100_MESSAGE in Local Exception Class">
+<title>
+IF_T100_MESSAGE in Local Exception Class - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenmessage_interface_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenmessage_interface_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_texts.html')" class="blue">Text Repositories</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_messages.html')" class="blue">Messages</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmessage_interfaces.html')" class="blue">System Interfaces for Messages</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenif_t100_message.html')" class="blue">System Interface IF_T100_MESSAGE for Messages</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+IF_T100_MESSAGE in Local Exception Class
+</span></p>
+<p>
+This example demonstrates how a local exception class is associated with a message
+</p>
+<A name="@@ITOC@@ABENMESSAGE_INTERFACE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_message_oref.<br>
+<br>
+CLASS cx_t100 DEFINITION INHERITING FROM cx_dynamic_check.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES if_t100_message.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS constructor IMPORTING id&nbsp;&nbsp;&nbsp;&nbsp;TYPE symsgid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no&nbsp;&nbsp;&nbsp;&nbsp;TYPE symsgno<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text1 TYPE csequence OPTIONAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text2 TYPE csequence OPTIONAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text3 TYPE csequence OPTIONAL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text4 TYPE csequence OPTIONAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA text1 TYPE c LENGTH 50.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA text2 TYPE c LENGTH 50.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA text3 TYPE c LENGTH 50.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA text4 TYPE c LENGTH 50.<br>
+ENDCLASS.<br>
+<br>
+CLASS cx_t100 IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;super-&gt;constructor( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;text1 = text1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;text2 = text2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;text3 = text3.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;text4 = text4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if_t100_message~t100key-msgid = id.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if_t100_message~t100key-msgno = no.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if_t100_message~t100key-attr1 = 'TEXT1'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if_t100_message~t100key-attr2 = 'TEXT2'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if_t100_message~t100key-attr3 = 'TEXT3'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if_t100_message~t100key-attr4 = 'TEXT4'.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+CLASS msg_demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS meth<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISING cx_t100.<br>
+ENDCLASS.<br>
+<br>
+CLASS msg_demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_t100 INTO DATA(oref).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( oref-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE oref TYPE 'I' DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD meth.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE EXCEPTION TYPE cx_t100<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;= 'SABAPDEMOS'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no&nbsp;&nbsp;&nbsp;&nbsp;= '888'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text1 = 'I'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text2 = 'am'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text3 = 'an'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text4 = 'Exception!'.<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;msg_demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENMESSAGE_INTERFACE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The functional method <span class="qtext">meth</span> raises an exception from the local exception class <span class="qtext">cx_t100</span> that implements the interface
+<a href="javascript:call_link('abenif_t100_message.html')" class="blue">IF_T100_MESSAGE</a>. When the exception is raised, the constructor is given a message class, a message number, and values for the placeholders of the message.
+</p>
+<p>
+The constructor of the local exception class <span class="qtext">cx_t100</span> fills the attribute
+T100KEY of the interface IF_T100_MESSAGE with the values passed. In this way, the exception class represents
+the passed message from the table T100 in which the placeholders "&amp;" are replaced with the content of the attributes <span class="qtext">text1</span> to <span class="qtext">text4</span>.
+</p>
+<p>
+The method <span class="qtext">main</span> catches the exception in the reference variable <span class="qtext">oref</span> and indicates the following:
+</p>
+<ul class="disc">
+<li>The exception text can be filled using the method GET_TEXT of the component interface <span class="lnkgrey">IF_MESSAGE</span>
+in the interface IF_T100_MESSAGE. The implementation of the method GET_TEXT is in the superclass <span class="lnkgrey">CX_ROOT</span>, which includes the interface IF_MESSAGE.</li>
+</ul>
+<ul class="disc">
+<li>The reference variable can be used directly as an operand of the statement <a href="javascript:call_link('abapmessage.html')" class="blue"><span class="qtext">MESSAGE</span></a>.</li>
+</ul>
+<p>
+See also the executable examples listed below.
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenmessage_interface_global_abexa.html')" class="blue">System Interface IF_T100_MESSAGE in Global Exception Class</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenraise_message_abexa.html')" class="blue">System Interface IF_T100_DYN_MSG in Local Exception Class</a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenmessage_interface_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

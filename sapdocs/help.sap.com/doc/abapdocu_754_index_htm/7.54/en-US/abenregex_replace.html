@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREGEX_REPLACE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_replace.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:23 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Replace String">
+<meta name="keywords" content="ABAP, Replacement Pattern">
+<title>
+Replace String - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenregex_replace.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenregex_replace.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregular_expressions.html')" class="blue">Regular Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregex_syntax.html')" class="blue">Syntax of Regular Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Replace String
+</span></p>
+<p>
+After <a href="javascript:call_link('abenregex_search.html')" class="blue">searching</a>, the replacement of substrings in character
+strings is the most important application of regular expressions. When replacing, the occurrences of
+a search (or the substrings that match a regular expression), are replaced by one or more different
+character strings. In ABAP, the replacement is realized using regular expressions with the addition
+<a href="javascript:call_link('abapfind_pattern.html')" class="blue"><span class="qtext">REGEX</span></a> of the statement <a href="javascript:call_link('abapreplace.html')" class="blue"><span class="qtext">REPLACE</span></a>.
+</p>
+<p>
+In contrast to normal text replacements, when regular expressions are used, operators can be used in the replacement text that refer to the relevant occurrence.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENREGEX_REPLACE_1" class="blue">Operators for Replacement Texts</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_REPLACE_2" class="blue">Addressing the Full Occurrence</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_REPLACE_3" class="blue">Addressing the Registers of Subgroups</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_REPLACE_4" class="blue">Addressing the Text Before the Occurrence</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENREGEX_REPLACE_5" class="blue">Addressing the Text After the Occurrence</A></li>
+</ul>
+<A name="@@ITOC@@ABENREGEX_REPLACE_1"></A>
+<p><span class="h2">
+Operators for Replacement Texts
+</span></p>
+<p>
+The following operators can be specified in the replacement text. These operators are made up of the
+special characters <span class="qtext">$</span>, <span class="qtext">&amp;</span>, <span class="qtext">`</span>,
+and <span class="qtext">&#x00B4;</span>. The special characters can be made into literal characters using the prefix <span class="qtext">\</span>.
+</p>
+<A name="@@ITOC@@ABENREGEX_REPLACE_2"></A>
+<p><span class="h3">
+Addressing the Full Occurrence
+</span></p>
+<p>
+The operators <span class="qtext">$0</span> and <span class="qtext">$&amp;</span> can be entered in the replacement text as placeholders for the full current occurrence.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+After replacement, <span class="qtext">text</span> has the content <span class="qtext400">"Yeah Yeah Yeah!"</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br> <br>text = `Yeah!`. <br> <br>REPLACE REGEX `\w+` IN text WITH `$0 $0 $&amp;`.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_REPLACE_3"></A>
+<p><span class="h3">
+Addressing the Registers of Subgroups
+</span></p>
+<p>
+The operators <span class="qtext">$1</span>, <span class="qtext">$2</span>, <span class="qtext">$3</span>, ... can be used in the replacement text as placeholders for the character strings stored in the registers of
+<a href="javascript:call_link('abenregex_syntax_operators.html')" class="blue">subgroups</a> for the current occurrence. If the
+n-th subgroup is not available, or it is not supplied with a value in the match, the corresponding operator <span class="qtext">$n</span> is replaced by the empty character string.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+After replacement, <span class="qtext">text</span> has the content <span class="qtext400">"Roll'n'Rock"</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br> <br>text = `Rock'n'Roll`. <br> <br>REPLACE REGEX `(\w+)(\W\w\W)(\w+)` IN text WITH `$3$2$1`.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_REPLACE_4"></A>
+<p><span class="h3">
+Addressing the Text Before the Occurrence
+</span></p>
+<p>
+The operator <span class="qtext">$`</span> can be used in the replacement text as a placeholder before
+the current occurrence. If multiple occurrences are replaced using <span class="qtext">REPLACE ALL OCCURRENCES</span>,
+<span class="qtext">$`</span> contains the unchanged text from the beginning of the text to the start of the occurrence, for every occurrence.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+After replacement, <span class="qtext">text</span> has the content "again and again".
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br> <br>text = `again and`. <br> <br>REPLACE REGEX 'and' IN text WITH '$0 $`'.
+</span>
+</p>
+<A name="@@ITOC@@ABENREGEX_REPLACE_5"></A>
+<p><span class="h3">
+Addressing the Text After the Occurrence
+</span></p>
+<p>
+The operator <span class="qtext">$'</span> can be used in the replacement text as a placeholder after the current occurrence.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+After replacement, <span class="qtext">text</span> has the content "and again and".
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA: text TYPE string. <br> <br>text = `again and`. <br> <br>REPLACE REGEX `again ` IN text WITH `$' $0`.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_replace.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:23 GMT -->
+</html>

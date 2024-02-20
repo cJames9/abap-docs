@@ -1,0 +1,133 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENUSE_OPERAND_POSITION_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_operand_position_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Using Elements in Operand Positions">
+<title>
+Using Elements in Operand Positions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenuse_operand_position_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenuse_operand_position_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensystem_fields_guidl.html')" class="blue">System Fields</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Using Elements in Operand Positions
+</span></p>
+<A name="@@ITOC@@ABENUSE_OPERAND_POSITION_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Statements that modify the content of system fields generally evaluate the operands first and then set
+the system fields. In some complex statements, however, a system field could be set first, before all operand positions are evaluated.
+</p>
+<A name="@@ITOC@@ABENUSE_OPERAND_POSITION_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Do not use system fields in statements that set the fields</span>
+</p>
+<p>
+For reasons of robustness, do not use system fields as operands of statements that themselves set these system fields.
+</p>
+<A name="@@ITOC@@ABENUSE_OPERAND_POSITION_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+A program does not always define whether a particular system field is set in a statement before or after
+an operand is evaluated. This means that, to reduce risks and to make the program easier to read, the
+content of a system field should always be copied to a helper variable and only this copy should be used within the statement in question.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Also take note of how functional methods are used in operand positions. These methods also modify important system fields. Also be careful here when using system fields in operand positions of the same statement.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows how the system field <span class="qtext">sy-tabix</span> is used in
+a <span class="qtext">READ</span> statement that sets the system field itself. The case shown here does
+not itself present any difficulties, however we still recommend you follow the rule above, not least to make the code more readable.
+</p>
+<dl><dd>
+<span class="qtext">LOOP AT itab1 ... WHERE ... <br>&nbsp;&nbsp; ... <br>&nbsp;&nbsp; READ TABLE itab2 ... INDEX sy-tabix. <br>&nbsp;&nbsp; ... <br>ENDLOOP.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code makes the example above more robust by assigning the value of the system field <span class="qtext">sy-tabix</span> to a helper variable before it is used.
+</p>
+<dl><dd>
+<span class="qtext">LOOP AT itab1 ... WHERE ... <br>&nbsp;&nbsp; index = sy-tabix. <br>&nbsp;&nbsp; ... <br>&nbsp;&nbsp; .... itab2[ index ] ... <br>&nbsp;&nbsp; ... <br>ENDLOOP.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenuse_operand_position_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

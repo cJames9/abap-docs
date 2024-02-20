@@ -1,0 +1,174 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_TRANSACTION_NESTING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_transaction_nesting.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Nesting and Chaining Transactions">
+<title>
+Nesting and Chaining Transactions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_transaction_nesting.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_transaction_nesting.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_transact.html')" class="blue">transaction service</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Nesting and Chaining Transactions
+</span></p>
+<A name="@@ITOC@@ABENOS_TRANSACTION_NESTING_1"></A>
+<p><span class="h2">
+Role of the Top Level Transaction
+</span></p>
+<p>
+The top level transaction is the transaction of the uppermost level. All the transactions started during
+the top level transaction are subtransactions and do not lead to a <span class="qtext">COMMIT WORK</span> when they end. The transaction mode determines how the top level transaction is created.
+</p>
+<ul class="disc">
+<li>Compatibility Mode</li>
+</ul>
+<dl><dd>
+The top level transaction is usually created implicitly when the Object Services are initialized. All explicit transactions of the program are subtransactions of this implicit top level transaction.
+</dd></dl>
+<ul class="disc">
+<li>Object-Oriented Transaction Mode</li>
+</ul>
+<dl><dd>
+The top level transaction is created explicitly when the first transaction in the program is started.
+All the other transactions that are started before the top level transaction ends are subtransactions of the explicit top level transaction.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_TRANSACTION_NESTING_2"></A>
+<p><span class="h2">
+Subtransactions
+</span></p>
+<p>
+A subtransaction can be created by starting a new transaction before another transaction has come to
+an end. Subtransactions must be ended within the transaction in which they are embedded. A <span class="qtext">COMMIT
+WORK</span> is never triggered when a subtransaction ends. Changes to the persistent objects of a subtransaction
+are only made when the top level transaction has ended. This occurs explicitly in a <span class="qtext">COMMIT
+WORK</span> or implicitly in an END, depending on the transaction mode. The transaction mode can also
+be queried using IF_OS_TRANSACTION~GET_MODES for subtransactions, but the transaction mode always indicates the global setting of the Object Services for the current program.
+</p>
+<A name="@@ITOC@@ABENOS_TRANSACTION_NESTING_3"></A>
+<p><span class="h2">
+Sequential Processing
+</span></p>
+<A name="@@ITOC@@ABENOS_TRANSACTION_NESTING_4"></A>
+<p><span class="h3">
+Top Level Transactions
+</span></p>
+<p>
+A program can only have one top level transaction at a time. A new transaction can be started as the top level transaction when the old top level transaction has come to an end.
+</p>
+<ul class="disc">
+<li>Compatibility mode</li>
+</ul>
+<dl><dd>
+In compatibility mode, a new top level transaction is implicitly created and started when the old top
+level transaction has ended with <span class="qtext">COMMIT WORK</span>. The new top level transaction manages the changes made to persistent objects.
+</dd></dl>
+<ul class="disc">
+<li>Object-Oriented Mode</li>
+</ul>
+<dl><dd>
+When the top level transaction has ended with END, a <span class="qtext">COMMIT WORK</span> is triggered.
+The transaction object is invalidated in the program and cannot be started again. The next transaction
+that is started with IF_OS_TRANSACTION~START becomes the new top level transaction. A program is without
+a transaction between the end of the last and the start of the next top level transaction. Changes made to persistent objects before the new transaction was started are ignored.
+</dd></dl>
+<p>
+Within a transaction, further subtransactions can be started after the end of another subtransaction. Changes made to persistent objects between subtransactions belong to the transaction at the next higher level.
+</p>
+<A name="@@ITOC@@ABENOS_TRANSACTION_NESTING_5"></A>
+<p><span class="h2">
+Concatenation of Top Level Transactions
+</span></p>
+<p>
+If transactions are executed one after the other, that is one top level transaction is ended and then
+a new one started, the relevant persistent objects are invalidated. When an object of this type is accessed
+in the next transaction, it is loaded again from the database. This time-consuming process can be avoided
+by concatenating top level transactions with IF_OS_TRANSACTION~END_AND_CHAIN or IF_OS_TRANSACTION~UNDO_AND_CHAIN.
+In this case, the persistent objects are not invalidated. However, a new transaction object is created and its reference is returned as the return value.
+</p>
+<p>
+These methods can be used for top level transactions in object-oriented mode, but not for the top level
+transaction in compatibility mode. The methods do not need to be executed for subtransactions since the persistent objects are retained until the change has been made, and are not invalidated.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+After method END_AND_CHAIN is called, reference variable <span class="qtext">t</span> refers to a new transaction object. <br>
+</p>
+<dl><dd>
+<span class="qtext">DATA tm TYPE REF TO if_os_transaction_manager. <br>DATA t&nbsp;&nbsp;TYPE REF TO if_os_transaction. <br>
+... <br>tm = cl_os_system=>get_transaction_manager( ). <br>t = tm->create_transaction( ). "Create first Transaction <br>
+t->start( ).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Start first Transaction <br>
+... <br>t = t->end_and_chain( ).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "End first Transaction, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "create and start second one <br>
+... <br>t->end( ).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "End second Transaction</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_transaction_nesting.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:52 GMT -->
+</html>

@@ -1,0 +1,308 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-740_SP08-OPEN_SQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-740_sp08-open_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:59 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL in Release 7.40, SP08">
+<title>
+ABAP SQL in Release 7.40, SP08 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-740_sp08-open_sql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-740_sp08-open_sql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-740.html')" class="blue">Changes in Release 7.40 and Its SPs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-740_sp08.html')" class="blue">Changes in Release 7.40, SP08</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP SQL in Release 7.40, SP08 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. New column <span class="qtext">data_source~*</span> specified after <span class="qtext">SELECT</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2. Inline declarations for the target area of <span class="qtext">SELECT</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. SQL expressions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> 4. Reads on CDS views with parameters </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> 5. Restrictions removed </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> 6. Arrangement of the <span class="qtext">INTO</span> clause </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> 7. Stricter checks for syntax rules </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> 8. Strict mode in the syntax check </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> 9. Comparable types </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">New Column <span class="qtext">dbtab~*</span> Specified After <span class="qtext">SELECT</span></span> <br><br><!-- /A -->
+</P>
+<P>
+In the definition of the results set in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> of a <span class="qtext">SELECT</span> statement, <span class="qtext">data_source~*</span>
+can be specified as an element of the <span class="qtext">SELECT</span> list from Release 7.40, SP08
+to include all columns of different database tables or views used after <span class="qtext">FROM</span>
+in the results set. If specified, <span class="qtext">data_source~*</span> can be combined with individual
+specified columns <a href="javascript:call_link('abapselect_clause_col_spec.html')" class="blue"><span class="qtext">col_spec</span></a> (with the exception of
+<a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a>).
+</P>
+<P>
+When <span class="qtext">data_source~*</span> is specified in the results set, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">Inline Declarations for the Target Area of <span class="qtext">SELECT</span></span> <br><br><!-- /A -->
+</P>
+<P>
+After the addition <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> of a <span class="qtext">SELECT</span> statement,
+<a href="javascript:call_link('abeninline_declaration_glosry.html')" class="grey" title="Glossary Entry">inline declarations</a>
+can be made from Release 7.40, SP08 using the declaration operator <a href="javascript:call_link('abapselect_into_target.html')" class="blue">
+<span class="qtext">DATA(...)</span></a> with the prefixed escape character <span class="qtext">@</span>.
+Inline declarations can be made for individual parenthesized data objects <span class="qtext">(@DATA(elem1),@DATA(elem2),...)</span>,
+for individual work areas <span class="qtext">INTO @DATA(wa)</span>, and for internal tables <span class="qtext">INTO
+TABLE @DATA(itab)</span>. Either an elementary data object, a structure, or an internal table is declared
+depending on the results set defined in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> and the database tables used after <span class="qtext">FROM</span>.
+</P>
+<P>
+When inline declarations are used, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">SQL Expressions</span> <br><br><!-- /A -->
+</P>
+<P>
+The <a href="javascript:call_link('abensql_expression_glosry.html')" class="grey" title="Glossary Entry">SQL expressions</a> introduced in Release 7.40, SP05 were revised in the following ways:
+</P>
+<ul class="disc">
+<li>
+The operator <a href="javascript:call_link('abensql_case.html')" class="blue"><span class="qtext">CASE</span></a> can now be used to perform
+<a href="javascript:call_link('abensql_searched_case.html')" class="blue">complex case distinctions</a> (searched case) as well as simple case distinctions.
+<br><br></li>
+<li>
+SQL expressions can be specified after <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a>.
+<br><br></li>
+<li>
+SQL expressions can be specified together with aggregate expressions in the <span class="qtext">SELECT</span> list.
+<br><br></li>
+<li>
+SQL expressions can be specified as arguments of <a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate
+functions</a> (except <span class="qtext">avg</span>) in the <span class="qtext">SELECT</span> list and the <span class="qtext">HAVING</span> clause.
+<br></li>
+</ul>
+<P>
+If one of the new features is used, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+<span class="bold">Reads on CDS Views with Parameters</span> <br><br><!-- /A -->
+</P>
+<P>
+From Release 7.40, SP08, <a href="javascript:call_link('abencds_view_glosry.html')" class="grey" title="Glossary Entry">CDS views</a> can be defined with
+<a href="javascript:call_link('abencds_f1_parameter_list.html')" class="blue">input parameters</a> that are assigned actual parameters when used. To enable this, the option of a parenthesized comma-separated list for parameter passing was added to the
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> specified in the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>:
+</P>
+<dl>
+
+<dd>
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue"><span class="qtext">( pname1 = act1, pname1 = act2, ...)</span></a>
+</dd>
+</dl>
+<P>
+Since not all database systems support views with parameters, the new class
+<a href="javascript:call_link('abencl_abap_dbfeatures.html')" class="blue">CL_ABAP_DBFEATURES</a> with the method USE_FEATURES
+is available, which detects whether this is possible for the current database system. Furthermore, accessing
+a view with parameters triggers a warning from the syntax check; this warning can be hidden by a pragma. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="bold">Restrictions Removed</span> <br><br><!-- /A -->
+</P>
+<P>
+The following previous restrictions were removed:
+</P>
+<ul class="disc">
+<li>
+For <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expressions</a>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>From Release 7.40, SP08, a negative sign <span class="qtext">-</span> can be placed in front of an operand of an
+<a href="javascript:call_link('abensql_arith.html')" class="blue">arithmetic expression</a> that does not follow an arithmetic operator directly.</li>
+</ul>
+<ul class="circlem2">
+<li>From Release 7.40, SP08, an operand <span class="qtext">operand1</span>, <span class="qtext">operand2</span>, ... in a
+<a href="javascript:call_link('abensql_simple_case.html')" class="blue">simple case distinction</a> can now also be an SQL expression.</li>
+</ul>
+<ul class="circlem2">
+<li>From Release 7.40, SP08, SQL expressions can also be specified together with
+<a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a> and the addition <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a>.</li>
+</ul>
+<ul class="disc">
+<li>
+For <a href="javascript:call_link('abapselect_join.html')" class="blue">joins</a>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>From Release 7.40, SP08, the operators <span class="qtext">LIKE</span> and <span class="lnkgrey"><span class="qtext">IN (...)</span></span> can be used in <span class="qtext">ON</span> conditions.</li>
+</ul>
+<ul class="circlem2">
+<li>From Release 7.40, SP08, individual comparisons can be joined using <span class="qtext">OR</span> and negated using <span class="qtext">NOT</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>From Release 7.40, SP08, outer joins no longer need to contain at least one comparison between columns on the left and right side.</li>
+</ul>
+<ul class="disc">
+<li>For <a href="javascript:call_link('abenwhere_logexp_dynamic.html')" class="blue">dynamic <span class="qtext">WHERE</span> conditions</a>:</li>
+</ul>
+<ul class="circlem2">
+<li><a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">Subqueries</a> can now also be specified dynamically.</li>
+</ul>
+<P>
+When one of the rule changes is exploited, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+<span class="bold">Arrangement of the <span class="qtext">INTO</span> Clause</span> <br><br><!-- /A -->
+</P>
+<P>
+From Release 7.40, SP08, the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span>
+clause</a> can and should be specified as the final clause of a <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">
+SELECT</span></a> statement. In this case, the additions <a href="javascript:call_link('abapselect_up_to_offset.html')" class="blue"><span class="qtext">
+UP TO</span>, <span class="qtext">OFFSET</span></a> and <a href="javascript:call_link('abapselect_additions.html')" class="blue"><span class="qtext">
+abap_options</span></a> of the <span class="qtext">SELECT</span> statement must be specified after <span class="qtext">INTO</span>.
+</P>
+<P>
+If the <span class="qtext">INTO</span> clause is specified as the final clause, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>. This handles the statement more strictly than the regular syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+<span class="bold">Stricter Checks on Syntax Rules</span> <br><br><!-- /A -->
+</P>
+<P>
+From Release 7.40, SP08, the following syntax constructs that have always contained errors now produce syntax errors or runtime errors.
+</P>
+<ul class="disc">
+<li>Correction for the <span class="qtext">WHERE</span> Condition</li>
+</ul>
+<dl><dd>
+Any columns that are specified in a <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span>
+clause</a> outside of an aggregate expression must also be specified after <a href="javascript:call_link('abapgroupby_clause.html')" class="blue">
+<span class="qtext">GROUP BY</span></a>. Before Release 7.40, SP08, this was not recorded by the static
+syntax check, but did raise a catchable exception. From Release 7.40, SP08, this produces a syntax check warning and raises a non-handleable exception outside of the
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a> of the syntax check. <br> <br>
+<span class="bold">Example</span> <br> <br>From Release 7.40, SP08, a syntax warning and non-handleable exception for: <br>
+ <br><span class="qtext">DATA itab TYPE TABLE OF scarr. <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE itab <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HAVING carrid = 'LH'.</span> <br><br> <br><br>
+</dd></dl>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+<span class="bold">Strict Mode in the Syntax Check</span> <br><br><!-- /A -->
+</P>
+<P>
+If one the new features listed here is used in an ABAP SQL statement, the syntax check is performed in a
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+<span class="bold">Comparable Types</span> <br><br><!-- /A -->
+</P>
+<P>
+A table of <a href="javascript:call_link('abenwhere_logexp_compare_types.html')" class="blue">comparable types</a> was constructed
+for comparisons performed on the database. The results of comparisons made between non-comparable types are determined by the database system and produce a syntax error (in the
+<a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode of the syntax check</a>) or a syntax warning.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-740_sp08-open_sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:59 GMT -->
+</html>

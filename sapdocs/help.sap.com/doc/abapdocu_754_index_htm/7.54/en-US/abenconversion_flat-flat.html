@@ -1,0 +1,206 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCONVERSION_FLAT-FLAT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_flat-flat.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Conversion Between Flat Structures">
+<title>
+Conversion Between Flat Structures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenconversion_flat-flat.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenconversion_flat-flat.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenvalue_assignments.html')" class="blue">Assignments</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_rules.html')" class="blue">Assignment and Conversion Rules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenconversion_struc.html')" class="blue">Conversion Rules for Structures</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Conversion Between Flat Structures
+</span></p>
+<p>
+When flat structures are converted, the <a href="javascript:call_link('abenunicode_fragment_view_glosry.html')" class="grey" title="Glossary Entry">
+fragment view</a> of the structures must be respected. The following rules apply when converting a flat structure to another flat structure.
+</p>
+<ul class="disc">
+<li>When assigning structures with the same fragment view, the structure is assigned without being converted. <br><br></li>
+</ul>
+<ul class="disc">
+<li>When assigning structures of different lengths where the length of the
+<a href="javascript:call_link('abenunicode_fragment_view.html')" class="blue">fragment view</a> exactly matches the shorter structure, the assignment is made at the length of the shorter structure without conversion.</li>
+</ul>
+<ul class="circlem2">
+<li>If the target structure is longer than the source structure, the components of the target structure located after the shared fragments are filled with type-dependent
+<a href="javascript:call_link('abeninitial_value_glosry.html')" class="grey" title="Glossary Entry">initial values</a> and any alignment gaps are set to hexadecimal 0.</li>
+</ul>
+<ul class="circlem2">
+<li>If the target structure is shorter than the source structure, the components of the source structure located after the shared fragments are cut off. <br><br></li>
+</ul>
+<ul class="disc">
+<li>When assigning structures of different lengths whose fragment views match until the second last
+fragment in the shorter structure, and in which the next fragment is character-like in one and byte-like
+in the other, the parts in which the fragments are the same are assigned without conversion. The characters
+in the next fragment in the source structure are assigned to the corresponding fragment in the target
+structure without conversion and left justified. If this fragment in the target structure is larger
+than that in the source structure, the right hand side is filled with blanks or with hexadecimal 0,
+depending on the data type. If it is shorter, the objects are cut off on the right. The remaining components after this fragment are either cut off or padded with type-dependent initial values.</li>
+</ul>
+<p>
+No conversion rule is defined for any other cases, so that assignment is not possible.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If, in the affected structures, there are components of data type <span class="qtext">p</span>,
+these components form individual fragments for which the length is significant but not the number of
+decimal places. When assigning such structures, the value of the source components of type <span class="qtext">p</span>
+is cast to the number of decimal places of the target components, and the decimal point may shift. This
+means that the result for a component of this type can differ from the result of a direct assignment between the components.</li>
+</ul>
+<ul class="disc">
+<li>If a component of a flat structure has an <a href="javascript:call_link('abenenumerated_type_glosry.html')" class="grey" title="Glossary Entry">enumerating type</a>, this is an independent fragment of the fragment view, regardless of its
+<a href="javascript:call_link('abenbase_type_glosry.html')" class="grey" title="Glossary Entry">basis type</a>, and must be present
+at the same location and with the same type in the case of assignments between structures in the source and target structure.</li>
+</ul>
+<ul class="disc">
+<li>If a syntax error occurs due to an inadmissible assignment between flat structures, you can display
+the fragment views for the corresponding structures when displaying the syntax error in the ABAP Editor by choosing the pushbutton with the information icon.</li>
+</ul>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+Assigning <span class="qtext">struc1</span> to <span class="qtext">struc2</span> and vice versa is not
+allowed because the fragment views are not the same (unlike <span class="qtext">struc2-b</span>, <span class="qtext">struc1-x</span> only fills one byte).
+</p>
+<p>
+<span class="qtext">DATA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:</span> <br>
+<span class="qtext">&nbsp;&nbsp;BEGIN OF struc1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc2,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;a TYPE c LENGTH 1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a TYPE c LENGTH 1,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;x TYPE x LENGTH 1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b TYPE c LENGTH 1,</span> <br>
+<span class="qtext">&nbsp;&nbsp;END OF struc1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc2.</span>
+</p>
+<p>
+Assignments of <span class="qtext">struc3</span> to <span class="qtext">struc4</span> and vice versa
+are allowed because the fragment view of the shorter structure <span class="qtext">struc3</span> is the same as the fragment view in the first part of the longer structure <span class="qtext">struc4</span>.
+</p>
+<p>
+<span class="qtext">DATA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:</span> <br>
+<span class="qtext">&nbsp;&nbsp;BEGIN OF struc3,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc4,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;a TYPE c LENGTH 2,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a TYPE c LENGTH 8,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;n TYPE n LENGTH 6,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i TYPE i,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;i TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d TYPE decfloat16,</span> <br>
+<span class="qtext">&nbsp;&nbsp;END OF struc3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc4.</span>
+</p>
+<p>
+Assignments of <span class="qtext">struc5</span> to <span class="qtext">struc6</span> and vice versa
+are also not allowed because the fragment views in the two structures do not match due to the alignment gaps before <span class="qtext">struc5-b</span> and before <span class="qtext">struc6-struc0-b</span>.
+</p>
+<p>
+<span class="qtext">DATA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:</span> <br>
+<span class="qtext">&nbsp;&nbsp;BEGIN OF struc5,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc6,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;a TYPE x LENGTH 1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a TYPE x LENGTH 1,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;b TYPE x LENGTH 1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc0,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;c TYPE c LENGTH 1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b TYPE x LENGTH 1,</span> <br>
+<span class="qtext">&nbsp;&nbsp;END OF struc5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c TYPE c LENGTH 1,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc0,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc6.</span>
+</p>
+<p>
+An assignment of <span class="qtext">struc7</span> to <span class="qtext">struc8</span> and vice versa
+is possible because the fragment view is the same until the second last fragment <span class="qtext">p</span> in the shorter structure <span class="qtext">struc7</span>:
+</p>
+<p>
+<span class="qtext">DATA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:</span> <br>
+<span class="qtext">&nbsp;&nbsp;BEGIN OF struc7,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc8,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;a TYPE i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;TYPE i,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;p TYPE p LENGTH 8,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p TYPE p LENGTH 8,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;c TYPE c LENGTH 1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c TYPE c LENGTH 5,</span> <br>
+<span class="qtext">&nbsp;&nbsp;END OF struc7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; o TYPE p LENGTH 8,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc8.</span>
+</p>
+<p>
+A mapping from <span class="qtext">struc9</span> to <span class="qtext">struc10</span> (and in the reverse
+direction) is possible because the fragment view matches despite the differences in decimal places for
+the type <span class="qtext">p</span>. If <span class="qtext">struc9-a</span> has the value 999, then
+<span class="qtext">struc10-a</span> has the value 0.999 after a mapping from <span class="qtext">struc9</span>
+to <span class="qtext">struc10</span>. A direct mapping from <span class="qtext">struc9-a</span> to <span class="qtext">struc10-a</span>, on the other hand, raises an exception of the class CX_SY_CONVERSION_OVERFLOW.
+</p>
+<p>
+<span class="qtext">DATA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:</span> <br>
+<span class="qtext">&nbsp;&nbsp;BEGIN OF struc9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEGIN OF struc10,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;a TYPE p LENGTH 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a TYPE p LENGTH 2</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DECIMALS 0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DECIMALS 3,</span> <br>
+<span class="qtext">&nbsp;&nbsp;END OF struc9.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF struc10.</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abendata_conv_str_abexa.html')" class="blue">Conversion Rules for Structures</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenconversion_flat-flat.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

@@ -1,0 +1,535 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDOCCOMMENT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendoccomment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:28 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP Doc">
+<meta name="keywords" content="ABAP, ABAP Doc">
+<title>
+ABAP Doc - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendoccomment.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendoccomment.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_syntax.html')" class="blue">ABAP Syntax</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogram_directives.html')" class="blue">Program Directives</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP Doc
+</span></p>
+<A NAME='@@"!@@!ABAP_DOC_COMMENT!@@'></A>
+<p>
+ABAP Doc allows <a href="javascript:call_link('abendeclaration_glosry.html')" class="grey" title="Glossary Entry">declarations</a> in ABAP programs to be documented, based on special ABAP Doc comments. ABAP development environments that support
+<a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Doc</a>, such as
+<a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools (ADT)</a>, analyze the content of ABAP Doc comments, convert it to HTML, and display it appropriately.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_1" class="blue">ABAP Doc Comments</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_2" class="blue">Parameter Interface of Procedures</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_3" class="blue">Formatting</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_4" class="blue">Short Texts and Their Synchronization</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_5" class="blue">Documentation Links</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_6" class="blue">Test Relations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDOCCOMMENT_7" class="blue">Guidelines</A></li>
+</ul>
+<A name="@@ITOC@@ABENDOCCOMMENT_1"></A>
+<p><span class="h2">
+ABAP Doc Comments
+</span></p>
+<p>
+A comment for ABAP Doc is introduced using the string <span class="qtext">"!</span>. This is a special form of a normal
+<a href="javascript:call_link('abencomment.html')" class="blue">line end comment</a> that is introduced using <span class="qtext">"</span>. The following rules must be applied if an ABAP Doc comment is to be read correctly:
+</p>
+<ul class="disc">
+<li>An ABAP Doc comment is one of the following:</li>
+</ul>
+<ul class="circlem2">
+<li>A single <a href="javascript:call_link('abencomment_line_glosry.html')" class="grey" title="Glossary Entry">comment line</a> that only contains the comment</li>
+</ul>
+<ul class="circlem2">
+<li>A multiline block of consecutive comment lines The content of a block is summarized into a single ABAP Doc comment.</li>
+</ul>
+<ul class="disc">
+<li>An ABAP Doc comment (a line or a block of lines) must be linked to one <a href="javascript:call_link('abendeclaration_statement_glosry.html')" class="grey" title="Glossary Entry">declaration statement</a> only:</li>
+</ul>
+<ul class="circlem2">
+<li>If the declaration statement does not create a
+<a href="javascript:call_link('abenchained_statement_glosry.html')" class="grey" title="Glossary Entry">chained statement</a>,
+an ABAP Doc comment can be placed directly in front of the declaration statement, without using spaces as separators.</li>
+</ul>
+<ul class="circlem2">
+<li>If the declaration statement makes a <a href="javascript:call_link('abenchained_statement_glosry.html')" class="grey" title="Glossary Entry">
+chained statement</a>, the colon must be placed after the keyword. An ABAP Doc comment can be placed in front of the identifier of every declared entity.</li>
+</ul>
+<dl><dd>
+ABAP Doc comments are not allowed anywhere else.
+</dd></dl>
+<ul class="disc">
+<li>A one-line ABAP Doc comment cannot be empty. Lines without content can be used as formatting in blocks.</li>
+</ul>
+<ul class="disc">
+<li>An ABAP Doc comment can contain special tokens and tags for documenting the parameter interface of procedures, or for formatting.</li>
+</ul>
+<ul class="disc">
+<li>The special characters <span class="qtext400">"</span>, <span class="qtext400">'</span>, <span class="qtext">&lt;</span>,
+<span class="qtext">&gt;</span>, <span class="qtext400">@</span>, <span class="qtext400">{</span>, <span class="qtext400">
+|</span>, and <span class="qtext400">}</span> can, if necessary, be masked using <span class="qtext400">&amp;quot;</span>,
+<span class="qtext400">&amp;apos;</span>, <span class="qtext400">&amp;lt;</span>, <span class="qtext400">&amp;gt;</span>,
+<span class="qtext400">&amp;#64;</span>, <span class="qtext400">&amp;#123;</span>, <span class="qtext400">&amp;#124;</span>, and <span class="qtext400">&amp;#125;</span>.</li>
+</ul>
+<p>
+If this rule is broken, a syntax check warning is produced.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Basic use of ABAP Doc comments as single lines, blocks and chained statements.
+</p>
+<dl><dd>
+<span class="qtext">"! Basic usage of ABAP Doc <br>CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"! Constant character string for a single blank. <br>&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS blank TYPE string VALUE ` `. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"! Method to fill the private structure struct with values <br>&nbsp;&nbsp;&nbsp;&nbsp;"! and append it to internal table itab. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS meth. <br>&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"! Three-component structure <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF struct, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"! Component one <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comp1 TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"! Component two <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comp2 TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"! Component three <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comp3 TYPE i, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF struct, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"! Internal table of structure struct <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab LIKE TABLE OF struct. <br>ENDCLASS.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENDOCCOMMENT_2"></A>
+<p><span class="h2">
+Parameter Interface of Procedures
+</span></p>
+<p>
+The <a href="javascript:call_link('abenparameter_interface_glosry.html')" class="grey" title="Glossary Entry">parameter interface</a> for
+<a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedures</a> and for
+<a href="javascript:call_link('abenevent_glosry.html')" class="grey" title="Glossary Entry">events</a> in classes can be documented in the corresponding ABAP Doc commentary with a special syntax:
+</p>
+<table border>
+<tr>
+<td><span class="bold">Documentation for</span></td>
+<td><span class="bold">Syntax</span></td>
+</tr>
+<tr>
+<td>Interface parameters</td>
+<td><span class="qtext400">@parameter name|documentation</span></td>
+</tr>
+<tr>
+<td>Class-based exception</td>
+<td><span class="qtext400">@raising name|documentation</span></td>
+</tr>
+<tr>
+<td>Classic exceptions</td>
+<td><span class="qtext400">@exception name|documentation</span></td>
+</tr>
+</table><br>
+<p>
+If specified, <span class="qtext400">@parameter</span>, <span class="qtext400">@raising</span>, and
+<span class="qtext400">@exception</span> must be placed directly after <span class="qtext400">"!</span> and hence introduce a new line. The name
+(<span class="qtext400">name</span>) of an existing parameter or an exception must be specified after
+<span class="qtext400">@parameter</span>, <span class="qtext400">@raising</span>, <span class="qtext400">@exception</span>.
+This must be followed by the documentation (separated by <span class="qtext400">|</span>). This documentation
+is completed by the next <span class="qtext400">@parameter</span>, <span class="qtext400">@raising</span>,
+<span class="qtext400">@exception</span> or by the end of the ABAP Doc comment. In other words, no further
+documentation or interface documentation can be placed behind the interface documentation. Every interface parameter or every exception can only be specified once.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The arrangement of the parameter interface documentation of procedures is not dependent on the order
+of the associated declarations. For reasons of readability, however, the order of the parameters and exceptions in the ABAP Doc comment should be the same as the order of the declarations.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Use of ABAP Doc comments for the parameter interface of a method.
+</p>
+<dl><dd>
+<span class="qtext">"! Method to check if two sources are identical <br>"! and that returns a corresponding boolean value. <br>
+"! <br>"! @parameter source1&nbsp;&nbsp;&nbsp;&nbsp; | First source <br>"! @parameter source2&nbsp;&nbsp;&nbsp;&nbsp; | Second source <br>
+"! @parameter ignore_case | Pass abap_true to ignore case <br>"! <br>"! @parameter result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Returns abap_true if sources are identic <br>
+"! <br>"! @raising&nbsp;&nbsp; cx_invalid_source <br>"!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| One of the sources is empty <br>
+METHODS compare <br>&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;source1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE text <br>
+&nbsp;&nbsp;&nbsp;&nbsp;source2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE text <br>&nbsp;&nbsp;&nbsp;&nbsp;ignore_case&nbsp;&nbsp; TYPE abap_bool DEFAULT abap_false <br>
+&nbsp;&nbsp;RETURNING <br>&nbsp;&nbsp;&nbsp;&nbsp;VALUE(result) TYPE abap_bool <br>&nbsp;&nbsp;RAISING <br>&nbsp;&nbsp;&nbsp;&nbsp;cx_invalid_source.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENDOCCOMMENT_3"></A>
+<p><span class="h2">
+Formatting
+</span></p>
+<p>
+The following tags are used in documentation texts for ABAP Doc comments, to format the documentation display in a development environment. These tags are a subset of the HTML tags.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Formatting</span></td>
+<td><span class="bold">Tag</span></td>
+</tr>
+<tr>
+<td>Header, level1</td>
+<td><span class="qtext400">&lt;h1>...&lt;/h1></span></td>
+</tr>
+<tr>
+<td>Header, level2</td>
+<td><span class="qtext400">&lt;h2>...&lt;/h2></span></td>
+</tr>
+<tr>
+<td>Header, level3</td>
+<td><span class="qtext400">&lt;h3>...&lt;/h3></span></td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td><span class="qtext400">&lt;p>...&lt;/p></span></td>
+</tr>
+<tr>
+<td>Italic text</td>
+<td><span class="qtext400">&lt;em>...&lt;/em></span></td>
+</tr>
+<tr>
+<td>Bold text</td>
+<td><span class="qtext400">&lt;strong>...&lt;/strong></span></td>
+</tr>
+<tr>
+<td>Unnumbered list</td>
+<td><span class="qtext400">&lt;ul>&lt;li>...&lt;/li>...&lt;li>...&lt;/li>&lt;/ul></span></td>
+</tr>
+<tr>
+<td>Numbered list</td>
+<td><span class="qtext400">&lt;ol>&lt;li>...&lt;/li>...&lt;li>...&lt;/li>&lt;/ol></span></td>
+</tr>
+<tr>
+<td>Line break</td>
+<td><span class="qtext400">&lt;br></span></td>
+</tr>
+</table><br>
+<p>
+An open tag must be closed before a new section of the ABAP Doc comment is started. A new section is
+introduced using <span class="qtext400">@parameter</span>, <span class="qtext400">@raising</span> or <span class="qtext400">@exception</span>.
+</p>
+<p>
+The following attributes are possible:
+</p>
+<ul class="disc">
+<li>In the <span class="qtext400">&lt;ol></span> tag, the attributes <span class="qtext400">reversed</span>,
+<span class="qtext400">start</span>, and <span class="qtext400">type</span> can be specified with their traditional HTML meaning.</li>
+</ul>
+<ul class="disc">
+<li>In the <span class="qtext400">&lt;p></span> tag, the attributes <span class="qtext400">class</span>
+and <span class="qtext400">lang</span> can be specified. More information about the meaning of these attributes can be found under "Short Texts and Their Synchronization".</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Use of formatting in an ABAP Doc comment for a class. The <a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools</a> display the documentation with the appropriate formatting.
+</p>
+<dl><dd>
+<span class="qtext">"!&lt;h1>Class demo&lt;/h1> <br>"!&lt;p>This class must &lt;strong>not&lt;/strong> be used productively.&lt;/p> <br>
+"!The class serves the following tasks: <br>"!&lt;ul>&lt;li>Demo 1&lt;/li> <br>"!&nbsp;&nbsp;&nbsp;&nbsp;&lt;li>Demo 2&lt;/li> <br>
+"!&nbsp;&nbsp;&nbsp;&nbsp;&lt;li>Demo 3&lt;/li>&lt;/ul> <br>"!&lt;br>&lt;br> <br>CLASS demo DEFINITION. <br>&nbsp;&nbsp;... <br>ENDCLASS.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENDOCCOMMENT_4"></A>
+<p><span class="h2">
+Short Texts and Their Synchronization
+</span></p>
+<p>
+Parts of ABAP Doc comments can be flagged as short texts and the short texts of classes and function
+modules and their components can be synchronized with ABAP Doc comments. A part of an ABAP Doc comment can be flagged as a short text by being tagged as follows:
+</p>
+<dl><dd>
+<span class="qtext">&lt;p class="shorttext">...&lt;/p></span>
+</dd></dl>
+<p>
+A paragraph tagged like this is displayed as a header in the display of the <a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ADT</a> documentation , instead of the short text shown in ABAP Workbench .
+</p>
+<p>
+To synchronize the ABAP Doc short texts and the short texts saved as system documentation, the tag can be specified as follows (this is optional):
+</p>
+<dl><dd>
+<span class="qtext">&lt;p class="shorttext synchronized">...&lt;/p></span>
+</dd></dl>
+<p>
+In this case, the length of the short text in ABAP Doc is restricted to the length of the matching short text in in the system documentation and is synchronized with the associated short text in the
+<a href="javascript:call_link('abenoriginal_langu_guidl.html')" class="lnkpurple" title="Guideline">original language</a> of the class or function module as follows:
+</p>
+<ul class="disc">
+<li>When an ABAP Doc short text is created or modified in the source code, the associated short text
+of the repository object is used when the source code is saved. If the short text in ABAP Doc is empty,
+the short text of the repository object is deleted. If <span class="qtext">class="shorttext synchronized"</span>
+is used to remove a full paragraph, the short text of the repository object is preserved. This synchronization works regardless of the tool used.</li>
+</ul>
+<ul class="disc">
+<li>If a short text of a method or a function module is modified in the system documentation in which
+a paragraph with <span class="qtext">class="shorttext synchronized"</span> occurs in ABAP Doc, the short
+text is replaced accordingly in the source text when saved. When a short text in the system documentation
+is deleted, an empty paragraph is produced. When a new short text is created in the system documentation
+for which there is not yet a short text in ABAP Doc, the paragraph is not currently created in the source code.</li>
+</ul>
+<p>
+An ABAP Doc short text is part of the source code and is not translatable. This short text replaces
+the translatable short text of the repository object in its original language when synchronized, which
+means it must also be specified in the original language. This is an exception to the rule that ABAP
+Doc comments must always be in English. The original language can be flagged in the source by being specified as follows (this is optional):
+</p>
+<dl><dd>
+<span class="qtext">&lt;p class="shorttext" lang="...">...&lt;/p></span>
+</dd></dl>
+<p>
+The attribute <span class="qtext">lang</span> uses the HTML standard. It must be used to specify the
+original language of the repository object as a two-character ISO ID. If not, a syntax check warning
+occurs. This attribute makes it clear in the source code which language the short text should be specified in. It is also planned to be used in future extensions for the translatability of short texts.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See the class <span class="lnkgrey">CL_DEMO_ABAP_DOC</span> in a source code editor. It contains ABAP
+Doc comments for the class itself, for a type, for a method and its parameters, and for an attribute.
+The ABAP Doc comments include short texts that are synchronized with the short texts in the system documentation
+in the original language English. The class can be copied to a standalone temporary class to test the synchronization. <br><br>
+</p>
+<A NAME="@@/atlink@@!ABAP_DOC_COMMENT!@@"></A>
+<A name="@@ITOC@@ABENDOCCOMMENT_5"></A>
+<p><span class="h2">
+Documentation Links
+</span></p>
+<p>
+In an ABAP Doc comment, the following syntax can be used to link to the documentation of other repository objects:
+</p>
+<p>
+<span class="qtext400">... {@link <i class=bn>[</i><i class=bn>[</i><i class=bn>[</i>kind:<i class=bn>]</i>name.<i class=bn>]</i>...<i class=bn>]</i><i class=bn>[</i>kind:<i class=bn>]</i>name} ...</span>
+</p>
+<p>
+In curly brackets after <span class="qtext400">@link</span>, a path is specified to a repository object and hence a link to its documentation. When the documentation is displayed in
+<a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ADT</a>, a link is created here that displays the documentation of the repository object when selected (if this documentation exists).
+</p>
+<ul class="disc">
+<li><span class="qtext400">name</span> is used to specify the name of a repository object or a component of a repository object (this is not case-sensitive).</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">kind</span> is used to specified the type of the repository object or a component
+of a repository object. <span class="qtext400">kind</span> must be specified as shown for the following repository objects:</li>
+</ul>
+<ul class="circlem2">
+<li>DATA for constants, variables, and procedure parameters in the appropriate context</li>
+</ul>
+<ul class="circlem2">
+<li>DOMA for <a href="javascript:call_link('abendomain_glosry.html')" class="grey" title="Glossary Entry">domains</a></li>
+</ul>
+<ul class="circlem2">
+<li>EVNT for <a href="javascript:call_link('abenevent_glosry.html')" class="grey" title="Glossary Entry">events</a> in classes</li>
+</ul>
+<ul class="circlem2">
+<li>FUNC for <a href="javascript:call_link('abenfunction_module_glosry.html')" class="grey" title="Glossary Entry">function modules</a> in function groups</li>
+</ul>
+<ul class="circlem2">
+<li>FORM for <a href="javascript:call_link('abensubroutine_glosry.html')" class="grey" title="Glossary Entry">subroutines</a> in programs</li>
+</ul>
+<ul class="circlem2">
+<li>FUGR for <a href="javascript:call_link('abenfunction_group_glosry.html')" class="grey" title="Glossary Entry">function groups</a></li>
+</ul>
+<ul class="circlem2">
+<li>INTF for <a href="javascript:call_link('abeninterface_oo_glosry.html')" class="grey" title="Glossary Entry">interfaces</a> implemented in a class to access its components.</li>
+</ul>
+<ul class="circlem2">
+<li>METH for <a href="javascript:call_link('abenmethod_glosry.html')" class="grey" title="Glossary Entry">methods</a></li>
+</ul>
+<ul class="circlem2">
+<li>PROG for <a href="javascript:call_link('abenabap_program_glosry.html')" class="grey" title="Glossary Entry">ABAP programs</a></li>
+</ul>
+<ul class="circlem2">
+<li>SEAM for <a href="javascript:call_link('abentest_seam_glosry.html')" class="grey" title="Glossary Entry">test seams</a></li>
+</ul>
+<ul class="circlem2">
+<li>XSLT for <a href="javascript:call_link('abenxsl_transformation_2_glosry.html')" class="grey" title="Glossary Entry">XSLT programs</a> and
+<a href="javascript:call_link('abensimple_transformation_glosry.html')" class="grey" title="Glossary Entry">simple transformations</a></li>
+</ul>
+<dl><dd>
+<span class="qtext400">kind</span> cannot and must not be specified for global data types and object types (classes and interfaces). These repository objects are only addressed using their names. This applies specifically to
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a>.
+</dd></dl>
+<ul class="disc">
+<li>The path is specified on one level only when repository objects are addressed. When a component
+of a repository is addressed, for example a method of a class or a local class of a program, the path is usually specified with multiple levels, with each segment separated by a period
+(<span class="qtext400">.</span>). The segments between the periods are allowed to be empty. This makes the path into a relative path and the next higher context of the current context is addressed.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Documents a local class <span class="qtext">html</span> of a program using ABAP Doc comments that contain links to the documentation of a global class and to the ABAP Doc documentation of the current program.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+"! Default html string for method {@link .html.METH:show} <br>"! of local class {@link .html}. <br>CONSTANTS <br>
+&nbsp;&nbsp;default TYPE string VALUE `&lt;html>&lt;body>Default&lt;/body>&lt;html>`. <br> <br>"! &lt;h1>Class html&lt;/h1> <br>
+"! Wraps {@link cl_abap_browser}. <br>CLASS html DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;"! &lt;h1>Method show&lt;/h1> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"! Calls {@link cl_abap_browser.METH:show_html} <br>&nbsp;&nbsp;&nbsp;&nbsp;"! of {@link cl_abap_browser} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"! and passes parameter {@link .METH:show.DATA:html }. <br>&nbsp;&nbsp;&nbsp;&nbsp;"! @parameter html | Parameter for <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"! {@link cl_abap_browser.METH:show_html.DATA:html_string}. <br>&nbsp;&nbsp;&nbsp;&nbsp;"! The default value is {@link ..DATA:default}. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS show <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html TYPE string DEFAULT default. <br>
+ENDCLASS. <br> <br>CLASS html IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD show. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_browser=>show_html( html_string = html ). <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br><br>
+</span>
+</p>
+<A NAME="@@/attesting@@!ABAP_DOC_COMMENT!@@"></A>
+<A name="@@ITOC@@ABENDOCCOMMENT_6"></A>
+<p><span class="h2">
+Test Relations
+</span></p>
+<p>
+The following syntax can be used to define relations known as test relations in front of the declaration of a
+<a href="javascript:call_link('abentest_class_glosry.html')" class="grey" title="Glossary Entry">test class</a> or a <a href="javascript:call_link('abentest_method_glosry.html')" class="grey" title="Glossary Entry">test method</a>:
+</p>
+<p>
+<span class="qtext400">"! @testing <i class=bn>[</i>kind:<i class=bn>]</i>name</span>
+</p>
+<p>
+This special ABAP Doc comment links the test class or test method with the repository object specified after <span class="qtext400">@testing</span>.
+</p>
+<ul class="disc">
+<li><span class="qtext400">name</span> is used to specify the name of a repository object (this is not case-sensitive).</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">Kind</span> is used to specify the type of the repository object The following repository objects are possible and <span class="qtext400">kind</span> must be specified as shown:</li>
+</ul>
+<ul class="circlem2">
+<li>FUNC for <a href="javascript:call_link('abenfunction_module_glosry.html')" class="grey" title="Glossary Entry">function modules</a> in function groups</li>
+</ul>
+<ul class="circlem2">
+<li>FUGR for <a href="javascript:call_link('abenfunction_group_glosry.html')" class="grey" title="Glossary Entry">function groups</a></li>
+</ul>
+<ul class="circlem2">
+<li>XSLT for <a href="javascript:call_link('abenxsl_transformation_2_glosry.html')" class="grey" title="Glossary Entry">XSLT programs</a> and
+<a href="javascript:call_link('abensimple_transformation_glosry.html')" class="grey" title="Glossary Entry">simple transformations</a></li>
+</ul>
+<dl><dd>
+<span class="qtext400">kind</span> cannot and must not be specified for global classes and
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entities</a>. They are only addressed using their names.
+</dd></dl>
+<p>
+When a test class or test method is linked with a repository object, it means that the class or method can be displayed and executed for this object in
+<a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ADT</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Test relations are used to link repository objects with external
+<a href="javascript:call_link('abenunit_test_glosry.html')" class="grey" title="Glossary Entry">unit tests</a>. The current program of the test class or test method cannot be specified.</li>
+</ul>
+<ul class="disc">
+<li>Multiple test relations can be specified for a single test class or test method .</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Associates a test class and its test methods with various repository objects.
+</p>
+<dl><dd>
+<span class="qtext">"! @testing cl_demo1 <br>"! @testing cl_demo2 <br>CLASS test_demo_cds_association DEFINITION FOR TESTING. <br>
+&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: <br>&nbsp;&nbsp;&nbsp;&nbsp; test_class1 FOR TESTING, <br>
+&nbsp;&nbsp;&nbsp;&nbsp; test_class2 FOR TESTING, <br>&nbsp;&nbsp;&nbsp;&nbsp; "! @testing demo_cds_view <br>
+&nbsp;&nbsp;&nbsp;&nbsp; test_cds_view FOR TESTING, <br>&nbsp;&nbsp;&nbsp;&nbsp; "! @testing XSLT:demo_trafo <br>&nbsp;&nbsp;&nbsp;&nbsp; test_transformation FOR TESTING. <br>ENDCLASS.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENDOCCOMMENT_7"></A>
+<p><span class="h2">
+Guidelines
+</span></p>
+<p><span class="h4">
+Programming Guidelines
+</span></p>
+<P>
+The following guidelines for general comments also specifically apply to ABAP Doc comments.
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abenlangu_choice_guidl.html')" class="lnkpurple" title="Guideline">Write program comments in English</a> <br>
+Adhering to this rule is particularly important, because documentation created in an ABAP Doc as part of the source code is not translated into other languages. One exception are synchronized short texts. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abenarrange_guidl.html')" class="lnkpurple" title="Guideline">Arrange comments correctly</a> <br>This
+rule affects the horizontal indents because the vertical alignment is fixed in the syntax before declarations. <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abencharacter_set_guidl.html')" class="lnkpurple" title="Guideline">Character set in source code</a> <br>This rule is checked by the syntax check.
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendoccomment.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:28 GMT -->
+</html>

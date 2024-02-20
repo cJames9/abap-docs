@@ -1,0 +1,129 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-740_SP08-SLIN_SEC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-740_sp08-slin_sec.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Security Checks in Release 7.40, SP08">
+<title>
+Security Checks in Release 7.40, SP08 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-740_sp08-slin_sec.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-740_sp08-slin_sec.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-740.html')" class="blue">Changes in Release 7.40 and Its SPs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-740_sp08.html')" class="blue">Changes in Release 7.40, SP08</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Security Checks in Release 7.40, SP08 <br><br>
+</span></p>
+<P>
+The <span class="lnkgrey">security checks</span> in the
+<a href="javascript:call_link('abenextended_program_check_glosry.html')" class="grey" title="Glossary Entry">extended program
+check</a> were revised as follows in Release 7.40, SP08, alongside general improvements in data flow analysis and performance: <br><br>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. Use of system fields </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2. Security-relevant function modules </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. Administration transaction </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">Use of System Fields</span> <br><br><!-- /A -->
+</P>
+<P>
+The <a href="javascript:call_link('abensystem_field_glosry.html')" class="grey" title="Glossary Entry">system fields</a> <span class="qtext">sy-host</span>, <span class="qtext">sy-sysid</span>, and <span class="qtext">sy-mandt</span> in
+<a href="javascript:call_link('abenlogical_expression_glosry.html')" class="grey" title="Glossary Entry">logical expressions</a> can indicate potential
+<a href="javascript:call_link('abensystem_dependent_scrty.html')" class="blue">back doors</a>, like when using <span class="qtext">sy-uname</span>, and are now checked accordingly.
+</P>
+<P>
+It is possible to define additional system fields, for which this check is performed, by implementing <a href="javascript:call_link('abenbadi_glosry.html')" class="grey" title="Glossary Entry">BAdI</a> SLIN_BADI_SEC_BACKDOOR. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">Security-Relevant Function Modules</span> <br><br><!-- /A -->
+</P>
+<P>
+The check that ensures that the return code <span class="qtext">sy-subrc</span> is evaluated when a
+security-relevant function module (such as AUTHORITY_CHECK_TCODE or FILE_VALIDATE_NAME) is called was revised so that the list of predefined function modules can be expanded using the
+<a href="javascript:call_link('abenbadi_glosry.html')" class="grey" title="Glossary Entry">BAdI</a> SLIN_BADI_SEC_PROCEDURES. The program <span class="lnkgrey">RSLIN_SEC_DISPLAY_SECREL_PROC</span> displays the full list. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">Administration Transaction</span> <br><br><!-- /A -->
+</P>
+<P>
+The new transaction <span class="lnkgrey">SLIN_ADMIN</span> is used for the administration of the
+<a href="javascript:call_link('abenextended_program_check_glosry.html')" class="grey" title="Glossary Entry">extended program check</a> and the security checks.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-740_sp08-slin_sec.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+</html>

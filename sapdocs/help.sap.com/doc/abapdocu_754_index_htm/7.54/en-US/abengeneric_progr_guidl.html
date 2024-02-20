@@ -1,0 +1,248 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENGENERIC_PROGR_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abengeneric_progr_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Generic Programming">
+<title>
+Generic Programming - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abengeneric_progr_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abengeneric_progr_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="blue">Dynamic Programming Techniques</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Generic Programming
+</span></p>
+<A name="@@ITOC@@ABENGENERIC_PROGR_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Generic programming (dynamic creation of source code) makes programs as dynamic as possible. The following methods can be used to achieve this:
+</p>
+<ul class="disc">
+<li><span class="bold">Dynamic token specification</span> <br>Dynamic token specification involves specifying
+individual operands or whole parts of statements (clauses) in the form of character-like data objects.
+These are usually enclosed in parentheses and must contain source code with correct syntax at runtime. Important examples:</li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic access to attributes of classes</li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic calls of procedures, particularly methods (known as dynamic invokes)</li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic type specifications when anonymous data objects are created. In this case, types can be used that are only created at runtime using Run Time Type Services (<a href="javascript:call_link('abenrtti.html')" class="blue">RTTS</a>).</li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic specifications of clauses when internal tables are accessed or in ABAP SQL. <br>Dynamic token specifications are often used in combination with
+<a href="javascript:call_link('abendyn_access_data_obj_guidl.html')" class="lnkpurple" title="Guideline">dynamic access to data objects</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Program generation</span> <br>Program generation involves preparing complete
+programs as content for internal tables and then creating the programs. A distinction is made between the following cases:</li>
+</ul>
+<ul class="circlem2">
+<li>Transient program generation using <span class="qtext">GENERATE SUBROUTINE POOL</span>, where the generated programs only exist in the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of the current program.</li>
+</ul>
+<ul class="circlem2">
+<li>Persistent program generation with <span class="qtext">INSERT REPORT</span>. The generated programs are saved as repository objects.</li>
+</ul>
+<A name="@@ITOC@@ABENGENERIC_PROGR_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Avoiding Program Generation</span>
+</p>
+<p>
+Program generation should only be used as a last resort for generic programming. Other dynamic methods
+(especially in application programs) should be tried first, such as dynamic token specification, runtime type services (RTTS) and dynamic access to data objects.
+</p>
+<A name="@@ITOC@@ABENGENERIC_PROGR_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Program generation has a lot of conceptual problems such as checking, testing, and editing the new programs.
+In addition, programs generated hastily can be a security risk because they cannot be statically checked.
+Creating programs is usually very intensive in terms of runtime and resources. Due to the above reasons, program generation should be avoided wherever possible and other dynamic methods used instead:
+</p>
+<ul class="disc">
+<li>The dynamic token specification has the advantage that only parts of the statements are dynamic. The rest can be checked statically.</li>
+</ul>
+<ul class="disc">
+<li>Runtime type services (RTTS) can be used as follows:</li>
+</ul>
+<ul class="circlem2">
+<li>RTTS define the type attributes of data objects at runtime (Runtime Type Information, RTTI). The capabilities of RTTI extend far beyond the statement <span class="qtext">DESCRIBE FIELD</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>It creates types at runtime (Runtime Type Creation, RTTC). RTTC should be used if the <span class="qtext">CREATE
+DATA</span> statement does not offer sufficient options for the planned implementation (for example, building new structures).</li>
+</ul>
+<p>
+These methods, combined with <a href="javascript:call_link('abendyn_access_data_obj_guidl.html')" class="lnkpurple" title="Guideline">field
+symbols and data references</a>, are now usually sufficient for most tasks that could only be solved using program generation in older releases.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Program generation should only be used as a last resort if the other methods are not sufficient to achieve
+dynamic program control. Another reason is the processing speed. When program generation is used, the
+costs incurred due to checking and generation occur less frequently than with the other dynamic methods.
+However, program generation is usually associated with worse system performance than dynamic token specification.
+The conceptual problems explained at the start are still applicable here and therefore careful consideration is needed.
+</p>
+<p>
+Unlike application programs, system programs usually frequently rely on program generation and the associated
+language constructs. Examples include the generation of proxy classes for Web Dynpro or Web Services.
+ABAP Editor itself also uses statements such as <span class="qtext">READ REPORT</span> and <span class="qtext">INSERT REPORT</span>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Even generated programs should always adhere to the predefined guidelines. For example, the program logic should be implemented/generated in a generated subroutine pool in the form of
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">local classes</a>. The generated functions are usually called by means of a single
+<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">subroutine</a> that is used as an entry point into the generated local classes (see the following example).</li>
+</ul>
+<ul class="disc">
+<li>To minimize the risks involved, it can be useful to save templates with correct syntax that adhere
+to the guidelines in the repository. <span class="qtext">READ REPORT</span> can then be used to load
+the templates as templates for dynamically generated programs, in which only small parts are changed or added at runtime.</li>
+</ul>
+<ul class="disc">
+<li>Subroutines in generated subroutine pools are an exception to the
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">rule</a>, which states that subroutines should no longer be created, and an exception to the
+<a href="javascript:call_link('abenintern_extern_proc_call_guidl.html')" class="lnkpurple" title="Guideline">rule</a>, which
+states that subroutines should no longer be called. In addition, absolute type names can be used to access the local classes of a generated subroutine pool. However, this violates the rule
+<a href="javascript:call_link('abenintern_extern_proc_call_guidl.html')" class="lnkpurple" title="Guideline">Only call suitable procedures externally</a>.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code demonstrates unnecessary program generation. The only reason for generating
+the program are dynamic reads on a database table. The name of the database table and the row type of
+the internal table (into which data is read) are replaced by a parameter value in the source code of
+the program to be generated. The value operator <a href="javascript:call_link('abenconstructor_expression_value.html')" class="blue"><span class="qtext">
+VALUE</span></a> is used to create the internal table. As recommended, the subroutine of the generated
+subroutine pool only contains the call for a method of a local class where the actual implementation
+is located. Instead of filling the program table row by row, it would have also been possible in this
+case to create a corresponding program in the repository and load this program using <span class="qtext">READ REPORT</span>.
+</p>
+<dl><dd>
+<span class="qtext">PARAMETERS dbtab TYPE c LENGTH 16.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA table TYPE REF TO data. <br>FIELD-SYMBOLS &lt;table> TYPE STANDARD TABLE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: source TYPE TABLE OF string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mess TYPE string.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">source = VALUE #( <br>&nbsp;&nbsp;( `program.` ) <br>&nbsp;&nbsp;( `class main definition.` ) <br>
+&nbsp;&nbsp;( `&nbsp;&nbsp; public section.` ) <br>&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp; class-data` ) <br>
+&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dyn_table type standard table of dyn_name.` ) <br>&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp; class-methods meth` ) <br>
+&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exporting table type ref to data.` ) <br>&nbsp;&nbsp;( `endclass.` ) <br>
+&nbsp;&nbsp;( `class main implementation.` ) <br>&nbsp;&nbsp;( `&nbsp;&nbsp; method meth.` ) <br>&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp; select *` ) <br>
+&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from dyn_name` ) <br>
+&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into table @dyn_table.` ) <br>
+&nbsp;&nbsp;( `&nbsp;&nbsp;&nbsp;&nbsp; get reference of dyn_table into table.` ) <br>&nbsp;&nbsp;( `&nbsp;&nbsp; endmethod.` ) <br>
+&nbsp;&nbsp;( `endclass.` ) <br>&nbsp;&nbsp;( `form subr changing table type ref to data.` ) <br>&nbsp;&nbsp;( `&nbsp;&nbsp; main=>meth(` ) <br>
+&nbsp;&nbsp;( ` importing table = table ).` ) <br>&nbsp;&nbsp;( `endform.` ) ).</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">REPLACE ALL OCCURRENCES OF 'dyn_name' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN TABLE source WITH dbtab. <br>
+GENERATE SUBROUTINE POOL source NAME program MESSAGE mess. <br>IF sy-subrc = 0. <br>&nbsp;&nbsp; PERFORM subr IN PROGRAM (program) CHANGING table. <br>
+&nbsp;&nbsp; IF table IS BOUND. <br>&nbsp;&nbsp;&nbsp;&nbsp; ASSIGN table->* TO &lt;table>. <br>&nbsp;&nbsp; ENDIF. <br>ELSE. <br>&nbsp;&nbsp; ...</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">ENDIF.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code produces the same result as the example above, when executed successfully.
+In other words, the field symbol <span class="qtext">&lt;table></span> points to an internal table that
+is filled with data from the dynamically specified database table. However, this task is performed much
+more efficiently in the example below due to the creation of an anonymous data object and a dynamically
+specified token. If the target table cannot be structured in exactly the same way as the database table, Runtime Type Creation (RTTC) must also be used.
+</p>
+<dl><dd>
+<span class="qtext">PARAMETERS dbtab TYPE c LENGTH 20. <br>DATA table TYPE REF TO data. <br>FIELD-SYMBOLS &lt;table> TYPE STANDARD TABLE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">TRY. <br>&nbsp;&nbsp; CREATE DATA table TYPE TABLE OF (dbtab). <br>&nbsp;&nbsp; ASSIGN table->* TO &lt;table>. <br>
+&nbsp;&nbsp; SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (dbtab) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @&lt;table>. <br>
+&nbsp;&nbsp;CATCH cx_sy_create_data_error cx_sy_dynamic_osql_error. <br>&nbsp;&nbsp;... <br>ENDTRY.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abengeneric_progr_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

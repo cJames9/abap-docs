@@ -1,0 +1,228 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDELETE_ITAB_USING_KEY_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendelete_itab_using_key_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables, Deleting Rows Using WHERE">
+<title>
+Internal Tables, Deleting Rows Using WHERE - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendelete_itab_using_key_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendelete_itab_using_key_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentable_processing_statements.html')" class="blue">Processing Statements for Internal Tables</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapdelete_itab.html')" class="blue">DELETE itab</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapdelete_itab_lines.html')" class="blue">DELETE itab - itab_lines</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables, Deleting Rows Using WHERE
+</span></p>
+<p>
+This example measures the runtime of the statement <span class="qtext">DELETE ... WHERE</span> with various table keys.
+</p>
+<A name="@@ITOC@@ABENDELETE_ITAB_USING_KEY_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_delete_table_using_key.<br>
+<br>
+CLASS measure DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA: BEGIN OF tline,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF tline,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itab LIKE HASHED TABLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OF tline<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY primary_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMPONENTS col1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH NON-UNIQUE SORTED KEY secondary_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMPONENTS col2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jtab LIKE SORTED TABLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OF tline<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH NON-UNIQUE KEY primary_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMPONENTS col2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS refresh_itab.<br>
+ENDCLASS.<br>
+<br>
+CLASS measure IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: t1 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t2 TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;&nbsp;TYPE i.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refresh_itab( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR t.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE itab WHERE col2 = 10 ##primkey[secondary_key].<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t += t2 - t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Delete without using secondary sorted key: { t }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refresh_itab( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR t.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE itab USING KEY secondary_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE col2 = 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t += t2 - t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Delete without using secondary sorted key: { t }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refresh_itab( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;jtab = itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR t.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_itab_utilities=&gt;flush_itab_key(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING keyname = 'SECONDARY_KEY'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;itab&nbsp;&nbsp;&nbsp;&nbsp;= itab ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t += t2 - t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text( |Create secondary index: { t }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR t.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE itab USING KEY secondary_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE col2 = 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t += t2 - t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Delete via secondary sorted key with existing index: { t }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR t.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE jtab WHERE col2 = 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GET RUN TIME FIELD t2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t += t2 - t1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Delete via primary sorted key: { t }|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD refresh_itab.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA prng TYPE REF TO cl_abap_random_int.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;prng = cl_abap_random_int=&gt;create( seed = + sy-uzeit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; min&nbsp;&nbsp;= 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max&nbsp;&nbsp;= 10 ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;itab = VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR j = 1 UNTIL j &gt; 100000 ( col1 = j<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col2 = prng-&gt;get_next( ) ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;measure=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDELETE_ITAB_USING_KEY_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The table <span class="qtext">itab</span> is a hashed table with a unique primary key and a non-unique
+secondary sorted key. The method <span class="qtext">refresh_itab</span> fills the table with 100000 rows, with the second column being given random numbers between 1 and 10.
+</p>
+<p>
+The program measures the runtime of the statement <span class="qtext">DELETE itab</span>, with a condition being set after <span class="qtext">WHERE</span> on the column that determines the secondary key.
+</p>
+<ul class="disc">
+<li>For demonstration purposes, the <a href="javascript:call_link('abenpragma_glosry.html')" class="grey" title="Glossary Entry">pragma</a>
+<span class="qtext">##PRIMKEY</span> is used to suppress the syntax check warning in the first <span class="qtext">
+DELETE</span> statement stating that the primary key is being used to access the internal table without its component being specified. This access must perform a linear scan of the entire internal table.</li>
+</ul>
+<ul class="disc">
+<li>The secondary key is specified in the second <span class="qtext">DELETE</span> statement. Since this key is not used to access the internal table after the table is filled, the secondary table key must first be constructed
+(<a href="javascript:call_link('abenlazy_update_glosry.html')" class="grey" title="Glossary Entry">lazy update</a>). This time
+is included in the <span class="qtext">DELETE</span> statement measurement and seems to make it considerably slower than the previous non-optimized statement.</li>
+</ul>
+<ul class="disc">
+<li>Once the internal table is filled again, the secondary key is constructed explicitly using the method
+FLUSH_ITAB_KEY of the class <span class="lnkgrey">CL_ABAP_ITAB_UTILITIES</span>. The time measured here is largely the runtime needed to create the index.</li>
+</ul>
+<ul class="disc">
+<li>The third <span class="qtext">DELETE</span> statement specifies the secondary key again, but it
+already exists due to the preceding method call. As expected, the runtime of this <span class="qtext">DELETE</span>
+statement is faster than the previous two statements. The total of this runtime and the runtime required to construct the index gives the runtime of the second <span class="qtext">DELETE</span> statement.</li>
+</ul>
+<ul class="disc">
+<li>The fourth <span class="qtext">DELETE</span> statement performs the same delete operation on a sorted
+internal table <span class="qtext">jtab</span>, which has the same row type and content as the previous
+table <span class="qtext">itab</span> but no secondary key as its only key. The runtime is approximately
+the same as an access to <span class="qtext">itab</span> using the secondary sorted key, but is a little
+shorter since only one key needs to be administered for the internal table. If a secondary key were
+declared for <span class="qtext">jtab</span>, such as a hash key for the first column, the runtime of the last two <span class="qtext">DELETE</span> statements would be about the same.</li>
+</ul>
+<p>
+The example demonstrates that performance is improved significantly by using secondary table keys, which
+make it unnecessary to copy data to tables with appropriate keys. It also demonstrates, however, that
+the construction of a secondary index is costly. The use of lazy update also means that these costs
+are often incurred in unexpected places. Secondary keys are more suitable for frequent reads on large tables, rather than infrequent writes.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendelete_itab_using_key_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:35 GMT -->
+</html>

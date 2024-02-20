@@ -1,0 +1,134 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENBDL_EXAMPLE_CDS_ENTITY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_example_cds_entity.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Child entity example">
+<title>
+Child entity example - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenbdl_example_cds_entity.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenbdl_example_cds_entity.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_definitions.html')" class="blue">Behavior Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Child entity example
+</span></p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the business object's structure, the CDS view <span class="qtext400">/DMO/I_Booking</span> represents
+a child entity of the root entity <span class="qtext400">Travel</span> that can be used to create and
+edit flight bookings. The child entity <span class="qtext400">Booking</span> is used to manage the following
+flight booking data: trip ID, booking ID and date, customer number, airline, connection, and price of the flight. The booking data can only be created for a specific <span class="qtext400">Travel</span> instance.
+</p>
+<p>
+The booking data is saved in the database table <span class="qtext400">/DMO/BOOKING</span>.
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'ZDEMO_BOOKING_DB' <br>@AbapCatalog.compiler.compareFilter: true <br>
+@AccessControl.authorizationCheck: #NOT_REQUIRED <br>@AbapCatalog.preserveKey: true <br>@EndUserText.label: 'Booking' <br>
+@Search.searchable: true <br> <br>define view /DMO/I_Booking <br>&nbsp;&nbsp;as select from /dmo/booking as Booking <br>
+ <br>&nbsp;&nbsp;association to parent /DMO/I_Travel as _Travel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.Travel_ID = _Travel.Travel_ID <br>&nbsp;&nbsp;association [1..1] to /DMO/I_Customer&nbsp;&nbsp;&nbsp;&nbsp; as _Customer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.Customer_ID = _Customer.CustomerID <br>&nbsp;&nbsp;association [1..1] to /DMO/I_Carrier
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as _Carrier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on <br>&nbsp;&nbsp;&nbsp;&nbsp;$projection.Carrier_ID = _Carrier.CarrierID <br>
+&nbsp;&nbsp;association [1..1] to /DMO/I_Connection&nbsp;&nbsp; as _Connection&nbsp;&nbsp;&nbsp;&nbsp;on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.Carrier_ID&nbsp;&nbsp;&nbsp;&nbsp;= _Connection.CarrierID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.Connection_ID = _Connection.ConnectionID <br>&nbsp;&nbsp;association [0..*] to I_CurrencyText&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as _CurrencyText&nbsp;&nbsp;on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;$projection.Currency_Code = _CurrencyText.Currency <br>{ <br>&nbsp;&nbsp;@ObjectModel.readOnly: true <br>
+&nbsp;&nbsp;@Search.defaultSearchElement: true <br>&nbsp;&nbsp;key travel_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Travel_ID, <br>
+ <br>&nbsp;&nbsp;@ObjectModel.readOnly: true <br>&nbsp;&nbsp;@Search.defaultSearchElement: true <br>
+&nbsp;&nbsp;key booking_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Booking_ID, <br>
+ <br>&nbsp;&nbsp;booking_date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Booking_Date, <br>
+ <br>&nbsp;&nbsp;@Consumption.valueHelpDefinition: [{ <br>&nbsp;&nbsp;&nbsp;&nbsp;entity: {name: '/DMO/I_Customer', element: 'CustomerID' }}] <br>
+&nbsp;&nbsp;@ObjectModel.text.association: '_Customer' <br>&nbsp;&nbsp;@Search.defaultSearchElement: true <br>
+&nbsp;&nbsp;customer_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Customer_ID, <br>
+ <br>&nbsp;&nbsp;@Consumption.valueHelpDefinition: [{ <br>&nbsp;&nbsp;&nbsp;&nbsp;entity: {name: '/DMO/I_Carrier', element: 'CarrierID' }}] <br>
+&nbsp;&nbsp;@ObjectModel.text.association: '_Carrier' <br>&nbsp;&nbsp;@Search.defaultSearchElement: true <br>
+&nbsp;&nbsp;carrier_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Carrier_ID, <br>
+ <br>&nbsp;&nbsp;@Consumption.valueHelpDefinition: [{ <br>&nbsp;&nbsp;&nbsp;&nbsp;entity: {name: '/DMO/I_Connection', element: 'ConnectionID' }, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;additionalBinding: [ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Flight_Date',&nbsp;&nbsp; element: 'FlightDate'}, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Carrier_ID',&nbsp;&nbsp;&nbsp;&nbsp;element: 'CarrierID'}, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Flight_Price',&nbsp;&nbsp;element: 'Price' }, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Currency_Code', element: 'CurrencyCode' }]}] <br>&nbsp;&nbsp;@ObjectModel.text.association: '_Connection' <br>
+&nbsp;&nbsp;connection_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Connection_ID, <br>
+ <br>&nbsp;&nbsp;@Consumption.valueHelpDefinition: [{ <br>&nbsp;&nbsp;&nbsp;&nbsp;entity: {name: '/DMO/I_Connection', element: 'FlightDate' }, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;additionalBinding: [ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Connection_ID', element: 'ConnectionID'}, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Carrier_ID',&nbsp;&nbsp;&nbsp;&nbsp;element: 'CarrierID'}, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Flight_Price',&nbsp;&nbsp;element: 'Price' }, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ localElement: 'Currency_Code', element: 'CurrencyCode' }]}] <br>
+&nbsp;&nbsp;flight_date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Flight_Date, <br>
+ <br>&nbsp;&nbsp;@Semantics.amount.currencyCode: 'Currency_Code' <br>&nbsp;&nbsp;flight_price&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as Flight_Price, <br>
+ <br>&nbsp;&nbsp;@Semantics.currencyCode: true <br>&nbsp;&nbsp;@Consumption.valueHelpDefinition: [{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;entity: {name: 'I_CurrencyText', element: 'Currency' }}] <br>&nbsp;&nbsp;@ObjectModel.text.association: '_CurrencyText' <br>
+&nbsp;&nbsp;currency_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as Currency_Code, <br>
+ <br>&nbsp;&nbsp;/* Associations */ <br>&nbsp;&nbsp;_Travel, <br>&nbsp;&nbsp;_Customer, <br>&nbsp;&nbsp;_Carrier, <br>&nbsp;&nbsp;_Connection, <br>&nbsp;&nbsp;_CurrencyText <br>}</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenbdl_example_cds_entity.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

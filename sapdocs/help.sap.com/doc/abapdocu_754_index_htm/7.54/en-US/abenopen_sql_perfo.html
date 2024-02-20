@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOPEN_SQL_PERFO -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopen_sql_perfo.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:11 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP SQL - Performance Notes">
+<meta name="keywords" content="ABAP, ABAP SQL, Performance">
+<title>
+ABAP SQL - Performance Notes - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenopen_sql_perfo.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenopen_sql_perfo.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP SQL - Performance Notes
+</span></p>
+<p>
+The performance of a program is often determined by the efficiency of its database reads. In a client/server
+environment, each database read places a load on both the database system and the connection between
+the database system and the AS ABAP. This load must be kept as low as possible if programs are to demonstrate a good level of performance.
+</p>
+<p>
+Generally speaking, the following rules must be followed. The overall performance of a program is related
+to the data being edited, any evaluations required, and the database system itself, which means that a different combination of rules and priorities can apply from case to case.
+</p>
+<ul class="disc">
+<li><span class="bold">Keep the number of hits low</span></li>
+</ul>
+<dl><dd>
+The set of rows selected should be kept as small as possible by using specific conditions to restrict
+the set to those rows actually needed. Superfluous rows should never be transported from the database system to the AS ABAP and then evaluated there.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Keep the data volume low</span></li>
+</ul>
+<dl><dd>
+The volume of data transported should always be restricted to the columns required. The columns can be specified explicitly or an appropriate view can be used. Furthermore,
+<a href="javascript:call_link('abenaggregate_expression_glosry.html')" class="grey" title="Glossary Entry">aggregate expressions</a> can be combined with appropriately grouped data or
+<a href="javascript:call_link('abensql_expression_glosry.html')" class="grey" title="Glossary Entry">SQL expressions</a> to reduce the volume of data, since here the data is aggregated before the transport in the database system.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Keep the number of reads low</span></li>
+</ul>
+<dl><dd>
+To keep the number of database reads low, mass operations should always be used instead of single operations.
+More specifically, ABAP SQL statements should not be used within loops. Instead, joins, views, or subqueries can be used when reading multiple database tables.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Use local buffers</span></li>
+</ul>
+<dl><dd>
+The same data should be not be read more than once. Saving database tables to the local buffer in
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a> (and also saving prepared data in
+<a href="javascript:call_link('abenshared_objects_glosry.html')" class="grey" title="Glossary Entry">Shared Objects</a>) can
+produce significant time savings, since it takes much longer for the AS ABAP to read the database system
+than a locally buffered table. Database tables should always be buffered if they are read frequently
+and modified rarely. If the same data is to be sorted multiple times in different orders, the data should be sorted in the ABAP program.
+</dd></dl>
+<ul class="disc">
+<li><span class="bold">Efficient search using indexes</span></li>
+</ul>
+<dl><dd>
+In all cases where <a href="javascript:call_link('abenddic_database_tables_index.html')" class="blue">secondary indexes</a> of database tables improve selection performance, these indexes should be created and used.
+</dd></dl>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+This example uses a <span class="qtext">SELECT</span> statement in a <span class="qtext">SELECT</span>
+loop to add values from a different database table to the work area here. An internal table is filled with the work area, row by row.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT carrid, CAST( ' ' AS CHAR( 20 ) ) AS carrname, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connid, cityfrom, cityto <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid, cityfrom, cityto <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(wa). <br>&nbsp;&nbsp;SELECT SINGLE carrname <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @wa-carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@wa-carrname). <br>
+&nbsp;&nbsp;DATA itab LIKE TABLE OF wa WITH EMPTY KEY. <br>&nbsp;&nbsp;itab = VALUE #( BASE itab ( wa ) ). <br>ENDSELECT.
+</span>
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+This example uses a join expression to fill an internal table directly. The result is the same as in
+the previous example. The program <span class="lnkgrey">DEMO_OPEN_SQL_PERFO</span> compares the runtimes of both access methods. The "good" example is generally far quicker than the "bad" example.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT p~carrid, c~carrname, p~connid, p~cityfrom, p~cityto <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli AS p <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEFT OUTER JOIN scarr AS c <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON p~carrid = c~carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY p~carrid, p~connid, p~cityfrom, p~cityto <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab).
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenopen_sql_perfo.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:11 GMT -->
+</html>

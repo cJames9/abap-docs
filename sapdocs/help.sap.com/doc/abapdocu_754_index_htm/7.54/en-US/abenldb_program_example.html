@@ -1,0 +1,217 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLDB_PROGRAM_EXAMPLE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_program_example.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:58 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Example of a Database Program">
+<title>
+Example of a Database Program - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenldb_program_example.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenldb_program_example.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb.html')" class="blue">Logical Databases (Obsolete)</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_examples.html')" class="blue">Logical Databases - Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Example of a Database Program
+</span></p>
+<p>
+A logical database TEST_LDB has the structure shown in <a href="javascript:call_link('abenldb_example.html')" class="blue">Example of a Logical Database</a>. All nodes are database tables. Selections are defined in the selection include:
+</p>
+<dl><dd>
+<span class="qtext">SELECT-OPTIONS SLIFNR&nbsp;&nbsp;FOR LFA1-LIFNR. <br>SELECT-OPTIONS SBUKRS&nbsp;&nbsp;FOR LFB1-BUKRS. <br>
+SELECT-OPTIONS SGJAHR&nbsp;&nbsp;FOR LFC1-GJAHR. <br>SELECT-OPTIONS SBELNR&nbsp;&nbsp;FOR BKPF-BELNR.</span>
+</dd></dl>
+<p>
+ The generated proposal for the database program is then as follows:
+</p>
+<p><span class="h4">
+Master program SAPDBTEST_LDB
+</span></p>
+<dl><dd>
+<span class="qtext">*----------------------------------------------------------* <br>*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATABASE PROGRAM OF LOGICAL DATABASE TEST_LDB <br>
+*----------------------------------------------------------* <br>INCLUDE DBTEST_LDBTOP .&nbsp;&nbsp;&nbsp;&nbsp;" header <br>
+INCLUDE DBTEST_LDBXXX .&nbsp;&nbsp;&nbsp;&nbsp;" all system routines <br>* INCLUDE DBTEST_LDBF001 . " user defined include</span>
+</dd></dl>
+<p><span class="h4">
+Include program DBTEST_LDBTOP
+</span></p>
+<dl><dd>
+<span class="qtext">PROGRAM SAPDBTEST_LDB DEFINING DATABASE TEST_LDB. <br>TABLES: LFA1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LFB1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LFC1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BKPF. <br>* DATA: ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user defined variables</span>
+</dd></dl>
+<p><span class="h4">
+Include program DBTEST_LDB001
+</span></p>
+<dl><dd>
+<span class="qtext">*----------------------------------------------------------* <br>* Call event GET LFA1 <br>
+*----------------------------------------------------------* <br>FORM PUT_LFA1. <br>* SELECT * FROM LFA1 <br>
+*&nbsp;&nbsp; INTO LFA1 <br>*&nbsp;&nbsp; INTO TABLE ? (choose one!) <br>*&nbsp;&nbsp; WHERE LIFNR = ?. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;PUT LFA1. <br>* ENDSELECT. <br>ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "PUT_LFA1 <br>
+*----------------------------------------------------------* <br>* Authority Check for node LFA1 <br>*----------------------------------------------------------* <br>
+* FORM AUTHORITY_CHECK_LFA1. <br>*&nbsp;&nbsp; AUTHORITY-CHECK ... <br>* ENDFORM.</span>
+</dd></dl>
+<p><span class="h4">
+Include programs DBTEST_LDB002 and DBTEST_LDB003
+</span></p>
+<p>
+Like DBTEST_LDB001 for the nodes LFB1 and LFC1
+</p>
+<p><span class="h4">
+Include program DBTEST_LDB004
+</span></p>
+<dl><dd>
+<span class="qtext">*----------------------------------------------------------* <br>* Call event GET BKPF <br>
+*----------------------------------------------------------* <br>FORM PUT_BKPF. <br>* STATICS FLAG. <br>
+* IF FLAG = SPACE. <br>*&nbsp;&nbsp; FLAG = 'X'. <br>*** Declarations for field selection for node BKPF *** <br>
+*&nbsp;&nbsp; STATICS BKPF_FIELDS TYPE RSFS_TAB_FIELDS. <br>*&nbsp;&nbsp; MOVE 'BKPF' TO BKPF_FIELDS-TABLENAME. <br>
+*&nbsp;&nbsp; READ TABLE SELECT_FIELDS WITH KEY BKPF_FIELDS-TABLENAME <br>*&nbsp;&nbsp;&nbsp;&nbsp; INTO BKPF_FIELDS. <br>
+* ENDIF. <br>* SELECT (BKPF_FIELDS-FIELDS) INTO CORRESPONDING FIELDS OF <br>*&nbsp;&nbsp;&nbsp;&nbsp; BKPF / TABLE ? " (choose one of them) <br>
+*&nbsp;&nbsp;&nbsp;&nbsp; FROM BKPF <br>*&nbsp;&nbsp; WHERE BUKRS = LFB1-BUKRS <br>*&nbsp;&nbsp;&nbsp;&nbsp; AND BELNR IN SBELNR <br>
+*&nbsp;&nbsp;&nbsp;&nbsp; AND GJAHR = ?. <br>&nbsp;&nbsp;&nbsp;&nbsp;PUT BKPF. <br>ENDFORM.&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "PUT_BKPF <br>
+*----------------------------------------------------------* <br>* Authority Check for node BKPF <br>*----------------------------------------------------------* <br>
+* FORM AUTHORITYCHECK_BKPF. <br>*&nbsp;&nbsp; AUTHORITY-CHECK ... <br>* ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "AUTHORITY_CHECK_BKPF</span>
+</dd></dl>
+<p><span class="h4">
+Include program DBTEST_LDBFXXX
+</span></p>
+<dl><dd>
+<span class="qtext">*----------------------------------------------------------* <br>* BEFORE_EVENT will be called before event EVENT <br>
+* Possible values for EVENT: 'START-OF-SELECTION' <br>*----------------------------------------------------------* <br>
+* FORM BEFORE_EVENT USING EVENT. <br>*&nbsp;&nbsp; CASE EVENT. <br>*&nbsp;&nbsp;&nbsp;&nbsp; WHEN 'START-OF-SELECTION' <br>
+* <br>*&nbsp;&nbsp; ENDCASE. <br>* ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "BEFORE_EVENT <br>
+*----------------------------------------------------------* <br>* AFTER_EVENT will be called after event EVENT <br>
+* Possible values for EVENT: 'END-OF-SELECTION' <br>*----------------------------------------------------------* <br>
+* FORM AFTER_EVENT USING EVENT. <br>*&nbsp;&nbsp; CASE EVENT. <br>*&nbsp;&nbsp;&nbsp;&nbsp; WHEN 'END-OF-SELECTION' <br>
+* <br>*&nbsp;&nbsp; ENDCASE. <br>* ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "AFTER_EVENT <br>
+*-----------------------------------------------------------* <br>* Initialize global data for multiple processing of <br>
+* one logical database. <br>* Set returncode: <br>*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 -> all data are initialized, multiple processing o.k. <br>
+*&nbsp;&nbsp;other -> no multiple processing allowed <br>*------------------------------------------------------------* <br>
+FORM&nbsp;&nbsp;LDB_PROCESS_INIT CHANGING SUBRC LIKE SY-SUBRC. <br> <br>ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LDB_PROCESS_INIT <br>
+*------------------------------------------------------------* <br>* LDB_PROCESS_CHECK_SELECTIONS is called <br>
+* after select-options and parameters are filled <br>*------------------------------------------------------------* <br>
+FORM&nbsp;&nbsp;LDB_PROCESS_CHECK_SELECTIONS CHANGING SUBRC LIKE SY-SUBRC <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MSG LIKE SYMSG. <br>
+ <br>ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LDB_PROCESS_CHECK_SELECTIONS <br>
+*----------------------------------------------------------* <br>* Initialize selection screen (processed before PBO) <br>
+*----------------------------------------------------------* <br>FORM INIT. <br> <br>ENDFORM.&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "INIT. <br>
+*----------------------------------------------------------* <br>* PBO of selection screen (processed always after ENTER) <br>
+*----------------------------------------------------------* <br>FORM PBO. <br> <br>ENDFORM.&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "PBO. <br>
+*----------------------------------------------------------* <br>* PAI of selection screen (processed always after ENTER) <br>
+*----------------------------------------------------------* <br>FORM PAI USING FNAME MARK. <br>* CASE FNAME. <br>
+*&nbsp;&nbsp; WHEN 'SLIFNR&nbsp;&nbsp;'. <br>*&nbsp;&nbsp; WHEN 'SBUKRS&nbsp;&nbsp;'. <br>*&nbsp;&nbsp; WHEN 'SBELNR&nbsp;&nbsp;'. <br>
+*&nbsp;&nbsp; WHEN 'SGJAHR&nbsp;&nbsp;'. <br>*&nbsp;&nbsp; WHEN '*'. <br>*&nbsp;&nbsp; ENDCASE. <br>ENDFORM.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "PAI</span>
+</dd></dl>
+<p><span class="h4">
+Include program DBTEST_LDBSXXX
+</span></p>
+<dl><dd>
+<span class="qtext">************************************************************* <br>* !!! PLEASE DO NOT CHANGE MANUALLY (BEGIN OF BLOCK) !!!!!! * <br>
+*-----------------------------------------------------------* <br>* Data structures for search pattern selection <br>
+* <br>* !!! PLEASE DO NOT CHANGE MANUALLY (END OF BLOCK) !!!!!!!! * <br>************************************************************* <br>
+*-----------------------------------------------------------* <br>* PUT_TEST_LDB_SP. <br>* Processed when search pattern selection is used, <br>
+* i.e. user input into PARAMETERS p_sp AS SEARCH PATTERN <br>* STRUCTURE. <br>*-----------------------------------------------------------* <br>
+* FORM PUT_TEST_LDB_SP. <br> <br>* ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "PUT_EXAMPLE_SP</span>
+</dd></dl>
+<p>
+The comment characters before ABAP statements used in addition to the mandatory statements can be deleted
+and the question marks can be replaced by appropriate expressions. The syntax check checks all include programs that match the naming conventions and also the selection include.
+</p>
+<p>
+When the database is accessed in the subroutines <span class="qtext">put_node</span>, <span class="qtext">SELECT</span>
+statements with conditions for the primary key fields in the <span class="qtext">WHERE</span> clauses
+are generated. The performance of these statements is, however, not yet optimized. In particular, the
+subroutines <span class="qtext">put_node</span> of a subtree of the structure represent nested <span class="qtext">
+SELECT</span> loops, which should generally be avoided. Instead, the data read can be buffered in internal
+tables, for example, and passed from here to the application program using the <span class="qtext">PUT</span>
+statement. The statement <span class="qtext">PUT node</span>, though, should always be located in a subroutine whose name starts with <span class="qtext">put_node</span> for technical reasons.
+</p>
+<p>
+If the selections specify <a href="javascript:call_link('abenldb_free_selections.html')" class="blue">dynamic selections</a> or
+<a href="javascript:call_link('abenldb_field_selections.html')" class="blue">field selections</a> for a node, corresponding statements
+are generated in the subroutine <span class="qtext">put_node</span> and the <span class="qtext">SELECT</span> statement created automatically is modified, as seen in the example for the node BKPF.
+</p>
+<p>
+The subroutines <span class="qtext">before_event</span>, <span class="qtext">after_event</span>, and
+<span class="qtext">put_ldb_sp</span> are created as a comment in the database program and can be modified
+and (by deleting the asterisks) activated. <span class="qtext">before_event</span> is called before
+the event specified in the parameter <span class="qtext">event</span> is processed. <span class="qtext">after_event</span>
+is called after the event specified in the parameter <span class="qtext">event</span> is processed.
+When a search help selection is made, <span class="qtext">put_ldb_sp</span> is called to edit the return values instead of <span class="qtext">put_node</span> for the root node.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_program_example.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:58 GMT -->
+</html>

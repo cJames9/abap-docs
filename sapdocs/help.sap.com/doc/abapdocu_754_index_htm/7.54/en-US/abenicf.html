@@ -1,0 +1,256 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENICF -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenicf.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ICF - Internet Communication Framework">
+<meta name="keywords" content="ABAP, HTTP, HTTPS, ICF, Internet Communication Framework, SMTP">
+<title>
+ICF - Internet Communication Framework - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenicf.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenicf.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ICF - Internet Communication Framework
+</span></p>
+<p>
+Internet Communication Framework (ICF) is a programming interface (API), based on interfaces and classes,
+used by ABAP programs to communicate with the Internet. ICF supports the Internet protocols HTTP, HTTPS,
+and SMTP. All communication between ABAP and the Internet based on these protocols takes place using
+ICF.  ICF is a simplified technical foundation that can be used by more advanced programming interfaces. This means that ABAP programs do not usually access ICF directly and wrappers are used instead, such as
+<a href="javascript:call_link('abenbusiness_server_pages_glosry.html')" class="grey" title="Glossary Entry">Business Server Pages</a>,
+<a href="javascript:call_link('abenweb_dynpro_glosry.html')" class="grey" title="Glossary Entry">Web Dynpro ABAP</a>, Web Services ABAP, or on OData-based services like
+<a href="javascript:call_link('abensapui5_glosry.html')" class="grey" title="Glossary Entry">SAPUI5</a>. Wrappers like these
+ensure that the conventions required for external communication are met, such as the model view controller approach (MVC) in Web Dynpro and SAPUI5 or Simple Object Access Protocol (SOAP) in Web services.
+</p>
+<p>
+To communicate with the Internet using REST principles (Representational State Transfer), the interfaces and classes in the ABAP REST Library in the package SREST should be used, since they adapt ICF accordingly.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENICF_1" class="blue">ICF Overview</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENICF_2" class="blue">AS ABAP as an ICF Server</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENICF_3" class="blue">AS ABAP as an ICF Client</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENICF_4" class="blue">ICF Security</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENICF_5" class="blue">More Information</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Information about communications using the WebSocket protocol or TCP can be found under <a href="javascript:call_link('abenapc.html')" class="blue">ABAP Push Channels</a>.
+</p>
+<A name="@@ITOC@@ABENICF_1"></A>
+<p><span class="h2">
+ICF Overview
+</span></p>
+<p>
+The following figure is a (highly simplified) schematic overview of communications between ABAP and the Internet using ICF. It uses HTTP communication as an example.
+</p>
+<p>
+
+</p>
+<span class="border1"><img src="abdoc_icf.gif" width="00478" height="00490" alt="Figure"></span>
+<p>
+
+</p>
+<p>
+The actual communication of the <a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> with the Internet takes places through its
+<a href="javascript:call_link('abeninternet_con_man_glosry.html')" class="grey" title="Glossary Entry">Internet Communication Manager</a> (ICM). The manager itself communicates with an
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a> work process, whose task handler controls ICF.
+</p>
+<p>
+Communication can run in either direction, meaning that AS ABAP can be a server or a client. Within
+ICF, this aspect is implemented using different branches with their own interfaces and classes. ABAP
+programs can both respond to requests from the Internet and provide a service with data for further handling and itself query data from Internet. This is done by implementing the appropriate interfaces.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Before each response is sent in an AS ABAP as ICF server or ICF client, a
+<a href="javascript:call_link('abendatabase_commit_glosry.html')" class="grey" title="Glossary Entry">database commit</a> is executed (except in <a href="javascript:call_link('abenupdate_glosry.html')" class="grey" title="Glossary Entry">updates</a>).</li>
+</ul>
+<ul class="disc">
+<li>Requests sent from ICM to an AS ABAP open a separate <a href="javascript:call_link('abenicf_session_glosry.html')" class="grey" title="Glossary Entry">ICF</a> session here, where AS ABAP can process the request as an ICF server.</li>
+</ul>
+<ul class="disc">
+<li>HTTP/HTTPS communication is not bidirectional, which means that one partner is always the client and one partner is always the server. Bidirectional communication is possible using the WebSocket protocol or TCP with
+<a href="javascript:call_link('abenapc.html')" class="blue">ABAP Push Channels</a>.</li>
+</ul>
+<A name="@@ITOC@@ABENICF_2"></A>
+<p><span class="h2">
+AS ABAP as an ICF Server
+</span></p>
+<p>
+Each service that is reachable from the Internet and for which AS ABAP is used as an ICF server must
+be created as a node in the service tree in the service editor (transaction <span class="lnkgrey">SICF</span>). A service of this type is a transportable repository object that determines the properties of the service.
+</p>
+<p>
+The initial node of the service tree stands for the AS ABAP Web address consisting of the host and the
+port. The position of the node in the tree determines the further URL path required to call a specific service. A URL can contain form fields after the actual address part, which are read by ICF.
+</p>
+<p>
+Before a response can be made to a HTTP request sent to a service in the service tree in transaction
+SICF, at least one global class must be assigned to this service. This class must implement the interface
+<span class="lnkgrey">IF_HTTP_EXTENSION</span> and have access to the ICF infrastructure. When a request
+is sent to the service, ICF creates a HTTP request handler as an instance of this class. The implemented
+interface has only one method, HANDLE_REQUEST, whose input parameter SERVER is a reference to the server
+object represented by <span class="lnkgrey">IF_HTTP_SERVER</span>. The attributes and methods of the
+server object make it possible to query properties of the request, such as the content of the form fields
+in the URL and to pass data to the server in a suitable format, such as HTML or XML. The most important
+are the attributes REQUEST and RESPONSE, which refer to objects that implement the interfaces <span class="lnkgrey">IF_HTTP_REQUEST</span> or <span class="lnkgrey">IF_HTTP_RESPONSE</span>.
+</p>
+<p>
+An HTTP/HTTPS request in an HTTP request handler is handled as
+<a href="javascript:call_link('abenicf_processing_glosry.html')" class="grey" title="Glossary Entry">ICF processing</a> in a separate
+<a href="javascript:call_link('abenicf_session_glosry.html')" class="grey" title="Glossary Entry">ICF session</a>. Here, certain
+statements, like <a href="javascript:call_link('abapmessage.html')" class="blue"><span class="qtext">MESSAGE</span></a> or <a href="javascript:call_link('abapbreak-point.html')" class="blue">
+<span class="qtext">BREAK-POINT</span></a>, are handled differently than, for example, in dialog processing. External breakpoints can be set to debug programs during ICF processing.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Special URL form fields, such as <span class="qtext400">sap-user</span>, <span class="qtext400">sap-client</span>,
+or <span class="qtext400">sap-language</span>, all start with the prefix <span class="qtext400">sap-</span> and are evaluated accordingly when logons are made to an ICF session.</li>
+</ul>
+<ul class="disc">
+<li>A special handler class can be used to access objects from the MIME repository directly using ICF services (see the <a href="javascript:call_link('abenicf_mime_pictures_abexa.html')" class="blue">executable example</a>).</li>
+</ul>
+<ul class="disc">
+<li>Alongside the nodes that represent HTTP services, the nodes for <a href="javascript:call_link('abenapc.html')" class="blue">ABAP Push Channels</a> addressed using the WebSocket protocol or TCP are defined in the service tree in ICF.</li>
+</ul>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenicf_service_abexa.html')" class="blue">Calling an HTTP Service</a></li>
+</ul>
+<ul class="disc">
+<li>One production example of a self-programmed HTTP service is the <span class="lnkgrey">Web version</span> of this documentation itself</li>
+</ul>
+<A name="@@ITOC@@ABENICF_3"></A>
+<p><span class="h2">
+AS ABAP as an ICF Client
+</span></p>
+<p>
+If the proxy setting for the HTTP client is configured appropriately in transaction <span class="lnkgrey">SICF</span>,
+ABAP programs can send requests to the Internet using ICF and receive responses. This is done using
+client objects from the class <span class="lnkgrey">CL_HTTP_CLIENT</span>, which implements the interface
+<span class="lnkgrey">IF_HTTP_CLIENT</span>. A client object can be created using a factory method from
+this class, which associates it with a Web address. Like a server object, the attributes REQUEST and
+RESPONSE reference objects that implement the interfaces <span class="lnkgrey">IF_HTTP_REQUEST</span> or <span class="lnkgrey">IF_HTTP_RESPONSE</span> and that can be used to send requests and receive responses.
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+ABAP as <a href="javascript:call_link('abenicf_client_abexa.html')" class="blue">HTTP Client</a>
+</p>
+<A name="@@ITOC@@ABENICF_4"></A>
+<p><span class="h2">
+ICF Security
+</span></p>
+<p>
+The API of ICF enables virus scans to be run using the virus scan interface (VSI). The required virus scan profile for the scan can be selected.
+</p>
+<p>
+If HTML pages can be created on an ICF server, it may be possible to prevent
+<a href="javascript:call_link('abenxss_scrty.html')" class="blue">Cross Side Scripting</a>. This is usually a task of frameworks based on ICF but it is also important not to forget this for directly created HTML pages.
+</p>
+<p>
+Other security gaps also need to be blocked. For example, pages delivered from an ICF server should
+be protected against clickjacking attacks. A clickjacking attack integrates a page into the framework
+of an external Web page and tricks the reader into clicking on malicious links. This can be prevented in the HTTP request handler by using a method call
+</p>
+<p>
+<span class="qtext">server->response->set_header_field( name = 'X-Frame-Options' value = '...' ).</span>
+</p>
+<p>
+, provided that the values "SAMEORIGIN" or "DENY" can be passed to <span class="qtext">value</span> (<span class="qtext">server</span> is a reference variable, which points to the server object).
+</p>
+<A name="@@ITOC@@ABENICF_5"></A>
+<p><span class="h2">
+More Information
+</span></p>
+<ul class="disc">
+<li>Detailed information about ICF and ICM can be found in the <span class="lnkgrey">Internet Communication Framework</span> documentation in SAP Help Portal.</li>
+</ul>
+<ul class="disc">
+<li>This documentation also describes communication between AS ABAP and the Internet, based on class wrappers or ICF enhancements such as ABAP Web Services or the ABAP REST Library.</li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenicf_abexas.html')" class="blue">ICF Examples</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenicf.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:19 GMT -->
+</html>

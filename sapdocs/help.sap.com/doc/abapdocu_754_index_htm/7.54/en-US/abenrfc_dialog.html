@@ -1,0 +1,123 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRFC_DIALOG -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_dialog.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="RFC Dialog Interactions">
+<title>
+RFC Dialog Interactions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrfc_dialog.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrfc_dialog.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc.html')" class="blue">RFC - Remote Function Call</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc_intro_oview.html')" class="blue">RFC Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+RFC Dialog Interactions
+</span></p>
+<p>
+In an <a href="javascript:call_link('abenrfm_glosry.html')" class="grey" title="Glossary Entry">RFM</a> called using RFC, both the variants
+<a href="javascript:call_link('abensrfc_glosry.html')" class="grey" title="Glossary Entry">sRFC</a> and
+<a href="javascript:call_link('abenarfc_glosry.html')" class="grey" title="Glossary Entry">aRFC</a> can execute dialog interactions using SAP GUI or call screens. This is not possible with the variants
+<a href="javascript:call_link('abentrfc_2_glosry.html')" class="grey" title="Glossary Entry">bgRFC</a>,
+<a href="javascript:call_link('abentrfc_2_glosry.html')" class="grey" title="Glossary Entry">tRFC</a>, and
+<a href="javascript:call_link('abenqrfc_glosry.html')" class="grey" title="Glossary Entry">qRFC</a>. It is technically possible for <a href="javascript:call_link('abenprfc_glosry.html')" class="grey" title="Glossary Entry">pRFC</a> but not recommended.
+</p>
+<p>
+Dialog interactions executed by sRFC and aRFC require the RFC client to be executed in the foreground
+in a dialog work process and that the user defined in the destination has dialog authorization. RFM does not open a GUI window on the RFC server; instead it does the following:
+</p>
+<ul class="disc">
+<li>sRFC uses the current GUI window of the caller, which means that the current screen is replaced
+temporarily by the screen of the remotely called function. Entering <span class="italic">/ntcode</span> commands in the command field of the
+<a href="javascript:call_link('abenstandard_toolbar_glosry.html')" class="grey" title="Glossary Entry">standard toolbar</a> closes
+the remote connection and the calling program continues its processing after the RFC. The behavior on the server side is then no longer defined.</li>
+</ul>
+<ul class="disc">
+<li>aRFC opens a new <a href="javascript:call_link('abenmain_session_glosry.html')" class="grey" title="Glossary Entry">ABAP
+session</a> in the RFC client and displays the remotely executed application in a new GUI window there.
+Entering <span class="italic">/ntcode</span> commands in the command field of the standard toolbar executes the transaction <span class="qtext400">"tcode"</span> in this session.</li>
+</ul>
+<p>
+The screen data is passed back by the RFC interface to the calling system. Statements for classic list
+output, such as <span class="qtext">WRITE</span>, which are executed when a function module is called
+remotely, write to the list buffer of the RFC server. The lists can be displayed using the statement
+<span class="qtext">LEAVE TO LIST-PROCESSING</span> during a dynpro sequence displayed in a GUI window of the caller. List output made in programs called from RFM is also displayed in a GUI window of the caller.
+</p>
+<p>
+In both cases, entering <span class="italic">/otcode</span> commands in the command field of the standard
+toolbar opens another ABAP session on the RFC server and an additional ABAP session for displaying a GUI window on the client side. This happens when the transaction <span class="qtext400">"tcode"</span> is executed.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If RFMs are called externally using dialog interactions, only dialog windows (that is, GUI windows without a standard toolbar) should be displayed, so that no commands can be entered in the command field.</li>
+</ul>
+<ul class="disc">
+<li>Logon windows that appear in a different system when an RFM is called are also dialog interactions.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_dialog.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

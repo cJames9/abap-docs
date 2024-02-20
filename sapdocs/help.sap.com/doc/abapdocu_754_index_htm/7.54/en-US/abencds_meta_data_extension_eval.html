@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_META_DATA_EXTENSION_EVAL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_meta_data_extension_eval.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:41 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ABAP CDS - Evaluation of Metadata Extensions">
+<title>
+ABAP CDS - Evaluation of Metadata Extensions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_meta_data_extension_eval.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_meta_data_extension_eval.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_annotations.html')" class="blue">ABAP CDS - Annotations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_anno_usage.html')" class="blue">ABAP CDS - Specifying Annotations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_meta_data_extensions.html')" class="blue">ABAP CDS Metadata Extensions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ABAP CDS - Evaluation of Metadata Extensions
+</span></p>
+<p>
+Annotations from metadata extensions are evaluated first in the
+<a href="javascript:call_link('abencds_annotations_analysis.html')" class="blue">evaluation of annotations</a> with the class
+<span class="lnkgrey">CL_DD_DDL_ANNOTATION_SERVICE</span>. If there are different metadata extensions for the same CDS entity, priority is determined by the following criteria:
+</p>
+<ul class="disc">
+<li><span class="bold">CDS variant</span></li>
+</ul>
+<ul class="circlem2">
+<li>A metadata extension can be assigned a <a href="javascript:call_link('abencds_variant_glosry.html')" class="grey" title="Glossary Entry">
+CDS variant</a> in its definition with <a href="javascript:call_link('abencds_f1_annotate_view.html')" class="blue"><span class="qtext400">ANNOTATE</span></a> with the addition <span class="qtext400">VARIANT</span>.</li>
+</ul>
+<ul class="circlem2">
+<li>The name of a CDS variant can be transferred to the methods of the class CL_DD_DDL_ANNOTATION_SERVICE to select the metadata extension.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Layer of metadata extension</span></li>
+</ul>
+<dl><dd>
+The layer of a metadata extension is defined in its definition with <a href="javascript:call_link('abencds_f1_annotate_view.html')" class="blue">
+<span class="qtext400">ANNOTATE</span></a> by the annotation <a href="javascript:call_link('abencds_f1_metadata_ext_annos.html')" class="blue">
+<span class="qtext400">@Metadata.layer</span></a>. These are the enumeration symbols for layers, in descending order of priority:
+</dd></dl>
+<ul class="circlem2">
+<li><span class="qtext400">#CUSTOMER</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">#PARTNER</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">#INDUSTRY</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">#LOCALIZATION</span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext400">#CORE</span></li>
+</ul>
+<p>
+The methods of the class CL_DD_DDL_ANNOTATION_SERVICE collect the annotations they have returned, depending on the variant and the layers, according to the following hierarchy:
+</p>
+<ol>
+<li>
+If a CDS variant is specified, the metadata extensions that are assigned to the specified variant are
+evaluated first. All annotations are taken from these metadata extensions, according to the layers defined
+by the annotation <span class="qtext400">@Metadata.layer</span>. Annotations found in a higher layer are no longer searched for in a lower layer, so any annotation that exists there is overridden. <br> <br>
+</li>
+<li>
+Then, or if no CDS variant is specified, the same procedure is applied to the metadata extensions defined
+for the CDS entity that are not joined to any CDS variant. That is, all annotations not yet found are collected from the higher to the lower layers. <br> <br>
+</li>
+<li>
+Finally, the annotations of the CDS entity itself that are not found in a metadata extension are added
+as well. These can be annotations from the source code and inherited annotations. For annotations inherited
+from other CDS entities, any metadata extensions are evaluated first, according to the hierarchy described above.
+</li>
+</ol>
+<p>
+If an existing CDS variant is specified for the evaluation, but there are no metadata extensions that
+are joined to the variant, processing continues with step 2, in the same way as when no variant is specified.
+If a non-existent CDS variant is specified, the methods of the class CL_DD_DDL_ANNOTATION_SERVICE return empty internal tables.
+</p>
+<p>
+If there are several metadata extensions in a layer for the same variant or for no variant, the annotations
+of the first metadata extension to be found are used. The metadata extensions are evaluated according to an undefined but stable order.
+</p>
+<p><span class="h4">
+Caution
+</span></p>
+<p>
+<span class="bold">CDS variants are not currently released for general use. It is not possible to define standalone CDS variants and the use of CDS variants in metadata extensions produces a syntax check warning.</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abencds_annotate_view_abexa.html')" class="blue">CDS Metadata Extensions with CDS Variants</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_meta_data_extension_eval.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:41 GMT -->
+</html>

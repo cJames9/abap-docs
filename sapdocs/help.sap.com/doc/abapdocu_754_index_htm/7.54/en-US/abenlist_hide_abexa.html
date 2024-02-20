@@ -1,0 +1,203 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLIST_HIDE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_hide_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Lists, HIDE Technique">
+<title>
+Lists, HIDE Technique - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlist_hide_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlist_hide_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_lists.html')" class="blue">Creating Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaphide.html')" class="blue">HIDE</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Lists, HIDE Technique
+</span></p>
+<p>
+This example demonstrates how to implement program-driven data passes for lists to the ABAP program using <span class="qtext">HIDE</span>.
+</p>
+<A name="@@ITOC@@ABENLIST_HIDE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_list_hide NO STANDARD PAGE HEADING.<br>
+<br>
+TABLES: spfli, sbook.<br>
+<br>
+DATA: num TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dat TYPE d.<br>
+<br>
+START-OF-SELECTION.<br>
+<br>
+&nbsp;&nbsp;num = 0.<br>
+&nbsp;&nbsp;SET PF-STATUS 'FLIGHT'.<br>
+<br>
+GET spfli.<br>
+<br>
+&nbsp;&nbsp;num += 1.<br>
+&nbsp;&nbsp;WRITE: / spfli-carrid, spfli-connid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spfli-cityfrom, spfli-cityto.<br>
+&nbsp;&nbsp;HIDE:&nbsp;&nbsp;&nbsp;&nbsp;spfli-carrid, spfli-connid, num.<br>
+<br>
+END-OF-SELECTION.<br>
+<br>
+&nbsp;&nbsp;CLEAR num.<br>
+<br>
+TOP-OF-PAGE.<br>
+<br>
+&nbsp;&nbsp;WRITE 'List of Flights'.<br>
+&nbsp;&nbsp;ULINE.<br>
+&nbsp;&nbsp;WRITE 'CA&nbsp;&nbsp;CONN FROM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO'.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+TOP-OF-PAGE DURING LINE-SELECTION.<br>
+<br>
+&nbsp;&nbsp;CASE sy-pfkey.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'BOOKING'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE sy-lisel.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'WIND'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;&nbsp;'Booking', sbook-bookid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /&nbsp;&nbsp;'Date&nbsp;&nbsp; ', sbook-fldate.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+<br>
+AT USER-COMMAND.<br>
+<br>
+&nbsp;&nbsp;CASE sy-ucomm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'SELE'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF num NE 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET PF-STATUS 'BOOKING'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR dat.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM sbook WHERE carrid = spfli-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;&nbsp; connid = spfli-connid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sbook-fldate NE dat.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dat = sbook-fldate.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SKIP.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / sbook-fldate.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POSITION 16.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEW-LINE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POSITION 16.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE sbook-bookid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HIDE: sbook-bookid, sbook-fldate, sbook-custtype,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbook-smoker, sbook-luggweight, sbook-class.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDSELECT.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc NE 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE / 'No bookings for this flight'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR sbook-bookid.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN 'INFO'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF NOT sbook-bookid IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET PF-STATUS 'WIND'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET TITLEBAR 'BKI'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WINDOW STARTING AT 30 5 ENDING AT&nbsp;&nbsp;60 10.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE: 'Customer type&nbsp;&nbsp; :', sbook-custtype,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 'Smoker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:', sbook-smoker,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 'Luggage weigtht :', sbook-luggweight UNIT 'KG',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 'Class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :', sbook-class.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;ENDCASE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLIST_HIDE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+At <span class="qtext">START-OF-SELECTION</span> time, the status FLIGHT is set for the basic list.
+In the status FLIGHT, the function key <span class="qtext500">F2</span> and a pushbutton are assigned
+the function code SELE (text <span class="italic">SELECT</span>). This means the event <span class="qtext">AT
+USER-COMMAND</span> is triggered when the user double-clicks, presses <span class="qtext500">F2</span>, or chooses the pushbutton <span class="italic">SELECT</span>.
+</p>
+<p>
+The three fields <span class="qtext">spfli-carrid</span>, <span class="qtext">spfli-connid</span>, and <span class="qtext">num</span> are written to the
+<a href="javascript:call_link('abenhide_area_glosry.html')" class="grey" title="Glossary Entry">Hide</a> area while the basic
+list is created. After a line is selected, the details list defined for the function code SELE in <span class="qtext">
+AT USER-COMMAND</span> is displayed. After the <span class="qtext">AT USER-COMMAND</span> event, all
+fields of the selected line that were stored in the Hide area are loaded again. <span class="qtext">num</span>
+is used to check whether a line from the actual list was selected. The details list is given the status
+BOOKING, where <span class="qtext500">F2</span> is assigned the function code INFO (with the text <span class="italic">
+Booking Information</span>) The details list displays data which can be selected using the Hide fields of the basic list. For each list line displayed, the system stores additional information in the
+<a href="javascript:call_link('abenhide_area_glosry.html')" class="grey" title="Glossary Entry">Hide</a> area.
+</p>
+<p>
+If the user selects a line of the details list, the system displays the stored information in a dialog
+box with the status WIND. For the WIND status, the default values are applied when the list status is synchronized. <span class="qtext">sbook-bookid</span> is used to check whether a valid line was selected.
+</p>
+<p>
+The program itself sets all page headers and the title bar of the dialog box.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlist_hide_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+</html>

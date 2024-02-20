@@ -1,0 +1,281 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-610-SQL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL and Updates in Release 6.10">
+<title>
+SQL and Updates in Release 6.10 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-610-sql.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-610-sql.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-6.html')" class="blue">Changes in Releases 6.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-610.html')" class="blue">Changes in Release 6.10</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL and Updates in Release 6.10 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue">  1. <span class="qtext">COMMIT WORK</span> in local updates </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> <br> 2. Additional syntax checks </A> <br><br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> <br>
+ 3. Type check in the addition <span class="qtext">VERSION</span> </A> <br><br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> <br>
+ 4. Dynamic SQL </A> <br><br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> <br> 5. Implicit client handling </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> <br> 6. Use of <span class="qtext">DISTINCT</span> in pooled tables and cluster tables </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> <br> 7. Database changes using read-only views </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> <br> 8. Handleable exceptions in ABAP SQL and Native SQL </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> <br> 9. <span class="qtext">INSERT</span> and <span class="qtext">UPDATE</span> of the system table <span class="qtext">TRDIR</span> </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_10@10@" class="blue"> <br>10. Selection table and target table in <span class="qtext">FOR ALL ENTRIES</span> </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_11@11@" class="blue"> <br>11. New exception for pooled tables and cluster tables </A> <br>
+<br><A HREF="#!ABAP_MODIFICATION_12@12@" class="blue"> <br>12. Strings on the database </A> <br><br><A HREF="#!ABAP_MODIFICATION_13@13@" class="blue"> <br>
+13. <span class="qtext">WHERE</span> condition optional in <span class="qtext">DELETE</span> statement </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="qtext">COMMIT WORK</span> in Local Updates <br><br><!-- /A -->
+</P>
+<P>
+As in the asynchronous update, the system now also sets the system field SY-ONCOM = V in the local update.
+Therefore the system recognizes a <a href="javascript:call_link('abapcommit.html')" class="blue"><span class="qtext">COMMIT WORK</span></a>
+in the function module that makes the local update, and this raises a non-handleable exception (a runtime error) <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+Additional Syntax Checks <br><br><!-- /A -->
+</P>
+<P>
+Additional syntax checks were introduced for the following constructs:
+</P>
+<ol class="ml06">
+<li>
+<a href="javascript:call_link('abensubquery_glosry.html')" class="grey" title="Glossary Entry">Subqueries</a> in <span class="qtext">WHERE</span> conditions are only permitted if the source table is transparent.
+</li>
+<li>
+The addition <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP BY</span></a> is now also only possible with transparent tables.
+</li>
+<li>
+<a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO CORRESPONDING</span></a> is now only possible when moving data to structured work areas or internal tables.
+</li>
+<li>
+<a href="javascript:call_link('abenwhere_logexp_like.html')" class="blue"><span class="qtext">ESCAPE</span></a> in <span class="qtext">WHERE
+conditions</span> for <span class="qtext">SELECT</span>, <span class="qtext">DELETE</span>, and <span class="qtext">UPDATE</span> of pooled tables <br><br> <br><br>
+</li>
+</ol>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+Type Check in the Addition <span class="qtext">VERSION</span> <br><br><!-- /A -->
+</P>
+<P>
+In the case of the statements <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY</span></a>,
+<a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE</span></a>, <a href="javascript:call_link('abapread_table_dbtab.html')" class="blue">
+<span class="qtext">READ TABLE</span></a>, and <a href="javascript:call_link('abaploop_at_dbtab.html')" class="blue"><span class="qtext">LOOP AT</span></a> only fields of types C, N, D, T, and
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> structures of the same types are permitted for the addition <span class="qtext">VERSION</span>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+Dynamic SQL <br><br><!-- /A -->
+</P>
+<P>
+Dynamic specifications are now possible for the following language constructions:
+</P>
+<ol class="ml06">
+<li>
+ABAP variables in <a href="javascript:call_link('abapwhere.html')" class="blue"><span class="qtext">WHERE</span></a>, <a href="javascript:call_link('abaphaving_clause.html')" class="blue">
+<span class="qtext">HAVING</span></a>, <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a>, and <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">SET</span></a>.
+</li>
+<li>
+Lowercase spelling when specifying table names dynamically.
+</li>
+<li>
+Dynamic <span class="qtext">WHERE</span> in <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE</span></a> and <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>
+</li>
+<li>
+Dynamic <span class="qtext">SET</span> in <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>.
+</li>
+<li>
+Dynamic <a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expressions</a> in the <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a> clause
+</li>
+<li>
+Dynamic <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a>
+in <span class="qtext">SELECT ... FROM</span> for joins, <a href="javascript:call_link('abapselect_join.html')" class="blue"><span class="qtext">ON</span> conditions</a>, and
+<a href="javascript:call_link('abapaliases.html')" class="blue">table aliases</a>
+</li>
+<li>
+Strings, tables of strings, and C fields for all operand positions for which statements could previously be specified dynamically in an internal table. <br><br> <br><br>
+</li>
+</ol>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+Implicit Client Handling <br><br><!-- /A -->
+</P>
+<P>
+The client is now specified in the database interface. Previously the system changed the client field
+in an internal table or work area, as soon as the user carried out an <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue">
+<span class="qtext">INSERT</span></a> or <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>
+on the database table. Now the system enters the current client in the database table, while the client in the work area or internal table remains unchanged. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+Use of <span class="qtext">DISTINCT</span> in Pooled Tables and Cluster Tables <br><br><!-- /A -->
+</P>
+<P>
+If <span class="qtext">DISTINCT</span> is used in the <a href="javascript:call_link('abapselect_clause.html')" class="blue"><span class="qtext">
+SELECT</span></a> clause with pooled tables and cluster tables, this always produces (statically) a
+syntax error if individual columns are accessed. This combination was not detected dynamically and the
+addition <span class="qtext">DISTINCT</span> was simply not executed. In dynamic cases, the handleable exception CX_SY_DYNAMIC_OSQL_SEMANTICS is now raised. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+Database Changes Using Read-Only Views <br><br><!-- /A -->
+</P>
+<P>
+Previously, an attempt to change database tables using read-only views simply caused a runtime error. If this is known statically, a syntax error is now produced. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+Handleable Exceptions in ABAP SQL and Native SQL <br><br><!-- /A -->
+</P>
+<P>
+In ABAP SQL, <a href="javascript:call_link('abenopensql_exceptions.html')" class="blue">exceptions</a> that occur when the source
+code is being parsed can now be handled using <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY ... ENDTRY</span></a>. As before, various runtime errors were assigned exception classes. <br><br>
+</P>
+<P>
+In statically embedded <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native
+SQL</a>, all runtime errors of the database interface are now assigned exception classes, so that the
+exceptions between <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY ... ENDTRY</span></a> can be handled. In addition, the opening of too many
+<a href="javascript:call_link('abapopen_cursor.html')" class="blue">cursors</a> and connections can be caught. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+<span class="qtext">INSERT</span> and <span class="qtext">UPDATE</span> of the System Table <span class="qtext">TRDIR</span>
+</P>
+<P>
+Previously, the instructions <a href="javascript:call_link('abapinsert_dbtab.html')" class="blue"><span class="qtext">INSERT</span></a><br>
+<!-- /A --> <span class="qtext">TRDIR</span> and <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>
+<span class="qtext">TRDIR</span> were valid. In the case of <span class="qtext">UPDATE</span> <span class="qtext">
+TRDIR</span>, the attributes could be changed by the runtime synchronization without registration. Both
+statements now cause a syntax error. Only <span class="qtext">MODIFY</span> <span class="qtext">TRDIR</span>
+and <a href="javascript:call_link('abapmodify_dbtab.html')" class="blue"><span class="qtext">MODIFY</span> <span class="qtext">TRDIR</span>
+<span class="qtext">FROM wa</span></a> are still permitted, because there the runtime synchronization is switched on. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_10@10@"></A> <span class="bold">Modification 10</span>
+</span></p>
+<P>
+Selection Table and Target Table in <span class="qtext">FOR ALL ENTRIES</span> <br><br><!-- /A -->
+</P>
+<P>
+The table of selection conditions for <a href="javascript:call_link('abapwhere.html')" class="blue"><span class="qtext">FOR ALL
+ENTRIES</span></a> and the target table of the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">SELECT</span></a>
+statement can be the same. This makes the form <span class="qtext">SELECT ... INTO itab FOR ALL ENTRIES IN itab</span> possible. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_11@11@"></A> <span class="bold">Modification 11</span>
+</span></p>
+<P>
+New Exception for Pooled Tables and Cluster Tables <br><br><!-- /A -->
+</P>
+<P>
+If pooled tables or cluster tables are used in subqueries, joins,
+<a href="javascript:call_link('abenaggregate_function_glosry.html')" class="grey" title="Glossary Entry">aggregate functions</a>,
+or with <span class="qtext">GROUP BY</span>, this raises the exception <span class="lnkgrey">CX_SY_DYNAMIC_OSQL_SEMANTICS</span>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_12@12@"></A> <span class="bold">Modification 12</span>
+</span></p>
+<P>
+Strings on the Database <br><br><!-- /A -->
+</P>
+<P>
+It is now possible to edit character strings and binary data saved to database columns as <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">strings</a> in ABAP SQL. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_13@13@"></A> <span class="bold">Modification 13</span>
+</span></p>
+<P>
+<span class="qtext">WHERE</span> Condition Optional in <span class="qtext">DELETE</span> Statement <br><br><!-- /A -->
+</P>
+<P>
+In the statement <a href="javascript:call_link('abapdelete_dbtab.html')" class="blue"><span class="qtext">DELETE FROM dbtab</span></a>,
+the <span class="qtext">WHERE</span> condition is no longer required. A <span class="qtext">DELETE</span> statement without a <span class="qtext">WHERE</span> condition deletes all rows of a table.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-610-sql.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:01 GMT -->
+</html>

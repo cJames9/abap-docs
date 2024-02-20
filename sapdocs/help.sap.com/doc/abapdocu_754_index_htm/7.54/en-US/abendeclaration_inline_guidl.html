@@ -1,0 +1,177 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDECLARATION_INLINE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendeclaration_inline_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inline Declarations">
+<title>
+Inline Declarations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendeclaration_inline_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendeclaration_inline_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inline Declarations
+</span></p>
+<A name="@@ITOC@@ABENDECLARATION_INLINE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The declaration operators
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA(var)</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenfield-symbol_inline.html')" class="blue"><span class="qtext">FIELD-SYMBOLS &lt;fs>.</span></a></li>
+</ul>
+<p>
+can be used to make inline declarations in <a href="javascript:call_link('abenwriting_position_glosry.html')" class="grey" title="Glossary Entry">writing positions</a>. In this way, declarations are made in operational statements rather than in
+<a href="javascript:call_link('abendeclaration_statement_glosry.html')" class="grey" title="Glossary Entry">declaration statements</a>.
+The declaration is made when the program is compiled, regardless of whether the statement is actually executed.
+</p>
+<A name="@@ITOC@@ABENDECLARATION_INLINE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Only use inline declarations locally</span>
+</p>
+<p>
+Only make inline declarations in processing blocks that support
+<a href="javascript:call_link('abenlocal_data_glosry.html')" class="grey" title="Glossary Entry">local data</a>. Use them as if they were local declarations in the current statement block.
+</p>
+<A name="@@ITOC@@ABENDECLARATION_INLINE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+If used correctly, inline declarations are an excellent way of making programs leaner and easier to
+understand. An inline declaration in a statement works like a short form of a declaration statement directly in front of the statement, which is why the guidelines for declaration statements must be followed:
+</p>
+<ul class="disc">
+<li>The rule dictating that <a href="javascript:call_link('abendeclaration_variables_guidl.html')" class="lnkpurple" title="Guideline">no
+global program variables and field symbols</a> are to be declared also applies to inline declarations,
+without restrictions. For this reason, statements with inline declarations should only be specified
+in processing blocks with local data, namely procedures and preferably methods. If not, the variables
+and field symbols declared inline would be global in the program, with all the drawbacks listed in the description of the rule.</li>
+</ul>
+<ul class="disc">
+<li>Inline declarations are an exception to the rule that
+<a href="javascript:call_link('abenlocal_declar_guidl.html')" class="lnkpurple" title="Guideline">local declarations</a> should
+only be made at the start of a procedure. They are specified in operational statements, which means
+that, unlike declaration statements, they cannot be specified at the start of the procedure. Despite
+this, the restrictions stated in the rule for local declarations are still valid for inline declarations.
+In particular, the validity of inline declarations is not limited to their current statement block.
+Inline declarations should, therefore, only be specified in less complex procedures, so making them
+easier to understand. The variables and field symbols declared inline should only be used in the direct
+vicinity of their declaration. Under no circumstances should a variable declared inline be accessed
+dynamically before the declaration. When an inline declaration is specified in a (conditional) control structure, it should usually only be accessed within this statement block.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+Inline declaration of a field symbol <span class="qtext">&lt;pattern></span> and two variables <span class="qtext">
+moff</span> and <span class="qtext">mlen</span> in a <span class="qtext">LOOP</span> and their later
+reuse in a different loop. At first glance, it appears that the declarations are only valid in the first loop and only conditionally, but they are valid for the whole method and unconditionally.
+</p>
+<dl><dd>
+<span class="qtext">METHOD demo_method. <br>&nbsp;&nbsp;"IMPORTING i_tab1 TYPE TANDARD TABLE OF string <br>
+&nbsp;&nbsp;"IMPORTING i_tab2 TYPE TANDARD TABLE OF string <br>&nbsp;&nbsp;"IMPORTING i_text TYPE string <br>
+ <br>&nbsp;&nbsp;IF i_tab1 IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT i_tab1 ASSIGNING FIELD-SYMBOL(&lt;pattern>). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIND &lt;pattern> IN i_text MATCH OFFSET DATA(moff) <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MATCH LENGTH DATA(mlen). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDIF. <br>
+ <br>&nbsp;&nbsp;IF i_tab2 IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT i_tab2 ASSIGNING &lt;pattern>. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIND &lt;pattern> IN i_text MATCH OFFSET moff <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MATCH LENGTH mlen. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDIF. <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The field symbols and variables declared inline are only used locally in the their respective loops.
+The fact that they are valid in the whole method is ignored, for the sake of simplicity. If the field
+symbol and the variables are only to be declared once for both loops, they should be declared at the start of the method using declaration statements.
+</p>
+<dl><dd>
+<span class="qtext">METHOD demo_method. <br>&nbsp;&nbsp;"IMPORTING i_tab1 TYPE TANDARD TABLE OF string <br>
+&nbsp;&nbsp;"IMPORTING i_tab2 TYPE TANDARD TABLE OF string <br>&nbsp;&nbsp;"IMPORTING i_text TYPE string <br>
+ <br>&nbsp;&nbsp;IF i_tab1 IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT i_tab1 ASSIGNING FIELD-SYMBOL(&lt;pattern1>). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIND &lt;pattern1> IN i_text MATCH OFFSET DATA(moff1) <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MATCH LENGTH DATA(mlen1). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDIF. <br> <br>&nbsp;&nbsp;IF i_tab2 IS NOT INITIAL. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP AT i_tab2 ASSIGNING FIELD-SYMBOL(&lt;pattern2>. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIND &lt;pattern2> IN i_text MATCH OFFSET DATA(moff2) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MATCH LENGTH DATA(mlen2). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;ENDIF. <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendeclaration_inline_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

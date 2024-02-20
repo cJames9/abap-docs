@@ -1,0 +1,208 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-40-KEYTAB -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-40-keytab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:02 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Internal Tables and Key Tables in Release 4.0">
+<title>
+Internal Tables and Key Tables in Release 4.0 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-40-keytab.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-40-keytab.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-4.html')" class="blue">Changes in Releases 4.xx</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-40.html')" class="blue">Changes in Release 4.0</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Internal Tables and Key Tables in Release 4.0 <br><br>
+</span></p>
+<p>
+The following features of internal tables have been improved considerably in Release 4.0: <br>
+</p>
+<ul class="disc">
+<li>Performance improvements, particularly for large tables. This has been achieved by introducing
+<a href="javascript:call_link('abenhashed_table_glosry.html')" class="grey" title="Glossary Entry">hashed tables</a>, whose access time is constant, mostly regardless of the number of table entries. <br></li>
+</ul>
+<ul class="disc">
+<li>Introduction of <span class="bold">sorted tables</span>. This has removed the need for complex program code, whose tasks are now performed in the kernel. <br></li>
+</ul>
+<ul class="disc">
+<li>Support for <span class="bold">generic programming</span> by introducing generic table types.</li>
+</ul>
+<p>
+The term <a href="javascript:call_link('abenstandard_key_glosry.html')" class="grey" title="Glossary Entry">standard key</a>
+has been expanded to include a user-defined key. In addition to the previous form of internal tables (standard tables), SAP has introduced new table types for
+<a href="javascript:call_link('abensorted_table_glosry.html')" class="grey" title="Glossary Entry">sorted</a> and hashed tables.
+The key of these tables is an integral part of the type definition. For this reason, tables with these types are also generically known as <span class="bold">key tables</span>. For further information, see
+<a href="javascript:call_link('abenitab.html')" class="blue">internal tables</a>. <br>
+</p>
+<A name="@@ITOC@@ABENNEWS-40-KEYTAB_1"></A>
+<p><span class="h2">
+New Table Types: STANDARD TABLE, SORTED TABLE, and <span class="qtext">HASHED TABLE</span>
+</span></p>
+<p>
+Internal tables in their old form are now known as <span class="bold">standard tables</span>. The old
+type <span class="qtext">TABLE</span> has now been replaced by <span class="qtext">STANDARD TABLE</span>.
+The new types <span class="qtext">SORTED TABLE</span> and <span class="qtext">HASHED TABLE</span> have been introduced. <br>
+ <br><span class="bold">Sorted tables</span> are always stored sorted by their table key in ascending order. The access time is logarithmically related to the number of table entries. <br>
+ <br><a href="javascript:call_link('abenhashed_table_glosry.html')" class="grey" title="Glossary Entry">Hashed tables</a> are
+managed internally using a hash procedure. The access time to a single table entry is essentially constant, that is, the access time is independent of the number of entries. <br>
+ <br>This means that a complete table type is defined as follows: <br> <br>   1. Table category (<span class="qtext">STANDARD TABLE, SORTED TABLE, HASHED TABLE</span>) <br>
+   2. Row type <br>   3. Key (the order is part of the type definition) <br>   4. Uniqueness attribute (<span class="qtext">UNIQUE, NON-UNIQUE</span>) <br>
+ <br> For further information about defining table types and objects, see the documentation for the
+statements <a href="javascript:call_link('abaptypes_itab.html')" class="blue"><span class="qtext">TYPES</span></a> and <a href="javascript:call_link('abapdata_itab.html')" class="blue"><span class="qtext">DATA</span></a>.
+</p>
+<A name="@@ITOC@@ABENNEWS-40-KEYTAB_2"></A>
+<p><span class="h2">
+Generic Table Types: INDEX TABLE and <span class="qtext">ANY TABLE</span>
+</span></p>
+<p>
+To allow generic programming, there is a <a href="javascript:call_link('abaptypes_tabkind.html')" class="blue">hierarchy</a>
+based on the basic internal table types listed above. The generic type <span class="qtext">INDEX TABLE</span>
+includes standard and sorted tables. The type <span class="qtext">ANY TABLE</span> can be used for any table. <br>
+ <br>Furthermore, further generic types can be defined by omitting the row type, key, or uniqueness
+attribute of a table (see <a href="javascript:call_link('abaptypes_itab.html')" class="blue"><span class="qtext">TYPES</span></a>). This enables the types of parameters to be defined in generic
+<a href="javascript:call_link('abenprocedure_glosry.html')" class="grey" title="Glossary Entry">procedures</a>.
+</p>
+<A name="@@ITOC@@ABENNEWS-40-KEYTAB_3"></A>
+<p><span class="h2">
+Typing of Procedure Parameters
+</span></p>
+<p>
+Since the old internal table type corresponds to the new standard table, only standard tables can be
+passed to a <span class="qtext">TABLES</span> parameter. The new tables types can be passed to <a href="javascript:call_link('abapform.html')" class="blue">
+<span class="qtext">FORM</span></a> and <a href="javascript:call_link('abapfunction.html')" class="blue"><span class="qtext">FUNCTION</span></a>
+parameters using the additions <span class="qtext">USING</span> or <span class="qtext">CHANGING</span>
+or the additions <span class="qtext">IMPORTING</span>, <span class="qtext">EXPORTING</span>, and <span class="qtext">CHANGING</span>.
+</p>
+<A name="@@ITOC@@ABENNEWS-40-KEYTAB_4"></A>
+<p><span class="h2">
+New Table Operations
+</span></p>
+<p>
+Entries in key tables are located using their key. This means that it must also be possible to add,
+modify, and delete table entries using the appropriate table key. The following new table operations have therefore been introduced: <br>
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abapinsert_itab.html')" class="blue"><span class="qtext">INSERT</span></a><span class="qtext"> ... INTO TABLE ...</span></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapmodify_itab.html')" class="blue"><span class="qtext">MODIFY</span></a><span class="qtext"> TABLE ...</span></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapread_table.html')" class="blue"><span class="qtext">READ</span></a><span class="qtext">&nbsp;&nbsp; TABLE ... <i class=bn>[</i>FROM ... <i class=bn>|</i>WITH TABLEKEY ...<i class=bn>]</i></span></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapdelete_itab.html')" class="blue"><span class="qtext">DELETE</span></a><span class="qtext"> TABLE ... <i class=bn>[</i>FROM ... <i class=bn>|</i>WITH TABLE KEY ...<i class=bn>]</i></span></li>
+</ul>
+<p>
+The new operations are valid for all table categories and are, in this respect, generic (for details
+of the semantics, refer to the corresponding keyword documentation). In each of the statements, the key can be specified using a work area, either explicit or implicit (table with
+<a href="javascript:call_link('abenheader_line_glosry.html')" class="grey" title="Glossary Entry">header line</a>). The key values
+are then taken from the work area. In the statements <span class="qtext">READ</span> and <span class="qtext">DELETE</span>, the key can be specified explicitly in the form <br>
+ <br>   <span class="qtext">... WITH TABLE KEY k1 = v1 ... kn = vn</span> <br> <br> Unlike the previous form of the <span class="qtext">READ</span> statement,
+"<span class="qtext">WITH KEY k1 = v1 ... kn = vn</span>", the new form must specify the key in full. This is tested within the syntax check. <br>
+ <br>The syntax of the new operations has been modeled as far as possible on the existing statements for reading, inserting, modifying and deleting table entries. Note the following rules of thumb: <br>
+</p>
+<ul class="disc">
+<li>In the new operations, the word <span class="qtext">TABLE</span> comes directly before the table name itself</li>
+</ul>
+<ul class="disc">
+<li>Use the addition <span class="qtext">WITH TABLE KEY</span> to specify the key explicitly</li>
+</ul>
+<A name="@@ITOC@@ABENNEWS-40-KEYTAB_5"></A>
+<p><span class="h2">
+Integration of the New Table Types
+</span></p>
+<p>
+The new table types can be used both in the new table operations listed above and in existing ABAP statements. This means that the following statements can also be used on key tables: <br>
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abaploop_at_itab.html')" class="blue"><span class="qtext">LOOP</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapat_itab.html')" class="blue"><span class="qtext">AT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapcollect.html')" class="blue"><span class="qtext">COLLECT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapexport_data_cluster.html')" class="blue"><span class="qtext">EXPORT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapif.html')" class="blue"><span class="qtext">IF</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapimport_data_cluster.html')" class="blue"><span class="qtext">IMPORT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapmove.html')" class="blue"><span class="qtext">destination = source</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abapsort_itab.html')" class="blue"><span class="qtext">SORT</span></a></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-40-keytab.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:02 GMT -->
+</html>

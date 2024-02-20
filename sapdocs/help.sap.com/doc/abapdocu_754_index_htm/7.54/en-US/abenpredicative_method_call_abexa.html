@@ -1,0 +1,151 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPREDICATIVE_METHOD_CALL_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpredicative_method_call_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Predicative Method Calls">
+<title>
+Predicative Method Calls - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenpredicative_method_call_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenpredicative_method_call_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogical_expr_func.html')" class="blue">Expressions and Functions for Conditions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp.html')" class="blue">log_exp - Logical Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenpredicate.html')" class="blue">rel_exp - Predicates</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenpredicative_method_calls.html')" class="blue">rel_exp - Predicative Method Call</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Predicative Method Calls
+</span></p>
+<p>
+This example demonstrates <a href="javascript:call_link('abenpredicative_method_call_glosry.html')" class="grey" title="Glossary Entry">predicative method calls</a>.
+</p>
+<A name="@@ITOC@@ABENPREDICATIVE_METHOD_CALL_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_predicative_method_call.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;IF cl_abap_demo_services=&gt;is_production_system( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'This demo cannot be executed in a production system' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA carrier TYPE spfli-carrid VALUE 'LH'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( CHANGING field = carrier ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;next_section( 'IF' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF cl_demo_spfli=&gt;get_spfli( to_upper( carrier ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Filled' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Not filled' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'COND'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( COND string(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN cl_demo_spfli=&gt;get_spfli( to_upper( carrier ) )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN `Filled`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE `Not filled` )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENPREDICATIVE_METHOD_CALL_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The functional method IS_PRODUCTION_SYSTEM of the class <span class="lnkgrey">CL_ABAP_DEMO_SERVICES</span> is called
+<a href="javascript:call_link('abenpredicative_method_calls.html')" class="blue">predicatively</a> in a
+<a href="javascript:call_link('abencontrol_statement_glosry.html')" class="grey" title="Glossary Entry">control statement</a> <span class="qtext">IF</span> to verify that the current system is not a production system. The method called is a
+<a href="javascript:call_link('abenpredicate_method_glosry.html')" class="grey" title="Glossary Entry">predicate method</a>.
+</p>
+<p>
+The functional method GET_SPFLI of the class <span class="lnkgrey">CL_DEMO_SPFLI</span> is then called
+<a href="javascript:call_link('abenpredicative_method_calls.html')" class="blue">predicatively</a> once in a
+<a href="javascript:call_link('abencontrol_statement_glosry.html')" class="grey" title="Glossary Entry">control statement</a> <span class="qtext">IF</span> and once in a
+<a href="javascript:call_link('abenconditional_expression_glosry.html')" class="grey" title="Glossary Entry">conditional expression</a> <span class="qtext">COND</span>. In this case, it is not a
+<a href="javascript:call_link('abenpredicate_method_glosry.html')" class="grey" title="Glossary Entry">predicate method</a>. The relational expressions are true or false, depending on whether the internal table returned is empty or filled.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpredicative_method_call_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

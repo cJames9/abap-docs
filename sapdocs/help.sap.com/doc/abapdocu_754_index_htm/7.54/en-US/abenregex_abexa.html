@@ -1,0 +1,315 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREGEX_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Regular Expressions">
+<title>
+Regular Expressions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenregex_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenregex_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenregular_expressions.html')" class="blue">Regular Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Regular Expressions
+</span></p>
+<p>
+The example demonstrates how to search for regular expressions.
+</p>
+<p>
+An extended example that also allows replacements is <span class="lnkgrey">DEMO_REGEX_TOY</span>.
+</p>
+<A name="@@ITOC@@ABENREGEX_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_regex.<br>
+<br>
+DATA: text&nbsp;&nbsp; TYPE c LENGTH 120,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regx&nbsp;&nbsp; TYPE c LENGTH 120,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first&nbsp;&nbsp;TYPE c LENGTH 1 VALUE 'X',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nocase TYPE c LENGTH 1 VALUE 'X',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case&nbsp;&nbsp; TYPE c LENGTH 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;docu&nbsp;&nbsp; TYPE REF TO cl_gui_control.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA: result_area TYPE REF TO cl_gui_custom_container,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result_view TYPE REF TO cl_gui_html_viewer,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result_wa&nbsp;&nbsp; TYPE string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS&nbsp;&nbsp; repl TYPE string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE `@@tgl@@$0@@tgr@@`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: display,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; append_text IMPORTING value(text) TYPE string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING&nbsp;&nbsp;html&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE w3_htmltab.<br>
+<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text = `Cathy's cat with the hat sat on Matt's mat.`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;regx = '(.AT)|(\&lt;.at\&gt;)'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result_wa = text.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF first = 'X' AND nocase = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPLACE FIRST OCCURRENCE OF REGEX regx IN result_wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH repl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGNORING CASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF all = 'X' AND nocase = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPLACE ALL OCCURRENCES OF REGEX regx IN result_wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH repl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGNORING CASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF first = 'X' AND case = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPLACE FIRST OCCURRENCE OF REGEX regx IN result_wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH repl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESPECTING CASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF all = 'X' AND case = 'X'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPLACE ALL OCCURRENCES OF REGEX regx IN result_wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH repl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESPECTING CASE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_regex.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Invalid Regular Expression' TYPE 'S'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR result_wa.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sy_regex_too_complex.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Regular Expression too Complex' TYPE 'S'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DISPLAY LIKE 'E'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR result_wa.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+<br>
+&nbsp;&nbsp;METHOD display.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: result_html TYPE w3_htmltab,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 255.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF result_area IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE OBJECT: result_area EXPORTING container_name = 'RESULT',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; result_view EXPORTING parent = result_area.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;Prepare result for HTML browser<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result_wa = escape( val&nbsp;&nbsp;&nbsp;&nbsp;= result_wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=&gt;e_html_attr_dq ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;REPLACE ALL OCCURRENCES OF:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'@@tgl@@' IN result_wa WITH '&lt;font color=&quot;#FF0000&quot;&gt;&lt;b&gt;',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'@@tgr@@' IN result_wa WITH '&lt;/b&gt;&lt;/font&gt;'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR result_html.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND '&lt;html&gt;&lt;body&gt;'&nbsp;&nbsp; TO result_html.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;append_text(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING text = result_wa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;html&nbsp;&nbsp; = result_html ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND '&lt;/body&gt;&lt;/html&gt;' TO result_html.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result_view-&gt;load_data( IMPORTING assigned_url = url<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;data_table&nbsp;&nbsp; = result_html ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result_view-&gt;show_url( url = url ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CALL SCREEN 100.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-ucomm = 'DEMO'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBMIT demo_regex_toy.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF sy-ucomm = 'DOCU'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_docu=&gt;show(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'ABEN'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'REGEX_SYNTAX'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;docu_container =&nbsp;&nbsp;docu ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD append_text.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA: html_line TYPE w3html,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length&nbsp;&nbsp;&nbsp;&nbsp;TYPE i,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYPE i.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DESCRIBE FIELD html_line LENGTH length IN CHARACTER MODE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pos = strlen( text ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHILE pos &gt; length.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND text(length) TO html.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SHIFT text LEFT BY length PLACES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos -= length.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDWHILE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND text TO html.<br>
+<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET TITLEBAR&nbsp;&nbsp;'TITLE_100'.<br>
+&nbsp;&nbsp;SET PF-STATUS 'SCREEN_100'.<br>
+&nbsp;&nbsp;SET CURSOR FIELD 'RES'.<br>
+&nbsp;&nbsp;IF NOT docu IS INITIAL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_gui_control=&gt;set_focus(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;control = docu ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR docu.<br>
+&nbsp;&nbsp;ENDIF.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENREGEX_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The example displays a screen in which a text line and a regular expression can be entered. The program
+scans the text line <span class="qtext">text</span> for the first or all areas that match the search
+pattern defined in the regular expression <span class="qtext">regx</span> and highlights these areas
+in a result field. The search can be case-sensitive, if required. The search uses the statement <a href="javascript:call_link('abapreplace.html')" class="blue">
+<span class="qtext">REPLACE</span></a>, which embeds the occurrence between <span class="qtext400">"@@tgl@@</span>
+on the left and <span class="qtext400">"@@tgr@@</span> on the right. The operator <span class="qtext">$0</span>
+is used as a placeholder for the occurrence in the replacement text <span class="qtext">repl</span>.
+The method <span class="qtext">display</span> formats the text for the representation of the occurrences in HTML format and displays it.
+</p>
+<p>
+The predefined example text is:
+</p>
+<dl><dd>
+<span class="qtext400">"Cathy's cat with the hat sat on Matt's mat."</span>
+</dd></dl>
+<p>
+and the predefined regular expression is:
+</p>
+<dl><dd>
+<span class="qtext400">(.AT)|(\&lt;.at\>)</span>
+</dd></dl>
+<p>
+The regular expression describes
+</p>
+<ul class="disc">
+<li>a sequence of three characters, where the first is any single character and the other two are <span class="qtext400">"AT"</span>, or</li>
+</ul>
+<ul class="disc">
+<li>a word made of three characters, where the first is any single character and the other two are <span class="qtext400">"at"</span>.</li>
+</ul>
+<p>
+Depending on the search settings, the following occurrences are found:
+</p>
+<ul class="disc">
+<li>The non-case-sensitive search for the first occurrence finds the <span class="qtext400">"Cat"</span>
+of <span class="qtext400">"Cathy"</span>. This occurrence matches the expression <span class="qtext400">.AT</span>, but not the expression <span class="qtext400">\&lt;.at\></span>.</li>
+</ul>
+<ul class="disc">
+<li>The case-sensitive search for the first occurrence finds the word <span class="qtext400">"cat"</span>.
+This occurrence matches the expression <span class="qtext400">\&lt;.at\></span>, but not the expression <span class="qtext400">.AT</span>.</li>
+</ul>
+<ul class="disc">
+<li>The non-case-sensitive search for all occurrences finds all three subsequences consisting of three
+characters that end with <span class="qtext400">"at"</span>: <span class="qtext400">"Cat"</span>, <span class="qtext400">
+"cat"</span>, <span class="qtext400">"hat"</span>, <span class="qtext400">"sat"</span>, <span class="qtext400">"Mat"</span>,
+and <span class="qtext400">"mat"</span>. All occurrences match the expression <span class="qtext400">.AT</span>.
+However, only the words <span class="qtext400">"cat"</span>, <span class="qtext400">"hat"</span>, <span class="qtext400">
+"sat"</span>, and <span class="qtext400">"mat"</span> match the expression <span class="qtext400">\&lt;.at\></span>.</li>
+</ul>
+<ul class="disc">
+<li>The case-sensitive search for all occurrences finds the words <span class="qtext400">"cat"</span>,
+<span class="qtext400">"hat"</span>, <span class="qtext400">"sat"</span>, and <span class="qtext400">"mat"</span>.
+They all match the expression <span class="qtext400">\&lt;.at\></span>. None of the occurrences, however, matches <span class="qtext400">.AT</span>.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenregex_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

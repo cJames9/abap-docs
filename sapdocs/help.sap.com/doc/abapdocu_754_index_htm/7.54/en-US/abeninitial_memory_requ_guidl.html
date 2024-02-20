@@ -1,0 +1,146 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINITIAL_MEMORY_REQU_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninitial_memory_requ_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Initial Memory Requirements">
+<title>
+Initial Memory Requirements - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninitial_memory_requ_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninitial_memory_requ_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenitab_guidl.html')" class="blue">Internal Tables</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Initial Memory Requirements
+</span></p>
+<A name="@@ITOC@@ABENINITIAL_MEMORY_REQU_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Internal tables are stored in the memory block by block. The ABAP runtime environment allocates a suitable
+memory area for the data of the table by default. If the initial memory area is insufficient, further
+blocks are created using an internal duplication strategy until a threshold is reached. After this, all blocks are requested with a constant size between eight and 16 kilobytes.
+</p>
+<p>
+The <span class="qtext">INITIAL SIZE</span> addition is used to predefine a number of table rows when declaring an internal table, to override the number of initially allocated rows set by the system.
+</p>
+<A name="@@ITOC@@ABENINITIAL_MEMORY_REQU_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Modify the initial memory requirements only for nested tables</span>
+</p>
+<p>
+Only use the <span class="qtext">INITIAL SIZE</span> addition for the declaration of inner tables in nested tables if you can avoid using a large amount of memory unnecessarily.
+</p>
+<A name="@@ITOC@@ABENINITIAL_MEMORY_REQU_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The <span class="qtext">INITIAL SIZE</span> addition is not necessary for external or non-nested tables
+since the automatic memory location by the runtime environment leads to the required result. Automatic
+memory allocation only results in excessive memory consumption in nested inner tables if more memory
+is allocated for a number of inner tables than they actually use.  If the number of entries in the inner
+tables is known from the outset, the initial main memory requirement can be set accordingly using <span class="qtext">INITIAL SIZE</span>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Instance attributes of classes that are declared as inner tables can also be considered as nested tables.
+If many instances of a class with tabular attributes are expected, it can be useful to specify <span class="qtext">INITIAL SIZE</span>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source text shows the declaration of a nested table, where the initial memory requirement is specified incorrectly for the outer large table, not the inner small table.
+</p>
+<dl><dd>
+<span class="qtext">TYPES small_table TYPE STANDARD TABLE OF ... <br>&nbsp;&nbsp;WITH NON-UNIQUE KEY ... <br>
+TYPES: BEGIN OF line_structure, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int_table TYPE small_table, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF line_structure, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; big_table TYPE SORTED TABLE OF line_structure <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY ... <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INITIAL SIZE 10000.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source text shows the declaration of a nested table, where the initial memory requirement is specified according to the above rule: for the inner small table and not the outer large table.
+</p>
+<dl><dd>
+<span class="qtext">TYPES small_table TYPE STANDARD TABLE OF ... <br>&nbsp;&nbsp;WITH NON-UNIQUE KEY ... <br>
+&nbsp;&nbsp;INITIAL SIZE 4. <br>TYPES: BEGIN OF line_structure, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int_table TYPE small_table, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF line_structure, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; big_table TYPE SORTED TABLE OF line_structure <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY ...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninitial_memory_requ_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

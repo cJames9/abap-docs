@@ -1,0 +1,214 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENGLOBAL_DECLAR_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenglobal_declar_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Global Declarations of a Program">
+<title>
+Global Declarations of a Program - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenglobal_declar_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenglobal_declar_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogr_proc_structure_guidl.html')" class="blue">Program Structure and Procedure Structure</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Global Declarations of a Program
+</span></p>
+<A name="@@ITOC@@ABENGLOBAL_DECLAR_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Each ABAP program has a global declaration part where data types, interfaces, classes, and data objects that are visible throughout the program can be declared.
+</p>
+<p>
+From a technical viewpoint, the global declaration part consists of all declarations that cannot be
+assigned to a more local context (class, procedure). All declarations implemented in processing blocks
+without their own contexts (in event blocks and dialog modules) and declarations declared between completed
+processing blocks are assigned to the global context. Event blocks of <span class="qtext">GET</span>
+and <span class="qtext">AT SELECTION-SCREEN</span> events are exceptions. Variables declared here are only valid in the event block.
+</p>
+<p>
+In an ABAP statement, it is only ever possible to refer to the previous declarations of the currently visible contexts.
+</p>
+<A name="@@ITOC@@ABENGLOBAL_DECLAR_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Implement global declarations centrally</span>
+</p>
+<p>
+Place the global declaration part of a program at a central, context-related point at the beginning of the program.
+</p>
+<A name="@@ITOC@@ABENGLOBAL_DECLAR_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The global declaration part should only ever be the area between the introductory statement of an ABAP
+program and the first implementation. This the only place where global declarations should be made in
+a meaningful order. This ensures that the declarations intended for global use can really be used in all subsequent implementations.
+</p>
+<p>
+There should not be any declarative statements in contexts that do not support local data (provided that they are
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">still used</a>). Otherwise,
+a false impression of local validity is created when the program is read, which may lead to the program not being correctly understood.
+</p>
+<p>
+This rule is only of explicit relevance when working with program types other than class or interface
+pools. Class Builder implicitly specifies which declarations occur and where. These are the declarations of the global class/global interface itself as well as optional local data types, classes, and interfaces in
+<a href="javascript:call_link('abenlocal_type_glob_class_guidl.html')" class="lnkpurple" title="Guideline">class pools</a>. The
+developer cannot directly access the master program of a class pool or interface pool. This is still
+the case even if the source code-based Class Builder is introduced, because it only shows the declaration and implementation of the global class.
+</p>
+<p>
+For other <a href="javascript:call_link('abenprogram_type_guidl.html')" class="lnkpurple" title="Guideline">program types</a>
+(subroutine pools, function groups, and executable programs), the developer can access the entire master
+program. If these program types are used, adherence to the rule is the developer's responsibility. The top include is helpful here. It is especially suited to all programs that are
+<a href="javascript:call_link('abensource_code_orga_guidl.html')" class="lnkpurple" title="Guideline">organized</a> using include programs. The
+<a href="javascript:call_link('abentop_include_glosry.html')" class="grey" title="Glossary Entry">top include</a> is specially
+designed for the global declaration part and is therefore supported by ABAP Workbench and ABAP Compiler.
+ABAP Workbench creates and includes the top include automatically. The compiler incorporates the relevant
+top include into the syntax check for an individual include program. This enables meaningful syntax checks to be made on individual include programs.
+</p>
+<p>
+If the top include is available, it should always be the first include program that a master program
+includes. The top include can also contain additional <span class="qtext">INCLUDE</span> statements.
+The top include, and any include programs included in the top include, can only contain declarations and not implementations.
+</p>
+<p>
+If <a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">ABAP Objects</a>
+are the main focus, the global declaration part or the top include should only contain declarations of local classes and interfaces, if the above rule is strictly adhered to. Data types should only be
+<a href="javascript:call_link('abendeclaration_dtypes_const_guidl.html')" class="lnkpurple" title="Guideline">declared</a> for
+classes and interfaces or in ABAP Dictionary. Global data objects are only required for communication with classical dynpros. Therefore they should only be used in the top include for function groups that encapsulate classic
+<a href="javascript:call_link('abenencap_class_interf_guidl.html')" class="lnkpurple" title="Guideline">dynpros</a>.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+The above rule can be mainly justified due to the visibility within the program and the validity of
+declarations. Strictly speaking therefore, it only applies to program types other than class pools. In class pools, the visibility outside of the class pool and the resulting
+<a href="javascript:call_link('abenlocal_type_glob_class_guidl.html')" class="lnkpurple" title="Guideline">dependencies</a> are also important.
+</p>
+<p>
+A further exception applies in the following situation: the local classes of a program are relatively
+independent units and their implementations do not refer to the declarations of other local classes. In this case, their declaration and implementation parts can be specified one after the other to improve readability.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows a function group for encapsulating a classic dynpro, after the include
+programs have been resolved. The two dialog modules contain data declarations that look like local declarations
+but have global validity. Static access to this type of data object is only possible below the declaration,
+which means the function module has no access to <span class="qtext">g_input_field</span>, and the PBO module has no access to <span class="qtext">g_ok_code</span>.
+</p>
+<dl><dd>
+<span class="qtext">FUNCTION-POOL z_screen.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA g_start_value TYPE c LENGTH 20.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FUNCTION z_handle_screen. <br>*"------------------------------------------------------ <br>
+*"*"Local Interface: <br>*" IMPORTING <br>*" REFERENCE(i_start_value) TYPE csequence OPTIONAL <br>*"------------------------------------------------------ <br>
+&nbsp;&nbsp;g_start_value = i_start_value. <br>&nbsp;&nbsp;CALL SCREEN 100. <br>ENDFUNCTION.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE status_0100 OUTPUT. <br>&nbsp;&nbsp;DATA g_input_field TYPE c LENGTH 20. <br>&nbsp;&nbsp;g_input_field = g_start_value. <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE user_command_0100 INPUT. <br>&nbsp;&nbsp;DATA g_ok_code TYPE sy-ucomm. <br>&nbsp;&nbsp;CASE g_ok_code. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN '...'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp;ENDCASE. <br>ENDMODULE.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows the function group from the above example, after the global declarations
+have been moved to a coherent global declaration part that follows the introductory statement. The additional
+global data object <span class="qtext">g_start_value</span> is no longer required, and <span class="qtext">g_ok_code</span> can be accessed in the PBO module.
+</p>
+<dl><dd>
+<span class="qtext">FUNCTION-POOL z_screen.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: g_input_field TYPE c LENGTH 20, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g_ok_code TYPE sy-ucomm.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FUNCTION z_handle_screen. <br>*"------------------------------------------------------ <br>
+*"*"Local Interface: <br>*" IMPORTING <br>*" REFERENCE(i_start_value) TYPE csequence OPTIONAL <br>*"------------------------------------------------------ <br>
+&nbsp;&nbsp;g_input_field = i_start_value. <br>&nbsp;&nbsp;CALL SCREEN 100. <br>ENDFUNCTION.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE status_0100 OUTPUT. <br>&nbsp;&nbsp;CLEAR g_ok_code. <br>ENDMODULE.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">MODULE user_command_0100 INPUT. <br>&nbsp;&nbsp;CASE g_ok_code. <br>&nbsp;&nbsp;&nbsp;&nbsp;WHEN '...'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDCASE. <br>ENDMODULE.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenglobal_declar_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

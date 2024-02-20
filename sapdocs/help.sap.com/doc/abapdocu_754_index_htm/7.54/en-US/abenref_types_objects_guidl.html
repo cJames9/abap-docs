@@ -1,0 +1,149 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENREF_TYPES_OBJECTS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenref_types_objects_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Reference to Data Types or Data Objects">
+<title>
+Reference to Data Types or Data Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenref_types_objects_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenref_types_objects_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_type_obj_guidl.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Reference to Data Types or Data Objects
+</span></p>
+<A name="@@ITOC@@ABENREF_TYPES_OBJECTS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+As well as <a href="javascript:call_link('abenusing_types_guidl.html')" class="lnkpurple" title="Guideline">using data types</a>
+for declarations and typings with the addition <span class="qtext">TYPE</span>, the alternative addition
+<span class="qtext">LIKE</span> of the corresponding statements can be used to reference the data type
+of one of the data objects visible at this position directly. This includes references to data objects
+of the same program, interface parameters of the current procedure, attributes of global classes and interfaces, and constants in type groups.
+</p>
+<A name="@@ITOC@@ABENREF_TYPES_OBJECTS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold"> Declare dependent data objects with reference to other data objects</span>
+</p>
+<p>
+If a data object directly depends on another data object, refer to it directly using <span class="qtext">LIKE</span>
+for the declaration. In all other cases, use <span class="qtext">TYPE</span> to refer to a standalone data type.
+</p>
+<A name="@@ITOC@@ABENREF_TYPES_OBJECTS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+For example, if a helper variable of the type of an input parameter is required within a procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>), it
+should not be declared with reference to the type of the parameter using <span class="qtext">TYPE</span>
+but with reference to the parameter itself using <span class="qtext">LIKE</span>. It is also possible
+to declare work areas using <span class="qtext">LIKE LINE OF</span> if the parameter is an internal
+table. In the case of typing with <span class="qtext">LIKE</span>, the type of the parameter can be changed retroactively without always having to adapt the procedure implementation.
+</p>
+<p>
+However, if no close reference to another data object exists, it is usually more useful to declare data objects with reference to a
+<a href="javascript:call_link('abenbound_independent_dtype_guidl.html')" class="lnkpurple" title="Guideline">standalone data type</a> by using <span class="qtext">TYPE</span>.
+</p>
+<A name="@@ITOC@@ABENREF_TYPES_OBJECTS_GUIDL_4"></A>
+<p><span class="h2">
+Note
+</span></p>
+<p>
+Obsolete references to flat structures or database tables or views of the ABAP Dictionary using <span class="qtext">LIKE</span> should never be implemented.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows the declaration of a helper variable in a method that is supposed to
+be of the same data type as an interface parameter. The <span class="qtext">TYPE</span> reference to the data type requires a manual implementation of any type changes.
+</p>
+<dl><dd>
+<span class="qtext">CLASS some_class DEFINITION ... <br>&nbsp;&nbsp; PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp; METHODS some_method <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING some_parameter TYPE some_type. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>
+ENDCLASS. <br>CLASS some_class IMPLEMENTATION. <br>&nbsp;&nbsp; METHOD some_method. <br>&nbsp;&nbsp;&nbsp;&nbsp; DATA save_parameter TYPE some_type. <br>
+&nbsp;&nbsp;&nbsp;&nbsp; save_parameter = some_parameter. <br>&nbsp;&nbsp;&nbsp;&nbsp; ... <br>&nbsp;&nbsp; ENDMETHOD. <br>&nbsp;&nbsp; ... <br>ENDCLASS.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows the improved declaration of the helper variable that now directly refers
+to the interface parameter with <span class="qtext">LIKE</span>, so that possible type changes are automatically accepted.
+</p>
+<dl><dd>
+<span class="qtext">&nbsp;&nbsp; ... <br>&nbsp;&nbsp;&nbsp;&nbsp;METHOD some_method. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA save_parameter LIKE some_parameter. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save_parameter = some_parameter. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDMETHOD. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenref_types_objects_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

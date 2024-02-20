@@ -1,0 +1,193 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_MINI_DAEMON_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_mini_daemon_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ADF, Mini ABAP Daemon">
+<title>
+ADF, Mini ABAP Daemon - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_mini_daemon_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_mini_daemon_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_daemon.html')" class="blue">ADF - ABAP Daemon Framework</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_daemon_abexas.html')" class="blue">Examples for ABAP Daemons</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+ADF, Mini ABAP Daemon
+</span></p>
+<p>
+This example demonstrates a mini <a href="javascript:call_link('abenabap_daemon_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon</a>.
+</p>
+<A name="@@ITOC@@ABENABAP_MINI_DAEMON_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_abap_mini_daemon.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(pcp) = cl_ac_message_type_pcp=&gt;create( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcp-&gt;set_text( `Hello Daemon!` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error INTO DATA(pcp_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( pcp_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;start(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_class_name = 'CL_DEMO_ABAP_MINI_DAEMON'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 'DemoMiniDaemon'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_instance_id = DATA(instance_id) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;attach(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_instance_id = instance_id )-&gt;send( pcp ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_daemon_client_manager=&gt;stop(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_instance_id = instance_id ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_daemon_error INTO DATA(daemon_exc).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( daemon_exc-&gt;get_text( ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA msg TYPE string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(subrc) = 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHILE subrc = 4.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT msg = msg FROM SHARED MEMORY demo_indx_blob(dm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'DemoMiniDaemon'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subrc = sy-subrc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDWHILE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSERT msg = `Hello Daemon!`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display( 'Daemon has received the message' ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENABAP_MINI_DAEMON_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The class <span class="lnkgrey">CL_DEMO_ABAP_MINI_DAEMON</span> used by the program above demonstrates a mini
+<a href="javascript:call_link('abenabap_daemon_class_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon class</a>. It implements only the following methods of the interface <span class="lnkgrey">IF_ABAP_DAEMON_EXTENSION</span>:
+</p>
+<ul class="disc">
+<li>ON_ACCEPT</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD if_abap_daemon_extension~on_accept. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF i_context_base-&gt;get_start_caller_info( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-program = 'DEMO_ABAP_MINI_DAEMON'. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_setup_mode = co_setup_mode-accept. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_abap_daemon_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+In this method, the return value E_SETUP_MODE must be set to ensure that the daemon is created. The method limits the creation of daemons to the program <span class="lnkgrey">DEMO_ABAP_MINI_DAEMON</span>.
+</dd></dl>
+<ul class="disc">
+<li>ON_MESSAGE</li>
+</ul>
+<dl><dd>
+<span class="qtext">METHOD IF_ABAP_DAEMON_EXTENSION~ON_MESSAGE. <br>&nbsp;&nbsp;TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(msg) = i_message-&gt;get_text( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_ac_message_type_pcp_error. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN. <br>
+&nbsp;&nbsp;ENDTRY. <br>&nbsp;&nbsp;EXPORT msg = msg TO SHARED MEMORY demo_indx_blob(dm) <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID 'DemoMiniDaemon'. <br>ENDMETHOD.</span>
+</dd></dl>
+<dl><dd>
+This method indicates that the daemon is responding to message from a program. To enable this, the message is exported to the
+<a href="javascript:call_link('abencrosstrans_app_buffer_glosry.html')" class="grey" title="Glossary Entry"> cross-transaction application buffer</a> of the shared memory.
+</dd></dl>
+<p>
+The program DEMO_ABAP_MINI_DAEMON uses <a href="javascript:call_link('abenabap_daemon_manager_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon Manager</a> to do the following:
+</p>
+<ul class="disc">
+<li>Start a daemon based on the class CL_DEMO_ABAP_MINI_DAEMON.</li>
+</ul>
+<ul class="disc">
+<li>Send a <a href="javascript:call_link('abenpcp_glosry.html')" class="grey" title="Glossary Entry">PCP</a> message using a temporary
+<a href="javascript:call_link('abenabap_daemon_handle_glosry.html')" class="grey" title="Glossary Entry">ABAP Daemon handle</a>.</li>
+</ul>
+<ul class="disc">
+<li>Stop the daemon immediately (not a typical step).</li>
+</ul>
+<p>
+It then checks whether the daemon wrote the message to the shared memory.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_mini_daemon_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:30 GMT -->
+</html>

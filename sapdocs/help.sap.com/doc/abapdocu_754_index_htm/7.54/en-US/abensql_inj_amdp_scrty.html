@@ -1,0 +1,165 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_INJ_AMDP_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_inj_amdp_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL Injections Using AMDP">
+<title>
+SQL Injections Using AMDP - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_inj_amdp_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_inj_amdp_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_programming_scrty.html')" class="blue">Security Risks Caused by Input from Outside</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_injections_scrty.html')" class="blue">SQL Injections</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL Injections Using AMDP
+</span></p>
+<p>
+When <a href="javascript:call_link('abenamdp_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> is used, database procedures are created and called that are currently usually implemented in
+<a href="javascript:call_link('abensql_script_glosry.html')" class="grey" title="Glossary Entry">SQLScript</a> for the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>. The
+implementation of the database procedures in AMDP methods is managed by ABAP, but their content and
+security is not ABAP's responsibility. Risks are incurred whenever a database procedure contains dynamic
+parts or whenever it calls further database procedures whose functions are unknown in ABAP and cannot be checked there.
+</p>
+<p>
+There are currently no test tools available for checking the security of the implementation of a AMDP
+methods. Developers of AMDP methods are themselves responsible for their security, with dual control (Code Inspections) being a useful principle here.  This is partly why the use of dynamic programming techniques is strongly
+<a href="javascript:call_link('abenamdp.html')" class="blue">discouraged</a>. In cases where AMDP methods do contain dynamic
+parts that could produce SQL injections when combined with input from outside, they must be flagged accordingly to allow the caller to implement any checks needed.
+</p>
+<p>
+Implementations of <a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP methods</a>
+are not currently supported by ABAP test tools, which means the caller of a method is responsible for
+ensuring that only non-malicious content is passed to it. If the implementation of an AMDP method contains
+dynamic parts into which formal parameters are injected, no input from outside can be passed to these parameters that is not checked or escaped appropriately, to avoid SQL injections.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The statements about AMDP made here apply in principle to all places in which implementations made in other programming languages are called from ABAP.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An AMDP method is implemented as follows:
+</p>
+<dl><dd>
+<span class="qtext">CLASS cl_dyn_amdp IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD increase_seatsocc BY DATABASE PROCEDURE FOR HDB <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE SQLSCRIPT. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXEC 'UPDATE sflight SET seatsocc = seatsocc + ' || :seats; <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p>
+This method uses the SQLScript statement <span class="qtext400">EXEC</span> in the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a> to
+execute an SQL statement specified as a character string into which the input parameter <span class="qtext400">seats</span>
+is merged. A method like this should be classified as a potential risk, since the input parameter is
+not checked. If possible, an input check should be implemented in SQLScript directly before the statement <span class="qtext400">EXEC</span> is executed.
+</p>
+<p>
+If the method is delivered without an appropriate check and the caller wants to pass value entered outside
+to it, the validity of the value must be checked first. In the case in question, only integers can be
+passed, which can be verified using the method CHECK_INT_VALUE of the class <span class="lnkgrey">CL_ABAP_DYN_PRG</span>
+in calls from ABAP. If not, input such as <span class="qtext400">2, seatsmax = seatsmax + 10</span> would be possible, which would change the column SEATSMAX and not just the column SEATSOCC.
+</p>
+<dl><dd>
+<span class="qtext">DATA seats TYPE string. <br>cl_demo_input=>request( CHANGING field = seats ). <br> <br>
+TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_dyn_amdp( )->increase_seatsocc( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seats = |{ cl_abap_dyn_prg=>check_int_value( seats ) }| ). <br>
+&nbsp;&nbsp;CATCH cx_abap_not_an_integer INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>ENDTRY.</span>
+</dd></dl>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An AMDP method is implemented as follows:
+</p>
+<dl><dd>
+<span class="qtext">CLASS cl_dyn_amdp IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD get_flights BY DATABASE PROCEDURE FOR HDB <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LANGUAGE SQLSCRIPT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING spfli. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;flights = SELECT * FROM SPFLI WHERE mandt = :mandt; <br>&nbsp;&nbsp;&nbsp;&nbsp;flights = APPLY_FILTER(:flights, :filter); <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p>
+This method uses the SQLScript statement <span class="qtext400">APPLY_FILTER</span> in the
+<a href="javascript:call_link('abenhana_database_glosry.html')" class="grey" title="Glossary Entry">SAP HANA database</a>, which
+sets a dynamic condition on a results set. This statement can also produce SQL injections when combined
+with input from outside if the input is not validated appropriately. As used in ABAP, methods of the class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> can validate this input..
+</p>
+<dl><dd>
+<span class="qtext">DATA column TYPE string. <br>cl_demo_input=>add_field( CHANGING field = column ). <br>
+ <br>DATA value TYPE string. <br>cl_demo_input=>request( CHANGING field = value ). <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA(filter) = cl_abap_dyn_prg=>check_column_name( column ) &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ` = ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=>quote( value ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_dyn_amdp( )->get_flights( EXPORTING mandt = sy-mandt <br>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filter = filter <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING flights = DATA(result) ). <br>
+&nbsp;&nbsp;CATCH cx_abap_invalid_name cx_amdp_execution_failed INTO DATA(exc). <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( exc->get_text( ) ). <br>ENDTRY.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_inj_amdp_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

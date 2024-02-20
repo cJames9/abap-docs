@@ -1,0 +1,125 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOGEXP_RULES_OPERANDS_STRUC -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlogexp_rules_operands_struc.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="rel_exp - Comparison of Structures">
+<title>
+rel_exp - Comparison of Structures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlogexp_rules_operands_struc.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlogexp_rules_operands_struc.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogical_expr_func.html')" class="blue">Expressions and Functions for Conditions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp.html')" class="blue">log_exp - Logical Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp_comp.html')" class="blue">rel_exp - Comparison Expressions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlogexp_rules.html')" class="blue">rel_exp - Comparison Rules</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+rel_exp - Comparison of Structures
+</span></p>
+<p>
+It is possible to compare structures with structures and to compare structures with elementary fields:
+</p>
+<ul class="disc">
+<li><a href="javascript:call_link('abencompatibility.html')" class="blue">Compatible</a> structures are compared on a component-by-component
+basis and any nested structures are resolved recursively. Two structures are equal if the content of
+their components matches. If two structures are not equal, the first unequal component pair determines the result of the comparison.</li>
+</ul>
+<ul class="disc">
+<li>It is possible to compare incompatible structures and structures with elementary fields provided that the structures concerned are <a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a>.</li>
+</ul>
+<ul class="circlem2">
+<li>Comparisons between two flat structures require that their
+<a href="javascript:call_link('abenunicode_fragment_view_glosry.html')" class="grey" title="Glossary Entry">fragment views</a>
+match for the length of the shorter structure. Before the comparison, the shorter structure is padded
+to the length of the longer structure. Here, all character-like components are padded with blanks and all other components with their type-dependent
+<a href="javascript:call_link('abeninitial_value_glosry.html')" class="grey" title="Glossary Entry">initial value</a>. The comparison is then performed on a section-by-section basis according to the fragment view.</li>
+</ul>
+<ul class="circlem2">
+<li>Comparisons between a flat structure and an elementary field are subject to the following rules: <br>
+ <br>If the flat structure is character-like, it is handled in the comparison like an elementary field with the type <span class="qtext">c</span>. <br>
+ <br>If the flat structure is not just character-like, the elementary field must have the type <span class="qtext">c</span> and the first fragment of the
+<a href="javascript:call_link('abenunicode_fragment_view_glosry.html')" class="grey" title="Glossary Entry">structure fragment
+view</a> must be character-like and at least as long as the elementary field. If the elementary field
+is shorter than the structure, it is expanded to the length of the structure before the comparison is
+started and then handled implicitly like a structure. The character-like parts of the extension are padded with blanks and all other components are padded with their type-dependent initial value.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following comparison is true because the structure is handled like a field of type <span class="qtext">c</span> with length 8.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES: <br>&nbsp;&nbsp;BEGIN OF struc, <br>&nbsp;&nbsp;&nbsp;&nbsp;year&nbsp;&nbsp;TYPE c LENGTH 4, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;month TYPE c LENGTH 2, <br>&nbsp;&nbsp;&nbsp;&nbsp;day&nbsp;&nbsp; TYPE c LENGTH 2, <br>
+&nbsp;&nbsp;END OF struc. <br> <br>DATA(date) = sy-datlo. <br>DATA(struc) = VALUE struc( year&nbsp;&nbsp;= date(4) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; month = date+4(2) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; day&nbsp;&nbsp; = date+6(2) ). <br> <br>ASSERT date = struc.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlogexp_rules_operands_struc.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+</html>

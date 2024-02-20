@@ -1,0 +1,195 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDYN_ACCESS_DATA_OBJ_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendyn_access_data_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Accessing Data Objects Dynamically">
+<title>
+Accessing Data Objects Dynamically - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendyn_access_data_obj_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendyn_access_data_obj_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_prog_technique_guidl.html')" class="blue">Dynamic Programming Techniques</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Accessing Data Objects Dynamically
+</span></p>
+<A name="@@ITOC@@ABENDYN_ACCESS_DATA_OBJ_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Field symbols and data references are used to access data objects whose name and attributes are not known until runtime.
+</p>
+<ul class="disc">
+<li><span class="bold">Field symbols</span> <br>A field symbol is a symbolic name for a data object
+declared with <span class="qtext">FIELD-SYMBOLS</span>, to which memory areas can be assigned using
+the <span class="qtext">ASSIGN</span> statement or, if internal tables are processed, using the <span class="qtext">
+ASSIGNING</span> addition. Field symbols are typed either generically or completely and can be used like a data object in all appropriate operand positions. For typing, the same rules apply as for
+<a href="javascript:call_link('abentype_formal_param_guidl.html')" class="lnkpurple" title="Guideline">formal parameters of procedures</a>.
+When accessing field symbols, value semantics applies, which means that the assigned memory content is addressed directly. Field symbols are thus always handled like dereferenced pointers.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Data references</span> <br>A data reference is the content of a data reference
+variable that is declared using <span class="qtext">REF TO</span> and points to any data objects or
+parts of data objects. Data references are needed to create anonymous data objects using <span class="qtext">CREATE
+DATA</span> or <a href="javascript:call_link('abenconstructor_expression_new.html')" class="blue"><span class="qtext">NEW</span></a>.
+They can also be generated for existing data objects, however, using the statement <span class="qtext">GET
+REFERENCE</span>, the reference operator <a href="javascript:call_link('abenconstructor_expression_ref.html')" class="blue"><span class="qtext">
+REF</span></a>, or, if internal tables are processed, using the <span class="qtext">REFERENCE INTO</span>
+addition. A data reference variable is either completely generic or completely typed. When accessing
+data reference variables, reference semantics applies, which means that the data reference itself is
+addressed. To access the referenced memory content, a data reference variable must be dereferenced explicitly using the dereferencing operator (->*).</li>
+</ul>
+<p>
+Field symbols and data references are closely linked because only completely typed data reference variables can be dereferenced in any operand position. Completely generic data reference variables
+(<span class="qtext">REF TO data</span>) can be dereferenced in the <span class="qtext">ASSIGN</span> statement only.
+</p>
+<p>
+Data reference variables can be <a href="javascript:call_link('abendeclaration_variables_guidl.html')" class="lnkpurple" title="Guideline">declared</a>
+in the same context as all other data objects, especially also as attributes of classes. Field symbols, in contrast, can only be declared within procedures
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">methods</a>) or in the global declaration part. However, the latter is
+<a href="javascript:call_link('abendeclaration_variables_guidl.html')" class="lnkpurple" title="Guideline">no longer allowed</a>.
+</p>
+<A name="@@ITOC@@ABENDYN_ACCESS_DATA_OBJ_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use field symbols and data references in appropriate ways</span>
+</p>
+<p>
+Use field symbols and data references for the purpose that best matches their semantics:
+</p>
+<ul class="disc">
+<li>Field symbols for value access (value semantics)</li>
+</ul>
+<ul class="disc">
+<li>Data references for working with the references (reference semantics)</li>
+</ul>
+<A name="@@ITOC@@ABENDYN_ACCESS_DATA_OBJ_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Both field symbols and data references can be understood as pointers to memory areas. The main difference is in the different access semantics.
+</p>
+<ul class="disc">
+<li>Due to their value semantics, field symbols should always be used if the focus is on the access
+to referenced data. Field symbols provide specific functions for this purpose, which are not available for data references:</li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic access to attributes of classes and objects <br><span class="qtext">ASSIGN (class_name)=>(attr_name) ... <br>ASSIGN oref->(attr_name) ...</span></li>
+</ul>
+<ul class="circlem2">
+<li>Dynamic access to structure components <br><span class="qtext">ASSIGN ... COMPONENT ...</span></li>
+</ul>
+<ul class="circlem2">
+<li>Explicit casting <br><span class="qtext">ASSIGN ... CASTING ...</span></li>
+</ul>
+<ul class="circlem2">
+<li>Dereferencing of generic data reference variables <br><span class="qtext">ASSIGN dref->* ...</span></li>
+</ul>
+<ul class="disc">
+<li>Due to their reference semantics, data references are to be used if the focus is on the explicit
+handling of references to data objects. Data references are vital for creating anonymous data objects or complex dynamic data structures, such as trees or chained lists in the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> or
+in the shared objects memory. Furthermore, data references are the preferred element for implementing explicit sharing between any data objects, and for passing pointers to data objects to procedures.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Actually, data reference variables can be better used in programs that are based on
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">ABAP Objects</a> because they have the same semantics as object reference variables and therefore represent a more
+<a href="javascript:call_link('abenmodern_abap_guidl.html')" class="lnkpurple" title="Guideline">modern</a> programming concept.
+Field symbols, on the other hand, provide more functions than data references and can thus not always
+be replaced by them. Consequently, the usage of field symbols for dynamic accesses to data objects is still recommended, although the sole use of data references would be preferred for consistency and simplicity reasons.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code shows a loop for an internal table in which the system is supposed to directly
+<a href="javascript:call_link('abentable_output_guidl.html')" class="lnkpurple" title="Guideline">access the current row</a>. If a generic data reference variable is used for this purpose, a field symbol is also needed for its dereferencing.
+</p>
+<dl><dd>
+<span class="qtext">METHOD some_method. <br>&nbsp;&nbsp;"IMPORTING i_itab TYPE INDEX TABLE <br>&nbsp;&nbsp;DATA dref TYPE REF TO data. <br>
+&nbsp;&nbsp;FIELD-SYMBOLS &lt;fs> TYPE data. <br>&nbsp;&nbsp;... <br>&nbsp;&nbsp;LOOP AT i_itab REFERENCE INTO dref. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN dref->* TO &lt;fs>. <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;fs> = ... <br>&nbsp;&nbsp;ENDLOOP. <br>&nbsp;&nbsp;... <br>ENDMETHOD.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code simplifies the above example by using a field symbol, which is required to access table rows anyway, directly and without using a data reference. The direct use of the field symbol thus also complies with the
+<a href="javascript:call_link('abenkiss_principle_guidl.html')" class="lnkpurple" title="Guideline">KISS principle</a>.
+</p>
+<dl><dd>
+<span class="qtext">METHOD some_method. <br>&nbsp;&nbsp;"IMPORTING i_itab TYPE INDEX TABLE <br>&nbsp;&nbsp;FIELD-SYMBOLS &lt;fs> TYPE data. <br>
+&nbsp;&nbsp;... <br>&nbsp;&nbsp;LOOP AT i_itab ASSIGNING &lt;fs>. <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;fs> = ... <br>&nbsp;&nbsp;ENDLOOP. <br> ... <br>ENDMETHOD.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendyn_access_data_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

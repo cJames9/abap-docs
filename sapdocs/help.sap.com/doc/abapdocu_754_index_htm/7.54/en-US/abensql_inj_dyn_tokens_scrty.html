@@ -1,0 +1,246 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSQL_INJ_DYN_TOKENS_SCRTY -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_inj_dyn_tokens_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SQL Injections Using Dynamic Tokens">
+<title>
+SQL Injections Using Dynamic Tokens - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abensql_inj_dyn_tokens_scrty.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abensql_inj_dyn_tokens_scrty.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_security.html')" class="blue">ABAP - Security Notes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynamic_programming_scrty.html')" class="blue">Security Risks Caused by Input from Outside</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abensql_injections_scrty.html')" class="blue">SQL Injections</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SQL Injections Using Dynamic Tokens
+</span></p>
+<p>
+The <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a> syntax allows
+almost every clause of an ABAP SQL statement to be specified dynamically as the content of a data object
+specified in parentheses. If all of part of the content of one of these data objects originates from outside of the program, there is a risk of one of the following SQL injections:
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_1" class="blue">Access to Non-Permitted Database Tables</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_2" class="blue">Access to Non-Permitted Table Columns</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_3" class="blue">Manipulation of the Dynamic WHERE Condition</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_4" class="blue">Manipulation of a Dynamic Change Expression</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+In a dynamic token, it is more secure to specify the name of an ABAP data object as an operand, instead of entering a value as a literal.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The first dynamic <span class="qtext">WHERE</span> condition is insecure compared to an SQL injection,
+if <span class="qtext">input</span> is an external input, which is not checked or masked beforehand. This is not necessary for the second dynamic <span class="qtext">WHERE</span> condition.
+</p>
+<dl><dd>
+<span class="qtext">DATA(sql_cond1) = `CARRID = '` &amp;&amp; input &amp;&amp; `'`. <br>SELECT SINGLE * FROM scarr WHERE (sql_cond1) INTO @wa. <br>
+ <br>DATA(sql_cond2) = `CARRID = @input`. <br>SELECT SINGLE * FROM scarr WHERE (sql_cond2) INTO @wa.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_1"></A>
+<p><span class="h2">
+Access to Non-Permitted Database Tables
+</span></p>
+<p>
+If dynamically specified database tables <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">source_syntax</span></a>
+(for the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> or <span class="qtext">target_syntax</span> for
+<a href="javascript:call_link('abenopen_sql_writing.html')" class="blue">writes</a>) originate in full or in part from outside
+the program, users could potentially access databases for which they usually do not have authorization.
+If the use of external input in dynamically specified database tables is unavoidable, the input must
+be properly checked. For example, the class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> can be used to make a comparison with a whitelist.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, the method CHECK_TABLE_NAME_STR only allows access to tables of the
+flight data model. Input from other or nonexistent database tables are rejected. Access to oversized database tables is also not allowed, to avoid putting too much strain on system performance.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA dbtab TYPE string. <br>cl_demo_input=>request( CHANGING field = dbtab ). <br> <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;dbtab = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_dyn_prg=>check_table_name_str( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val = to_upper( dbtab ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;packages = 'SAPBC_DATAMODEL' ). <br>&nbsp;&nbsp;CATCH cx_abap_not_a_table cx_abap_not_in_package. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( 'Wrong input' ). <br>&nbsp;&nbsp;&nbsp;&nbsp;LEAVE PROGRAM. <br>
+ENDTRY. <br> <br>DATA dref TYPE REF TO data. <br>FIELD-SYMBOLS &lt;fs> TYPE STANDARD TABLE. <br>CREATE DATA dref TYPE STANDARD TABLE OF (dbtab) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH EMPTY KEY. <br>
+ASSIGN dref->* TO &lt;fs>. <br> <br>DATA lines TYPE i. <br>SELECT COUNT(*) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (dbtab) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@lines). <br>IF lines > 1000. <br>&nbsp;&nbsp;cl_demo_output=>display( 'Table too large' ). <br>
+&nbsp;&nbsp;LEAVE PROGRAM. <br>ENDIF. <br> <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM (dbtab) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @&lt;fs>. <br>cl_demo_output=>display( &lt;fs> ).
+</span>
+</p>
+<A name="@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_2"></A>
+<p><span class="h2">
+Access to Non-Permitted Table Columns
+</span></p>
+<p>
+If the dynamically specified table columns <span class="qtext">column_syntax</span> in the <a href="javascript:call_link('abapselect_list.html')" class="blue">
+<span class="qtext">SELECT</span> list</a> of the statement <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">
+SELECT</span></a> originate fully or in part from outside the program, users could potentially access
+table columns for which they usually do not have authorization. Users could also rename columns without
+permission or use aggregate functions to perform unauthorized calculations. If the use of external input
+in a dynamically specified table columns is unavoidable, the input must be properly checked. For example, the class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> can be used to make a comparison with a whitelist.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When specifying columns after <a href="javascript:call_link('abapgroupby_clause.html')" class="blue"><span class="qtext">GROUP
+BY</span></a>, the same security advice applies as to columns specified dynamically directly after <span class="qtext">SELECT</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See the example in <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">column _syntax</span></a>. Here only columns from a whitelist are permitted to be read.
+</p>
+<A name="@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_3"></A>
+<p><span class="h2">
+Manipulation of the Dynamic WHERE Condition
+</span></p>
+<p>
+If a dynamic <span class="qtext">WHERE</span> condition <a href="javascript:call_link('abenwhere_logexp_dynamic.html')" class="blue"><span class="qtext">
+cond_syntax</span></a> originates completely or partially from outside the program, then users could
+potentially access data for which they usually do not have authorization. If the use of external input
+in a dynamic <span class="qtext">WHERE</span> condition cannot be avoided, the input must be properly
+checked and usually masked as well. To do this, you can sue the methods of class <span class="lnkgrey">CL_ABAP_DYN_PRG</span>.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+When dynamically specifying a <a href="javascript:call_link('abaphaving_clause.html')" class="blue"><span class="qtext">HAVING</span></a> condition, the same security advice applies as for the dynamic <span class="qtext">WHERE</span> condition.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, a potential SQL injection is prevented by using the method QUOTE of the class CL_ABAP_DYN_PRG, which adds quotation marks at the beginning and end. If this method is not used, and if
+"<span class="qtext400">x' OR name &lt;> '</span>" is entered, for example, all the data in the SCUSTOM table would be displayed.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA name TYPE string. <br>DATA customers TYPE TABLE OF scustom WITH EMPTY KEY. <br> <br>cl_demo_input=>request( CHANGING field = name ). <br>
+ <br>DATA(cond) = `country = 'DE' AND name = ` &amp;&amp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=>quote( name ). <br>
+ <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM scustom <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE (cond) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @customers. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( customers ). <br>
+&nbsp;&nbsp;CATCH cx_sy_dynamic_osql_syntax. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( 'Wrong input' ). <br>ENDTRY.
+</span>
+</p>
+<p>
+More examples under <a href="javascript:call_link('abenwhere_logexp_dynamic.html')" class="blue">dynamic <span class="qtext">WHERE</span> condition</a>.
+</p>
+<A name="@@ITOC@@ABENSQL_INJ_DYN_TOKENS_SCRTY_4"></A>
+<p><span class="h2">
+Manipulation of a Dynamic Change Expression
+</span></p>
+<p>
+If a dynamic change expression <a href="javascript:call_link('abapupdate_set_expression.html')" class="blue"><span class="qtext">expr_syntax</span></a>
+(for the statement <a href="javascript:call_link('abapupdate.html')" class="blue"><span class="qtext">UPDATE</span></a>) originates
+completely or partially from outside the program, then users could potentially change data for which
+they usually do not have authorization. If the use of external input in a dynamic change expression
+cannot be avoided, the input must be properly checked and usually masked as well. To do this, you can sue the methods of class <span class="lnkgrey">CL_ABAP_DYN_PRG</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following program section, a potential SQL injection is prevented by using the method QUOTE of the class CL_ABAP_DYN_PRG, which adds quotation marks at the beginning and end. If this method is not used, and if
+"<span class="qtext400">...' discount = '90</span>", for example, is entered in one of the input fields, the discount for the relevant customer would be set to 90.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA in TYPE REF TO if_demo_input. <br> <br>DATA customer TYPE scustom. <br> <br>DATA: id TYPE scustom-id, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp; TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;street&nbsp;&nbsp; TYPE string, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city&nbsp;&nbsp;&nbsp;&nbsp; TYPE string, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postcode TYPE string. <br>
+ <br>id = '00000001'. <br>SELECT SINGLE * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scustom <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE id = @id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @customer. <br> <br>name&nbsp;&nbsp;&nbsp;&nbsp;= customer-name. <br>
+street&nbsp;&nbsp;= customer-street. <br>city&nbsp;&nbsp;&nbsp;&nbsp;= customer-city. <br>postcode = customer-postcode. <br>
+ <br>in = cl_demo_input=>new( ). <br>in->add_field( CHANGING field = name <br> )->add_field( CHANGING field = street <br>
+ )->add_field( CHANGING field = city <br> )->add_field( CHANGING field = postcode <br> )->request( ). <br>
+ <br>DATA(set_expr) = <br>&nbsp;&nbsp;COND string( WHEN name IS NOT INITIAL <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN ` NAME = ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=>quote( name ) ) &amp;&amp; <br>
+&nbsp;&nbsp;COND string( WHEN street IS NOT INITIAL <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN ` STREET = `&nbsp;&nbsp; &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=>quote( street ) ) &amp;&amp; <br>
+&nbsp;&nbsp;COND string( WHEN city IS NOT INITIAL <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN ` CITY = ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=>quote( city ) ) &amp;&amp; <br>
+&nbsp;&nbsp;COND string( WHEN postcode IS NOT INITIAL <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THEN ` POSTCODE = ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_dyn_prg=>quote( postcode ) ). <br>
+ <br>TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;UPDATE scustom SET (set_expr) WHERE id = @id. <br>&nbsp;&nbsp;CATCH cx_sy_dynamic_osql_syntax. <br>&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>display( 'Wrong input' ). <br>ENDTRY.
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abensql_inj_dyn_tokens_scrty.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

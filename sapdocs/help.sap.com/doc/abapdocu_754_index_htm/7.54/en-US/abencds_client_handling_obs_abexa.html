@@ -1,0 +1,253 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCDS_CLIENT_HANDLING_OBS_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_client_handling_obs_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="CDS Views, Obsolete Client Handling">
+<title>
+CDS Views, Obsolete Client Handling - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencds_client_handling_obs_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencds_client_handling_obs_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dictionary.html')" class="blue">ABAP - Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds.html')" class="blue">ABAP CDS in ABAP Dictionary</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_entities.html')" class="blue">ABAP CDS - Data Definitions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenddic_cds_views.html')" class="blue">ABAP CDS - Views</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencds_client_handling.html')" class="blue">ABAP CDS - Client Handling in CDS Views</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+CDS Views, Obsolete Client Handling
+</span></p>
+<p>
+This example demonstrates how obsolete <a href="javascript:call_link('abencds_view_client_handling_obs.html')" class="blue">cross-client</a> CDS views are handled.
+</p>
+<A name="@@ITOC@@ABENCDS_CLIENT_HANDLING_OBS_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_cds_client_handling_obs.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'Data Types' ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = 'Not client dependent, no client field, CDS entity'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = CAST cl_abap_structdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_typedescr=&gt;describe_by_name(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DEMO_CDS_SPFLI_CLIENT_2' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;components ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = 'Not client dependent, no client field, database view'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = CAST cl_abap_structdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_typedescr=&gt;describe_by_name(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DEMO_CDS_PRJCTN2' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;components ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = 'Not client dependent, client field, CDS entity'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = CAST cl_abap_structdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_typedescr=&gt;describe_by_name(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DEMO_CDS_SPFLI_CLIENT_3' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;components ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = 'Not client dependent, client field, database view'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = CAST cl_abap_structdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_typedescr=&gt;describe_by_name(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DEMO_CDS_PRJCTN3' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;components ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( 'SELECT Statements' ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_spfli_client_2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO 1 ROWS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name =&nbsp;&nbsp;'Not client dependent, no client field, CDS entity'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = result1 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_prjctn2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO 1 ROWS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name =&nbsp;&nbsp;'Not client dependent, no client field, database view'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = result2 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_spfli_client_3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE mandt = @sy-mandt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO 1 ROWS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = 'Not client dependent, client field, CDS entity'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = result3 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_cds_prjctn3 CLIENT SPECIFIED<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE mandt = @sy-mandt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORDER BY carrid, connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(result4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UP TO 1 ROWS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = 'Not client dependent, client field, database view,' &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' CLIENT SPECIFIED'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = result4 ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCDS_CLIENT_HANDLING_OBS_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The program accesses the following CDS views:
+</p>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_PRJCTN2' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+@ClientDependent: false <br>define view demo_cds_spfli_client_2 <br> as select from <br> spfli <br> { <br>
+ key spfli.carrid, <br> key spfli.connid, <br> spfli.cityfrom, <br> spfli.cityto <br> }&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">@AbapCatalog.sqlViewName: 'DEMO_CDS_PRJCTN3' <br>@AccessControl.authorizationCheck: #NOT_REQUIRED <br>
+@ClientDependent: false <br>define view demo_cds_spfli_client_3 <br> as select from <br> spfli <br> { <br>
+ key spfli.mandt, <br> key spfli.carrid, <br> key spfli.connid, <br> spfli.cityfrom, <br> spfli.cityto <br> }&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</dd></dl>
+<p>
+They are used to demonstrate the behavior in rare cases where views with the obsolete notation <a href="javascript:call_link('abencds_view_client_handling_obs.html')" class="blue">
+<span class="qtext400">ClientDependent:false</span></a> are made into cross-client views even though they contain client-specific data sources:
+</p>
+<ul class="disc">
+<li>DEMO_CDS_SPFLI_CLIENT_2 is a cross-client CDS view in which the client column is not specified in the <span class="qtext400">SELECT</span> list.</li>
+</ul>
+<ul class="disc">
+<li>DEMO_CDS_SPFLI_CLIENT_3 is a cross-client CDS view in which the client column is specified in the <span class="qtext400">SELECT</span> list.</li>
+</ul>
+<p>
+RTTI is used to read the components of the associated data types:
+</p>
+<ul class="disc">
+<li>The structure of the cross-client CDS entity without client column in the <span class="qtext400">SELECT</span> list does not have a client column.</li>
+</ul>
+<ul class="disc">
+<li>The database view of the cross-client CDS view without client column in the <span class="qtext400">SELECT</span> list has a client column.</li>
+</ul>
+<ul class="disc">
+<li>The structure of the cross-client CDS entity without client column in the <span class="qtext400">SELECT</span> list does not have a client column.</li>
+</ul>
+<ul class="disc">
+<li>The database view of the cross-client CDS view with client column in the <span class="qtext400">SELECT</span> list has a client column, which makes it client-specific.</li>
+</ul>
+<p>
+The statement <span class="qtext">SELECT</span> is used to make the following accesses:
+</p>
+<ul class="disc">
+<li>Regular access to a cross-client CDS entity without client column in the <span class="qtext400">SELECT</span>
+list. The data is read from all clients. No conditions can be specified for the client. The results set does not have a client column.</li>
+</ul>
+<ul class="disc">
+<li>Regular access to a database view of the cross-client CDS entity without client column in the <span class="qtext400">
+SELECT</span> list. The data is read from all clients. No conditions can be specified for the client. The results set does not have a client column.</li>
+</ul>
+<ul class="disc">
+<li>Regular access to a cross-client CDS entity with client column in the <span class="qtext400">SELECT</span>
+list. The data of the client specified in the <span class="qtext">WHERE</span> condition is read. It
+is not possible to specify the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> here. The results set has a client column.</li>
+</ul>
+<ul class="disc">
+<li>Access to a database view of the cross-client CDS with client column in the <span class="qtext400">SELECT</span>
+list using the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT
+SPECIFIED</span></a>. The data of the client specified in the <span class="qtext">WHERE</span> condition is read. The results set has a client column.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The accesses to the database views of the CDS shown here are for demonstration purposes only. This way of accessing CDS views is obsolete and only the CDS entities should now be accessed.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencds_client_handling_obs_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

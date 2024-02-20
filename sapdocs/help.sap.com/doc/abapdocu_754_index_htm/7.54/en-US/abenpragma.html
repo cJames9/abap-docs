@@ -1,0 +1,224 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENPRAGMA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpragma.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:28 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Pragmas">
+<meta name="keywords" content="ABAP, Pragma, Pragmas">
+<title>
+Pragmas - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenpragma.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenpragma.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_syntax.html')" class="blue">ABAP Syntax</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogram_directives.html')" class="blue">Program Directives</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@##@@!ABAP_ELEMENT!@@"></A>
+<p><span class="h1">
+Pragmas
+</span></p>
+<p>
+Pragmas are <a href="javascript:call_link('abenprogram_directive_glosry.html')" class="grey" title="Glossary Entry">program directives</a> that can be used to hide warnings from various check tools. The following are supported:
+</p>
+<ul class="disc">
+<li>Warnings from the ABAP Compiler <a href="javascript:call_link('abensyntax_check_glosry.html')" class="grey" title="Glossary Entry">syntax check</a></li>
+</ul>
+<ul class="disc">
+<li>Warnings from the <a href="javascript:call_link('abenextended_program_check_glosry.html')" class="grey" title="Glossary Entry">extended program check</a></li>
+</ul>
+<p>
+More information can be found in the following:
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENPRAGMA_1" class="blue">Syntax of Pragmas</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENPRAGMA_2" class="blue">Positioning of Pragmas in ABAP Source Code</A></li>
+</ul>
+<A name="@@ITOC@@ABENPRAGMA_1"></A>
+<p><span class="h2">
+Syntax of Pragmas
+</span></p>
+<p>
+A pragma is structured as follows:
+</p>
+<dl><dd>
+<span class="qtext">##code[par][par]...</span>
+</dd></dl>
+<p>
+It is not case-sensitive and does not contain blanks. The pragma code (<span class="qtext">code</span>) defines its function and parameters (<span class="qtext">par</span>) may further modify how it works.
+</p>
+<p>
+A message is affected by a pragma if all the parameters <span class="italic">specified</span> match
+the <span class="italic">concrete</span> parameters. The concrete parameters can also be found in the
+long text of the message. <span class="italic">Compulsory</span> parameters are underlined in the long
+text and must not be omitted. Some parameters are optional. Optional parameters can be omitted by using
+an empty pair of square brackets <span class="qtext">[]</span> in the appropriate position or by completely omitting an end part.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The existence of a pragma for a specific warning from the system check can be checked using the
+<span class="italic">long text of the message</span> (which in this case always exists). The description of a message for the extended program check is also specified by the pragma, which can be used to hide it.</li>
+</ul>
+<ul class="disc">
+<li>Pragmas replace the previously common <a href="javascript:call_link('abenpseudo_comment_slin.html')" class="blue">pseudo
+comments</a> to hide warnings from the extended program check. Pseudo comments are now obsolete and
+should no longer be used. The program <span class="lnkgrey">ABAP_SLIN_PRAGMAS</span> shows which pragmas are to be used instead of the obsolete pseudo comments.</li>
+</ul>
+<ul class="disc">
+<li>Do not use statement <a href="javascript:call_link('abapset_extended_check.html')" class="blue"><span class="qtext">SET EXTENDED CHECK</span></a> and the
+<a href="javascript:call_link('abenpseudo_comment_slin.html')" class="blue">pseudo comment</a> <span class="qtext">#EC
+*</span> in programs that use pragmas to deactivate warnings. This causes an extended program check warning that cannot be deactivated.</li>
+</ul>
+<ul class="disc">
+<li>A pragma in a type definition made using <a href="javascript:call_link('abaptypes.html')" class="blue"><span class="qtext">TYPES</span></a>
+(for example, for hiding the warning about redundant secondary keys of table types) can also be applied
+to data declarations using <a href="javascript:call_link('abapdata.html')" class="blue"><span class="qtext">DATA</span></a> (in
+the case of non-generic types) and associated statements that reference the data type using <a href="javascript:call_link('abapdata_referring.html')" class="blue">
+<span class="qtext">TYPE</span></a>.  In the case of references to a generic data type defined using
+<span class="qtext">TYPES</span> (that is a table type for which no primary table key is defined), a
+specified pragma is not applied to the data declaration. This is because the declaration uses a full table type implicitly and the pragma must potentially be specified again.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+One example of a pragma for syntax check warnings is:
+</p>
+<dl><dd>
+<span class="qtext">##SHADOW</span>
+</dd></dl>
+<p>
+This pragma can be used to hide a syntax warning in a method definition that warns that a built-in function is obscured. The pragma has an optional parameter in which the name of the function can be specified as well.
+</p>
+<dl><dd>
+<span class="qtext">##SHADOW[SUBSTRING]</span>
+</dd></dl>
+<p>
+A warning about <span class="qtext400">"SUBSTRING"</span> is suppressed using one of the following:
+</p>
+<ul class="disc">
+<li><span class="qtext">##SHADOW</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">##SHADOW[SUBSTRING]</span></li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">##SHADOW[]</span></li>
+</ul>
+<p>
+but not using <span class="qtext">SHADOW[FIND]</span>.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+An example of pragmas for hiding warnings from the enhanced program check is provided below.
+</p>
+<dl><dd>
+<span class="qtext">DATA TEXT TYPE STRING&nbsp;&nbsp; ##needed.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">text&nbsp;&nbsp;= 'Hello Pragmas' ##no_text.</span>
+</dd></dl>
+<p><span class="h4">
+Examples
+</span></p>
+<p>
+In some executable examples for key accesses to internal tables
+(<a href="javascript:call_link('abenread_itab_using_key_abexa.html')" class="blue">read</a>,
+<a href="javascript:call_link('abendelete_itab_using_key_abexa.html')" class="blue">delete</a>), syntax warnings are hidden by the relevant pragma. The pragmas were found in the long text of the syntax warnings.
+</p>
+<A name="@@ITOC@@ABENPRAGMA_2"></A>
+<p><span class="h2">
+Positioning of Pragmas in ABAP Source Code
+</span></p>
+<p>
+A pragma applies to the current statement, that is to the statement that ends at the next
+"<span class="qtext">.</span>" or "<span class="qtext">,</span>". Pragmas placed in front of the "<span class="qtext">:</span>" of a chained statement apply to the entire chained statement. Pragmas that occur when calling a
+<a href="javascript:call_link('abenmacro_glosry.html')" class="grey" title="Glossary Entry">macro</a> apply to all statements of the macro.
+</p>
+<p>
+Pragmas must only occur at certain positions in the source code for reasons of readability, namely:
+</p>
+<ul class="disc">
+<li>At the <span class="italic">start</span> of a line, after any number of blanks</li>
+</ul>
+<ul class="disc">
+<li>At the <span class="italic">end</span> of a line, at the most followed by "<span class="qtext">.</span>", "<span class="qtext">,</span>", or "<span class="qtext">:</span>".</li>
+</ul>
+<ul class="disc">
+<li><span class="italic">Not</span> <span class="italic">after</span> "<span class="qtext">.</span>", "<span class="qtext">,</span>", or "<span class="qtext">:</span>". <br>
+Multiple pragmas may be entered one after another (separated by blanks) at permitted positions.</li>
+</ul>
+<p>
+Unknown pragmas or pragmas with formal errors or pragmas in the wrong position or with incorrect parameters themselves produce syntax warnings. Pragmas in the wrong position for syntax check warnings are ignored.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenpragma.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:28 GMT -->
+</html>

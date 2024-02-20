@@ -1,0 +1,149 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCLASS_SIZE_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenclass_size_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Class Size">
+<title>
+Class Size - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenclass_size_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenclass_size_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstructure_style_guidl.html')" class="blue">Structure and Style</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencomplexity_guidl.html')" class="blue">Complexity</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Class Size
+</span></p>
+<A name="@@ITOC@@ABENCLASS_SIZE_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The class size is the number of components (attributes, methods, events) of a class. ABAP Compiler predefines
+a maximum number of 65,536 components. The total memory consumption by static attributes, instance attributes,
+and constants is restricted to 500KB in each case. With respect to deep data objects (tables, strings,
+and data references), only the fixed size of the reference is important and not the variable size of the referenced data object.
+</p>
+<A name="@@ITOC@@ABENCLASS_SIZE_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Maintain reasonable class sizes</span>
+</p>
+<p>
+Ensure that classes and interfaces do not contain an excessively high number of attributes, methods
+and events. The components contained must be class-specific and should not handle tasks that are extremely different from each other. The same applies to function groups.
+</p>
+<A name="@@ITOC@@ABENCLASS_SIZE_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Complexity is not only important on the level of procedure implementations. The number of procedures
+to be considered and the data processed by these procedures are also very important when it comes to understanding the source code.
+</p>
+<p>
+A class, interface or function group should not be mistaken as a container that can be used for any
+functions. Function groups play the same role here as abstract final classes for which no instances
+can be created. The function modules correspond to static public methods, and the global data corresponds
+to private static attributes. The situation should be viewed more as an abstraction of a certain subject
+or an object from real life. This modularization of a complex problem in objects of a manageable size
+makes it easier to understand the code. Therefore, the classes and interfaces must be designed appropriately and each class/interface must cover a manageable function that is easy to understand.
+</p>
+<p>
+This is obviously not the case, if a class or an interface contains a large number of attributes and methods. The same applies to the number of function modules of a function group (with respect to the use of
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">function groups</a>).
+Large classes, interfaces, and function groups either provide functions that are too heterogeneous or, conversely, are highly specialized, which restricts their reusability.
+</p>
+<p>
+Besides the high degree of complexity, which makes it more difficult to maintain voluminous classes
+and function groups, you must consider another technical aspect: Even if you use just a few of the provided
+functions, the entire class/function group is loaded into the session memory, which negatively impacts the memory usage.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+It is <a href="javascript:call_link('abenproc_volume_guidl.html')" class="lnkpurple" title="Guideline">preferable</a> to use
+multiple procedures, which are not too large and have clearly defined tasks, instead of a small number
+of large procedures. On the other hand, classes should not contain too many methods. However, these
+two rules are not contradictory, provided that the procedures do not become too small and are appropriately
+grouped into different classes with a clearly defined task field. In this process, very specialized classes can be created that do not require global visibility.
+</p>
+<p>
+Functions that are only required in a global class, function group or any other program should therefore be encapsulated in local classes. (All functions of function groups, subroutine pools, and executable programs
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">should</a> be implemented in local classes anyway). An example of this self-contained function is the display logic for
+<a href="javascript:call_link('abenencap_class_interf_guidl.html')" class="lnkpurple" title="Guideline">classic dynpros</a> within
+a function group. A meaningful reuse of classes that call the dynpros of the function group is not possible outside the function group. Therefore, local classes are the preferred elements for this task.
+</p>
+<p>
+This procedure is also useful for global classes. By moving highly specialized functions to smaller,
+local classes, you reduce the number of methods of the global class, which results in a clearer overview
+and makes the class easier to maintain. When you use local classes within global classes, make sure you position them appropriately to
+<a href="javascript:call_link('abenlocal_type_glob_class_guidl.html')" class="lnkpurple" title="Guideline">avoid</a> unnecessary dependencies.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenclass_size_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:05 GMT -->
+</html>

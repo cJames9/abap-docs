@@ -1,0 +1,232 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENFUNCTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfunction.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:39 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Function Module Interface">
+<meta name="keywords" content="ABAP, Function Module Interface, Interface of Function Modules, Parameter Interface of Function Modules">
+<title>
+Function Module Interface - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenfunction.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenfunction.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_program_layout.html')" class="blue">Program Layout</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_modularization.html')" class="blue">Modularization Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_procedures.html')" class="blue">Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_functions.html')" class="blue">Function Modules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapfunction.html')" class="blue">FUNCTION</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@IMPORTING@@FUNCTION@@"></A>
+<A NAME="@@EXPORTING@@FUNCTION@@"></A>
+<A NAME="@@CHANGING@@FUNCTION@@"></A>
+<A NAME="@@RAISING@@FUNCTION@@"></A>
+<A NAME="@@RESUMABLE@@FUNCTION@@"></A>
+<A NAME="@@EXCEPTIONS@@FUNCTION@@"></A>
+<p><span class="h1">
+Function Module Interface
+</span></p>
+<p>
+The <a href="javascript:call_link('abenparameter_interface_glosry.html')" class="grey" title="Glossary Entry">parameter interface</a> of a function module is defined in Function Builder or in the
+<a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools (ADT)</a>. It
+includes the definition of interface parameters and the specification of exceptions that can be triggered
+by a function module. ADT uses an editor with statements in ABAP pseudo syntax and Function Builder
+creates comment lines automatically underneath the statement <a href="javascript:call_link('abapfunction.html')" class="blue"><span class="qtext">
+FUNCTION</span></a> in the source code of a function module , which represent the interface of the function module as follows:
+</p>
+<A name="@@ITOC@@ABENFUNCTION_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... <i class=bn>[</i>IMPORTING <a href="javascript:call_link('abenfunction_parameters.html')" class="blue">parameters</a><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>EXPORTING <a href="javascript:call_link('abenfunction_parameters.html')" class="blue">parameters</a><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>TABLES <a href="javascript:call_link('abaptables_parameters_obsolete.html')" class="blue">table_parameters</a><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>CHANGING <a href="javascript:call_link('abenfunction_parameters.html')" class="blue">parameters</a><i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><i class=bn>{</i>RAISING exc1<i class=bn>|</i>RESUMABLE(exc1) exc2<i class=bn>|</i>RESUMABLE(exc2) ...<i class=bn>}</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>|</i><i class=bn>{</i>EXCEPTIONS exc1 exc2 ...<i class=bn>}</i><i class=bn>]</i></span>
+</p>
+<p>
+The syntax and semantics of <span class="qtext">IMPORTING</span>, <span class="qtext">EXPORTING</span>,
+<span class="qtext">CHANGING</span>, <span class="qtext">RAISING</span>, and <span class="qtext">EXCEPTIONS</span>
+mainly correspond to the definition of method interfaces using <a href="javascript:call_link('abapmethods_general.html')" class="blue"><span class="qtext"><i
+class=bn>[</i>CLASS-<i class=bn>]</i>METHODS</span></a>. The additional option of defining table parameters
+using <a href="javascript:call_link('abaptables_parameters_obsolete.html')" class="blue"><span class="qtext">TABLES</span></a> is obsolete.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The <a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools</a> do not
+have a form-based Function Builder and the parameter interface of a function module is defined in an
+ABAP pseudo syntax. These statements are not compiled like genuine ABAP statements and the regular ABAP
+syntax checks are not applied. When a function module is generated, they are interpreted like the form-based instructions from classic Function Builder.
+</p>
+<A name="@@ITOC@@ABENFUNCTION_2"></A>
+<p><span class="h3">
+Interface Parameters
+</span></p>
+<p>
+The interface parameters are defined in ADT in ABAP pseudo syntax and defined in Function Builder on the appropriate tabs .
+</p>
+<ul class="disc">
+<li><span class="qtext">IMPORTING</span> parameters are input parameters. When the function module is
+called, a suitable actual parameter must be specified for every non-optional input parameter. The content
+of the actual parameter is passed to the input parameter when the call is made. The content of an input parameter for which 'pass by reference' is defined cannot be changed in the function module.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">EXPORTING</span> parameters are output parameters. When the function module
+is called, a suitable actual parameter can be specified for every output parameter. The content of an
+output parameter that is defined for 'pass by value' is passed to the actual parameter if the function
+module is completed without errors. An output parameter that is defined for pass by reference is not initialized when the function module is called.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">TABLES</span> parameters are <a href="javascript:call_link('abaptables_parameters_obsolete.html')" class="blue">obsolete table parameters</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">CHANGING</span> parameters are input and output parameters. When the function
+module is called, a suitable actual parameter must be specified for every non-optional input or output
+parameter. When the function module is called, the content of the actual parameter is passed to the
+input/output parameter, and when the function module is completed, the content of the input/output parameter is passed to the actual parameter.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The formal parameters of a function module can be registered as <a href="javascript:call_link('abenglobal_parameters_obsolete.html')" class="blue">global parameters</a> in Function Builder, however this is obsolete.
+</p>
+<A name="@@ITOC@@ABENFUNCTION_3"></A>
+<p><span class="h3">
+Exceptions
+</span></p>
+<p>
+In ADT, the exceptions of a function modules are defined in ABAP pseudo syntax or on the <span class="italic">Exceptions</span>
+tab in Function Builder . Here, <span class="italic">exception classes</span> can be selected to define whether
+<a href="javascript:call_link('abenclass_based_exception_glosry.html')" class="grey" title="Glossary Entry">class-based exceptions</a> are declared or
+<a href="javascript:call_link('abenexceptions_non_class.html')" class="blue">non-class-based exception</a> are defined. Class-based
+exceptions are represented in the above syntax by <span class="qtext">RAISING</span> and non-class-based exceptions are represented by <span class="qtext">EXCEPTIONS</span>.
+</p>
+<ul class="disc">
+<li>The addition <span class="qtext">RAISING</span> is used to declare class-based exceptions that can
+be propagated from the function module to the caller. Exceptions in the categories CX_STATIC_CHECK and
+CX_DYNAMIC_CHECK must be explicitly declared, otherwise a propagation can lead to an interface violation.
+A violation of the interface raises the handleable exception CX_SY_NO_HANDLER. Exceptions of the category
+CX_NO_CHECK are always declared implicitly and with the addition <span class="qtext">RESUMABLE</span>.
+The declaration of exceptions of the category CX_STATIC_CHECK is checked statically in the syntax check.
+For exceptions of the category CX_DYNAMIC_CHECK, the check is not performed until runtime. In a function
+module in which class-based exceptions are declared using the addition <span class="qtext">RAISING</span>,
+the obsolete statement <a href="javascript:call_link('abapcatch_sys.html')" class="blue"><span class="qtext">CATCH SYSTEM-EXCEPTIONS</span></a> cannot be used to handle
+<a href="javascript:call_link('abencatchable_runtime_error_glosry.html')" class="grey" title="Glossary Entry">catchable runtime
+errors</a>. Instead, the handleable exceptions assigned to the runtime errors should be handled in a <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY</span></a> control structure. <br>
+ <br>The addition <span class="qtext">RESUMABLE</span> declares an exception that can be propagated as a
+<a href="javascript:call_link('abenresumable_exception_glosry.html')" class="grey" title="Glossary Entry">resumable exception</a>.
+This addition has no relevance to a non-resumable exception. The addition does not have any effect on
+a non-resumable exception. If a resumable exception is propagated in <span class="qtext">RAISING</span>
+and the addition <span class="qtext">RESUMABLE</span> is not specified, it thus becomes non-resumable. If a superclass is declared as resumable, any subclasses must also be declared as resumable.</li>
+</ul>
+<ul class="disc">
+<li>The addition <span class="qtext">EXCEPTIONS</span> is used to define a list of non-class-based exceptions
+that can be raised in the function module using the statements <a href="javascript:call_link('abapraise_exception.html')" class="blue"><span class="qtext">
+RAISE</span></a> or <a href="javascript:call_link('abapmessage_raising.html')" class="blue"><span class="qtext">MESSAGE RAISING</span></a>.
+ Exceptions defined in this way are (as with formal parameters) bound to the function module and cannot
+be propagated. If an exception of this type is raised in a function module, and no return value was
+assigned to it with the identically named addition <span class="qtext">EXCEPTIONS</span> of the statement
+<a href="javascript:call_link('abapcall_function.html')" class="blue"><span class="qtext">CALL FUNCTION</span></a> when the call
+was made, a runtime error is produced. In a function module in whose interface non-class-based exceptions
+are defined, the statement <a href="javascript:call_link('abapraise_exception_class.html')" class="blue"><span class="qtext">RAISE
+EXCEPTION</span></a> or the addition <a href="javascript:call_link('abenconditional_expression_result.html')" class="blue"><span class="qtext">THROW</span></a> in a
+<a href="javascript:call_link('abenconditional_expressions.html')" class="blue">conditional expression</a> cannot be used to raise class-based exceptions.</li>
+</ul>
+<p>
+The <span class="italic">Resumable</span> column in Function Builder can be selected to flag a class-based exception as a
+<a href="javascript:call_link('abenresumable_exception_glosry.html')" class="grey" title="Glossary Entry">resumable exception</a>.
+This places the addition <span class="qtext">RESUMABLE</span> behind <span class="qtext">RAISING</span> in the syntax above.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>For new developments, SAP recommends that you work with class-based exceptions that are independent of the function module.</li>
+</ul>
+<ul class="disc">
+<li>See also <a href="javascript:call_link('abenexceptions_procedures.html')" class="blue">Class-Based Exceptions in Procedures</a>.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Comment lines generated by Function Builder for various categories of actual parameters and a class-based resumable exception of a function module.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+*"---------------------------------------------------------------------- <br>*"*"Local Interface: <br>*"&nbsp;&nbsp;IMPORTING <br>
+*"&nbsp;&nbsp;&nbsp;&nbsp; REFERENCE(P1) TYPE&nbsp;&nbsp;I <br>*"&nbsp;&nbsp;&nbsp;&nbsp; REFERENCE(P2) TYPE&nbsp;&nbsp;I OPTIONAL <br>
+*"&nbsp;&nbsp;&nbsp;&nbsp; REFERENCE(P3) TYPE&nbsp;&nbsp;I DEFAULT 100 <br>*"&nbsp;&nbsp;EXPORTING <br>*"&nbsp;&nbsp;&nbsp;&nbsp; REFERENCE(P4) TYPE&nbsp;&nbsp;SCARR <br>
+*"&nbsp;&nbsp;CHANGING <br>*"&nbsp;&nbsp;&nbsp;&nbsp; VALUE(P5)&nbsp;&nbsp;&nbsp;&nbsp; TYPE&nbsp;&nbsp;SPFLI OPTIONAL <br>
+*"&nbsp;&nbsp;RAISING <br>*"&nbsp;&nbsp;&nbsp;&nbsp; RESUMABLE(CX_NO_FLIGHTS) <br>*"----------------------------------------------------------------------
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenfunction_parameters.html')" class="blue">Properties of Interface Parameters</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfunction.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:39 GMT -->
+</html>

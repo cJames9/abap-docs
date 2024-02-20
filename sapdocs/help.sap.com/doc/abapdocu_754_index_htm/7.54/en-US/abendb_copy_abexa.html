@@ -1,0 +1,166 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDB_COPY_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_copy_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Locator, copy column">
+<title>
+Locator, copy column - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendb_copy_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendb_copy_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstreams_locators.html')" class="blue">ABAP SQL - Streaming and Locators</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlobs_abexas.html')" class="blue">ABAP SQL - Examples of LOB Handles</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Locator, copy column
+</span></p>
+<p>
+The example demonstrates how column content can be copied using <a href="javascript:call_link('abenlocator_glosry.html')" class="grey" title="Glossary Entry">locators</a>.
+</p>
+<A name="@@ITOC@@ABENDB_COPY_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_db_copy.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source TYPE c LENGTH 255<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE '/SAP/PUBLIC/BC/ABAP/mime_demo/ABAP_Docu_Logo.gif',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target TYPE c LENGTH 255<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE 'picture_copy'.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA wa TYPE demo_blob_table LOCATOR FOR ALL COLUMNS.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;add_field( CHANGING field = source ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request(&nbsp;&nbsp; CHANGING field = target ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT SINGLE picture<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_blob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE name = @source<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @wa-picture.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc &lt;&gt; 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Nothing found, run DEMO_DB_WRITER first!' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wa-name = target.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT demo_blob_table FROM @wa.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc = 0.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'You can run DEMO_DB_READER with new name now' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Target already exists' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wa-picture-&gt;close( ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENDB_COPY_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The method <span class="qtext">main</span> <a href="javascript:call_link('abaptypes_lob_handle.html')" class="blue">derives</a> an
+<a href="javascript:call_link('abenlob_handle_structure_glosry.html')" class="grey" title="Glossary Entry">LOB handle structure</a> from the structure of the database table DEMO_BLOB_TABLE, where the component PICTURE is declared as an
+<a href="javascript:call_link('abenlob_handle_component_glosry.html')" class="grey" title="Glossary Entry">LOB handle component</a> for a locator. This locator is then
+<a href="javascript:call_link('abenselect_into_lob_handles.html')" class="blue">created</a> in a <span class="qtext">SELECT</span> statement.
+</p>
+<p>
+A new value is then assigned to the key field of the LOB handle structure and the LOB handle structure
+is used as a work area in an <span class="qtext">INSERT</span> statement. In this way, the content of
+the column to which the locator is connected is <span class="lnkgrey">copied</span> to the corresponding column of the new row without the content having to be transported to the ABAP program.
+</p>
+<p>
+If data previously written in the executable <a href="javascript:call_link('abendb_writer_abexa.html')" class="blue">writer stream
+example</a> is read, this is the data of a figure in the GIF format. By specifying the new name, the copied figure can be displayed using the<a href="javascript:call_link('abendb_reader_abexa.html')" class="blue">example for reader streams</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_copy_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:36 GMT -->
+</html>

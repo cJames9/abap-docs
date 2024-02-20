@@ -1,0 +1,145 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENABAP_LANGUAGE_EXCEPTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_language_exceptions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exceptions in ABAP Statements">
+<title>
+Exceptions in ABAP Statements - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenabap_language_exceptions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenabap_language_exceptions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exceptions in ABAP Statements
+</span></p>
+<p>
+Error situations that occur during the execution of an ABAP statement raise exceptions. These exceptions are fully integrated into the
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">exception concept</a> and are raised by the runtime environment. Two types of exception exist:
+</p>
+<ul class="disc">
+<li><span class="bold">Handleable exceptions</span>, based on
+<a href="javascript:call_link('abenabap_exception_classes.html')" class="blue">predefined</a> <a href="javascript:call_link('abenexception_class_glosry.html')" class="grey" title="Glossary Entry">exception classes</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">Non-handleable exceptions</span>, which produce <a href="javascript:call_link('abenruntime_error_glosry.html')" class="grey" title="Glossary Entry">runtime errors</a> directly.</li>
+</ul>
+<p>
+Each handleable exception is associated with a runtime error. The program terminates with this error
+if the exception is neither handled nor propagated to a caller. The keyword documentation lists the type of exceptions that can be raised for each statement.
+</p>
+<p>
+For reasons of backward compatibility, handleable exceptions raised by many ABAP statements can be caught
+by using both <a href="javascript:call_link('abaptry.html')" class="blue"><span class="qtext">TRY ... ENDTRY</span></a> and the
+obsolete statement <a href="javascript:call_link('abapcatch_sys.html')" class="blue"><span class="qtext">CATCH SYSTEM-EXCEPTIONS ... ENDCATCH</span></a>. For this to be possible, the runtime error assigned to the exception class must be
+<a href="javascript:call_link('abencatchable_runtime_error_glosry.html')" class="grey" title="Glossary Entry">catchable</a>.
+Within processing blocks, the two mechanisms prevent each other from handling exceptions. It is advisable
+to catch an exception between <span class="qtext">TRY ... ENDTRY</span> using <span class="qtext">CATCH</span>
+or to use the <span class="qtext">RAISING</span> addition in the definition of the interface to propagate
+it to the caller. Catching exceptions using <span class="qtext">CATCH SYSTEM-EXCEPTIONS</span> is no longer recommended.
+</p>
+<A name="@@ITOC@@ABENABAP_LANGUAGE_EXCEPTIONS_1"></A>
+<p><span class="h2">
+Example
+</span></p>
+<A name="@@ITOC@@ABENABAP_LANGUAGE_EXCEPTIONS_2"></A>
+<p><span class="h3">
+Unhandled Exception
+</span></p>
+<p>
+The following program lines produce the runtime error COMPUTE_INT_ZERODIVIDE because division by zero is invalid and this exception situation is not handled:
+</p>
+<p>
+<span class="qtext">DATA result TYPE i. <br>result = 1 / 0.</span>
+</p>
+<A name="@@ITOC@@ABENABAP_LANGUAGE_EXCEPTIONS_3"></A>
+<p><span class="h3">
+Handling Exceptions Using Exception Classes
+</span></p>
+<p>
+The above exception is represented by the exception class <span class="lnkgrey">CX_SY_ZERODIVIDE</span>,
+which is a subclass of the exception class <span class="lnkgrey">CX_SY_ARITHMETIC_ERROR</span>. This means that the exception can be handled as follows (the ERR_TEXT variable is passed the text 'Division by zero.'):
+</p>
+<dl><dd>
+<span class="qtext">DATA myref TYPE REF TO cx_sy_arithmetic_error. <br>DATA err_text TYPE string. <br>DATA result TYPE i. <br>
+TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;result = 1 / 0. <br>&nbsp;&nbsp;CATCH cx_sy_arithmetic_error INTO myref. <br>&nbsp;&nbsp;&nbsp;&nbsp;err_text = myref->get_text( ). <br>ENDTRY.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENABAP_LANGUAGE_EXCEPTIONS_4"></A>
+<p><span class="h3">
+Handling Exceptions as Catchable Runtime Errors
+</span></p>
+<p>
+The runtime error COMPUTE_INT_ZERODIVIDE is catchable and assigned to the
+<a href="javascript:call_link('abenexception_group_glosry.html')" class="grey" title="Glossary Entry">exception group</a> ARITHMETIC_ERRORS,
+which means it can also be handled using the obsolete statement <a href="javascript:call_link('abapcatch_sys.html')" class="blue"><span class="qtext">CATCH SYSTEM-EXCEPTIONS</span></a>.
+</p>
+<dl><dd>
+<span class="qtext">DATA result TYPE i. <br>CATCH SYSTEM-EXCEPTIONS arithmetic_errors = 4. <br>&nbsp;&nbsp;result = 1 / 0. <br>ENDCATCH. <br>IF sy-subrc = 4. <br>&nbsp;&nbsp;... <br>ENDIF.</span>
+</dd></dl>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abenabap_exception_classes.html')" class="blue">Exception Classes for ABAP Statements</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenabap_language_exceptions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:46 GMT -->
+</html>

@@ -1,0 +1,166 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENST_TT_EXTENSIBLE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_extensible.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:48 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="ST - tt:extensible, Extensibility of Literal XML Elements">
+<meta name="keywords" content="ABAP, Simple Transformations, extensible">
+<title>
+ST - tt:extensible, Extensibility of Literal XML Elements - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenst_tt_extensible.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenst_tt_extensible.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml.html')" class="blue">ABAP and XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_xml_trafos.html')" class="blue">Transformations for XML</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_st.html')" class="blue">ST - Simple Transformations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_serial_deserial.html')" class="blue">ST - Serialization and Deserialization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_literals.html')" class="blue">ST - Literal Template Content</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenst_xml_literals.html')" class="blue">ST - Literal XML Elements and Attributes</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@extensible@@!ABAP_ST_ELEMENT!@@"></A>
+<p><span class="h1">
+ST - tt:extensible, Extensibility of Literal XML Elements
+</span></p>
+<A name="@@ITOC@@ABENST_TT_EXTENSIBLE_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext400">... tt:extensible="on"<i class=bn>|</i>"deep-static"<i class=bn>|</i>"deep-dynamic"<i class=bn>|</i>"off"<i class=bn>|</i>"deep-off"&nbsp;&nbsp;...</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+In deserializations, XML elements in the input stream that are not specified in the ST program normally
+produce an error. If the processed XML format is to be extensible, elements that are not specified explicitly
+can be skipped without further processing through specification of the optional attribute <span class="qtext400">tt:extensible</span>. The attribute can accept the following values:
+</p>
+<ul class="disc">
+<li>The value <span class="qtext400">&#x2033;on"</span> states that the current element may have direct subelements that are not explicitly specified. This is the standard setting.</li>
+</ul>
+<ul class="disc">
+<li>Values <span class="qtext400">&#x2033;deep-static"</span> and <span class="qtext400">&#x2033;deep-dynamic"</span>
+state that the current element and its subelements can be extended. The value <span class="qtext400">"off"</span>
+deactivates extensibility for the current element but not its subelements. In other words, direct subelements cannot be added to the element but (specified) subelements can be.</li>
+</ul>
+<ul class="disc">
+<li>The value <span class="qtext400">"deep-off"</span> deactivates extensibility for the current element and its subelements. These settings can be overwritten locally in individual subelements.</li>
+</ul>
+<p>
+The values <span class="qtext400">"deep-static"</span> and <span class="qtext400">"deep-dynamic"</span> have different areas of validity:
+</p>
+<ul class="disc">
+<li><span class="qtext400">"deep-static"</span> only has an effect within the part of the program in which it is set.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">"deep-dynamic"</span> is effective across template calls using <a href="javascript:call_link('abenst_tt_apply.html')" class="blue">
+<span class="qtext400">tt:apply</span></a> and <a href="javascript:call_link('abenst_tt_call.html')" class="blue"><span class="qtext400">tt:call</span></a>.</li>
+</ul>
+<p>
+The deep extensibility that is configured using <span class="qtext400">&#x2033;deep-static"</span> and
+<span class="qtext400">&#x2033;deep-dynamic"</span> also takes effect in case distinctions with <a href="javascript:call_link('abenst_tt_switch.html')" class="blue">
+<span class="qtext400">tt:switch</span></a> and groupings with <a href="javascript:call_link('abenst_tt_group.html')" class="blue"><span class="qtext400">tt:group</span></a> by skipping unexpected elements that are not covered by a case.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+This example shows that extensibility together with optional elements (such as elements that are only
+deserialized when a condition occurs) causes problems, since extensibility generally means that such optional elements are not found. For example, the following section of program
+</p>
+<dl><dd>
+<span class="qtext400">&lt;r tt:extensible="on"> <br>&nbsp;&nbsp;&lt;tt:cond> &lt;a tt:value-ref="A"/> &lt;/tt:cond> <br>&nbsp;&nbsp;&lt;b tt:value-ref="B"/> <br>&lt;/r></span>
+</dd></dl>
+<p>
+with the input stream
+</p>
+<dl><dd>
+<span class="qtext400">&lt;r>&lt;x/>&lt;a>1&lt;/a>&lt;b>2&lt;/b>&lt;/r></span>
+</dd></dl>
+<p>
+would not produce the deserialization <span class="qtext400">A=1</span> since the unexpected element
+<span class="qtext400">x</span> determines the condition negatively using <span class="qtext400">a</span>.
+Both <span class="qtext400">x</span> and <span class="qtext400">a</span> are skipped as "extension elements"
+are only mandatory element <span class="qtext400">b</span> is deserialized as <span class="qtext400">B=2</span>.
+The problem can be solved by using <a href="javascript:call_link('abenst_tt_group.html')" class="blue"><span class="qtext400">tt:group</span></a>,
+although this also resolves the order of <span class="qtext400">a</span> and <span class="qtext400">b</span>:
+</p>
+<dl><dd>
+<span class="qtext400">&lt;r tt:extensible="on"> <br>&nbsp;&nbsp;&lt;tt:group> <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:cond frq="?"> &lt;a tt:value-ref="A"/> &lt;/tt:cond> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;tt:cond>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;b tt:value-ref="B"/> &lt;/tt:cond> <br>&nbsp;&nbsp;&lt;/tt:group> <br>&lt;/r></span>
+</dd></dl>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<span class="trans"
+onMouseover="this.innerHTML='<br>Current version: 0009. Translated version: 0007.<br>'"
+onMouseout="this.innerHTML='<br>This translation does not reflect the current version of the documentation.<br>'"
+>
+<br>This translation does not reflect the current version of the documentation.<br>
+</span><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenst_tt_extensible.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:48 GMT -->
+</html>

@@ -1,0 +1,183 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPINSERT_TEXTPOOL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapinsert_textpool.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:50 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="INSERT TEXTPOOL">
+<meta name="keywords" content="ABAP, INSERT TEXTPOOL">
+<title>
+INSERT TEXTPOOL - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapinsert_textpool.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapinsert_textpool.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogram_editing.html')" class="blue">program editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_dynamic.html')" class="blue">Dynamic Program Editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentextpool.html')" class="blue">text element</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@INSERT TEXTPOOL@@!ABAP_STATEMENT!@@"></A>
+<A NAME="@@FROM@@INSERT TEXTPOOL@@"></A>
+<A NAME="@@LANGUAGE@@INSERT TEXTPOOL@@"></A>
+<p><span class="h1">
+INSERT TEXTPOOL <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapinsert_textpool_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">INSERT TEXTPOOL prog FROM itab LANGUAGE lang.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement places the contents of table <span class="qtext">itab</span> into the
+<a href="javascript:call_link('abenrepository_glosry.html')" class="grey" title="Glossary Entry">repository</a> as a
+<a href="javascript:call_link('abentext_pool_glosry.html')" class="grey" title="Glossary Entry">text pool</a> of the language
+specified in <span class="qtext">lang</span> for the ABAP program specified in <span class="qtext">prog</span>.
+If a text pool for the specified language already exists, all of its text elements are overwritten. Otherwise, a new text pool is created for this language. By default, the text pool is saved in an active state.
+</P>
+<P>
+<span class="qtext">prog</span> expects a <a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">
+flat</a> character-like data object, which contains the name of the program of the text elements to be read; the name is not case-sensitive.
+</P>
+<P>
+<span class="qtext">lang</span> expects a character-like flat data object. This must contain a language
+key with a maximum length of one character, and this value must be contained in the column SPRAS of
+the database table <span class="lnkgrey">T002</span>. If an invalid language is specified in <span class="qtext">lang</span>,
+no text pool is created or overwritten. If <span class="qtext">lang</span> contains a space, the behavior is undefined.
+</P>
+<P>
+The internal table <span class="qtext">itab</span> can be in any table category and its row type must
+correspond to the <span class="lnkgrey">TEXTPOOL</span> structure in ABAP Dictionary. If a nonexistent program is specified in <span class="qtext">prog</span>, no text pool is created or overwritten.
+</P>
+<P>
+In the internal table <span class="qtext">itab</span>, the column ENTRY can contain the texts of the text symbols, the selection texts, the
+<a href="javascript:call_link('abenlist_header_glosry.html')" class="grey" title="Glossary Entry">list headers</a>, and the title for the
+<a href="javascript:call_link('abenprogram_attribute_glosry.html')" class="grey" title="Glossary Entry">program attributes</a>.
+The corresponding lengths can be specified in the column LENGTH. The individual text elements are identified
+using the entries in the columns ID and KEY, whose valid values are shown in the table for <a href="javascript:call_link('abapread_textpool.html')" class="blue"><span class="qtext">READ TEXTPOOL</span></a>.
+</P>
+<P>
+If the columns ID or KEY of the internal table contain invalid values or if duplicate entries exist,
+an inconsistent text pool is created. If the internal table is empty, all text elements of an existing
+text pool are deleted or a text pool without text elements is created. If the length specified in LENGTH is shorter than the text length in ENTRY, it is automatically set to the text length in the text pool. <br><br>
+</P>
+<P>
+<span class="bold">Return Codes</span>
+</P>
+<P>
+The statement <span class="qtext">INSERT TEXTPOOL</span> always sets <span class="qtext">sy-subrc</span> to the value 0. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The specification of the text length in LENGTH defines the maximum length of the text element that is available in
+<a href="javascript:call_link('abenabap_workbench_glosry.html')" class="grey" title="Glossary Entry">ABAP Workbench</a> when translating the text pool into other languages and should be set sufficiently large.
+<br><br></li>
+<li>
+In the case of selection texts, there must be eight blanks before the actual text in ENTRY. If a selection text from the dictionary is to be used, the first character of ENTRY must be a "D".
+<br><br></li>
+<li>
+The <span class="qtext">INSERT TEXTPOOL</span> statement should be used with caution, because it completely overwrites existing text pools. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Attempt at a translation tool for text elements. The text pools of a source and a target language are imported into internal tables and, for each text element of the source language, a
+<a href="javascript:call_link('abenselection_screen_glosry.html')" class="grey" title="Glossary Entry">selection screen</a> is
+displayed as a translation template. After the translation has been completed, the text pool of the target language is overwritten with the correspondingly changed internal table.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+PARAMETERS: program TYPE sy-repid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;langu1&nbsp;&nbsp;TYPE spras DEFAULT sy-langu, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;langu2&nbsp;&nbsp;TYPE spras. <br>
+ <br>SELECTION-SCREEN BEGIN OF SCREEN 500 AS WINDOW. <br>SELECTION-SCREEN COMMENT /1(83) source. <br>SELECTION-SCREEN BEGIN OF LINE. <br>
+PARAMETERS target TYPE textpool-entry. <br>SELECTION-SCREEN END OF LINE. <br>SELECTION-SCREEN END OF SCREEN 500. <br>
+ <br>DATA: text1 TYPE SORTED TABLE OF textpool <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY id KEY, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text2 TYPE SORTED TABLE OF textpool <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH UNIQUE KEY id KEY, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa1&nbsp;&nbsp; TYPE textpool, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa2&nbsp;&nbsp; TYPE textpool. <br>
+ <br>READ TEXTPOOL program: INTO text1 LANGUAGE langu1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO text2 LANGUAGE langu2. <br>
+ <br>LOOP AT text1 INTO wa1. <br>&nbsp;&nbsp;CLEAR wa2. <br>&nbsp;&nbsp;wa2 = text2[ KEY primary_key id&nbsp;&nbsp;= wa1-id key = wa1-key ]. <br>
+&nbsp;&nbsp;source = wa1-entry. <br>&nbsp;&nbsp;target = wa2-entry. <br>&nbsp;&nbsp;CALL SELECTION-SCREEN 500 STARTING AT 1 1. <br>
+&nbsp;&nbsp;IF sy-subrc = 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;IF target IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa2-id = wa1-id. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa2-key = wa1-key. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa2-entry = target. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa2-length = wa1-length. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE TABLE text2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH TABLE KEY id&nbsp;&nbsp;= wa1-id <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = wa1-key. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT wa2 INTO TABLE text2. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>
+&nbsp;&nbsp;ELSE. <br>&nbsp;&nbsp;&nbsp;&nbsp;EXIT. <br>&nbsp;&nbsp;ENDIF. <br>ENDLOOP. <br> <br>INSERT TEXTPOOL program FROM text2 LANGUAGE langu2. <br><br>
+</span>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapinsert_textpool_internal.html')" class="blue">INSERT TEXTPOOL - Internal Addition</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapinsert_textpool.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:50 GMT -->
+</html>

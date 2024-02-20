@@ -1,0 +1,144 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLDB_FIELD_SELECTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_field_selections.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Logical Databases - Field Selections">
+<meta name="keywords" content="ABAP, Logical Databases, Field Selections">
+<title>
+Logical Databases - Field Selections - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenldb_field_selections.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenldb_field_selections.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendata_storage_obsolete.html')" class="blue">Obsolete Processing of External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb.html')" class="blue">Logical Databases (Obsolete)</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_oview.html')" class="blue">Logical Databases - Components</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenldb_others.html')" class="blue">Logical Databases - Further Elements</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Logical Databases - Field Selections
+</span></p>
+<p>
+The statement <a href="javascript:call_link('abapselection-screen_ldb_field.html')" class="blue"><span class="qtext"> SELECTION-SCREEN FIELD SELECTION FOR NODE<i
+class=bn>|</i>TABLE node</span></a> specifies a node <span class="qtext">node</span> of a logical database
+in the selection include for field selections. This means that individual columns can be named in the
+<span class="qtext">SELECT</span> list in the <span class="qtext">SELECT</span> statements of the corresponding
+subroutine <span class="qtext">put_node</span>, instead of just all columns with an asterisk <span class="qtext">*</span>.
+This option is used to keep the amount of data passed from the database low and gives better performance than always reading the data from all columns in a database table.
+</p>
+<p>
+The columns read for each node specified for field selections can be specified using the <span class="qtext">FIELD</span>
+addition of the statement <span class="qtext">GET</span> in the associated executable program or in
+the parameter FIELD_SELECTION of the function module LDB_PROCESS. The database program of the logical
+database has access to the names of the columns in the data object <span class="qtext">select_fields</span>.
+This data object is generated automatically in the logical database program with reference to the type
+<span class="qtext">rsfs_fields</span> of the type group <span class="lnkgrey">RSFS</span>. The data object can also be used in every application program associated with the logical database program.
+</p>
+<p>
+<span class="qtext">select_fields</span> is a deep internal table with the components <span class="qtext">tablename</span>
+and <span class="qtext">fields</span>. In each row, the column <span class="qtext">tablename</span>
+contains the name of a node reserved for field selections.  For each of these nodes, the table-like
+component <span class="qtext">fields</span> contains the columns specified in the <span class="qtext">GET</span>
+statements of the application program. The table <span class="qtext">fields</span> is defined so that it can be used directly to specify columns dynamically in a <span class="qtext">SELECT</span> statement.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The database table SCARR is the root node of the logical database DEMO and the table SPFLI is the only successor. The selection include DBDEMOSEL contains the following lines:
+</p>
+<dl><dd>
+<span class="qtext">SELECT-OPTIONS s_carrid FOR scarr-carrid. <br>SELECT-OPTIONS s_connid FOR spfli-connid. <br>SELECTION-SCREEN FIELD SELECTION FOR TABLE spfli.</span>
+</dd></dl>
+<p>
+The subroutine <span class="qtext">put_spfli</span> of the database program SAPDBDEMO uses the field selections as follows:
+</p>
+<dl><dd>
+<span class="qtext">FORM put_spfli. <br>&nbsp;&nbsp;STATICS: fieldlists TYPE rsfs_tab_fields, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flag_read TYPE abap_bool. <br>
+&nbsp;&nbsp;IF flag_read = abap_false. <br>&nbsp;&nbsp;&nbsp;&nbsp;fieldlists-tablename = 'SPFLI'. <br>&nbsp;&nbsp;&nbsp;&nbsp;READ TABLE select_fields WITH KEY fieldlists-tablename <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO fieldlists. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;flag_read = abap_true. <br>&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;SELECT (fieldlists-fields) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO CORRESPONDING FIELDS OF spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = scarr-carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND connid IN s_connid. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;PUT spfli. <br>&nbsp;&nbsp;ENDSELECT. <br>ENDFORM.</span>
+</dd></dl>
+<p>
+The row of the internal table <span class="qtext">select_fields</span> for which the column <span class="qtext">tablename</span>
+contains the value <span class="qtext400">"SCARR"</span> is read to the local helper structure <span class="qtext">
+fieldlists</span>. The <span class="qtext">STATICS</span> statements and the field <span class="qtext">flag_read</span>
+make sure that the table <span class="qtext">select_fields</span> only needs to be read once each time
+the program is executed. The table <span class="qtext">fieldlists-fields</span> is used in the dynamic
+<span class="qtext">SELECT</span> list. An executable program associated with the logical database can now contain the following lines:
+</p>
+<dl><dd>
+<span class="qtext">NODES spfli. <br>... <br>GET spfli FIELDS cityfrom cityto. <br>...</span>
+</dd></dl>
+<p>
+The <span class="qtext">FIELDS</span> addition of the statement <span class="qtext">GET</span> defines
+which fields of the database table (except the primary key) are to be read by the logical database.
+Internally, the runtime environment fills <span class="qtext">select_fields</span> with the appropriate values. These values can be checked in ABAP Debugger.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenldb_field_selections.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+</html>

@@ -1,0 +1,235 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSELECT_INTO_LOB_HANDLES -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_into_lob_handles.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - LOB Handles">
+<title>
+SELECT - LOB Handles - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenselect_into_lob_handles.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenselect_into_lob_handles.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">SELECT clauses</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapinto_clause.html')" class="blue">SELECT - INTO, APPENDING</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SELECT - LOB Handles
+</span></p>
+<p>
+In a standalone <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a> statement
+or a <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a> statement (but not in a <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a> statement),
+<a href="javascript:call_link('abenlob_handle_glosry.html')" class="grey" title="Glossary Entry">LOB handles</a> can be created as
+<a href="javascript:call_link('abenreader_stream_glosry.html')" class="grey" title="Glossary Entry">reader streams</a> and as
+<a href="javascript:call_link('abenlocator_glosry.html')" class="grey" title="Glossary Entry">locators</a> in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_1" class="blue">Prerequisites</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_2" class="blue">Rules</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_3" class="blue">Restrictions</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_4" class="blue">Examples</A></li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_1"></A>
+<p><span class="h2">
+Prerequisites
+</span></p>
+<p>
+An <a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOB</a> from the results set can be assigned to an
+<a href="javascript:call_link('abenlob_handle_component_glosry.html')" class="grey" title="Glossary Entry">LOB handle component</a>
+of a work area, or to an individual reference variable for an LOB handle. The static type of all LOB handle components must contain the
+<a href="javascript:call_link('abeninterface_oo_glosry.html')" class="grey" title="Glossary Entry">interface</a> <span class="lnkgrey">IF_ABAP_DB_LOB_HANDLE</span> and match the corresponding
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> component; this means they must be less specific or the same as one of the following system classes for
+<a href="javascript:call_link('abenopen_sql_streaming.html')" class="blue">streaming</a> or <a href="javascript:call_link('abenlocators.html')" class="blue">locators</a>:
+</p>
+<ul class="disc">
+<li><span class="lnkgrey">CL_ABAP_DB_C_READER</span> or <span class="lnkgrey">CL_ABAP_DB_C_LOCATOR</span> in the case of <a href="javascript:call_link('abenclob_glosry.html')" class="grey" title="Glossary Entry">CLOBs</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="lnkgrey">CL_ABAP_DB_X_READER</span> or <span class="lnkgrey">CL_ABAP_DB_X_LOCATOR</span> in the case of <a href="javascript:call_link('abenblob_glosry.html')" class="grey" title="Glossary Entry">BLOBs</a>.</li>
+</ul>
+<p>
+The <a href="javascript:call_link('abenstream_type_glosry.html')" class="grey" title="Glossary Entry">stream type</a> or
+<a href="javascript:call_link('abenlocator_type_glosry.html')" class="grey" title="Glossary Entry">locator type</a> must match the data type of the LOBs.
+</p>
+<A name="@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_2"></A>
+<p><span class="h2">
+Rules
+</span></p>
+<p>
+If an <a href="javascript:call_link('abenlob_glosry.html')" class="grey" title="Glossary Entry">LOB</a> from the results set of a selection is assigned to an LOB handle component of a work area or to an individual reference variable for an
+<a href="javascript:call_link('abenlob_handle_glosry.html')" class="grey" title="Glossary Entry">LOB handle</a>, either
+</p>
+<ul class="disc">
+<li>a <a href="javascript:call_link('abenreader_stream_glosry.html')" class="grey" title="Glossary Entry">reader stream</a> is
+created as an instance of one of the classes <span class="lnkgrey">CL_ABAP_DB_C_READER</span>, <span class="lnkgrey">CL_ABAP_DB_X_READER</span> or,</li>
+</ul>
+<ul class="disc">
+<li>a <a href="javascript:call_link('abenlocator_glosry.html')" class="grey" title="Glossary Entry">locator</a> is created as
+an instance of one of the classes <span class="lnkgrey">CL_ABAP_DB_C_LOCATOR</span> or <span class="lnkgrey">CL_ABAP_DB_X_LOCATOR</span></li>
+</ul>
+<p>
+and after the execution of the <span class="qtext">SELECT</span> statement the reference variable points
+to the object. The class used is determined using the data type of the column of the result sets and
+the static type of the target variable, or using the addition <a href="javascript:call_link('abapselect_creating.html')" class="blue"><span class="qtext">
+CREATING</span></a> if required. The LOB to be read can be evaluated or forwarded using LOB handle methods.
+</p>
+<p>
+A LOB handle created in this way, that is a reader stream or a locator, exists until it:
+</p>
+<ul class="disc">
+<li>is closed explicitly using its CLOSE method from the IF_ABAP_CLOSE_RESOURCE interface,</li>
+</ul>
+<ul class="disc">
+<li>is closed implicitly at the end of the current <a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>.</li>
+</ul>
+<p>
+ Reader streams, but not locators, are also closed implicitly by the statement <a href="javascript:call_link('abapendselect.html')" class="blue"><span class="qtext">ENDSELECT</span></a>.
+</p>
+<p>
+Accessing a closed LOB handle produces a runtime error.
+</p>
+<p>
+Special properties of open reader streams and locators:
+</p>
+<ul class="disc">
+<li>As long as a reader stream for an ABAP SQL statement is still open, the corresponding database is
+not closed. This can only occur with <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">SELECT
+SINGLE</span></a>, since there is no implicit termination of the reader stream using <span class="qtext">ENDSELECT</span>.
+In this case, a reference to an object of the class <span class="lnkgrey">CL_ABAP_SQL_SELECT_STATEMENT</span>
+(a subclass of <span class="lnkgrey">CL_ABAP_SQL_STATEMENT_HANDLE</span>) can be obtained from the interface
+<span class="lnkgrey">IF_ABAP_DB_READER</span> using the method GET_STATEMENT_HANDLE before closing
+the reader stream. The methods of the abstract superclass implemented there can be used to check the state of the ABAP SQL statement, and all streams that are still open can be closed.</li>
+</ul>
+<ul class="disc">
+<li>It is guaranteed that, once created, a locator always works with the same LOB data. If the associated
+LOB column is modified while a locator is open, an internal copy of the LOB data for the locator is created on the database first.</li>
+</ul>
+<A name="@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_3"></A>
+<p><span class="h2">
+Restrictions
+</span></p>
+<p>
+The following restrictions apply:
+</p>
+<ul class="disc">
+<li>A maximum of 16 data streams can be opened for an ABAP SQL statement.</li>
+</ul>
+<ul class="disc">
+<li>In a <a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a> there can be a maximum of 16 ABAP SQL statements whose data streams are open at the same time.</li>
+</ul>
+<ul class="disc">
+<li>A maximum of 1000 LOB handles can be open in a <a href="javascript:call_link('abendatabase_luw_glosry.html')" class="grey" title="Glossary Entry">database LUW</a>.</li>
+</ul>
+<ul class="disc">
+<li>If LOB handles are created using the addition <a href="javascript:call_link('abapselect_single.html')" class="blue"><span class="qtext">
+SINGLE</span></a>, all primary key fields in logical expressions joined using <span class="qtext">AND</span>
+in the <a href="javascript:call_link('abapwhere.html')" class="blue"><span class="qtext">WHERE</span> condition</a> are checked for equality.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+Always close a LOB handle as soon as possible using its method CLOSE. Also refer to <a href="javascript:call_link('abenstreams_locators.html')" class="blue">Streaming and Locators</a>.
+</p>
+<A name="@@ITOC@@ABENSELECT_INTO_LOB_HANDLES_4"></A>
+<p><span class="h2">
+Examples
+</span></p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Reads a BLOB to a reader stream.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA reader TYPE REF TO cl_abap_db_x_reader. <br> <br>SELECT SINGLE picture <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM demo_blob_table <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE name = '...' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @reader.
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abendb_reader_abexa.html')" class="blue">Reader stream, read database table</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendb_copy_abexa.html')" class="blue">Locator, copy column</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendb_locator_abexa.html')" class="blue">Locator, access to column content</a></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapselect_creating.html')" class="blue">SELECT - CREATING</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenselect_into_lob_handles.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:51 GMT -->
+</html>

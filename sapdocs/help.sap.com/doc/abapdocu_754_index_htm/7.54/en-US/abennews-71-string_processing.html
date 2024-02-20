@@ -1,0 +1,250 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENNEWS-71-STRING_PROCESSING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-string_processing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Character String and Byte String Processing in Release 7.0, EhP2">
+<title>
+Character String and Byte String Processing in Release 7.0, EhP2 - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abennews-71-string_processing.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abennews-71-string_processing.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews.html')" class="blue">ABAP - Release-Specific Changes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-70_ehps.html')" class="blue">Changes in Release 7.0 and its EhPs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abennews-71.html')" class="blue">Changes in Release 7.0, EhP2</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Character String and Byte String Processing in Release 7.0, EhP2 <br><br>
+</span></p>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_1@1@" class="blue"> 1. String expressions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_2@2@" class="blue"> 2. String templates </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_3@3@" class="blue"> 3. Chaining operator </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_4@4@" class="blue"> 4. String functions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_5@5@" class="blue"> 5. Bit functions </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_6@6@" class="blue"> 6. Management of short strings </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_7@7@" class="blue"> 7. Streaming for strings </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_8@8@" class="blue"> 8. Any start values for data objects of type <span class="qtext">xstring</span> </A>
+</P>
+<P>
+<br><A HREF="#!ABAP_MODIFICATION_9@9@" class="blue"> 9. Maximum length of data objects of types <span class="qtext">c</span>, <span class="qtext">n</span>, and <span class="qtext">x</span> </A> <br><br> <br><br>
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The program <span class="lnkgrey">DEMO_EXPRESSIONS</span> provides examples of character string and byte string processing for Release 7.0, EhP2. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_1@1@"></A> <span class="bold">Modification 1</span>
+</span></p>
+<P>
+<span class="bold">String Expressions</span> <br><br><!-- /A -->
+</P>
+<P>
+The new <a href="javascript:call_link('abapcompute_string.html')" class="blue">string expressions</a> enhance the previous
+<a href="javascript:call_link('abencalculation_expression_glosry.html')" class="grey" title="Glossary Entry">calculation expressions</a> and enable character string processing at specific
+<a href="javascript:call_link('abenexpression_positions.html')" class="blue">operand positions</a>. A string expression is either a
+<a href="javascript:call_link('abenstring_templates.html')" class="blue">string template</a> or a <a href="javascript:call_link('abenstring_operators.html')" class="blue">chaining</a> with operator <span class="qtext">&amp;&amp;</span>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_2@2@"></A> <span class="bold">Modification 2</span>
+</span></p>
+<P>
+<span class="bold">String Templates</span> <br><br><!-- /A -->
+</P>
+<P>
+<a href="javascript:call_link('abenstring_templates.html')" class="blue">String templates</a> have been introduced as a new way of creating character strings. A string template is enclosed between two
+"<span class="qtext">|</span>" characters and creates a character string in a string expression from a
+</P>
+<ul class="disc">
+<li>
+literal text,
+<br><br></li>
+<li>
+embedded expressions, and
+<br><br></li>
+<li>
+control characters.
+<br></li>
+</ul>
+<P>
+String templates replace the <a href="javascript:call_link('abapwrite_to.html')" class="blue"><span class="qtext">WRITE TO</span></a> statement to a large extent. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_3@3@"></A> <span class="bold">Modification 3</span>
+</span></p>
+<P>
+<span class="bold">Chaining Operator</span> <br><br><!-- /A -->
+</P>
+<P>
+The chaining operator <a href="javascript:call_link('abenstring_operators.html')" class="blue"><span class="qtext">&amp;&amp;</span></a>
+is a new string operator that chains together two character-like operands as one operand in a string
+expression. The chaining operator replaces the <a href="javascript:call_link('abapconcatenate.html')" class="blue"><span class="qtext">CONCATENATE</span></a> statement to a large extent. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_4@4@"></A> <span class="bold">Modification 4</span>
+</span></p>
+<P>
+<span class="bold">String Functions</span> <br><br><!-- /A -->
+</P>
+<P>
+<a href="javascript:call_link('abenstring_functions.html')" class="blue">String functions</a> have been introduced as a new type of
+<a href="javascript:call_link('abenpredefined_function_glosry.html')" class="grey" title="Glossary Entry">embedded function</a>. There are
+</P>
+<ul class="disc">
+<li>
+<a href="javascript:call_link('abensearch_functions.html')" class="blue">Search functions</a> <br>
+<br></li>
+<li>
+ a <a href="javascript:call_link('abendistance_functions.html')" class="blue">similarity function</a> <br>
+<br></li>
+<li>
+<a href="javascript:call_link('abenprocess_functions.html')" class="blue">Processing functions</a>
+<br></li>
+</ul>
+<P>
+The <a href="javascript:call_link('abenboole_functions.html')" class="blue">Boolean function</a> <span class="qtext">boolc</span> can also be considered a string function.
+</P>
+<P>
+The string functions enable many character string processing tasks to be performed in operand positions where separate statements and helper variables were required previously. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_5@5@"></A> <span class="bold">Modification 5</span>
+</span></p>
+<P>
+<span class="bold">Bit Functions</span> <br><br><!-- /A -->
+</P>
+<P>
+<a href="javascript:call_link('abenbit_functions.html')" class="blue">Bit functions</a> have been introduced as a new type of
+<a href="javascript:call_link('abenpredefined_function_glosry.html')" class="grey" title="Glossary Entry">embedded function</a>. A bit function (<span class="qtext">bit-set</span>) currently exists for setting bits. The
+<a href="javascript:call_link('abenboole_functions.html')" class="blue">Boolean function</a> <span class="qtext">boolx</span> can also be considered a bit function. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_6@6@"></A> <span class="bold">Modification 6</span>
+</span></p>
+<P>
+<span class="bold">Management of Short Strings</span> <br><br><!-- /A -->
+</P>
+<P>
+The internal management of short stings has been optimized to reduce the memory overhead that accumulates when short strings are managed for the relevant
+<a href="javascript:call_link('abenmemory_consumption_1.html')" class="blue">string header</a>. For string lengths of less than
+30 characters or 60 bytes, the string header now only requires between 10 and 40 bytes. For longer strings,
+this remains at approximately 50 bytes. Before Release 7.0, EhP2, the overhead of the string header was not related to the length of the string and was approximately 60 bytes for each string.
+</P>
+<P>
+Strings are recommended instead of data objects for all character string and byte string operations where a fixed length is not important.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+This change is also available before EhP2 if a kernel greater than Release 7.0 is used. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_7@7@"></A> <span class="bold">Modification 7</span>
+</span></p>
+<P>
+<span class="bold">Streaming for Strings</span> <br><br><!-- /A -->
+</P>
+<P>
+The new <a href="javascript:call_link('abenstreaming_glosry.html')" class="grey" title="Glossary Entry">streaming</a> concept supports <a href="javascript:call_link('abenstring_streams.html')" class="blue">strings</a>. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_8@8@"></A> <span class="bold">Modification 8</span>
+</span></p>
+<P>
+<span class="bold">Any Start Values for Data Objects of Type <span class="qtext">xstring</span></span> <br><br><!-- /A -->
+</P>
+<P>
+From Release 7.0, EhP2, any suitable start value <span class="qtext">val</span> can be specified for
+<span class="qtext">xstring</span> after the addition <a href="javascript:call_link('abapdata_options.html')" class="blue"><span class="qtext">
+VALUE</span></a> for statements <span class="qtext">DATA</span>, <span class="qtext">CONSTANTS</span> and so on. Previously, only <span class="qtext">IS INITIAL</span> was possible. <br><br> <br><br>
+</P>
+<p><span class="h4">
+<A NAME="!ABAP_MODIFICATION_9@9@"></A> <span class="bold">Modification 9</span>
+</span></p>
+<P>
+<span class="bold">Maximum Length of Data Objects of Types <span class="qtext">c</span>, <span class="qtext">n</span>, and <span class="qtext">x</span></span> <br><br><!-- /A -->
+</P>
+<P>
+The maximum length of data objects of types <a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue"><span class="qtext">
+c</span></a> and <a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue"><span class="qtext">n</span></a>
+has been increased from 65535 to 262143. The maximum length of data objects of type <a href="javascript:call_link('abenbuilt_in_types_complete.html')" class="blue"><span class="qtext">x</span></a>  has been increased from 65535 to 524287.
+</P>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abennews-71-string_processing.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:00 GMT -->
+</html>

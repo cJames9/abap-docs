@@ -1,0 +1,460 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENOS_PERSISTENCE_COMPS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_comps.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Components of the Persistence Service">
+<title>
+Components of the Persistence Service - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenos_persistence_comps.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenos_persistence_comps.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services.html')" class="blue">Object Services</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_object_services_persist.html')" class="blue">Persistence Service</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@IF_OS_STATE@@!ABAP_INTERFACE!@@"></A>
+<A NAME="@@IF_OS_FACTORY@@!ABAP_INTERFACE!@@"></A>
+<A NAME="@@IF_OS_CA_PERSISTENCY@@!ABAP_INTERFACE!@@"></A>
+<A NAME="@@IF_OS_CA_INSTANCE@@!ABAP_INTERFACE!@@"></A>
+<p><span class="h1">
+Components of the Persistence Service
+</span></p>
+<p>
+The persistence service is a software layer that manages persistent objects. This software layer consists
+of a general part and a class-specific part. It is made up of global classes and interfaces from the Class Library. The class-specific part is specially generated for each existing persistent class.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_1" class="blue">CL_persistent</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_2" class="blue">Classes CA_persistent and CB_persistent</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_3" class="blue">Interfaces for the Class Agent</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_4" class="blue">Management Interface for the Persistent Class</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_5" class="blue">Other Interfaces and Classes</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_6" class="blue">AGENT Attribute of the Class Agent</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_7" class="blue">Most Important Methods of the Class Agent</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_8" class="blue">Methods Inherited from CB_persistent</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_9" class="blue">Methods of the Interface IF_OS_FACTORY</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_10" class="blue">Methods of the Interface IF_OS_CA_PERSISTENCY</A></li>
+</ul>
+<ul class="circlem2">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_11" class="blue">Methods of the Interface IF_OS_CA_INSTANCE</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENOS_PERSISTENCE_COMPS_12" class="blue">Methods of IF_OS_STATE</A></li>
+</ul>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_1"></A>
+<p><span class="h2">
+CL_persistent
+</span></p>
+<p>
+The class CL_persistent is a class created as a persistent class using Class Builder. The objects of
+this class are managed by the persistence service. These objects are known as managed objects (note
+that a managed object does not necessarily have to be a persistent object). Class Builder generates the SET and GET methods for the attributes of this class.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_2"></A>
+<p><span class="h2">
+Classes CA_persistent and CB_persistent
+</span></p>
+<p>
+For each persistent class (CL_persistent), Class Builder generated two further classes: CA_persistent
+and CB_persistent. These classes form the class-specific part of the persistence service. CB_persistent is a subclass of a general abstract superclass of all class agents, <span class="lnkgrey">CL_OS_CA_COMMON</span>.
+</p>
+<p>
+CA_persistent is known as the class agent (or class actor), which is used to manage the managed object
+of the class CL_persistent, and where database accesses actually take place. The class agent inherits
+its methods from the abstract superclass CB_persistent. The developer can expand the class agent and
+redefine its methods (in particular, those for accessing the database). The superclass CB_persistent
+cannot be modified. Each class agent is a friend of the managed class. The class agent is a singleton: only one instance of a class agent is created when it is accessed for the first time.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_3"></A>
+<p><span class="h2">
+Interfaces for the Class Agent
+</span></p>
+<p>
+The class agent implements the interfaces <span class="lnkgrey">IF_OS_FACTORY</span>, <span class="lnkgrey">IF_OS_CA_PERSISTENCY</span>
+and <span class="lnkgrey">IF_OS_CA_INSTANCE</span>. The interface methods can be used alongside the
+class methods. Interfaces also offer generic access by means of interface reference variables. In the
+ABAP program, interface reference variables of the same type can be used to access different class agents for different persistent classes. The interfaces represent the general part of the persistence service.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_4"></A>
+<p><span class="h2">
+Management Interface for the Persistent Class
+</span></p>
+<p>
+The persistent class implements the management interface <span class="lnkgrey">IF_OS_STATE</span>, which enables the managed objects of different persistent classes to be accessed in the same way.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_5"></A>
+<p><span class="h2">
+Other Interfaces and Classes
+</span></p>
+<p>
+The persistent class and the class agent are related to other interfaces and classes in the persistence
+service, but these are mainly used internally. To find the names of these object types, refer to the definition of the persistent class and class agent in Class Builder.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_6"></A>
+<p><span class="h2">
+AGENT Attribute of the Class Agent
+</span></p>
+<p>
+The static attribute AGENT is a reference variable with the type of the class CA_persistent. The first
+time this attribute is accessed in an ABAP program, the static constructor of the class CA_persistent
+creates exactly one instance of this class, to which the attribute AGENT then points. This object is
+part of the persistence service; its methods are then used to manage the object of the persistent class.
+There is only one object of the class CA_persistent. The class agent manages one or more objects of the appropriate class. Each object must have a unique key.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_7"></A>
+<p><span class="h2">
+Most Important Methods of the Class Agent
+</span></p>
+<p>
+Class Builder generates the following methods the persistent class is created. They can then be redefined in the class CA_persistent. There are other methods available for internal use within the persistence service.
+</p>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_8"></A>
+<p><span class="h3">
+Methods Inherited from CB_persistent
+</span></p>
+<ul class="disc">
+<li>CREATE_PERSISTENT</li>
+</ul>
+<dl><dd>
+Creates a new persistent object. The interface is generated in accordance with the
+<a href="javascript:call_link('abenos_persistence_mapping.html')" class="blue">mapping</a> between the persistent class and ABAP
+Dictionary. If the persistent object is managed using business keys, the interface contains the relevant
+input parameters. If the persistent object is managed using GUIDs, a new instance GUID is generated
+when the object is created. There are optional importing parameters for all persistent attributes, regardless
+of which keys manage the object. The return value RESULT has the type of the persistent class and contains
+a reference to the new persistent object. Each program can contain only one object for each key. The
+object is saved to the database using the statement <span class="qtext">COMMIT WORK</span>. When the
+persistence service creates the object, it does not check whether the object already exists in the database.
+An error occurs only when an attempt is made to save an existing object. It is therefore best to check whether the object already exists using the method GET_PERSISTENT.
+</dd></dl>
+<ul class="disc">
+<li>GET_PERSISTENT</li>
+</ul>
+<dl><dd>
+Loads a persistent object from the database and generates a suitable instance in the ABAP program. The
+interface is generated in accordance with the mapping between the persistent class and ABAP Dictionary.
+The method exists only if the persistent object is managed using business keys and has the relevant
+input parameters. The return value <span class="qtext">RESULT</span> has the type of the persistent
+class and contains a reference to the loaded persistent object. If an object with the same key already
+exists in the program, it is not loaded again; instead, the system returns the reference to the object
+already loaded. Changes to the attributes of the instance are committed to the database using the statement <span class="qtext">COMMIT WORK</span>.
+</dd></dl>
+<ul class="disc">
+<li>DELETE_PERSISTENT</li>
+</ul>
+<dl><dd>
+Deletes a persistent object. To delete the persistent object in the database as well, the statement
+<span class="qtext">COMMIT WORK</span> must be executed. The interface is generated in accordance with
+the mapping between the persistent class and ABAP Dictionary. The method exists only if the persistent object is managed using business keys and has the relevant input parameters.
+</dd></dl>
+<ul class="disc">
+<li>CREATE_TRANSIENT</li>
+</ul>
+<dl><dd>
+Creates a transient object of the persistent class. The method interface is the same as the interface
+for the method CREATE_PERSISTENT. Objects created using CREATE_TRANSIENT are managed by the persistence
+service but have no connection to the database. CREATE_TRANSIENT cannot be used to create more than one object with the same key in the program.
+</dd></dl>
+<ul class="disc">
+<li>GET_TRANSIENT</li>
+</ul>
+<dl><dd>
+Gets the reference to a transient object of the persistent class. The method interface is the same as
+the interface for the method CREATE_PERSISTENT. The object must have already been created with the method CREATE_TRANSIENT. The system does not look for a corresponding persistent object in the database.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_9"></A>
+<p><span class="h3">
+Methods of the Interface IF_OS_FACTORY
+</span></p>
+<ul class="disc">
+<li>IF_OS_FACTORY~CREATE_PERSISTENT</li>
+</ul>
+<dl><dd>
+If the persistent class is not managed using business keys, this interface method can be used (instead
+of the class method CREATE_PERSISTENT) to create a persistent object of the class CL_persistent. The
+return value RESULT has the type of the persistent class and contains a reference to the new persistent object. When the object is created, a new instance GUID is generated.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_FACTORY~CREATE_PERSISTENT_BY_KEY</li>
+</ul>
+<dl><dd>
+If the persistent class is managed using business keys, this interface method can be used (instead of
+the class method CREATE_PERSISTENT) to create a persistent object of the class CL_persistent. The key
+is passed as a structure (with key fields as components) to the generic parameter I_KEY of type ANY.
+The return value RESULT has the general type <span class="qtext">REF TO OBJECT</span> and contains a
+reference to the new persistent object. If the persistent object is managed using GUIDs, a new instance GUID is generated when the object is created.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_FACTORY~REFRESH_PERSISTENT</li>
+</ul>
+<dl><dd>
+This method forces the system to load the current attributes of a persistent object from the database
+into the ABAP program. It does this by passing the object reference to the input parameter I_OBJECT
+of type IF_OS_STATE. The current attributes are then fetched from the database when it is next accessed
+(on-request loading). The management state of the object must be either OSCON_OSTATUS_LOADED or OSCON_OSTATUS_NOT_LOADED.
+Immediately after the method has been executed, but before the attribute has been accessed, the management state is OSCON_OSTATUS_NOT_LOADED.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_FACTORY~DELETE_PERSISTENT</li>
+</ul>
+<dl><dd>
+Deletes a persistent object. It does this by passing the object reference to the input parameter I_OBJECT
+of type IF_OS_STATE. To delete the persistent object in the database as well, the statement <span class="qtext">COMMIT WORK</span> must be executed.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_FACTORY~CREATE_TRANSIENT</li>
+</ul>
+<dl><dd>
+If the persistent class is not managed using business keys, this interface method can be used (instead
+of the class method CREATE_TRANSIENT) to create a transient object of the class CL_persistent. The return value RESULT has the type of the persistent class and contains a reference to the generated persistent object.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_FACTORY~CREATE_TRANSIENT_BY_KEY</li>
+</ul>
+<dl><dd>
+If the persistent class is managed using business keys, this interface method can be used (instead of
+the class method CREATE_TRANSIENT) to generate a persistent object of the class CL_persistent. The key
+is passed to the generic parameter I_KEY of type ANY as a structure whose components are the key fields.
+The return value RESULT has the general type <span class="qtext">REF TO OBJECT</span> and contains a reference to the generated transient object.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_FACTORY~RELEASE</li>
+</ul>
+<dl><dd>
+Completely removes an object managed by the class agent from the management of the persistence service.
+It does this by passing the object reference to the input parameter I_OBJECT of type IF_OS_STATE. The management state of the object must be either OSCON_OSTATUS_LOADED or OSCON_OSTATUS_NOT_LOADED.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_10"></A>
+<p><span class="h3">
+Methods of the Interface IF_OS_CA_PERSISTENCY
+</span></p>
+<ul class="disc">
+<li>IF_OS_CA_PERSISTENCY~GET_PERSISTENT_BY_OID</li>
+</ul>
+<dl><dd>
+If the persistent class is not managed using business keys, you can use this interface method (instead
+of the class method GET_PERSISTENT) to get a persistent object from the database and generate a suitable
+instance in the ABAP program. The object ID is passed to the parameter I_OID of type OS_GUID. The return
+value RESULT has the general type <span class="qtext">REF TO OBJECT</span> and contains a reference to the persistent object.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_PERSISTENCY~GET_PERSISTENT_BY_KEY</li>
+</ul>
+<dl><dd>
+If the persistent class is managed using business keys, you can use this interface method (instead of
+the class method GET_PERSISTENT) to get a persistent object from the database and generate a suitable
+instance in the ABAP program. The key is passed as a structure (with key fields as components) to the
+generic parameter I_KEY of type ANY. The return value RESULT has the general type <span class="qtext">REF TO OBJECT</span> and contains a reference to the persistent object.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_PERSISTENCY~GET_PERSISTENT_BY_OID_TAB</li>
+</ul>
+<dl><dd>
+If the persistent class is managed using business keys, you can use this interface method to get more
+than one persistent object simultaneously from the database and to generate suitable instances in the
+ABAP program. The object IDs are passed to the I_OID_TAB parameter of type INDEX TABLE in an internal
+table. The return value RESULT is of general type OSREFTAB and contains a table of references to the
+persistent objects loaded. For each entry in the table, the result table has a corresponding entry at
+the same position that either contains an object reference to the loaded object or is initial if no object was found for the relevant ID. There is no corresponding method in the class agent.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_PERSISTENCY~GET_PERSISTENT_BY_KEY_TAB</li>
+</ul>
+<dl><dd>
+If the persistent class is managed using business keys, this interface method can be used to get more
+than one persistent object simultaneously from the database and to generate suitable instances in the
+ABAP program. The object keys are passed in an internal table, whose row type has the key fields as
+components, to generic parameter I_KEY_TAB of type INDEX TABLE. The return value RESULT is of general
+type OSREFTAB and contains a table of references to the persistent objects loaded. For each entry in
+the key table, the result table has a corresponding entry at the same position that either contains
+an object reference to the loaded object or is initial if no object was found for the relevant key.
+There is no corresponding method in the class agent. This method can only be used if the persistent class must have been generated for multiple access.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_PERSISTENCY~GET_PERSISTENT_BY_QUERY</li>
+</ul>
+<dl><dd>
+This interface method can be used to get more than one persistent object simultaneously from the database
+and to generate suitable instances in the ABAP program. A logical expression, which compares the attributes
+of the persistent class with a choice of parameters or values, determines which persistent objects are
+loaded. The logical expression is implemented by an instance of a class that implements the interface
+<span class="lnkgrey">IF_OS_QUERY</span>. An instance of this type is a query object, often abbreviated
+to query, and can be generated using the method CREATE_QUERY of the interface <span class="lnkgrey">IF_OS_QUERY_MANAGER</span>.
+A reference to the query is passed to the parameter I_QUERY. The comparison values for the query are
+passed in an internal table to the I_PARAMETER_TAB parameter. If the query requires a maximum of three
+comparison values with an elementary type, these can also be passed individually to parameters I_PAR1,
+I_PAR2, and I_PAR3. Use the I_SUBCLASSES parameter to determine whether instances of subclasses of the
+persistent class are also loaded. Use the I_UPTO parameter to determine the maximum number of instances
+that can be loaded. The return value RESULT is of general type OSREFTAB and contains a table of references
+to the persistent objects loaded. The query can also be used to determine how the object references
+are sorted. There is no corresponding method in the class agent. This method can only be used if the persistent class must have been generated for multiple access.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_11"></A>
+<p><span class="h3">
+Methods of the Interface IF_OS_CA_INSTANCE
+</span></p>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~GET_STATUS</li>
+</ul>
+<dl><dd>
+Gets the management state of a managed object. The input parameter, with the general type <span class="qtext">REF
+TO OBJECT</span>, passes a reference to the managed object. The return value RESULT has the type OS_STATUS
+and can have the value 0, 1, 2, 3, 4, or 10. This corresponds to the constants OSTATUS_... of the type group OSCON.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~GET_NOT_LOADED</li>
+</ul>
+<dl><dd>
+Gets all the objects managed by the class agent in the management state OSCON_OSTATUS_NOT_LOADED (0). The return value is an internal table with the general row type <span class="qtext">REF TO object</span>.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~GET_CREATED</li>
+</ul>
+<dl><dd>
+Gets all the objects managed by the class agent in the management state OSCON_OSTATUS_NEW (1). The return value is an internal table with the general row type <span class="qtext">REF TO object</span>.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~GET_LOADED</li>
+</ul>
+<dl><dd>
+Gets all the objects managed by the class agent in the management state OSCON_OSTATUS_LOADED (2). The return value is an internal table with the general row type <span class="qtext">REF TO object</span>.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~GET_CHANGED</li>
+</ul>
+<dl><dd>
+Gets all the objects managed by the class agent in the management state OSCON_OSTATUS_CHANGED (3). The return value is an internal table with the general row type <span class="qtext">REF TO object</span>.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~GET_DELETED</li>
+</ul>
+<dl><dd>
+Gets all the objects managed by the class agent in the management state OSCON_OSTATUS_DELETED (4). The return value is an internal table with the general row type <span class="qtext">REF TO object</span>.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_CA_INSTANCE~TRANSIENT</li>
+</ul>
+<dl><dd>
+Gets all the objects managed by the class agent in the management state OSCON_OSTATUS_TRANSIENT (10). The return value is an internal table with the general row type <span class="qtext">REF TO object</span>.
+</dd></dl>
+<A name="@@ITOC@@ABENOS_PERSISTENCE_COMPS_12"></A>
+<p><span class="h2">
+Methods of IF_OS_STATE
+</span></p>
+<p>
+The interface <span class="lnkgrey">IF_OS_STATE</span> defines the interface of a class that can be managed with Object Services. It enables the objects of this class to be monitored and managed.
+</p>
+<ul class="disc">
+<li>IF_OS_STATE~INIT</li>
+</ul>
+<dl><dd>
+Is called when a persistent or transient object is created and when a persistent object is loaded after
+persistent attributes have been set. Here, for example, transient attributes can be initialized and checking agents or event handlers registered.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_STATE~INVALIDATE</li>
+</ul>
+<dl><dd>
+Is called; when a persistent object is deleted, when forcing the reload of a persistent object, and
+when starting a subsequent transaction after resetting the persistent attributes for persistent objects.
+Here, for example, transient attributes can be reset and event handlers deregistered. It is also called when the UNDO service is used for resetting.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_STATE~HANDLE_EXCEPTION</li>
+</ul>
+<dl><dd>
+Is called when an exception is raised in the GET and SET methods. It raises the exception, which is
+passed as a parameter. The exceptions raised can be handled here. In general, however, the exceptions should be handled by the consumer of these methods.
+</dd></dl>
+<ul class="disc">
+<li>IF_OS_STATE~GET and IF_OS_STATE~SET</li>
+</ul>
+<dl><dd>
+These methods are for internal use and must not be changed.
+</dd></dl>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenos_persistence_comps.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+</html>

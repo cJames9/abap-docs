@@ -1,0 +1,578 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENESCAPE_FUNCTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenescape_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="escape - Escape Function">
+<title>
+escape - Escape Function - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenescape_functions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenescape_functions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_string.html')" class="blue">Character String and Byte String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_processing_expr_func.html')" class="blue">Expressions and Functions for String Processing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenstring_functions.html')" class="blue">String Functions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprocess_functions.html')" class="blue">Processing Functions for Character-Like Arguments</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@escape@@!ABAP_FUNCTION!@@"></A>
+<p><span class="h1">
+escape - Escape Function
+</span></p>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+ <br><span class="qtext">... escape( <a href="javascript:call_link('abenstring_functions_val.html')" class="blue">val = text</a> format = format ) ...</span>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+This function gets the content of the character string in <a href="javascript:call_link('abenstring_functions_val.html')" class="blue"><span class="qtext">
+text</span></a>, and hides certain special characters with escape characters according to a rule specified in <span class="qtext">format</span>.
+</p>
+<p>
+The possible values of <span class="qtext">format</span> are defined as constants with the prefix <span class="qtext400">
+"E_"</span> in the class <span class="lnkgrey">CL_ABAP_FORMAT</span>. Each value defines which special
+characters are replaced, and how. There are rules for special characters in markup languages (XML and
+HTML), in URIs and URLs, in JSON, as well as in regular expressions and character string templates. An important part is also played by attack protection using Cross Site Scripting (XSS) on Web applications.
+</p>
+<p>
+<span class="qtext">format</span> expects data objects of the type <span class="qtext">i</span>. An
+invalid value for <span class="qtext">format</span> raises an exception of the class CX_SY_STRG_PAR_VAL.
+For all characters whose codes are between x00 and xFF, the program <span class="lnkgrey">DEMO_ESCAPE</span>
+demonstrates the effect of all associated formats from the class CL_ABAP_FORMAT. The top row contains
+the names of the constants from the class CL_ABAP_FORMAT without the prefix <span class="qtext400">"E_"</span>. The other rows show the effect on the characters specified in the first two columns.
+</p>
+<p>
+This function can be specified in <a href="javascript:call_link('abengeneral_expr_position_glosry.html')" class="grey" title="Glossary Entry">general</a> and
+<a href="javascript:call_link('abencharlike_expr_position_glosry.html')" class="grey" title="Glossary Entry">character-like expression positions</a>. The return code has the type <span class="qtext">string</span>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENESCAPE_FUNCTIONS_1" class="blue">Rules for Markup Languages (Including JavaScript)</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENESCAPE_FUNCTIONS_2" class="blue">Rules for URL/URIs</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENESCAPE_FUNCTIONS_3" class="blue">Rules for JSON</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENESCAPE_FUNCTIONS_4" class="blue">Rules for Regular Expressions</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENESCAPE_FUNCTIONS_5" class="blue">Rules for String Templates</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENESCAPE_FUNCTIONS_6" class="blue">Rules for Cross Site Scripting</A></li>
+</ul>
+<A name="@@ITOC@@ABENESCAPE_FUNCTIONS_1"></A>
+<p><span class="h2">
+Rules for Markup Languages (Including JavaScript)
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_ESCAPE_MARKUP</span> demonstrates the escape rules for markup
+languages. Formats with <span class="qtext400">"_JS"</span> in their name are intended for content with JavaScript components. The following table summarizes the escape rules:
+</p>
+<table border>
+<tr>
+<td><span class="bold">Format</span></td>
+<td><span class="bold"><span class="qtext400">&amp;</span></span></td>
+<td><span class="bold"><span class="qtext400">&lt;</span></span></td>
+<td><span class="bold"><span class="qtext400">></span></span></td>
+<td><span class="bold"><span class="qtext400">"</span></span></td>
+<td><span class="bold"><span class="qtext400">'</span></span></td>
+<td><span class="bold"><span class="qtext400">TAB</span></span></td>
+<td><span class="bold"><span class="qtext400">LF</span></span></td>
+<td><span class="bold"><span class="qtext400">CR</span></span></td>
+<td><span class="bold"><span class="qtext400">BS</span></span></td>
+<td><span class="bold"><span class="qtext400">FF</span></span></td>
+<td><span class="bold"><span class="qtext400">\</span></span></td>
+<td><span class="bold"><span class="qtext400">ctrl-char</span></span></td>
+</tr>
+<tr>
+<td>E_XML_TEXT</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_XML_ATTR</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td>-</td>
+<td><span class="qtext400">&amp;quot;</span></td>
+<td><span class="qtext400">&amp;apos;</span></td>
+<td><span class="qtext400">&amp;#9;</span></td>
+<td><span class="qtext400">&amp;#xA;</span></td>
+<td><span class="qtext400">&amp;#xD;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_XML_ATTR_DQ</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td>-</td>
+<td><span class="qtext400">&amp;quot;</span></td>
+<td>-</td>
+<td><span class="qtext400">&amp;#9;</span></td>
+<td><span class="qtext400">&amp;#xA;</span></td>
+<td><span class="qtext400">&amp;#xD;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_XML_ATTR_SQ</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td>-</td>
+<td>-</td>
+<td><span class="qtext400">&amp;apos;</span></td>
+<td><span class="qtext400">&amp;#9;</span></td>
+<td><span class="qtext400">&amp;#xA;</span></td>
+<td><span class="qtext400">&amp;#xD;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_HTML_TEXT</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td><span class="qtext400">&amp;gt;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_HTML_ATTR</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td><span class="qtext400">&amp;gt;</span></td>
+<td><span class="qtext400">&amp;quot;</span></td>
+<td><span class="qtext400">&amp;#39;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_HTML_ATTR_DQ</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td><span class="qtext400">&amp;gt;</span></td>
+<td><span class="qtext400">&amp;quot;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_HTML_ATTR_SQ</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td><span class="qtext400">&amp;gt;</span></td>
+<td>-</td>
+<td><span class="qtext400">&amp;#39;</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E_HTML_JS</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td><span class="qtext400">\"</span></td>
+<td><span class="qtext400">\'</span></td>
+<td><span class="qtext400">\t</span></td>
+<td><span class="qtext400">\n</span></td>
+<td><span class="qtext400">\r</span></td>
+<td><span class="qtext400">\b</span></td>
+<td><span class="qtext400">\f</span></td>
+<td><span class="qtext400">\\</span></td>
+<td><span class="qtext400">\xhh</span></td>
+</tr>
+<tr>
+<td>E_HTML_JS_HTML</td>
+<td><span class="qtext400">&amp;amp;</span></td>
+<td><span class="qtext400">&amp;lt;</span></td>
+<td><span class="qtext400">&amp;gt;</span></td>
+<td><span class="qtext400">&amp;quot;</span></td>
+<td><span class="qtext400">&amp;#39;</span></td>
+<td><span class="qtext400">\t</span></td>
+<td><span class="qtext400">\n</span></td>
+<td><span class="qtext400">\r</span></td>
+<td><span class="qtext400">\b</span></td>
+<td><span class="qtext400">\f</span></td>
+<td><span class="qtext400">\\</span></td>
+<td><span class="qtext400">\xhh</span></td>
+</tr>
+</table><br>
+<p>
+The first column contains the names of the formats from the class CL_ABAP_FORMAT. The other columns
+show the escape characters that replace the special characters in the first row. None of the other characters
+are affected. <span class="qtext400">TAB</span>, <span class="qtext400">LF</span>, <span class="qtext400">CR</span>,
+<span class="qtext400">BS</span>, and <span class="qtext400">FF</span> are the control characters for
+tabulator, Line Feed, Carriage Return, Backspace, and Form Feed, to which the codes <span class="qtext400">x09</span>,
+<span class="qtext400">x0A</span>, <span class="qtext400">x0D</span>, <span class="qtext400">x08</span>, and <span class="qtext400">x0C</span> are assigned in 7-Bit ASCII.
+ <span class="qtext400">ctrl-char</span> stands for all control characters with codes less than <span class="qtext400">
+x20</span> that are not covered by those characters listed explicitly. Some of these can be converted
+to <span class="qtext400">\xhh</span>, where <span class="qtext400">"hh"</span> is the hexadecimal value of the code. If there is no value in a field (-), the special character is not affected.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following masking is <span class="qtext400">IF a &amp;lt; b</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;escape( val&nbsp;&nbsp;&nbsp;&nbsp;= 'IF a &lt; b.' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=>e_xml_text ) ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenstring_function_escape_abexa.html')" class="blue">String Functions, <span class="qtext">escape</span> for HTML</a>
+</p>
+<A name="@@ITOC@@ABENESCAPE_FUNCTIONS_2"></A>
+<p><span class="h2">
+Rules for URL/URIs
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_ESCAPE_URL_URI</span> demonstrates the escape rules for URLs
+and URIs. All characters with codes between x00 and 7F are converted to <span class="qtext400">%hh</span>
+(except for the characters listed in the following table), where <span class="qtext400">hh</span> is
+the hexadecimal value of the code. In URI_1 format, quotation marks are not converted to <span class="qtext400">%hh</span>, but are doubled.
+</p>
+<table border>
+<tr>
+<td><span class="bold">Format</span></td>
+<td><span class="bold">Unconverted Characters</span></td>
+</tr>
+<tr>
+<td>E_URL</td>
+<td><span class="qtext400">[0-9]</span>, <span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>,
+<span class="qtext400">!</span>, <span class="qtext400">$</span>, <span class="qtext400">'</span>, <span class="qtext400">
+(</span>, <span class="qtext400">)</span>, <span class="qtext400">*</span>, <span class="qtext400">+</span>,
+<span class="qtext400">,</span>, <span class="qtext400">-</span>, <span class="qtext400">.</span>, <span class="qtext400">
+_</span>, <span class="qtext400">&amp;</span>, <span class="qtext400">/</span>, <span class="qtext400">:</span>,
+<span class="qtext400">;</span>, <span class="qtext400">=</span>, <span class="qtext400">?</span>, <span class="qtext400">@</span></td>
+</tr>
+<tr>
+<td>E_URL_FULL</td>
+<td><span class="qtext400">[0-9]</span>, <span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>,
+<span class="qtext400">!</span>, <span class="qtext400">$</span>, <span class="qtext400">'</span>, <span class="qtext400">
+(</span>, <span class="qtext400">)</span>, <span class="qtext400">*</span>, <span class="qtext400">+</span>,
+<span class="qtext400">,</span>, <span class="qtext400">-</span>, <span class="qtext400">.</span>, <span class="qtext400">_</span></td>
+</tr>
+<tr>
+<td>E_URI</td>
+<td><span class="qtext400">[0-9]</span>, <span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>,
+<span class="qtext400">!</span>, <span class="qtext400">$</span>, <span class="qtext400">'</span>, <span class="qtext400">
+(</span>, <span class="qtext400">)</span>, <span class="qtext400">*</span>, <span class="qtext400">+</span>,
+<span class="qtext400">,</span>, <span class="qtext400">-</span>, <span class="qtext400">.</span>, <span class="qtext400">
+_</span>, <span class="qtext400">&amp;</span>, <span class="qtext400">/</span>, <span class="qtext400">:</span>,
+<span class="qtext400">;</span>, <span class="qtext400">=</span>, <span class="qtext400">?</span>, <span class="qtext400">
+@</span>, <span class="qtext400">~</span>, <span class="qtext400">#</span>, <span class="qtext400">[</span>, <span class="qtext400">]</span></td>
+</tr>
+<tr>
+<td>E_URI_FULL</td>
+<td><span class="qtext400">[0-9]</span>, <span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>,
+<span class="qtext400">-</span>, <span class="qtext400">.</span>, <span class="qtext400">_</span>, <span class="qtext400">~</span></td>
+</tr>
+<tr>
+<td>E_URI_1</td>
+<td><span class="qtext400">[0-9]</span>, <span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>,
+<span class="qtext400">!</span>, <span class="qtext400">$</span>, <span class="qtext400">(</span>, <span class="qtext400">
+)</span>, <span class="qtext400">*</span>, <span class="qtext400">+</span>, <span class="qtext400">,</span>,
+<span class="qtext400">-</span>, <span class="qtext400">.</span>, <span class="qtext400">_</span>, <span class="qtext400">
+;</span>, <span class="qtext400">=</span>, <span class="qtext400">@</span>, <span class="qtext400">~</span>, <span class="qtext400">[</span>, <span class="qtext400">]</span></td>
+</tr>
+</table><br>
+<p>
+All characters with codes from <span class="qtext400">x80</span> are converted to their
+<a href="javascript:call_link('abenutf8_glosry.html')" class="grey" title="Glossary Entry">UTF-8</a> representation. Depending
+on the character, one to four bytes are represented in the form <span class="qtext400">%hh</span>, where <span class="qtext400">hh</span> is the hexadecimal value of a byte.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following masking is <span class="qtext400">Numbers%3A%201,%202</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;escape( val&nbsp;&nbsp;&nbsp;&nbsp;= 'Numbers: 1, 2' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=>e_url_full ) ).
+</span>
+</p>
+<A name="@@ITOC@@ABENESCAPE_FUNCTIONS_3"></A>
+<p><span class="h2">
+Rules for JSON
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_ESCAPE_JSON</span> demonstrates the escape rules of the format E_JSON_STRING for
+<a href="javascript:call_link('abenjson_glosry.html')" class="grey" title="Glossary Entry">JSON</a>. The special characters <span class="qtext400">
+"</span> and <span class="qtext400">\</span> are prefixed with the escape character <span class="qtext400">\</span>.
+Control characters with the codes <span class="qtext400">x08</span>, <span class="qtext400">x09</span>,
+<span class="qtext400">x0A</span>, <span class="qtext400">x0C</span>, and <span class="qtext400">x0D</span>
+are escaped using <span class="qtext400">\b</span>, <span class="qtext400">\t</span>, <span class="qtext400">\n</span>,
+<span class="qtext400">\f</span>, and <span class="qtext400">\r</span> respectively. All other codes
+less than <span class="qtext400">x20</span> are converted to a four-character hexadecimal representation and prefixed by <span class="qtext400">\u</span>. None of the other characters are affected.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following masking is <span class="qtext400">This is a backslash:</span>.<span class="qtext400"> \"\\\"</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;escape( val&nbsp;&nbsp;&nbsp;&nbsp;= 'This is a backslash: "\"' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=>e_json_string ) ).
+</span>
+</p>
+<A name="@@ITOC@@ABENESCAPE_FUNCTIONS_4"></A>
+<p><span class="h2">
+Rules for Regular Expressions
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_ESCAPE_REGEX</span> demonstrates the escape rules of the format E_REGEX for regular expressions. The
+<a href="javascript:call_link('abenregex_syntax_specials.html')" class="blue">special characters of regular expressions</a> are
+prefixed by the associated escape character <span class="qtext400">\</span>. Control characters with
+the codes <span class="qtext400">x08</span>, <span class="qtext400">x09</span>, <span class="qtext400">x0A</span>,
+<span class="qtext400">x0B</span>, <span class="qtext400">x0C</span>, and <span class="qtext400">x0D</span>
+are escaped using <span class="qtext400">\b</span>, <span class="qtext400">\t</span>, <span class="qtext400">\n</span>,
+<span class="qtext400">\v</span>, <span class="qtext400">\f</span>, and <span class="qtext400">\r</span> respectively.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following masking is <span class="qtext400">"\." matches one, "\*" matches many"</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;escape( val&nbsp;&nbsp;&nbsp;&nbsp;= '"." matches one, "*" matches many"' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=>e_regex ) ).
+</span>
+</p>
+<A name="@@ITOC@@ABENESCAPE_FUNCTIONS_5"></A>
+<p><span class="h2">
+Rules for String Templates
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_ESCAPE_STRING_TEMPLATE</span> demonstrates the escape rules of the format E_STRING_TPL for string templates. The special characters of
+<a href="javascript:call_link('abenstring_templates.html')" class="blue">string templates</a>
+(<span class="qtext400">|</span>, <span class="qtext400">\</span>, <span class="qtext400">{</span>,
+<span class="qtext400">}</span>) are prefixed by the associated escape character <span class="qtext400">\</span>.
+Control characters with the codes <span class="qtext400">x09</span>, <span class="qtext400">x0A</span>,
+and <span class="qtext400">x0D</span> are replaced by <span class="qtext400">\t</span>, <span class="qtext400">\n</span>, and <span class="qtext400">\r</span> respectively.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following masking is <span class="qtext400">Special characters: \|, \\, \{, \}</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;escape( val&nbsp;&nbsp;&nbsp;&nbsp;= 'Special characters: |, \, {, }' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=>e_string_tpl ) ).
+</span>
+</p>
+<A name="@@ITOC@@ABENESCAPE_FUNCTIONS_6"></A>
+<p><span class="h2">
+Rules for Cross Site Scripting
+</span></p>
+<p>
+The program <span class="lnkgrey">DEMO_ESCAPE_XSS</span> demonstrates the escape rules of the formats E_XSS_... that enable attacks using Cross Site Scripting
+(<a href="javascript:call_link('abenxss_glosry.html')" class="grey" title="Glossary Entry">XSS</a>) on Web applications to be prevented. Rules exist for XML/HTML content, JavaScript content, Cascading Style Sheets (CSS), and URL content.
+</p>
+<p>
+The rules for XSS include all the rules for individual formats, plus some extra rules. They are particularly
+distinct from the rules for markup languages, including JavaScript (see above). These extended rules
+are designed to be used to protect ABAP programs from Cross Site Scripting, when content can be constructed from non-secure sources. The transformations listed above are replaced or modified as follows:
+</p>
+<ul class="disc">
+<li><span class="bold">Markup languages</span>: Format E_XSS_ML. All characters (except <span class="qtext400">[0-9]</span>,
+<span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>, <span class="qtext400">,</span>,
+<span class="qtext400">-</span>, <span class="qtext400">.</span>, <span class="qtext400">_</span>, and control characters) are transformed to
+ <span class="qtext400">&amp;#xhh;</span> or <span class="qtext400">&amp;#xhhhh;</span>, where <span class="qtext400">
+hh</span> or <span class="qtext400">hhhh</span> is the hexadecimal value of the code. All control characters are transformed to <span class="qtext400">&amp;#xfffd;</span>.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">JavaScript</span>:  Format E_XSS_JS. All characters (except <span class="qtext400">[0-9]</span>,
+<span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>, <span class="qtext400">,</span>,
+<span class="qtext400">.</span>, and <span class="qtext400">_</span>) are transformed to <span class="qtext400">\xhh</span>
+or <span class="qtext400">\uhhhh</span>, where <span class="qtext400">hh</span> or <span class="qtext400">hhhh</span> is the hexadecimal value of the code.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">URL/URIs</span>:  Format E_XSS_URL. All characters (except <span class="qtext400">[0-9]</span>,
+<span class="qtext400">[a-z]</span>, <span class="qtext400">[A-Z]</span>, <span class="qtext400">*</span>,
+<span class="qtext400">-</span>, <span class="qtext400">.</span>, and <span class="qtext400">_</span>)
+are transformed to <span class="qtext400">%hh</span>, where <span class="qtext400">hh</span> is the hexadecimal value of the code. All characters with codes from x80 are converted to their
+<a href="javascript:call_link('abenutf8_glosry.html')" class="grey" title="Glossary Entry">UTF-8</a> representation. Depending
+on the character, one to four bytes are represented in the form <span class="qtext400">%hh</span>, where <span class="qtext400">hh</span> is the hexadecimal value of a byte.</li>
+</ul>
+<ul class="disc">
+<li><span class="bold">CSS</span>: Format E_XSS_CSS. All characters (except <span class="qtext400">[0-9]</span>,
+<span class="qtext400">[a-z]</span>, and <span class="qtext400">[A-Z]</span>) are transformed to <span class="qtext400">
+\hh</span> or <span class="qtext400">\hhhh</span>, where <span class="qtext400">hh</span> or <span class="qtext400">hhhh</span>
+is the hexadecimal value of the code. A blank is inserted after <span class="qtext400">hh</span> or <span class="qtext400">hhhh</span> if the following character is a valid hexadecimal digit.</li>
+</ul>
+<p>
+If the format from the class CL_ABAP_FORMAT has the additional ending <span class="qtext400">"_NU"</span>,
+all characters with codes greater than <span class="qtext400">xFF</span> are converted to a four-character
+hexadecimal representation, with varying marking depending on the type of the content. The additional
+ending <span class="qtext400">"_7B"</span> means 7 bit and also affects characters with codes greater than <span class="qtext400">xFF</span>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The class <span class="lnkgrey">CL_ABAP_DYN_PRG</span> contains methods ESCAPE_XSS_... that wrap
+calls of the predefined function <span class="qtext">escape</span> with the formats E_XSS_.... It is generally advisable to use the predefined function directly.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext">escape</span> used with rules for XSS is recommended as protection against cross
+site scripting, but might not be secure enough in all cases. For example, it may be best to use a whitelist
+to check an unsafe URL, so that phishing attacks can be detected as well as XSS. To guarantee that no code injections are used, JavaScript should never be created dynamically from unsafe sources.</li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The result of the following masking is <span class="qtext400">German&amp;#x20;umlauts&amp;#x3a;&amp;#x20;&amp;#x22;&amp;#xe4;&amp;#xf6;&amp;#xfc;&amp;#x22;</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+cl_demo_output=>display( <br>&nbsp;&nbsp;escape( val&nbsp;&nbsp;&nbsp;&nbsp;= 'German umlauts: "&#x00E4;&#x00F6;&#x00FC;"' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format = cl_abap_format=>e_xss_ml ) ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenstring_function_esc_xss_abexa.html')" class="blue">String Functions, <span class="qtext">escape</span> for XSS</a> <br><br>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_CONVERSION_CODEPAGE_EX</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> A character cannot be converted in a conversion to UTF-8. This can only occur with characters from the
+<a href="javascript:call_link('abensurrogate_area_glosry.html')" class="grey" title="Glossary Entry">surrogate area</a>. The position and code of the character is specified in the exception object. <br>
+<span class="italic">Runtime error:</span> <span class="qtext">CONVT_CHARACTER</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_STRG_PAR_VAL</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Invalid value in <span class="qtext">format</span>. <br><span class="italic">Runtime error:</span> <span class="qtext">STRG_ILLEGAL_PAR</span>
+<br></li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenescape_functions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+</html>

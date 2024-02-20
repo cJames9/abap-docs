@@ -1,0 +1,150 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENASSERTIONS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenassertions_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Assertions">
+<title>
+Assertions - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenassertions_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenassertions_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenarchitecture_guidl.html')" class="blue">Architecture</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenerror_handling_guidl.html')" class="blue">Error Handling</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Assertions
+</span></p>
+<A name="@@ITOC@@ABENASSERTIONS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The <a href="javascript:call_link('abapassert.html')" class="blue"><span class="qtext">ASSERT</span></a> statement is used to
+express an assertion in an ABAP program. Such an assertion is either always active or can be activated
+externally by assignment to a checkpoint group. When the program reaches an active assertion, it evaluates
+the corresponding condition. If the condition is violated, the following happens, depending on the type of activation:
+</p>
+<ul class="disc">
+<li>The program is terminated with the runtime error <span class="qtext">ASSERTION_FAILED</span>.</li>
+</ul>
+<ul class="disc">
+<li>The program branches to the ABAP Debugger.</li>
+</ul>
+<ul class="disc">
+<li>A log entry is created.</li>
+</ul>
+<p>
+Assertions, together with breakpoints and logpoints, form the checkpoints of a program; these are not part of the application logic, but are used for development and maintenance support.
+</p>
+<A name="@@ITOC@@ABENASSERTIONS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Use assertions</span>
+</p>
+<p>
+Use assertions to check the state of a program for consistency at all locations where this is possible.
+</p>
+<A name="@@ITOC@@ABENASSERTIONS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Each program logic is based on certain assumptions. If these assumptions are not met, there are obviously
+errors in the program and there is no point in executing it any further. In this case, you should stop
+the execution of the program immediately to avoid any further damage, such as persisted incorrect data. In this way, you can also identify errors early on that would otherwise remain undiscovered.
+</p>
+<p>
+The <span class="qtext">ASSERT</span> statement is most suitable for guaranteeing this consistency since it is linked directly to a condition and terminates the program if this condition is violated.
+</p>
+<p>
+Furthermore, assertions make program maintenance easier by enabling developers to express their assumptions
+explicitly. The reader of the source code is immediately aware of these assumptions; this gives them a better understanding of the program logic.
+</p>
+<p>
+If it will take too long to check an assertion condition, you can use the activatable assertions that
+are linked to checkpoint groups. These can be activated selectively during development, testing, or
+troubleshooting; otherwise they are not performed. If you suspect an error in a production system, you can also activate activatable assertions there.
+</p>
+<p><span class="h4">
+Exception
+</span></p>
+<p>
+Do not use assertions to check states that are out of the developer's control, such as invalid call
+parameter values or availability of external resources. In this case, use exceptions, since this enables the caller to react to unexpected states like these.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following source code shows a program extract in which a row is read from an internal table. The
+program logic here assumes that this access is always successful. This expectation is checked at runtime by the subsequent assertion, and also documented for the reader.
+</p>
+<dl><dd>
+<span class="qtext">... <br>READ TABLE items INTO current_item INDEX current_index. <br>ASSERT sy-subrc = 0. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenassertions_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

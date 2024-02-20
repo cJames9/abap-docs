@@ -1,0 +1,209 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRPM_SAVER_CLASS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrpm_saver_class.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Saver Class">
+<title>
+Saver Class - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrpm_saver_class.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrpm_saver_class.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrestful_abap_programming.html')" class="blue">ABAP RESTful Programming Model</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_behavior_implementations.html')" class="blue">Behavior Implementations</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Saver Class
+</span></p>
+<A name="@@ITOC@@ABENRPM_SAVER_CLASS_1"></A>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<p>
+<span class="qtext400">CLASS lcl_saver_name DEFINITION <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INHERITING FROM cl_abap_behavior_saver <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>ABSTRACT<i class=bn>]</i> <i class=bn>[</i>FINAL<i class=bn>]</i>. <br>
+&nbsp;&nbsp;PROTECTED SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS finalize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDEFINITION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS check_before_save REDEFINITION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS adjust_numbers&nbsp;&nbsp;&nbsp;&nbsp;REDEFINITION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDEFINITION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS cleanup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; REDEFINITION. <br>
+ENDCLASS. <br> <br>CLASS lcl_saver_name IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD finalize. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD check_before_save. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>
+&nbsp;&nbsp;METHOD adjust_numbers. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD save. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD cleanup. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</p>
+<p><span class="h4">
+Effect
+</span></p>
+<p>
+Within the <a href="javascript:call_link('abenbehavior_pool_glosry.html')" class="grey" title="Glossary Entry">behavior pool</a>, a local saver class is defined to implement the save phase of the
+<a href="javascript:call_link('abenbehavior_glosry.html')" class="grey" title="Glossary Entry">business object behavior</a>.
+The save phase consists of a sequence of calls used to synchronize the business objects in question.
+Only the final call in this sequence is the actual <span class="qtext400">save</span> method, in which changes can and must be written to the database.
+</p>
+<p>
+The saver class <span class="qtext400">lcl_saver</span> is defined implicitly as <span class="qtext400">ABSTRACT</span>
+and <span class="qtext400">FINAL</span> and derived from the class <span class="qtext400">CL_ABAP_BEHAVIOR_SAVER</span>. There are no special rules for the name of the saver class.
+</p>
+<p>
+The transactional methods <a href="javascript:call_link('abensaver_finalize.html')" class="blue"><span class="qtext400">finalize</span></a>,
+<a href="javascript:call_link('abensaver_check_before_save.html')" class="blue"><span class="qtext400">check_before_save</span></a>,
+<a href="javascript:call_link('abensaver_adjust_numbers.html')" class="blue"><span class="qtext400">adjust_numbers</span></a>,
+<a href="javascript:call_link('abensaver_method_save.html')" class="blue"><span class="qtext400">save</span></a>, and <a href="javascript:call_link('abensaver_method_cleanup.html')" class="blue">
+<span class="qtext400">cleanup</span></a> can be implemented in a saver class:
+</p>
+<ul class="disc">
+<li><span class="qtext400">finalize</span> <br>Finalizes any changes to data before it can be saved to the database.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">check_before_save</span> <br>Checks the consistency of the application buffer.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">adjust_numbers</span> <br>Implements <a href="javascript:call_link('abenlate_numbering_glosry.html')" class="grey" title="Glossary Entry">late numbering</a>.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">save</span> <br>Saves the data from the transactional buffer to the database.</li>
+</ul>
+<ul class="disc">
+<li><span class="qtext400">cleanup</span> <br>Discards all data changes and cleans up the transactional buffer.</li>
+</ul>
+<p>
+The methods that correspond to the saver protocol (<span class="qtext400">finalize</span>, <span class="qtext400">check_before_save</span>,
+<span class="qtext400">adjust_numbers</span>, <span class="qtext400">save</span>, and <span class="qtext400">cleanup</span>)
+are all defined already in the basis class <span class="qtext400">CL_ABAP_BEHAVIOR_SAVER</span> and
+do not have individual signatures. The derived concrete saver class must implement these methods using <span class="qtext400">REDEFINITION</span>. In the redefinition, the types of the parameters defined in the basis class
+(<span class="qtext400">failed</span>, <span class="qtext400">mapped</span>, and <span class="qtext400">reported</span> are replaced by concrete
+<a href="javascript:call_link('abenrpm_derived_types.html')" class="blue">derived types</a>. In the basis class, these parameters
+are defined generically as <a href="javascript:call_link('abenchanging_type_data.html')" class="blue"><span class="qtext400">CHANGING parameters</span></a>.
+</p>
+<p>
+The implementation of the methods <span class="qtext400">finalize</span>, <span class="qtext400">check_before_save</span>,
+and <span class="qtext400">cleanup</span> is not mandatory. The only mandatory redefinition is the method
+<span class="qtext400">save</span>. If the behavior definition specifies late numbering, the method
+<span class="qtext400">adjust_numbers</span> must also be implemented. The structure <a href="javascript:call_link('abenchanging_type_data.html')" class="blue"><span class="qtext400">mapped</span></a> is filled here.
+</p>
+<p>
+Unlike in the <a href="javascript:call_link('abenrpm_handler_class.html')" class="blue">interaction phase</a>, no instance phase
+is passed in the saver phase. The saver itself must know where the data is to which it needs to apply
+the method <span class="qtext400">finalize</span> (by cooperating with the handler or the underlying legacy functions), namely in the transactional buffer administered by the application.
+</p>
+<p>
+The saver sequence <span class="qtext400">finalize</span>, <span class="qtext400">check_before_save</span>,
+<span class="qtext400">adjust_numbers</span>, <span class="qtext400">save</span>, and <span class="qtext400">cleanup</span> is called in this order for every business object, after at least one successful change is made in the current
+<a href="javascript:call_link('abenluw_glosry.html')" class="grey" title="Glossary Entry">LUW</a> using the business object provider. A successful saver sequence is as follows:
+</p>
+<ul class="disc">
+<li>The saver sequence starts with the method <span class="qtext400">finalize</span>, which finalizes the calculations and data changes before data can be saved to the database.</li>
+</ul>
+<ul class="disc">
+<li>If the method <span class="qtext400">finalize</span> does not report any errors, the follow-on method <span class="qtext400">check_before_save</span> is called.</li>
+</ul>
+<ul class="disc">
+<li>If the method <span class="qtext400">check_before_save</span> does not return an error, the point
+has been reached from which a successful save is guaranteed for all business objects in question. After this point, the method <span class="qtext400">adjust_numbers</span> is called to respect late numbering.</li>
+</ul>
+<ul class="disc">
+<li>Finally, the method <span class="qtext400">save</span> is called to save all data of the business object instance from the transactional buffer to the database.</li>
+</ul>
+<ul class="disc">
+<li>At the end, the method <span class="qtext400">cleanup</span> is called to delete the transaction buffer.</li>
+</ul>
+<p>
+If the method <span class="qtext400">finalize</span> or <span class="qtext400">check_before_save</span>
+reports an error, the method <span class="qtext400">cleanup</span> is called to discard all changes made to the data in the current LUW and to clean up the transactional buffer.
+</p>
+<p>
+The methods <span class="qtext400">finalize</span> and <span class="qtext400">check_before_save</span>
+can still fail, but this is not possible in the following methods. This means that, from the method
+<span class="qtext400">adjust_numbers</span>, the parameters <span class="qtext400">failed</span> and <span class="qtext400">reported</span> no longer exist.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+In the following example, the data from the ABAP flight data reference scenario (or flight data scenario
+for short) is used. It represents a legacy business logic that can be used to create and edit flight
+bookings. The root entity <span class="qtext400">Travel</span> represents the business object for managing flight trips. The underlying data model and the behavior of the root entity <span class="qtext400">Travel</span> are described in
+<a href="javascript:call_link('abenbdl_example.html')" class="blue">ABAP BDL - Example</a>.
+</p>
+<dl><dd>
+<span class="qtext400">CLASS lcl_travel_saver DEFINITION <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INHERITING FROM cl_abap_behavior_saver. <br>
+&nbsp;&nbsp;PROTECTED SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS finalize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDEFINITION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS check_before_save REDEFINITION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS save
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REDEFINITION. <br>&nbsp;
+&nbsp;&nbsp;METHODS cleanup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; REDEFINITION. <br>ENDCLASS.</span> <br><br>
+</dd></dl>
+<dl><dd>
+<span class="qtext400">CLASS lcl_saver IMPLEMENTATION. <br> <br>&nbsp;&nbsp;METHOD finalize. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD check_before_save. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD adjust_numbers. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br>
+ <br>&nbsp;&nbsp;METHOD save. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br> <br>&nbsp;&nbsp;METHOD cleanup. <br>&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;ENDMETHOD. <br> <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abensaver_finalize.html')" class="blue">Method FINALIZE</a><br>
+<a href="javascript:call_link('abensaver_check_before_save.html')" class="blue">Method CHECK_BEFORE_SAVE</a><br>
+<a href="javascript:call_link('abensaver_adjust_numbers.html')" class="blue">Method ADJUST_NUMBERS</a><br>
+<a href="javascript:call_link('abensaver_method_save.html')" class="blue">Method SAVE</a><br>
+<a href="javascript:call_link('abensaver_method_cleanup.html')" class="blue">CLEANUP method</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrpm_saver_class.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:53 GMT -->
+</html>

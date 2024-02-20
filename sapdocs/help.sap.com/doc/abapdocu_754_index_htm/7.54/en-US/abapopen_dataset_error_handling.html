@@ -1,0 +1,226 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPOPEN_DATASET_ERROR_HANDLING -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapopen_dataset_error_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="OPEN DATASET - error_handling">
+<title>
+OPEN DATASET - error_handling - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapopen_dataset_error_handling.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapopen_dataset_error_handling.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_files.html')" class="blue">ABAP File Interface</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenfile_interface_statements.html')" class="blue">Statements for the ABAP File Interface</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapopen_dataset.html')" class="blue">OPEN DATASET</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+OPEN DATASET - error_handling <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapopen_dataset_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>[</i>MESSAGE msg<i class=bn>]</i></span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>IGNORING CONVERSION ERRORS<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>REPLACEMENT CHARACTER rc<i class=bn>]</i> ...</span> <br><br>
+</P>
+<p><span class="h3">
+Extras:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ADDITION_1@1@" class="blue"> 1. <span class="qtext">... MESSAGE msg</span> </A> <br><br>
+<A HREF="#!ABAP_ADDITION_2@2@" class="blue"> 2. <span class="qtext">... IGNORING CONVERSION ERRORS</span> </A> <br>
+<br><A HREF="#!ABAP_ADDITION_3@3@" class="blue"> 3. <span class="qtext">... REPLACEMENT CHARACTER rc</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+In the case of errors, these additions enable operating system messages to be received, exceptions to be suppressed, and a replacement character to be defined for unknown characters. <br><br>
+</P>
+<A NAME="@@MESSAGE@@OPEN DATASET@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_1@1@"></A> <span class="bold">Addition 1</span>
+</span></p>
+<P>
+<span class="qtext">... MESSAGE msg</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+If an error occurs when a file is opened, the associated operating system message is assigned to the
+data object <span class="qtext">msg</span>. A character-like variable can be specified for <span class="qtext">msg</span>. <br><br>
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Produces the operating system message after an attempt to open a file with an empty name.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA mess TYPE string. <br> <br>OPEN DATASET `` FOR INPUT IN BINARY MODE MESSAGE mess. <br> <br>IF sy-subrc = 8. <br>&nbsp;&nbsp;MESSAGE mess TYPE 'I'. <br>ENDIF. <br><br>
+</span>
+</p>
+<A NAME="@@IGNORING CONVERSION ERRORS@@OPEN DATASET@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_2@2@"></A> <span class="bold">Addition 2</span>
+</span></p>
+<P>
+<span class="qtext">... IGNORING CONVERSION ERRORS</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This addition can be used to suppress a handleable exception defined by the class CX_SY_CONVERSION_CODEPAGE. This exception can be raised by reads or writes if a conversion between
+<a href="javascript:call_link('abencodepage_glosry.html')" class="grey" title="Glossary Entry">code pages</a> takes place and a character cannot be converted to the target code page.
+</P>
+<P>
+This addition is possible when opening <a href="javascript:call_link('abentext_file_glosry.html')" class="grey" title="Glossary Entry">text files</a>,
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> text files, or
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> binary files, but not when opening
+<a href="javascript:call_link('abenbinary_file_glosry.html')" class="grey" title="Glossary Entry">binary files</a>. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Each non-convertible character is replaced in the conversion either by the character <span class="qtext400">"#"</span>
+or by the character defined by the addition <span class="qtext">REPLACEMENT CHARACTER</span>. The addition
+<span class="qtext">IGNORING CONVERSION ERRORS</span> defines whether or not the user is notified of this by an exception.
+<br><br></li>
+<li>
+This setting can be changed in an opened file using the statement <a href="javascript:call_link('abapset_dataset.html')" class="blue"><span class="qtext">SET DATASET</span></a>. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+See the addition <span class="qtext">REPLACEMENT CHARACTER</span>. <br><br>
+</p>
+<A NAME="@@REPLACEMENT CHARACTER@@OPEN DATASET@@"></A>
+<p><span class="h3">
+<A NAME="!ABAP_ADDITION_3@3@"></A> <span class="bold">Addition 3</span>
+</span></p>
+<P>
+<span class="qtext">... REPLACEMENT CHARACTER rc</span>   <br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+If a conversion between <a href="javascript:call_link('abencodepage_glosry.html')" class="grey" title="Glossary Entry">code pages</a>
+takes place while data is being read or written, every character that cannot be converted to the target
+code page is replaced by the character specified in <span class="qtext">rc</span>. <span class="qtext">rc</span>
+expects a character-like data object containing a single character. If the addition is not specified, the character <span class="qtext400">"#"</span> is used as a replacement character.
+</P>
+<P>
+This addition is possible when opening <a href="javascript:call_link('abentext_file_glosry.html')" class="grey" title="Glossary Entry">text files</a>,
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> text files, or
+<a href="javascript:call_link('abenlegacy_file_glosry.html')" class="grey" title="Glossary Entry">legacy</a> binary files, but not when opening
+<a href="javascript:call_link('abenbinary_file_glosry.html')" class="grey" title="Glossary Entry">binary files</a>. <br><br>
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+If at least one character is replaced by a replacement character in a read or write, the exception defined
+in the class CX_SY_CONVERSION_CODEPAGE is raised after the conversion, if this is not suppressed by the addition <span class="qtext">IGNORING CONVERSION ERRORS</span>.
+<br><br></li>
+<li>
+The replacement character of an opened file can be changed using the statement <a href="javascript:call_link('abapset_dataset.html')" class="blue"><span class="qtext">SET DATASET</span></a>. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+When a legacy text file is opened with ID <span class="qtext400">1101</span> for codepage 7-Bit USA
+ASCII, the exception of class CX_SY_CONVERSION_CODEPAGE is suppressed and a replacement character is
+specified. When data is being written to a file, the character <span class="qtext400">&#x00FC;</span>
+is replaced by <span class="qtext400">u</span> without an exception being raised. Compare the example to addition <a href="javascript:call_link('abapopen_dataset_code_page.html')" class="blue"><span class="qtext">CODE PAGE</span></a>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA(dset) = 'test.dat'. <br> <br>OPEN DATASET dset FOR OUTPUT IN LEGACY TEXT MODE CODE PAGE '1101' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPLACEMENT CHARACTER 'u' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGNORING CONVERSION ERRORS. <br>
+TRY. <br>&nbsp;&nbsp;&nbsp;&nbsp;TRANSFER 'Blahblahblah...' TO dset. <br>&nbsp;&nbsp;CATCH cx_sy_conversion_codepage INTO DATA(exc). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=>write( 'Error writing to 7-Bit USA ASCII' ). <br>ENDTRY. <br>CLOSE DATASET dset. <br>
+ <br>DATA text TYPE string. <br>OPEN DATASET dset FOR INPUT IN LEGACY TEXT MODE CODE PAGE '1101'. <br>READ DATASET dset INTO text. <br>
+CLOSE DATASET dset. <br> <br>cl_demo_output=>display( text ). <br> <br>DELETE DATASET dset. <br><br>
+</span>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapopen_dataset_error_handling.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:52 GMT -->
+</html>

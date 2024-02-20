@@ -1,0 +1,126 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTABLES_PARAMETERS_RESTRICTIONS -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentables_parameters_restrictions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:57 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Exceptions when Accessing TABLES Parameters">
+<title>
+Exceptions when Accessing TABLES Parameters - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentables_parameters_restrictions.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentables_parameters_restrictions.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenobsolete_modularization.html')" class="blue">Obsolete Modularization</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenfunction_modules_obsolete.html')" class="blue">Function Modules</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptables_parameters_obsolete.html')" class="blue">FUNCTION - table_parameters</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Exceptions when Accessing TABLES Parameters
+</span></p>
+<p>
+In some variants of statements, which use a work area to access internal tables, the work area must be compatible with the row type of the internal table. This is checked statically by the syntax check.
+</p>
+<p>
+In the case of <span class="qtext">TABLES</span> parameters typed using the obsolete addition <a href="javascript:call_link('abapfunction_typing_obsolete.html')" class="blue">
+<span class="qtext">STRUCTURE</span></a>, the compatibility of the work area with the type specified in <span class="qtext">STRUCTURE</span> is checked. The
+<a href="javascript:call_link('abenheader_line_glosry.html')" class="grey" title="Glossary Entry">header line</a> that always accompanies <span class="qtext">TABLES</span> parameters also has this type.
+</p>
+<p>
+If a <span class="qtext">TABLES</span> parameter is typed using <span class="qtext">STRUCTURE</span>
+it can also be bound to actual parameters whose row type is longer than the type of the <span class="qtext">TABLES</span>
+parameter, so making them incompatible with a work area judged to be correct by the syntax check. This
+causes problems if the components of the <span class="qtext">TABLES</span> parameter are accessed dynamically
+within the procedure, since the data type of the actual parameter is evaluated at runtime. Consequently,
+memory limits can be violated by statements accessing a work area that references the type specified
+using <span class="qtext">STRUCTURE</span>. This is why the following accesses produce the runtime error <span class="qtext">ITAB_STRUC_ACCESS_VIOLATION</span>:
+</p>
+<ul class="disc">
+<li>The following statements terminate when the component specified in <span class="qtext">name</span> is used to access a memory area after <span class="qtext">wa</span>.</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext"><a href="javascript:call_link('abapread_table.html')" class="blue">READ TABLE itab</a>
+<a href="javascript:call_link('abapread_table_outdesc.html')" class="blue">INTO wa</a> ... <a href="javascript:call_link('abapread_table_transport_options.html')" class="blue">COMPARING<i class=bn>|</i>TRANSPORTING ... (name) ...</a></span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext"><a href="javascript:call_link('abapmodify_itab.html')" class="blue">MODIFY itab</a> <a href="javascript:call_link('abapmodify_itab_single.html')" class="blue">FROM wa TRANSPORTING ... (name) ...</a></span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext"><a href="javascript:call_link('abapappend.html')" class="blue">APPEND wa TO itab SORTED BY ... (name) ...</a></span></li>
+</ul>
+<ul class="disc">
+<li>The following statements terminated when <span class="qtext">wa</span> is shorter than the row type:</li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext"><a href="javascript:call_link('abapread_table.html')" class="blue">READ TABLE itab</a>
+<a href="javascript:call_link('abapread_table_outdesc.html')" class="blue">INTO wa</a> ... <a href="javascript:call_link('abapread_table_transport_options.html')" class="blue">COMPARING ALL FIELDS.</a></span></li>
+</ul>
+<ul class="circlem2">
+<li><span class="qtext"><a href="javascript:call_link('abapcollect.html')" class="blue">COLLECT wa INTO itab ...</a></span></li>
+</ul>
+<p>
+This exception is particularly likely if the <a href="javascript:call_link('abenheader_line_glosry.html')" class="grey" title="Glossary Entry">
+header line</a> is used as an implicit work area. An explicit work area with the type of the actual parameter should be used to avoid this runtime error.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentables_parameters_restrictions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:57 GMT -->
+</html>

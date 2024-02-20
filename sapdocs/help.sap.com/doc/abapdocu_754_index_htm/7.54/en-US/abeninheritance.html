@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINHERITANCE -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:22 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inheritance">
+<meta name="keywords" content="ABAP, Passing on">
+<title>
+Inheritance - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninheritance.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninheritance.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inheritance
+</span></p>
+<p>
+The concept of inheritance makes it possible to derive new classes from existing classes. This is done
+using the addition <a href="javascript:call_link('abapclass_options.html')" class="blue"><span class="qtext">INHERITING FROM</span></a>
+of the statement <a href="javascript:call_link('abapclass_definition.html')" class="blue"><span class="qtext">CLASS ... DEFINITION</span></a>.
+The new class adopts or inherits all components of the existing class. The new class is called a subclass and the existing class is called a superclass.
+</p>
+<p>
+If no further declarations are made, a subclass contains exactly the components of the superclass. However, only the components of the public, protected, and package
+<a href="javascript:call_link('abenvisibility_section_glosry.html')" class="grey" title="Glossary Entry">visibility section</a>s
+of the superclass are visible in the subclass. Although the private components of the superclass are
+also contained in the subclass, they are not visible. In a subclass, private components with the same
+name as the corresponding components of the superclass can be declared. Each class works with its private
+components. As long as a method inherited from the superclass is not redefined, it uses the private attributes of the superclass and not the possible subclass attributes of the same name.
+</p>
+<p>
+If the superclass does not have a private visibility section, the subclass is an exact copy of the superclass.
+It is possible, however, to add further components to the subclass. These components are used to specialize
+the subclass with respect to the superclass. If a subclass is itself used as the superclass for a new class, it can be specialized further.
+</p>
+<p>
+Each class can have multiple direct subclasses, but only one direct superclass. ABAP Objects applies the principle of
+<a href="javascript:call_link('abensingle_inheritance_glosry.html')" class="grey" title="Glossary Entry">single inheritance</a>.
+If subclasses inherit from superclasses that are themselves subclasses, all classes involved represent
+an inheritance tree whose specialization increases each time a hierarchy level is added. Specialization
+decreases the closer a level is located to the root node of the inheritance tree. The root node of all
+inheritance trees in ABAP Objects is the predefined empty class <span class="qtext">object</span>. This
+class is the most generic class because it does not contain attributes or methods. When a new class
+is defined, it must not be specified explicitly as a superclass because it always exists implicitly.
+In the inheritance tree, two neighboring nodes are known as the direct superclass and subclass, while
+all preceding and succeeding nodes are collectively referred to as superclasses and subclasses. The declaration of the components of a subclass is distributed among all superclasses of the inheritance tree.
+</p>
+<p><span class="h4">
+Programming Guideline
+</span></p>
+<P>
+<a href="javascript:call_link('abeninheritance_guidl.html')" class="lnkpurple" title="Guideline">Avoid using deep inheritance hierarchies</a>
+</P>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abeninheritance_abexa.html')" class="blue">Inheritance</a>
+</p>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abeninheritance_redefinition.html')" class="blue">Redefining Methods</a><br>
+<a href="javascript:call_link('abeninheritance_abstract_final.html')" class="blue">Abstract and Final Methods and Classes</a><br>
+<a href="javascript:call_link('abeninheritance_references.html')" class="blue">Inheritance and Polymorphism</a><br>
+<a href="javascript:call_link('abeninheritance_interfaces.html')" class="blue">Inheritance and Interfaces</a><br>
+<a href="javascript:call_link('abeninheritance_visibility.html')" class="blue">Inheritance and Visibility</a><br>
+<a href="javascript:call_link('abeninheritance_name_space.html')" class="blue">Inheritance and the Component Namespace</a><br>
+<a href="javascript:call_link('abeninheritance_statical.html')" class="blue">Inheritance and Static Components</a><br>
+<a href="javascript:call_link('abeninheritance_constructors.html')" class="blue">Inheritance and Constructors</a><br>
+<a href="javascript:call_link('abeninheritance_instantiation.html')" class="blue">Inheritance and Instantiation</a><br>
+<a href="javascript:call_link('abeninheritance_events.html')" class="blue">Inheritance and Events</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:22 GMT -->
+</html>

@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRUNTIME_ERROR_DATA_OBJ_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenruntime_error_data_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Runtime Errors When Accessing Data Objects">
+<title>
+Runtime Errors When Accessing Data Objects - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenruntime_error_data_obj_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenruntime_error_data_obj_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenassignment_access_guidl.html')" class="blue">Assignments, Calculations, and Other Types of Data Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Runtime Errors When Accessing Data Objects
+</span></p>
+<A name="@@ITOC@@ABENRUNTIME_ERROR_DATA_OBJ_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Using data objects can cause runtime errors if the data object contains unsuitable content or the access to the data object is unsuitable. Examples:
+</p>
+<ul class="disc">
+<li>Assigning values outside the value range of a target variable</li>
+</ul>
+<ul class="disc">
+<li>Using values that cannot be converted to the required type. In other words, a conversion rule exists
+but the source field content is not convertible. For example, you are trying to assign a character field (with content that cannot be interpreted as a number) to a numeric field.</li>
+</ul>
+<ul class="disc">
+<li>Access to parts of data objects (substring access). Either offset access/length access or the use of predefined subfunctions such as  <span class="qtext">substring</span>.</li>
+</ul>
+<A name="@@ITOC@@ABENRUNTIME_ERROR_DATA_OBJ_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Prevent runtime errors when accessing data objects</span>
+</p>
+<p>
+You need to prevent runtime errors that can occur when accessing data objects. Robust applications should always be programmed to avoid these errors.
+</p>
+<A name="@@ITOC@@ABENRUNTIME_ERROR_DATA_OBJ_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+If it is not possible to determine whether subsequent access causes errors by filling data objects appropriately,
+either the relevant properties must be checked before the data is accessed or possible exceptions (subclasses of CX_SY_CONVERSION_ERROR or CX_SY_DATA_ACCESS_ERROR) must be caught during data access.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following source code illustrates a typical situation that can easily cause a runtime error if the
+subarea defined by <span class="qtext">offset</span> and <span class="qtext">length</span> is not defined in <span class="qtext">text</span>.
+</p>
+<dl><dd>
+<span class="qtext">DATA text TYPE string. <br>... <br>substring = text+offset(length). <br>...</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following two pieces of source code illustrate how the above example can be changed to avoid runtime errors using prevention or exception handling.
+</p>
+<dl><dd>
+<span class="qtext">IF strlen( text ) > offset + length. <br>&nbsp;&nbsp;substring = text+offset(length). <br>ELSE. <br>&nbsp;&nbsp;... <br>ENDIF.</span> <br><br>
+</dd></dl>
+<dl><dd>
+<span class="qtext">TRY. <br>&nbsp;&nbsp;substring = text+offset(length). <br> CATCH cx_sy_range_out_of_bounds. <br>&nbsp;&nbsp; ... <br>ENDTRY.</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenruntime_error_data_obj_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

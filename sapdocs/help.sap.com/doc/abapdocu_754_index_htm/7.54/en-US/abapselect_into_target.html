@@ -1,0 +1,664 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPSELECT_INTO_TARGET -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapselect_into_target.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SELECT - INTO target">
+<title>
+SELECT - INTO target - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapselect_into_target.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapselect_into_target.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopensql.html')" class="blue">ABAP SQL</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenopen_sql_reading.html')" class="blue">ABAP SQL - Reads</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenselect_clauses.html')" class="blue">SELECT clauses</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapinto_clause.html')" class="blue">SELECT - INTO, APPENDING</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@DATA@@SELECT INTO@@"></A>
+<A NAME="@@NEW@@SELECT INTO@@"></A>
+<p><span class="h1">
+SELECT - INTO target <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapselect_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">... <i class=bn>{</i>&nbsp;&nbsp;&nbsp;&nbsp; @dobj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>}</i> <br>
+&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i>&nbsp;&nbsp;&nbsp;&nbsp; @DATA(dobj) <i class=bn>}</i> <br>
+&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> NEW @dref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class=bn>}</i> <br>&nbsp;&nbsp;<i class=bn>|</i> <i class=bn>{</i> NEW @DATA(dref) <i class=bn>}</i> ...</span> <br><br>
+</P>
+<p><span class="h2">
+Alternatives:
+</span></p>
+<P>
+   <A HREF="#!ABAP_ALTERNATIVE_1@1@" class="blue"> 1. <span class="qtext">... @dobj</span> </A> <br><br>
+<A HREF="#!ABAP_ALTERNATIVE_2@2@" class="blue"> 2. <span class="qtext">... @DATA(dobj)</span> </A> <br><br>
+<A HREF="#!ABAP_ALTERNATIVE_3@3@" class="blue"> 3. <span class="qtext">... NEW @dref</span> </A> <br><br><A HREF="#!ABAP_ALTERNATIVE_4@4@" class="blue"> 4. <span class="qtext">... NEW @DATA(dref)</span> </A> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifies a target area of the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a>
+clause of an ABAP SQL query. The possible target areas of the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause are as follows:
+</P>
+<ul class="disc">
+<li>
+Elementary data objects <span class="qtext">elem1</span>, <span class="qtext">elem2</span>, ... in a comma-separated list.
+<br><br></li>
+<li>
+Individual work areas, <span class="qtext">wa</span>.
+<br><br></li>
+<li>
+Internal tables <span class="qtext">itab</span> after <span class="qtext">TABLE</span>.
+<br></li>
+</ul>
+<P>
+Each target area can be specified as follows:
+</P>
+<ul class="disc">
+<li>
+If the addition <span class="qtext">NEW</span> is not used, <span class="qtext">dobj</span> specifies the data object directly to which the data from the results set is written. The target area is one of the following:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>A previously declared <a href="javascript:call_link('abenhost_variable_glosry.html')" class="grey" title="Glossary Entry">host variable</a> <span class="qtext">@dobj</span></li>
+</ul>
+<ul class="circlem2">
+<li>A <a href="javascript:call_link('abenhost_variable_glosry.html')" class="grey" title="Glossary Entry">host variable</a> <span class="qtext">dobj</span> declared
+<a href="javascript:call_link('abeninline_declaration_glosry.html')" class="grey" title="Glossary Entry">inline</a> using <span class="qtext">@DATA</span></li>
+</ul>
+<P>
+The addition <span class="qtext">NEW</span> is used to create an
+<a href="javascript:call_link('abenanonymous_data_object_glosry.html')" class="grey" title="Glossary Entry">anonymous data object</a> to which data from the results set is written and to which a
+<a href="javascript:call_link('abendata_reference_variable_glosry.html')" class="grey" title="Glossary Entry">data reference variable</a> <span class="qtext">dref</span> points. The data reference variable is one of the following:
+</P>
+<ul class="circlem2">
+<li>A previously declared <a href="javascript:call_link('abenhost_variable_glosry.html')" class="grey" title="Glossary Entry">host variable</a> <span class="qtext">@dref</span></li>
+</ul>
+<ul class="circlem2">
+<li>A <a href="javascript:call_link('abenhost_variable_glosry.html')" class="grey" title="Glossary Entry">host variable</a> <span class="qtext">dref</span> declared
+<a href="javascript:call_link('abeninline_declaration_glosry.html')" class="grey" title="Glossary Entry">inline</a> using <span class="qtext">@DATA</span></li>
+</ul>
+<P>
+All alternatives can be combined in a comma-separated list for elementary data objects as target areas. One of these alternatives must be selected when a single work area or an internal table is specified.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+In the case of the variant <span class="qtext">NEW @DATA(dref)</span>, the <a href="javascript:call_link('abapselect_list.html')" class="blue">
+<span class="qtext">SELECT</span> list</a>, the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a>, and any
+<a href="javascript:call_link('abapselect_indicators.html')" class="blue">indicators</a> can be specified dynamically. This is
+the only way of combining a dynamically defined results set with inline declarations. The same applies to inline declarations after <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>. <br><br>
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_1@1@"></A> <span class="bold">Alternative 1</span>
+</span></p>
+<P>
+<span class="qtext">... @dobj</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifies a previously declared <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a>
+<span class="qtext">@dobj</span> as a target area of the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause. The data in the results set is written directly to the host variable <span class="qtext">dobj</span>. Depending on the operand position, the host variable can be one of the following:
+</P>
+<ul class="disc">
+<li>
+In the comma-separated list <span class="qtext">elem1</span>, <span class="qtext">elem2</span>, ..., an
+<a href="javascript:call_link('abenelementary_data_object_glosry.html')" class="grey" title="Glossary Entry">elementary data
+object</a> that matches the type of the associated column of the results set or whose data type can be converted to from the type of the associated column of the results set.
+<br><br></li>
+<li>
+As a single work area <span class="qtext">wa</span>, a data object that meets the <a href="javascript:call_link('abenopen_sql_wa.html')" class="blue">prerequisites</a>.
+<br><br></li>
+<li>
+As an internal table, any table category whose row structure meets the <a href="javascript:call_link('abenopen_sql_wa.html')" class="blue">prerequisites</a>.
+<br></li>
+</ul>
+<P>
+Writes to the host variable are made as described in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Uses different existing host variables as target areas of <span class="qtext">SELECT</span> statements.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;carrid&nbsp;&nbsp; TYPE scarr-carrid, <br>&nbsp;&nbsp;carrname TYPE scarr-carrname, <br>
+&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE scarr-url, <br>&nbsp;&nbsp;carrier&nbsp;&nbsp;TYPE scarr, <br>
+&nbsp;&nbsp;carriers TYPE SORTED TABLE OF scarr WITH UNIQUE KEY carrid. <br> <br>SELECT SINGLE carrid, carrname, url <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid ='UA' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@carrid, @carrname, @url). <br> <br>SELECT SINGLE * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid ='LH' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @carrier. <br>
+ <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @carriers. <br><br>
+</span>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_2@2@"></A> <span class="bold">Alternative 2</span>
+</span></p>
+<P>
+<span class="qtext">... @DATA(dobj)</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+Specifies a <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a> <span class="qtext">@dobj</span>
+declared inline as a target area of the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a>
+clause. The data in the results set is written directly to the host variable <span class="qtext">dobj</span>. The inline declaration is made using the
+<a href="javascript:call_link('abendeclaration_operator_glosry.html')" class="grey" title="Glossary Entry">declaration operator</a>
+<a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">DATA</span></a>, which must be prefixed
+with the escape character <span class="qtext">@</span> here. Depending on the operand position, the host variable is declared as follows:
+</P>
+<ul class="disc">
+<li>
+An elementary variable is declared in the comma-separated list <span class="qtext">elem1</span>, <span class="qtext">
+elem2</span>, ... The data type of the variables is constructed as follows from the associated column of the results set:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">assigned</a> the dictionary type of a
+<a href="javascript:call_link('abenopen_sql_columns.html')" class="blue">column</a> of a data source is used for this column.</li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP type <a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">assigned</a> the result type of an <a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expression</a> is used for this expression.</li>
+</ul>
+<ul class="circlem2">
+<li>The ABAP type of a <a href="javascript:call_link('abenopen_sql_host_variables.html')" class="blue">host variable</a> is used directly for this variable specified as a single SQL expression.</li>
+</ul>
+<ul class="disc">
+<li>
+A flat data object <span class="qtext">wa</span> is declared as a single work area in <span class="qtext">INTO @DATA(wa)</span>. A
+<a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard table</a> <span class="qtext">itab</span> with an
+<a href="javascript:call_link('abenitab_empty_key.html')" class="blue">empty table key</a> is declared as an internal table in
+<span class="qtext">INTO TABLE @DATA(itab)</span>. The data type of <span class="qtext">wa</span> or
+the row type of the internal table are constructed as follows in accordance with the structure of the
+results set defined after <span class="qtext">SELECT</span> and the number of data sources specified after <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>If the results set in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> is defined using a single specified column <a href="javascript:call_link('abapselect_clause_col_spec.html')" class="blue"><span class="qtext">
+col_spec</span></a> for which no name can be identified, the data type of <span class="qtext">wa</span> or the row type of <span class="qtext">itab</span> is its elementary type.</li>
+</ul>
+<ul class="circlem2">
+<li>If the results set in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> is defined using a single specified column <a href="javascript:call_link('abapselect_clause_col_spec.html')" class="blue"><span class="qtext">
+col_spec</span></a> for which no name can be identified, the data type of <span class="qtext">wa</span> or the row type of <span class="qtext">itab</span> is a structure with a component, with its elementary type.</li>
+</ul>
+<ul class="circlem2">
+<li>If the results set in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a> is defined using a single <span class="qtext">data_source~*</span> or a list of multiple specified
+columns <a href="javascript:call_link('abapselect_clause_col_spec.html')" class="blue"><span class="qtext">col_spec</span></a>,
+the data type of <span class="qtext">wa</span> or the row type of <span class="qtext">itab</span> is
+a structure with elementary components. The data types of the components are the elementary types of the columns in the results set in the order defined there.</li>
+</ul>
+<ul class="circlem2">
+<li>If <span class="qtext">data_source~*</span> is specified in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">
+SELECT</span> list</a> together with other elements, the data type of <span class="qtext">wa</span>
+or the row type of <span class="qtext">itab</span> is a nested structure. For each data source <a href="javascript:call_link('abapselect_data_source.html')" class="blue">
+<span class="qtext">data_source</span></a> specified in this way, a substructure is generated with the
+name or alias name of the table or view. The data types of the components of the substructures are the elementary types of the data source in the order defined there. If the data source is a
+<a href="javascript:call_link('abencommon_table_expression_glosry.html')" class="grey" title="Glossary Entry">common table expression</a>
+declared using <a href="javascript:call_link('abapwith.html')" class="blue"><span class="qtext">WITH</span></a>, the first character <span class="qtext">+</span> of its name is ignored for the name of the substructure.</li>
+</ul>
+<ul class="circlem2">
+<li>If the results set in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> is defined using <span class="qtext">*</span>, the data type depends on the number of
+<a href="javascript:call_link('abapselect_data_source.html')" class="blue">data sources</a> specified after <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span></a>: <br>
+ <br>In reads from a single <a href="javascript:call_link('abapselect_data_source.html')" class="blue">data source</a> <span class="qtext">
+data_source</span>, the data type of <span class="qtext">wa</span> or the row type of <span class="qtext">itab</span>
+is the same as in a definition of the results set using a single <span class="qtext">data_source~*</span> (see above), that is, a structure with elementary components. <br>
+ <br>In reads from multiple <a href="javascript:call_link('abapselect_data_source.html')" class="blue">data sources</a> <span class="qtext">data_source1</span>, <span class="qtext">data_source2</span>, ... using a
+<a href="javascript:call_link('abapselect_join.html')" class="blue">join</a>, the data type of <span class="qtext">wa</span>
+or the row type of <span class="qtext">itab</span> is the same as in a definition of the results set
+using <span class="qtext">data_source1~*, data_source2~*, ...</span>.  (see above), that is, a structure with a substructure for each data source.</li>
+</ul>
+<ul class="circlem2">
+<li>The names of the elementary components of a structure match the names of the associated columns from the <a href="javascript:call_link('abapselect_list.html')" class="blue">results set</a>. Any alias names defined there are respected.</li>
+</ul>
+<ul class="circlem2">
+<li>The elementary data type of an elementary data object or of an elementary component of a structure
+is constructed (like an elementary data object in a comma-separated list) from the type of the associated column of the results set (see above)</li>
+</ul>
+<ul class="circlem2">
+<li>If the addition <a href="javascript:call_link('abapselect_indicators.html')" class="blue"><span class="qtext">INDICATORS</span></a>
+is used, a substructure called <span class="qtext">null_ind</span> is added at the end of the structure
+or row structure declared inline. For each column in the results set, this substructure contains a component
+of type <span class="qtext">x</span> and length 1 with the same name as the column and in the same sequence.
+If preceding components of the structure declared inline are substructures, the substructure <span class="qtext">null_ind</span> is also structured accordingly.</li>
+</ul>
+<P>
+The prerequisites for an online declaration are as follows:
+</P>
+<ul class="disc">
+<li>
+The results set can be specified dynamically only when combined with the addition <span class="qtext">NEW</span>.
+If the addition <span class="qtext">NEW</span> is not specified, the structure of the results set must
+be known statically. The <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span>
+list</a>, the <a href="javascript:call_link('abapfrom_clause.html')" class="blue"><span class="qtext">FROM</span> clause</a>, and any
+<a href="javascript:call_link('abapselect_indicators.html')" class="blue">indicators</a> must be specified statically.
+<br><br></li>
+<li>
+After <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>, an inline declaration can only be made together with the addition <span class="qtext">NEW</span>.
+<br><br></li>
+<li>
+The results set defined in the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> cannot have multiple columns with the same name. This can be bypassed using alias names.
+<br><br></li>
+<li>
+In a <a href="javascript:call_link('abapselect_list.html')" class="blue">results set</a> with multiple
+rows or if the addition <a href="javascript:call_link('abapselect_indicators.html')" class="blue"><span class="qtext">INDICATORS</span></a> is specified, every
+<a href="javascript:call_link('abapsql_expr.html')" class="blue">SQL expression</a> and every <a href="javascript:call_link('abapselect_aggregate.html')" class="blue">aggregate expression</a> must have an alias name.
+<br><br></li>
+<li>
+Alias names of the <a href="javascript:call_link('abapselect_list.html')" class="blue"><span class="qtext">SELECT</span> list</a> must meet the
+<a href="javascript:call_link('abennaming_conventions.html')" class="blue">naming conventions</a> for internal program names. More specifically, they cannot contain any minus signs, <span class="qtext">-</span>.
+<br><br></li>
+<li>
+If the obsolete addition <a href="javascript:call_link('abapselect_client_obsolete.html')" class="blue"><span class="qtext">CLIENT SPECIFIED</span></a> is used to access a client-specific
+<a href="javascript:call_link('abencds_entity_glosry.html')" class="grey" title="Glossary Entry">CDS entity</a>, a name must be specified for the client column at the same time.
+<br><br></li>
+<li>
+The addition <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">CORRESPONDING FIELDS OF</span></a> cannot be used.
+<br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Specified columns for which no name can be identified are SQL expressions and aggregate expressions without alias name.
+<br><br></li>
+<li>
+When an inline declaration <span class="qtext">@DATA(itab)</span> is specified after <span class="qtext">APPENDING
+TABLE</span>, this addition usually works like <span class="qtext">INTO TABLE</span> and is therefore pointless in this combination.
+<br><br></li>
+<li>
+When inline declarations are used, the syntax check is performed in a <a href="javascript:call_link('abenopensql_strict_mode_740_sp08.html')" class="blue">strict mode</a>, which handles the statement more strictly than the regular syntax check.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Reads individual columns of a results set into various target areas declared inline. <span class="qtext">carrname</span>,
+<span class="qtext">carrid</span>, and <span class="qtext">url</span> are elementary data objects. <span class="qtext">
+wa</span> is a structure with elementary components. <span class="qtext">itab</span> is a standard table with an appropriate row type.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+SELECT SINGLE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrname, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (@DATA(carrname),@DATA(carrid),@DATA(url)). <br>
+ <br>SELECT SINGLE <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrname, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'LH' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO @DATA(wa). <br>
+ <br>SELECT FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS carrname, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab). <br>
+ <br>ASSERT wa-carrname = carrname. <br>ASSERT wa-carrid&nbsp;&nbsp; = carrid. <br>ASSERT wa-url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= url. <br>
+ <br>cl_demo_output=>new( <br>&nbsp;&nbsp;)->write( wa <br>&nbsp;&nbsp;)->write( itab )->display( ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+In this example, all columns of a results set are read into an inner join in an internal table, the
+row type of which is declared as a nested structure with the same structure as the results set. The
+first component of the nested structure is called SCARR and includes all columns of this database table.
+The second component of the nested structure is called SPFLI and includes all columns of this database
+table. The content of the columns MANDT and CARRID in both tables is redundant. For the output, the internal table with a nested row type is converted to an output table without substructures.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+TYPES BEGIN OF output_wa. <br>INCLUDE TYPE scarr AS scarr RENAMING WITH SUFFIX _scarr. <br>INCLUDE TYPE spfli AS spfli RENAMING WITH SUFFIX _spfli. <br>
+TYPES END OF output_wa. <br>TYPES output TYPE SORTED TABLE OF output_wa <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH NON-UNIQUE KEY carrid_scarr connid_spfli. <br>
+ <br>SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN spfli ON scarr~carrid = spfli~carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab). <br> <br>cl_demo_output=>display( CONV output( itab ) ).
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenselect_inline_decl_abexa.html')" class="blue">Inline Declarations</a> <br><br>
+</p>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_3@3@"></A> <span class="bold">Alternative 3</span>
+</span></p>
+<P>
+<span class="qtext">... NEW @dref</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">NEW</span> creates an
+<a href="javascript:call_link('abenanonymous_data_object_glosry.html')" class="grey" title="Glossary Entry">anonymous data object</a>
+as the target area of the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span> clause</a>. <span class="qtext">dref</span> expects a previously declared
+<a href="javascript:call_link('abendata_reference_variable_glosry.html')" class="grey" title="Glossary Entry">data reference
+variable</a> that points to the data object after the object is created. The data of the results set
+is written to the new anonymous data object. The data reference variable <span class="qtext">dref</span> can be typed in full or generically.
+</P>
+<ul class="disc">
+<li>
+If the data reference variable <span class="qtext">dref</span> is typed in full, its
+<a href="javascript:call_link('abenstatic_type_glosry.html')" class="grey" title="Glossary Entry">static type</a> must meet the same rules as apply to a directly specified data object <span class="qtext">@dobj</span>:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>In a comma-separated list <span class="qtext">(..., dref, ...)</span>, it must be an elementary data type to which the type of the associated column of the results set can be converted.</li>
+</ul>
+<ul class="circlem2">
+<li>If a single work area <span class="qtext">wa</span>, the type must meet the <a href="javascript:call_link('abenopen_sql_wa.html')" class="blue">prerequisites</a> for work areas.</li>
+</ul>
+<ul class="circlem2">
+<li>If an internal table, it must be a table type with any table category whose row structure meets the <a href="javascript:call_link('abenopen_sql_wa.html')" class="blue">prerequisites</a>.</li>
+</ul>
+<dl>
+
+<dd>
+The anonymous data object is created with the type of the data reference variable. The
+<a href="javascript:call_link('abenstatic_type_glosry.html')" class="grey" title="Glossary Entry">static type</a> of the data reference variable matches the
+<a href="javascript:call_link('abendynamic_type_glosry.html')" class="grey" title="Glossary Entry">dynamic type</a>. Writes to
+the anonymous data object are made as described in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">INTO</span></a> clause.
+</dd>
+</dl>
+<ul class="disc">
+<li>
+If the data reference variable <span class="qtext">dref</span> is typed generically with <a href="javascript:call_link('abenbuilt_in_types_generic.html')" class="blue"><span class="qtext">data</span></a>, the data type of the anonymous data object or the
+<a href="javascript:call_link('abendynamic_type_glosry.html')" class="grey" title="Glossary Entry">dynamic type</a> of <span class="qtext">
+dref</span> is constructed (as specified by the operand position) in exactly the same way as the data
+type of <span class="qtext">dobj</span> in the inline declaration <span class="qtext">@DATA(dobj)</span> described above. This means the following:
+<br></li>
+</ul>
+<ul class="circlem2">
+<li>In a comma-separated list <span class="qtext">(..., dref, ...)</span>, an elementary data object is created whose type is determined by the type of the associated column of the results set.</li>
+</ul>
+<ul class="circlem2">
+<li>If a single work area in <span class="qtext">INTO NEW @dref</span>, a flat data object is created. A
+<a href="javascript:call_link('abenstandard_table_glosry.html')" class="grey" title="Glossary Entry">standard table</a> with an
+<a href="javascript:call_link('abenitab_empty_key.html')" class="blue">empty table key</a> is declared as an internal table in
+<span class="qtext">INTO TABLE NEW @dref</span>. The type of the new data object or the row type of the internal table is constructed using <span class="qtext">@DATA(dobj)</span>, as in an inline declaration.</li>
+</ul>
+<dl>
+
+<dd>
+The anonymous data object is created with this type. The
+<a href="javascript:call_link('abenstatic_type_glosry.html')" class="grey" title="Glossary Entry">static type</a> of the data reference variable is more general than the
+<a href="javascript:call_link('abendynamic_type_glosry.html')" class="grey" title="Glossary Entry">dynamic type</a>. Writes to
+the anonymous data object are made as described in the <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">
+INTO</span></a> clause. The columns of the results set defined in the <span class="qtext">SELECT</span> list must have unique names.
+</dd>
+</dl>
+<P>
+Unlike in inline declarations with <span class="qtext">@DATA(dobj)</span>, the type of the anonymous
+data object can also be created at runtime. This means that the addition <span class="qtext">NEW</span> can also be specified in the following cases:
+</P>
+<ul class="disc">
+<li>
+If the structure of the results set cannot be know statically due to the use of dynamic tokens.
+<br><br></li>
+<li>
+After <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>.
+<br></li>
+</ul>
+<P>
+If possible, the type check is made as part of the syntax check. If not, it is made at runtime. If an error is not detected until runtime, an exception of the class CX_SY_DYNAMIC_OSQL_SEMANTICS is raised.
+</P>
+<P>
+The following restrictions apply:
+</P>
+<ul class="disc">
+<li>
+The addition <span class="qtext">NEW</span> can only be specified after <a href="javascript:call_link('abapinto_clause.html')" class="blue">
+<span class="qtext">INTO</span></a> and cannot be specified after <a href="javascript:call_link('abapinto_clause.html')" class="blue"><span class="qtext">APPENDING</span></a>.
+<br><br></li>
+<li>
+If multiple <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a> statements access
+a database cursor opened using <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>,
+a data reference variable used after <span class="qtext">NEW</span> can be typed generically only if
+the first of these <span class="qtext">FETCH</span> statements has the addition <span class="qtext">NEW</span> with a generically typed data reference variable in the appropriate operand position.
+<br></li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The addition <span class="qtext">NEW</span> works in a similar way to creating an anonymous data object with the
+<a href="javascript:call_link('abeninstance_operator_glosry.html')" class="grey" title="Glossary Entry">instance operator</a>
+<a href="javascript:call_link('abenconstructor_expression_new.html')" class="blue"><span class="qtext">NEW</span></a> directly
+in front of the ABAP SQL statement and using the dereferenced reference variable as a target area. The
+addition <span class="qtext">NEW</span> has the advantage that the data type of the anonymous data object is constructed in a suitable way and, more specifically, this construction works for dynamic tokens too.
+<br><br></li>
+<li>
+If the addition <span class="qtext">NEW</span> is used, the syntax check is made in <a href="javascript:call_link('abenopensql_strict_mode_754.html')" class="blue">strict mode from Release 7.54</a>.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Uses a generically typed and a fully typed data reference variable after <span class="qtext">NEW</span>.
+The anonymous data objects created here both have the same type and the same content. The third <span class="qtext">
+SELECT</span> statement writes to an anonymous data object created previously using the instance operator
+<span class="qtext">NEW</span> and hence demonstrates approximately how the <span class="qtext">NEW</span> addition works.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+TYPES scarr_tab TYPE STANDARD TABLE OF scarr WITH EMPTY KEY. <br> <br>DATA dref_data TYPE REF TO data. <br>
+SELECT FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE NEW @dref_data. <br>
+ASSIGN dref_data->* TO FIELD-SYMBOL(&lt;fs>). <br> <br>DATA dref_scarr_tab TYPE REF TO scarr_tab. <br>SELECT FROM scarr <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE NEW @dref_scarr_tab. <br>
+ <br>ASSERT &lt;fs> = dref_scarr_tab->*. <br> <br>cl_demo_output=>display( &lt;fs> ). <br> <br>dref_scarr_tab = NEW #( ). <br>
+SELECT FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELDS * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @dref_scarr_tab->*. <br>ASSERT &lt;fs> = dref_scarr_tab->*.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+In this example, three anonymous data object of the type <span class="qtext">string</span> are created. The columns of the results set are converted to <span class="qtext">string</span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA: <br>&nbsp;&nbsp;dref1 TYPE REF TO string, <br>&nbsp;&nbsp;dref2 TYPE REF TO string, <br>&nbsp;&nbsp;dref3 TYPE REF TO string. <br>
+ <br>SELECT SINGLE carrid, carrname, url <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = 'UA' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO (NEW @dref1, NEW @dref2, NEW @dref3). <br> <br>cl_demo_output=>display( |{ dref1->* }, { dref2->* }, { dref3->* }| ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+This example compares an <span class="qtext">INTO</span> with an inline declaration of the target area
+(see above) with an <span class="qtext">INTO</span> clause with the addition <span class="qtext">NEW</span>.
+In both cases, the same data type is constructed, namely an internal table with a nested row structure. If individual components are not accessed, the exact data type does not need to be known in the program.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN spfli ON scarr~carrid = spfli~carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @DATA(itab). <br> <br>DATA dref TYPE REF TO data. <br>SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INNER JOIN spfli ON scarr~carrid = spfli~carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE NEW @dref. <br>ASSIGN dref->* TO FIELD-SYMBOL(&lt;fs>). <br> <br>ASSERT &lt;fs> =&nbsp;&nbsp;itab.
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+As in the previous example, but after <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>
+and with a dynamically specified <span class="qtext">SELECT</span> list and the <span class="qtext">FROM</span>
+clause after <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>.
+In this case, it is not possible to make a direct inline declaration of the target area in the <span class="qtext">INTO</span> clause. It is, however, possible to use the addition <span class="qtext">NEW</span>.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+DATA(cols) = `*`. <br>DATA(from) = `scarr INNER JOIN spfli ON scarr~carrid = spfli~carrid`. <br> <br>OPEN CURSOR @DATA(dbcur) FOR <br>
+SELECT (cols) <br>&nbsp;&nbsp;&nbsp;&nbsp; FROM (from). <br> <br>DATA dref TYPE REF TO data. <br>FETCH NEXT CURSOR @dbcur <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO NEW @dref. <br>CLOSE CURSOR @dbcur. <br> <br>ASSIGN dref->* TO FIELD-SYMBOL(&lt;fs>).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The program <span class="lnkgrey">DEMO_SELECT_INTO_NEW_VARIANTS</span> demonstrates how the <span class="qtext">NEW</span> addition is used in different variants of the <span class="qtext">INTO</span> clause. <br><br>
+</P>
+<p><span class="h2">
+<A NAME="!ABAP_ALTERNATIVE_4@4@"></A> <span class="bold">Alternative 4</span>
+</span></p>
+<P>
+<span class="qtext">... NEW @DATA(dref)</span> <br><br><br><!-- /A -->
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The addition <span class="qtext">NEW</span> in front of an inline declaration with the
+<a href="javascript:call_link('abendeclaration_operator_glosry.html')" class="grey" title="Glossary Entry">declaration operator</a>
+<a href="javascript:call_link('abendata_inline.html')" class="blue"><span class="qtext">@DATA</span></a> works like the previous
+variant, however the data reference variable <span class="qtext">dref</span> that points to the new anonymous data object is declared inline. The
+<a href="javascript:call_link('abenstatic_type_glosry.html')" class="grey" title="Glossary Entry">static type</a> of the data reference variable <span class="qtext">dref</span> is defined as follows:
+</P>
+<ul class="disc">
+<li>
+If the data type of the new anonymous data object is known statically, <span class="qtext">dref</span> is also typed with this type.
+<br><br></li>
+<li>
+If the data type of the new anonymous data object cannot be known until runtime, <span class="qtext">dref</span>
+is typed with the generic type <a href="javascript:call_link('abenbuilt_in_types_generic.html')" class="blue"><span class="qtext">data</span></a>.
+This is the case when the structure of the results set is not known statically due to the use of dynamic tokens and after <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>.
+<br></li>
+</ul>
+<P>
+The columns of the results set defined in the <span class="qtext">SELECT</span> list must have unique
+names. If multiple <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a> statements
+access a database cursor opened using<a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN
+CURSOR</span></a>, <span class="qtext">NEW</span> and an inline declaration can be used only if this is also the case in the first of these <span class="qtext">FETCH</span> statements in the appropriate operand position.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+The addition <span class="qtext">NEW</span> can also be used to make an inline declaration together
+with dynamic tokens and after <a href="javascript:call_link('abapfetch.html')" class="blue"><span class="qtext">FETCH</span></a>.
+The data reference variable that points to the target area created as an anonymous data object is declared, however, and not the direct target area.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Creates anonymous data objects as target areas together with inline declarations of the data reference
+variables. After <span class="qtext">SELECT</span> with static tokens, the data reference variable <span class="qtext">
+dref_scarr</span> has the static type of an internal table with the row type SCARR from ABAP Dictionary.
+<span class="qtext">dref_data,</span>, on the other hand is typed generically with <span class="qtext">data</span> after <span class="qtext">FETCH</span>. This demonstrated by using RTTI methods.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE NEW @DATA(dref_scarr). <br>
+ <br>OPEN CURSOR @DATA(dbcur) FOR <br>&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM scarr. <br>
+FETCH NEXT CURSOR @dbcur <br>&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE NEW @DATA(dref_data). <br>CLOSE CURSOR @dbcur. <br>
+ <br>ASSIGN dref_data->* TO FIELD-SYMBOL(&lt;fs>). <br>ASSERT dref_scarr->* = &lt;fs>. <br> <br>cl_demo_output=>new( <br>
+ <br>&nbsp;&nbsp;)->write( |dref_scarr: { <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_abap_tabledescr( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_abap_refdescr( <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_typedescr=>describe_by_data( dref_scarr ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )->get_referenced_type( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ) )->get_table_line_type( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )->absolute_name } | <br>
+&nbsp;&nbsp;)->write( |dref_data:&nbsp;&nbsp;{ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAST cl_abap_refdescr( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_typedescr=>describe_by_data( dref_data ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)->get_referenced_type( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)->absolute_name }| <br> <br>&nbsp;&nbsp;)->display( dref_scarr->* ).
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abenselect_into_new_wa_abexa.html')" class="blue">Create Structure as Target Area</a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abenselect_into_new_table_abexa.html')" class="blue">Create Internal Table as Target Area</a> <br><br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenselect_inline_decl_abexa.html')" class="blue">SELECT, Inline Declarations</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenselect_into_new_wa_abexa.html')" class="blue">SELECT, Create Structure as Target Area</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abenselect_into_new_table_abexa.html')" class="blue">SELECT, Create Internal Table as Target Area</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapselect_into_target.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+</html>

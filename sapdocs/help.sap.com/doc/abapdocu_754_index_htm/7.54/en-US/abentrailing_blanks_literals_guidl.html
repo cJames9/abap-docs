@@ -1,0 +1,155 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTRAILING_BLANKS_LITERALS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentrailing_blanks_literals_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Trailing Blanks in Character Literals">
+<title>
+Trailing Blanks in Character Literals - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentrailing_blanks_literals_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentrailing_blanks_literals_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenassignment_access_guidl.html')" class="blue">Assignments, Calculations, and Other Types of Data Access</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Trailing Blanks in Character Literals
+</span></p>
+<A name="@@ITOC@@ABENTRAILING_BLANKS_LITERALS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+Trailing blanks in text field literals use memory, but are
+<a href="javascript:call_link('abenstring_processing_trail_blanks.html')" class="blue">generally</a> ignored in operand positions,
+like all data objects of the type <span class="qtext">c</span>. In text string literals they are always relevant, as in all data objects of type <span class="qtext">string</span>.
+</p>
+<A name="@@ITOC@@ABENTRAILING_BLANKS_LITERALS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Do not use trailing blanks in text field literals</span>
+</p>
+<p>
+They should also not be specified in literals in any operand positions where trailing blanks are not relevant.
+</p>
+<A name="@@ITOC@@ABENTRAILING_BLANKS_LITERALS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+This rule is designed mainly to make programs more readable. It makes no sense to specify literal characters
+in places where they are ignored, and raises expectations in users of the program that cannot be met. In particular, this also applies to the text field literal <span class="qtext">' '</span>.
+</p>
+<p>
+Conversely, specifying the supposedly empty text field literal <span class="qtext">''</span> in places where trailing blanks are respected may be a trap.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following simple example demonstrates the full scope of the rule.  Any readers with little experience
+in ABAP would expect the result of the assignment to be a string with length six. In actual fact, the result contains only the three relevant places.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br> <br>text = '123'.
+</span>
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+Whether the example needs to be improved depends on whether the trailing blanks are required. If the blanks are needed, use a string literal:
+</p>
+<dl><dd>
+<span class="qtext">text = `123&nbsp;&nbsp; `.</span>
+</dd></dl>
+<p>
+If they are not needed, leave them out:
+</p>
+<dl><dd>
+<span class="qtext">text = '123'.</span>
+</dd></dl>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following example demonstrates that the supposedly empty literal <span class="qtext">''</span> actually
+represents a blank that is not cut off after <span class="qtext">SEPARATED BY</span>. The result is <span class="qtext400">"AB AP"</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+DATA text TYPE string. <br> <br>CONCATENATE 'AB' 'AP' INTO text SEPARATED BY ''.
+</span>
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+Depending on whether the blank is needed as a separator, either <span class="qtext">' '</span> or <span class="qtext">``</span> must be specified after <span class="qtext">SEPARATED BY</span> to express this clearly.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentrailing_blanks_literals_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:06 GMT -->
+</html>

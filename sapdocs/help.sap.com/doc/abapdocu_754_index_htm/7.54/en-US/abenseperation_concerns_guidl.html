@@ -1,0 +1,378 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENSEPERATION_CONCERNS_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenseperation_concerns_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:03 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Separation of Concerns">
+<title>
+Separation of Concerns - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenseperation_concerns_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenseperation_concerns_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abengeneral_rules_guidl.html')" class="blue">General Rules</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Separation of Concerns
+</span></p>
+<A name="@@ITOC@@ABENSEPERATION_CONCERNS_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The term 'separation of concerns' (SoC) was coined in Edsger W. Dijkstra's article <span class="qtext400">On the role of scientific thought</span> from 1974:
+</p>
+<p>
+<span class="qtext400">"... But nothing is gained --on the contrary!-- by tackling these various aspects
+simultaneously. It is what I sometimes have called 'the separation of concerns', which, even if not
+perfectly possible, is yet the only available technique for effective ordering of one's thoughts, that
+I know of. This is what I mean by 'focusing one's attention upon some aspect': it does not mean ignoring
+the other aspects, it is just doing justice to the fact that from this aspect's point of view, the other is irrelevant." (Springer-Verlag, 1982)</span>
+</p>
+<p>
+Separation of concerns is a principle used in programming to separate an application into units, with
+minimal overlapping between the functions of the individual units. The separation of concerns is achieved using modularization, encapsulation and arrangement in software layers.
+</p>
+<p>
+Although the classic three-layer architecture of Application Server ABAP (AS ABAP) is ideal for ABAP
+programming based on the SoC principle, this possibility was never explored. Application programs (in
+other words, dialog programs in module pools or reports in executable programs) were usually displayed
+as monolithic blocks, in which the system simultaneously reacted to user actions of the presentation
+layer, completed the application logic and executed accesses to data on the persistency layer. This
+type of programming is no longer relevant in today's programming world, where concepts like service-oriented architecture (SOA) set the trend.
+</p>
+<A name="@@ITOC@@ABENSEPERATION_CONCERNS_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Follow the SoC principle</span>
+</p>
+<p>
+Follow the separation of concerns principle. Model your applications strictly as service-oriented applications.
+It is especially important that you separate the logic of the application from the logic of the presentation
+logic, persistency, and the logic for communication with external systems. Encapsulate the repository objects of the individual concerns in separate packages.
+</p>
+<A name="@@ITOC@@ABENSEPERATION_CONCERNS_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+The SoC principle identifies the parts of an application with a specific purpose and encapsulates these
+parts in closed units. These units only communicate with each other using specified interfaces. Thanks
+to this principle, the software - which would have otherwise been overcomplicated - is divided up into manageable components. As a result, the software is:
+</p>
+<ul class="disc">
+<li>more stable</li>
+</ul>
+<ul class="disc">
+<li>easier to understand</li>
+</ul>
+<ul class="disc">
+<li>easier to reuse</li>
+</ul>
+<ul class="disc">
+<li>easier to transport</li>
+</ul>
+<ul class="disc">
+<li>easier to maintain</li>
+</ul>
+<ul class="disc">
+<li>easier to test</li>
+</ul>
+<p>
+Regarding the last point, it would even be true to say that following the SoC principle is a prerequisite for executing isolated, automated
+<a href="javascript:call_link('abencorrectness_quality_guidl.html')" class="lnkpurple" title="Guideline">unit tests</a>.
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following graphic shows two examples of an ABAP application that do not follow the SoC principle.
+</p>
+<p>
+
+</p>
+<span class="border1"><img src="abdoc_soc_bad.jpg" width="00590" height="00400" alt="Figure"></span>
+<p>
+
+</p>
+<p>
+In fact, the two bad examples here are the programmer models for reporting and dialog programming that
+were propagated by SAP for a considerable length of time! To be more precise, the example is not bad
+due to the reporting or programming of transactions itself, but due to the way in which these applications
+are usually implemented. The mini report in the following source code is a typical example of how different
+concerns are mixed together in a single program unit. Both the data declarations and the implementation
+of the functions are mixed together. Access to persistent data, data processing, data presentation and the associated declarations all occur in one single unit.
+</p>
+<dl><dd>
+<span class="qtext">REPORT z_non_soc_report.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">PARAMETERS p_carrid TYPE spfli-carrid.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: spfli_tab TYPE STANDARD TABLE OF spfli, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alv&nbsp;&nbsp;&nbsp;&nbsp; TYPE REF TO cl_salv_table, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alv_exc TYPE REF TO cx_salv_msg.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @p_carrid <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @spfli_tab.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">IF sy-subrc = 0. <br>&nbsp;&nbsp;SORT spfli_tab BY cityfrom cityto. <br>&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_salv_table=>factory( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING r_salv_table = alv <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING t_table = spfli_tab ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alv->display( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_salv_msg INTO alv_exc. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE alv_exc TYPE 'I' DISPLAY LIKE 'E'. <br>&nbsp;&nbsp;ENDTRY. <br>ENDIF.</span>
+</dd></dl>
+<p>
+Of course, it would be too much to insist that concerns should be completely separated even in short
+programs like in the source code above. However, real applications are usually very long ABAP programs
+(executable programs, module pools), in which all concerns are handled at the same time. If modularization
+was performed, it was usually restricted to reusing functional units and was rarely focused on the actual
+available layers. In addition, large volumes of global data were usually created that were used in different
+procedures and layers. As a result, all the parts of the program were inherently dependent on each other
+and could not be tested individually. We are convinced that the quality of these programs can be improved
+not only by following naming conventions, but also by changing the paradigm for the procedure used for programming tasks.
+</p>
+<p>
+The following source codes proves that you can implement the SoC principle using classic ABAP procedural
+methods (in this case, subroutines). This source code works in the same way as the source code above.
+However, all the concerns are implemented in separate procedures that are assigned to layers. As we
+have already mentioned, this type of implementation would be too much for a simple program. However,
+if you needed to test the concerns in the above source code individually and independently of each other
+by using unit tests, the only possibility would be to adapt the source code as shown below. The program
+of the following source code can now be easily assigned test methods in ABAP unit test classes, which test the individual procedures.
+</p>
+<dl><dd>
+<span class="qtext">REPORT z_soc_report.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">SELECTION-SCREEN BEGIN OF SCREEN 100. <br>PARAMETERS p_carrid TYPE spfli-carrid. <br>SELECTION-SCREEN END OF SCREEN 100.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">TYPES spfli_tab TYPE STANDARD TABLE OF spfli.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">DATA: carrid TYPE spfli-carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table&nbsp;&nbsp;TYPE spfli_tab, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arc&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-subrc.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">START-OF-SELECTION. <br>&nbsp;&nbsp;PERFORM get_carrid CHANGING carrid. <br>&nbsp;&nbsp;PERFORM get_table&nbsp;&nbsp;USING&nbsp;&nbsp;&nbsp;&nbsp;carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING table <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arc.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">IF arc = 0 <br>&nbsp;&nbsp;PERFORM sort_table&nbsp;&nbsp;&nbsp;&nbsp;CHANGING table. <br>&nbsp;&nbsp;PERFORM display_table USING&nbsp;&nbsp;&nbsp;&nbsp;table. <br>ENDIF.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">* Presentation layer</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FORM get_carrid <br>&nbsp;&nbsp;&nbsp;&nbsp; CHANGING value(carrid) TYPE spfli-carrid. <br>
+&nbsp;&nbsp;CALL SELECTION-SCREEN 100. <br>&nbsp;&nbsp;IF sy-subrc = 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;carrid = p_carrid. <br>&nbsp;&nbsp;ENDIF. <br>ENDFORM.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FORM display_table <br>&nbsp;&nbsp;&nbsp;&nbsp; USING table TYPE spfli_tab. <br>&nbsp;&nbsp;DATA: alv TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REF TO cl_salv_table, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alv_exc TYPE REF TO cx_salv_msg. <br>&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp; cl_salv_table=>factory( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING r_salv_table = alv <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING t_table = table ). <br>&nbsp;&nbsp;&nbsp;&nbsp; alv->display( ). <br>
+&nbsp;&nbsp; CATCH cx_salv_msg INTO alv_exc. <br>&nbsp;&nbsp;&nbsp;&nbsp; MESSAGE alv_exc TYPE 'I' DISPLAY LIKE 'E'. <br>&nbsp;&nbsp;ENDTRY. <br>ENDFORM.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">* Application layer</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FORM sort_table <br>&nbsp;&nbsp;&nbsp;&nbsp; CHANGING table TYPE spfli_tab. <br>&nbsp;&nbsp;&nbsp;&nbsp; SORT table BY cityfrom cityto. <br>ENDFORM.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">* Persistency layer</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">FORM get_table <br>&nbsp;&nbsp;&nbsp;&nbsp; USING&nbsp;&nbsp;&nbsp;&nbsp; carrid TYPE spfli-carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp; CHANGING table&nbsp;&nbsp; TYPE spfli_tab <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arc&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-subrc. <br>
+&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = @carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INTO TABLE @table. <br>&nbsp;&nbsp;arc = sy-subrc. <br>ENDFORM.</span>
+</dd></dl>
+<p>
+However, this separation of concerns using subroutines shown above does not create a good impression.
+The following source code shows how the separation of concerns should be implemented instead using methods in concern-specific classes.
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following graphic shows how an ABAP application should look that follows the separation of concerns.
+</p>
+<p>
+
+</p>
+<span class="border1"><img src="abdoc_soc_good.jpg" width="00500" height="00430" alt="Figure"></span>
+<p>
+
+</p>
+<p>
+After the concerns have been identified, they are implemented in ABAP object classes. The concerns shown in the graphic are the main tasks that are usually performed in ABAP application programming:
+</p>
+<ul class="disc">
+<li>Communication with a user interface (UI) using UI services</li>
+</ul>
+<ul class="disc">
+<li>Actual application logic</li>
+</ul>
+<ul class="disc">
+<li>Access to persistent data using persistency services</li>
+</ul>
+<ul class="disc">
+<li>Communication with external systems using proxy services</li>
+</ul>
+<p>
+These main rules can be subdivided further, which is often necessary.
+</p>
+<p>
+The boxes for the individual concerns in the graphic represent packages. All the repository objects
+(classes, data types) belonging to a concern should be located in corresponding packages. The package
+concept (encapsulated packages) supports this separation of concerns. In encapsulated packages, repository
+objects in one package can only access the objects of another package using package interfaces, which
+is checked by the syntax check. A package can restrict the usability of its repository objects even
+more by using access control lists. Subdividing the separation of concerns in a package is a concept supported by subpackages.
+</p>
+<p>
+For example, encapsulating all database tables of an application in a package for persistency services
+prevents any program, that does not belong to this package, from accessing these database tables. The
+reverse is also true. For example, programs in the persistency layer cannot communicate directly with
+components in the presentation layer, such as a Web Dynpro ABAP application. You should prepare the
+package encapsulation (by choosing <span class="italic">Package Check as Server</span>) in the package properties. These packages have package interfaces, A package check is performed during the extended program check.
+</p>
+<p>
+The following source code shows how to adapt the separation of concerns from the above source code for classes local to the program.
+</p>
+<dl><dd>
+<span class="qtext">REPORT z_soc_class_report. <br>SELECTION-SCREEN BEGIN OF SCREEN 100. <br>PARAMETERS p_carrid TYPE spfli-carrid. <br>SELECTION-SCREEN END OF SCREEN 100.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">TYPES spfli_tab TYPE STANDARD TABLE OF spfli.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS presentation_server DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_carrid RETURNING VALUE(carrid) TYPE spfli-carrid, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_table IMPORTING VALUE(table) TYPE spfli_tab. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS presentation_server IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD get_carrid. <br>&nbsp;&nbsp;&nbsp;&nbsp;CALL SELECTION-SCREEN 100. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF sy-subrc = 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid = p_carrid. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD display_table. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA: alv&nbsp;&nbsp;&nbsp;&nbsp; TYPE REF TO cl_salv_table, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alv_exc TYPE REF TO cx_salv_msg. <br>&nbsp;&nbsp;&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_salv_table=>factory( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING r_salv_table = alv <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CHANGING t_table = table ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alv->display( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_salv_msg INTO alv_exc. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE alv_exc TYPE 'I' DISPLAY LIKE 'E'. <br>
+&nbsp;&nbsp;&nbsp;&nbsp; ENDTRY. <br>&nbsp;&nbsp; ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS application_server DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sort_table CHANGING table TYPE spfli_tab. <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS application_server IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD sort_table. <br>&nbsp;&nbsp;&nbsp;&nbsp;SORT table BY cityfrom cityto. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS persistency_server DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; get_table IMPORTING carrid TYPE spfli-carrid <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING table&nbsp;&nbsp;TYPE spfli_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arc&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-subrc. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS persistency_server IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD get_table. <br>&nbsp;&nbsp; SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM spfli <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @carrid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE @table. <br>&nbsp;&nbsp;&nbsp;&nbsp;arc = sy-subrc. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS report DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS report IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA: carrid TYPE spfli-carrid, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table&nbsp;&nbsp;TYPE spfli_tab, <br>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arc&nbsp;&nbsp;&nbsp;&nbsp; TYPE sy-subrc. <br>&nbsp;&nbsp;&nbsp;&nbsp;carrid = presentation_server=>get_carrid( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;persistency_server=>get_table( EXPORTING carrid = carrid <br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING table&nbsp;&nbsp;= table <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arc&nbsp;&nbsp;&nbsp;&nbsp; = arc ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF arc = 0. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;application_server=>sort_table( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING table = table ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;presentation_server=>display_table( table ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">START-OF-SELECTION. <br>report=>main( ).</span>
+</dd></dl>
+<p>
+At first glance, the above source code appears to be very excessive compared to the first source code.
+But only on the first glance. A real application program usually only consists of 25 lines. The larger
+and more realistic the application program, the smaller the proportion of the overhead that is incurred by wrapping the concerns in classes. If the reuse options for
+<a href="javascript:call_link('abenabap_obj_progr_model_guidl.html')" class="lnkpurple" title="Guideline">ABAP Objects</a> are used appropriately, it is even possible to reduce the amount of source code.
+</p>
+<p>
+In addition, the individual steps are now wrapped in classes, in other words, real program units (unlike
+in the second source code). In practice, wrapping is not performed in one single program, but in global
+classes that are assigned to different packages, depending on the layer. These packages are connected
+to each other using package interfaces. It is only by using these interfaces that you can achieve the other benefits of separating the concerns (in addition to the testing capability achieved in the second source code).
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenseperation_concerns_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:04 GMT -->
+</html>

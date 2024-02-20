@@ -1,0 +1,212 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENDB_ROLLBACK -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_rollback.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Database Rollback">
+<meta name="keywords" content="ABAP, Database Rollback">
+<title>
+Database Rollback - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abendb_rollback.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abendb_rollback.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentransaction.html')" class="blue">Data Consistency</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendb_transaction.html')" class="blue">Database LUW</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Database Rollback
+</span></p>
+<p>
+Database rollbacks are triggered implicitly or explicitly in <a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_ROLLBACK_1" class="blue">Implicit Database Rollbacks</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_ROLLBACK_2" class="blue">Explicit Database Rollbacks</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENDB_ROLLBACK_3" class="blue">Database Rollback on Database Connections</A></li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A database rollback closes all opened <a href="javascript:call_link('abendatabase_cursor_glosry.html')" class="grey" title="Glossary Entry">
+database cursors</a>. It is particularly important that database rollbacks are not triggered (in one
+of the ways listed here) in <a href="javascript:call_link('abapselect.html')" class="blue"><span class="qtext">SELECT</span></a>
+loops and after the statement <a href="javascript:call_link('abapopen_cursor.html')" class="blue"><span class="qtext">OPEN CURSOR</span></a>.
+</p>
+<A name="@@ITOC@@ABENDB_ROLLBACK_1"></A>
+<p><span class="h2">
+Implicit Database Rollbacks
+</span></p>
+<p>
+The following exceptions trigger an implicit database rollback:
+</p>
+<ul class="disc">
+<li>A <a href="javascript:call_link('abenruntime_error_glosry.html')" class="grey" title="Glossary Entry">runtime error</a>.</li>
+</ul>
+<ul class="disc">
+<li>A <a href="javascript:call_link('abentermination_message_glosry.html')" class="grey" title="Glossary Entry">termination message</a> is sent.</li>
+</ul>
+<ul class="disc">
+<li>A program is terminated when a <a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">message</a> is sent.</li>
+</ul>
+<p>
+The implicit database rollback takes place on all currently open <a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a>.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A termination message also produces a database rollback if the message is handled by the predefined
+exception <a href="javascript:call_link('abapcall_function_parameter.html')" class="blue"><span class="qtext">error_message</span></a> when a function module is called.</li>
+</ul>
+<ul class="disc">
+<li>Termination and <a href="javascript:call_link('abenexit_message_glosry.html')" class="grey" title="Glossary Entry">exit messages</a> always terminate the program. Other message types can also terminate a program in certain
+<a href="javascript:call_link('abencontext_2_glosry.html')" class="grey" title="Glossary Entry">contexts</a> .</li>
+</ul>
+<ul class="disc">
+<li>When an <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> is exited, there is no implicit
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commit</a> on the
+<a href="javascript:call_link('abenstandard_db_connection_glosry.html')" class="grey" title="Glossary Entry">standard connection</a> and there is no database rollback. This must be programmed explicitly if required.</li>
+</ul>
+<A NAME="@@DB_ROLLBACK@@!ABAP_FUMO@@"></A>
+<A name="@@ITOC@@ABENDB_ROLLBACK_2"></A>
+<p><span class="h2">
+Explicit Database Rollbacks
+</span></p>
+<p>
+Explicit database rollbacks in ABAP programs can be triggered in the following ways:
+</p>
+<ul class="disc">
+<li>The relevant database-specific <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> statement is used.</li>
+</ul>
+<ul class="circlem2">
+<li>In <a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a>, only the method
+<a href="javascript:call_link('abenadbc_transaction.html')" class="blue">ROLLBACK</a> of the class
+<a href="javascript:call_link('abencl_sql_connection.html')" class="blue">CL_SQL_CONNECTION</a> can be used to do this. In other
+cases, the database interface does not detect the end of the transaction and might not be able to perform certain actions.</li>
+</ul>
+<ul class="circlem2">
+<li>Any <span class="qtext">ROLLBACK</span> statement embedded statically between <a href="javascript:call_link('abapexec.html')" class="blue">
+<span class="qtext">EXEC</span></a> and <a href="javascript:call_link('abapendexec.html')" class="blue"><span class="qtext">ENDEXEC</span></a> is detected by the database interface and any required actions performed.</li>
+</ul>
+<ul class="disc">
+<li>Executing the <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>
+statement <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue"><span class="qtext">ROLLBACK CONNECTION</span></a>. The database rollback takes place on the specified
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a>.</li>
+</ul>
+<ul class="disc">
+<li>Calling the function module <span class="lnkgrey">DB_ROLLBACK</span>. This function module encapsulates the corresponding Native SQL statement. By default, the database rollback is triggered on the
+<a href="javascript:call_link('abapexec_connection.html')" class="blue">connection</a> currently open for <a href="javascript:call_link('abapexec.html')" class="blue">
+<span class="qtext">EXEC SQL</span></a>. The rollback is triggered explicitly on the standard connection
+by passing the value of <span class="qtext">abap_true</span> to the input parameter IV_DEFAULT. The
+function module DB_ROLLBACK raises the event DB_TRANSACTION_FINISHED of the class <span class="lnkgrey">CL_DBI_TRANSACTION_STATE</span>,
+which is handled by the <span class="lnkgrey">application log</span> framework.</li>
+</ul>
+<ul class="disc">
+<li>Executing the <a href="javascript:call_link('abenopen_sql_glosry.html')" class="grey" title="Glossary Entry">ABAP SQL</a>
+statement <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a>. The database rollback takes place on all currently open
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connections</a>. The statement <span class="qtext">ROLLBACK WORK</span> also closes the current
+<a href="javascript:call_link('abensap_luw.html')" class="blue">SAP LUW</a> and performs the associated actions.</li>
+</ul>
+<p>
+<span class="qtext400">ROLLBACK</span> statements are not allowed in <a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP</a> methods.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>A simple database rollback in an ABAP program is is usually triggered using the statement <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue">
+<span class="qtext">ROLLBACK CONNECTION</span></a> (the standard connection can be specified here using
+<span class="qtext">default</span>). The database LUW can be monitored by the <span class="lnkgrey">application
+log</span> by using the function module <span class="lnkgrey">DB_ROLLBACK</span>. Apart from the database
+rollback itself, using the statement <a href="javascript:call_link('abaprollback.html')" class="blue"><span class="qtext">ROLLBACK WORK</span></a> also has certain other consequences with respect to the
+<a href="javascript:call_link('abensap_luw_glosry.html')" class="grey" title="Glossary Entry">SAP LUW</a>.</li>
+</ul>
+<ul class="disc">
+<li>An explicit database rollback in an ABAP program is is best triggered using the statement <a href="javascript:call_link('abapcommit_rollback_connection.html')" class="blue">
+<span class="qtext">ROLLBACK CONNECTION</span></a> (the standard connection can be specified here using <span class="qtext">default</span>).</li>
+</ul>
+<ul class="disc">
+<li>All the methods specified here for explicit database rollbacks clear any
+<a href="javascript:call_link('abenddic_database_tables_gtt.html')" class="blue">global temporary tables</a> and prevent the runtime error COMMIT_GTT_ERROR in the case of implicit
+<a href="javascript:call_link('abendb_commit.html')" class="blue">database commits</a>.</li>
+</ul>
+<A name="@@ITOC@@ABENDB_ROLLBACK_3"></A>
+<p><span class="h2">
+Database Rollback on Database Connections
+</span></p>
+<p>
+When a <a href="javascript:call_link('abensecondary_db_connection_glosry.html')" class="grey" title="Glossary Entry">secondary connection</a> or a
+<a href="javascript:call_link('abenservice_connection_glosry.html')" class="grey" title="Glossary Entry">service connection</a> is closed explicitly in Native SQL, a database rollback is triggered in the transaction context of this
+<a href="javascript:call_link('abendatabase_connection_glosry.html')" class="grey" title="Glossary Entry">database connection</a>. For more information, see
+<a href="javascript:call_link('abenopensql_multiconnect.html')" class="blue">Database Connections</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abendb_rollback.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:44 GMT -->
+</html>

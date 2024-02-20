@@ -1,0 +1,179 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLEAVE_TO_LIST_PROC_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenleave_to_list_proc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Calling Lists from Dynpro Processing">
+<title>
+Calling Lists from Dynpro Processing - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenleave_to_list_proc_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenleave_to_list_proc_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_screens.html')" class="blue">SAP GUI User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_dynpro_list.html')" class="blue">Classic Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenlists_displayed.html')" class="blue">Displaying Lists</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapleave_to_list-processing.html')" class="blue">LEAVE TO LIST-PROCESSING</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Calling Lists from Dynpro Processing
+</span></p>
+<p>
+This example shows how to switch from dynpro processing to list processing.
+</p>
+<A name="@@ITOC@@ABENLEAVE_TO_LIST_PROC_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT demo_leave_to_list_processing .<br>
+<br>
+TABLES demo_conn.<br>
+<br>
+DATA: wa_spfli TYPE spfli,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flightdate TYPE sflight-fldate.<br>
+<br>
+CALL SCREEN 100.<br>
+<br>
+MODULE status_0100 OUTPUT.<br>
+&nbsp;&nbsp;SET PF-STATUS 'SCREEN_100'.<br>
+ENDMODULE.<br>
+<br>
+MODULE cancel INPUT.<br>
+&nbsp;&nbsp;LEAVE PROGRAM.<br>
+ENDMODULE.<br>
+<br>
+MODULE user_command_0100.<br>
+&nbsp;&nbsp;CALL SCREEN 500.<br>
+&nbsp;&nbsp;SET SCREEN 100.<br>
+ENDMODULE.<br>
+<br>
+MODULE call_list_500 OUTPUT.<br>
+&nbsp;&nbsp;LEAVE TO LIST-PROCESSING AND RETURN TO SCREEN 0.<br>
+&nbsp;&nbsp;SET PF-STATUS space.<br>
+&nbsp;&nbsp;SUPPRESS DIALOG.<br>
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;carrid, connid, cityfrom, cityto<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;&nbsp;spfli<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @demo_conn-carrid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;&nbsp;CORRESPONDING FIELDS OF @wa_spfli.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE: / wa_spfli-carrid, wa_spfli-connid,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wa_spfli-cityfrom, wa_spfli-cityto.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HIDE: wa_spfli-carrid, wa_spfli-connid.<br>
+&nbsp;&nbsp;ENDSELECT.<br>
+&nbsp;&nbsp;CLEAR wa_spfli-carrid.<br>
+ENDMODULE.<br>
+<br>
+TOP-OF-PAGE.<br>
+&nbsp;&nbsp;WRITE text-001 COLOR COL_HEADING.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+TOP-OF-PAGE DURING LINE-SELECTION.<br>
+&nbsp;&nbsp;WRITE sy-lisel COLOR COL_HEADING.<br>
+&nbsp;&nbsp;ULINE.<br>
+<br>
+AT LINE-SELECTION.<br>
+&nbsp;&nbsp;CHECK NOT wa_spfli-carrid IS INITIAL.<br>
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;fldate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;&nbsp;sflight<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @wa_spfli-carrid AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid = @wa_spfli-connid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;&nbsp;@flightdate.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE / flightdate.<br>
+&nbsp;&nbsp;ENDSELECT.<br>
+&nbsp;&nbsp;CLEAR wa_spfli-carrid.<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENLEAVE_TO_LIST_PROC_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+This example switches to list processing while processing dynpro 100. The screen layout of dynpro 100
+has a single input field, the component CARRID of the structure SDYN_CONN from ABAP Dictionary. The flow logic of dynpro 100 is:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE status_0100. <br>PROCESS AFTER INPUT. <br>&nbsp;&nbsp;MODULE cancel AT EXIT-COMMAND. <br>&nbsp;&nbsp;MODULE user_command_0100.</span>
+</dd></dl>
+<p>
+In the PAI module <span class="qtext">user_command_0100</span>, <span class="qtext">CALL SCREEN</span> is used to call dynpro 500. Dynpro 500 encapsulates a basic list. It has the following flow logic:
+</p>
+<dl><dd>
+<span class="qtext">PROCESS BEFORE OUTPUT. <br>&nbsp;&nbsp;MODULE call_list_500. <br>PROCESS AFTER INPUT.</span>
+</dd></dl>
+<p>
+The module <span class="qtext">call_list_500</span> defines the basic list and switches to list processing.
+After returning from the list display, the system branches to the next dynpro 0, which means that dynpro
+500 represents a dynpro sequence with only one dynpro. When list processing is complete, the system goes back to a point after the call point in <span class="qtext">user_command_0100</span>.
+</p>
+<p>
+If the user selects a line on the basic list, a details list appears. This is done using the event block
+<span class="qtext">AT LINE-SELECTION</span>. The program also contains event blocks for <span class="qtext">TOP-OF-PAGE</span>
+and <span class="qtext">TOP-OF-PAGE DURING LINE-SELECTION</span>, which define page headers for both the basic list and details list.
+</p>
+<p>
+Since there is only one list system in this program, there is no need for case distinctions within the list events.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenleave_to_list_proc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:31 GMT -->
+</html>

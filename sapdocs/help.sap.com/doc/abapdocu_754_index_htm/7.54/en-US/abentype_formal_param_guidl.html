@@ -1,0 +1,223 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTYPE_FORMAL_PARAM_GUIDL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentype_formal_param_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Typing of Formal Parameters">
+<title>
+Typing of Formal Parameters - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentype_formal_param_guidl.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentype_formal_param_guidl.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_pgl.html')" class="blue">ABAP Programming Guidelines</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrobust_abap_guidl.html')" class="blue">Robust ABAP</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenmodularization_unit_guidl.html')" class="blue">Modularization units</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Typing of Formal Parameters
+</span></p>
+<A name="@@ITOC@@ABENTYPE_FORMAL_PARAM_GUIDL_1"></A>
+<p><span class="h2">
+Background
+</span></p>
+<p>
+The typing of formal parameters can be full or generic. Formal parameters of methods must be, and formal
+parameters of function modules and subroutines should be, explicitly typed using the <span class="qtext">TYPE</span>
+or <span class="qtext">LIKE</span> addition. When actual parameters are bound to formal parameters, the system checks whether the data type of the actual parameter matches the typing of the formal parameter.
+</p>
+<ul class="disc">
+<li>Full typing completely defines the data type of a formal parameter and applies to both dynamic access and static access to the formal parameter.</li>
+</ul>
+<ul class="disc">
+<li>Generic typing does not define the data type of a formal parameter in full. Instead, the actual
+data type of the supplied actual parameter is used. The attributes of the actual parameter apply to
+dynamic access performed on formal parameters like this. The attributes defined by the typing apply to static access.</li>
+</ul>
+<p>
+For generic typing, a set of built-in generic types is available in ABAP, which are only intended for
+the typing of formal parameters and field symbols. Using them in any other way can lead either to errors
+or to missing attributes being filled with default values. The generic types are: <span class="qtext">any</span>,
+<span class="qtext">any table</span>, <span class="qtext">c</span>, <span class="qtext">clike</span>,
+<span class="qtext">csequence</span>, <span class="qtext">data</span>, <span class="qtext">decfloat</span>,
+<span class="qtext">hashed table</span>, <span class="qtext">index table</span>, <span class="qtext">n</span>,
+<span class="qtext">numeric</span>, <span class="qtext">object</span>, <span class="qtext">simple</span>,
+<span class="qtext">sorted table</span>, <span class="qtext">standard</span> <span class="qtext">table</span>,
+<span class="qtext">table</span>, <span class="qtext">x</span>, and <span class="qtext">xsequence</span>. Self-defined table types without fully specified table keys are also generic.
+</p>
+<A name="@@ITOC@@ABENTYPE_FORMAL_PARAM_GUIDL_2"></A>
+<p><span class="h2">
+Rule
+</span></p>
+<p>
+<span class="bold">Be as specific as possible when typing formal parameters</span>
+</p>
+<p>
+Be only as generic as necessary when typing formal parameters. Fully generic types
+(<span class="qtext">any</span>) should be the exception rather than the rule. When used, a formal parameter must be compliant with all possible fixed types.
+</p>
+<A name="@@ITOC@@ABENTYPE_FORMAL_PARAM_GUIDL_3"></A>
+<p><span class="h2">
+Details
+</span></p>
+<p>
+Absolute type security within a procedure can only be achieved using full typing. It should always be used when providing a generic service is not a defined goal. It is much easier to carry out
+<a href="javascript:call_link('abencorrectness_quality_guidl.html')" class="lnkpurple" title="Guideline">tests</a> for non-generic services than for generic services.
+</p>
+<p>
+A generically typed procedure interface usually involves more implementation effort within the procedure
+(<a href="javascript:call_link('abenfunct_module_subroutine_guidl.html')" class="lnkpurple" title="Guideline">method</a>) to avoid
+<a href="javascript:call_link('abenruntime_error_dyn_proc_guidl.html')" class="lnkpurple" title="Guideline">runtime errors</a>.
+Therefore, use the following principle when providing generic interfaces: as little generic typing as
+possible and as much generic typing as necessary. You should use specific generic types, such as <span class="qtext">
+numeric</span> or <span class="qtext">csequence</span>, instead of <span class="qtext">any</span> or
+<span class="qtext">data</span>, for example, if services are involved that are supposed to process
+numeric values or character strings. If <span class="qtext">csequence</span> is used, the potential
+fixed types <span class="qtext">c</span> and <span class="qtext">string</span> must display different
+behavior with respect to trailing blanks or the potential numeric types in calculations for <span class="qtext">numeric</span> must produce different
+<a href="javascript:call_link('abencalculation_type_glosry.html')" class="grey" title="Glossary Entry">calculation types</a>. More specifically, when existing typings are generalized, it may be necessary to modify the implementation accordingly.
+</p>
+<p>
+Generic typing can be a pitfall if you are not aware that you have used generic typing instead of full
+typing, because only the technical type attributes are checked when an actual parameter is connected, but no component names, for example. This can lead to different behavior than expected.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>These statements about typing apply equally to <a href="javascript:call_link('abendyn_access_data_obj_guidl.html')" class="lnkpurple" title="Guideline">field symbols</a>.</li>
+</ul>
+<ul class="disc">
+<li>In typings of formal parameters with the generic type <a href="javascript:call_link('abenbuilt_in_types_generic.html')" class="blue"><span class="qtext">data</span></a>, it should be noted that no
+<a href="javascript:call_link('abenmathematical_funktion_glosry.html')" class="grey" title="Glossary Entry">numeric functions</a>, no
+<a href="javascript:call_link('abendescription_function_glosry.html')" class="grey" title="Glossary Entry">description functions</a>, and no
+<a href="javascript:call_link('abenarithmetic_expression_glosry.html')" class="grey" title="Glossary Entry">arithmetic expressions</a> can be passed to these parameters. This restriction can be bypassed by applying the
+<a href="javascript:call_link('abenconversion_operator_glosry.html')" class="grey" title="Glossary Entry">conversion operator</a>
+<a href="javascript:call_link('abenconstructor_expression_conv.html')" class="blue"><span class="qtext">CONV</span></a> to the
+actual parameter. This restriction does not apply to the generic type <span class="qtext">any</span>,
+however, which means that, if required, a typing with the generic type <span class="qtext">any</span> is recommended.</li>
+</ul>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The following method shows different behavior when a blank is passed as a string of the type <span class="qtext">string</span> or as a text field of the type <span class="qtext">c</span>.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main IMPORTING flag TYPE csequence. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;IF flag = abap_false. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.
+</span>
+</p>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+Using the built-in function <a href="javascript:call_link('abencondense_functions.html')" class="blue"><span class="qtext">condense</span></a> produces the same behavior when a blank is passed, regardless of the fixed type.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS demo DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main IMPORTING flag TYPE csequence. <br>
+ENDCLASS. <br> <br>CLASS demo IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;IF condense( flag ) = abap_false. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp;ENDIF. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.
+</span>
+</p>
+<p><span class="h4">
+Bad Example
+</span></p>
+<p>
+The example in the following source code shows the trap you can fall into, particularly when working
+with table types, if the table key is not specified in full their declaration (in a program or in ABAP
+Dictionary). Due to the missing key specification, the table type that is used to type the formal parameter
+of <span class="qtext">sort_itab</span> is generic. While the first static sort is successful, the second
+<span class="qtext">SORT</span> statement fails and triggers a runtime error. For the dynamic component
+specification, the attributes of the actual parameter apply to the formal parameter, and the actual parameter does not have the <span class="qtext">col2</span> component (this can also be tracked in the ABAP Debugger).
+</p>
+<dl><dd>
+<span class="qtext">CLASS class DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF struc, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1 TYPE type1, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2 TYPE type2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itab TYPE STANDARD TABLE OF struc. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS: main, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sort_itab CHANGING c_itab TYPE itab. <br>ENDCLASS.</span>
+</dd></dl>
+<dl><dd>
+<span class="qtext">CLASS class IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD main. <br>&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF struc, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col1 TYPE type1, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col3 TYPE type2, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF struc. <br>&nbsp;&nbsp;&nbsp;&nbsp;DATA itab TYPE STANDARD TABLE OF struc <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH NON-UNIQUE KEY col1 col3. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;&nbsp; sort_itab( CHANGING c_itab = itab ). <br>
+&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD sort_itab. <br>&nbsp;&nbsp;&nbsp;&nbsp; SORT c_itab BY col1 col2. <br>
+&nbsp;&nbsp;&nbsp;&nbsp; SORT c_itab BY ('COL1') ('COL2'). "&lt;- Runtime error! <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p><span class="h4">
+Good Example
+</span></p>
+<p>
+The following source code shows a very simple correction of the typing in the above example. Because
+the primary table key is specified in full, the type used is no longer generic, and dynamic sorts work like static sorts.
+</p>
+<dl><dd>
+<span class="qtext">... <br>itab TYPE STANDARD TABLE OF struc <br>&nbsp;&nbsp;&nbsp;&nbsp; WITH NON-UNIQUE KEY col1 col2. <br>...</span>
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentype_formal_param_guidl.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:53:07 GMT -->
+</html>

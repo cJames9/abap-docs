@@ -1,0 +1,225 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENTYPES_LOB_HANDLE_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentypes_lob_handle_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Deriving LOB Handle Structures">
+<title>
+Deriving LOB Handle Structures - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abentypes_lob_handle_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abentypes_lob_handle_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_and_objects.html')" class="blue">Data Types and Data Objects</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentypes_statements.html')" class="blue">Declaring Data Types</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptypes.html')" class="blue">TYPES</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abaptypes_lob_handle.html')" class="blue">TYPES - LOB HANDLE</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Deriving LOB Handle Structures
+</span></p>
+<p>
+This example demonstrates how <a href="javascript:call_link('abenlob_handle_structure_glosry.html')" class="grey" title="Glossary Entry">
+LOB handle structures</a> are derived using the statement <a href="javascript:call_link('abaptypes_lob_handle.html')" class="blue"><span class="qtext">TYPES</span></a>.
+</p>
+<A name="@@ITOC@@ABENTYPES_LOB_HANDLE_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtext">
+REPORT kellerh_test.<br>
+<br>
+CLASS demo_lob_handles DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lob_handle_structure_1 TYPE demo_lob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READER FOR COLUMNS clob1 blob1,<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lob_handle_structure_2 TYPE demo_lob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOB HANDLE FOR ALL COLUMNS,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lob_handle_structure_3 TYPE demo_lob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOCATOR FOR ALL BLOB COLUMNS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WRITER FOR ALL CLOB COLUMNS,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lob_handle_structure_4 TYPE demo_lob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READER FOR COLUMNS clob1 clob2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOB HANDLE FOR ALL BLOB COLUMNS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOCATOR FOR ALL OTHER CLOB COLUMNS,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lob_handle_structure_5 TYPE demo_lob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READER FOR COLUMNS blob1 blob2 blob3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOCATOR FOR COLUMNS clob1 clob2 clob3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOB HANDLE FOR ALL OTHER COLUMNS,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lob_handle_structure_6 TYPE demo_lob_table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READER FOR COLUMNS blob1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOCATOR FOR COLUMNS blob2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOB HANDLE FOR COLUMNS blob3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOB HANDLE FOR ALL CLOB COLUMNS.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+<br>
+&nbsp;&nbsp;PRIVATE SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA out TYPE REF TO if_demo_output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS output_type IMPORTING struct TYPE string.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo_lob_handles IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out = cl_demo_output=&gt;new( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DO 6 TIMES.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output_type( |LOB_HANDLE_STRUCTURE_{ sy-index }| ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+&nbsp;&nbsp;METHOD output_type.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES: BEGIN OF result,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; component_name TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; absolute_name&nbsp;&nbsp;TYPE string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END OF result,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; results TYPE TABLE OF result WITH EMPTY KEY.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;next_section( struct<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write_data(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VALUE results(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FOR component IN CAST cl_abap_structdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_structdescr=&gt;describe_by_name( struct )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;components<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE ( type_kind = cl_abap_typedescr=&gt;typekind_oref )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( VALUE #(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; component_name = component-name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; absolute_name&nbsp;&nbsp;= CAST cl_abap_refdescr(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cl_abap_typedescr=&gt;describe_by_name(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct &amp;&amp; `-` &amp;&amp; component-name )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;get_referenced_type(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )-&gt;absolute_name ) ) ) ).<br>
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo_lob_handles=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENTYPES_LOB_HANDLE_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+The package-visible area of the class <span class="qtext">demo_lob_handles</span> contains various derivations
+of LOB handle structures from the database table <span class="lnkgrey">DEMO_LOB_TABLE</span>. The methods of this class are used for the output of the static type of the derived
+<a href="javascript:call_link('abenlob_handle_component_glosry.html')" class="grey" title="Glossary Entry">LOB handle components</a>.
+</p>
+<p>
+The DEMO_LOB_TABLE database table contains a key field of type INT4, as well as three columns CLOB1, CLOB2, CLOB3 of type STRING and three columns BLOB1, BLOB2, BLOB3 of type RAWSTRING.
+</p>
+<p>
+The derivations listed here function as follows:
+</p>
+<ul class="disc">
+<li>In the structured type <span class="qtext">lob_handle_structure_1</span>, <span class="qtext">clob1</span>
+and <span class="qtext">blob1</span> become LOB handle components using columns specified directly after
+<span class="qtext">READER</span>. The component <span class="qtext">clob1</span> contains the static
+type CL_ABAP_DB_C_READER and <span class="qtext">blob1</span> contains the static type CL_ABAP_DB_X_READER. All other components are displayed in accordance with the
+<a href="javascript:call_link('abenddic_builtin_types.html')" class="blue">regular rules</a> for their built-in types.</li>
+</ul>
+<ul class="disc">
+<li>In the structured type <span class="qtext">lob_handle_structure_2</span>, all components are turned
+into LOB components by specifying <span class="qtext">FOR ALL COLUMNS</span> for LOB handle components.
+The static type of the components of type STRING is IF_ABAP_DB_CLOB_HANDLE and the static type for the components of type RAWSTRING is IF_ABAP_DB_BLOB_HANDLE.</li>
+</ul>
+<ul class="disc">
+<li>In the structured type <span class="qtext">lob_handle_structure_3</span>, all components are converted
+into LOB components for LOB handle components. The static type of the component of type STRING is changed
+to CL_ABAP_DB_C_WRITER by specifying <span class="qtext">WRITER FOR ALL CLOB COLUMNS</span> and the
+static type for the components of type RAWSTRING is changed to CL_ABAP_DB_X_LOCATOR by specifying <span class="qtext">LOCATOR FOR ALL BLOB COLUMNS</span>.</li>
+</ul>
+<ul class="disc">
+<li>In the structured type <span class="qtext">lob_handle_structure_4</span>, all components are converted
+into LOB components for LOB handle components. The static type of the components <span class="qtext">clob1</span>
+and <span class="qtext">clob2</span> is changed to CL_ABAP_DB_C_READER by specifying <span class="qtext">READER</span>
+directly. All components of the type RAWSTRING are changed to reference types for IF_ABAP_DB_BLOB_HANDLE
+by specifying <span class="qtext">LOB HANDLE FOR ALL BLOB COLUMNS</span>. The other components of the
+type STRING are changed to reference types for CL_ABAP_DB_C_LOCATOR by specifying <span class="qtext">LOCATOR FOR ALL OTHER CLOB COLUMNS</span>.</li>
+</ul>
+<ul class="disc">
+<li>In the structured type <span class="qtext">lob_handle_structure_5</span>, all LOB components are
+listed directly and thereby converted into the corresponding LOB handle components with the static types
+CL_ABAP_DB_C_LOCATOR for <span class="qtext">clob1</span>, <span class="qtext">clob2</span>, and <span class="qtext">
+clob3</span> and CL_ABAP_DB_X_READER for <span class="qtext">blob1</span>, <span class="qtext">blob2</span>,
+and <span class="qtext">blob3</span>. Specifying <span class="qtext">LOB HANDLE FOR ALL OTHER COLUMNS</span>
+has no direct effect, but instead is applied to any enhancements to the database table of further LOBs, which then preserve their type-friendly interface reference type.</li>
+</ul>
+<ul class="disc">
+<li>In the structured type <span class="qtext">lob_handle_structure_6</span>, all components are converted
+into LOB components for LOB handle components, whereby here the maximum number of column specifications
+is demonstrated. <span class="qtext">FOR ALL CLOB COLUMNS</span> can only be specified since no components of type STRING were covered by previous statements.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abentypes_lob_handle_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:32 GMT -->
+</html>

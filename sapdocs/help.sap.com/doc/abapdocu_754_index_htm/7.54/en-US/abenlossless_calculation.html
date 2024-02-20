@@ -1,0 +1,197 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENLOSSLESS_CALCULATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlossless_calculation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="arith_exp - Lossless Calculations">
+<meta name="keywords" content="ABAP, Lossless Calculations">
+<title>
+arith_exp - Lossless Calculations - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenlossless_calculation.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenlossless_calculation.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_working.html')" class="blue">Processing Internal Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencompute_expressions.html')" class="blue">Numeric Calculations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abapcompute_arith.html')" class="blue">arith_exp - Arithmetic Expressions</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+arith_exp - Lossless Calculations
+</span></p>
+<p>
+A <a href="javascript:call_link('abenlossless_calculation_glosry.html')" class="grey" title="Glossary Entry">lossless calculation</a> is a calculation of an
+<a href="javascript:call_link('abenarithmetic_expression_glosry.html')" class="grey" title="Glossary Entry">arithmetic expression</a>
+in which no roundings occur. Lossless calculations can be performed using the <a href="javascript:call_link('abenconstructor_expression_exact.html')" class="blue">lossless operator <span class="qtext">EXACT</span></a>:
+</p>
+<A name="@@ITOC@@ABENLOSSLESS_CALCULATION_1"></A>
+<p><span class="h2">
+Syntax
+</span></p>
+<p>
+<span class="qtext">... EXACT type( arith_exp ) ...</span>.
+</p>
+<p>
+If the operand of the operator <span class="qtext">EXACT</span> is an arithmetic expression, the data
+type specified by <span class="qtext">type</span> cannot have the type <span class="qtext">f</span>. <span class="qtext">arith_exp</span> must be an arithmetic expression simplified as follows:
+</p>
+<ul class="disc">
+<li>The permitted <a href="javascript:call_link('abenarithmetic_operator_glosry.html')" class="grey" title="Glossary Entry">arithmetic
+operators</a> are <span class="qtext">+</span>, <span class="qtext">-</span>, <span class="qtext">*</span>,
+and <span class="qtext">/</span>. The operators <span class="qtext">DIV</span>, <span class="qtext">MOD</span>, and <span class="qtext">**</span> cannot be used.</li>
+</ul>
+<ul class="disc">
+<li>The permitted <a href="javascript:call_link('abenpredefined_function_glosry.html')" class="grey" title="Glossary Entry">built-in
+functions</a> are <span class="qtext">abs</span>, <span class="qtext">sign</span>, <span class="qtext">ceil</span>,
+<span class="qtext">floor</span>, <span class="qtext">trunc</span>, <span class="qtext">frac</span>,
+<span class="qtext">round</span>, and <span class="qtext">rescale</span>. These functions do not raise
+the exception CX_SY_CONVERSION_ROUNDING. No other built-in functions can be specified because their results are not lossless (in principle).</li>
+</ul>
+<ul class="disc">
+<li>No operands of data type <span class="qtext">x</span> and <span class="qtext">xstring</span> can be specified.</li>
+</ul>
+<ul class="disc">
+<li>No <a href="javascript:call_link('abenfunctional_method_glosry.html')" class="grey" title="Glossary Entry">functional methods</a> can be specified, since the losslessness requirements cannot be applied to the method execution.</li>
+</ul>
+<ul class="disc">
+<li>Operands of the type <span class="qtext">f</span> (binary floating point numbers) are not permitted because they cannot represent every decimal number precisely, due to their internal representation.</li>
+</ul>
+<p>
+The operator <span class="qtext">EXACT</span> specifies that a simplified expression with the
+<a href="javascript:call_link('abencalculation_type_glosry.html')" class="grey" title="Glossary Entry">calculation type</a> <span class="qtext">
+decfloat34</span> is calculated and checks whether roundings are performed. If roundings are not performed,
+the result is assigned to the return value (if necessary, the result is converted from <span class="qtext">decfloat34</span>
+to the data type determined by <span class="qtext">type</span>. If a rounding is required by the calculation,
+the exception <span class="lnkgrey">CX_SY_CONVERSION_ROUNDING</span> is raised. Rounding can take place
+when operands are converted to the calculation type, during the calculation, or when the result is converted to the target field.
+</p>
+<p>
+The exception is raised when the first subexpression that requires a rounding is calculated. When the
+exception is handled, the VALUE attribute in the exception object contains the result provided by a
+regular calculation. The attribute OPERATION contains the first operation that had to be rounded; conversions are represented by <span class="qtext400">":="</span>. <br><br>
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>The first calculation in lossless calculations that requires rounding raises an exception. This
+means that arithmetic expressions that are mathematically identical but constructed in different ways can display different behavior (see the executable
+<a href="javascript:call_link('abencompute_exact_abexa.html')" class="blue">example</a>).</li>
+</ul>
+<ul class="disc">
+<li>If the operand of the operator <span class="qtext">EXACT</span> is not an arithmetic expression, the operator performs a
+<a href="javascript:call_link('abenlossless_assignment_glosry.html')" class="grey" title="Glossary Entry">lossless assignment</a>.</li>
+</ul>
+<ul class="disc">
+<li>The use of the addition <span class="qtext">EXACT</span> in the obsolete statement <a href="javascript:call_link('abapcompute.html')" class="blue">
+<span class="qtext">COMPUTE</span></a> is an obsolete form of lossless calculation. <br><br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The second arithmetic expression raises an exception, since it requires rounding to two decimal places.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+TYPES pack TYPE p LENGTH 8 DECIMALS 2. <br> <br>DATA(result1) = EXACT pack( 1 / 4 ). <br> <br>DATA(result2) = EXACT pack( 1 / 3 ). <br><br>
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<P>
+<a href="javascript:call_link('abencompute_exact_abexa.html')" class="blue">Lossless Calculations</a>
+</P>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenfloating_point_numbers_abexa.html')" class="blue">Floating Point Numbers, Arithmetic Calculations</a> <br><br>
+</p>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Handleable Exceptions</span> <br>
+</P>
+<P>
+<span class="lnkgrey">CX_SY_TYPE_NOT_EXACT</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Invalid operand type for lossless calculations <br><span class="italic">Runtime error:</span> <span class="qtext">UNCAUGHT_EXCEPTION</span>
+<br></li>
+</ul>
+<P>
+<span class="lnkgrey">CX_SY_CONVERSION_ROUNDING</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> Rounding in a lossless calculation <br><span class="italic">Runtime error:</span> <span class="qtext">UNCAUGHT_EXCEPTION</span>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abencompute_exact_abexa.html')" class="blue">Lossless Calculations</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenlossless_calculation.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:20 GMT -->
+</html>

@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENINHERITANCE_STATICAL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_statical.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:27 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Inheritance and Static Components">
+<meta name="keywords" content="ABAP, Static Attributes, Inheritance">
+<title>
+Inheritance and Static Components - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abeninheritance_statical.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abeninheritance_statical.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendeclarations.html')" class="blue">Declarations</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_declarations.html')" class="blue">Declaration Statements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenclasses_and_interfaces.html')" class="blue">Classes and Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_objects_oview.html')" class="blue">ABAP Objects - Overview</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abeninheritance.html')" class="blue">Inheritance</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Inheritance and Static Components
+</span></p>
+<p>
+<a href="javascript:call_link('abenstatic_component_glosry.html')" class="grey" title="Glossary Entry">Static components</a>, like all components, exist only once in each inheritance tree, and can be used from the level of the declaring class:
+</p>
+<ul class="disc">
+<li>A subclass can access all non-private static components of its superclasses. The class in which the static component is declared is always the class that is addressed.</li>
+</ul>
+<ul class="disc">
+<li>From outside, the class component selector can be used to access all visible static components.
+Each class can be specified in which the component exists (that is, the declaring class and each subclass).
+Regardless of the class name used in the class component selector, however, the class in which the component is declared is addressed.</li>
+</ul>
+<p>
+The class in which the component is declared is always the class addressed, regardless of whether the static component is used internally or externally. This is important in the following cases:
+</p>
+<ul class="disc">
+<li>Calls of the <a href="javascript:call_link('abenstatic_constructor_glosry.html')" class="grey" title="Glossary Entry">static constructors</a>. <br>
+ <br>Static constructors are called the first time a class is addressed. If a static component is addressed
+that is declared in a superclass using the class name of a subclass, only the static constructor of the superclass is called.</li>
+</ul>
+<ul class="disc">
+<li>Access to the <a href="javascript:call_link('abenstatic_attribute_glosry.html')" class="grey" title="Glossary Entry">static attributes</a> <br>
+ <br>A subclass has access to the content of all non-private static attributes of all superclasses.
+Conversely, a superclass shares its public and protected static attributes with all of its subclasses.
+When inherited, therefore, static attributes are not just usable in a single class and can also be used
+to the subtree of the inheritance tree that consists of all subclasses of the defining class. Changes to the values are visible in all involved classes, regardless of the class used to address an attribute.</li>
+</ul>
+<ul class="disc">
+<li>Registrations of <a href="javascript:call_link('abenevent_handler_glosry.html')" class="grey" title="Glossary Entry">event handlers</a>. <br>
+ <br>If an event handler is declared for a static event of a subclass inherited from a superclass, it
+can react to this event only if it is raised by a method of the subclass or one of its subclasses. If
+the event is raised in a static method of a superclass, it is not handled, even if the method is called in a subclass or if the name of the subclass is specified.</li>
+</ul>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+A static attribute of a class can be declared as a private attribute to prevent it from being used by all subclasses.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+Calls a static method of a superclass using the name of a subclass. Before the method is executed, the
+static constructor of the superclass is executed, but not the static constructor of the subclass. The method returns the value that is set in the superclass.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS c1 DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA&nbsp;&nbsp;&nbsp;&nbsp; a1 TYPE string. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS: class_constructor, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m1 RETURNING value(r1) LIKE a1. <br>ENDCLASS. <br>
+ <br>CLASS c1 IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD class_constructor. <br>&nbsp;&nbsp;&nbsp;&nbsp;a1 = 'c1'. <br>
+&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD m1. <br>&nbsp;&nbsp;&nbsp;&nbsp;r1 = a1. <br>&nbsp;&nbsp;ENDMETHOD. <br>
+ENDCLASS. <br> <br>CLASS c2 DEFINITION INHERITING FROM c1. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS class_constructor. <br>
+ENDCLASS. <br> <br>CLASS c2 IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD class_constructor. <br>&nbsp;&nbsp;&nbsp;&nbsp;a1 = 'c2'. <br>
+&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS. <br> <br>DATA v1 TYPE string. <br> <br>START-OF-SELECTION. <br>&nbsp;&nbsp;v1 = c2=>m1( ).
+</span>
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+This example shows how a subclass is used to change a static attribute of a superclass, and how the change is visible in a subclass of a different path in the inheritance tree.
+</p>
+<p class="qtextml1">
+<span class="qtext">
+CLASS c1 DEFINITION. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA a1 TYPE string. <br>
+ENDCLASS. <br> <br>CLASS c11 DEFINITION INHERITING FROM c1. <br>&nbsp;&nbsp;... <br>ENDCLASS. <br> <br>CLASS c12 DEFINITION INHERITING FROM c1. <br>
+&nbsp;&nbsp;... <br>ENDCLASS. <br> <br>c11=>a1 = 'Hello Sister'. <br> <br>MESSAGE c12=>a1 TYPE 'I'.
+</span>
+</p>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenevent_inheritance_abexa.html')" class="blue">Events in Inheritance</a>
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abeninheritance_statical.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:27 GMT -->
+</html>

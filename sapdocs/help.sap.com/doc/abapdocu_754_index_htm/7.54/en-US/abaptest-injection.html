@@ -1,0 +1,200 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPTEST-INJECTION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abaptest-injection.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:07 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="TEST-INJECTION">
+<meta name="keywords" content="ABAP, TEST-INJECTION">
+<title>
+TEST-INJECTION - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abaptest-injection.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abaptest-injection.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenprogram_editing.html')" class="blue">program editing</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_tests.html')" class="blue">Testing and Checking Programs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_unit.html')" class="blue">ABAP Unit</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abentest_seams.html')" class="blue">Test Seams</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@TEST-INJECTION@@!ABAP_STATEMENT!@@"></A>
+<p><span class="h1">
+TEST-INJECTION <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abaptest-injection_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Syntax</span>
+</span></p>
+<P>
+<span class="qtext">TEST-INJECTION seam.</span> <br><span class="qtext">&nbsp;&nbsp;<i class=bn>[</i>statement_block<i class=bn>]</i></span> <br><span class="qtext">END-TEST-INJECTION.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+The statement <span class="qtext">TEST-INJECTION</span> introduces an
+<a href="javascript:call_link('abeninjection_glosry.html')" class="grey" title="Glossary Entry">injection</a> for a
+<a href="javascript:call_link('abentest_seam_glosry.html')" class="grey" title="Glossary Entry">test seam</a> <span class="qtext">seam</span>,
+closed using <span class="qtext">END-TEST-INJECTION</span>. The test seam <span class="qtext">seam</span>
+must be defined in the production code of the current program using the statement <a href="javascript:call_link('abaptest-seam.html')" class="blue">
+<span class="qtext">TEST-SEAM</span></a>. When a unit test is performed, the statement block <span class="qtext">statement_block</span>
+of the injection replaces the statement block of the test seam <span class="qtext">seam</span> in production code.
+</P>
+<P>
+An injection can only be defined in those methods of test classes created in a <a href="javascript:call_link('abentest_include_glosry.html')" class="grey" title="Glossary Entry">test include</a>. Injections have the following properties:
+</P>
+<ul class="disc">
+<li>
+Injections can be made only while a test method or the <span class="qtext">setup</span> method is being executed.
+<br><br></li>
+<li>
+Injections cannot be nested, which means that an injection cannot contain further injections.
+<br><br></li>
+<li>
+An injection cannot extend beyond the limits of a
+<a href="javascript:call_link('abenstatement_block_glosry.html')" class="grey" title="Glossary Entry">statement block</a>, but can contain closed
+<a href="javascript:call_link('abencontrol_structure_glosry.html')" class="grey" title="Glossary Entry">control structures</a>.
+<br><br></li>
+<li>
+An injection can include local data declarations using the statement <a href="javascript:call_link('abapdata.html')" class="blue"><span class="qtext">
+DATA</span></a>. These variables are visible below their declaration in the current injection and all
+following injections of the current test class. The data objects declared in an injection are not visible
+outside of injections (in other parts of the test class or in production code). Injections that access
+data objects declared in a different injection can only be assigned to test seams defined in the production source code below the test seam (meaning the test seam assigned to the declaring injection).
+<br><br></li>
+<li>
+An injection can be empty (that is, it is does not contain any statements). The code of the specified test seam is removed when the injection is executed.
+<br><br></li>
+<li>
+Injections can access all types and objects that are visible in the location of the specified test seam.
+<br><br></li>
+<li>
+In an injection, it is not possible to access types and objects of the test method, which the injection
+is defined in. These types and objects are placed in the location of the statement <span class="qtext">TEST-INJECTION</span>, but are not visible in the injection.
+<br></li>
+</ul>
+<P>
+The test seam remains replaced by the injection until the test seam encounters a new injection. This
+means that a test seam can be replaced more than once during a unit test and by different injections. All replacements are canceled at the end of a individual test or test method.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+When the test runs, any data objects declared in injections are preserved in their context, even if the declaring injection is replaced by a different injection in its test seam.
+<br><br></li>
+<li>
+Apart from <span class="qtext">DATA</span>, no declarative statements are possible in injections.
+<br><br></li>
+<li>
+Test includes can currently only be created for class pools and functions groups; this means that injections can only be created there as well.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+The <a href="javascript:call_link('abentest_include_glosry.html')" class="grey" title="Glossary Entry">test include</a> of the class <span class="lnkgrey">CL_DEMO_TEST_SEAMS</span> is an example of a test class with injections:
+</P>
+<P>
+The test method tests the method CHANGE_PRICE (see the example for <a href="javascript:call_link('abaptest-seam.html')" class="blue"><span class="qtext">
+TEST-SEAM</span></a>). Before the test method runs, the injection replaces the injection in the <span class="qtext">setup</span> method of the test seam <span class="qtext">selection</span>. When the test method runs,
+</P>
+<ul class="disc">
+<li>the statements of the test seam <span class="qtext">modification</span> are removed when replaced by an empty injection and the successful closing of the method is confirmed,</li>
+</ul>
+<ul class="disc">
+<li>the statements of the test seam <span class="qtext">modification</span> are replaced in such a way that an unsuccessful modification of the table content is simulated, and the associated return code checked,</li>
+</ul>
+<ul class="disc">
+<li>the statements of the test seam <span class="qtext">selection</span> are replaced in such a way that an unsuccessful selection of the table content is simulated, and the associated return code checked.</li>
+</ul>
+<dl><dd>
+<span class="qtext">CLASS test_demo_test_seam DEFINITION FOR TESTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RISK LEVEL HARMLESS <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DURATION SHORT <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FINAL. <br>
+&nbsp;&nbsp;PRIVATE SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;METHODS: setup, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_change_price FOR TESTING, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invoke_and_assert IMPORTING exp TYPE i. <br>ENDCLASS. <br> <br>CLASS test_demo_test_seam IMPLEMENTATION. <br>
+&nbsp;&nbsp;METHOD setup. <br>&nbsp;&nbsp;&nbsp;&nbsp;TEST-INJECTION selection. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa-price = 100. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;END-TEST-INJECTION. <br>&nbsp;&nbsp;ENDMETHOD. <br>&nbsp;&nbsp;METHOD test_change_price. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;TEST-INJECTION modification. <br>&nbsp;&nbsp;&nbsp;&nbsp;END-TEST-INJECTION. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;invoke_and_assert( 90 ). <br>&nbsp;&nbsp;&nbsp;&nbsp;TEST-INJECTION modification. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sy-subrc = 4. <br>&nbsp;&nbsp;&nbsp;&nbsp;END-TEST-INJECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;invoke_and_assert( -2 ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;TEST-INJECTION selection. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sy-subrc = 4. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;END-TEST-INJECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;TEST-INJECTION modification. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;END-TEST-INJECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;invoke_and_assert( -1 ). <br>&nbsp;&nbsp;ENDMETHOD. <br>
+&nbsp;&nbsp;METHOD invoke_and_assert. <br>&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_demo_test_seams( )->change_price( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; carrid = '&nbsp;&nbsp; ' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connid = '0000' <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fldate = '00000000' <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; factor = 90 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTING new_price = DATA(new_price) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_abap_unit_assert=>assert_equals( <br>&nbsp;&nbsp;&nbsp;&nbsp; EXPORTING <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= exp <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act = new_price&nbsp;&nbsp;). <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapend-test-injection.html')" class="blue">END-TEST-INJECTION</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abaptest-injection.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:07 GMT -->
+</html>

@@ -1,0 +1,159 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENEXCEPTION_TEXTS_T100 -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_texts_t100.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Messages as Exception Texts">
+<title>
+Messages as Exception Texts - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenexception_texts_t100.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenexception_texts_t100.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_flow_logic.html')" class="blue">Program Flow Logic</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_exceptions.html')" class="blue">Exception Handling</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions.html')" class="blue">Class-Based Exceptions</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexceptions_classes.html')" class="blue">Exception Classes</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenexception_texts.html')" class="blue">Exception Texts</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Messages as Exception Texts
+</span></p>
+<p>
+The exception texts of an exception class are usually defined by referencing
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">messages</a> from the table
+<a href="javascript:call_link('abenabap_messages_storing.html')" class="blue">T100</a>. The exception class must implement the interface
+<a href="javascript:call_link('abenif_t100_message.html')" class="blue">IF_T100_MESSAGE</a> before the messages can be used as
+exception texts. Exception texts are assigned to messages using constant structures in the public visibility
+section of the exception class. Each statically predefined exception text has an identically named constant
+with the structured data type <span class="lnkgrey">SCX_T100KEY</span> from ABAP Dictionary. The individual
+components represent the message class, the message number, and the attributes assigned to the placeholders. The way the exception texts are edited depends on the tool in question:
+</p>
+<ul class="disc">
+<li>Exception texts can be created on the <span class="italic">Texts</span> tab in
+<a href="javascript:call_link('abenclass_builder_glosry.html')" class="grey" title="Glossary Entry">Class Builder</a> in ABAP Workbench and then assigned a
+<a href="javascript:call_link('abenmessage_class_glosry.html')" class="grey" title="Glossary Entry">message class</a> and
+<a href="javascript:call_link('abenmessage_number_glosry.html')" class="grey" title="Glossary Entry">message number</a> by selecting
+a <span class="italic">message text</span>. Furthermore, the placeholders "&amp;1" to "&amp;4" or "&amp;"
+of the message can be assigned to public attributes of the exception class. Class Builder creates the
+associated constant structure in the public visibility section with the name of the exception text and generates a matching instance constructor.</li>
+</ul>
+<ul class="disc">
+<li>In the <a href="javascript:call_link('abenadt_glosry.html')" class="grey" title="Glossary Entry">ABAP Development Tools (ADT)</a>,
+exception texts can be edited in source code editors. An exception class is defined by the fact that
+it inherits from one of the superclasses CX_STATIC_CHECK, CX_DYNAMIC_CHECK, or CX_NO_CHECK. Classes
+of this type include the interface IF_T100_MESSAGE by default and the constructor is generated accordingly.
+The code template <span class="qtext400">textIdExceptionClass</span> can be used to create a constant
+structure in the visibility section for each exception text. The components of this structure define the properties of the message.</li>
+</ul>
+<p>
+The input parameter TEXTID of the instance constructor of the exception class has the same data type
+as the attribute T100KEY of the interface <span class="lnkgrey">IF_T100_MESSAGE</span>, which references
+<span class="lnkgrey">SCX_T100KEY</span>. When an exception with messages as exception texts is raised,
+the constructor can be passed a structure with information about the message to be used as the exception
+text. It is strongly recommended that only the constants that exist in the class for the predefined
+exception texts are passed to TEXTID. This selects a predefined text for the exception. The attributes
+assigned to the placeholders "&amp;1" to "&amp;4" or "&amp;" of a message can be assigned values using
+the input parameters of the same name of the instance constructor. The placeholders are replaced by the content of the assigned attributes when the exception is raised.
+</p>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>Exception texts associated with messages can be sent to the program user using the statement <a href="javascript:call_link('abapmessage_msg.html')" class="blue"><span class="qtext">MESSAGE oref</span></a> when the exception is handled.</li>
+</ul>
+<ul class="disc">
+<li>The system interface <a href="javascript:call_link('abenif_t100_dyn_msg.html')" class="blue">IF_T100_DYN_MSG</a> (which includes IF_T100_MESSAGE) is available for associating a message with an exception class. See
+<a href="javascript:call_link('abenmessage_exceptions.html')" class="blue">Exception Classes for Messages</a>.</li>
+</ul>
+<ul class="disc">
+<li>When an exception class is created in Class Builder and the interface IF_T100_DYN_MSG (and hence
+IF_T100_MESSAGE) is included in the class, it is advisable to specify this when creating the exception
+class by setting the appropriate flag. This ensures that the constructor is generated immediately and as required. Otherwise, the constructor for
+<a href="javascript:call_link('abenexception_texts_internal.html')" class="blue">internal exception texts</a> is generated and
+must be generated again once it is included in the interface by choosing <span class="italic">Utilities &rarr; Clean Up &rarr; Constructor</span> in the menu.</li>
+</ul>
+<ul class="disc">
+<li>The method GET_LATEST_T100_EXCEPTION in the class <span class="lnkgrey">CL_MESSAGE_HELPER</span>
+is used to return the last object in a chain of exception objects (created using the attribute PREVIOUS) that has an exception text defined by a message.</li>
+</ul>
+<ul class="disc">
+<li>From a technical perspective, any structure of type SCX_T100KEY whose components specify any message
+of table T100 can be passed to the input parameter TEXTID of the instance constructor. This is strongly
+discouraged, however, because an exception should only be raised with specific texts when using the parameter TEXTID.</li>
+</ul>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li>See <a href="javascript:call_link('abenmessage_interface_global_abexa.html')" class="blue">system interface IF_T100_MESSAGE in a global exception class</a>.</li>
+</ul>
+<ul class="disc">
+<li>See <a href="javascript:call_link('abenraise_message_global_abexa.html')" class="blue">system interface IF_T100_DYN_MSG in a global exception class</a>.</li>
+</ul>
+<ul class="disc">
+<li>The exception classes of the package SABAP_DEMOS_CAR_RENTAL_EXCPTNS, which is part of an example
+application created in the superpackage SABAP_DEMOS_CAR_RENTAL, use messages as exception texts. See <span class="lnkgrey">CX_DEMO_CR_CAR_MODIFY</span>, for example.</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenexception_texts_t100.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:45 GMT -->
+</html>

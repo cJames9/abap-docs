@@ -1,0 +1,260 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENCALL_HANA_DB_PROC_ABEXA -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencall_hana_db_proc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="SAP HANA, Call Database Procedure">
+<title>
+SAP HANA, Call Database Procedure - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abencall_hana_db_proc_abexa.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abencall_hana_db_proc_abexa.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_language_external_data.html')" class="blue">Processing External Data</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_sql.html')" class="blue">ABAP Database Access</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_hana.html')" class="blue">ABAP and SAP HANA</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_and_hana_abexas.html')" class="blue">ABAP and SAP HANA, Examples</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+SAP HANA, Call Database Procedure
+</span></p>
+<p>
+This example demonstrates how a database procedure in the SAP HANA database can be called.
+</p>
+<A name="@@ITOC@@ABENCALL_HANA_DB_PROC_ABEXA_1"></A>
+<p><span class="h2">
+Source Code
+</span></p>
+<!-- Begin code -->
+<p class="qtextml1"><span class="qtextgrey">
+REPORT demo_call_hana_db_procedure.<br>
+<br>
+CLASS demo DEFINITION.<br>
+&nbsp;&nbsp;PUBLIC SECTION.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS main.<br>
+ENDCLASS.<br>
+<br>
+CLASS demo IMPLEMENTATION.<br>
+&nbsp;&nbsp;METHOD main.<br>
+</span><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(out) = cl_demo_output=&gt;new( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF NOT cl_abap_dbfeatures=&gt;use_features(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requested_features =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE #( ( cl_abap_dbfeatures=&gt;call_database_procedure )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( cl_abap_dbfeatures=&gt;call_amdp_method ) ) ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_output=&gt;display(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Current database system does not support all procedure calls` ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA carrier TYPE spfli-carrid VALUE 'LH'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cl_demo_input=&gt;request( CHANGING field = carrier ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(oref) =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEW cl_demo_call_hana_db_procedure( to_upper( carrier ) ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(osql_result) = oref-&gt;osql( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(adbc_result) = oref-&gt;adbc( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(cdbp_result) = oref-&gt;cdbp( ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(amdp_result) = oref-&gt;amdp( ).<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IF osql_result = adbc_result AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; osql_result = cdbp_result AND<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; osql_result = amdp_result.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;begin_section(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Result of Open SQL, ADBC, CALL DATABASE PROCEDURE, and AMDP`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-&gt;write( amdp_result ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;write( 'Error' ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out-&gt;display( ).<br>
+<br>
+</span><span class="qtextgrey">
+&nbsp;&nbsp;ENDMETHOD.<br>
+ENDCLASS.<br>
+<br>
+START-OF-SELECTION.<br>
+&nbsp;&nbsp;demo=&gt;main( ).<br>
+</span></p>
+<!-- End code -->
+<A name="@@ITOC@@ABENCALL_HANA_DB_PROC_ABEXA_2"></A>
+<p><span class="h2">
+Description
+</span></p>
+<p>
+Take a database procedure called <span class="qtext400">/1BCAMDP/DEMO_ADBC_GET_FLIGHTS</span> in the <a href="javascript:call_link('abenabap_db_schema_glosry.html')" class="grey" title="Glossary Entry">ABAP database schema</a>:
+</p>
+<dl><dd>
+<span class="qtext400">begin <br>&nbsp;&nbsp;FLIGHTS = <br>&nbsp;&nbsp;&nbsp;&nbsp;select * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; from SFLIGHT as S <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; where exists ( <br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select MANDT, CARRID, CONNID <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from :CONNECTIONS as C <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where C.MANDT&nbsp;&nbsp;= S.MANDT and <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.CARRID = S.CARRID and <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.CONNID = S.CONNID ); <br>end</span>
+</dd></dl>
+<p>
+The procedure has a tabular input parameter <span class="qtext400">CONNECTIONS</span> with the three-column
+HANA table type <span class="qtext400">DEMO_ADBC_CONNECTIONS_TYPE</span> and an output parameter <span class="qtext400">
+FLIGHTS</span> with the type SFLIGHT defined in ABAP Dictionary. The HANA table type has three character-like
+columns, <span class="qtext400">MANDT</span> with length 3, <span class="qtext400">CARRID</span> with
+length 3, and <span class="qtext400">CONNID</span> with length 4. The task is to call this procedure
+from ABAP while passing an internal table to the input parameter and applying the output parameter to an internal table.
+</p>
+<p>
+To do this, the example program calls various methods of the class <span class="lnkgrey">CL_DEMO_CALL_HANA_DB_PROCEDURE</span>.
+The passed table <span class="qtext">connection_tab</span> is filled in the instance constructor of
+the class in accordance with user input. Furthermore, the database procedure, the HANA table type, and a database procedure proxy (usually static) are created here temporarily.
+</p>
+<A name="@@ITOC@@ABENCALL_HANA_DB_PROC_ABEXA_3"></A>
+<p><span class="h3">
+Comparison Implementation Using ABAP SQL
+</span></p>
+<p>
+The method OSQL shows how the implementation of the database procedure can be expressed in ABAP SQL
+too. If the function is required only in ABAP, an implementation in SQLScript is unnecessary in this case and should be avoided in fact (as specified in the relevant
+<a href="javascript:call_link('abendatabase_access_guidl.html')" class="lnkpurple" title="Guideline">programming guideline</a>.
+In our example, the database procedure is a replacement for a globally available procedure also to be
+called in ABAP. The result of the method OSQL is compared with the results of the various procedure calls to check their correctness.
+</p>
+<dl><dd>
+<span class="qtext">METHOD osql. <br>&nbsp;&nbsp;IF connection_tab IS NOT INITIAL. <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT * <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM sflight <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR ALL ENTRIES IN @connection_tab <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = @connection_tab-carrid AND <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid = @connection_tab-connid <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE @flights. <br>&nbsp;&nbsp;ENDIF. <br>ENDMETHOD.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENCALL_HANA_DB_PROC_ABEXA_4"></A>
+<p><span class="h3">
+Call with Native SQL Using ADBC
+</span></p>
+<p>
+The method ADBC uses <a href="javascript:call_link('abennative_sql_glosry.html')" class="grey" title="Glossary Entry">Native SQL</a> and
+<a href="javascript:call_link('abenadbc_glosry.html')" class="grey" title="Glossary Entry">ADBC</a> to call the database procedure.
+To pass the internal table <span class="qtext">connection_tab</span> to the database procedure, a temporary
+table <span class="qtext400">DEMO_ADBC_CONNECTIONS</span> with the required type <span class="qtext400">DEMO_ADBC_CONNECTIONS_TYPE</span>
+is created on the database and provided with the values of the internal table using <span class="qtext400">insert</span>.
+The database procedure is then called with the temporary table as an input parameter and the result
+is assigned to an ADBC results set. To read from the results set, a standard table <span class="qtext">flights_std</span>
+is required as an auxiliary table, since the return value <span class="qtext">flights</span> is a sorted
+table that cannot be used for ADBC. The temporary table <span class="qtext400">DEMO_ADBC_CONNECTIONS</span> is removed again after the database procedure is called.
+</p>
+<dl><dd>
+<span class="qtext">METHOD adbc. <br>&nbsp;&nbsp;DATA(sql) = NEW cl_sql_statement( ). <br> <br>&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_update( 'truncate table DEMO_ADBC_CONNECTIONS' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_ddl(&nbsp;&nbsp;&nbsp;&nbsp;'drop table DEMO_ADBC_CONNECTIONS' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sql_exception ##no_handler. <br>&nbsp;&nbsp;ENDTRY. <br> <br>&nbsp;&nbsp;TRY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_ddl( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`create global temporary row table DEMO_ADBC_CONNECTIONS ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `like DEMO_ADBC_CONNECTIONS_TYPE` ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;set_param_table( REF #( connection_tab ) ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_update( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`insert into DEMO_ADBC_CONNECTIONS values ( ?, ?, ? )` ). <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(result) = <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_query( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`call "/1BCAMDP/DEMO_ADBC_GET_FLIGHTS"( ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&nbsp;&nbsp;CONNECTIONS =&gt;DEMO_ADBC_CONNECTIONS, ` &amp;&amp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`&nbsp;&nbsp;FLIGHTS =&gt; NULL )` ). <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA flights_std TYPE STANDARD TABLE OF sflight WITH EMPTY KEY. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result-&gt;set_param_table( REF #( flights_std ) ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result-&gt;next_package( ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result-&gt;close( ). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flights = flights_std. <br>
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_update( 'truncate table DEMO_ADBC_CONNECTIONS' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql-&gt;execute_ddl(&nbsp;&nbsp;&nbsp;&nbsp;'drop table DEMO_ADBC_CONNECTIONS' ). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH cx_sql_exception. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR flights. <br>&nbsp;&nbsp;ENDTRY. <br>ENDMETHOD.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENCALL_HANA_DB_PROC_ABEXA_5"></A>
+<p><span class="h3">
+Call Using Database Procedure Proxy
+</span></p>
+<p>
+The method CDBP calls the database procedure with the statement <a href="javascript:call_link('abapcall_database_procedure.html')" class="blue"><span class="qtext">CALL DATABASE PROCEDURE</span></a> using the assigned
+<a href="javascript:call_link('abendatabase_proc_proxy_glosry.html')" class="grey" title="Glossary Entry">database procedure
+proxy</a> DEMO_ADBC_GET_FLIGHTS_PROXY. The only thing to note here is that input parameters and output
+parameters of the database procedure have different row types than the internal tables assigned to them.
+In both cases, the column <span class="qtext400">CONNID</span> has the type <span class="qtext400">NVARCHAR(4)</span>
+on the database, but the type <span class="qtext">n</span> with length 4 in ABAP. For this reason, the
+internal table <span class="qtext">connection_tab</span> is first assigned to a temporary table <span class="qtext">
+connections</span> with the correct row type before the procedure is called. No auxiliary table is required
+for the result <span class="qtext">flights</span>, since the row type is described using an ABAP Dictionary
+type. An appropriate mapping can be performed for this type using the mapping table <span class="qtext">params</span>.
+As an alternative to an auxiliary table for <span class="qtext">connection_tab</span>, its data type could be declared in ABAP Dictionary too and an appropriate mapping performed.
+</p>
+<dl><dd>
+<span class="qtext">METHOD cdbp. <br>&nbsp;&nbsp;TYPES: <br>&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF connection, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mandt&nbsp;&nbsp;TYPE c LENGTH 3, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid TYPE c LENGTH 3, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid TYPE c LENGTH 4, <br>&nbsp;&nbsp;&nbsp;&nbsp;END OF connection. <br>
+&nbsp;&nbsp;DATA connections TYPE STANDARD TABLE OF connection <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH EMPTY KEY. <br>
+&nbsp;&nbsp;connections = connection_tab. <br> <br>&nbsp;&nbsp;CALL DATABASE PROCEDURE ('DEMO_ADBC_GET_FLIGHTS_PROXY') <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING connections = connections <br>&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING flights&nbsp;&nbsp;&nbsp;&nbsp; = flights. <br> <br>ENDMETHOD.</span>
+</dd></dl>
+<A name="@@ITOC@@ABENCALL_HANA_DB_PROC_ABEXA_6"></A>
+<p><span class="h3">
+Call Using AMDP
+</span></p>
+<p>
+The method AMDP calls the <a href="javascript:call_link('abenamdp_method_glosry.html')" class="grey" title="Glossary Entry">AMDP
+method</a> AMDP_METH, in which a call of the database procedure is implemented in SQLScript. In this case, all type-dependent actions required are performed by the AMDP framework.
+</p>
+<dl><dd>
+Method was not found
+</dd></dl>
+<br>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abencall_hana_db_proc_abexa.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:37 GMT -->
+</html>

@@ -1,0 +1,211 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENRFC_DESTINATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_destination.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="RFC Destination">
+<meta name="keywords" content="ABAP, RFC Destination">
+<title>
+RFC Destination - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenrfc_destination.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenrfc_destination.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_data_communication.html')" class="blue">Data Interfaces and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc.html')" class="blue">RFC - Remote Function Call</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenrfc_intro_oview.html')" class="blue">RFC Overview</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+RFC Destination
+</span></p>
+<p>
+The information about the target system of an RFC call is stored in the RFC destination.
+</p>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENRFC_DESTINATION_1" class="blue">Static Destinations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENRFC_DESTINATION_2" class="blue">Dynamic Destinations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENRFC_DESTINATION_3" class="blue">Predefined Destinations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENRFC_DESTINATION_4" class="blue">AS Instances as Destinations</A></li>
+</ul>
+<ul class="disc">
+<li><A HREF="#@@ITOC@@ABENRFC_DESTINATION_5" class="blue">More Information</A></li>
+</ul>
+<A name="@@ITOC@@ABENRFC_DESTINATION_1"></A>
+<p><span class="h2">
+Static Destinations
+</span></p>
+<p>
+The attributes of destinations are defined statically and managed in AS ABAP using the transaction <span class="lnkgrey">
+SM59</span>. Every destination managed in transaction SM59 has a unique name that can be specified after
+the addition <a href="javascript:call_link('abapcall_function_destination.html')" class="blue"><span class="qtext">DESTINATION</span></a>
+in RFC. For every destination, a connection type, the partner program, and the target system are defined in transaction SM59. Logon data and further connection options can also be defined in the destination.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The documented function module <span class="lnkgrey">RFC_MODIFY_R3_DESTINATION</span> edits static destinations managed in transaction SM59.
+</p>
+<A NAME="@@CL_DYNAMIC_DESTINATION@@!ABAP_CLASS!@@"></A>
+<A name="@@ITOC@@ABENRFC_DESTINATION_2"></A>
+<p><span class="h2">
+Dynamic Destinations
+</span></p>
+<p>
+In cases whether it is not enough to use the static destinations managed using transaction <span class="lnkgrey">SM59</span>,
+the associated attributes can be grouped as a dynamic destination. This is done using the class <span class="lnkgrey">
+CL_DYNAMIC_DESTINATION</span>. Its method CREATE_RFC_DESTINATION creates a text field that can be specified in the current
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> in
+RFC after the addition <a href="javascript:call_link('abapcall_function_destination.html')" class="blue"><span class="qtext">DESTINATION</span></a>
+and interpreted as a destination by the runtime environment. A destination from transaction SM59 can
+also be used as a template and modified accordingly. The validity of the new destination is not checked until it is used for an RFC.
+</p>
+<p>
+A dynamic destination has the characters <span class="qtext400">%%</span> as a prefix. These dynamic
+destinations must only be created using the class CL_DYNAMIC_DESTINATION and must never be added to programs from external sources. Further methods in the class make it possible to
+</p>
+<ul class="disc">
+<li>invalidate a dynamic destination created the current session,</li>
+</ul>
+<ul class="disc">
+<li>check whether a destination added from an external source is a dynamic destination,</li>
+</ul>
+<ul class="disc">
+<li>invalidate any dynamic destinations added from external sources.</li>
+</ul>
+<p><span class="h4">
+Executable Example
+</span></p>
+<p>
+<a href="javascript:call_link('abenrfc_dynamic_dest_abexa.html')" class="blue">Dynamic RFC Destination</a>
+</p>
+<A name="@@ITOC@@ABENRFC_DESTINATION_3"></A>
+<p><span class="h2">
+Predefined Destinations
+</span></p>
+<p>
+There are two predefined destinations that do not have to be entered using transaction SM59:
+</p>
+<ul class="disc">
+<li>The destination <span class="qtext400">"NONE"</span>" dictates that the function module starts on the same
+<a href="javascript:call_link('abenapplication_server_glosry.html')" class="grey" title="Glossary Entry">AS Instance</a> as the calling program, but using the RFC interface and in a separate
+<a href="javascript:call_link('abenrfc_session_glosry.html')" class="grey" title="Glossary Entry">RFC context</a> for the current user. This destination is possible for all execution modes.</li>
+</ul>
+<ul class="disc">
+<li>Destination <span class="qtext400">"BACK"</span> can be used in a function module that is called
+remotely, and links back to the caller. This can only be specified in function modules that have been
+called synchronously. Destination <span class="qtext400">"BACK"</span> can be used to call each remote-capable
+function module of the calling system in all three execution types. In synchronous callbacks, the associated relevant function group is loaded into the
+<a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal session</a> of the calling program, if it does not yet exist there. The existent RFC connection is used for this callback.</li>
+</ul>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>If the predefined destination <span class="qtext400">"NONE"</span> is used, no logon data or password
+must be specified when the user session is opened. If an RFC is performed for the current AS Instance
+using a destination defined in the transaction SM59, the settings on the application server dictate whether logon data needs to be specified or not.</li>
+</ul>
+<ul class="disc">
+<li>The logon data (user name, client, and logon language) for an RFC session with the destination <span class="qtext400">"NONE"</span> is taken implicitly from the calling session. The
+<a href="javascript:call_link('abentext_env_langu_glosry.html')" class="grey" title="Glossary Entry">text environment language</a> of the calling session must be used for the
+<a href="javascript:call_link('abenlogon_language_glosry.html')" class="grey" title="Glossary Entry">logon language</a> (and
+not the logon language of the session). The text environment language can be set using the statement <a href="javascript:call_link('abapset_locale.html')" class="blue"><span class="qtext">SET LOCALE LANGUAGE</span></a>.</li>
+</ul>
+<A name="@@ITOC@@ABENRFC_DESTINATION_4"></A>
+<p><span class="h2">
+AS Instances as Destinations
+</span></p>
+<p>
+Alongside destinations from transaction SM59, the dynamic destinations, and the two predefined destinations,
+destinations can also be specified directly using the name of an AS Instance, as returned by the method
+GET_INSTANCE_NAME of the system class <span class="lnkgrey">CL_ABAP_SYST</span> This name has the form <span class="qtext400">hostname_sysid_instnr</span>. Here, <span class="qtext400">hostname</span> is the name of the
+<a href="javascript:call_link('abenhost_computer_glosry.html')" class="grey" title="Glossary Entry">host computer</a> of the
+AS Instance, <span class="qtext400">sysid</span> is the name of the AS ABAP, and <span class="qtext400">instnr</span>
+is the instance number of the AS Instance, as display, for example, in <span class="lnkgrey">SM51</span>.
+</p>
+<p>
+The only systems that an be reached like this are the current systems or systems connected using a
+<a href="javascript:call_link('abensmt1_2.html')" class="blue">trust relationship</a>. For the current system, the logon data of the current user is used. For other systems, a logon is necessary.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+This data can be specified dynamically without presenting a security risk.
+</p>
+<A name="@@ITOC@@ABENRFC_DESTINATION_5"></A>
+<p><span class="h2">
+More Information
+</span></p>
+<p>
+A detailed description of the RFC destination can be found in under: <span class="lnkgrey">RFC</span> documentation on <a href="http://help.sap.com/" target="blank" class="blue">SAP Help Portal</a>.
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenrfc_destination.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:40 GMT -->
+</html>

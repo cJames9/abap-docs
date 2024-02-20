@@ -1,0 +1,248 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- DYNPFIELD_VALUE_SELECT -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/dynpfield_value_select.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="FIELD - VALUES, SELECT">
+<title>
+FIELD - VALUES, SELECT - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=dynpfield_value_select.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=dynpfield_value_select.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abengui_obsolete.html')" class="blue">Obsolete User Dialogs</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abendynpro_obsolet.html')" class="blue">Obsolete statements of the screen flow logic</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+FIELD - VALUES, SELECT <br><br>
+</span></p>
+<p><span class="h2">
+<span class="bold">Obsolete Syntax</span>
+</span></p>
+<P>
+
+</P>
+<p><span class="h2">
+Variants:
+</span></p>
+<P>
+   <A HREF="#!ABAP_VARIANT_1@1@" class="blue"> 1. <span class="qtext">FIELD f VALUES (<i class=bn>[</i><i
+class=bn>[</i>NOT<i class=bn>]</i> val1<i class=bn>]</i>, <i class=bn>[</i><i class=bn>[</i>NOT<i class=bn>]</i> val2<i class=bn>]</i>, ...</span> </A> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<i class=bn>[</i><i class=bn>[</i>NOT<i class=bn>]</i> BETWEEN vali AND valj<i class=bn>]</i>, ...).</span> <br>
+<br><A HREF="#!ABAP_VARIANT_2@2@" class="blue"> 2. <span class="qtext">FIELD f SELECT *</span> </A> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM dbtab</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE col1 = f1 AND col2 = f2 ...</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>INTO wa<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHENEVER <i class=bn>[</i>NOT<i class=bn>]</i> FOUND</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SEND <i
+class=bn>{</i>ERRORMESSAGE<i class=bn>|</i>WARNING<i class=bn>}</i> <i class=bn>[</i>num <i class=bn>[</i>WITH p1 ... p4<i class=bn>]</i><i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+These variants of the statement <a href="javascript:call_link('dynpfield.html')" class="blue"><span class="qtext">FIELD</span></a>
+can be used in the event block at PAI in the dynpro flow logic. They compare the content of the dynpro field <span class="qtext">f</span> either with entries from a value list or with the results of a database access.
+</P>
+<P>
+These types of input checks in the dynpro flow logic are executed after the automatic input checks and
+before the self-defined input checks in the ABAP program. The specified value list or the results set
+from the database accesses overrule the automatic input helps from ABAP Dictionary. They are themselves
+overruled by the events POH and POV. The additions <span class="qtext">VALUES</span> and <span class="qtext">SELECT</span>
+do not modify the effect of the statement <span class="qtext">FIELDS</span> on the data transport from the dynpro to the ABAP program.
+</P>
+<p><span class="h4">
+Note
+</span></p>
+<P>
+These variants are supported only for reasons of compatibility. You should replace them by checks within the ABAP program. <br><br>
+</P>
+<A NAME="@@FIELD VALUES@@!ABAP_DYNP_STATEMENT_OB!@@"></A>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_1@1@"></A> <span class="bold">Variant 1</span>
+</span></p>
+<P>
+<span class="qtext">FIELD f VALUES (<i class=bn>[</i><i class=bn>[</i>NOT<i class=bn>]</i> val1<i class=bn>]</i>, <i
+class=bn>[</i><i class=bn>[</i>NOT<i class=bn>]</i> val2<i class=bn>]</i>, ...</span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i><i
+class=bn>[</i>NOT<i class=bn>]</i> BETWEEN vali AND valj<i class=bn>]</i>, ...).</span><br><!-- /A --> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+A value list is specified by entries (in parentheses and separated by commas) after the addition <span class="qtext">VALUES</span>.
+</P>
+<P>
+The content of the dynpro field <span class="qtext">f</span> can be compared with single values <span class="qtext">val1,val2 ...</span> and with value ranges <span class="qtext"><i
+class=bn>[</i>vali,valj<i class=bn>]</i></span>. The result of each of the comparisons can be negated
+using the <span class="qtext">NOT</span> operator. The comparison fields <span class="qtext">val</span>
+must be placed in inverted commas and specified in uppercase letters. The content must be part of the value ranges of the data types CHAR or NUMC from ABAP Dictionary.
+</P>
+<P>
+If a comparison is not true, an error message appears in the status bar of the current GUI window and the associated input field is made ready for input again.
+</P>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Checks the input field for an airline.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+PROCESS AFTER INPUT. <br>&nbsp;&nbsp;FIELD carrier <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUES ('AA', NOT 'BA', BETWEEN 'QF' AND 'UA'). <br><br>
+</span>
+</p>
+<A NAME="@@FIELD SELECT@@!ABAP_DYNP_STATEMENT_OB!@@"></A>
+<A NAME="@@WHENEVER FOUND@@FIELD - obsolete@@"></A>
+<A NAME="@@ERRORMESSAGE@@FIELD - obsolete@@"></A>
+<A NAME="@@WARNING@@FIELD - obsolete@@"></A>
+<p><span class="h2">
+<A NAME="!ABAP_VARIANT_2@2@"></A> <span class="bold">Variant 2</span>
+</span></p>
+<P>
+<span class="qtext">FIELD f SELECT *</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM dbtab</span><br>
+<!-- /A --> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE col1 = f1 AND col2 = f2 ...</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class=bn>[</i>INTO wa<i class=bn>]</i></span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHENEVER <i class=bn>[</i>NOT<i class=bn>]</i> FOUND</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SEND <i
+class=bn>{</i>ERRORMESSAGE<i class=bn>|</i>WARNING<i class=bn>}</i> <i class=bn>[</i>num <i class=bn>[</i>WITH p1 ... p4<i class=bn>]</i><i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+When the statement <span class="qtext">FIELD</span> is executed, the addition <span class="qtext">SELECT</span>
+searches for a row of the database table <span class="qtext">dbtab</span> whose primary key fields <span class="qtext">
+col1 col2 ...</span> match the contents of the dynpro fields <span class="qtext">f1 f2 ...</span>. The
+database table <span class="qtext">dbtab</span> must be defined in ABAP Dictionary. In the <span class="qtext">WHERE</span>
+condition, all primary key fields of the database table that are specified in <span class="qtext">AND</span> comparisons must be specified with an equal sign (<span class="qtext">=</span>).
+</P>
+<P>
+Depending on whether the addition <span class="qtext">NOT</span> is specified or not, an error or warning
+message is sent if no entries or only one entry was found in the database table. In both cases, the
+input field for dynpro field <span class="qtext">f</span> is made ready for input again. The message
+class of the message to be sent must be two characters long and is taken from the first two places of
+the value specified after the addition <span class="qtext">MESSAGE-ID</span> of the introductory statement
+of the associated ABAP program. If a message class is not specified there, a standard message is sent.
+The message number can be specified as a numeric literal <span class="qtext">num</span>. If the message
+contains placeholders, they can be filled with up to four values <span class="qtext">p1</span> to <span class="qtext">
+p4</span> as in the ABAP statement <span class="qtext">MESSAGE</span> with the addition <span class="qtext">WITH</span>. The placeholders can be specified either as text literals or as dynpro fields.
+</P>
+<P>
+If a row is found, its content can be assigned to a table work area <span class="qtext">wa</span> whose
+structure must match the row type of <span class="qtext">dbtab</span>. A table area like this is declared in the dynpro by adopting dynpro fields from ABAP Dictionary.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+Without the addition <span class="qtext">INTO</span>, the addition <span class="qtext">SELECT</span>
+is similar to a subquery in ABAP SQL. If the addition <span class="qtext">INTO</span> is used, the <span class="qtext">
+SELECT</span> syntax above can be used as a standalone statement in the dynpro flow logic, that is,
+without the <span class="qtext">FIELD</span> statement. However, the use of a dynpro statement <span class="qtext">SELECT</span> is also obsolete. Replace it with the respective ABAP SQL statement in the ABAP program.
+<br><br></li>
+<li>
+If the addition <span class="qtext">SELECT</span> is used for the statement <span class="qtext">FIELD</span> of the dynpro flow logic,
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a> is applied, if activated.
+<br><br></li>
+<li>
+For the automatic input checks of dynpros using <a href="javascript:call_link('abencheck_table_glosry.html')" class="grey" title="Glossary Entry">
+check tables</a>, relevant internal <span class="qtext">FIELD</span> statements are generated with the addition <span class="qtext">SELECT</span>. For this reason,
+<a href="javascript:call_link('abensap_buffering_glosry.html')" class="grey" title="Glossary Entry">table buffering</a> is also applied, if activated, when check tables are accessed.
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+Checks whether a row with the same primary key exists in the database table <span class="qtext">spfli</span>
+for the dynpro fields <span class="qtext">carrier</span> and <span class="qtext">connect</span> . The
+associated ABAP program must contain an appropriate <span class="qtext">MESSAGE-ID</span> addition in the introductory statement.
+</P>
+<p class="qtextml1">
+<span class="qtext">
+PROCESS AFTER INPUT. <br>&nbsp;&nbsp;FIELD connect <br>&nbsp;&nbsp;&nbsp;&nbsp;SELECT * <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM spfli <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE carrid = carrier AND connid = connect <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHENEVER NOT FOUND SEND ERRORMESSAGE 107 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WITH carrier connect.
+</span>
+</p>
+<p><span class="h4">
+Executable Examples
+</span></p>
+<ul class="disc">
+<li><a href="javascript:call_link('abendynpro_check_flow_abexa.html')" class="blue">Dynpros, Obsolete Input Check Using <span class="qtext">SELECT</span></a></li>
+</ul>
+<ul class="disc">
+<li><a href="javascript:call_link('abendynpro_f4_help_dyn_abexa.html')" class="blue">Dynpros, Obsolete Input Help Using <span class="qtext">SELECT</span></a></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abendynpro_check_flow_abexa.html')" class="blue">Dynpros, Obsolete Input Check Using SELECT</a><br>
+<img src="exa.gif" alt="Example" title="Example">
+<a href="javascript:call_link('abendynpro_f4_help_dyn_abexa.html')" class="blue">Dynpros, Obsolete Input Help Using SELECT</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/dynpfield_value_select.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:47 GMT -->
+</html>

@@ -1,0 +1,250 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABAPCOMMUNICATION -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcommunication.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:42 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="COMMUNICATION">
+<title>
+COMMUNICATION - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abapcommunication.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abapcommunication.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_obsolete.html')" class="blue">Obsolete Language Elements</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenextern_obsolete.html')" class="blue">Obsolete Data and Communication Interfaces</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_cpic.html')" class="blue">CPI-C Interface</a>&nbsp;&rarr;&nbsp;
+</span>
+<A NAME="@@COMMUNICATION@@!ABAP_STATEMENT_OBS!@@"></A>
+<A NAME="@@ID@@COMMUNICATION (obsolete)@@"></A>
+<p><span class="h1">
+COMMUNICATION <br><br>
+</span></p>
+<P>
+<a href="javascript:call_link('abapcommunication_shortref.html')" class="blue">Quick Reference</a> <br><br>
+</P>
+<p><span class="h2">
+<span class="bold">Obsolete Syntax</span>
+</span></p>
+<P>
+<span class="qtext">COMMUNICATION <a href="javascript:call_link('abapcommunication_comstep.html')" class="blue">comstep</a> ID id <i class=bn>[</i>
+<a href="javascript:call_link('abapcommunication_options.html')" class="blue">cpic_options</a><i class=bn>]</i>.</span> <br><br>
+</P>
+<p><span class="h4">
+Effect
+</span></p>
+<P>
+This statement enables cross-system communication between two ABAP programs, or between an ABAP program
+and a program written in another programming language. The whole communication process takes place in
+individual communication steps, which involve repeated execution of the <span class="qtext">COMMUNICATION</span>
+statement with the corresponding additions <a href="javascript:call_link('abapcommunication_comstep.html')" class="blue"><span class="qtext">comstep</span></a>. For both partner programs, communication is based on the
+<a href="javascript:call_link('abencpi-c_glosry.html')" class="grey" title="Glossary Entry">CPI-C</a> interface, which has been
+defined as a communication standard by IBM as a part of the SAA standard. This interface provides the following functions in the form of the CPI-C starter set:
+</P>
+<ul class="disc">
+<li>
+Creating, accepting, and closing a connection
+<br><br></li>
+<li>
+Sending and receiving data
+<br></li>
+</ul>
+<P>
+Coordination of the individual communication steps, recording any errors that occur in the database
+table <span class="lnkgrey">TCPIC</span> and, if necessary, data conversion, take place in the individual
+programs themselves. The parameters that determined the physical partner system for a connection are administrated in the database table TXCOM.
+</P>
+<P>
+Once the connection is initialized, the system writes an eight-digit connection number in the data object
+<span class="qtext">id</span>. This number can be used to identify individual connections. As standard, 2**16 connections are possible for each calling program. <span class="qtext">id</span> expects only
+<a href="javascript:call_link('abenflat_glosry.html')" class="grey" title="Glossary Entry">flat</a> character-like data types, with a minimum length of eight digits.
+</P>
+<P>
+After initialization, the connection must be created. Then, in the first connection step, all the necessary
+administration data is sent to the partner system. The data sent in this connection step must have a specific structure and must be available in an
+<a href="javascript:call_link('abenebcdic_glosry.html')" class="grey" title="Glossary Entry">EBCDIC</a> format. The example below
+shows how a specifically formed structure can be converted into the EBCDIC format. The subsequent response
+also exists in EBCDIC format. After this initial connection has been established, data can be transferred without the need for further conversion.
+</P>
+<P>
+In communications, the <a href="javascript:call_link('abeninternal_session_glosry.html')" class="grey" title="Glossary Entry">internal
+session</a> in the called program must not be changed. Screen output is ignored or, in the case of list output to the SAP spool system, is diverted if the statement <span class="qtext">NEW-PAGE</span> is entered beforehand.
+<a href="javascript:call_link('abenmessage_glosry.html')" class="grey" title="Glossary Entry">Messages</a> of types I, S, and W are ignored, while types A and E cause the program to terminate.
+</P>
+<p><span class="h4">
+Notes
+</span></p>
+<ul class="disc">
+<li>
+The statement <span class="qtext">COMMUNICATION</span> is not supported in classes and should not appear in programs anymore, since support for the direct programming of the CPI-C interface has largely been discontinued. Instead, only the
+<a href="javascript:call_link('abenrfc_interface_glosry.html')" class="grey" title="Glossary Entry">RFC interface</a> is to be
+used for communication between programs. However, the function of the statement is maintained for supporting existing programs and for internal purposes.
+<br><br></li>
+<li>
+The EBCDIC format is used in the first connection step because the CPI-C interface was mainly used for connections to R/2 systems. <br><br>
+<br></li>
+</ul>
+<p><span class="h4">
+Example
+</span></p>
+<P>
+In the simplest case, an ABAP program calls a subroutine in an ABAP program of another
+<a href="javascript:call_link('abensap_nw_abap_glosry.html')" class="grey" title="Glossary Entry">AS ABAP</a>. To enable this,
+the calling program must register on the other system by specifying the type of CPI-C service, the logon
+data, the programs and subroutines, and the type of error handling. The registration is performed by sending a specific structure to the other system in EBCDIC format.
+</P>
+<P>
+The following example shows a schematic representation of the communication between two ABAP programs
+P1 and P2 without querying return values. The calling program P1 first creates the connection and sends
+a field <span class="qtext">connect_xstr</span> that contains the content of the <span class="qtext">connect</span>
+structure converted into EBCDIC format, with the necessary data. After the connection is confirmed by
+P2, P1 sends the actual, unconverted application data in the buffer <span class="qtext">b</span>. When this data has been received, P2 sends a confirmation to P1. The connection from P1 is then closed again and the content of the buffer
+(<span class="qtext400">"Answer"</span>) is produced as output.
+</P>
+<P>
+<span class="qtext">PROGRAM p1.</span> <br><span class="qtext">DATA: d&nbsp;&nbsp;&nbsp;&nbsp;TYPE c LENGTH 8,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp; TYPE c LENGTH 8,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b TYPE c LENGTH 10,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len&nbsp;&nbsp;TYPE x LENGTH 4,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dat&nbsp;&nbsp;TYPE xstring,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stat TYPE xstring,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN OF connect,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header&nbsp;&nbsp; TYPE c LENGTH 12 VALUE 'CONNCPIC1',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client&nbsp;&nbsp; TYPE c LENGTH&nbsp;&nbsp;3 VALUE '001',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH 12 VALUE 'BONDJ',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;password TYPE c LENGTH&nbsp;&nbsp;8 VALUE '007',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language TYPE c LENGTH&nbsp;&nbsp;1 VALUE 'E',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;corr&nbsp;&nbsp;&nbsp;&nbsp; TYPE c LENGTH&nbsp;&nbsp;1 VALUE ' ',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program&nbsp;&nbsp;TYPE c LENGTH&nbsp;&nbsp;8 VALUE 'P2',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;routine&nbsp;&nbsp;TYPE c LENGTH 30 VALUE 'CPIC_START',</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END OF connect,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connect_str&nbsp;&nbsp;TYPE c LENGTH 75,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connect_xstr TYPE x LENGTH 75,</span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connect_ret&nbsp;&nbsp;TYPE x LENGTH 75,</span> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;converter TYPE REF TO cl_abap_conv_out_ce.</span> <br>
+ <br><span class="qtext">connect_str = connect.</span> <br><span class="qtext">converter = cl_abap_conv_out_ce=>create( encoding = '0101' ).</span> <br>
+<span class="qtext">converter->write( data = connect_str ).</span> <br><span class="qtext">connect_xstr = converter->get_buffer( ).</span> <br>
+ <br><span class="qtext">d = ...</span> <br> <br><span class="qtext">COMMUNICATION INIT</span> <br><span class="qtext">&nbsp;&nbsp;DESTINATION d</span> <br>
+<span class="qtext">&nbsp;&nbsp;ID id.</span> <br><span class="qtext">COMMUNICATION ALLOCATE</span> <br>
+<span class="qtext">&nbsp;&nbsp;ID id.</span> <br><span class="qtext">COMMUNICATION SEND</span> <br><span class="qtext">&nbsp;&nbsp;BUFFER connect_xstr</span> <br>
+<span class="qtext">&nbsp;&nbsp;ID id.</span> <br> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROGRAM p2.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp; TYPE c LENGTH 8,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b TYPE c LENGTH 10,</span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len&nbsp;&nbsp;TYPE x LENGTH 4,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dat&nbsp;&nbsp;TYPE xstring,</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stat TYPE xstring.</span> <br> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FORM cpic_start.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMUNICATION ACCEPT</span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID id.</span> <br>
+ <br><span class="qtext">COMMUNICATION RECEIVE</span> <br><span class="qtext">&nbsp;&nbsp;BUFFER&nbsp;&nbsp;&nbsp;&nbsp; connect_ret</span> <br>
+<span class="qtext">&nbsp;&nbsp;DATAINFO&nbsp;&nbsp; dat</span> <br><span class="qtext">&nbsp;&nbsp;STATUSINFO stat</span> <br>
+<span class="qtext">&nbsp;&nbsp;RECEIVED&nbsp;&nbsp; len</span> <br><span class="qtext">&nbsp;&nbsp;ID id.</span> <br>
+ <br><span class="qtext">b = 'Request'.</span> <br><span class="qtext">COMMUNICATION SEND</span> <br><span class="qtext">&nbsp;&nbsp;BUFFER b</span> <br>
+<span class="qtext">&nbsp;&nbsp;ID id.</span> <br> <br><span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMUNICATION RECEIVE</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUFFER&nbsp;&nbsp;&nbsp;&nbsp; b</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECEIVED&nbsp;&nbsp; len</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATAINFO&nbsp;&nbsp; dat</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATUSINFO stat</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF b = 'Request'.</span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = 'Answer'.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMUNICATION SEND</span> <br><span class="qtext">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUFFER&nbsp;&nbsp;&nbsp;&nbsp; b</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id.</span> <br>
+<span class="qtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDFORM.</span> <br>
+ <br><span class="qtext">CLEAR b.</span> <br><span class="qtext">COMMUNICATION RECEIVE</span> <br><span class="qtext">&nbsp;&nbsp;BUFFER&nbsp;&nbsp;&nbsp;&nbsp; b</span> <br>
+<span class="qtext">&nbsp;&nbsp;DATAINFO&nbsp;&nbsp; dat</span> <br><span class="qtext">&nbsp;&nbsp;STATUSINFO stat</span> <br>
+<span class="qtext">&nbsp;&nbsp;RECEIVED&nbsp;&nbsp; len</span> <br><span class="qtext">&nbsp;&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id.</span> <br>
+ <br><span class="qtext">WRITE / b.</span> <br> <br><span class="qtext">COMMUNICATION DEALLOCATE ID id.</span> <br><br>
+</P>
+<p><span class="h4">
+<a href="javascript:call_link('abenabap_language_exceptions.html')" class="blue">Exceptions</a>
+</span></p>
+<P>
+<span class="bold">Non-Handleable Exceptions</span>
+</P>
+<ul class="disc">
+<li>
+<span class="italic">Cause:</span> No authorization to accept a CPIC connection. <br><span class="italic">Runtime error:</span> <span class="qtext">COMMUNICATION_ACCEPT_NO_AUTH</span>
+<br><br></li>
+<li>
+<span class="italic">Cause:</span> No authorization to open a CPIC connection. <br><span class="italic">Runtime error:</span> <span class="qtext">COMMUNICATION_INIT_NO_AUTH</span> <br><br>
+<br></li>
+</ul>
+<br>
+<br>
+<!-- POSTFIX --><span class="h4">Continue</span><br>
+<a href="javascript:call_link('abapcommunication_comstep.html')" class="blue">COMMUNICATION - comstep</a><br>
+<a href="javascript:call_link('abapcommunication_options.html')" class="blue">COMMUNICATION - cpic_options</a><br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abapcommunication.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:51:42 GMT -->
+</html>

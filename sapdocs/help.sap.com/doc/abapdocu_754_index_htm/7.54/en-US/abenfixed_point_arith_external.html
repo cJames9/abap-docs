@@ -1,0 +1,178 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="EN">
+<!-- ABENFIXED_POINT_ARITH_EXTERNAL -->
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfixed_point_arith_external.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="SAP">
+<meta name="description" content="Fixed Point Arithmetic in External Procedure Calls">
+<meta name="keywords" content="ABAP, Fixed Point Arithmetic in External Procedure Call">
+<title>
+Fixed Point Arithmetic in External Procedure Calls - ABAP Keyword Documentation
+</title>
+<link rel="icon" href="ABAPIcon.ico" type="image/ico">
+<link rel="shortcut icon" href="ABAPIcon.ico">
+<LINK rel="stylesheet" href="abap_docu.css" type="text/css">
+<script language="javascript" type="text/javascript" src="functions.js"></script>
+<script type="text/JavaScript">
+function urlToClipboard(id){
+ try{ var loc = top.location.href;}
+ catch(e){ alert( "URL cannnot be determined" ); return; }
+ var field = document.getElementById(id);
+ field.focus();
+ if ( loc.search( ".htm" ) == -1 && loc.search( ".HTM" ) == -1  ){ loc = loc + "index.htm"; }
+ if (   loc.search( "index.html" ) != -1
+     || loc.search( "INDEX-2.html" ) != -1 ){
+   var off = loc.search( "file=" );
+   if ( off == -1  ){
+     field.value = loc + "?file=abenfixed_point_arith_external.htm"; }
+   else {
+     field.value = loc.substring( 0, off ) + "file=abenfixed_point_arith_external.htm";
+   }
+ }
+ else {
+    field.value = loc; }
+ field.setSelectionRange(0, field.value.length);
+ var r = confirm( "Copy URL to clipboard?\n\n" + field.value + "\n\nCopy to clipboard does not work in all browsers." );
+ if (r == true) {
+   try{
+     document.execCommand("copy");
+   }
+     catch(e){ alert( "URL could not be copied to clipboard" ); }
+ }
+ window.scrollTo(0,0);
+}
+</script>
+</head>
+<body>
+<div class="all">
+<div style="float:right;">
+<input type="button" value="URL"
+style="font-size:10px; width:30px; height:18px; padding:0; "
+onclick="urlToClipboard('url')" title="Copy URL to Clipboard" ></div>
+<p>
+<input name="query" id="query" value="" type="text" title="Suchbegriff" size="30" maxlength="30" onkeyup="getInput()">&nbsp;
+<input type="button" value="Search"
+style="font-size:12px; width:50px; height:18px; padding:0"
+onclick="call_search('search.html')" title="Search in ABAP Keyword Documentation" >
+<hr style="width:100%;height:1px"></p>
+<p class="copyright">AS ABAP Release 754, &copy;Copyright 2019 SAP SE. All rights reserved.</p>
+<span class="path">
+<a href="javascript:call_link('abenabap.html')" class="blue">ABAP Keyword Documentation</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_reference.html')" class="blue">ABAP &#x2212; Reference</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abenabap_execution.html')" class="blue">Calling and leaving program units</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_processing_blocks.html')" class="blue">Calling Processing Blocks</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_procedures.html')" class="blue">Calling Procedures</a>&nbsp;&rarr;&nbsp;
+<a href="javascript:call_link('abencall_procedures_extern.html')" class="blue">External Procedure Call</a>&nbsp;&rarr;&nbsp;
+</span>
+<p><span class="h1">
+Fixed Point Arithmetic in External Procedure Calls
+</span></p>
+<p>
+A procedure called externally is executed in accordance with the attribute
+<a href="javascript:call_link('abenfixed_point_arithmetic_glosry.html')" class="grey" title="Glossary Entry">Fixed Point Arithmetic</a> set in its master program. Here, each
+<a href="javascript:call_link('abenformal_parameter_glosry.html')" class="grey" title="Glossary Entry">actual parameter</a> bound to a
+<a href="javascript:call_link('abenactual_parameter_glosry.html')" class="grey" title="Glossary Entry">formal parameter</a> of
+the procedure is also handled in accordance with the called program, independently both of the corresponding attribute of the calling program and of the parameter type and pass by type.
+</p>
+<p><span class="h4">
+Note
+</span></p>
+<p>
+The justification for the behavior described here is that parameter passing should be independent of
+pass by reference and pass by value. To avoid the associated problems, it is strongly recommended that
+fixed point arithmetic is not switched off in any program. In this context, this applies particularly to class pools and function groups.
+</p>
+<p><span class="h4">
+Example
+</span></p>
+<p>
+The following example is a global class:
+</p>
+<dl><dd>
+<span class="qtext">CLASS cl_test DEFINITION PUBLIC. <br>&nbsp;&nbsp;PUBLIC SECTION. <br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS meth RETURNING value(p) TYPE string. <br>
+ENDCLASS. <br> <br>CLASS cl_test IMPLEMENTATION. <br>&nbsp;&nbsp;METHOD meth. <br>&nbsp;&nbsp;&nbsp;&nbsp;p = '1000'. <br>&nbsp;&nbsp;ENDMETHOD. <br>ENDCLASS.</span>
+</dd></dl>
+<p>
+A calling program section could be as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA pack TYPE p DECIMALS 2. <br> <br>pack = cl_test=>meth( ).</span>
+</dd></dl>
+<p>
+Depending on the attributes, the result is as follows. Here, the attributes of the calling program are in the top row and the attributes of the called program are in the left column:
+</p>
+<table border>
+<tr>
+<td><span class="bold">Fixed Point Arithmetic</span></td>
+<td><span class="bold">on</span></td>
+<td><span class="bold">off</span></td>
+</tr>
+<tr>
+<td><span class="bold">on</span></td>
+<td>1000.00</td>
+<td>1000.00</td>
+</tr>
+<tr>
+<td><span class="bold">off</span></td>
+<td>10.00</td>
+<td>10.00</td>
+</tr>
+</table><br>
+<p>
+The formal parameter is assigned to the bound actual parameter (including the associated conversion
+while respecting the decimal separators) only if fixed point arithmetic is switched on in the called
+procedure. If fixed point arithmetic is switched off in the called procedure, the decimal separator of the actual parameter is ignored.
+</p>
+<p>
+The call could also, however, be made as follows:
+</p>
+<dl><dd>
+<span class="qtext">DATA pack TYPE p DECIMALS 2. <br> <br>pack = + cl_test=>meth( ).</span>
+</dd></dl>
+<p>
+In this case, the result looks like this:
+</p>
+<table border>
+<tr>
+<td><span class="bold">Fixed Point Arithmetic</span></td>
+<td><span class="bold">on</span></td>
+<td><span class="bold">off</span></td>
+</tr>
+<tr>
+<td><span class="bold">on</span></td>
+<td>1000.00</td>
+<td>10.00</td>
+</tr>
+<tr>
+<td><span class="bold">off</span></td>
+<td>1000.00</td>
+<td>10.00</td>
+</tr>
+</table><br>
+<p>
+In this case, the call takes place in an <a href="javascript:call_link('abenarithmetic_expression_glosry.html')" class="grey" title="Glossary Entry">
+arithmetic expression</a>. The return value of the call is assigned to an intermediate result of the
+same type as the formal parameter and this is then converted to the calculation type of the arithmetic
+expression in the calling program. In this case, therefore, the attribute of the calling program determines whether the decimal separator is respected.
+</p>
+<p>
+The behavior in the second case generally meets the expectations of a calling program. This can, of
+course, also be done by using a helper variable of the same type as the formal parameter, First it is used as an actual parameter in the calling program and then assigned to the target field.
+</p>
+<p>
+
+</p>
+<br>
+<br>
+<br>
+<br>
+</DIV>
+<fieldset style="opacity:0">
+<input id="url" type="text" />
+</fieldset>
+</BODY>
+
+<!-- Mirrored from help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/abenfixed_point_arith_external.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 14:52:18 GMT -->
+</html>
