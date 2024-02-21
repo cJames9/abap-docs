@@ -5,260 +5,258 @@ Created on Mon Feb 19 21:53:33 2024
 @author: Cleison
 """
 
-import lxml.html as html
+import bs4
+from sapDocsFiles import SapDocFile
+from renderer import Renderer
+from lxml import etree
+import re
 
-import Renderer from './renderer';
-import SapDocFile from './sapDocFile';
+# const Entities = require('html-entities').AllHtmlEntities;
 
-const Entities = require('html-entities').AllHtmlEntities;
+# const entities = new Entities();
 
-const entities = new Entities();
+# interface Header {
+#     title: string;
+#     isMainTitle: boolean,
+#     render: (renderer: Renderer) => void;
+# }
 
-interface Header {
-    title: string;
-    isMainTitle: boolean,
-    render: (renderer: Renderer) => void;
-}
 
 class Parser:
-    def __init__(self, file: SapDocFile, renderer: Renderer, allFiles: list):
+    def __init__(self, file: SapDocFile, renderer: Renderer, allFiles: list, allVersions: list):
         self.file = file
         self.renderer = renderer
         self.allFiles = allFiles
-        self.lxml = file.lxml
+        self.allVersions = allVersions
+        self.soup = file.soup
 
-    def parse(self) -> str: {
-        path = self.lxml.find_class('path')[0]
+    def parse(self) -> str:
+        path = self.soup.find(class_='path')
         if path:
             self.parsePath(path)
-        
-        root = self.lxml.find_class('all')[0]
+
+        root = self.soup.find(class_='all')
         if not root:
-          # If there isn't a .all root, it's probably a old page. Just parse every thing as is
-          self.parseText(self.lxml.xpath('/html/body'))
-        else: {
-            for (let index = 0; index < root.children.length; index++) {
-              if (this.isBlock(root.children[index])) {
-                  this.parseBlock(root.children[index]);
-                  break;
-              }
-            }
-        }
-        
-        return this.renderer.getContents();
-    }
+            # If there isn't a .all root, it's probably a old page. Just parse every thing as is
+            self.parseText(self.soup.body)
+        else:
+            for block in root.children:
+                if self.isBlock(block):
+                    self.parseBlock(block)
 
-  parsePath(path: CheerioElement) {
-    let pathHTML = this.$(path).html()!;
+        return self.renderer.getContents()
 
-    // Remove last arrow
-    pathHTML = pathHTML.replace(/&#x219([^_]*)$/, '');
-    this.parseText(`<small>${pathHTML}</small>`);
-  }
+    def parsePath(self, path):
+        # Remove last arrow
+        # TODO: regex aqui está correto?
+        pathHTML = re.sub(r"&#x219([^_]*)$", '', path)
+        self.parseText(f'<small>{pathHTML}</small>')
 
-  parseBlock(element: CheerioElement) {
-    const blockElements: Array<CheerioElement> = [];
+     parseBlock(element: CheerioElement) {
+         const blockElements: Array<CheerioElement> = [];
 
-    blockElements.push(element);
-    let { next } = element;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      blockElements.push(next);
-      next = next.next;
-      if (!next) { break; }
-      if (this.isBlock(next)) { break; }
-    }
+         blockElements.push(element);
+         let { next } = element;
+         // eslint-disable-next-line no-constant-condition
+         while (true) {
+                 blockElements.push(next);
+                 next = next.next;
+                 if (!next) { break; }
+                 if (this.isBlock(next)) { break; }
+                 }
+         this.parseBlockElements(blockElements);
+         if (next) { this.parseBlock(next); }
+         }
 
-    this.parseBlockElements(blockElements);
+    parseBlockElements(blockElements: CheerioElement[]) {
+      const headerElement: Cheerio = this.$(blockElements[0]);
 
-    if (next) { this.parseBlock(next); }
-  }
+      const header = this.determineHeader(headerElement);
 
-  parseBlockElements(blockElements: CheerioElement[]) {
-    const headerElement: Cheerio = this.$(blockElements[0]);
+      switch (header.title) {
+        case 'Syntax':
+          header.render(this.renderer);
+          this.parseSyntaxBlock(blockElements);
 
-    const header = this.determineHeader(headerElement);
+          break;
+        case 'Note':
+        case 'Notes':
+          this.parseAdmonition('note', header.title, blockElements);
+          break;
+        case 'Example':
+          this.parseAdmonition('example', header.title, blockElements);
+          break;
+        case 'Catchable Exceptions':
+        case 'Non-Catchable Exceptions':
+          this.parseAdmonition('tip', header.title, blockElements);
+          break;
+        default:
+          header.render(this.renderer);
+          this.regularParseBlockElements(blockElements);
+          break;
+      }
 
-    switch (header.title) {
-      case 'Syntax':
-        header.render(this.renderer);
-        this.parseSyntaxBlock(blockElements);
-
-        break;
-      case 'Note':
-      case 'Notes':
-        this.parseAdmonition('note', header.title, blockElements);
-        break;
-      case 'Example':
-        this.parseAdmonition('example', header.title, blockElements);
-        break;
-      case 'Catchable Exceptions':
-      case 'Non-Catchable Exceptions':
-        this.parseAdmonition('tip', header.title, blockElements);
-        break;
-      default:
-        header.render(this.renderer);
-        this.regularParseBlockElements(blockElements);
-        break;
-    }
-
-    if (header.isMainTitle) {
-      this.parseVersioning();
-    }
-  }
-
-  parseVersioning() {
-    // Example:
-    // Versions: <u>7.31</u> [7.40](../cds) [7.54](../cds)
-
-    const version731 = this.renderVersion('7.31', this.findFile('7.31'), `../../7.31/${this.file.name}`);
-    const version740 = this.renderVersion('7.40', this.findFile('7.40'), `../../7.40/${this.file.name}`);
-    const version754 = this.renderVersion('7.54', this.findFile('7.54'), `../../7.54/${this.file.name}`);
-    const versioning = `Other versions: \n ${version731} | ${version740} | ${version754}\n`;
-    this.renderer.renderText(versioning);
-  }
-
-  findFile(version: string): number {
-    const fileName = this.file.name;
-    return this.allFiles.findIndex((x: SapDocFile) => x.version === version && x.name === fileName);
-  }
-
-  renderVersion(version: string, index: number, link: string) {
-    if (version === this.file.version) {
-      return `<b>${version}</b>`;
-    }
-    if (index === -1) {
-      return `<s><i>${version}</i></s>`;
-    }
-    return `[${version}](${link})`;
-  }
-
-  parseAdmonition(type: string, title: string, contents: CheerioElement[]) {
-    // This break line before an admonition is necessary, otherwise they get
-    // wrongly merged by mkdocs. display: block is to reduce its size
-    this.parseText('<br style="display: block">');
-    this.parseText(`<div markdown="span" class="admonition ${type}">`);
-    this.parseText(`<p class="admonition-title">${title}</p>`);
-    this.regularParseBlockElements(contents);
-    this.parseText('</div>');
-  }
-
-  parseSyntaxBlock(blockElements: CheerioElement[]) {
-    const parsedElements: string[] = [];
-    for (let index = 0; index < blockElements.length; index++) {
-      const element = blockElements[index];
-      let HTML = this.$(element).html() || '';
-      // Skip empty first line
-
-      HTML = this.replaceJavascriptLinks(HTML);
-
-      HTML = HTML.replace(/<br><br>/gm, '');
-      if (index === 0 && HTML === '') { continue; }
-      if (index === blockElements.length - 1 && HTML === '') { continue; }
-
-      parsedElements.push(HTML);
-    }
-    this.renderer.renderSyntaxBlock(parsedElements);
-  }
-
-  private regularParseBlockElements(blockElements: CheerioElement[]) {
-    for (let index = 1; index < blockElements.length; index++) {
-      const element = blockElements[index];
-      if (this.$(element).is('ul')) {
-        this.parseList(element);
-      } else if (this.$(element).is('table')) {
-        this.parseTable(element);
-      } else if (this.$(element).hasClass('qtextml1')) {
-        this.parseCodeExample(element);
-      } else if (this.$(element).is('a')) {
-        // parse outer HTML
-        const outerHTML: string = this.$.html(this.$(element))!;
-        this.parseText(outerHTML);
-      } else if (this.$(element).is('br')) {
-        this.parseText('\n');
-      } else {
-        this.parseText(this.$(element).html()!);
+      if (header.isMainTitle) {
+        this.parseVersioning();
       }
     }
-  }
 
-  parseTable(element: CheerioElement) {
-    const tableBody = this.$(element).find('tbody');
-    let tableHeaderParsed = false;
+    def parseVersioning(self):
+        # Example:
+        # Versions: <u>7.31</u> [7.40](../cds) [7.54](../cds)
+        versioning = "Other versions: \n "
+        for version in self.allVersions:
+            text = self.renderVersion(version, self.findFile(version), f'../../{version}/{self.file.name}')
+            versioning = versioning + text + " | "
+        versioning = versioning[:-1]
+        self.renderer.renderText(versioning)
 
-    let markdownRow;
-    let tableRow;
-    let tableCell;
-    let tableWidth;
-    for (let i = 0; i < tableBody.children().length; i++) {
-      tableRow = this.$(tableBody.children()[i]);
-      tableWidth = tableRow.children().length;
+    def findFile(self, version: str) -> int:
+        fileName = self.file.name
+        try:
+            index = self.allFiles.index(version)
+        except ValueError:
+            index = -1
+        return index
 
-      markdownRow = '';
+    def renderVersion(self, version: str, index: int, link: str):
+        if version == self.file.version:
+            return f'<b>{version}</b>'
+        if index == -1:
+            return f'<s><i>{version}</i></s>'
+        return f'[{version}]({link})'
 
-      for (let j = 0; j < tableWidth; j++) {
-        tableCell = this.$(tableRow.children()[j]);
+   parseAdmonition(type: string, title: string, contents: CheerioElement[]) {
+     // This break line before an admonition is necessary, otherwise they get
+     // wrongly merged by mkdocs. display: block is to reduce its size
+     this.parseText('<br style="display: block">');
+     this.parseText(`<div markdown="span" class="admonition ${type}">`);
+     this.parseText(`<p class="admonition-title">${title}</p>`);
+     this.regularParseBlockElements(contents);
+     this.parseText('</div>');
+   }
 
-        markdownRow += '|';
-        // Don't use HTML in the header, so that we have pure text (e.g. sy-subrc is in a span)
-        let cellContent = tableHeaderParsed ? this.$(tableCell).html()! : this.$(tableCell).text()!;
-        cellContent = cellContent || '';
+   parseSyntaxBlock(blockElements: CheerioElement[]) {
+     const parsedElements: string[] = [];
+     for (let index = 0; index < blockElements.length; index++) {
+       const element = blockElements[index];
+       let HTML = this.$(element).html() || '';
+       // Skip empty first line
 
-        // Remove new lines so that markdown tables do not break
-        cellContent = cellContent.replace(/(\r\n|\n|\r)/gm, '');
-        markdownRow += cellContent;
-      }
-      // Closes row
-      markdownRow += '|';
-      this.parseText(markdownRow);
+       HTML = this.replaceJavascriptLinks(HTML);
 
-      if (!tableHeaderParsed) {
-        markdownRow = '';
-        for (let j = 0; j < tableWidth; j++) {
-          markdownRow += '|';
-          markdownRow += '----';
-        }
-        markdownRow += '|';
-        tableHeaderParsed = true;
-        this.parseText(markdownRow);
-      }
-    }
-  }
+       HTML = HTML.replace(/<br><br>/gm, '');
+       if (index === 0 && HTML === '') { continue; }
+       if (index === blockElements.length - 1 && HTML === '') { continue; }
 
-  parseList(element: CheerioElement) {
-    let ulTag = '<ul>';
+       parsedElements.push(HTML);
+     }
+     this.renderer.renderSyntaxBlock(parsedElements);
+   }
 
-    // Standard abap documentation doesn't nest UL,
-    // so we need to apply the same CSS style to ident
-    if (this.$(element).hasClass('circlem2')) {
-      ulTag = '<ul class="circlem2">';
-    }
+   private regularParseBlockElements(blockElements: CheerioElement[]) {
+     for (let index = 1; index < blockElements.length; index++) {
+       const element = blockElements[index];
+       if (this.$(element).is('ul')) {
+         this.parseList(element);
+       } else if (this.$(element).is('table')) {
+         this.parseTable(element);
+       } else if (this.$(element).hasClass('qtextml1')) {
+         this.parseCodeExample(element);
+       } else if (this.$(element).is('a')) {
+         // parse outer HTML
+         const outerHTML: string = this.$.html(this.$(element))!;
+         this.parseText(outerHTML);
+       } else if (this.$(element).is('br')) {
+         this.parseText('\n');
+       } else {
+         this.parseText(this.$(element).html()!);
+       }
+     }
+   }
 
-    this.parseText(ulTag);
-    let html = this.$(element).html()!;
-    if (html) {
-      // Remove extra line break
-      html = html.replace(/<br>\n<br>/gm, '\n');
-      html = html.replace(/<br><br><\/li>/gm, '</li>');
-    }
-    this.parseText(html);
-    this.parseText('</ul>');
-  }
+   parseTable(element: CheerioElement) {
+     const tableBody = this.$(element).find('tbody');
+     let tableHeaderParsed = false;
 
-  private parseText(text: string) {
-    if (!text) { return; }
-    let parsedText = text;
+     let markdownRow;
+     let tableRow;
+     let tableCell;
+     let tableWidth;
+     for (let i = 0; i < tableBody.children().length; i++) {
+       tableRow = this.$(tableBody.children()[i]);
+       tableWidth = tableRow.children().length;
 
-    // https://regex101.com/r/1mionM/3
-    // Show inline code
-    parsedText = parsedText.replace(/<span class="qtext">.*?<\/span>/gm, (matched) => `<code style="display: inline;">${matched}</code>`);
-    // Remove extra line break
-    parsedText = parsedText.replace(/<br><br>/gm, ' \n ');
+       markdownRow = '';
 
-    parsedText = this.replaceJavascriptLinks(parsedText);
+       for (let j = 0; j < tableWidth; j++) {
+         tableCell = this.$(tableRow.children()[j]);
 
-    this.renderer.renderText(parsedText);
-  }
+         markdownRow += '|';
+         // Don't use HTML in the header, so that we have pure text (e.g. sy-subrc is in a span)
+         let cellContent = tableHeaderParsed ? this.$(tableCell).html()! : this.$(tableCell).text()!;
+         cellContent = cellContent || '';
+
+         // Remove new lines so that markdown tables do not break
+         cellContent = cellContent.replace(/(\r\n|\n|\r)/gm, '');
+         markdownRow += cellContent;
+       }
+       // Closes row
+       markdownRow += '|';
+       this.parseText(markdownRow);
+
+       if (!tableHeaderParsed) {
+         markdownRow = '';
+         for (let j = 0; j < tableWidth; j++) {
+           markdownRow += '|';
+           markdownRow += '----';
+         }
+         markdownRow += '|';
+         tableHeaderParsed = true;
+         this.parseText(markdownRow);
+       }
+     }
+   }
+
+   parseList(element: CheerioElement) {
+     let ulTag = '<ul>';
+
+     // Standard abap documentation doesn't nest UL,
+     // so we need to apply the same CSS style to ident
+     if (this.$(element).hasClass('circlem2')) {
+       ulTag = '<ul class="circlem2">';
+     }
+
+     this.parseText(ulTag);
+     let html = this.$(element).html()!;
+     if (html) {
+       // Remove extra line break
+       html = html.replace(/<br>\n<br>/gm, '\n');
+       html = html.replace(/<br><br><\/li>/gm, '</li>');
+     }
+     this.parseText(html);
+     this.parseText('</ul>');
+   }
+
+    def parseText(self, text: str):
+        if not text:
+            return
+        parsedText = text
+
+        # https://regex101.com/r/1mionM/3
+        # Show inline code
+        inline = re.compile(r'<span class="qtext">.*?<\/span>', flags=re.MULTILINE)
+        result = inline.findall(parsedText)
+        for match in result:
+            parsedText = parsedText.replace(match, f'<code style="display: inline;">{match}</code>')
+
+        # Remove extra line break
+        extraline = re.compile(r'<br><br>', flags=re.MULTILINE)
+        parsedText = extraline.sub('\n', parsedText)
+
+        parsedText = self.replaceJavascriptLinks(parsedText)
+
+        self.renderer.renderText(parsedText)
 
   private determineHeader(element: Cheerio): Header {
     const header: Header = {
@@ -332,20 +330,18 @@ class Parser:
     return header;
   }
 
-  private isBlock(element: CheerioElement): boolean {
-    const { isHeader } = this;
-    if (isHeader(element)) return true;
+    def isBlock(self, element: bs4.element.Tag) -> bool:
+        if self.isHeader(element):
+            return True
+        children = (list(element.children) or []) if element else []
+        return any([self.isHeader(item) for item in children])
 
-    const children = (element) ? (element.children || []) : [];
-    return children.some((e) => isHeader(e));
-  }
-
-  private isHeader(element: CheerioElement): boolean {
-    const elementHeader = element || {};
-    const attributes = elementHeader.attribs || {};
-    const classes = attributes.class || '';
-    return classes.split(/\s+/).some((c) => c === 'h1' || c === 'h2' || c === 'h3' || c === 'h4' || c === 'h5' || c === 'bold');
-  }
+    def isHeader(element: bs4.element.Tag) -> bool:
+        if type(element) != bs4.element.NavigableString:
+            elementHeader = element or {}
+            classes = elementHeader.get('class') or ''
+            header = [re.split(r'\s+', item) for item in classes]
+            return any([item for item in header if item in ['h1', 'h2', 'h3', 'h4', 'h5', 'bold']])
 
   parseH2(element: CheerioElement) {
     const text: Cheerio = this.$(element).find('.bold');
