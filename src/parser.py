@@ -15,12 +15,11 @@ import re
 
 # const entities = new Entities();
 
-# interface Header {
-#     title: string;
-#     isMainTitle: boolean,
-#     render: (renderer: Renderer) => void;
-# }
-
+class Header:
+    def __init__(self, title: str, isMainTitle: bool, render: Renderer):
+        self.title = title
+        self.isMainTitle = isMainTitle
+        self.render = render
 
 class Parser:
     def __init__(self, file: SapDocFile, renderer: Renderer, allFiles: list, allVersions: list):
@@ -258,55 +257,33 @@ class Parser:
 
         self.renderer.renderText(parsedText)
 
-  private determineHeader(element: Cheerio): Header {
-    const header: Header = {
-      title: '',
-      isMainTitle: false,
-      // eslint-disable-next-line no-unused-vars
-      render(renderer: Renderer) { },
-    };
-
-    let headerElement = element.find('.h1');
-    let headerTitle = this.$(headerElement).text().trim();
-    if (headerTitle !== '') {
-      header.title = headerTitle;
-      header.isMainTitle = true;
-      // eslint-disable-next-line func-names
-      header.render = function (renderer: Renderer) { renderer.renderTitle(headerTitle); };
-      return header;
-    }
-
-    headerElement = element.find('.h2');
-    const headerLink = this.$(headerElement).find('a');
-    const headerLinkHTML = this.$.html(headerLink);
-    headerTitle = this.$(headerElement).text().trim().replace(':', '');
-    if (headerTitle !== '') {
-      header.title = headerTitle;
-      // eslint-disable-next-line func-names
-      header.render = function (renderer: Renderer) {
-        renderer.renderText(headerLinkHTML);
-        renderer.renderH2(headerTitle);
-      };
-      return header;
-    }
-
-    headerElement = element.find('.h3');
-    headerTitle = this.$(headerElement).text().trim().replace(':', '');
-    if (headerTitle !== '') {
-      header.title = headerTitle;
-      // eslint-disable-next-line func-names
-      header.render = function (renderer: Renderer) { renderer.renderH3(headerTitle); };
-      return header;
-    }
-
-    headerElement = element.find('.h4');
-    headerTitle = this.$(headerElement).text().trim().replace(':', '');
-    if (headerTitle !== '') {
-      header.title = headerTitle;
-      // eslint-disable-next-line func-names
-      header.render = function (renderer: Renderer) { renderer.renderH3(headerTitle); };
-      return header;
-    }
+    def determineHeader(self, element: bs4.element.Tag):
+        headerElement = element.find(class_='h1')
+        headerTitle = headerElement.text.strip()
+        if headerTitle:
+            header = Header(headerTitle, True, renderer.renderTitle(headerTitle))
+            return header
+        
+        headerElement = element.find(class_='h2')
+        headerLink = headerElement.find('a')
+        # const headerLinkHTML = this.$.html(headerLink);
+        headerLinkHTML = headerLink.html # TODO: isso existe? o que deveria retornar?
+        headerTitle = headerElement.text.strip().replace(':', '')
+        if headerTitle: # TODO: original tinha dois render na linha abaixo. o que fazia?
+            header = Header(headerTitle, False, [renderer.renderText(headerLinkHTML), renderer.renderH2(headerTitle)])
+            return header
+        
+        headerElement = element.find(class_='h3')
+        headerTitle = headerElement.text.strip().replace(':', '')
+        if headerTitle:
+            header = Header(headerTitle, False, renderer.renderH3(headerTitle))
+            return header
+        
+        headerElement = element.find(class_='h4')
+        headerTitle = headerElement.text.strip().replace(':', '')
+        if headerTitle:
+            header = Header(headerTitle, False, renderer.renderH3(headerTitle))
+            return header
 
     if (element.hasClass('h4')) {
       headerTitle = this.$(element).text().trim().replace(':', '');
@@ -318,17 +295,11 @@ class Parser:
       }
     }
 
-    headerElement = element.find('.bold');
-    headerTitle = this.$(headerElement).text().trim().replace(':', '');
-    if (headerTitle !== '') {
-      header.title = headerTitle;
-      // eslint-disable-next-line func-names
-      header.render = function (renderer: Renderer) { renderer.renderH3(headerTitle); };
-      return header;
-    }
-
-    return header;
-  }
+    headerElement = element.find(class_='bold')
+    headerTitle = headerElement.text.strip().replace(':', '')
+    if headerTitle:
+        header = Header(headerTitle, False, renderer.renderH3(headerTitle))
+        return header
 
     def isBlock(self, element: bs4.element.Tag) -> bool:
         if self.isHeader(element):
