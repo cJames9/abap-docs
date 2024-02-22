@@ -20,11 +20,10 @@ class Renderer:
 
         block.append('</code></pre>')
 
-        self.contents.append(block.join(''))
+        self.contents.append(''.join(block))
 
     def renderTitle(self, text: str):
         self.contents.append(f'# {text}')
-        self.contents.append()
 
     def renderH2(self, text: str):
         self.contents.append(f'## {text}')
@@ -42,4 +41,4 @@ class Renderer:
         self.contents.append(text)
 
     def getContents(self) -> str:
-        return self.contents.join('\n')
+        return '\n'.join(self.contents)

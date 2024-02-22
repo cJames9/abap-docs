@@ -6,20 +6,17 @@ Created on Mon Feb 19 21:53:33 2024
 """
 
 import bs4
-from sapDocsFiles import SapDocFile
-from renderer import Renderer
-from lxml import etree
+from src.sapDocsFiles import SapDocFile
+from src.renderer import Renderer
 import re
 
-# const Entities = require('html-entities').AllHtmlEntities;
-
-# const entities = new Entities();
 
 class Header:
     def __init__(self, title: str, isMainTitle: bool, render: Renderer):
         self.title = title
         self.isMainTitle = isMainTitle
         self.render = render
+
 
 class Parser:
     def __init__(self, file: SapDocFile, renderer: Renderer, allFiles: list, allVersions: list):
@@ -36,10 +33,11 @@ class Parser:
 
         root = self.soup.find(class_='all')
         if not root:
-            # If there isn't a .all root, it's probably a old page. Just parse every thing as is
+            # If there isn't a .all root, it's probably a old page. Just parse everything as is
             self.parseText(self.soup.body)
         else:
-            for block in root.children:
+            for block in root.findChildren(recursive=True):
+                print(block)
                 if self.isBlock(block):
                     self.parseBlock(block)
 
@@ -47,58 +45,70 @@ class Parser:
 
     def parsePath(self, path):
         # Remove last arrow
-        # TODO: regex aqui está correto?
-        pathHTML = re.sub(r"&#x219([^_]*)$", '', path)
+        pathHTML = re.sub(r'\xa0→\xa0', '', path.decode())
         self.parseText(f'<small>{pathHTML}</small>')
 
-     parseBlock(element: CheerioElement) {
-         const blockElements: Array<CheerioElement> = [];
+    def isBlock(self, element: bs4.element.Tag) -> bool:
+        if not element.name:
+            return False
+        if self.isHeader(element):
+            return True
+        children = (list(element.children) or []) if element else []
+        return any([self.isHeader(item) for item in children])
 
-         blockElements.push(element);
-         let { next } = element;
-         // eslint-disable-next-line no-constant-condition
-         while (true) {
-                 blockElements.push(next);
-                 next = next.next;
-                 if (!next) { break; }
-                 if (this.isBlock(next)) { break; }
-                 }
-         this.parseBlockElements(blockElements);
-         if (next) { this.parseBlock(next); }
-         }
+    def isHeader(self, element: bs4.element.Tag) -> bool:
+        if not element.name:
+            return False
+        elementHeader = element or []
+        classes = elementHeader.get_attribute_list('class') or ''
+        return any([item for item in classes if item in ['h1', 'h2', 'h3', 'h4', 'h5', 'bold']])
 
-    parseBlockElements(blockElements: CheerioElement[]) {
-      const headerElement: Cheerio = this.$(blockElements[0]);
+    # TIP: parseBlock é o maior ponto de dúvida. talvez aqui algo dê errado
+    def parseBlock(self, block):
+        blockElements = []
+        blockElements.append(block)
 
-      const header = this.determineHeader(headerElement);
+        # # generator = element.children
+        # generator = iter(lista)
+        # while True:
+        #     element = next(generator, 'stop')
+        #     blockElements.append(element)
+        #     if element == 'stop':
+        #         break
+        #     if self.isBlock(element):
+        #         break
+        # self.parseBlockElements(blockElements)
+        # if element:
+        #     self.parseBlock(element)
 
-      switch (header.title) {
-        case 'Syntax':
-          header.render(this.renderer);
-          this.parseSyntaxBlock(blockElements);
+        for element in block.next_siblings:
+            if self.isBlock(element):
+                break
+            blockElements.append(element)
+        self.parseBlockElements(blockElements)
+        if element:
+            self.parseBlock(element)
 
-          break;
-        case 'Note':
-        case 'Notes':
-          this.parseAdmonition('note', header.title, blockElements);
-          break;
-        case 'Example':
-          this.parseAdmonition('example', header.title, blockElements);
-          break;
-        case 'Catchable Exceptions':
-        case 'Non-Catchable Exceptions':
-          this.parseAdmonition('tip', header.title, blockElements);
-          break;
-        default:
-          header.render(this.renderer);
-          this.regularParseBlockElements(blockElements);
-          break;
-      }
+    def parseBlockElements(self, blockElements: list):
+        headerElement = blockElements[0]
+        header = self.determineHeader(headerElement)
 
-      if (header.isMainTitle) {
-        this.parseVersioning();
-      }
-    }
+        match header.title:
+            case 'Syntax':
+                header.render(header.title)
+                self.parseSyntaxBlock(blockElements)
+            case ['Note', 'Notes']:
+                self.parseAdmonition('note', header.title, blockElements)
+            case 'Example':
+                self.parseAdmonition('example', header.title, blockElements)
+            case ['Catchable Exceptions', 'Non-Catchable Exceptions']:
+                self.parseAdmonition('tip', header.title, blockElements)
+            case _:
+                header.render(header.title)
+                self.regularParseBlockElements(blockElements)
+
+        if header.isMainTitle:
+            self.parseVersioning()
 
     def parseVersioning(self):
         # Example:
@@ -110,6 +120,7 @@ class Parser:
         versioning = versioning[:-1]
         self.renderer.renderText(versioning)
 
+    # TODO: ajustar classe para carregar versões e todos os arquivos (independente de estar em processamento ou não)
     def findFile(self, version: str) -> int:
         fileName = self.file.name
         try:
@@ -125,222 +136,170 @@ class Parser:
             return f'<s><i>{version}</i></s>'
         return f'[{version}]({link})'
 
-   parseAdmonition(type: string, title: string, contents: CheerioElement[]) {
-     // This break line before an admonition is necessary, otherwise they get
-     // wrongly merged by mkdocs. display: block is to reduce its size
-     this.parseText('<br style="display: block">');
-     this.parseText(`<div markdown="span" class="admonition ${type}">`);
-     this.parseText(`<p class="admonition-title">${title}</p>`);
-     this.regularParseBlockElements(contents);
-     this.parseText('</div>');
-   }
+    def parseAdmonition(self, type: str, title: str, contents):
+        # This break line before an admonition is necessary, otherwise they get
+        # wrongly merged by mkdocs. display: block is to reduce its size
+        self.parseText('<br style="display: block">'),
+        self.parseText(f'<div markdown="span" class="admonition {type}">')
+        self.parseText(f'<p class="admonition-title">{title}</p>')
+        self.regularParseBlockElements(contents)
+        self.parseText('</div>')
 
-   parseSyntaxBlock(blockElements: CheerioElement[]) {
-     const parsedElements: string[] = [];
-     for (let index = 0; index < blockElements.length; index++) {
-       const element = blockElements[index];
-       let HTML = this.$(element).html() || '';
-       // Skip empty first line
+    def parseSyntaxBlock(self, blockElements: list):
+        parsedElements = []
+        for idx, item in enumerate(blockElements):
+            HTML = self.replaceJavascriptLinks(item)
+            HTML = re.sub(r'<br/><br/>', '', HTML, flags=re.MULTILINE)
+            if idx == 0 and HTML == '':
+                continue
+            if blockElements[-1] == blockElements[idx]:
+                continue
 
-       HTML = this.replaceJavascriptLinks(HTML);
+            parsedElements.append(HTML)
+        self.renderer.renderSyntaxBlock(parsedElements)
 
-       HTML = HTML.replace(/<br><br>/gm, '');
-       if (index === 0 && HTML === '') { continue; }
-       if (index === blockElements.length - 1 && HTML === '') { continue; }
+    def regularParseBlockElements(self, blockElements: list):
+        for element in blockElements:
+            if element.name == 'ul':
+                self.parseList(element)
+            elif element.name == 'table':
+                self.parseTable(element)
+            elif 'qtext' in element.get_attribute_list('class'):
+                self.parseCodeExample(element)
+            elif 'qtext400' in element.get_attribute_list('class'):
+                self.parseCodeExample(element)
+            elif element.name == 'a':
+                # parse outer HTML
+                # TIP: o que isto quer dizer? preciso pegar o elemento pai ou os demais preciso passar somente texto?
+                outerHTML = element.parent
+                self.parseText(outerHTML)
+            elif element.name == 'br':
+                self.parseText('\n')
+            else:
+                self.parseText(element)
 
-       parsedElements.push(HTML);
-     }
-     this.renderer.renderSyntaxBlock(parsedElements);
-   }
+    def parseTable(self, element):  # TODO: checar se não tem mais tipos
+        tableBody = element.find('tbody') or element
+        tableHeaderParsed = False
 
-   private regularParseBlockElements(blockElements: CheerioElement[]) {
-     for (let index = 1; index < blockElements.length; index++) {
-       const element = blockElements[index];
-       if (this.$(element).is('ul')) {
-         this.parseList(element);
-       } else if (this.$(element).is('table')) {
-         this.parseTable(element);
-       } else if (this.$(element).hasClass('qtextml1')) {
-         this.parseCodeExample(element);
-       } else if (this.$(element).is('a')) {
-         // parse outer HTML
-         const outerHTML: string = this.$.html(this.$(element))!;
-         this.parseText(outerHTML);
-       } else if (this.$(element).is('br')) {
-         this.parseText('\n');
-       } else {
-         this.parseText(this.$(element).html()!);
-       }
-     }
-   }
+        for row in tableBody.findChildren(recursive=False):
+            tableRow = row
+            tableWidth = tableRow.findChildren(recursive=False)
 
-   parseTable(element: CheerioElement) {
-     const tableBody = this.$(element).find('tbody');
-     let tableHeaderParsed = false;
+            markdownRow = ''
 
-     let markdownRow;
-     let tableRow;
-     let tableCell;
-     let tableWidth;
-     for (let i = 0; i < tableBody.children().length; i++) {
-       tableRow = this.$(tableBody.children()[i]);
-       tableWidth = tableRow.children().length;
+            for tableCell in tableWidth:
+                markdownRow += '|'
+                # Don't use HTML in the header, so that we have pure text (e.g. sy-subrc is in a span)
+                cellContent = tableCell if tableHeaderParsed else tableCell.text
+                cellContent = cellContent or ''
 
-       markdownRow = '';
+                # Remove new lines so that markdown tables do not break
+                cellContent = re.sub('(\r\n|\n|\r)', '', flags=re.MULTILINE)
+                markdownRow += cellContent
 
-       for (let j = 0; j < tableWidth; j++) {
-         tableCell = this.$(tableRow.children()[j]);
+            # Closes row
+            markdownRow += '|'
+            self.parseText(markdownRow)
 
-         markdownRow += '|';
-         // Don't use HTML in the header, so that we have pure text (e.g. sy-subrc is in a span)
-         let cellContent = tableHeaderParsed ? this.$(tableCell).html()! : this.$(tableCell).text()!;
-         cellContent = cellContent || '';
+            if not tableHeaderParsed:
+                markdownRow = ''
+                for idx, col in enumerate(tableWidth):
+                    markdownRow += '|'
+                    markdownRow += '----'
+                markdownRow += '|'
+                tableHeaderParsed = True
+                self.parseText(markdownRow)
 
-         // Remove new lines so that markdown tables do not break
-         cellContent = cellContent.replace(/(\r\n|\n|\r)/gm, '');
-         markdownRow += cellContent;
-       }
-       // Closes row
-       markdownRow += '|';
-       this.parseText(markdownRow);
+    def parseList(self, element):
+        ulTag = '<ul>'
 
-       if (!tableHeaderParsed) {
-         markdownRow = '';
-         for (let j = 0; j < tableWidth; j++) {
-           markdownRow += '|';
-           markdownRow += '----';
-         }
-         markdownRow += '|';
-         tableHeaderParsed = true;
-         this.parseText(markdownRow);
-       }
-     }
-   }
+        # Standard abap documentation doesn't nest UL,
+        # so we need to apply the same CSS style to ident
+        if 'circlem2' in element.get_attribute_list('class'):
+            ulTag = '<ul class="circlem2">'
 
-   parseList(element: CheerioElement) {
-     let ulTag = '<ul>';
+        self.parseText(ulTag)
+        html = element if element.name else None  # TIP: se o item tiver nome, não é string
+        if html:
+            # Remove extra line break
+            html = re.sub('<br/>\n<br/>', '\n', html, flags=re.MULTILINE)
+            html = re.sub('<br/><br/></li>', '</li>', html, flags=re.MULTILINE)
 
-     // Standard abap documentation doesn't nest UL,
-     // so we need to apply the same CSS style to ident
-     if (this.$(element).hasClass('circlem2')) {
-       ulTag = '<ul class="circlem2">';
-     }
-
-     this.parseText(ulTag);
-     let html = this.$(element).html()!;
-     if (html) {
-       // Remove extra line break
-       html = html.replace(/<br>\n<br>/gm, '\n');
-       html = html.replace(/<br><br><\/li>/gm, '</li>');
-     }
-     this.parseText(html);
-     this.parseText('</ul>');
-   }
+        self.parseText(html)
+        self.parseText('</ul>')
 
     def parseText(self, text: str):
         if not text:
             return
-        parsedText = text
 
         # https://regex101.com/r/1mionM/3
         # Show inline code
-        inline = re.compile(r'<span class="qtext">.*?<\/span>', flags=re.MULTILINE)
-        result = inline.findall(parsedText)
-        for match in result:
-            parsedText = parsedText.replace(match, f'<code style="display: inline;">{match}</code>')
+        parsedText = re.sub(r'(<span class="qtext">.*?<\/span>)', '<code style="display: inline;">\0</code>', text)
 
         # Remove extra line break
-        extraline = re.compile(r'<br><br>', flags=re.MULTILINE)
-        parsedText = extraline.sub('\n', parsedText)
+        parsedText = re.sub(r'<br/><br/>', '\n', parsedText, flags=re.MULTILINE)
 
         parsedText = self.replaceJavascriptLinks(parsedText)
-
         self.renderer.renderText(parsedText)
 
     def determineHeader(self, element: bs4.element.Tag):
         headerElement = element.find(class_='h1')
         headerTitle = headerElement.text.strip()
         if headerTitle:
-            header = Header(headerTitle, True, renderer.renderTitle(headerTitle))
+            header = Header(headerTitle, True, self.renderer.renderTitle)
             return header
-        
+
+        # TODO: checar se H2 tem link
         headerElement = element.find(class_='h2')
         headerLink = headerElement.find('a')
         # const headerLinkHTML = this.$.html(headerLink);
-        headerLinkHTML = headerLink.html # TODO: isso existe? o que deveria retornar?
+        headerLinkHTML = headerLink.html if headerLink.name else None
         headerTitle = headerElement.text.strip().replace(':', '')
-        if headerTitle: # TODO: original tinha dois render na linha abaixo. o que fazia?
-            header = Header(headerTitle, False, [renderer.renderText(headerLinkHTML), renderer.renderH2(headerTitle)])
+        if headerTitle:  # TODO: original tinha dois render na linha abaixo. o que fazia?
+            header = Header(headerTitle, False, self.renderer.renderH2)
+            # header = Header(headerTitle, False, [self.renderer.renderText(headerLinkHTML), self.renderer.renderH2(headerTitle)])
             return header
-        
+
         headerElement = element.find(class_='h3')
         headerTitle = headerElement.text.strip().replace(':', '')
         if headerTitle:
-            header = Header(headerTitle, False, renderer.renderH3(headerTitle))
+            header = Header(headerTitle, False, self.renderer.renderH3)
             return header
-        
-        headerElement = element.find(class_='h4')
+
+        headerElement = element.find(class_='h4')  # TODO: renderH4 não está sendo usado
         headerTitle = headerElement.text.strip().replace(':', '')
         if headerTitle:
-            header = Header(headerTitle, False, renderer.renderH3(headerTitle))
+            header = Header(headerTitle, False, self.renderer.renderH3)
             return header
 
-    if (element.hasClass('h4')) {
-      headerTitle = this.$(element).text().trim().replace(':', '');
-      if (headerTitle !== '') {
-        header.title = headerTitle;
-        // eslint-disable-next-line func-names
-        header.render = function (renderer: Renderer) { renderer.renderH3(headerTitle); };
-        return header;
-      }
-    }
+        headerElement = element.find(class_='bold')
+        headerTitle = headerElement.text.strip().replace(':', '')
+        if headerTitle:
+            header = Header(headerTitle, False, self.renderer.renderH3)
+            return header
 
-    headerElement = element.find(class_='bold')
-    headerTitle = headerElement.text.strip().replace(':', '')
-    if headerTitle:
-        header = Header(headerTitle, False, renderer.renderH3(headerTitle))
-        return header
+    def parseH2(self, element):  # TODO: não está sendo usado
+        text = element.find(class_='bold')
+        self.renderer.renderH2(text.text)
+        self.parseBlock(element)
 
-    def isBlock(self, element: bs4.element.Tag) -> bool:
-        if self.isHeader(element):
-            return True
-        children = (list(element.children) or []) if element else []
-        return any([self.isHeader(item) for item in children])
+    def parseCodeExample(self, element):
+        if 'qtext' in element.get_attribute_list('class') or 'qtext400' in element.get_attribute_list('class'):
+            span = element
+        span = span or element.find(class_='qtext')
+        code = span.decode()
+        code = re.sub('(\r\n|\n|\r)', '', code, flags=re.MULTILINE)
+        code = re.sub('<br/>', '\n', code, flags=re.MULTILINE)  # TODO: verificar se o BS4 trocou as tags por <br/>
 
-    def isHeader(element: bs4.element.Tag) -> bool:
-        if type(element) != bs4.element.NavigableString:
-            elementHeader = element or {}
-            classes = elementHeader.get('class') or ''
-            header = [re.split(r'\s+', item) for item in classes]
-            return any([item for item in header if item in ['h1', 'h2', 'h3', 'h4', 'h5', 'bold']])
+        self.renderer.renderCodeBlock(code)
 
-  parseH2(element: CheerioElement) {
-    const text: Cheerio = this.$(element).find('.bold');
-    this.renderer.renderH2(text.text());
-    this.parseBlock(element);
-  }
-
-  private parseCodeExample(element: CheerioElement) {
-    const span: Cheerio = this.$(element).find('.qtext');
-    let code = this.$(span).html()!;
-
-    code = entities.decode(code);
-    code = code.replace(/(\r\n|\n|\r)/gm, '');
-    code = code.replace(/<br>/g, '\n');
-
-    this.renderer.renderCodeBlock(code);
-  }
-
-  private replaceJavascriptLinks(text: string) {
-    let replacedText = text;
-    if (!text) return '';
-    // https://regex101.com/r/rvTc8y/6
-    // Replace bad abap docs js links with relative links
-    // HTML
-    replacedText = text.replace(/(<a href=")(javascript:call_link\((?:&apos;|'))(.*?)\.html(?:&apos;|')\)/gm, '$1../$3');
-    // HTM
-    replacedText = replacedText.replace(/(<a href=")(javascript:call_link\((?:&apos;|'))(.*?)\.htm(?:&apos;|')\)/gm, '$1../$3');
-    return replacedText;
-    // HTM
-  }
-}
+    def replaceJavascriptLinks(self, text):
+        if not text:
+            return ''
+        # https://regex101.com/r/rvTc8y/6
+        # Replace bad abap docs js links with relative links
+        # HTML
+        pattern = r'(href=")(javascript:call_link\((?:&apos;|\'))(.*?\.(?:html|htm))(?:&apos;\)\"|\'\)("))'
+        replacedText = re.sub(pattern, '\g<1>../\g<3>\g<4>', text)
+        return replacedText

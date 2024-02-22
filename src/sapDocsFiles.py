@@ -31,14 +31,15 @@ class SapDocsFilesLoader:
     def loadFile(self, version: str) -> list:
         versionPath = [self.path, f'abapdocu_{version.replace(".", "")}_index_htm', f'{version}', 'en-US']
         versionPath = reduce(lambda a, b: os.path.join(a, b), versionPath)
-        for root, folder, file in os.walk(versionPath):
-            filename = file.split('.')
-            extension = filename.pop()
-            if extension == 'html':
-                path = os.path.join(versionPath, file)
-                name = filename.pop()
-                soup = bs4.BeautifulSoup(open(path), 'lxml')
-                sapfile = SapDocFile(version, path, name, soup)
-                self.files.append(sapfile)
+        for root, folder, files in os.walk(versionPath):
+            for file in files:
+                filename = file.split('.')
+                extension = filename.pop()
+                if extension == 'html':
+                    path = os.path.join(versionPath, file)
+                    name = filename.pop()
+                    soup = bs4.BeautifulSoup(open(path), 'lxml')
+                    sapfile = SapDocFile(version, path, name, soup)
+                    self.files.append(sapfile)
 
         return self.files
