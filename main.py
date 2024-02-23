@@ -19,7 +19,7 @@ def parseFiles(version: str, allFiles: list, allVersions: list):
     current_files = allFiles[version]
     for file in current_files:
         if DEBUG:
-            print(file.name)
+            # print(file.name)
             if file.name not in ['abapread_table_key', 'abapmethods_general', 'abapappend', 'abapdata_options', 'abapread_table']:
                 continue
 
@@ -31,7 +31,7 @@ def parseFiles(version: str, allFiles: list, allVersions: list):
         contents = parser.parse()
 
         filePath = [os.getcwd(), 'docs', f'{version}', f'{file.name}.md']
-        with open(reduce(lambda a, b: os.path.join(a, b), filePath), 'w') as f:
+        with open(reduce(lambda a, b: os.path.join(a, b), filePath), 'w', encoding='utf-8') as f:
             f.write(contents)
 
 

@@ -15,7 +15,7 @@ class Renderer:
         block.append('<pre><code class="hljs abap abap-docs-syntax-block">')
 
         # index starts at 1 so we skip header
-        for element in elements[1:]:
+        for element in elements:
             block.append(element)
 
         block.append('</code></pre>')

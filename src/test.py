@@ -19,16 +19,6 @@ os.chdir(r'C:\Users\cleisonp\OneDrive - Alcast do Brasil SA\Documentos\GitHub\ab
 
 loader = SapDocsFilesLoader(os.getcwd())
 
-def bs_preprocess(html):
-    """remove distracting whitespaces and newline characters"""
-    pat = re.compile(r'(^[\s]+)|([\s]+$)', re.MULTILINE)
-    html = re.sub(pat, '', html) # remove leading and trailing whitespaces
-    html = re.sub('\n', ' ', html) # convert newlines to spaces
-    # this preserves newline delimiters
-    html = re.sub('[\s]+<', '<', html) # remove whitespaces before opening tags
-    html = re.sub('>[\s]+', '>', html) # remove whitespaces after closing tags
-    return html
-
 
 # abentable_exp_chaining não tem tbody para checar tabela
 # abencds_f1_cast_expression
@@ -38,7 +28,8 @@ path = [loader.path, f'abapdocu_{version.replace(".", "")}_index_htm', f'{versio
 path = reduce(lambda a, b: os.path.join(a, b), path)
 filename = 'abapappend'
 soup = bs4.BeautifulSoup(open(path), 'html.parser')
-# soup = bs_preprocess(soup)
+
+
 
 # variável self: workaround pra usar as funções sem ter q mudar nada
 self = SapDocFile(version, path, filename, soup)
@@ -50,6 +41,14 @@ parser = Parser(self, Renderer(), allFiles, allVersions)
 path = self.soup.find(class_='path')
 root = self.soup.find(class_='all')
 
+def preprocess(block: list):
+    return [element for element in block.children if element not in ['\n', '\xa0→\xa0\n']]
+    # for element in block.findChildren(recursive=True):
+    #     print(element)
+    #     if element in ['\n', '\xa0→\xa0\n']:
+    #         item = element.extract()
+    #         del item
+    # return block
 
 def isBlock(element: bs4.element.Tag) -> bool:
     if type(element) in [bs4.element.NavigableString, bs4.element.Comment]:

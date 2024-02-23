@@ -38,7 +38,8 @@ class SapDocsFilesLoader:
                 if extension == 'html':
                     path = os.path.join(versionPath, file)
                     name = filename.pop()
-                    soup = bs4.BeautifulSoup(open(path), 'lxml')
+                    # soup = bs4.BeautifulSoup(open(path), 'lxml')
+                    soup = ''
                     sapfile = SapDocFile(version, path, name, soup)
                     self.files.append(sapfile)
 
